@@ -1,0 +1,55 @@
+project:
+  name:     Brain Break
+  version:  1
+  url:      http://www.dylanmccall.com
+
+
+requires:
+  glib-2.0:
+    type: package
+    mandatory: True
+  xcb:
+    type: package
+    version: 1.7
+    mandatory: True
+  xcb-screensaver:
+    type: package
+    version: 1.7
+    mandatory: True
+  gtk+-3.0:
+    type: package
+    version: 3.0.8
+    mandatory: True
+  libnotify:
+    type: package
+    version: 0.4.5
+    mandatory: True
+
+targets:
+  brainbreak:
+    tool: vala
+    type: program
+    path: src
+    input:
+      - main.vala
+      - Magic.vala
+      - Scheduler.vala
+      - RestScheduler.vala
+      - PauseScheduler.vala
+    uses:
+      - magic_core
+    packages:
+      - glib-2.0
+      - gtk+-3.0
+      - libnotify
+  
+  magic_core:
+    tool: cc
+    type: staticlib
+    path: src
+    input:
+      - magic_core.c
+    packages:
+      - xcb
+      - xcb-screensaver
+
