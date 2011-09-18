@@ -1,30 +1,19 @@
 /*
-Brain Break
-...Or Yet Another RSI Prevention Tool. This time prettier and happier.
-Copyright(c) 2011, Dylan McCall and Brain Break contributors.
-<dylanmccall@gmail.com>
-
------
-
-This tool is designed to satisfy those who are not suffering from RSI,
-but are concerned about the mental and physical issues associated with
-heavy computer use. As a result, it is not particular about whether the
-user is using a keyboard or a mouse or simply looking at the screen; the
-goal here is to encourage people to space computer use around other
-things.
-
-Brain Break should stay out of the way and be as non-destructive as
-possible, accommodating users regardless of their current tasks without
-requiring that they change its aggressiveness themselves,(for example
-between Quiet, Postponed and Active mode in Workrave). It should avoid
-threatening users with things such as permanent statistics, but provide
-them with incentives to be healthy that fit into the moment at hand.
-The expected non-destructiveness is easily attainable with libnotify,
-especially combined with the excellently transient notifications in
-Ubuntu 9.04 and above.
-*/
-
-/* nice resource... <http://www.rsiguard.com/> */
+ * This file is part of Brain Break.
+ * 
+ * Brain Break is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Brain Break is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 using GLib;
 using Gdk;
