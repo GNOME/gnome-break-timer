@@ -25,11 +25,11 @@ public class BreakOverlay : Gtk.Window {
 		this.set_position(Gtk.WindowPosition.CENTER);
 	}
 	
-	public set_time_remaining(int seconds) {
+	public void set_time_remaining(int seconds) {
 	}
 	
 	/** Set a reassuring message to accompany the break timer */
-	public set_message(string message) {
+	public void set_message(string message) {
 	}
 }
 
