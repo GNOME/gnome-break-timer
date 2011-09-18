@@ -1,7 +1,7 @@
 /*
 Brain Break
 ...Or Yet Another RSI Prevention Tool. This time prettier and happier.
-Copyright (c) 2011, Dylan McCall and Brain Break contributors.
+Copyright(c) 2011, Dylan McCall and Brain Break contributors.
 <dylanmccall@gmail.com>
 
 -----
@@ -15,7 +15,7 @@ things.
 
 Brain Break should stay out of the way and be as non-destructive as
 possible, accommodating users regardless of their current tasks without
-requiring that they change its aggressiveness themselves, (for example
+requiring that they change its aggressiveness themselves,(for example
 between Quiet, Postponed and Active mode in Workrave). It should avoid
 threatening users with things such as permanent statistics, but provide
 them with incentives to be healthy that fit into the moment at hand.
@@ -44,26 +44,44 @@ public class BrainBreak : Gtk.Application {
 	private static RestScheduler rest;
 	private static PauseScheduler pause;
 	
-	public BrainBreak () {
-		Object (application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
-		GLib.Environment.set_application_name (app_name);
+	private static PauseView pause_view;
+	
+	public BrainBreak() {
+		Object(application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
+		GLib.Environment.set_application_name(app_name);
 	}
 	
-	public override void activate () {
+	public override void activate() {
 	}
 	
-	public override void startup () {
+	public override void startup() {
 		this.hold(); /* we're doing stuff, even if no windows are open */
 		
-		Notify.init (app_id);
 		Magic.begin();
 		
-		rest = new RestScheduler();
-		pause = new PauseScheduler();
+		/* set up custom gtk style for application */
+		Gdk.Screen screen = Gdk.Screen.get_default();
+		Gtk.CssProvider style_provider = new Gtk.CssProvider();
+		/* FIXME: of course, we should load data files in a smarter way */
+		style_provider.load_from_path("data/style.css");
+		Gtk.StyleContext.add_provider_for_screen(screen,
+		                                         style_provider,
+		                                         Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+		
+		
+		Notify.init(app_name);
+		
+		//Gtk.Settings settings = Gtk.Settings.get_default();
+		//settings.gtk_application_prefer_dark_theme = true;
+		
+		this.rest = new RestScheduler();
+		this.pause = new PauseScheduler();
+		this.pause_view = new PauseView(pause);
 	}
 }
 
-public int main (string[] args) {
+public int main(string[] args) {
+	Gtk.init(ref args);
 	BrainBreak application = new BrainBreak();
 	return application.run(args);
 }

@@ -36,6 +36,8 @@ targets:
       - Scheduler.vala
       - RestScheduler.vala
       - PauseScheduler.vala
+      - BreakOverlay.vala
+      - PauseView.vala
     uses:
       - magic_core
     packages:
