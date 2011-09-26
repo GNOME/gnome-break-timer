@@ -38,7 +38,7 @@ public class BreakOverlay : Gtk.Window {
 		Gdk.Rectangle geom;
 		screen.get_monitor_geometry(monitor, out geom);
 		
-		this.set_default_size((int)(geom.width * 0.7), (int)(geom.height * 0.75));
+		this.set_default_size((int)(geom.width * 0.9), (int)(geom.height * 0.9));
 		this.set_position(Gtk.WindowPosition.CENTER);
 	}
 	

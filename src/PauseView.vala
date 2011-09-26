@@ -18,21 +18,32 @@
 using Notify;
 
 class TimerString : Object {
-	private const string second_remaining_template = "%d second remaining";
-	private const string seconds_remaining_template = "%d seconds remaining";
-	private const string minute_remaining_template = "%d minute remaining";
-	private const string minutes_remaining_template = "%d minutes remaining";
+	private const string second_remaining_template = "%d second";
+	private const string seconds_remaining_template = "%d seconds";
+	private const string minute_remaining_template = "%d minute";
+	private const string minutes_remaining_template = "%d minutes";
 	
 	public static string get_countdown_for_seconds (int seconds) {
-		if (seconds > 60) {
-			/* count remaining time in minutes */
-			int minutes = seconds / 60;
-			return minutes_remaining_template.printf(minutes);
+		/* FIXME: handle plurals, nicely */
+		int remaining;
+		int interval;
+		
+		if (seconds < 10) {
+			interval = 1;
+		} else if (seconds < 30) {
+			interval = 5;
+		} else if (seconds < 60) {
+			interval = 10;
 		} else {
-			/* count remaining time in seconds */
-			/* FIXME: should be intervals of ten, then five, then one */
-			return seconds_remaining_template.printf(seconds);
-			/* FIXME: handle plurals, nicely, through gettext or gtk or whoever */
+			interval = 60;
+		}
+		
+		remaining = (int)((seconds + interval - 1) / interval);
+		
+		if (interval == 60) {
+			return minutes_remaining_template.printf(remaining);
+		} else {
+			return seconds_remaining_template.printf(remaining * interval);
 		}
 	}
 }
@@ -58,15 +69,19 @@ class PauseView : Object {
 		Gtk.VBox container = new Gtk.VBox(false, 12);
 		
 		Gtk.Label break_message = new Gtk.Label("Just give your eyes and your fingers a moment of rest");
-		this.timer_label = new Gtk.Label("");
+		Gtk.Label timer_label = new Gtk.Label("");
+		Gtk.StyleContext timer_style = timer_label.get_style_context();
+		timer_style.add_class("timer_label");
 		
 		container.pack_end(break_message, false);
-		container.pack_end(this.timer_label, true);
+		container.pack_end(timer_label, true);
 		
 		alignment.add(container);
 		break_overlay.add(alignment);
 		
 		break_overlay.show_all();
+		
+		this.timer_label = timer_label;
 	}
 	
 	private void update_break_overlay(int time_remaining) {

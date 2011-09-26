@@ -37,17 +37,18 @@ public class PauseScheduler : Scheduler {
 	 */
 	private bool active_timeout() {
 		/* Delay during active computer use */
+		/* FIXME: timer wrongly pauses when system suspends */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		if (idle_time < this.break_timer.elapsed()) {
 			this.break_timer.start();
 		}
 		
-		/* Update watchers (count every minute) */
+		/* Update watchers */
 		int time_elapsed_seconds = (int)Math.round(this.break_timer.elapsed());
 		int time_remaining = (int)this.duration - time_elapsed_seconds;
 		
 		/* End break */
-		if (time_remaining < 0) {
+		if (time_remaining < 1) {
 			this.end();
 			return false;
 		} else {
