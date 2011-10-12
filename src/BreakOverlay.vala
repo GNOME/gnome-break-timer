@@ -16,6 +16,9 @@
  */
 
 public class BreakOverlay : Gtk.Window {
+	private Gtk.Label timer_label;
+	private Gtk.Label message_label;
+	
 	public BreakOverlay() {
 		Object(type: Gtk.WindowType.POPUP);
 		
@@ -30,6 +33,26 @@ public class BreakOverlay : Gtk.Window {
 		/* we don't want any input, ever */
 		/* FIXME: surely we can just say what input we want instead of making a region? */
 		this.input_shape_combine_region(new Cairo.Region());
+		
+		/* add standard widgets to overlay */
+		Gtk.Alignment alignment = new Gtk.Alignment(0.5f, 0.5f, 1.0f, 0.0f);
+		alignment.set_padding(8, 8, 12, 12);
+		Gtk.VBox container = new Gtk.VBox(false, 12);
+		
+		Gtk.Label timer_label = new Gtk.Label(null);
+		Gtk.StyleContext timer_style = timer_label.get_style_context();
+		timer_style.add_class("timer_label");
+		
+		Gtk.Label message_label = new Gtk.Label(null);
+		
+		container.pack_end(timer_label, true);
+		container.pack_end(message_label, false);
+		
+		alignment.add(container);
+		this.add(alignment);
+		
+		this.timer_label = timer_label;
+		this.message_label = message_label;
 	}
 	
 	private void on_realize() {
@@ -42,11 +65,14 @@ public class BreakOverlay : Gtk.Window {
 		this.set_position(Gtk.WindowPosition.CENTER);
 	}
 	
-	public void set_time_remaining(int seconds) {
-	}
-	
 	/** Set a reassuring message to accompany the break timer */
 	public void set_message(string message) {
+		this.message_label.set_text(message);
+	}
+	
+	/** Set the time remaining */
+	public void set_timer(string timer_text) {
+		this.timer_label.set_text(timer_text);
 	}
 }
 

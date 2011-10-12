@@ -31,13 +31,19 @@ targets:
     type: program
     path: src
     input:
-      - main.vala
-      - Magic.vala
-      - Scheduler.vala
-      - RestScheduler.vala
-      - PauseScheduler.vala
+      - BrainBreak.vala
+      - BreakManager.vala
       - BreakOverlay.vala
-      - PauseView.vala
+      - Break.vala
+      - BreakView.vala
+      - BreakViewCommon.vala
+      - Magic.vala
+      - main.vala
+      - MicroBreak.vala
+      - MicroBreakView.vala
+      - RestBreak.vala
+      - RestBreakView.vala
+      - TimerString.vala
     uses:
       - magic_core
     packages:

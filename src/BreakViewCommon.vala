@@ -15,6 +15,11 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* TODO: notification when user is away for rest duration */
-/* TODO: replace pause break if appropriate */
+/**
+ * Keeps track of common UI components for BreakViews.
+ * In the future, this will allow us to do cool things like morph a single
+ * BreakOverlay from presenting one break to presenting another.
+ */
+public class BreakViewCommon {
+}
 

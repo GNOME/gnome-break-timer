@@ -15,39 +15,52 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class PauseScheduler : Scheduler {
+public class MicroBreak : Break {
 	public signal void active_update(int time_remaining);
 	
-	/* TODO: test if we should manually add idle time every second,
-	 *(which implicitly pauses when computer is in use),
-	 * or use a real Timer
-	 */
-	private Timer break_timer;
+	private int duration;
 	
-	public PauseScheduler() {
-		/* 480s = 8 minutes */
-		/* 20s duration */
-		base(5, 3);
+	private Timer micro_break_timer;
+	
+	public MicroBreak(BreakManager manager) {
+		/* 480s (8 minute) interval */
+		base(manager, BreakManager.FocusPriority.LOW, 60);
 		
-		this.break_timer = new Timer();
+		this.duration = 6; /* 20s duration */
+		
+		this.micro_break_timer = new Timer();
+		Timeout.add_seconds(this.duration, this.idle_timeout);
+		
+		this.started.connect(this.started_cb);
+	}
+	
+	private bool idle_timeout() {
+		/* break has been satisfied if user is idle for longer than break duration */
+		int idle_time = (int)(Magic.get_idle_time() / 1000);
+		
+		if (idle_time > this.duration) {
+			this.break_satisfied();
+		}
+		
+		return true;
 	}
 	
 	/**
-	 * Per-second timeout during pause break.
+	 * Per-second timeout during micro break.
 	 */
-	private bool active_timeout() {
+	private bool micro_break_timeout() {
+		if (this.state != Break.State.ACTIVE) return false;
+		
 		/* Delay during active computer use */
 		/* FIXME: timer wrongly pauses when system suspends */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
-		if (idle_time < this.break_timer.elapsed()) {
-			this.break_timer.start();
+		if (idle_time < this.micro_break_timer.elapsed()) {
+			this.micro_break_timer.start();
 		}
 		
-		/* Update watchers */
-		int time_elapsed_seconds = (int)Math.round(this.break_timer.elapsed());
+		int time_elapsed_seconds = (int)Math.round(this.micro_break_timer.elapsed());
 		int time_remaining = (int)this.duration - time_elapsed_seconds;
 		
-		/* End break */
 		if (time_remaining < 1) {
 			this.end();
 			return false;
@@ -57,15 +70,9 @@ public class PauseScheduler : Scheduler {
 		}
 	}
 	
-	public override void activate() {
-		base.activate();
-		
-		break_timer.start();
-		Timeout.add_seconds(1, active_timeout);
-	}
-	
-	public override void end() {
-		base.end();
+	private void started_cb() {
+		this.micro_break_timer.start();
+		Timeout.add_seconds(1, this.micro_break_timeout);
 	}
 }
 
