@@ -21,12 +21,13 @@ public class RestBreak : Break {
 	private int duration;
 	
 	private Timer rest_break_timer;
+	private bool rest_break_paused;
 	
 	public RestBreak(BreakManager manager) {
 		/* 2400s (40 minute) interval */
 		base(manager, BreakManager.FocusPriority.HIGH, 240);
 		
-		this.duration = 30; /* 360s (6 minute) duration */
+		this.duration = 120; /* 360s (6 minute) duration */
 		
 		this.rest_break_timer = new Timer();
 		Timeout.add_seconds(this.duration, this.idle_timeout);
@@ -45,6 +46,16 @@ public class RestBreak : Break {
 		return true;
 	}
 	
+	private void pause_rest_break() {
+		this.rest_break_timer.stop();
+		this.rest_break_paused = true;
+	}
+	
+	private void resume_rest_break() {
+		this.rest_break_timer.continue();
+		this.rest_break_paused = false;
+	}
+	
 	/**
 	 * Per-second timeout during rest break.
 	 */
@@ -54,9 +65,15 @@ public class RestBreak : Break {
 		/* Delay during active computer use */
 		/* FIXME: timer wrongly pauses when system suspends */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
-		if (idle_time < this.rest_break_timer.elapsed()) {
-			//FIXME: we need to normalize idle time somehow
-			this.rest_break_timer.start();
+		
+		if (this.rest_break_paused) {
+			if (idle_time > 1) {
+				this.resume_rest_break();
+			}
+		} else {
+			if (idle_time < 1) {
+				this.pause_rest_break();
+			}
 		}
 		
 		int time_elapsed_seconds = (int)Math.round(this.rest_break_timer.elapsed());
@@ -73,6 +90,7 @@ public class RestBreak : Break {
 	
 	private void started_cb() {
 		this.rest_break_timer.start();
+		this.rest_break_paused = false;
 		Timeout.add_seconds(1, this.rest_break_timeout);
 	}
 }
