@@ -84,7 +84,6 @@ public class BreakManager {
 	
 	public void release_focus(FocusRequest request) {
 		stdout.printf("Release_focus\n");
-		request.stop(false);
 		this.focus_requests.remove(request);
 		this.update_focus();
 	}

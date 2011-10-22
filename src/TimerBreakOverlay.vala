@@ -30,7 +30,7 @@ public class TimerBreakOverlay : BreakOverlay {
 		
 		Gtk.Label timer_label = new Gtk.Label(null);
 		Gtk.StyleContext timer_style = timer_label.get_style_context();
-		timer_style.add_class("timer_label");
+		timer_style.add_class("brainbreak-timer-label");
 		
 		Gtk.Label message_label = new Gtk.Label(null);
 		

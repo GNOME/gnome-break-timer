@@ -14,7 +14,7 @@ GtkWindow {
 	color: #ffffff;
 }
 
-GtkLabel.timer_label {
+GtkLabel.brainbreak-timer-label {
 	font-weight:bold;
 	font-size:25;
 	text-shadow:1 1 5 rgba(0,0,0,0.5);
