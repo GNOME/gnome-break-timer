@@ -35,14 +35,16 @@ targets:
       - BreakManager.vala
       - BreakOverlay.vala
       - Break.vala
-      - BreakView.vala
       - BreakViewCommon.vala
+      - BreakView.vala
       - Magic.vala
       - main.vala
       - MicroBreak.vala
       - MicroBreakView.vala
       - RestBreak.vala
       - RestBreakView.vala
+      - TimerBreakOverlay.vala
+      - TimerBreak.vala
       - TimerString.vala
     uses:
       - magic_core

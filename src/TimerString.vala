@@ -26,11 +26,11 @@ class TimerString : Object {
 		int remaining;
 		int interval;
 		
-		if (seconds < 10) {
+		if (seconds <= 10) {
 			interval = 1;
-		} else if (seconds < 30) {
+		} else if (seconds <= 30) {
 			interval = 5;
-		} else if (seconds < 60) {
+		} else if (seconds <= 60) {
 			interval = 10;
 		} else {
 			interval = 60;
@@ -45,3 +45,4 @@ class TimerString : Object {
 		}
 	}
 }
+

@@ -15,64 +15,33 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class MicroBreak : Break {
-	public signal void active_update(int time_remaining);
-	
-	private int duration;
-	
-	private Timer micro_break_timer;
-	
+public class MicroBreak : TimerBreak {
 	public MicroBreak(BreakManager manager) {
-		/* 480s (8 minute) interval */
-		base(manager, BreakManager.FocusPriority.LOW, 60);
-		
-		this.duration = 6; /* 20s duration */
-		
-		this.micro_break_timer = new Timer();
-		Timeout.add_seconds(this.duration, this.idle_timeout);
-		
-		this.started.connect(this.started_cb);
+		/* 480s (8 minute) interval, 20s duration */
+		base(manager, BreakManager.FocusPriority.LOW, 60, 6);
 	}
 	
-	private bool idle_timeout() {
+	protected override void idle_update_timeout() {
 		/* break has been satisfied if user is idle for longer than break duration */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
 		if (idle_time > this.duration) {
-			this.break_satisfied();
+			this.end();
 		}
-		
-		return true;
 	}
 	
 	/**
 	 * Per-second timeout during micro break.
 	 */
-	private bool micro_break_timeout() {
-		if (this.state != Break.State.ACTIVE) return false;
-		
-		/* Delay during active computer use */
-		/* FIXME: timer wrongly pauses when system suspends */
+	protected override void break_update_timeout() {
+		/* Reset countdown from active computer use */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
-		if (idle_time < this.micro_break_timer.elapsed()) {
-			this.micro_break_timer.start();
+		
+		if (idle_time < this.get_break_time()) {
+			this.reset_break_timer();
 		}
 		
-		int time_elapsed_seconds = (int)Math.round(this.micro_break_timer.elapsed());
-		int time_remaining = (int)this.duration - time_elapsed_seconds;
-		
-		if (time_remaining < 1) {
-			this.end();
-			return false;
-		} else {
-			this.active_update(time_remaining);
-			return true;
-		}
-	}
-	
-	private void started_cb() {
-		this.micro_break_timer.start();
-		Timeout.add_seconds(1, this.micro_break_timeout);
+		base.break_update_timeout();
 	}
 }
 

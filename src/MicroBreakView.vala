@@ -18,13 +18,13 @@
 using Notify;
 
 class MicroBreakView : BreakView {
-	private BreakOverlay break_overlay;
+	private TimerBreakOverlay break_overlay;
 	
 	public MicroBreakView(BreakViewCommon common, MicroBreak break_scheduler) {
 		base(common, break_scheduler);
 		
 		break_scheduler.finished.connect(this.break_finished_cb);
-		break_scheduler.active_update.connect(this.break_active_update_cb);
+		break_scheduler.break_update.connect(this.break_update_cb);
 	}
 	
 	protected override void show_break_ui() {
@@ -59,10 +59,16 @@ class MicroBreakView : BreakView {
 	private void show_break_overlay() {
 		/* FIXME: ask the application for a break dialog. That way RestView can take it over as necessary */
 		if (this.break_is_active()) {
-			this.break_overlay = new BreakOverlay();
+			this.break_overlay = new TimerBreakOverlay();
+			
+			/* FIXME: this is ugly! needs some refactoring */
+			TimerBreak timer_break = (TimerBreak)this.break_scheduler;
+			int time_remaining = timer_break.get_time_remaining();
 		
 			this.break_overlay.set_title("Micro break");
 			this.break_overlay.set_message("Just give your eyes and your fingers a moment of rest");
+			this.break_overlay.set_time(time_remaining);
+			
 			this.break_overlay.show_all();
 		}
 	}
@@ -70,12 +76,11 @@ class MicroBreakView : BreakView {
 	private void update_break_overlay(int time_remaining) {
 		stdout.printf("Pause break. %f remaining\n", time_remaining);
 		if (this.break_overlay != null) {
-			string label_text = TimerString.get_countdown_for_seconds(time_remaining);
-			this.break_overlay.set_timer(label_text);
+			this.break_overlay.set_time(time_remaining);
 		}
 	}
 	
-	private void break_active_update_cb(int time_remaining) {
+	private void break_update_cb(int time_remaining) {
 		this.update_break_overlay(time_remaining);
 	}
 }

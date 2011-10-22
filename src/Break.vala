@@ -30,22 +30,23 @@ public abstract class Break : Object {
 		ACTIVE
 	}
 	public State state {get; private set;}
-	private int interval;
+	
+	protected int interval {get; private set;}
 	
 	/** Called when a break starts to run */
 	public signal void started();
 	/** Called when a break is finished running */
 	public signal void finished();
 	
-	private Timer start_timer;
+	private Timer interval_timer;
 	
 	public Break(BreakManager manager, BreakManager.FocusPriority priority, int interval) {
 		this.manager = manager;
 		this.priority = priority;
 		this.interval = interval;
 		
-		this.start_timer = new Timer();
-		Timeout.add_seconds(this.interval, this.start_timeout);
+		this.interval_timer = new Timer();
+		Timeout.add_seconds(this.interval, this.interval_timeout);
 	}
 	
 	protected void request_focus(BreakManager.FocusPriority priority) {
@@ -71,15 +72,15 @@ public abstract class Break : Object {
 	}
 	
 	public int starts_in() {
-		return this.interval - (int)this.start_timer.elapsed();
+		return this.interval - (int)this.interval_timer.elapsed();
 	}
 	
 	/**
 	 * Periodically tests if it is time for a break
 	 */
-	private bool start_timeout() {
+	private bool interval_timeout() {
 		/* Start break if the user has been active for interval */
-		if (this.start_timer.elapsed() >= this.interval && this.state == State.WAITING) {
+		if (this.interval_timer.elapsed() >= this.interval && this.state == State.WAITING) {
 			stdout.printf("Activating break %s!\n", this.get_type().name());
 			this.activate();
 		}
@@ -88,31 +89,20 @@ public abstract class Break : Object {
 	}
 	
 	/**
-	 * The break has been satisfied somehow. Start timer will reset
-	 */
-	protected void break_satisfied() {
-		this.start_timer.start();
-		this.release_focus();
-	}
-	
-	/**
 	 * It is time for a break!
 	 */
 	public void activate() {
-		if (this.state != State.ACTIVE) {
-			this.state = State.ACTIVE;
-			this.request_focus(this.priority);
-		}
+		this.state = State.ACTIVE;
+		this.request_focus(this.priority);
 	}
 	
 	/**
-	 * Force the break to end.
+	 * The break has been satisfied. Start counting from the start.
 	 */
 	public void end() {
-		if (this.state != State.WAITING) {
-			this.state = State.WAITING;
-			this.break_satisfied();
-		}
+		this.state = State.WAITING;
+		this.interval_timer.start();
+		this.release_focus();
 	}
 }
 
