@@ -18,7 +18,7 @@
 public class RestBreak : TimerBreak {
 	public RestBreak(BreakManager manager) {
 		/* 2400s (40 minute) interval, 360s (6 minute) duration */
-		base(manager, BreakManager.FocusPriority.HIGH, 240, 120);
+		base(manager, FocusPriority.HIGH, 90, 40);
 	}
 	
 	protected override void idle_update_timeout() {
@@ -28,6 +28,13 @@ public class RestBreak : TimerBreak {
 		if (idle_time > this.duration) {
 			this.end();
 		}
+	}
+	
+	protected override void interval_timeout() {
+		if (this.starts_in() <= this.duration) {
+			this.warn();
+		}
+		base.interval_timeout();
 	}
 	
 	protected override void break_update_timeout() {

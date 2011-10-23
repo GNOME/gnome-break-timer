@@ -26,7 +26,7 @@ public abstract class TimerBreak : Break {
 	private Timer break_timer;
 	private bool break_timer_paused;
 	
-	public TimerBreak(BreakManager manager, BreakManager.FocusPriority priority, int interval, int duration) {
+	public TimerBreak(BreakManager manager, FocusPriority priority, int interval, int duration) {
 		base(manager, priority, interval);
 		
 		this.duration = duration;
@@ -93,7 +93,6 @@ public abstract class TimerBreak : Break {
 	 * Runs occasionally to test if break has been satisfied.
 	 */
 	protected abstract void idle_update_timeout();
-	
 	private bool idle_update_timeout_cb() {
 		this.idle_update_timeout();
 		return true;
@@ -117,7 +116,6 @@ public abstract class TimerBreak : Break {
 			this.break_update(time_remaining);
 		}
 	}
-	
 	private bool break_update_timeout_cb() {
 		this.break_update_timeout();
 		return true;

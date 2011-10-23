@@ -22,7 +22,6 @@
  */
 public abstract class Break : Object, Focusable {
 	private BreakManager manager;
-	private BreakManager.FocusPriority priority;
 	
 	public enum State {
 		WAITING,
@@ -40,28 +39,33 @@ public abstract class Break : Object, Focusable {
 	
 	private Timer interval_timer;
 	
-	public Break(BreakManager manager, BreakManager.FocusPriority priority, int interval) {
+	public Break(BreakManager manager, FocusPriority priority, int interval) {
 		this.manager = manager;
 		this.priority = priority;
 		this.interval = interval;
 		
 		this.interval_timer = new Timer();
-		Timeout.add_seconds(this.interval, this.interval_timeout);
+		Timeout.add_seconds(this.interval, this.interval_timeout_cb);
 	}
 	
 	/**
 	 * Periodically tests if it is time for a break
 	 */
-	private bool interval_timeout() {
+	protected virtual void interval_timeout() {
 		/* Start break if the user has been active for interval */
-		if (this.interval_timer.elapsed() >= this.interval && this.state == State.WAITING) {
+		if (starts_in() <= 0 && this.state < State.ACTIVE) {
 			stdout.printf("Activating break %s!\n", this.get_type().name());
 			this.activate();
 		}
-		
+	}
+	private bool interval_timeout_cb() {
+		this.interval_timeout();
 		return true;
 	}
 	
+	/**
+	 * @return The time, in seconds, until the next scheduled break.
+	 */
 	public int starts_in() {
 		return this.interval - (int)this.interval_timer.elapsed();
 	}
@@ -71,8 +75,9 @@ public abstract class Break : Object, Focusable {
 	 * This will prevent lower priority breaks from gaining focus.
 	 */
 	public void warn() {
+		stdout.printf("WARN\n");
 		this.state = State.WARN;
-		this.manager.request_focus(this);
+		this.manager.set_hold(this);
 	}
 	
 	/**
@@ -98,15 +103,24 @@ public abstract class Break : Object, Focusable {
 	
 	/* Focusable interface */
 	
-	public BreakManager.FocusPriority get_priority() {
+	private FocusPriority priority;
+	private bool focused;
+	
+	public FocusPriority get_priority() {
 		return this.priority;
 	}
 	
+	public bool is_focused() {
+		return this.focused;
+	}
+	
 	public void start_focus() {
+		this.focused = true;
 		this.started();
 	}
 	
 	public void stop_focus(bool replaced) {
+		this.focused = false;
 		this.finished();
 	}
 }

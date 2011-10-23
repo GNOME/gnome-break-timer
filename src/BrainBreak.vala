@@ -61,7 +61,5 @@ public class BrainBreak : Gtk.Application {
 		this.break_view_common = new BreakViewCommon();
 		this.micro_break_view = new MicroBreakView(this.break_view_common, this.micro_break);
 		this.rest_break_view = new RestBreakView(this.break_view_common, this.rest_break);
-		
-		this.rest_break.activate();
 	}
 }

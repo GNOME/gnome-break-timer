@@ -18,7 +18,7 @@
 public class MicroBreak : TimerBreak {
 	public MicroBreak(BreakManager manager) {
 		/* 480s (8 minute) interval, 20s duration */
-		base(manager, BreakManager.FocusPriority.LOW, 60, 6);
+		base(manager, FocusPriority.LOW, 30, 6);
 	}
 	
 	protected override void idle_update_timeout() {
