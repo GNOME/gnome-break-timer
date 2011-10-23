@@ -20,13 +20,13 @@
  * A break inherently activates according to a set time interval, but the
  * mechanism for finishing a break is unique to each implementation.
  */
-public abstract class Break : Object {
+public abstract class Break : Object, Focusable {
 	private BreakManager manager;
-	private BreakManager.FocusRequest focus_request;
 	private BreakManager.FocusPriority priority;
 	
 	public enum State {
 		WAITING,
+		WARN,
 		ACTIVE
 	}
 	public State state {get; private set;}
@@ -49,32 +49,6 @@ public abstract class Break : Object {
 		Timeout.add_seconds(this.interval, this.interval_timeout);
 	}
 	
-	protected void request_focus(BreakManager.FocusPriority priority) {
-		if (this.focus_request == null) {
-			this.focus_request = new BreakManager.FocusRequest(this, priority, this.focus_start_cb, this.focus_stop_cb);
-			this.manager.request_focus(focus_request);
-		}
-	}
-	
-	protected void release_focus() {
-		if (this.focus_request != null) {
-			this.manager.release_focus(this.focus_request);
-			this.focus_request = null;
-		}
-	}
-	
-	private void focus_start_cb() {
-		this.started();
-	}
-	
-	private void focus_stop_cb(bool replaced) {
-		this.finished();
-	}
-	
-	public int starts_in() {
-		return this.interval - (int)this.interval_timer.elapsed();
-	}
-	
 	/**
 	 * Periodically tests if it is time for a break
 	 */
@@ -88,21 +62,52 @@ public abstract class Break : Object {
 		return true;
 	}
 	
-	/**
-	 * It is time for a break!
-	 */
-	public void activate() {
-		this.state = State.ACTIVE;
-		this.request_focus(this.priority);
+	public int starts_in() {
+		return this.interval - (int)this.interval_timer.elapsed();
 	}
 	
 	/**
-	 * The break has been satisfied. Start counting from the start.
+	 * A scheduled break is coming up.
+	 * This will prevent lower priority breaks from gaining focus.
+	 */
+	public void warn() {
+		this.state = State.WARN;
+		this.manager.request_focus(this);
+	}
+	
+	/**
+	 * Start a break.
+	 * This is usually triggered automatically, but may be triggered
+	 * externally as well.
+	 */
+	public void activate() {
+		this.state = State.ACTIVE;
+		this.manager.request_focus(this);
+	}
+	
+	/**
+	 * Break's requirements have been satisfied.
+	 * Start counting from the beginning again.
 	 */
 	public void end() {
 		this.state = State.WAITING;
 		this.interval_timer.start();
-		this.release_focus();
+		this.manager.release_focus(this);
+	}
+	
+	
+	/* Focusable interface */
+	
+	public BreakManager.FocusPriority get_priority() {
+		return this.priority;
+	}
+	
+	public void start_focus() {
+		this.started();
+	}
+	
+	public void stop_focus(bool replaced) {
+		this.finished();
 	}
 }
 

@@ -21,7 +21,7 @@
  * mode. The break manager can postpone breaks or cancel breaks as appropriate,
  * depending on others waiting in line.
  */
-public class BreakManager {
+public class BreakManager : Object {
 	public enum FocusPriority {
 		LOW,
 		HIGH
@@ -30,62 +30,53 @@ public class BreakManager {
 	public delegate void FocusStart();
 	public delegate void FocusStop(bool replaced);
 	
-	public class FocusRequest {
-		public Break break_scheduler;
-		public FocusPriority priority;
-		
-		public unowned FocusStart start;
-		public unowned FocusStop stop;
-		
-		public bool focused;
-		
-		public FocusRequest(Break break_scheduler, FocusPriority priority, FocusStart start_cb, FocusStop stop_cb) {
-			this.break_scheduler = break_scheduler;
-			this.priority = priority;
-			this.start = start_cb;
-			this.stop = stop_cb;
-		}
-	}
-	
-	private SList<FocusRequest> focus_requests;
-	private FocusRequest current_focus;
+	private Gee.Set<Focusable> focus_requests;
+	private Focusable current_focus;
 	
 	public BreakManager() {
-		this.focus_requests = new SList<FocusRequest>();
+		this.focus_requests = new Gee.HashSet<Focusable>();
 	}
 	
-	private void set_focus(FocusRequest? new_focus) {
-		FocusRequest old_focus = this.current_focus;
+	private void set_focus(Focusable? new_focus) {
+		Focusable old_focus = this.current_focus;
 		if (new_focus != old_focus) {
 			this.current_focus = new_focus;
 			if (old_focus != null) {
-				old_focus.stop(true);
+				old_focus.stop_focus(true);
 			}
 			if (new_focus != null) {
-				new_focus.start();
+				new_focus.start_focus();
 			}
 		}
 	}
 	
 	private void update_focus() {
-		FocusRequest new_focus = null;
-		foreach (FocusRequest request in this.focus_requests) {
-			if (new_focus == null || request.priority > new_focus.priority) {
+		Focusable new_focus = null;
+		foreach (Focusable request in this.focus_requests) {
+			if (new_focus == null || request.get_priority() > new_focus.get_priority()) {
 				new_focus = request;
 			}
 		}
 		this.set_focus(new_focus);
 	}
 	
-	public void request_focus(FocusRequest request) {
-		this.focus_requests.append(request);
+	public void request_focus(Focusable request) {
+		this.focus_requests.add(request);
 		this.update_focus();
 	}
 	
-	public void release_focus(FocusRequest request) {
+	public void release_focus(Focusable request) {
 		stdout.printf("Release_focus\n");
 		this.focus_requests.remove(request);
 		this.update_focus();
 	}
+}
+
+public interface Focusable : Object {
+	public abstract BreakManager.FocusPriority get_priority();
+	
+	public abstract void start_focus();
+	
+	public abstract void stop_focus(bool replaced);
 }
 
