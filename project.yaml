@@ -36,11 +36,11 @@ targets:
     path: src
     input:
       - BrainBreak.vala
-      - BreakManager.vala
       - BreakOverlay.vala
       - Break.vala
       - BreakViewCommon.vala
       - BreakView.vala
+      - FocusManager.vala
       - Magic.vala
       - main.vala
       - MicroBreak.vala

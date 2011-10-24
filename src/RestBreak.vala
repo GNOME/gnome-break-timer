@@ -16,7 +16,7 @@
  */
 
 public class RestBreak : TimerBreak {
-	public RestBreak(BreakManager manager) {
+	public RestBreak(FocusManager manager) {
 		/* 2400s (40 minute) interval, 360s (6 minute) duration */
 		base(manager, FocusPriority.HIGH, 90, 40);
 	}

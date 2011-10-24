@@ -21,7 +21,7 @@
  * mechanism for finishing a break is unique to each implementation.
  */
 public abstract class Break : Object, Focusable {
-	private BreakManager manager;
+	private FocusManager manager;
 	
 	public enum State {
 		WAITING,
@@ -39,7 +39,7 @@ public abstract class Break : Object, Focusable {
 	
 	private Timer interval_timer;
 	
-	public Break(BreakManager manager, FocusPriority priority, int interval) {
+	public Break(FocusManager manager, FocusPriority priority, int interval) {
 		this.manager = manager;
 		this.priority = priority;
 		this.interval = interval;

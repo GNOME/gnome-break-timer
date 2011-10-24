@@ -26,7 +26,7 @@ public abstract class TimerBreak : Break {
 	private Timer break_timer;
 	private bool break_timer_paused;
 	
-	public TimerBreak(BreakManager manager, FocusPriority priority, int interval, int duration) {
+	public TimerBreak(FocusManager manager, FocusPriority priority, int interval, int duration) {
 		base(manager, priority, interval);
 		
 		this.duration = duration;

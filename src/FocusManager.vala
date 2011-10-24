@@ -15,13 +15,27 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+public enum FocusPriority {
+	NONE,
+	LOW,
+	HIGH
+}
+
+public interface Focusable : Object {
+	public abstract FocusPriority get_priority();
+	
+	public abstract bool is_focused();
+	public abstract void start_focus();
+	public abstract void stop_focus(bool replaced);
+}
+
 /**
  * Smooths interaction between multiple breaks by managing focus, where only a
  * single break can ask for focus at a single time; all others continue in idle
  * mode. The break manager can postpone breaks or cancel breaks as appropriate,
  * depending on others waiting in line.
  */
-public class BreakManager : Object {
+public class FocusManager : Object {
 	public delegate void FocusStart();
 	public delegate void FocusStop(bool replaced);
 	
@@ -41,7 +55,7 @@ public class BreakManager : Object {
 	private Focusable current_hold;
 	private Focusable current_focus;
 	
-	public BreakManager() {
+	public FocusManager() {
 		this.focus_requests = new Gee.HashSet<Focusable>();
 		this.current_hold = NULL_FOCUSABLE;
 		this.current_focus = NULL_FOCUSABLE;
@@ -92,19 +106,5 @@ public class BreakManager : Object {
 		this.focus_requests.remove(request);
 		this.update_focus();
 	}
-}
-
-public enum FocusPriority {
-	NONE,
-	LOW,
-	HIGH
-}
-
-public interface Focusable : Object {
-	public abstract FocusPriority get_priority();
-	
-	public abstract bool is_focused();
-	public abstract void start_focus();
-	public abstract void stop_focus(bool replaced);
 }
 

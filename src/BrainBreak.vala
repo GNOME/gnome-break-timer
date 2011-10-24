@@ -23,7 +23,7 @@ public class BrainBreak : Gtk.Application {
 	const string app_id = "com.dylanmccall.BrainBreak";
 	const string app_name = "Brain Break"; /* TODO: translate */
 	
-	private BreakManager break_manager;
+	private FocusManager focus_manager;
 	private RestBreak rest_break;
 	private MicroBreak micro_break;
 	
@@ -54,9 +54,9 @@ public class BrainBreak : Gtk.Application {
 		                                         style_provider,
 		                                         Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 		
-		this.break_manager = new BreakManager();
-		this.rest_break = new RestBreak(this.break_manager);
-		this.micro_break = new MicroBreak(this.break_manager);
+		this.focus_manager = new FocusManager();
+		this.rest_break = new RestBreak(this.focus_manager);
+		this.micro_break = new MicroBreak(this.focus_manager);
 		
 		this.break_view_common = new BreakViewCommon();
 		this.micro_break_view = new MicroBreakView(this.break_view_common, this.micro_break);

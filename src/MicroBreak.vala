@@ -16,7 +16,7 @@
  */
 
 public class MicroBreak : TimerBreak {
-	public MicroBreak(BreakManager manager) {
+	public MicroBreak(FocusManager manager) {
 		/* 480s (8 minute) interval, 20s duration */
 		base(manager, FocusPriority.LOW, 30, 6);
 	}
