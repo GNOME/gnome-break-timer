@@ -34,6 +34,7 @@ public class RestBreak : TimerBreak {
 		if (this.starts_in() <= this.duration) {
 			this.warn();
 		}
+		
 		base.interval_timeout();
 	}
 	

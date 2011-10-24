@@ -82,7 +82,7 @@ public class FocusManager : Object {
 			    request.get_priority() >= this.current_hold.get_priority() ) {
 				new_focus = request;
 			} else {
-				stdout.printf("Just blocked a request on a hold or an ongoing Focusable\n");
+				stdout.printf("Just blocked a new focus request due to a hold or an ongoing Focusable\n");
 			}
 		}
 		
@@ -90,6 +90,7 @@ public class FocusManager : Object {
 	}
 	
 	public void set_hold(Focusable hold) {
+		stdout.printf("set_hold\n");
 		if (hold.get_priority() >= this.current_hold.get_priority()) {
 			this.current_hold = hold;
 		}
