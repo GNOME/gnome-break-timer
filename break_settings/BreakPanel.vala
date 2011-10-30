@@ -39,7 +39,7 @@ public abstract class BreakPanel : Gtk.Grid {
 		this.attach(this.header_grid, 0, 0, 1, 1);
 		
 		this.details_grid = new Gtk.Grid();
-		this.details_grid.set_margin_left(12);
+		this.details_grid.set_halign(Gtk.Align.CENTER);
 		this.attach_next_to(this.details_grid, this.header_grid, Gtk.PositionType.BOTTOM, 1, 1);
 		
 		this.show_all();
@@ -59,7 +59,7 @@ public abstract class BreakPanel : Gtk.Grid {
 		Gtk.Grid header_grid = new Gtk.Grid();
 		
 		Gtk.Label break_label = new Gtk.Label.with_mnemonic(this.break_name);
-		break_label.set_halign(Gtk.Align.START);
+		break_label.set_halign(Gtk.Align.END);
 		break_label.set_margin_right(12);
 		break_label.get_style_context().add_class("brainbreak-settings-break-title");
 		header_grid.attach(break_label, 0, 0, 1, 1);

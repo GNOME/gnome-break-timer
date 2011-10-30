@@ -40,14 +40,14 @@ public class TimerBreakPanel : BreakPanel {
 		interval_label.set_halign(Gtk.Align.START);
 		details_grid.attach(interval_label, 0, 1, 1, 1);
 		
-		this.interval_chooser = new TimeChooser(this.interval_options);
+		this.interval_chooser = new TimeChooser(this.interval_options, _("%s interval").printf(this.break_name));
 		details_grid.attach_next_to(this.interval_chooser, interval_label, Gtk.PositionType.RIGHT, 1, 1);
 		
 		Gtk.Label duration_label = new Gtk.Label.with_mnemonic("For");
 		duration_label.set_halign(Gtk.Align.START);
 		details_grid.attach(duration_label, 0, 2, 1, 1);
 		
-		this.duration_chooser = new TimeChooser(this.duration_options);
+		this.duration_chooser = new TimeChooser(this.duration_options, _("%s duration").printf(this.break_name));
 		details_grid.attach_next_to(this.duration_chooser, duration_label, Gtk.PositionType.RIGHT, 1, 1);
 		
 		details_grid.show_all();
@@ -64,10 +64,14 @@ private class TimeChooser : Gtk.ComboBox {
 	
 	private const int OPTION_OTHER = -1;
 	
+	private string title;
+	
 	public signal void time_selected(int time);
 	
-	public TimeChooser(int[] options) {
+	public TimeChooser(int[] options, string title) {
 		Object();
+		
+		this.title = title;
 		
 		this.list_store = new Gtk.ListStore(3, typeof(string), typeof(string), typeof(int));
 		
@@ -146,7 +150,7 @@ private class TimeChooser : Gtk.ComboBox {
 		if (! parent_window.is_toplevel()) {
 			parent_window = null;
 		}
-		TimeEntryDialog dialog = new TimeEntryDialog(parent_window, "Break interval"); // FIXME: get a better label
+		TimeEntryDialog dialog = new TimeEntryDialog(parent_window, this.title);
 		dialog.time_entered.connect((time) => {
 			this.set_time(time);
 		});
@@ -169,6 +173,7 @@ private class TimeEntryDialog : Gtk.Dialog {
 		this.set_title(title);
 		
 		this.set_modal(true);
+		this.set_resizable(false);
 		this.set_destroy_with_parent(true);
 		this.set_transient_for(parent);
 		
@@ -210,10 +215,22 @@ private class TimeEntryDialog : Gtk.Dialog {
 		
 		this.time_entry.set_completion(completion);
 		
+		this.validate_input();
+		
 		content_area.show_all();
 	}
 	
-	public void time_entry_changed() {
+	private void validate_input() {
+		string text = this.time_entry.get_text();
+		
+		if (NaturalTime.get_seconds_for_input(text) > 0) {
+			this.ok_button.set_sensitive(true);
+		} else {
+			this.ok_button.set_sensitive(false);
+		}
+	}
+	
+	private void time_entry_changed() {
 		string text = this.time_entry.get_text();
 		string[] completions = NaturalTime.get_completions_for_input(text);
 		
@@ -230,15 +247,11 @@ private class TimeEntryDialog : Gtk.Dialog {
 			if (!iter_valid) this.completion_store.append(out iter);
 		}
 		
-		if (NaturalTime.get_seconds_for_input(text) > 0) {
-			this.ok_button.set_sensitive(true);
-		} else {
-			this.ok_button.set_sensitive(false);
-		}
+		this.validate_input();
 	}
 	
 	/*
-	public bool time_spinner_output() {
+	private bool time_spinner_output() {
 		Gtk.Adjustment adjustment = this.time_spinner.get_adjustment();
 		int seconds = (int)adjustment.get_value();
 		string label = NaturalTime.get_label_for_seconds(seconds);
@@ -247,7 +260,7 @@ private class TimeEntryDialog : Gtk.Dialog {
 		return true;
 	}
 	
-	public void time_spinner_value_changed() {
+	private void time_spinner_value_changed() {
 		Gtk.Adjustment adjustment = this.time_spinner.get_adjustment();
 		int seconds = (int)adjustment.get_value();
 		if (seconds >= 3600) {
@@ -260,7 +273,7 @@ private class TimeEntryDialog : Gtk.Dialog {
 	}
 	*/
 	
-	public void submit() {
+	private void submit() {
 		int time = NaturalTime.get_seconds_for_input(this.time_entry.get_text());
 		if (time > 0) {
 			this.time_entered(time);

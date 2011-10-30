@@ -20,6 +20,7 @@ public class SettingsDialog : Gtk.Dialog {
 		Object();
 		
 		this.set_title("Break Settings");
+		this.set_resizable(false);
 		
 		this.add_buttons(Gtk.Stock.CLOSE, Gtk.ResponseType.CLOSE);
 		this.response.connect(this.response_cb);
@@ -32,13 +33,13 @@ public class SettingsDialog : Gtk.Dialog {
 		content.add(breaks_grid);
 		
 		TimerBreakPanel rest_break_type = new TimerBreakPanel(
-			_("_Rest break"),
+			_("Rest break"),
 			"restbreak",
 			{1800, 2700, 3600, 5400},
 			{300, 360, 420, 480, 540, 600});
 		
 		BreakPanel micro_break_type = new TimerBreakPanel(
-			_("_Micro break"),
+			_("Micro break"),
 			"microbreak",
 			{600, 720, 900},
 			{15, 20, 30, 45, 60});
