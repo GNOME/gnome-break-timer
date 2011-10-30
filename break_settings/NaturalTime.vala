@@ -16,7 +16,7 @@
  */
 
 class NaturalTime : Object {
-	private struct TimeInterval {
+	private struct TimeUnit {
 		public string label_single;
 		public string label_plural;
 		public int seconds;
@@ -24,7 +24,7 @@ class NaturalTime : Object {
 		public Regex re_single;
 		public Regex re_plural;
 		
-		public TimeInterval(string label_single, string label_plural, int seconds) {
+		public TimeUnit(string label_single, string label_plural, int seconds) {
 			this.label_single = label_single;
 			this.label_plural = label_plural;
 			this.seconds = seconds;
@@ -34,23 +34,30 @@ class NaturalTime : Object {
 		}
 	}
 	
-	private static TimeInterval[] intervals {get; private set;}
+	private static TimeUnit[] units {get; private set;}
 	
-	public static void initialize_units () {
-		NaturalTime.intervals = {
-			TimeInterval(_("%d second"), _("%d seconds"), 1),
-			TimeInterval(_("%d minute"), _("%d minutes"), 60),
-			TimeInterval(_("%d hour"), _("%d hours"), 3600)
+	public static void initialize () {
+		NaturalTime.units = {
+			TimeUnit(_("%d second"), _("%d seconds"), 1),
+			TimeUnit(_("%d minute"), _("%d minutes"), 60),
+			TimeUnit(_("%d hour"), _("%d hours"), 3600)
 		};
 	}
 	
-	public static string[] get_completions_for_time (int time) {
-		string[] completions = new string[intervals.length];
+	public static string[] get_completions_for_input (string input) {
+		int time = get_time_for_input(input);
+		if (time < 1) time = 1;
 		
-		for (int i = 0; i < intervals.length; i++) {
-			TimeInterval interval = intervals[i];
-			completions[i] = ngettext(interval.label_single.printf(time),
-					interval.label_plural.printf(time),
+		return get_completions_for_time(time);
+	}
+	
+	public static string[] get_completions_for_time (int time) {
+		string[] completions = new string[units.length];
+		
+		for (int i = 0; i < units.length; i++) {
+			TimeUnit unit = units[i];
+			completions[i] = ngettext(unit.label_single.printf(time),
+					unit.label_plural.printf(time),
 					time);
 		}
 		
@@ -58,35 +65,57 @@ class NaturalTime : Object {
 	}
 	
 	public static string get_label_for_seconds (int seconds) {
-		TimeInterval label_interval = intervals[0];
+		TimeUnit label_unit = units[0];
 		
-		foreach (TimeInterval interval in intervals) {
-			if (seconds % interval.seconds == 0) {
-				label_interval = interval;
+		foreach (TimeUnit unit in units) {
+			if (seconds % unit.seconds == 0) {
+				label_unit = unit;
 			}
 		}
 		
-		int time = seconds / label_interval.seconds;
+		int time = seconds / label_unit.seconds;
 		
-		return ngettext(label_interval.label_single.printf(time),
-				label_interval.label_plural.printf(time),
+		return ngettext(label_unit.label_single.printf(time),
+				label_unit.label_plural.printf(time),
 				time);
 	}
 	
-	public static int get_seconds_for_label (string label) {
-		foreach (TimeInterval interval in intervals) {
+	private static bool get_unit_for_input (string input, out TimeUnit out_unit, out int out_time) {
+		foreach (TimeUnit unit in units) {
 			MatchInfo match_info;
-			if (interval.re_single.match(label, RegexMatchFlags.ANCHORED, out match_info)) {
+			if (unit.re_single.match(input, RegexMatchFlags.ANCHORED, out match_info) ||
+					unit.re_plural.match(input, RegexMatchFlags.ANCHORED, out match_info)) {
 				string time_str = match_info.fetch(1);
-				int time = int.parse(time_str);
-				return time * interval.seconds;
-			} else if (interval.re_plural.match(label, RegexMatchFlags.ANCHORED, out match_info)) {
-				string time_str = match_info.fetch(1);
-				int time = int.parse(time_str);
-				return time * interval.seconds;
+				out_time = int.parse(time_str);
+				out_unit = unit;
+				return true;
 			}
 		}
-		return -1;
+		return false;
+	}
+	
+	public static int get_time_for_input (string input) {
+		// this assumes \\d+ will _only_ match the time
+		Regex re = new Regex("(\\d+)");
+		
+		MatchInfo match_info;
+		if (re.match(input, 0, out match_info)) {
+			string time_str = match_info.fetch(1);
+			int time = int.parse(time_str);
+			return time;
+		} else {
+			return -1;
+		}
+	}
+	
+	public static int get_seconds_for_input (string input) {
+		TimeUnit unit;
+		int time;
+		if (get_unit_for_input(input, out unit, out time)) {
+			return time * unit.seconds;
+		} else {
+			return -1;
+		}
 	}
 }
 

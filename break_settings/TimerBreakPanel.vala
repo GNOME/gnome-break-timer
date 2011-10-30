@@ -215,13 +215,7 @@ private class TimeEntryDialog : Gtk.Dialog {
 	
 	public void time_entry_changed() {
 		string text = this.time_entry.get_text();
-		string[] text_parts = text.split(" ");
-		
-		int time = 1;
-		if (text_parts.length > 0) {
-			time = int.parse(text_parts[0]);
-		}
-		if (time < 1) time = 1;
+		string[] completions = NaturalTime.get_completions_for_input(text);
 		
 		// replace completion options without deleting rows
 		// if we delete rows, gtk throws some unhappy error messages
@@ -229,7 +223,6 @@ private class TimeEntryDialog : Gtk.Dialog {
 		bool iter_valid = this.completion_store.get_iter_first(out iter);
 		if (!iter_valid) this.completion_store.append(out iter);
 		
-		string[] completions = NaturalTime.get_completions_for_time(time);
 		foreach (string completion in completions) {
 			this.completion_store.set(iter, 0, completion, -1);
 			
@@ -237,7 +230,7 @@ private class TimeEntryDialog : Gtk.Dialog {
 			if (!iter_valid) this.completion_store.append(out iter);
 		}
 		
-		if (NaturalTime.get_seconds_for_label(text) > 0) {
+		if (NaturalTime.get_seconds_for_input(text) > 0) {
 			this.ok_button.set_sensitive(true);
 		} else {
 			this.ok_button.set_sensitive(false);
@@ -268,7 +261,7 @@ private class TimeEntryDialog : Gtk.Dialog {
 	*/
 	
 	public void submit() {
-		int time = NaturalTime.get_seconds_for_label(this.time_entry.get_text());
+		int time = NaturalTime.get_seconds_for_input(this.time_entry.get_text());
 		if (time > 0) {
 			this.time_entered(time);
 			this.destroy();

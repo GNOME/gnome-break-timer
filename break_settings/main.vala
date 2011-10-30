@@ -44,7 +44,7 @@ public class Application : Gtk.Application {
 				style_provider,
 				Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 		
-		NaturalTime.initialize_units();
+		NaturalTime.initialize();
 		
 		SettingsDialog dialog = new SettingsDialog();
 		this.add_window(dialog);
