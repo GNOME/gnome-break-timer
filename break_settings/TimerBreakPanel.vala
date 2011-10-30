@@ -93,7 +93,7 @@ private class TimeChooser : Gtk.ComboBox {
 		
 		bool option_exists = this.set_active_id(id);
 		
-		if (!option_exists) {
+		if (!option_exists && seconds > 0) {
 			Gtk.TreeIter new_option = this.add_custom_option(seconds);
 			this.set_active_iter(new_option);
 		}
@@ -237,6 +237,12 @@ private class TimeEntryDialog : Gtk.Dialog {
 			iter_valid = this.completion_store.iter_next(ref iter);
 			if (!iter_valid) this.completion_store.append(out iter);
 		}
+		
+		if (NaturalTime.get_seconds_for_label(text) > 0) {
+			this.ok_button.set_sensitive(true);
+		} else {
+			this.ok_button.set_sensitive(false);
+		}
 	}
 	
 	/*
@@ -264,8 +270,12 @@ private class TimeEntryDialog : Gtk.Dialog {
 	
 	public void submit() {
 		int time = NaturalTime.get_seconds_for_label(this.time_entry.get_text());
-		this.time_entered(time);
-		this.destroy();
+		if (time > 0) {
+			this.time_entered(time);
+			this.destroy();
+		} else {
+			Gdk.beep();
+		}
 	}
 }
 
