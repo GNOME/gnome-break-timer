@@ -28,7 +28,7 @@ public class SettingsDialog : Gtk.Dialog {
 		
 		Gtk.Grid breaks_grid = new Gtk.Grid();
 		breaks_grid.margin = 12;
-		breaks_grid.set_row_spacing(12);
+		breaks_grid.set_row_spacing(18);
 		content.add(breaks_grid);
 		
 		TimerBreakPanel rest_break_type = new TimerBreakPanel(

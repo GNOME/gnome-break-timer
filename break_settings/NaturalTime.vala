@@ -21,10 +21,16 @@ class NaturalTime : Object {
 		public string label_plural;
 		public int seconds;
 		
+		public Regex re_single;
+		public Regex re_plural;
+		
 		public TimeInterval(string label_single, string label_plural, int seconds) {
 			this.label_single = label_single;
 			this.label_plural = label_plural;
 			this.seconds = seconds;
+			
+			this.re_single = new Regex(label_single.replace("%d", "(\\d+)"));
+			this.re_plural = new Regex(label_plural.replace("%d", "(\\d+)"));
 		}
 	}
 	
@@ -32,20 +38,21 @@ class NaturalTime : Object {
 	
 	public static void initialize_units () {
 		NaturalTime.intervals = {
-			TimeInterval(_("%s second"), _("%s seconds"), 1),
-			TimeInterval(_("%s minute"), _("%s minutes"), 60),
-			TimeInterval(_("%s hour"), _("%s hours"), 3600)
+			TimeInterval(_("%d second"), _("%d seconds"), 1),
+			TimeInterval(_("%d minute"), _("%d minutes"), 60),
+			TimeInterval(_("%d hour"), _("%d hours"), 3600),
+			TimeInterval(_("blah %d y"), _("blahs %d x"), 4800)
 		};
 	}
 	
-	public static string[] get_completions_for_time (double time) {
+	public static string[] get_completions_for_time (int time) {
 		string[] completions = new string[intervals.length];
 		
 		for (int i = 0; i < intervals.length; i++) {
 			TimeInterval interval = intervals[i];
-			completions[i] = ngettext(interval.label_single.printf(time.to_string()),
-					interval.label_plural.printf(time.to_string()),
-					(ulong)Math.ceil(time));
+			completions[i] = ngettext(interval.label_single.printf(time),
+					interval.label_plural.printf(time),
+					time);
 		}
 		
 		return completions;
@@ -62,9 +69,25 @@ class NaturalTime : Object {
 		
 		int time = seconds / label_interval.seconds;
 		
-		return ngettext(label_interval.label_single.printf(time.to_string()),
-				label_interval.label_plural.printf(time.to_string()),
+		return ngettext(label_interval.label_single.printf(time),
+				label_interval.label_plural.printf(time),
 				time);
+	}
+	
+	public static int get_seconds_for_label (string label) {
+		foreach (TimeInterval interval in intervals) {
+			MatchInfo match_info;
+			if (interval.re_single.match(label, RegexMatchFlags.ANCHORED, out match_info)) {
+				string time_str = match_info.fetch(1);
+				int time = int.parse(time_str);
+				return time * interval.seconds;
+			} else if (interval.re_plural.match(label, RegexMatchFlags.ANCHORED, out match_info)) {
+				string time_str = match_info.fetch(1);
+				int time = int.parse(time_str);
+				return time * interval.seconds;
+			}
+		}
+		return -1;
 	}
 }
 

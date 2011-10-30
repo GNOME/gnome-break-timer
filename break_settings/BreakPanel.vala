@@ -39,6 +39,7 @@ public abstract class BreakPanel : Gtk.Grid {
 		this.attach(this.header_grid, 0, 0, 1, 1);
 		
 		this.details_grid = new Gtk.Grid();
+		this.details_grid.set_margin_left(12);
 		this.attach_next_to(this.details_grid, this.header_grid, Gtk.PositionType.BOTTOM, 1, 1);
 		
 		this.show_all();
