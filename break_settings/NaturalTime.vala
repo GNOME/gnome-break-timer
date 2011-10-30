@@ -40,8 +40,7 @@ class NaturalTime : Object {
 		NaturalTime.intervals = {
 			TimeInterval(_("%d second"), _("%d seconds"), 1),
 			TimeInterval(_("%d minute"), _("%d minutes"), 60),
-			TimeInterval(_("%d hour"), _("%d hours"), 3600),
-			TimeInterval(_("blah %d y"), _("blahs %d x"), 4800)
+			TimeInterval(_("%d hour"), _("%d hours"), 3600)
 		};
 	}
 	
