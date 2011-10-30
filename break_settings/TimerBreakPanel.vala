@@ -66,6 +66,8 @@ private class TimeChooser : Gtk.ComboBox {
 	
 	private string title;
 	
+	private int time_seconds;
+	
 	public signal void time_selected(int time);
 	
 	public TimeChooser(int[] options, string title) {
@@ -92,16 +94,28 @@ private class TimeChooser : Gtk.ComboBox {
 		this.changed.connect(this.on_changed);
 	}
 	
-	public void set_time(int seconds) {
+	public bool set_time(int seconds) {
 		string id = seconds.to_string();
 		
 		bool option_exists = this.set_active_id(id);
 		
-		if (!option_exists && seconds > 0) {
-			Gtk.TreeIter new_option = this.add_custom_option(seconds);
-			this.set_active_iter(new_option);
+		// TODO: call time_selected
+		
+		if (!option_exists) {
+			if (seconds > 0) {
+				Gtk.TreeIter new_option = this.add_custom_option(seconds);
+				this.set_active_iter(new_option);
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return true;
 		}
-			
+	}
+	
+	public int get_time() {
+		return this.time_seconds;
 	}
 	
 	private Gtk.TreeIter add_option(string label, int seconds) {
@@ -140,7 +154,8 @@ private class TimeChooser : Gtk.ComboBox {
 		this.list_store.get(iter, 2, out val);
 		if (val == OPTION_OTHER) {
 			this.start_custom_input();
-		} else {
+		} else if (val > 0) {
+			this.time_seconds = val;
 			this.time_selected(val);
 		}
 	}
@@ -152,7 +167,13 @@ private class TimeChooser : Gtk.ComboBox {
 		}
 		TimeEntryDialog dialog = new TimeEntryDialog(parent_window, this.title);
 		dialog.time_entered.connect((time) => {
-			this.set_time(time);
+			bool success = this.set_time(time);
+			if (! success) {
+				this.set_time(this.time_seconds);
+			}
+		});
+		dialog.cancelled.connect(() => {
+			this.set_time(this.time_seconds);
 		});
 		dialog.present();
 	}
@@ -166,6 +187,7 @@ private class TimeEntryDialog : Gtk.Dialog {
 	private Gtk.ListStore completion_store;
 	
 	public signal void time_entered(int time_seconds);
+	public signal void cancelled();
 	
 	public TimeEntryDialog(Gtk.Window? parent, string title) {
 		Object();
@@ -180,6 +202,9 @@ private class TimeEntryDialog : Gtk.Dialog {
 		this.ok_button = this.add_button(Gtk.Stock.OK, Gtk.ResponseType.OK);
 		this.response.connect((response_id) => {
 			if (response_id == Gtk.ResponseType.OK) this.submit();
+		});
+		this.destroy.connect(() => {
+			this.cancelled();
 		});
 		
 		Gtk.Container content_area = (Gtk.Container)this.get_content_area();
