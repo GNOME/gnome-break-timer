@@ -206,11 +206,7 @@ private class TimeEntryDialog : Gtk.Dialog {
 		completion.set_text_column(0);
 		completion.set_inline_completion(true);
 		completion.set_popup_completion(true);
-		
-		completion.match_selected.connect(() => {
-			stdout.printf("MATCH\n");
-			return true;
-		});
+		completion.set_popup_single_match(false);
 		
 		this.time_entry.set_completion(completion);
 		
@@ -225,7 +221,10 @@ private class TimeEntryDialog : Gtk.Dialog {
 		if (text_parts.length > 0) {
 			time = int.parse(text_parts[0]);
 		}
+		if (time < 1) time = 1;
 		
+		// replace completion options without deleting rows
+		// if we delete rows, gtk throws some unhappy error messages
 		Gtk.TreeIter iter;
 		bool iter_valid = this.completion_store.get_iter_first(out iter);
 		if (!iter_valid) this.completion_store.append(out iter);
