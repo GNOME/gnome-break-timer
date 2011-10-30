@@ -28,15 +28,30 @@ class NaturalTime : Object {
 		}
 	}
 	
-	//private static TimeInterval[] intervals;
+	private static TimeInterval[] intervals {get; private set;}
+	
+	public static void initialize_units () {
+		NaturalTime.intervals = {
+			TimeInterval(_("%s second"), _("%s seconds"), 1),
+			TimeInterval(_("%s minute"), _("%s minutes"), 60),
+			TimeInterval(_("%s hour"), _("%s hours"), 3600)
+		};
+	}
+	
+	public static string[] get_completions_for_time (double time) {
+		string[] completions = new string[intervals.length];
+		
+		for (int i = 0; i < intervals.length; i++) {
+			TimeInterval interval = intervals[i];
+			completions[i] = ngettext(interval.label_single.printf(time.to_string()),
+					interval.label_plural.printf(time.to_string()),
+					(ulong)Math.ceil(time));
+		}
+		
+		return completions;
+	}
 	
 	public static string get_label_for_seconds (int seconds) {
-		TimeInterval[] intervals = {
-		TimeInterval(_("%d second"), _("%d seconds"), 1),
-		TimeInterval(_("%d minute"), _("%d minutes"), 60),
-		TimeInterval(_("%d hour"), _("%d hours"), 3600)
-	};
-		
 		TimeInterval label_interval = intervals[0];
 		
 		foreach (TimeInterval interval in intervals) {
@@ -47,8 +62,8 @@ class NaturalTime : Object {
 		
 		int time = seconds / label_interval.seconds;
 		
-		return ngettext(label_interval.label_single.printf(time),
-				label_interval.label_plural.printf(time),
+		return ngettext(label_interval.label_single.printf(time.to_string()),
+				label_interval.label_plural.printf(time.to_string()),
 				time);
 	}
 }

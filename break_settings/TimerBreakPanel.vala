@@ -123,6 +123,8 @@ private class TimeEntryDialog : Gtk.Dialog {
 	private Gtk.Widget ok_button;
 	private Gtk.Entry time_entry;
 	
+	private Gtk.ListStore completion_store;
+	
 	public signal void time_entered(int time_seconds);
 	
 	public TimeEntryDialog(Gtk.Window? parent, string title) {
@@ -151,22 +153,92 @@ private class TimeEntryDialog : Gtk.Dialog {
 		
 		this.time_entry = new Gtk.Entry();
 		this.time_entry.activate.connect(this.submit);
+		this.time_entry.insert_text.connect(this.time_entry_text_inserted);
+		this.time_entry.changed.connect(this.time_entry_changed);
 		content_grid.attach(this.time_entry, 0, 1, 1, 1);
 		
 		Gtk.EntryCompletion completion = new Gtk.EntryCompletion();
-		Gtk.ListStore completion_store = new Gtk.ListStore(1, typeof(string));
-		completion.set_model(completion_store);
+		this.completion_store = new Gtk.ListStore(1, typeof(string));
+		completion.set_model(this.completion_store);
 		completion.set_text_column(0);
 		completion.set_inline_completion(true);
-		completion.set_popup_completion(false);
+		completion.set_popup_completion(true);
 		
-		Gtk.TreeIter iter;
-		completion_store.append(out iter);
-		completion_store.set(iter, 0, "minutes", -1);
+		completion.match_selected.connect(() => {
+			stdout.printf("MATCH\n");
+			return true;
+		});
 		
 		this.time_entry.set_completion(completion);
 		
 		content_area.show_all();
+	}
+	
+	public void time_entry_text_inserted(string new_text, int new_text_length, void* position) {
+		bool valid = false;
+		
+		string text = this.time_entry.get_text();
+		string[] text_parts = text.split(" ");
+		
+		if (text_parts.length > 1) {
+			// should be entering a unit at this point
+			/*
+			Gtk.TreeIter iter;
+			bool iter_valid = this.completion_store.get_iter_first(out iter);
+			if (! iter_valid) valid = true;
+			while (iter_valid) {
+				string completion;
+				this.completion_store.get(iter, 0, out completion, -1);
+				if (completion != null && completion.contains(new_text)) {
+					valid = true;
+				}
+			}
+			*/
+			valid = true;
+		} else {
+			// should be entering a number
+			/*
+			if (Regex.match_simple("[\\d\\s]", new_text)) {
+				valid = true;
+			} else {
+				valid = false;
+			}
+			*/
+			valid = true;
+		}
+		
+		if (! valid) Signal.stop_emission_by_name(this.time_entry, "insert-text");
+	}
+	
+	string? last_time_entered = "";
+	public void time_entry_changed() {
+		string text = this.time_entry.get_text();
+		string[] text_parts = text.split(" ");
+		
+		int time = 1;
+		if (text_parts.length > 0) {
+			time = int.parse(text_parts[0]);
+		}
+		
+		string[] completions = NaturalTime.get_completions_for_time(time);
+		
+		Gtk.TreeIter iter;
+		bool iter_valid = this.completion_store.get_iter_first(out iter);
+		if (!iter_valid) {
+			this.completion_store.append(out iter);
+			iter_valid = true;
+		}
+		
+		foreach (string completion in completions) {
+			this.completion_store.set(iter, 0, completion, -1);
+			
+			iter_valid = this.completion_store.iter_next(ref iter);
+			if (!iter_valid) {
+				this.completion_store.append(out iter);
+				iter_valid = true;
+			}
+		}
+		this.last_time_entered = text;
 	}
 	
 	public void submit() {
