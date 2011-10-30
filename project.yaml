@@ -35,7 +35,6 @@ targets:
     type: program
     path: src
     input:
-      - BrainBreak.vala
       - BreakOverlay.vala
       - Break.vala
       - BreakViewCommon.vala
@@ -50,6 +49,8 @@ targets:
       - TimerBreakOverlay.vala
       - TimerBreak.vala
       - TimerString.vala
+    defines:
+      - GETTEXT_PACKAGE="brainbreak"
     uses:
       - magic_core
     packages:
@@ -57,6 +58,21 @@ targets:
       - gtk+-3.0
       - gee-1.0
       - libnotify
+  
+  brainbreak_settings:
+    tool: vala
+    type: program
+    path: break_settings
+    input:
+      - BreakPanel.vala
+      - main.vala
+      - NaturalTime.vala
+      - SettingsDialog.vala
+      - TimerBreakPanel.vala
+    defines:
+      - GETTEXT_PACKAGE="brainbreak"
+    packages:
+      - gtk+-3.0
   
   magic_core:
     tool: cc

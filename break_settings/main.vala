@@ -16,16 +16,15 @@
  */
 
 public class Application : Gtk.Application {
-	const string app_id = "com.dylanmccall.brainbreak.Daemon";
-	const string app_name = "Brain Break"; /* TODO: translate */
+	const string app_id = "com.dylanmccall.brainbreak.Settings";
+	const string app_name = _("Break Settings"); /* TODO: translate */
 	
-	private FocusManager focus_manager;
-	private RestBreak rest_break;
-	private MicroBreak micro_break;
-	
-	private BreakViewCommon break_view_common;
-	private RestBreakView rest_break_view;
-	private MicroBreakView micro_break_view;
+	static const string STYLE_DATA =
+			"""
+				GtkLabel.brainbreak-settings-break-title {
+				font-weight:bold;
+			}
+			""";
 	
 	public Application() {
 		Object(application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
@@ -36,27 +35,18 @@ public class Application : Gtk.Application {
 	}
 	
 	public override void startup() {
-		this.hold(); /* we're doing stuff, even if no windows are open */
-		
-		Magic.begin();
-		Notify.init(app_name);
-		
 		/* set up custom gtk style for application */
 		Gdk.Screen screen = Gdk.Screen.get_default();
 		Gtk.CssProvider style_provider = new Gtk.CssProvider();
-		/* FIXME: of course, we should load data files in a smarter way */
-		style_provider.load_from_path("data/style.css");
-		Gtk.StyleContext.add_provider_for_screen(screen,
-		                                         style_provider,
-		                                         Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+		style_provider.load_from_data(STYLE_DATA, -1);
+		Gtk.StyleContext.add_provider_for_screen(
+				screen,
+				style_provider,
+				Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 		
-		this.focus_manager = new FocusManager();
-		this.rest_break = new RestBreak(this.focus_manager);
-		this.micro_break = new MicroBreak(this.focus_manager);
-		
-		this.break_view_common = new BreakViewCommon();
-		this.micro_break_view = new MicroBreakView(this.break_view_common, this.micro_break);
-		this.rest_break_view = new RestBreakView(this.break_view_common, this.rest_break);
+		SettingsDialog dialog = new SettingsDialog();
+		this.add_window(dialog);
+		dialog.show();
 	}
 }
 
