@@ -1,0 +1,48 @@
+<schemalist>
+  <schema id="org.brainbreak" path="/org/brainbreak/" gettext-domain="brainbreak">
+    <child schema="org.brainbreak.breaks" name="breaks"/>
+  </schema>
+  
+  <schema id="org.brainbreak.breaks" path="/org/brainbreak/breaks/" gettext-domain="brainbreak">
+    <child schema="org.brainbreak.breaks.restbreak" name="restbreak"/>
+    <child schema="org.brainbreak.breaks.microbreak" name="microbreak"/>
+  </schema>
+  
+  <schema id="org.brainbreak.breaks.restbreak" path="/org/brainbreak/breaks/restbreak/" gettext-domain="brainbreak">
+    <key name="enabled" type="b">
+      <default>true</default>
+      <summary>True to enable break type</summary>
+    </key>
+    
+    <key name="interval-seconds" type="i">
+      <default>2400</default>
+      <summary>Time between breaks</summary>
+      <description>The time between rest breaks, in seconds.</description>
+    </key>
+    
+    <key name="duration-seconds" type="i">
+      <default>360</default>
+      <summary>Duration of each break</summary>
+      <description>The duration of each rest break, in seconds.</description>
+    </key>
+  </schema>
+  
+  <schema id="org.brainbreak.breaks.microbreak" path="/org/brainbreak/breaks/microbreak/" gettext-domain="brainbreak">
+     <key name="enabled" type="b">
+      <default>true</default>
+      <summary>True to enable break type</summary>
+    </key>
+    
+    <key name="interval-seconds" type="i">
+      <default>480</default>
+      <summary>Time between breaks</summary>
+      <description>The preferred time between micro breaks, in seconds.</description>
+    </key>
+    
+    <key name="duration-seconds" type="i">
+      <default>20</default>
+      <summary>Duration of each break</summary>
+      <description>The preferred duration of each micro break, in seconds.</description>
+    </key>
+  </schema>
+</schemalist>

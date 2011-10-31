@@ -16,7 +16,7 @@
  */
 
 public class SettingsDialog : Gtk.Dialog {
-	public SettingsDialog() {
+	public SettingsDialog(BreakPanel[] settings_panels, Settings breaks_settings) {
 		Object();
 		
 		this.set_title("Break Settings");
@@ -32,23 +32,12 @@ public class SettingsDialog : Gtk.Dialog {
 		breaks_grid.set_row_spacing(18);
 		content.add(breaks_grid);
 		
-		TimerBreakPanel rest_break_type = new TimerBreakPanel(
-			_("Rest break"),
-			"restbreak",
-			{1800, 2700, 3600, 5400},
-			{300, 360, 420, 480, 540, 600});
-		
-		BreakPanel micro_break_type = new TimerBreakPanel(
-			_("Micro break"),
-			"microbreak",
-			{600, 720, 900},
-			{15, 20, 30, 45, 60});
-		
-		Gtk.Widget rest_break_settings = rest_break_type.get_settings_widget();
-		breaks_grid.attach(rest_break_settings, 0, 0, 1, 1);
-		
-		Gtk.Widget micro_break_settings = micro_break_type.get_settings_widget();
-		breaks_grid.attach(micro_break_settings, 0, 1, 1, 1);
+		int insert_row = 0;
+		foreach (BreakPanel panel in settings_panels) {
+			Gtk.Widget settings_widget = panel.get_settings_widget();
+			breaks_grid.attach(settings_widget, 0, insert_row, 1, 1);
+			insert_row += 1;
+		}
 		
 		breaks_grid.show();
 	}

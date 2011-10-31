@@ -15,9 +15,13 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// FIXME: break this into model / view
+
 public abstract class BreakPanel : Gtk.Grid {
 	public string break_name {get; private set;}
 	public string break_id {get; private set;}
+	
+	protected Settings settings;
 	
 	protected int[] interval_options;
 	
@@ -26,11 +30,13 @@ public abstract class BreakPanel : Gtk.Grid {
 	
 	private Gtk.Container details_grid;
 	
-	public BreakPanel(string break_name, string break_id, int[] interval_options) {
+	public BreakPanel(Settings settings, string break_id, string break_name, int[] interval_options) {
 		Object();
 		
-		this.break_name = break_name;
+		this.settings = settings;
+		
 		this.break_id = break_id;
+		this.break_name = break_name;
 		this.interval_options = interval_options;
 		
 		this.set_row_spacing(4);
@@ -42,9 +48,9 @@ public abstract class BreakPanel : Gtk.Grid {
 		this.details_grid.set_halign(Gtk.Align.CENTER);
 		this.attach_next_to(this.details_grid, this.header_grid, Gtk.PositionType.BOTTOM, 1, 1);
 		
-		this.show_all();
+		this.settings.bind("enabled", this.break_switch, "active", SettingsBindFlags.DEFAULT);
 		
-		this.set_enabled(true);
+		this.show_all();
 	}
 	
 	public Gtk.Widget get_settings_widget() {
@@ -73,7 +79,6 @@ public abstract class BreakPanel : Gtk.Grid {
 		
 		break_switch.notify["active"].connect((s, p) => {
 			this.set_enabled(break_switch.active);
-			
 		});
 		
 		header_grid.show_all();
