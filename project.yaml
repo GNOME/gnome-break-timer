@@ -68,6 +68,7 @@ targets:
     type: program
     path: settings
     input:
+      - ApplicationPanel.vala
       - BreakPanel.vala
       - main.vala
       - MicroBreakPanel.vala

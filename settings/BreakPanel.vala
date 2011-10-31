@@ -21,6 +21,8 @@ public abstract class BreakPanel : Gtk.Grid {
 	public string break_name {get; private set;}
 	public string break_id {get; private set;}
 	
+	public bool enabled {get; set; default=true;}
+	
 	protected Settings settings;
 	
 	protected int[] interval_options;
@@ -45,10 +47,16 @@ public abstract class BreakPanel : Gtk.Grid {
 		this.attach(this.header_grid, 0, 0, 1, 1);
 		
 		this.details_grid = new Gtk.Grid();
-		this.details_grid.set_halign(Gtk.Align.CENTER);
+		this.details_grid.set_halign(Gtk.Align.START);
+		this.details_grid.set_margin_left(12);
 		this.attach_next_to(this.details_grid, this.header_grid, Gtk.PositionType.BOTTOM, 1, 1);
 		
-		this.settings.bind("enabled", this.break_switch, "active", SettingsBindFlags.DEFAULT);
+		this.notify["enabled"].connect((s, p) => {
+			this.details_grid.set_sensitive(this.enabled);
+			this.break_switch.set_active(this.enabled);
+		});
+		
+		this.settings.bind("enabled", this, "enabled", SettingsBindFlags.DEFAULT);
 		
 		this.show_all();
 	}
@@ -77,18 +85,15 @@ public abstract class BreakPanel : Gtk.Grid {
 		header_grid.attach_next_to(break_switch, break_label, Gtk.PositionType.RIGHT, 1, 1);
 		break_label.set_mnemonic_widget(break_switch);
 		
-		break_switch.notify["active"].connect((s, p) => {
-			this.set_enabled(break_switch.active);
+		// FIXME: note the horror of having all these enabled properties in one place
+		// this is best fixed by splitting BreakPanel from its back-end settings
+		this.break_switch.notify["active"].connect((s, p) => {
+			this.enabled = this.break_switch.active;
 		});
 		
 		header_grid.show_all();
 		
 		return header_grid;
-	}
-	
-	private void set_enabled(bool enabled) {
-		this.details_grid.set_sensitive(enabled);
-		this.break_switch.set_active(enabled);
 	}
 }
 

@@ -209,11 +209,9 @@ private class TimeEntryDialog : Gtk.Dialog {
 	private void validate_input() {
 		string text = this.time_entry.get_text();
 		
-		if (NaturalTime.get_seconds_for_input(text) > 0) {
-			this.ok_button.set_sensitive(true);
-		} else {
-			this.ok_button.set_sensitive(false);
-		}
+		bool valid = NaturalTime.get_seconds_for_input(text) > 0;
+		
+		this.set_response_sensitive(Gtk.ResponseType.OK, valid);
 	}
 	
 	private void time_entry_changed() {

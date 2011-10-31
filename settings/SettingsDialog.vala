@@ -16,16 +16,30 @@
  */
 
 public class SettingsDialog : Gtk.Dialog {
-	public SettingsDialog(BreakPanel[] settings_panels, Settings breaks_settings) {
+	private Settings settings;
+	
+	private ApplicationPanel application_panel;
+	private BreakPanel[] break_panels;
+	
+	private static const int ABOUT_BUTTON_RESPONSE = 5;
+	
+	public SettingsDialog(Settings settings) {
 		Object();
 		
-		this.set_title("Break Settings");
+		this.settings = settings;
+		
+		this.set_title(_("Break Settings"));
 		this.set_resizable(false);
 		
-		this.add_buttons(Gtk.Stock.CLOSE, Gtk.ResponseType.CLOSE);
+		Gtk.Widget about_button = this.add_button(Gtk.Stock.ABOUT, Gtk.ResponseType.HELP);
+		Gtk.Widget close_button = this.add_button(Gtk.Stock.CLOSE, Gtk.ResponseType.CLOSE);
 		this.response.connect(this.response_cb);
 		
 		Gtk.Box content = (Gtk.Box) this.get_content_area();
+		
+		this.application_panel = new ApplicationPanel(settings);
+		Gtk.Widget status_widget = application_panel.get_status_widget();
+		content.add(this.application_panel);
 		
 		Gtk.Grid breaks_grid = new Gtk.Grid();
 		breaks_grid.margin = 12;
@@ -33,18 +47,44 @@ public class SettingsDialog : Gtk.Dialog {
 		content.add(breaks_grid);
 		
 		int insert_row = 0;
-		foreach (BreakPanel panel in settings_panels) {
+		this.break_panels = {
+			new RestBreakPanel(settings),
+			new MicroBreakPanel(settings)
+		};
+		foreach (BreakPanel panel in this.break_panels) {
+			panel.notify["enabled"].connect((s, p) => {
+				this.on_break_disabled();
+			});
 			Gtk.Widget settings_widget = panel.get_settings_widget();
 			breaks_grid.attach(settings_widget, 0, insert_row, 1, 1);
 			insert_row += 1;
 		}
 		
+		// update the master switch with any changes made externally
+		this.on_break_disabled();
+		
 		breaks_grid.show();
+	}
+	
+	private void on_break_disabled() {
+		bool any_enabled = false;
+		foreach (BreakPanel panel in this.break_panels) {
+			if (panel.enabled) any_enabled = true;
+		}
+		this.application_panel.master_enabled = any_enabled;
 	}
 	
 	private void response_cb(int response_id) {
 		if (response_id == Gtk.ResponseType.CLOSE) {
 			this.destroy ();
+		} else if (response_id == Gtk.ResponseType.HELP) {
+			Gtk.show_about_dialog(this,
+				"program-name", _("Brain Break"),
+				"comments", _("Computer break tool for active minds"),
+				"copyright", _("Copyright © Dylan McCall"),
+				"website", "http://launchpad.net/brainbreak",
+				"website-label", _("Brain Break Website")
+			);
 		}
 	}
 }

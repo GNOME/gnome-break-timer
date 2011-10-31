@@ -80,7 +80,10 @@ class NaturalTime : Object {
 				time);
 	}
 	
-	private static bool get_unit_for_input (string input, out TimeUnit out_unit, out int out_time) {
+	private static bool get_unit_for_input (string input, out TimeUnit? out_unit, out int out_time) {
+		out_unit = null;
+		out_time = -1;
+		
 		foreach (TimeUnit unit in units) {
 			MatchInfo match_info;
 			if (unit.re_single.match(input, RegexMatchFlags.ANCHORED, out match_info) ||
@@ -91,6 +94,7 @@ class NaturalTime : Object {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 	
@@ -109,7 +113,7 @@ class NaturalTime : Object {
 	}
 	
 	public static int get_seconds_for_input (string input) {
-		TimeUnit unit;
+		TimeUnit? unit;
 		int time;
 		if (get_unit_for_input(input, out unit, out time)) {
 			return time * unit.seconds;
