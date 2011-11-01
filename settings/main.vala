@@ -32,6 +32,9 @@ public class Application : Gtk.Application {
 	}
 	
 	public override void activate() {
+		foreach (Gtk.Window window in this.get_windows()) {
+			window.present();
+		}
 	}
 	
 	public override void startup() {
