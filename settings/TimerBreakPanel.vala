@@ -18,12 +18,11 @@
 public class TimerBreakPanel : BreakPanel {
 	protected int[] duration_options;
 	
-	TimeChooser interval_chooser;
-	TimeChooser duration_chooser;
+	public TimeChooser interval_chooser;
+	public TimeChooser duration_chooser;
 	
-	public TimerBreakPanel(Settings settings, string break_id, string break_name, int[] interval_options,
-			int[] duration_options) {
-		base(settings, break_id, break_name, interval_options);
+	public TimerBreakPanel(BreakType break_type, int[] interval_options, int[] duration_options) {
+		base(break_type, interval_options);
 		
 		this.duration_options = duration_options;
 		
@@ -41,16 +40,14 @@ public class TimerBreakPanel : BreakPanel {
 		interval_label.set_halign(Gtk.Align.END);
 		details_grid.attach(interval_label, 0, 1, 1, 1);
 		
-		this.interval_chooser = new TimeChooser(this.interval_options, _("%s interval").printf(this.break_name));
-		this.settings.bind("interval-seconds", this.interval_chooser, "time-seconds", SettingsBindFlags.DEFAULT);
+		this.interval_chooser = new TimeChooser(this.interval_options, _("%s interval").printf(this.break_type.name));
 		details_grid.attach_next_to(this.interval_chooser, interval_label, Gtk.PositionType.RIGHT, 1, 1);
 		
 		Gtk.Label duration_label = new Gtk.Label.with_mnemonic("For");
 		duration_label.set_halign(Gtk.Align.END);
 		details_grid.attach(duration_label, 0, 2, 1, 1);
 		
-		this.duration_chooser = new TimeChooser(this.duration_options, _("%s duration").printf(this.break_name));
-		this.settings.bind("duration-seconds", this.duration_chooser, "time-seconds", SettingsBindFlags.DEFAULT);
+		this.duration_chooser = new TimeChooser(this.duration_options, _("%s duration").printf(this.break_type.name));
 		details_grid.attach_next_to(this.duration_chooser, duration_label, Gtk.PositionType.RIGHT, 1, 1);
 		
 		details_grid.show_all();

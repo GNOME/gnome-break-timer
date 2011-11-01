@@ -46,8 +46,11 @@ public class Application : Gtk.Application {
 		
 		NaturalTime.initialize();
 		
-		Settings breaks_settings = new Settings("org.brainbreak.breaks");
-		SettingsDialog dialog = new SettingsDialog(breaks_settings);
+		BreakType[] break_types = {
+			new RestBreakType(),
+			new MicroBreakType()
+		};
+		SettingsDialog dialog = new SettingsDialog(break_types);
 		
 		this.add_window(dialog);
 		dialog.show();

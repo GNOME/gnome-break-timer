@@ -15,13 +15,21 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class RestBreakPanel : TimerBreakPanel {
-	public RestBreakPanel(Settings breaks_settings) {
-		Settings settings = breaks_settings.get_child("restbreak");
+public class MicroBreakType : TimerBreakType {
+	public MicroBreakType() {
+		Settings settings = new Settings("org.brainbreak.breaks.microbreak");
+		string name = _("Micro break");
+		base(settings, name);
+	}
+	
+	public override Gtk.Widget make_settings_panel() {
+		int[] interval_options = {480, 600, 720, 900};
+		int[] duration_options = {15, 20, 30, 45, 60};
+		TimerBreakPanel panel = new TimerBreakPanel(this, interval_options, duration_options);
 		
-		base(settings, "restbreak", _("Rest break"),
-			{1800, 2400, 3000, 3600},
-			{300, 360, 420, 480, 540, 600});
+		this.bind_to_settings_panel(panel);
+		
+		return panel;
 	}
 }
 

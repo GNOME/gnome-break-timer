@@ -70,13 +70,15 @@ targets:
     input:
       - ApplicationPanel.vala
       - BreakPanel.vala
+      - BreakType.vala
       - main.vala
-      - MicroBreakPanel.vala
+      - MicroBreakType.vala
       - NaturalTime.vala
-      - RestBreakPanel.vala
+      - RestBreakType.vala
       - SettingsDialog.vala
       - TimeChooser.vala
       - TimerBreakPanel.vala
+      - TimerBreakType.vala
     defines:
       - GETTEXT_PACKAGE="brainbreak"
     packages:

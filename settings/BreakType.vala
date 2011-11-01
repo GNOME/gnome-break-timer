@@ -15,13 +15,24 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class MicroBreakPanel : TimerBreakPanel {
-	public MicroBreakPanel(Settings breaks_settings) {
-		Settings settings = breaks_settings.get_child("microbreak");
-		
-		base(settings, "microbreak", _("Micro break"),
-			{480, 600, 720, 900},
-			{15, 20, 30, 45, 60});
+public abstract class BreakType : Object {
+	protected Settings settings;
+	
+	public string name {get; private set;}
+	public bool enabled {get; set; default=true;}
+	public int interval {get; set;}
+	
+	public BreakType(Settings settings, string name) {
+		this.settings = settings;
+		this.name = name;
+		this.settings.bind("enabled", this, "enabled", SettingsBindFlags.DEFAULT);
+		this.settings.bind("interval-seconds", this, "interval", SettingsBindFlags.DEFAULT);
+	}
+	
+	public abstract Gtk.Widget make_settings_panel();
+	
+	protected void bind_to_settings_panel(BreakPanel panel) {
+		this.settings.bind("enabled", panel.toggle_switch, "active", SettingsBindFlags.DEFAULT);
 	}
 }
 

@@ -16,17 +16,15 @@
  */
 
 public class SettingsDialog : Gtk.Dialog {
-	private Settings settings;
-	
 	private ApplicationPanel application_panel;
-	private BreakPanel[] break_panels;
+	private BreakType[] break_types;
 	
 	private static const int ABOUT_BUTTON_RESPONSE = 5;
 	
-	public SettingsDialog(Settings settings) {
+	public SettingsDialog(BreakType[] break_types) {
 		Object();
 		
-		this.settings = settings;
+		this.break_types = break_types;
 		
 		this.set_title(_("Break Settings"));
 		this.set_resizable(false);
@@ -37,7 +35,7 @@ public class SettingsDialog : Gtk.Dialog {
 		
 		Gtk.Box content = (Gtk.Box) this.get_content_area();
 		
-		this.application_panel = new ApplicationPanel(settings);
+		this.application_panel = new ApplicationPanel();
 		Gtk.Widget status_widget = application_panel.get_status_widget();
 		content.add(this.application_panel);
 		
@@ -47,16 +45,13 @@ public class SettingsDialog : Gtk.Dialog {
 		content.add(breaks_grid);
 		
 		int insert_row = 0;
-		this.break_panels = {
-			new RestBreakPanel(settings),
-			new MicroBreakPanel(settings)
-		};
-		foreach (BreakPanel panel in this.break_panels) {
-			panel.notify["enabled"].connect((s, p) => {
+		
+		foreach (BreakType break_type in this.break_types) {
+			break_type.notify["enabled"].connect((s, p) => {
 				this.on_break_disabled();
 			});
-			Gtk.Widget settings_widget = panel.get_settings_widget();
-			breaks_grid.attach(settings_widget, 0, insert_row, 1, 1);
+			Gtk.Widget settings_panel = break_type.make_settings_panel();
+			breaks_grid.attach(settings_panel, 0, insert_row, 1, 1);
 			insert_row += 1;
 		}
 		
@@ -68,8 +63,8 @@ public class SettingsDialog : Gtk.Dialog {
 	
 	private void on_break_disabled() {
 		bool any_enabled = false;
-		foreach (BreakPanel panel in this.break_panels) {
-			if (panel.enabled) any_enabled = true;
+		foreach (BreakType break_type in this.break_types) {
+			if (break_type.enabled) any_enabled = true;
 		}
 		this.application_panel.master_enabled = any_enabled;
 	}

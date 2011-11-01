@@ -24,10 +24,10 @@ public class ApplicationPanel : Gtk.Grid {
 	
 	private Gtk.InfoBar app_not_running_info_bar;
 	
-	public ApplicationPanel(Settings settings) {
+	public ApplicationPanel() {
 		Object();
 		
-		this.settings = settings;
+		this.settings = new Settings("org.brainbreak.breaks");
 		
 		this.app_not_running_info_bar = new AppNotRunningInfoBar();
 		
