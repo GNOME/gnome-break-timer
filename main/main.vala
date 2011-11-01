@@ -16,8 +16,8 @@
  */
 
 public class Application : Gtk.Application {
-	const string app_id = "com.dylanmccall.brainbreak.Daemon";
-	const string app_name = "Brain Break"; /* TODO: translate */
+	const string app_id = "org.brainbreak.Helper";
+	const string app_name = _("Brain Break");
 	
 	private FocusManager focus_manager;
 	private RestBreak rest_break;

@@ -16,8 +16,8 @@
  */
 
 public class Application : Gtk.Application {
-	const string app_id = "com.dylanmccall.brainbreak.Settings";
-	const string app_name = _("Break Settings"); /* TODO: translate */
+	const string app_id = "org.brainbreak.Settings";
+	const string app_name = _("Break Settings");
 	
 	static const string STYLE_DATA =
 			"""
