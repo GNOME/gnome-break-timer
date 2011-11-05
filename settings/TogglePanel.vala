@@ -21,7 +21,9 @@ public abstract class TogglePanel : Gtk.Grid {
 	private SwitchHeader header;
 	private Gtk.Container details_grid;
 	
-	public Gtk.Switch toggle_switch {get; private set;}
+	public Gtk.Switch toggle_switch;
+	
+	public signal void toggled(bool enabled);
 	
 	public TogglePanel(string title) {
 		Object();
@@ -41,8 +43,12 @@ public abstract class TogglePanel : Gtk.Grid {
 		
 		this.show_all();
 		
-		this.toggle_switch.notify["active"].connect((s, p) => {
-			this.details_grid.sensitive = this.toggle_switch.active;
+		this.header.toggle.notify["active"].connect((s, p) => {
+			this.toggled(this.header.toggle.active);
+		});
+		
+		this.toggled.connect((enabled) => {
+			this.details_grid.sensitive = this.header.toggle.active;
 		});
 	}
 	

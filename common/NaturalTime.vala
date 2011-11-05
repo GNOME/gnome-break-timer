@@ -32,6 +32,14 @@ class NaturalTime : Object {
 			this.re_single = new Regex(label_single.replace("%d", "(\\d+)"));
 			this.re_plural = new Regex(label_plural.replace("%d", "(\\d+)"));
 		}
+		
+		public string format_seconds(int seconds) {
+			int time = seconds / this.seconds;
+			
+			return ngettext(this.label_single.printf(time),
+					this.label_plural.printf(time),
+					time);
+		}
 	}
 	
 	private static TimeUnit[] units {get; private set;}
@@ -70,18 +78,16 @@ class NaturalTime : Object {
 		foreach (TimeUnit unit in units) {
 			if (seconds % unit.seconds == 0) {
 				label_unit = unit;
+				// assumes smallest unit is first in the list
+				if (seconds == 0) break;
 			}
 		}
 		
-		int time = seconds / label_unit.seconds;
-		
-		return ngettext(label_unit.label_single.printf(time),
-				label_unit.label_plural.printf(time),
-				time);
+		return label_unit.format_seconds(seconds);
 	}
 	
 	public static string get_countdown_for_seconds (int seconds) {
-		int interval;
+		int interval = 1;
 		if (seconds <= 10) {
 			interval = 1;
 		} else if (seconds <= 60) {
@@ -89,20 +95,12 @@ class NaturalTime : Object {
 		} else if (seconds <= 900) {
 			interval = 60;
 		} else {
-			interval = 3600;
-		}
-		int remaining = (int)((seconds + interval - 1) / interval);
-		
-		TimeUnit label_unit = units[0];
-		foreach (TimeUnit unit in units) {
-			if (unit.seconds == interval) {
-				label_unit = unit;
-			}
+			interval = 300;
 		}
 		
-		return ngettext(label_unit.label_single.printf(remaining),
-				label_unit.label_plural.printf(remaining),
-				remaining);
+		int seconds_snapped_to_interval = (int)((seconds-1) / interval + 1) * interval;
+		
+		return get_label_for_seconds(seconds_snapped_to_interval);
 	}
 	
 	private static bool get_unit_for_input (string input, out TimeUnit? out_unit, out int out_time) {

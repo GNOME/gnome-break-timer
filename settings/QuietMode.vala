@@ -34,8 +34,8 @@ public class QuietMode : Object {
 		this.settings.bind("quiet-mode", panel.toggle_switch, "active", SettingsBindFlags.DEFAULT);
 		this.settings.bind("quiet-mode-expire-time", panel, "expire-time", SettingsBindFlags.DEFAULT);
 		
-		panel.toggle_switch.notify["active"].connect((s, p) => {
-			if (panel.toggle_switch.active == true) {
+		panel.toggled.connect((enabled) => {
+			if (enabled) {
 				DateTime now = new DateTime.now_utc();
 				DateTime later = now.add_hours(1);
 				this.expire_time = later.to_unix();

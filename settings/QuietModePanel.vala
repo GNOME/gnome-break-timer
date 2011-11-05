@@ -70,9 +70,9 @@ public class QuietModePanel : TogglePanel {
 		DateTime now = new DateTime.now_utc();
 		int64 time_remaining = this.expire_time - now.to_unix();
 		
-		if (time_remaining >= 0) {
+		if (time_remaining > 0) {
 			string label = NaturalTime.get_countdown_for_seconds((int)time_remaining);
-			this.countdown_label.set_text("%s remaining".printf(label));
+			this.countdown_label.set_text(label);
 		} else {
 			this.end_countdown();
 			return false;
