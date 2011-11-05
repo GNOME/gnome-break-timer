@@ -9,6 +9,18 @@
       <summary>True to enable Brain Break</summary>
     </key>
     
+    <key name="quiet-mode" type="b">
+      <default>false</default>
+      <summary>True to enable quiet mode</summary>
+      <description>Hides breaks until the current time passes quiet-mode-end.</description>
+    </key>
+    
+    <key name="quiet-mode-end" type="x">
+      <default>0</default>
+      <summary>Time to end quiet mode.</summary>
+      <description>The time to automatically disable quiet mode, in unix time.</description>
+    </key>
+    
     <child schema="org.brainbreak.breaks.restbreak" name="restbreak"/>
     <child schema="org.brainbreak.breaks.microbreak" name="microbreak"/>
   </schema>

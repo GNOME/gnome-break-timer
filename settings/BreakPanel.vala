@@ -63,15 +63,14 @@ public abstract class BreakPanel : Gtk.Grid {
 		Gtk.Label break_label = new Gtk.Label.with_mnemonic(this.break_type.name);
 		break_label.set_halign(Gtk.Align.END);
 		break_label.set_margin_right(12);
-		break_label.get_style_context().add_class("brainbreak-settings-break-title");
+		break_label.get_style_context().add_class("brainbreak-settings-title");
 		header_grid.attach(break_label, 0, 0, 1, 1);
 		
-		Gtk.Switch toggle_switch = new Gtk.Switch();
-		this.toggle_switch = toggle_switch;
-		toggle_switch.set_hexpand(true);
-		toggle_switch.set_halign(Gtk.Align.END);
-		header_grid.attach_next_to(toggle_switch, break_label, Gtk.PositionType.RIGHT, 1, 1);
-		break_label.set_mnemonic_widget(toggle_switch);
+		this.toggle_switch = new Gtk.Switch();
+		this.toggle_switch.set_hexpand(true);
+		this.toggle_switch.set_halign(Gtk.Align.END);
+		header_grid.attach_next_to(this.toggle_switch, break_label, Gtk.PositionType.RIGHT, 1, 1);
+		break_label.set_mnemonic_widget(this.toggle_switch);
 		
 		header_grid.show_all();
 		
