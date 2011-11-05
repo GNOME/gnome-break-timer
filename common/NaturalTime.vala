@@ -42,24 +42,32 @@ class NaturalTime : Object {
 		}
 	}
 	
-	private static TimeUnit[] units {get; private set;}
+	private TimeUnit[] units {get; private set;}
 	
-	public static void initialize () {
-		NaturalTime.units = {
+	private NaturalTime () {
+		this.units = {
 			TimeUnit(_("%d second"), _("%d seconds"), 1),
 			TimeUnit(_("%d minute"), _("%d minutes"), 60),
 			TimeUnit(_("%d hour"), _("%d hours"), 3600)
 		};
 	}
 	
-	public static string[] get_completions_for_input (string input) {
+	private static NaturalTime? instance;
+	public static NaturalTime get_instance() {
+		if (instance == null) {
+			instance = new NaturalTime();
+		}
+		return instance;
+	}
+	
+	public string[] get_completions_for_input (string input) {
 		int time = get_time_for_input(input);
 		if (time < 1) time = 1;
 		
 		return get_completions_for_time(time);
 	}
 	
-	public static string[] get_completions_for_time (int time) {
+	public string[] get_completions_for_time (int time) {
 		string[] completions = new string[units.length];
 		
 		for (int i = 0; i < units.length; i++) {
@@ -72,7 +80,7 @@ class NaturalTime : Object {
 		return completions;
 	}
 	
-	public static string get_label_for_seconds (int seconds) {
+	public string get_label_for_seconds (int seconds) {
 		TimeUnit label_unit = units[0];
 		
 		foreach (TimeUnit unit in units) {
@@ -86,7 +94,7 @@ class NaturalTime : Object {
 		return label_unit.format_seconds(seconds);
 	}
 	
-	public static string get_countdown_for_seconds (int seconds) {
+	public string get_countdown_for_seconds (int seconds) {
 		int interval = 1;
 		if (seconds <= 10) {
 			interval = 1;
@@ -103,7 +111,7 @@ class NaturalTime : Object {
 		return get_label_for_seconds(seconds_snapped_to_interval);
 	}
 	
-	private static bool get_unit_for_input (string input, out TimeUnit? out_unit, out int out_time) {
+	private bool get_unit_for_input (string input, out TimeUnit? out_unit, out int out_time) {
 		out_unit = null;
 		out_time = -1;
 		
@@ -121,7 +129,7 @@ class NaturalTime : Object {
 		return false;
 	}
 	
-	public static int get_time_for_input (string input) {
+	public int get_time_for_input (string input) {
 		// this assumes \\d+ will _only_ match the time
 		Regex re = new Regex("(\\d+)");
 		
@@ -135,7 +143,7 @@ class NaturalTime : Object {
 		}
 	}
 	
-	public static int get_seconds_for_input (string input) {
+	public int get_seconds_for_input (string input) {
 		TimeUnit? unit;
 		int time;
 		if (get_unit_for_input(input, out unit, out time)) {

@@ -47,8 +47,6 @@ public class Application : Gtk.Application {
 				style_provider,
 				Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 		
-		NaturalTime.initialize();
-		
 		BreakType[] break_types = {
 			new RestBreakType(),
 			new MicroBreakType()
