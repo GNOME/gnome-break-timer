@@ -80,6 +80,31 @@ class NaturalTime : Object {
 				time);
 	}
 	
+	public static string get_countdown_for_seconds (int seconds) {
+		int interval;
+		if (seconds <= 10) {
+			interval = 1;
+		} else if (seconds <= 60) {
+			interval = 10;
+		} else if (seconds <= 900) {
+			interval = 60;
+		} else {
+			interval = 3600;
+		}
+		int remaining = (int)((seconds + interval - 1) / interval);
+		
+		TimeUnit label_unit = units[0];
+		foreach (TimeUnit unit in units) {
+			if (unit.seconds == interval) {
+				label_unit = unit;
+			}
+		}
+		
+		return ngettext(label_unit.label_single.printf(remaining),
+				label_unit.label_plural.printf(remaining),
+				remaining);
+	}
+	
 	private static bool get_unit_for_input (string input, out TimeUnit? out_unit, out int out_time) {
 		out_unit = null;
 		out_time = -1;

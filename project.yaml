@@ -51,7 +51,7 @@ targets:
       - RestBreakView.vala
       - TimerBreakOverlay.vala
       - TimerBreak.vala
-      - TimerString.vala
+      - ../common/NaturalTime.vala
     defines:
       - GETTEXT_PACKAGE="brainbreak"
     uses:
@@ -73,12 +73,15 @@ targets:
       - BreakType.vala
       - main.vala
       - MicroBreakType.vala
-      - NaturalTime.vala
+      - QuietMode.vala
+      - QuietModePanel.vala
       - RestBreakType.vala
       - SettingsDialog.vala
       - TimeChooser.vala
       - TimerBreakPanel.vala
       - TimerBreakType.vala
+      - TogglePanel.vala
+      - ../common/NaturalTime.vala
     defines:
       - GETTEXT_PACKAGE="brainbreak"
     packages:

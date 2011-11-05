@@ -55,6 +55,10 @@ public class SettingsDialog : Gtk.Dialog {
 			insert_row += 1;
 		}
 		
+		QuietMode quiet_mode = new QuietMode();
+		Gtk.Widget quiet_panel = quiet_mode.make_settings_panel();
+		breaks_grid.attach(quiet_panel, 0, insert_row, 1, 1);
+		
 		// update the master switch with any changes made externally
 		this.on_break_disabled();
 		

@@ -25,7 +25,7 @@ public class RestBreakType : TimerBreakType {
 	public override Gtk.Widget make_settings_panel() {
 		int[] interval_options = {1800, 2400, 3000, 3600};
 		int[] duration_options = {300, 360, 420, 480, 540, 600};
-		TimerBreakPanel panel = new TimerBreakPanel(this, interval_options, duration_options);
+		TimerBreakPanel panel = new TimerBreakPanel(this.name, interval_options, duration_options);
 		
 		this.bind_to_settings_panel(panel);
 		

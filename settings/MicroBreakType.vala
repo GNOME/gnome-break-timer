@@ -25,7 +25,7 @@ public class MicroBreakType : TimerBreakType {
 	public override Gtk.Widget make_settings_panel() {
 		int[] interval_options = {480, 600, 720, 900};
 		int[] duration_options = {15, 20, 30, 45, 60};
-		TimerBreakPanel panel = new TimerBreakPanel(this, interval_options, duration_options);
+		TimerBreakPanel panel = new TimerBreakPanel(this.name, interval_options, duration_options);
 		
 		this.bind_to_settings_panel(panel);
 		

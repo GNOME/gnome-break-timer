@@ -49,7 +49,7 @@ public class TimerBreakOverlay : BreakOverlay {
 	
 	/** Set the time remaining */
 	public void set_time(int seconds) {
-		string timer_text = TimerString.get_countdown_for_seconds(seconds);
+		string timer_text = NaturalTime.get_countdown_for_seconds(seconds);
 		this.timer_label.set_text(timer_text);
 	}
 }
