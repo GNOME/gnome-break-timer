@@ -18,7 +18,12 @@
 public class MicroBreak : TimerBreak {
 	public MicroBreak(FocusManager manager) {
 		/* 480s (8 minute) interval, 20s duration */
-		base(manager, FocusPriority.LOW, 30, 6);
+		base(manager, FocusPriority.LOW, 480, 20);
+	}
+	
+	protected override BreakView make_view() {
+		BreakView break_view = new MicroBreakView(this);
+		return break_view;
 	}
 	
 	protected override void idle_update_timeout() {

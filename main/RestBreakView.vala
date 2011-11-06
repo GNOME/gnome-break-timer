@@ -20,70 +20,40 @@
 
 using Notify;
 
-class RestBreakView : BreakView {
-	private TimerBreakOverlay break_overlay;
+public class RestBreakView : TimerBreakView {
+	string[] rest_quotes;
 	
-	public RestBreakView(BreakViewCommon common, RestBreak break_scheduler) {
-		base(common, break_scheduler);
+	public RestBreakView(RestBreak rest_break) {
+		base(rest_break);
 		
-		break_scheduler.finished.connect(this.break_finished_cb);
-		break_scheduler.break_update.connect(this.break_update_cb);
-	}
-	
-	protected override void show_break_ui() {
-		/** Initial notification period before more aggressive UI */
+		this.title = _("Rest break");
+		this.warn_time = 30;
 		
-		Notify.Notification notification = new Notification("Rest break", "Time for a break.", null);
-		notification.set_urgency(Notify.Urgency.CRITICAL);
-		notification.show();
-		Timeout.add_seconds(10, () => {
-			notification.close();
-			/* show the big break message, hook up to active_timeout */
-			this.show_break_overlay();
-			return false;
-		});
+		this.rest_quotes = {
+			_("The quieter you become, the more you can hear."),
+			_("Knock on the sky and Listen to the sound."),
+			_("So little time, so little to do.")
+		};
+		
+		this.overlay_started.connect(this.overlay_started_cb);
 	}
 	
-	protected override void hide_break_ui() {
-		if (this.break_overlay != null) {
-			this.break_overlay.destroy();
-			this.break_overlay = null;
-		}
+	public override Notify.Notification get_start_notification() {
+		Notify.Notification notification = new Notification(_("Time for a rest break"), null, null);
+		notification.set_urgency(Notify.Urgency.NORMAL);
+		return notification;
 	}
 	
-	private void break_finished_cb() {
-		/* TODO: show notification if break dialog was not shown */
-		/* FIXME: tell gnome shell this notification is transient! */
-		/*Notify.Notification notification = new Notification("Rest break finished", "", null);
+	public override Notify.Notification get_finish_notification() {
+		Notify.Notification notification = new Notification(_("Rest break finished"), _("Thank you"), null);
 		notification.set_urgency(Notify.Urgency.LOW);
-		notification.show();*/
+		return notification;
 	}
 	
-	private void show_break_overlay() {
-		/* FIXME: ask the application for a break dialog. That way RestView can take it over as necessary */
-		if (this.break_is_active()) {
-			this.break_overlay = new TimerBreakOverlay();
-			
-			/* FIXME: this is ugly! needs some refactoring */
-			TimerBreak timer_break = (TimerBreak)this.break_scheduler;
-			int time_remaining = timer_break.get_time_remaining();
-		
-			this.break_overlay.set_title("Rest break");
-			this.break_overlay.set_message("How about a cup of tea?");
-			this.break_overlay.set_time(time_remaining);
-			
-			this.break_overlay.show_all();
-		}
-	}
-	
-	private void update_break_overlay(int time_remaining) {
-		stdout.printf("Rest break. %f remaining\n", time_remaining);
-		if (this.break_overlay != null) {
-			this.break_overlay.set_time(time_remaining);
-		}
-	}
-	
-	private void break_update_cb(int time_remaining) {
-		this.update_break_overlay(time_remaining);
+	private void overlay_started_cb() {
+		int quote_number = Random.int_range(0, this.rest_quotes.length);
+		string random_quote = this.rest_quotes[quote_number];
+		this.status_widget.set_message(random_quote);
 	}
 }
+

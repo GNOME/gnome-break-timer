@@ -15,31 +15,24 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-abstract class BreakView {
-	protected BreakViewCommon common {get; private set;}
+public abstract class BreakView : BreakOverlaySource, Object {
 	protected Break break_scheduler {get; private set;}
 	
-	public BreakView(BreakViewCommon common, Break break_scheduler) {
-		this.common = common;
+	public string title {get; protected set;}
+	public int warn_time {get; protected set;}
+	
+	public BreakView(Break break_scheduler) {
 		this.break_scheduler = break_scheduler;
-		
-		break_scheduler.started.connect(this.break_started_cb);
-		break_scheduler.finished.connect(this.break_finished_cb);
 	}
 	
-	protected abstract void show_break_ui();
-	protected abstract void hide_break_ui();
+	public abstract Notify.Notification get_start_notification();
+	public abstract Notify.Notification get_finish_notification();
+	//public abstract int get_lead_in_seconds();
 	
-	protected bool break_is_active() {
-		return break_scheduler.state == Break.State.ACTIVE;
+	public string get_overlay_title() {
+		return this.title;
 	}
 	
-	private void break_started_cb() {
-		this.show_break_ui();
-	}
-	
-	private void break_finished_cb() {
-		this.hide_break_ui();
-	}
+	public abstract Gtk.Widget get_overlay_content();
 }
 

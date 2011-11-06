@@ -15,31 +15,60 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class BreakOverlay : Gtk.Window {
+public class BreakOverlay : ScreenOverlay {
+	private Gtk.Grid content_area;
+	
+	private BreakOverlaySource? current_source;
+	
 	public BreakOverlay() {
-		Object(type: Gtk.WindowType.POPUP);
+		base();
 		
-		this.realize.connect(this.on_realize);
-		
-		Gdk.Screen screen = this.get_screen();
-		if (screen.is_composited()) {
-			Gdk.Visual rgba_visual = screen.get_rgba_visual();
-			if (rgba_visual != null) this.set_visual(rgba_visual);
-		}
-		
-		/* we don't want any input, ever */
-		/* FIXME: surely we can just say what input we want instead of making a region? */
-		this.input_shape_combine_region(new Cairo.Region());
+		this.content_area = new Gtk.Grid();
+		this.content_area.set_halign(Gtk.Align.CENTER);
+		this.content_area.set_valign(Gtk.Align.CENTER);
+		this.add(this.content_area);
+		this.content_area.show();
 	}
 	
-	private void on_realize() {
-		Gdk.Screen screen = this.get_screen();
-		int monitor = screen.get_monitor_at_window(this.get_window());
-		Gdk.Rectangle geom;
-		screen.get_monitor_geometry(monitor, out geom);
+	private void set_source(BreakOverlaySource? new_source) {
+		if (this.current_source != null) {
+			this.current_source.overlay_stopped();
+		}
 		
-		this.set_default_size((int)(geom.width * 0.9), (int)(geom.height * 0.9));
-		this.set_position(Gtk.WindowPosition.CENTER);
+		foreach (Gtk.Widget child in this.content_area.get_children()) {
+			this.content_area.remove(child);
+		}
+		
+		if (new_source != null) {
+			new_source.overlay_started();
+			this.set_title(new_source.get_overlay_title());
+			Gtk.Widget new_content = new_source.get_overlay_content();
+			this.content_area.add(new_content);
+			new_content.show();
+		} else {
+			this.set_title("");
+		}
+		
+		this.current_source = new_source;
 	}
+	
+	public void show_with_source(BreakOverlaySource source) {
+		this.set_source(source);
+		this.show();
+	}
+	
+	public void remove_source() {
+		this.hide();
+		this.set_source(null);
+	}
+}
+
+public interface BreakOverlaySource : Object {
+	// TODO: background image, class name for StyleContext
+	public signal void overlay_started();
+	public signal void overlay_stopped();
+	
+	public abstract string get_overlay_title();
+	public abstract Gtk.Widget get_overlay_content();
 }
 

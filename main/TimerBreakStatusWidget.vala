@@ -15,18 +15,17 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class TimerBreakOverlay : BreakOverlay {
+public class TimerBreakStatusWidget : Gtk.Grid {
+	private TimerBreak timer_break;
+	
 	private Gtk.Label timer_label;
 	private Gtk.Label message_label;
 	
-	public TimerBreakOverlay() {
-		base();
+	public TimerBreakStatusWidget() {
+		Object();
 		
-		Gtk.Grid grid = new Gtk.Grid();
-		grid.set_halign(Gtk.Align.CENTER);
-		grid.set_valign(Gtk.Align.CENTER);
-		grid.set_column_spacing(12);
-		grid.set_row_spacing(12);
+		this.set_column_spacing(12);
+		this.set_row_spacing(12);
 		
 		Gtk.Label timer_label = new Gtk.Label(null);
 		Gtk.StyleContext timer_style = timer_label.get_style_context();
@@ -34,12 +33,13 @@ public class TimerBreakOverlay : BreakOverlay {
 		
 		Gtk.Label message_label = new Gtk.Label(null);
 		
-		grid.attach(timer_label, 0, 0, 1, 1);
-		grid.attach(message_label, 0, 1, 1, 1);
-		this.add(grid);
+		this.attach(timer_label, 0, 0, 1, 1);
+		this.attach(message_label, 0, 1, 1, 1);
 		
 		this.timer_label = timer_label;
 		this.message_label = message_label;
+		
+		this.show_all();
 	}
 	
 	/** Set a reassuring message to accompany the break timer */

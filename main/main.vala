@@ -23,10 +23,6 @@ public class Application : Gtk.Application {
 	private RestBreak rest_break;
 	private MicroBreak micro_break;
 	
-	private BreakViewCommon break_view_common;
-	private RestBreakView rest_break_view;
-	private MicroBreakView micro_break_view;
-	
 	public Application() {
 		Object(application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
 		GLib.Environment.set_application_name(app_name);
@@ -54,9 +50,13 @@ public class Application : Gtk.Application {
 		this.rest_break = new RestBreak(this.focus_manager);
 		this.micro_break = new MicroBreak(this.focus_manager);
 		
-		this.break_view_common = new BreakViewCommon();
+		UIManager ui_manager = new UIManager();
+		ui_manager.add_break(this.rest_break);
+		ui_manager.add_break(this.micro_break);
+		
+		/*this.break_view_common = new BreakViewCommon();
 		this.micro_break_view = new MicroBreakView(this.break_view_common, this.micro_break);
-		this.rest_break_view = new RestBreakView(this.break_view_common, this.rest_break);
+		this.rest_break_view = new RestBreakView(this.break_view_common, this.rest_break);*/
 	}
 }
 

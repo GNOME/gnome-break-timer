@@ -15,72 +15,31 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* TODO: notification when user is away for rest duration */
+/* TODO: replace pause break if appropriate */
+
 using Notify;
 
-class MicroBreakView : BreakView {
-	private TimerBreakOverlay break_overlay;
-	
-	public MicroBreakView(BreakViewCommon common, MicroBreak break_scheduler) {
-		base(common, break_scheduler);
+public class MicroBreakView : TimerBreakView {
+	public MicroBreakView(MicroBreak micro_break) {
+		base(micro_break);
 		
-		break_scheduler.finished.connect(this.break_finished_cb);
-		break_scheduler.break_update.connect(this.break_update_cb);
-	}
-	
-	protected override void show_break_ui() {
-		/** Initial notification period before more aggressive UI */
+		this.title = _("Micro break");
+		this.warn_time = 15;
 		
-		Notify.Notification notification = new Notification("Micro break", "It's time for a short break.", null);
-		notification.set_urgency(Notify.Urgency.CRITICAL);
-		notification.show();
-		Timeout.add_seconds(5, () => {
-			notification.close();
-			/* show the big break message, hook up to active_timeout */
-			this.show_break_overlay();
-			return false;
-		});
+		this.status_widget.set_message("Take a moment to rest your eyes");
 	}
 	
-	protected override void hide_break_ui() {
-		if (this.break_overlay != null) {
-			this.break_overlay.destroy();
-			this.break_overlay = null;
-		}
+	public override Notify.Notification get_start_notification() {
+		Notify.Notification notification = new Notification(_("Time for a micro break"), null, null);
+		notification.set_urgency(Notify.Urgency.NORMAL);
+		return notification;
 	}
 	
-	private void break_finished_cb() {
-		/* TODO: show notification if break dialog was not shown */
-		/* FIXME: tell gnome shell this notification is transient! */
-		/*Notify.Notification notification = new Notification("Micro break finished", "", null);
+	public override Notify.Notification get_finish_notification() {
+		Notify.Notification notification = new Notification(_("Micro break finished"), null, null);
 		notification.set_urgency(Notify.Urgency.LOW);
-		notification.show();*/
-	}
-	
-	private void show_break_overlay() {
-		/* FIXME: ask the application for a break dialog. That way RestView can take it over as necessary */
-		if (this.break_is_active()) {
-			this.break_overlay = new TimerBreakOverlay();
-			
-			/* FIXME: this is ugly! needs some refactoring */
-			TimerBreak timer_break = (TimerBreak)this.break_scheduler;
-			int time_remaining = timer_break.get_time_remaining();
-		
-			this.break_overlay.set_title("Micro break");
-			this.break_overlay.set_message("Just give your eyes and your fingers a moment of rest");
-			this.break_overlay.set_time(time_remaining);
-			
-			this.break_overlay.show_all();
-		}
-	}
-	
-	private void update_break_overlay(int time_remaining) {
-		stdout.printf("Pause break. %f remaining\n", time_remaining);
-		if (this.break_overlay != null) {
-			this.break_overlay.set_time(time_remaining);
-		}
-	}
-	
-	private void break_update_cb(int time_remaining) {
-		this.update_break_overlay(time_remaining);
+		return notification;
 	}
 }
+

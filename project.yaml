@@ -38,9 +38,8 @@ targets:
     type: program
     path: main
     input:
-      - BreakOverlay.vala
       - Break.vala
-      - BreakViewCommon.vala
+      - BreakOverlay.vala
       - BreakView.vala
       - FocusManager.vala
       - Magic.vala
@@ -49,8 +48,11 @@ targets:
       - MicroBreakView.vala
       - RestBreak.vala
       - RestBreakView.vala
-      - TimerBreakOverlay.vala
+      - ScreenOverlay.vala
       - TimerBreak.vala
+      - TimerBreakStatusWidget.vala
+      - TimerBreakView.vala
+      - UIManager.vala
       - ../common/NaturalTime.vala
     defines:
       - GETTEXT_PACKAGE="brainbreak"

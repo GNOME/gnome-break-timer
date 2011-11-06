@@ -18,7 +18,12 @@
 public class RestBreak : TimerBreak {
 	public RestBreak(FocusManager manager) {
 		/* 2400s (40 minute) interval, 360s (6 minute) duration */
-		base(manager, FocusPriority.HIGH, 90, 40);
+		base(manager, FocusPriority.HIGH, 2400, 360);
+	}
+	
+	protected override BreakView make_view() {
+		BreakView break_view = new RestBreakView(this);
+		return break_view;
 	}
 	
 	protected override void idle_update_timeout() {
