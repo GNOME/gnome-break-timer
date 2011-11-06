@@ -70,11 +70,10 @@ public abstract class Break : Object, Focusable {
 		this.interval_timer.stop();
 	}
 	
-	/**
-	 * Returns a BreakView for this object
-	 */
 	protected abstract BreakView make_view();
-	
+	/**
+	 * @return the BreakView for this break
+	 */
 	public BreakView get_view() {
 		return this.break_view;
 	}
@@ -100,6 +99,13 @@ public abstract class Break : Object, Focusable {
 	 */
 	public int starts_in() {
 		return this.interval - (int)this.interval_timer.elapsed();
+	}
+	
+	/**
+	 * Break has been triggered and is counting down to completion.
+	 */
+	public bool is_active() {
+		return this.state == State.ACTIVE;
 	}
 	
 	/**
@@ -131,14 +137,6 @@ public abstract class Break : Object, Focusable {
 		this.start_interval_timeout();
 		this.manager.release_focus(this);
 	}
-	
-	/**
-	 * Break has been triggered and is counting down to completion.
-	 */
-	public bool is_active() {
-		return this.state == State.ACTIVE;
-	}
-	
 	
 	/* Focusable interface */
 	
