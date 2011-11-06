@@ -74,15 +74,12 @@ public class FocusManager : Object {
 	}
 	
 	private void update_focus() {
-		stdout.printf("update_focus\n");
 		Focusable new_focus = NULL_FOCUSABLE;
 		
 		foreach (Focusable request in this.focus_requests) {
 			if (request.get_priority() >= new_focus.get_priority() &&
 			    request.get_priority() >= this.current_hold.get_priority() ) {
 				new_focus = request;
-			} else {
-				stdout.printf("Just blocked a new focus request due to a hold or an ongoing Focusable\n");
 			}
 		}
 		
@@ -90,20 +87,17 @@ public class FocusManager : Object {
 	}
 	
 	public void set_hold(Focusable hold) {
-		stdout.printf("set_hold\n");
 		if (hold.get_priority() >= this.current_hold.get_priority()) {
 			this.current_hold = hold;
 		}
 	}
 	
 	public void request_focus(Focusable request) {
-		stdout.printf("request_focus\n");
 		this.focus_requests.add(request);
 		this.update_focus();
 	}
 	
 	public void release_focus(Focusable request) {
-		stdout.printf("release_focus\n");
 		this.focus_requests.remove(request);
 		this.update_focus();
 	}

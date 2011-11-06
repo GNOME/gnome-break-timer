@@ -40,6 +40,7 @@ public abstract class Break : Object, Focusable {
 	private BreakView break_view;
 	
 	private Timer interval_timer;
+	private uint interval_timeout_source;
 	
 	public Break(FocusManager manager, FocusPriority priority, int interval) {
 		this.manager = manager;
@@ -47,9 +48,9 @@ public abstract class Break : Object, Focusable {
 		this.interval = interval;
 		
 		this.interval_timer = new Timer();
-		Timeout.add_seconds(this.interval, this.interval_timeout_cb);
-		
 		this.break_view = this.make_view();
+		
+		this.start_interval_timeout();
 	}
 	
 	/**
@@ -59,6 +60,11 @@ public abstract class Break : Object, Focusable {
 	
 	public BreakView get_view() {
 		return this.break_view;
+	}
+	
+	private void start_interval_timeout() {
+		this.interval_timer.start();
+		this.interval_timeout_source = Timeout.add_seconds(this.interval, this.interval_timeout_cb);
 	}
 	
 	/**
@@ -109,7 +115,7 @@ public abstract class Break : Object, Focusable {
 	 */
 	public void end() {
 		this.state = State.WAITING;
-		this.interval_timer.start();
+		this.start_interval_timeout();
 		this.manager.release_focus(this);
 	}
 	

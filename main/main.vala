@@ -53,10 +53,6 @@ public class Application : Gtk.Application {
 		UIManager ui_manager = new UIManager();
 		ui_manager.add_break(this.rest_break);
 		ui_manager.add_break(this.micro_break);
-		
-		/*this.break_view_common = new BreakViewCommon();
-		this.micro_break_view = new MicroBreakView(this.break_view_common, this.micro_break);
-		this.rest_break_view = new RestBreakView(this.break_view_common, this.rest_break);*/
 	}
 }
 
