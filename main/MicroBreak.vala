@@ -18,7 +18,7 @@
 public class MicroBreak : TimerBreak {
 	public MicroBreak(FocusManager manager) {
 		/* 480s (8 minute) interval, 20s duration */
-		base(manager, FocusPriority.LOW, 480, 20);
+		base(manager, FocusPriority.LOW, 4, 2);
 	}
 	
 	protected override BreakView make_view() {
@@ -28,17 +28,18 @@ public class MicroBreak : TimerBreak {
 	
 	protected override void idle_update_timeout() {
 		/* break has been satisfied if user is idle for longer than break duration */
+		stdout.printf("idle_update_timeout\n");
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
 		if (idle_time > this.duration) {
-			this.end();
+			this.finish();
 		}
 	}
 	
 	/**
 	 * Per-second timeout during micro break.
 	 */
-	protected override void break_update_timeout() {
+	protected override void break_active_timeout() {
 		/* Reset countdown from active computer use */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
@@ -46,7 +47,7 @@ public class MicroBreak : TimerBreak {
 			this.reset_break_timer();
 		}
 		
-		base.break_update_timeout();
+		base.break_active_timeout();
 	}
 }
 

@@ -33,14 +33,14 @@ public abstract class Break : Object, Focusable {
 	protected int interval {get; private set;}
 	
 	/** Called when a break starts to run */
-	public signal void started();
+	public signal void activated();
 	/** Called when a break is finished running */
 	public signal void finished();
 	
 	private BreakView break_view;
 	
 	private Timer interval_timer;
-	private uint interval_timeout_source;
+	private uint interval_timeout_source_id;
 	
 	public Break(FocusManager manager, FocusPriority priority, int interval) {
 		this.manager = manager;
@@ -53,6 +53,23 @@ public abstract class Break : Object, Focusable {
 		this.start_interval_timeout();
 	}
 	
+	public virtual void stop() {
+		this.finish();
+		this.stop_interval_timeout();
+	}
+	
+	private void start_interval_timeout() {
+		this.stop_interval_timeout();
+		this.interval_timer.start();
+		this.interval_timeout_source_id = Timeout.add_seconds(this.interval, this.interval_timeout_cb);
+	}
+	private void stop_interval_timeout() {
+		if (this.interval_timeout_source_id > 0) {
+			Source.remove(this.interval_timeout_source_id);
+		}
+		this.interval_timer.stop();
+	}
+	
 	/**
 	 * Returns a BreakView for this object
 	 */
@@ -62,16 +79,12 @@ public abstract class Break : Object, Focusable {
 		return this.break_view;
 	}
 	
-	private void start_interval_timeout() {
-		this.interval_timer.start();
-		this.interval_timeout_source = Timeout.add_seconds(this.interval, this.interval_timeout_cb);
-	}
-	
 	/**
 	 * Periodically tests if it is time for a break
 	 */
 	protected virtual void interval_timeout() {
 		/* Start break if the user has been active for interval */
+		stdout.printf("interval_timeout\n");
 		if (starts_in() <= 0 && this.state < State.ACTIVE) {
 			stdout.printf("Activating break %s!\n", this.get_type().name());
 			this.activate();
@@ -110,15 +123,18 @@ public abstract class Break : Object, Focusable {
 	}
 	
 	/**
-	 * Break's requirements have been satisfied.
-	 * Start counting from the beginning again.
+	 * Break's requirements have been satisfied. Start counting from
+	 * the beginning again.
 	 */
-	public void end() {
+	public void finish() {
 		this.state = State.WAITING;
 		this.start_interval_timeout();
 		this.manager.release_focus(this);
 	}
 	
+	/**
+	 * Break has been triggered and is counting down to completion.
+	 */
 	public bool is_active() {
 		return this.state == State.ACTIVE;
 	}
@@ -139,7 +155,7 @@ public abstract class Break : Object, Focusable {
 	
 	public void start_focus() {
 		this.focused = true;
-		this.started();
+		this.activated();
 	}
 	
 	public void stop_focus(bool replaced) {

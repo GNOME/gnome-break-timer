@@ -31,7 +31,7 @@ public class RestBreak : TimerBreak {
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
 		if (idle_time > this.duration) {
-			this.end();
+			this.finish();
 		}
 	}
 	
@@ -43,7 +43,7 @@ public class RestBreak : TimerBreak {
 		base.interval_timeout();
 	}
 	
-	protected override void break_update_timeout() {
+	protected override void break_active_timeout() {
 		/* Delay during active computer use */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
@@ -51,7 +51,7 @@ public class RestBreak : TimerBreak {
 		
 		if (this.break_timer_is_paused()) {
 			if (idle_time > 2) {
-				this.unpause_break_timer();
+				this.resume_break_timer();
 			}
 		} else {
 			if (idle_time < 2) {
@@ -59,7 +59,7 @@ public class RestBreak : TimerBreak {
 			}
 		}
 		
-		base.break_update_timeout();
+		base.break_active_timeout();
 	}
 }
 

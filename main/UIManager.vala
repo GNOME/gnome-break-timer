@@ -40,8 +40,8 @@ public class UIManager : Object {
 	public void add_break(Break new_break) {
 		this.breaks.append(new_break);
 		
-		new_break.started.connect(() => {
-			this.break_started(new_break);
+		new_break.activated.connect(() => {
+			this.break_activated(new_break);
 		});
 		
 		new_break.finished.connect(() => {
@@ -62,7 +62,7 @@ public class UIManager : Object {
 		return false;
 	}
 	
-	private void break_started(Break brk) {
+	private void break_activated(Break brk) {
 		if (this.active_break != null) {
 			stdout.printf("Timing issue? Overlapping break starts reaching UIManager\n");
 			return;

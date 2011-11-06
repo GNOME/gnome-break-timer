@@ -33,16 +33,35 @@ public abstract class TimerBreak : Break {
 		
 		this.break_timer = new Timer();
 		
-		this.idle_update_source_id = Timeout.add_seconds(this.duration, this.idle_update_timeout_cb);
+		this.start_idle_update_timeout();
 		this.break_update_source_id = 0;
 		
-		this.started.connect(this.started_cb);
+		this.activated.connect(this.activated_cb);
 		this.finished.connect(this.finished_cb);
 	}
 	
-	private void started_cb() {
+	public override void stop() {
+		base.stop();
+		
+		if (this.idle_update_source_id > 0) {
+			Source.remove(this.idle_update_source_id);
+			this.idle_update_source_id = 0;
+		}
+	}
+	
+	private void start_idle_update_timeout() {
+		this.stop_idle_update_timeout();
+		this.idle_update_source_id = Timeout.add_seconds(this.duration, this.idle_update_timeout_cb);
+	}
+	private void stop_idle_update_timeout() {
+		if (this.idle_update_source_id > 0) {
+			Source.remove(this.idle_update_source_id);
+		}
+	}
+	
+	private void activated_cb() {
 		this.reset_break_timer();
-		this.break_update_source_id = Timeout.add_seconds(1, this.break_update_timeout_cb);
+		this.break_update_source_id = Timeout.add_seconds(1, this.break_active_timeout_cb);
 	}
 	
 	private void finished_cb() {
@@ -51,6 +70,7 @@ public abstract class TimerBreak : Break {
 			Source.remove(this.break_update_source_id);
 			this.break_update_source_id = 0;
 		}
+		this.start_idle_update_timeout();
 	}
 	
 	protected int get_break_time() {
@@ -66,7 +86,7 @@ public abstract class TimerBreak : Break {
 		this.break_timer_paused = true;
 	}
 	
-	protected void unpause_break_timer() {
+	protected void resume_break_timer() {
 		this.break_timer.continue();
 		this.break_timer_paused = false;
 	}
@@ -102,8 +122,8 @@ public abstract class TimerBreak : Break {
 	 * Per-second timeout during break.
 	 * Aggressively checks if break is satisfied and updates watchers.
 	 */
-	protected virtual void break_update_timeout() {
-		stdout.printf("TimerBreak.break_update_timeout\n");
+	protected virtual void break_active_timeout() {
+		stdout.printf("TimerBreak.break_active_timeout\n");
 		if (this.state != Break.State.ACTIVE) stdout.printf("WTF THIS SHOULDN'T HAPPEN\n");
 		
 		/* FIXME: timer wrongly pauses when system suspends */
@@ -111,13 +131,13 @@ public abstract class TimerBreak : Break {
 		int time_remaining = this.get_time_remaining();
 		
 		if (time_remaining < 1) {
-			this.end();
+			this.finish();
 		} else {
 			this.break_update(time_remaining);
 		}
 	}
-	private bool break_update_timeout_cb() {
-		this.break_update_timeout();
+	private bool break_active_timeout_cb() {
+		this.break_active_timeout();
 		return true;
 	}
 }
