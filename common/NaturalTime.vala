@@ -100,10 +100,8 @@ class NaturalTime : Object {
 			interval = 1;
 		} else if (seconds <= 60) {
 			interval = 10;
-		} else if (seconds <= 900) {
-			interval = 60;
 		} else {
-			interval = 300;
+			interval = 60;
 		}
 		
 		int seconds_snapped_to_interval = (int)((seconds-1) / interval + 1) * interval;
