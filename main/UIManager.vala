@@ -49,6 +49,10 @@ public class UIManager : Object {
 		});
 	}
 	
+	public void remove_break(Break brk) {
+		this.breaks.remove(brk);
+	}
+	
 	private bool quiet_mode_is_enabled() {
 		if (this.quiet_mode) {
 			DateTime now = new DateTime.now_utc();

@@ -33,13 +33,18 @@ public abstract class TimerBreak : Break {
 		
 		this.break_timer = new Timer();
 		
-		this.start_idle_update_timeout();
+		this.idle_update_source_id = 0;
 		this.break_update_source_id = 0;
 		
 		this.activated.connect(this.activated_cb);
 		this.finished.connect(this.finished_cb);
 	}
 	
+	public override void start() {
+		base.start();
+		
+		this.start_idle_update_timeout();
+	}
 	public override void stop() {
 		base.stop();
 		
@@ -123,7 +128,6 @@ public abstract class TimerBreak : Break {
 	 * Aggressively checks if break is satisfied and updates watchers.
 	 */
 	protected virtual void break_active_timeout() {
-		stdout.printf("TimerBreak.break_active_timeout\n");
 		if (this.state != Break.State.ACTIVE) stdout.printf("WTF THIS SHOULDN'T HAPPEN\n");
 		
 		/* FIXME: timer wrongly pauses when system suspends */

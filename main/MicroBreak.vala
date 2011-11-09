@@ -18,7 +18,7 @@
 public class MicroBreak : TimerBreak {
 	public MicroBreak(FocusManager manager) {
 		/* 480s (8 minute) interval, 20s duration */
-		base(manager, FocusPriority.LOW, 4, 2);
+		base(manager, FocusPriority.LOW, 5, 3);
 	}
 	
 	protected override BreakView make_view() {
@@ -28,7 +28,6 @@ public class MicroBreak : TimerBreak {
 	
 	protected override void idle_update_timeout() {
 		/* break has been satisfied if user is idle for longer than break duration */
-		stdout.printf("idle_update_timeout\n");
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
 		if (idle_time > this.duration) {

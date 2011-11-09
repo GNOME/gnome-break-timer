@@ -49,10 +49,11 @@ public abstract class Break : Object, Focusable {
 		
 		this.interval_timer = new Timer();
 		this.break_view = this.make_view();
-		
-		this.start_interval_timeout();
 	}
 	
+	public virtual void start() {
+		this.start_interval_timeout();
+	}
 	public virtual void stop() {
 		this.finish();
 		this.stop_interval_timeout();
@@ -83,7 +84,6 @@ public abstract class Break : Object, Focusable {
 	 */
 	protected virtual void interval_timeout() {
 		/* Start break if the user has been active for interval */
-		stdout.printf("interval_timeout\n");
 		if (starts_in() <= 0 && this.state < State.ACTIVE) {
 			stdout.printf("Activating break %s!\n", this.get_type().name());
 			this.activate();

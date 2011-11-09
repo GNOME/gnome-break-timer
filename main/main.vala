@@ -19,9 +19,9 @@ public class Application : Gtk.Application {
 	const string app_id = "org.brainbreak.Helper";
 	const string app_name = _("Brain Break");
 	
+	private UIManager ui_manager;
 	private FocusManager focus_manager;
-	private RestBreak rest_break;
-	private MicroBreak micro_break;
+	private SList<Break> breaks;
 	
 	public Application() {
 		Object(application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
@@ -47,12 +47,31 @@ public class Application : Gtk.Application {
 		                                         Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 		
 		this.focus_manager = new FocusManager();
-		this.rest_break = new RestBreak(this.focus_manager);
-		this.micro_break = new MicroBreak(this.focus_manager);
+		this.ui_manager = new UIManager();
 		
-		UIManager ui_manager = new UIManager();
-		ui_manager.add_break(this.rest_break);
-		ui_manager.add_break(this.micro_break);
+		RestBreak rest_break = new RestBreak(this.focus_manager);
+		MicroBreak micro_break = new MicroBreak(this.focus_manager);
+		
+		this.add_break(rest_break);
+		this.add_break(micro_break);
+	}
+	
+	private void add_break(Break brk) {
+		if (this.breaks.find(brk) == null) {
+			this.breaks.append(brk);
+			this.ui_manager.add_break(brk);
+			brk.start();
+			this.hold();
+		}
+	}
+	
+	private void remove_break(Break brk) {
+		if (this.breaks.find(brk) != null) {
+			brk.stop();
+			this.ui_manager.remove_break(brk);
+			this.breaks.remove(brk);
+			this.release();
+		}
 	}
 }
 
