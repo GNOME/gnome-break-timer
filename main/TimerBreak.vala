@@ -18,55 +18,52 @@
 public abstract class TimerBreak : Break {
 	public signal void break_update(int time_remaining);
 	
-	protected int duration {get; private set;}
+	protected int interval {get; set;}
+	protected int duration {get; set;}
 	
-	private uint idle_update_source_id;
 	private uint break_update_source_id;
 	
+	private Timer interval_timer;
 	private Timer break_timer;
 	private bool break_timer_paused;
 	
-	public TimerBreak(FocusManager manager, FocusPriority priority, int interval, int duration) {
-		base(manager, priority, interval);
+	public TimerBreak(FocusManager focus_manager, FocusPriority priority, Settings settings) {
+		int accurate_update_interval = settings.get_int("interval-seconds");
+		if (accurate_update_interval > 10) accurate_update_interval = 10;
 		
-		this.duration = duration;
+		base(focus_manager, priority, settings, accurate_update_interval);
 		
+		settings.bind("interval-seconds", this, "interval", SettingsBindFlags.GET);
+		settings.bind("duration-seconds", this, "duration", SettingsBindFlags.GET);
+		
+		this.interval_timer = new Timer();
 		this.break_timer = new Timer();
 		
-		this.idle_update_source_id = 0;
 		this.break_update_source_id = 0;
 		
 		this.activated.connect(this.activated_cb);
 		this.finished.connect(this.finished_cb);
 	}
 	
-	public override void start() {
-		base.start();
-		
-		this.start_idle_update_timeout();
+	protected override void start_update_timeout() {
+		base.start_update_timeout();
+		this.interval_timer.start();
 	}
-	public override void stop() {
-		base.stop();
-		
-		if (this.idle_update_source_id > 0) {
-			Source.remove(this.idle_update_source_id);
-			this.idle_update_source_id = 0;
-		}
+	protected override void stop_update_timeout() {
+		base.stop_update_timeout();
+		this.interval_timer.stop();
 	}
 	
-	private void start_idle_update_timeout() {
-		this.stop_idle_update_timeout();
-		this.idle_update_source_id = Timeout.add_seconds(this.duration, this.idle_update_timeout_cb);
-	}
-	private void stop_idle_update_timeout() {
-		if (this.idle_update_source_id > 0) {
-			Source.remove(this.idle_update_source_id);
+	protected override void update() {
+		/* Start break if the user has been active for interval */
+		if (starts_in() <= 0) {
+			this.activate();
 		}
 	}
 	
 	private void activated_cb() {
 		this.reset_break_timer();
-		this.break_update_source_id = Timeout.add_seconds(1, this.break_active_timeout_cb);
+		this.break_update_source_id = Timeout.add_seconds(1, this.active_timeout_cb);
 	}
 	
 	private void finished_cb() {
@@ -75,7 +72,7 @@ public abstract class TimerBreak : Break {
 			Source.remove(this.break_update_source_id);
 			this.break_update_source_id = 0;
 		}
-		this.start_idle_update_timeout();
+		this.start_update_timeout();
 	}
 	
 	protected int get_break_time() {
@@ -101,9 +98,6 @@ public abstract class TimerBreak : Break {
 		this.break_timer_paused = false;
 	}
 	
-	/**
-	 * @return Time remaining in break, in seconds, or 0 if break has been satisfied.
-	 */
 	public int get_time_remaining() {
 		int time_remaining = 0;
 		if (this.state == Break.State.ACTIVE) {
@@ -114,20 +108,17 @@ public abstract class TimerBreak : Break {
 	}
 	
 	/**
-	 * Timeout between breaks.
-	 * Runs occasionally to test if break has been satisfied.
+	 * @return Time until the next scheduled break, in seconds.
 	 */
-	protected abstract void idle_update_timeout();
-	private bool idle_update_timeout_cb() {
-		this.idle_update_timeout();
-		return true;
+	public int starts_in() {
+		return this.interval - (int)this.interval_timer.elapsed();
 	}
 	
 	/**
 	 * Per-second timeout during break.
 	 * Aggressively checks if break is satisfied and updates watchers.
 	 */
-	protected virtual void break_active_timeout() {
+	protected virtual void active_timeout() {
 		if (this.state != Break.State.ACTIVE) stdout.printf("WTF THIS SHOULDN'T HAPPEN\n");
 		
 		/* FIXME: timer wrongly pauses when system suspends */
@@ -140,8 +131,8 @@ public abstract class TimerBreak : Break {
 			this.break_update(time_remaining);
 		}
 	}
-	private bool break_active_timeout_cb() {
-		this.break_active_timeout();
+	private bool active_timeout_cb() {
+		this.active_timeout();
 		return true;
 	}
 }

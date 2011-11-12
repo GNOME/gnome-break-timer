@@ -40,13 +40,11 @@ public class RestBreakView : TimerBreakView {
 	
 	public override Notify.Notification get_start_notification() {
 		Notify.Notification notification = new Notification(_("Time for a rest break"), null, null);
-		notification.set_urgency(Notify.Urgency.NORMAL);
 		return notification;
 	}
 	
 	public override Notify.Notification get_finish_notification() {
 		Notify.Notification notification = new Notification(_("Rest break finished"), _("Thank you"), null);
-		notification.set_urgency(Notify.Urgency.LOW);
 		return notification;
 	}
 	

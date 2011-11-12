@@ -16,9 +16,10 @@
  */
 
 public class RestBreak : TimerBreak {
-	public RestBreak(FocusManager manager) {
-		/* 2400s (40 minute) interval, 360s (6 minute) duration */
-		base(manager, FocusPriority.HIGH, 2400, 360);
+	public RestBreak(FocusManager focus_manager) {
+		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
+		
+		base(focus_manager, FocusPriority.HIGH, settings);
 	}
 	
 	protected override BreakView make_view() {
@@ -26,24 +27,22 @@ public class RestBreak : TimerBreak {
 		return break_view;
 	}
 	
-	protected override void idle_update_timeout() {
+	protected override void update() {
 		/* break has been satisfied if user is idle for longer than break duration */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
 		if (idle_time > this.duration) {
 			this.finish();
 		}
-	}
-	
-	protected override void interval_timeout() {
+		
 		if (this.starts_in() <= this.duration) {
 			this.warn();
 		}
 		
-		base.interval_timeout();
+		base.update();
 	}
 	
-	protected override void break_active_timeout() {
+	protected override void active_timeout() {
 		/* Delay during active computer use */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
@@ -59,7 +58,7 @@ public class RestBreak : TimerBreak {
 			}
 		}
 		
-		base.break_active_timeout();
+		base.active_timeout();
 	}
 }
 

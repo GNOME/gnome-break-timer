@@ -16,9 +16,10 @@
  */
 
 public class MicroBreak : TimerBreak {
-	public MicroBreak(FocusManager manager) {
-		/* 480s (8 minute) interval, 20s duration */
-		base(manager, FocusPriority.LOW, 5, 3);
+	public MicroBreak(FocusManager focus_manager) {
+		Settings settings = new Settings("org.brainbreak.breaks.microbreak");
+		
+		base(focus_manager, FocusPriority.LOW, settings);
 	}
 	
 	protected override BreakView make_view() {
@@ -26,19 +27,21 @@ public class MicroBreak : TimerBreak {
 		return break_view;
 	}
 	
-	protected override void idle_update_timeout() {
+	protected override void update() {
 		/* break has been satisfied if user is idle for longer than break duration */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
 		if (idle_time > this.duration) {
 			this.finish();
 		}
+		
+		base.update();
 	}
 	
 	/**
 	 * Per-second timeout during micro break.
 	 */
-	protected override void break_active_timeout() {
+	protected override void active_timeout() {
 		/* Reset countdown from active computer use */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
@@ -46,7 +49,7 @@ public class MicroBreak : TimerBreak {
 			this.reset_break_timer();
 		}
 		
-		base.break_active_timeout();
+		base.active_timeout();
 	}
 }
 

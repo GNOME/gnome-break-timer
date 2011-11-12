@@ -26,6 +26,7 @@ public class UIManager : Object {
 	private SList<Break> breaks;
 	private Break? active_break;
 	private BreakOverlay break_overlay;
+	private bool overlay_triggered_for_break;
 	
 	public UIManager() {
 		Settings settings = new Settings("org.brainbreak.breaks");
@@ -35,6 +36,14 @@ public class UIManager : Object {
 		this.breaks = new SList<Break>();
 		this.active_break = null;
 		this.break_overlay = new BreakOverlay();
+		
+		this.notify["quiet-mode"].connect((s, p) => {
+			if (this.quiet_mode) {
+				// hide the overlay (if it is currently showing)
+				this.break_overlay.remove_source();
+				this.overlay_triggered_for_break = false;
+			}
+		});
 	}
 	
 	public void add_break(Break new_break) {
@@ -67,30 +76,35 @@ public class UIManager : Object {
 	}
 	
 	private void break_activated(Break brk) {
-		if (this.active_break != null) {
-			stdout.printf("Timing issue? Overlapping break starts reaching UIManager\n");
-			return;
-		}
-		
 		if (!brk.is_focused()) {
 			// we don't care about breaks that aren't focused
 			stdout.printf("An unfocused break made it to UIManager\n");
 			return;
 		}
 		
-		this.active_break = brk;
 		BreakView break_view = brk.get_view();
 		
-		Notify.Notification notification = break_view.get_start_notification();
-		notification.set_hint("transient", true);
-		notification.show();
-		Timeout.add_seconds(break_view.warn_time, () => {
-			//notification.close();
-			if (brk.is_active() && !this.quiet_mode_is_enabled()) {
-				this.break_overlay.show_with_source(break_view);
-			}
-			return false;
-		});
+		if (this.active_break != null && this.overlay_triggered_for_break) {
+			// a running break has been replaced
+			this.active_break = brk;
+			this.break_overlay.show_with_source(break_view);
+		} else {
+			this.active_break = brk;
+			
+			Notify.Notification notification = break_view.get_start_notification();
+			notification.set_urgency(Notify.Urgency.NORMAL);
+			notification.set_hint("transient", true);
+			notification.show();
+			
+			this.overlay_triggered_for_break = false;
+			Timeout.add_seconds(break_view.warn_time, () => {
+				if (brk.is_active() && !this.quiet_mode_is_enabled()) {
+					this.break_overlay.show_with_source(break_view);
+					this.overlay_triggered_for_break = true;
+				}
+				return false;
+			});
+		}
 	}
 	
 	private void break_stopped(Break brk) {
@@ -99,16 +113,14 @@ public class UIManager : Object {
 			
 			this.break_overlay.remove_source();
 			
-			// TODO: detect if break finished without triggering overlay or notification
-			if (this.quiet_mode_is_enabled()) {
+			if (this.overlay_triggered_for_break == false) {
 				Notify.Notification notification = break_view.get_finish_notification();
+				notification.set_urgency(Notify.Urgency.LOW);
 				notification.set_hint("transient", true);
 				notification.show();
 			}
 			
 			this.active_break = null;
-		} else {
-			stdout.printf("Timing issue? Overlapping break stops reaching UIManager\n");
 		}
 	}
 }

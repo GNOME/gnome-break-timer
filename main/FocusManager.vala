@@ -68,8 +68,10 @@ public class FocusManager : Object {
 		}
 		if (new_focus != old_focus) {
 			this.current_focus = new_focus;
-			old_focus.stop_focus(true);
+			// the order is very important here
+			// this way, new_focus can smoothly replace old_focus
 			new_focus.start_focus();
+			old_focus.stop_focus(true);
 		}
 	}
 	

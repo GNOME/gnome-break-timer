@@ -32,8 +32,6 @@ public class Application : Gtk.Application {
 	}
 	
 	public override void startup() {
-		this.hold(); /* we're doing stuff, even if no windows are open */
-		
 		Magic.begin();
 		Notify.init(app_name);
 		
@@ -49,29 +47,25 @@ public class Application : Gtk.Application {
 		this.focus_manager = new FocusManager();
 		this.ui_manager = new UIManager();
 		
-		RestBreak rest_break = new RestBreak(this.focus_manager);
-		MicroBreak micro_break = new MicroBreak(this.focus_manager);
-		
-		this.add_break(rest_break);
-		this.add_break(micro_break);
+		this.add_break(new RestBreak(this.focus_manager));
+		this.add_break(new MicroBreak(this.focus_manager));
 	}
 	
 	private void add_break(Break brk) {
-		if (this.breaks.find(brk) == null) {
-			this.breaks.append(brk);
-			this.ui_manager.add_break(brk);
-			brk.start();
+		this.breaks.append(brk);
+		this.ui_manager.add_break(brk);
+		
+		brk.started.connect(() => {
 			this.hold();
-		}
-	}
-	
-	private void remove_break(Break brk) {
-		if (this.breaks.find(brk) != null) {
-			brk.stop();
-			this.ui_manager.remove_break(brk);
-			this.breaks.remove(brk);
+		});
+		brk.stopped.connect(() => {
 			this.release();
-		}
+		});
+		
+		// FIXME: Breaks are currently enabled in their own settings.
+		// Instead, enabled breaks should be stored in a list somewhere.
+		brk.settings.bind("enabled", brk, "enabled", SettingsBindFlags.GET);
+		
 	}
 }
 

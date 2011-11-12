@@ -99,7 +99,7 @@ class NaturalTime : Object {
 		if (seconds <= 10) {
 			interval = 1;
 		} else if (seconds <= 60) {
-			interval = 10;
+			interval = 5;
 		} else {
 			interval = 60;
 		}

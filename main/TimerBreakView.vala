@@ -42,7 +42,6 @@ public abstract class TimerBreakView : BreakView {
 	}
 	
 	private void overlay_started_cb() {
-		/* FIXME: this is ugly! needs some refactoring */
 		TimerBreak timer_break = (TimerBreak)this.break_scheduler;
 		int time_remaining = timer_break.get_time_remaining();
 		this.status_widget.set_time(time_remaining);
