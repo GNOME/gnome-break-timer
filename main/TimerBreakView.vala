@@ -40,12 +40,16 @@ public abstract class TimerBreakView : BreakView {
 		string message;
 		if (this.timer_break.state < Break.State.ACTIVE) {
 			int starts_in = this.timer_break.starts_in();
-			string start_time = NaturalTime.get_instance().get_countdown_for_seconds(starts_in);
-			message = _("+%s").printf(start_time);
+			if (starts_in < this.timer_break.interval) {
+				message = _("Starts soon");
+			} else {
+				string start_time = NaturalTime.get_instance().get_countdown_for_seconds(starts_in);
+				message = _("Starts in %s").printf(start_time);
+			}
 		} else if (this.timer_break.state == Break.State.ACTIVE) {
 			int time_remaining = this.timer_break.get_time_remaining();
 			string finish_time = NaturalTime.get_instance().get_countdown_for_seconds(time_remaining);
-			message = _("-%s").printf(finish_time);
+			message = _("Finishes in %s").printf(finish_time);
 		} else {
 			message = "";
 		}

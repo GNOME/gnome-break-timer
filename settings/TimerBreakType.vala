@@ -16,6 +16,7 @@
  */
 
 public abstract class TimerBreakType : BreakType {
+	public int interval {get; set;}
 	public int duration {get; set;}
 	
 	protected int[] interval_options;
@@ -24,6 +25,7 @@ public abstract class TimerBreakType : BreakType {
 	public TimerBreakType(string name, Settings settings, string title) {
 		base(name, settings, title);
 		
+		this.settings.bind("interval-seconds", this, "interval", SettingsBindFlags.DEFAULT);
 		this.settings.bind("duration-seconds", this, "duration", SettingsBindFlags.DEFAULT);
 	}
 	

@@ -23,7 +23,6 @@ public abstract class BreakType : Object {
 	public string name {get; private set;}
 	public string title {get; private set;}
 	public bool enabled {get; set; default=true;}
-	public int interval {get; set;}
 	
 	public BreakType(string name, Settings settings, string title) {
 		this.name = name;
@@ -33,7 +32,6 @@ public abstract class BreakType : Object {
 		this.settings_panel = this.make_settings_panel();
 		
 		this.settings.bind("enabled", this, "enabled", SettingsBindFlags.DEFAULT);
-		this.settings.bind("interval-seconds", this, "interval", SettingsBindFlags.DEFAULT);
 	}
 	
 	protected abstract BreakPanel make_settings_panel();
