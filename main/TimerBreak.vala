@@ -18,8 +18,8 @@
 public abstract class TimerBreak : Break {
 	public signal void break_update(int time_remaining);
 	
-	public int interval {get; private set;}
-	public int duration {get; private set;}
+	public int interval {get; protected set;}
+	public int duration {get; protected set;}
 	
 	private uint break_update_source_id;
 	

@@ -21,8 +21,10 @@ public class Application : Gtk.Application {
 	
 	static const string STYLE_DATA =
 			"""
-				GtkLabel.brainbreak-settings-title {
+			GtkLabel.brainbreak-settings-title {
 				font-weight:bold;
+			}
+			GtkLabel.brainbreak-settings-status {
 			}
 			""";
 	
