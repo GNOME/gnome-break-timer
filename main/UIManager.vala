@@ -20,20 +20,22 @@
  * notifications for breaks.
  */
 public class UIManager : Object {
+	private Application application;
+	
 	public bool quiet_mode {get; set; default=false;}
 	public int64 quiet_mode_expire_time {get; set;}
 	
-	private SList<Break> breaks;
 	private Break? active_break;
 	private BreakOverlay break_overlay;
 	private bool overlay_triggered_for_break;
 	
-	public UIManager() {
+	public UIManager(Application application) {
+		this.application = application;
+		
 		Settings settings = new Settings("org.brainbreak.breaks");
 		settings.bind("quiet-mode", this, "quiet-mode", SettingsBindFlags.DEFAULT);
 		settings.bind("quiet-mode-expire-time", this, "quiet-mode-expire-time", SettingsBindFlags.DEFAULT);
 		
-		this.breaks = new SList<Break>();
 		this.active_break = null;
 		this.break_overlay = new BreakOverlay();
 		
@@ -46,20 +48,22 @@ public class UIManager : Object {
 		});
 	}
 	
-	public void add_break(Break new_break) {
-		this.breaks.append(new_break);
-		
-		new_break.activated.connect(() => {
-			this.break_activated(new_break);
+	public void watch_break(Break brk) {
+		brk.started.connect(() => {
+			this.application.hold();
 		});
 		
-		new_break.finished.connect(() => {
-			this.break_stopped(new_break);
+		brk.stopped.connect(() => {
+			this.application.release();
 		});
-	}
-	
-	public void remove_break(Break brk) {
-		this.breaks.remove(brk);
+		
+		brk.activated.connect(() => {
+			this.break_activated(brk);
+		});
+		
+		brk.finished.connect(() => {
+			this.break_stopped(brk);
+		});
 	}
 	
 	private bool quiet_mode_is_enabled() {

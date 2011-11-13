@@ -18,17 +18,21 @@
 public class QuietMode : Object {
 	private Settings settings;
 	
+	private Gtk.Widget settings_panel;
+	
 	public bool active {get; set;}
 	public int64 expire_time {get; set;}
 	
 	public QuietMode() {
 		this.settings = new Settings("org.brainbreak.breaks");
 		
+		this.settings_panel = this.make_settings_panel();
+		
 		this.settings.bind("quiet-mode", this, "active", SettingsBindFlags.DEFAULT);
 		this.settings.bind("quiet-mode-expire-time", this, "expire-time", SettingsBindFlags.DEFAULT);
 	}
 	
-	public Gtk.Widget make_settings_panel() {
+	protected Gtk.Widget make_settings_panel() {
 		QuietModePanel panel = new QuietModePanel();
 		
 		this.settings.bind("quiet-mode", panel.toggle_switch, "active", SettingsBindFlags.DEFAULT);
@@ -47,6 +51,9 @@ public class QuietMode : Object {
 		});
 		
 		return panel;
+	}
+	public Gtk.Widget get_settings_panel() {
+		return this.settings_panel;
 	}
 }
 

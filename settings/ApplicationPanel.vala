@@ -22,7 +22,8 @@ public class ApplicationPanel : Gtk.Grid {
 	
 	public bool master_enabled {get; set; default=true;}
 	
-	private Gtk.InfoBar app_not_running_info_bar;
+	bool break_helper_exists;
+	private Gtk.InfoBar? app_not_running_info_bar;
 	
 	public ApplicationPanel() {
 		Object();
@@ -30,32 +31,34 @@ public class ApplicationPanel : Gtk.Grid {
 		this.settings = new Settings("org.brainbreak.breaks");
 		
 		this.app_not_running_info_bar = new AppNotRunningInfoBar();
-		
-		Gtk.InfoBar[] info_bars = { this.app_not_running_info_bar };
-		// request space to fit any info bars that might appear
-		int minimum_width = -1;
-		foreach (Gtk.InfoBar info_bar in info_bars) {
-			Gtk.Requisition this_minimum;
-			info_bar.get_preferred_size(out this_minimum, null);
-			if (this_minimum.width > minimum_width) minimum_width = this_minimum.width;
-		}
-		this.set_size_request(minimum_width, -1);
-		
-		this.add(this.app_not_running_info_bar);
+		this.app_not_running_info_bar.set_hexpand(true);
+		this.add(app_not_running_info_bar);
 		
 		this.show();
 		
+		Bus.watch_name(BusType.SESSION, "org.brainbreak.Helper", BusNameWatcherFlags.NONE,
+				this.break_helper_appeared, this.break_helper_disappeared);
+		
 		this.settings.bind("master-enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
-		this.notify["master-enabled"].connect((s, p) => {
-			this.update_status();
-		});
+		this.notify["master-enabled"].connect(this.master_enabled_change_cb);
 	}
 	
-	private void update_status() {
+	private void break_helper_appeared() {
+		break_helper_exists = true;
+		this.app_not_running_info_bar.hide();
+	}
+	
+	private void break_helper_disappeared() {
+		break_helper_exists = false;
 		if (this.master_enabled) {
 			this.app_not_running_info_bar.show();
+		}
+	}
+	
+	private void master_enabled_change_cb() {
+		if (this.master_enabled && !break_helper_exists) {
+			this.app_not_running_info_bar.show();
 		} else {
-			// application doesn't need to be running
 			this.app_not_running_info_bar.hide();
 		}
 	}
@@ -68,29 +71,20 @@ public class ApplicationPanel : Gtk.Grid {
 private class AppNotRunningInfoBar : Gtk.InfoBar {
 	private Gtk.Label status_label;
 	
-	public AppNotRunningInfoBar () {
+	public AppNotRunningInfoBar() {
 		Object();
 		
 		this.set_message_type(Gtk.MessageType.INFO);
 		
 		Gtk.Container content = (Gtk.Container)this.get_content_area();
 		this.status_label = new Gtk.Label(null);
+		status_label.set_text("Break helper is not running");
+		
 		content.add(status_label);
 		
-		Bus.watch_name(BusType.SESSION, "org.brainbreak.Helper", BusNameWatcherFlags.NONE,
-				this.break_helper_appeared, this.break_helper_disappeared);
-		
 		this.add_button("Start break helper", Gtk.ResponseType.OK);
-			
+		
 		this.show_all();
-	}
-	
-	private void break_helper_appeared(DBusConnection connection, string name, string name_owner) {
-		status_label.set_text("Break helper is running");
-	}
-	
-	private void break_helper_disappeared(DBusConnection connection, string name) {
-		status_label.set_text("Break helper is not running");
 	}
 }
 

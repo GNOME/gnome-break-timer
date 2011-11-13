@@ -21,15 +21,35 @@
 using Notify;
 
 public abstract class TimerBreakView : BreakView {
+	protected TimerBreak timer_break;
+	
 	protected TimerBreakStatusWidget status_widget;
 	
 	public TimerBreakView(TimerBreak timer_break) {
 		base(timer_break);
 		
+		this.timer_break = timer_break;
+		
 		this.status_widget = new TimerBreakStatusWidget();
 		
 		this.overlay_started.connect(this.overlay_started_cb);
 		timer_break.break_update.connect(this.break_update_cb);
+	}
+	
+	public override string get_status_message() {
+		string message;
+		if (this.timer_break.state < Break.State.ACTIVE) {
+			int starts_in = this.timer_break.starts_in();
+			string start_time = NaturalTime.get_instance().get_countdown_for_seconds(starts_in);
+			message = _("+%s").printf(start_time);
+		} else if (this.timer_break.state == Break.State.ACTIVE) {
+			int time_remaining = this.timer_break.get_time_remaining();
+			string finish_time = NaturalTime.get_instance().get_countdown_for_seconds(time_remaining);
+			message = _("-%s").printf(finish_time);
+		} else {
+			message = "";
+		}
+		return message;
 	}
 	
 	public override Gtk.Widget get_overlay_content() {

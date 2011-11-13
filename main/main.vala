@@ -19,9 +19,8 @@ public class Application : Gtk.Application {
 	const string app_id = "org.brainbreak.Helper";
 	const string app_name = _("Brain Break");
 	
+	private BreakManager break_manager;
 	private UIManager ui_manager;
-	private FocusManager focus_manager;
-	private SList<Break> breaks;
 	
 	public Application() {
 		Object(application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
@@ -44,28 +43,8 @@ public class Application : Gtk.Application {
 		                                         style_provider,
 		                                         Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 		
-		this.focus_manager = new FocusManager();
-		this.ui_manager = new UIManager();
-		
-		this.add_break(new RestBreak(this.focus_manager));
-		this.add_break(new MicroBreak(this.focus_manager));
-	}
-	
-	private void add_break(Break brk) {
-		this.breaks.append(brk);
-		this.ui_manager.add_break(brk);
-		
-		brk.started.connect(() => {
-			this.hold();
-		});
-		brk.stopped.connect(() => {
-			this.release();
-		});
-		
-		// FIXME: Breaks are currently enabled in their own settings.
-		// Instead, enabled breaks should be stored in a list somewhere.
-		brk.settings.bind("enabled", brk, "enabled", SettingsBindFlags.GET);
-		
+		this.ui_manager = new UIManager(this);
+		this.break_manager = new BreakManager(this.ui_manager);
 	}
 }
 

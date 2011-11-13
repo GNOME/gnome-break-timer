@@ -29,6 +29,10 @@ public abstract class BreakView : BreakOverlaySource, Object {
 	public abstract Notify.Notification get_finish_notification();
 	//public abstract int get_lead_in_seconds();
 	
+	public abstract string get_status_message();
+	
+	/***** BreakOverlaySource interface ******/
+	
 	public string get_overlay_title() {
 		return this.title;
 	}

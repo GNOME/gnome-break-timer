@@ -47,11 +47,9 @@ public class Application : Gtk.Application {
 				style_provider,
 				Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 		
-		BreakType[] break_types = {
-			new RestBreakType(),
-			new MicroBreakType()
-		};
-		SettingsDialog dialog = new SettingsDialog(break_types);
+		SettingsDialog dialog = new SettingsDialog();
+		dialog.add_break_type(new RestBreakType());
+		dialog.add_break_type(new MicroBreakType());
 		
 		this.add_window(dialog);
 		dialog.show();

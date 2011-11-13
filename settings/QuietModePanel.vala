@@ -33,14 +33,7 @@ public class QuietModePanel : TogglePanel {
 		details_grid.set_column_spacing(8);
 		details_grid.set_row_spacing(8);
 		
-		this.countdown_label = new Gtk.Label(null);
-		
-		details_grid.attach(this.countdown_label, 0, 0, 1, 1);
-		
 		this.get_content_area().add(details_grid);
-		
-		this.show_all();
-		this.countdown_label.hide();
 		
 		this.notify["expire-time"].connect((s, p) => {
 			if (this.toggle_switch.active == true) {
@@ -52,13 +45,12 @@ public class QuietModePanel : TogglePanel {
 	}
 	
 	public void start_countdown() {
-		this.countdown_label.show();
 		this.countdown_source_id = Timeout.add_seconds(1, this.countdown_timeout);
 		this.countdown_timeout();
 	}
 	
 	public void end_countdown() {
-		this.countdown_label.hide();
+		this.set_status_text("");
 		this.toggle_switch.active = false;
 		if (this.countdown_source_id > 0) {
 			Source.remove(this.countdown_source_id);
@@ -72,7 +64,7 @@ public class QuietModePanel : TogglePanel {
 		
 		if (time_remaining > 0) {
 			string label = NaturalTime.get_instance().get_countdown_for_seconds((int)time_remaining);
-			this.countdown_label.set_text(label);
+			this.set_status_text("%s".printf(label));
 		} else {
 			this.end_countdown();
 			return false;

@@ -18,14 +18,14 @@
 public class RestBreakType : TimerBreakType {
 	public RestBreakType() {
 		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
-		string name = _("Rest break");
-		base(settings, name);
+		string title = _("Rest break");
+		base("restbreak", settings, title);
 	}
 	
-	public override Gtk.Widget make_settings_panel() {
+	protected override BreakPanel make_settings_panel() {
 		int[] interval_options = {1800, 2400, 3000, 3600};
 		int[] duration_options = {300, 360, 420, 480, 540, 600};
-		TimerBreakPanel panel = new TimerBreakPanel(this.name, interval_options, duration_options);
+		TimerBreakPanel panel = new TimerBreakPanel(this.title, interval_options, duration_options);
 		
 		this.bind_to_settings_panel(panel);
 		

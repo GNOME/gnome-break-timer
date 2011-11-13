@@ -52,31 +52,48 @@ public abstract class TogglePanel : Gtk.Grid {
 		});
 	}
 	
+	public void set_status_text(string text) {
+		this.header.set_status_text(text);
+	}
+	
 	public Gtk.Container get_content_area() {
 		return this.details_grid;
 	}
 }
 
 private class SwitchHeader : Gtk.Grid {
+	private Gtk.Label title_label;
+	private Gtk.Label status_label;
 	public Gtk.Switch toggle {get; private set;}
 	
 	public SwitchHeader(string title) {
 		Object();
 		
-		Gtk.Label break_label = new Gtk.Label.with_mnemonic(title);
-		break_label.set_halign(Gtk.Align.END);
-		break_label.set_margin_right(12);
-		break_label.get_style_context().add_class("brainbreak-settings-title");
-		this.attach(break_label, 0, 0, 1, 1);
+		this.set_column_spacing(12);
+		
+		this.title_label = new Gtk.Label.with_mnemonic(title);
+		this.title_label.set_halign(Gtk.Align.END);
+		this.title_label.get_style_context().add_class("brainbreak-settings-title");
+		this.attach(this.title_label, 0, 0, 1, 1);
+		
+		this.status_label = new Gtk.Label(null);
+		this.status_label.set_hexpand(true);
+		this.status_label.set_halign(Gtk.Align.START);
+		this.status_label.set_justify(Gtk.Justification.RIGHT);
+		this.attach_next_to(this.status_label, this.title_label, Gtk.PositionType.RIGHT, 1, 1);
 		
 		this.toggle = new Gtk.Switch();
-		this.toggle.set_hexpand(true);
 		this.toggle.set_halign(Gtk.Align.END);
-		this.attach_next_to(this.toggle, break_label, Gtk.PositionType.RIGHT, 1, 1);
-		break_label.set_mnemonic_widget(this.toggle);
+		this.attach_next_to(this.toggle, this.status_label, Gtk.PositionType.RIGHT, 1, 1);
+		this.status_label.set_mnemonic_widget(this.toggle);
 		
-		break_label.show();
+		this.title_label.show();
+		this.status_label.show();
 		this.toggle.show();
+	}
+	
+	public void set_status_text(string text) {
+		this.status_label.set_text(text);
 	}
 }
 

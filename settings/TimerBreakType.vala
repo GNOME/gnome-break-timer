@@ -21,8 +21,8 @@ public abstract class TimerBreakType : BreakType {
 	protected int[] interval_options;
 	protected int[] duration_options;
 	
-	public TimerBreakType(Settings settings, string name) {
-		base(settings, name);
+	public TimerBreakType(string name, Settings settings, string title) {
+		base(name, settings, title);
 		
 		this.settings.bind("duration-seconds", this, "duration", SettingsBindFlags.DEFAULT);
 	}

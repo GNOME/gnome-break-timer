@@ -18,18 +18,28 @@
 public abstract class BreakType : Object {
 	protected Settings settings;
 	
+	private BreakPanel settings_panel;
+	
 	public string name {get; private set;}
+	public string title {get; private set;}
 	public bool enabled {get; set; default=true;}
 	public int interval {get; set;}
 	
-	public BreakType(Settings settings, string name) {
-		this.settings = settings;
+	public BreakType(string name, Settings settings, string title) {
 		this.name = name;
+		this.settings = settings;
+		this.title = title;
+		
+		this.settings_panel = this.make_settings_panel();
+		
 		this.settings.bind("enabled", this, "enabled", SettingsBindFlags.DEFAULT);
 		this.settings.bind("interval-seconds", this, "interval", SettingsBindFlags.DEFAULT);
 	}
 	
-	public abstract Gtk.Widget make_settings_panel();
+	protected abstract BreakPanel make_settings_panel();
+	public BreakPanel get_settings_panel() {
+		return this.settings_panel;
+	}
 	
 	protected void bind_to_settings_panel(BreakPanel panel) {
 		this.settings.bind("enabled", panel.toggle_switch, "active", SettingsBindFlags.DEFAULT);

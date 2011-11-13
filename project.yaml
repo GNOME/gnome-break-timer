@@ -39,6 +39,7 @@ targets:
     path: main
     input:
       - Break.vala
+      - BreakManager.vala
       - BreakOverlay.vala
       - BreakView.vala
       - FocusManager.vala
@@ -83,11 +84,13 @@ targets:
       - TimerBreakPanel.vala
       - TimerBreakType.vala
       - TogglePanel.vala
+      - ../common/HelperStatus.vala
       - ../common/NaturalTime.vala
     defines:
       - GETTEXT_PACKAGE="brainbreak"
     packages:
       - gtk+-3.0
+      - gee-1.0
       - gio-2.0
   
   brainbreak-data:

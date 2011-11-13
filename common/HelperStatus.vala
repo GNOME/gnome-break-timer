@@ -15,21 +15,8 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class MicroBreakType : TimerBreakType {
-	public MicroBreakType() {
-		Settings settings = new Settings("org.brainbreak.breaks.microbreak");
-		string name = _("Micro break");
-		base("microbreak", settings, name);
-	}
-	
-	protected override BreakPanel make_settings_panel() {
-		int[] interval_options = {480, 600, 720, 900};
-		int[] duration_options = {15, 20, 30, 45, 60};
-		TimerBreakPanel panel = new TimerBreakPanel(this.title, interval_options, duration_options);
-		
-		this.bind_to_settings_panel(panel);
-		
-		return panel;
-	}
+[DBus (name = "org.brainbreak.Helper.Status")]
+public interface HelperStatus : Object {
+	public abstract string get_status_for_break(string break_name) throws IOError;
 }
 
