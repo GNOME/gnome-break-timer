@@ -89,7 +89,7 @@ public class SettingsDialog : Gtk.Dialog {
 		} else if (response_id == Gtk.ResponseType.HELP) {
 			Gtk.show_about_dialog(this,
 				"program-name", _("Brain Break"),
-				"comments", _("Computer break tool for active minds"),
+				"comments", _("Computer break reminders for active minds"),
 				"copyright", _("Copyright © Dylan McCall"),
 				"website", "http://launchpad.net/brainbreak",
 				"website-label", _("Brain Break Website")

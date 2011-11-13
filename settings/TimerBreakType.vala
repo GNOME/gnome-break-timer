@@ -19,9 +19,6 @@ public abstract class TimerBreakType : BreakType {
 	public int interval {get; set;}
 	public int duration {get; set;}
 	
-	protected int[] interval_options;
-	protected int[] duration_options;
-	
 	public TimerBreakType(string name, Settings settings, string title) {
 		base(name, settings, title);
 		
