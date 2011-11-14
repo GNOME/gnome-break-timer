@@ -19,10 +19,10 @@ Homepage: https://launchpad.net/brainbreak
 Package: brainbreak
 Architecture: any
 Depends: ${misc:Depends},
- libgee (>= 0.6.2.1),
- libglib2.0 (>= 2.30.0),
- libgtk-3 (>= 3.2.0),
- libnotify (>= 0.7.4),
+ libgee2 (>= 0.6.2.1),
+ libglib2.0-0 (>= 2.30.0),
+ libgtk-3-0 (>= 3.2.0),
+ libnotify4 (>= 0.7.4),
  libxcb1 (>= 1.7),
  libxcb-screensaver0 (>= 1.7)
 Recommends: 
