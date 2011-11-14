@@ -69,6 +69,8 @@ public class ApplicationPanel : Gtk.Grid {
 }
 
 private class AppNotRunningInfoBar : Gtk.InfoBar {
+	private static const int RESPONSE_LAUNCH_HELPER = 2;
+	
 	private Gtk.Label status_label;
 	
 	public AppNotRunningInfoBar() {
@@ -82,9 +84,19 @@ private class AppNotRunningInfoBar : Gtk.InfoBar {
 		
 		content.add(status_label);
 		
-		this.add_button("Start break helper", Gtk.ResponseType.OK);
+		this.add_button("Start break helper", RESPONSE_LAUNCH_HELPER);
+		
+		this.response.connect((response_id) => {
+			if (response_id == RESPONSE_LAUNCH_HELPER) this.launch_helper();
+		});
 		
 		this.show_all();
+	}
+	
+	private void launch_helper() {
+		AppInfo helper_app_info = new DesktopAppInfo("brainbreak-helper.desktop");
+		AppLaunchContext app_launch_context = new AppLaunchContext();
+		helper_app_info.launch(null, app_launch_context);
 	}
 }
 

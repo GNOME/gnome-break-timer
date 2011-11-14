@@ -26,6 +26,11 @@ requires:
     mandatory: True
   gio-2.0:
     type: package
+    version: 2.30.0
+    mandatory: True
+  gio-unix-2.0:
+    type: package
+    version: 2.30.0
     mandatory: True
   libnotify:
     type: package
@@ -92,6 +97,7 @@ targets:
       - gtk+-3.0
       - gee-1.0
       - gio-2.0
+      - gio-unix-2.0
   
   magic-core:
     tool: cc
