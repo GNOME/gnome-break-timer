@@ -1,10 +1,11 @@
 [Desktop Entry]
 Type=Application
 Name=Brain Break
-Exec=/home/dylan/Projects/Software/BrainBreak/test-runner.sh
+X-Ubuntu-Gettext-Domain=brainbreak
+NoDisplay=true
+
+Exec=/usr/bin/brainbreak
 AutostartCondition=GSettings org.brainbreak.breaks master-enabled
 X-GNOME-Autostart-Phase=Applications
 X-GNOME-AutoRestart=true
-NoDisplay=true
-X-Ubuntu-Gettext-Domain=brainbreak
-Name=brainbreak-helper.desktop
+

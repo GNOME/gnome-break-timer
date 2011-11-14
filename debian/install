@@ -1,2 +1,3 @@
 data/brainbreak-helper.desktop /etc/xdg/autostart
+data/brainbreak-settings.desktop /usr/share/applications
 data/org.brainbreak.gschema.xml /usr/share/glib-2.0/schemas

@@ -1,3 +1,5 @@
 .lock-wafbuild
 .waf-1.6.0-d5095f2b9a84cee7c6123f780ca8a7de
 build
+debian/stamp-waf-build
+debian/stamp-waf-configure
