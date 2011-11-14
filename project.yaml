@@ -93,12 +93,6 @@ targets:
       - gee-1.0
       - gio-2.0
   
-  brainbreak-data:
-    tool: data
-    input:
-      - data/org.brainbreak.gschema.xml
-      - data/brainbreak-helper.desktop
-  
   magic-core:
     tool: cc
     type: staticlib
