@@ -12,7 +12,7 @@
     <key name="quiet-mode" type="b">
       <default>false</default>
       <summary>True to enable quiet mode</summary>
-      <description>Hides breaks until the current time passes quiet-mode-end.</description>
+      <description>Hides breaks until quiet-mode-expire-time.</description>
     </key>
     
     <key name="quiet-mode-expire-time" type="x">
