@@ -49,11 +49,11 @@ public class RestBreak : TimerBreak {
 		// use time since last timeout; not arbitrary 2 seconds
 		
 		if (this.break_timer_is_paused()) {
-			if (idle_time > 2) {
+			if (idle_time > 4) {
 				this.resume_break_timer();
 			}
 		} else {
-			if (idle_time < 2) {
+			if (idle_time < 4) {
 				this.pause_break_timer();
 			}
 		}

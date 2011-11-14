@@ -96,8 +96,8 @@ targets:
   brainbreak-data:
     tool: data
     input:
-      - data/style.css
       - data/org.brainbreak.gschema.xml
+      - data/brainbreak-helper.desktop
   
   magic-core:
     tool: cc

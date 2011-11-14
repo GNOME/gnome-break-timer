@@ -19,6 +19,31 @@ public class Application : Gtk.Application {
 	const string app_id = "org.brainbreak.Helper";
 	const string app_name = _("Brain Break");
 	
+	static const string STYLE_DATA =
+			"""
+			@define-color bg_inner rgba(15, 15, 15, 0.92);
+			@define-color bg_outer rgba(0, 0, 0, 0.96);
+
+			GtkWindow {
+				background-color: @bg_inner;
+				background-image:-gtk-gradient (linear,
+				       center top,
+				       center bottom,
+				       color-stop (0, @bg_outer),
+				       color-stop (0.1, @bg_inner),
+				       color-stop (0.9, @bg_inner),
+				       color-stop (1, @bg_outer));
+				border-radius: 8;
+				color: #ffffff;
+			}
+
+			GtkLabel.brainbreak-timer-label {
+				font-weight:bold;
+				font-size:25;
+				text-shadow:1 1 5 rgba(0,0,0,0.5);
+			}
+			""";
+	
 	private BreakManager break_manager;
 	private UIManager ui_manager;
 	
@@ -38,7 +63,7 @@ public class Application : Gtk.Application {
 		Gdk.Screen screen = Gdk.Screen.get_default();
 		Gtk.CssProvider style_provider = new Gtk.CssProvider();
 		/* FIXME: of course, we should load data files in a smarter way */
-		style_provider.load_from_path("data/style.css");
+		style_provider.load_from_data(STYLE_DATA, -1);
 		Gtk.StyleContext.add_provider_for_screen(screen,
 		                                         style_provider,
 		                                         Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
