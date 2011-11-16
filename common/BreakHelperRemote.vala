@@ -15,8 +15,9 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-[DBus (name = "org.brainbreak.Helper.Status")]
-public interface HelperStatus : Object {
+[DBus (name = "org.brainbreak.Helper")]
+public interface BreakHelperRemote : Object {
 	public abstract string get_status_for_break(string break_name) throws IOError;
+	public abstract void trigger_break(string break_name) throws IOError;
 }
 

@@ -17,7 +17,6 @@
 
 public class BreakManager : Object {
 	private UIManager ui_manager;
-	private BreakStatusServer status_server;
 	
 	private FocusManager focus_manager;
 	private Gee.Map<string, Break> breaks;
@@ -30,10 +29,6 @@ public class BreakManager : Object {
 		
 		this.register_break("restbreak", new RestBreak(this.focus_manager));
 		this.register_break("microbreak", new MicroBreak(this.focus_manager));
-		
-		DBusConnection connection = Bus.get_sync(BusType.SESSION, null);
-		this.status_server = new BreakStatusServer(this);
-		connection.register_object ("/org/brainbreak/Helper/Status", this.status_server);
 	}
 	
 	private void register_break(string name, Break brk) {
@@ -47,20 +42,6 @@ public class BreakManager : Object {
 	
 	public Break get_break_for_name(string name) {
 		return this.breaks.get(name);
-	}
-}
-
-[DBus (name = "org.brainbreak.Helper.Status")]
-public class BreakStatusServer : Object {
-	private BreakManager break_manager;
-	
-	public BreakStatusServer(BreakManager break_manager) {
-		this.break_manager = break_manager;
-	}
-	
-	public string get_status_for_break(string break_name) {
-		Break brk = this.break_manager.get_break_for_name(break_name);
-		return brk.get_view().get_status_message();
 	}
 }
 

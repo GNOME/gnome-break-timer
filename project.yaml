@@ -59,6 +59,7 @@ targets:
       - TimerBreakStatusWidget.vala
       - TimerBreakView.vala
       - UIManager.vala
+      - ../common/BreakHelperRemote.vala
       - ../common/NaturalTime.vala
     defines:
       - GETTEXT_PACKAGE="brainbreak"
@@ -89,7 +90,7 @@ targets:
       - TimerBreakPanel.vala
       - TimerBreakType.vala
       - TogglePanel.vala
-      - ../common/HelperStatus.vala
+      - ../common/BreakHelperRemote.vala
       - ../common/NaturalTime.vala
     defines:
       - GETTEXT_PACKAGE="brainbreak"

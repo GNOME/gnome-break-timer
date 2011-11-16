@@ -19,6 +19,25 @@ public class Application : Gtk.Application {
 	const string app_id = "org.brainbreak.Helper";
 	const string app_name = _("Brain Break");
 	
+	[DBus (name = "org.brainbreak.Helper")]
+	private class BreakHelperServer : BreakHelperRemote, Object {
+		private BreakManager break_manager;
+	
+		public BreakHelperServer(BreakManager break_manager) {
+			this.break_manager = break_manager;
+		}
+	
+		public string get_status_for_break(string break_name) {
+			Break brk = this.break_manager.get_break_for_name(break_name);
+			return brk.get_view().get_status_message();
+		}
+	
+		public void trigger_break(string break_name) {
+			Break brk = this.break_manager.get_break_for_name(break_name);
+			brk.activate();
+		}
+	}
+	
 	static const string STYLE_DATA =
 			"""
 			@define-color bg_inner rgba(15, 15, 15, 0.92);
@@ -47,6 +66,8 @@ public class Application : Gtk.Application {
 	private BreakManager break_manager;
 	private UIManager ui_manager;
 	
+	private BreakHelperServer break_helper_server;
+	
 	public Application() {
 		Object(application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
 		GLib.Environment.set_application_name(app_name);
@@ -70,6 +91,10 @@ public class Application : Gtk.Application {
 		
 		this.ui_manager = new UIManager(this);
 		this.break_manager = new BreakManager(this.ui_manager);
+		
+		DBusConnection connection = Bus.get_sync(BusType.SESSION, null);
+		this.break_helper_server = new BreakHelperServer(this.break_manager);
+		connection.register_object ("/org/brainbreak/Helper", this.break_helper_server);
 	}
 }
 
