@@ -22,10 +22,8 @@ public class ScreenOverlay : Gtk.Window {
 		this.realize.connect(this.on_realize);
 		
 		Gdk.Screen screen = this.get_screen();
-		if (screen.is_composited()) {
-			Gdk.Visual rgba_visual = screen.get_rgba_visual();
-			if (rgba_visual != null) this.set_visual(rgba_visual);
-		}
+		screen.composited_changed.connect(this.on_screen_composited_changed);
+		this.on_screen_composited_changed(screen);
 		
 		/* we don't want any input, ever */
 		/* FIXME: surely we can just say what input we want instead of making a region? */
@@ -33,6 +31,17 @@ public class ScreenOverlay : Gtk.Window {
 		
 		Gtk.StyleContext style = this.get_style_context();
 		style.add_class("brainbreak-screen-overlay");
+	}
+	
+	private void on_screen_composited_changed(Gdk.Screen screen) {
+		Gdk.Visual? screen_visual = null;
+		if (screen.is_composited()) {
+			screen_visual = screen.get_rgba_visual();
+		}
+		if (screen_visual == null) {
+			screen_visual = screen.get_system_visual();
+		}
+		this.set_visual(screen_visual);
 	}
 	
 	private void on_realize() {
