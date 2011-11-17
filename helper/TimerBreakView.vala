@@ -60,12 +60,13 @@ public abstract class TimerBreakView : BreakView {
 	}
 	
 	public override int get_lead_in_seconds() {
-		int lead_in = this.timer_break.duration+5;
-		if (this.timer_break.duration > 50) {
-			return 50;
-		} else {
-			return lead_in;
+		int lead_in = this.timer_break.duration+3;
+		if (lead_in > 40) {
+			lead_in = 40;
+		} else if (lead_in < 15) {
+			lead_in = 15;
 		}
+		return lead_in;
 	}
 	
 	public override Gtk.Widget get_overlay_content() {
