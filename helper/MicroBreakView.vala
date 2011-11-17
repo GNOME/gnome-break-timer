@@ -25,7 +25,6 @@ public class MicroBreakView : TimerBreakView {
 		base(micro_break);
 		
 		this.title = _("Micro break");
-		this.warn_time = 15;
 		
 		this.status_widget.set_message("Take a moment to rest your eyes");
 	}

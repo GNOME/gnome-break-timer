@@ -27,7 +27,6 @@ public class RestBreakView : TimerBreakView {
 		base(rest_break);
 		
 		this.title = _("Rest break");
-		this.warn_time = 30;
 		
 		this.rest_quotes = {
 			_("The quieter you become, the more you can hear."),

@@ -19,17 +19,16 @@ public abstract class BreakView : BreakOverlaySource, Object {
 	protected Break break_scheduler {get; private set;}
 	
 	public string title {get; protected set;}
-	public int warn_time {get; protected set;}
 	
 	public BreakView(Break break_scheduler) {
 		this.break_scheduler = break_scheduler;
 	}
 	
+	public abstract string get_status_message();
+	
 	public abstract Notify.Notification get_start_notification();
 	public abstract Notify.Notification get_finish_notification();
-	//public abstract int get_lead_in_seconds();
-	
-	public abstract string get_status_message();
+	public abstract int get_lead_in_seconds();
 	
 	/***** BreakOverlaySource interface ******/
 	

@@ -101,7 +101,7 @@ public class UIManager : Object {
 			notification.show();
 			
 			this.overlay_triggered_for_break = false;
-			Timeout.add_seconds(break_view.warn_time, () => {
+			Timeout.add_seconds(break_view.get_lead_in_seconds(), () => {
 				if (brk.is_active() && !this.quiet_mode_is_enabled()) {
 					this.break_overlay.show_with_source(break_view);
 					this.overlay_triggered_for_break = true;
