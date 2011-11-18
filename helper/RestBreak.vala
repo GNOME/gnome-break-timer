@@ -27,7 +27,7 @@ public class RestBreak : TimerBreak {
 		return break_view;
 	}
 	
-	protected override void update() {
+	protected override void waiting_update() {
 		/* break has been satisfied if user is idle for longer than break duration */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
@@ -39,26 +39,22 @@ public class RestBreak : TimerBreak {
 			this.warn();
 		}
 		
-		base.update();
+		base.waiting_update();
 	}
 	
 	protected override void active_timeout() {
 		/* Delay during active computer use */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
-		// use time since last timeout; not arbitrary 2 seconds
-		
-		if (this.break_timer_is_paused()) {
-			if (idle_time > 4) {
-				this.resume_break_timer();
-			}
+		if (idle_time > 4) {
+			if (this.active_timer_is_paused()) this.resume_active_timer();
 		} else {
-			if (idle_time < 4) {
-				this.pause_break_timer();
-			}
+			if (! this.active_timer_is_paused()) this.pause_active_timer();
 		}
 		
 		base.active_timeout();
+		
+		// if time since active start time > interval/2, add penalty of duration/2
 	}
 }
 

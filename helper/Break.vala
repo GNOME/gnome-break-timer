@@ -42,6 +42,7 @@ public abstract class Break : Object, Focusable {
 	 * this signal will not be emitted.
 	 */
 	public signal void stopped();
+	
 	/**
 	 * The break has been started. It will monitor user activity and
 	 * emit activated() or finished() signals when appropriate.
@@ -57,6 +58,7 @@ public abstract class Break : Object, Focusable {
 	 * break.
 	 */
 	public signal void activated();
+	
 	/**
 	 * The break has been satisfied. This can happen at any point.
 	 * while the break is waiting or after it has been activiated.
@@ -102,23 +104,23 @@ public abstract class Break : Object, Focusable {
 		
 		this.finish();
 		this.state = State.WAITING;
-		this.start_update_timeout();
+		this.start_waiting_update_timeout();
 		if (!was_started) this.started();
 	}
 	protected virtual void stop() {
 		bool was_started = this.is_started();
 		
 		this.finish();
-		this.stop_update_timeout();
+		this.stop_waiting_update_timeout();
 		this.state = State.STOPPED;
 		if (was_started) this.stopped();
 	}
 	
-	protected virtual void start_update_timeout() {
-		this.stop_update_timeout();
-		this.update_source_id = Timeout.add_seconds(this.update_interval, this.update_timeout_cb);
+	protected virtual void start_waiting_update_timeout() {
+		this.stop_waiting_update_timeout();
+		this.update_source_id = Timeout.add_seconds(this.update_interval, this.waiting_update_timeout_cb);
 	}
-	protected virtual void stop_update_timeout() {
+	protected virtual void stop_waiting_update_timeout() {
 		if (this.update_source_id > 0) {
 			Source.remove(this.update_source_id);
 			this.update_source_id = 0;
@@ -128,9 +130,9 @@ public abstract class Break : Object, Focusable {
 	/**
 	 * Runs frequently to test if it is time to activate the break.
 	 */
-	protected abstract void update();
-	private bool update_timeout_cb() {
-		this.update();
+	protected abstract void waiting_update();
+	private bool waiting_update_timeout_cb() {
+		this.waiting_update();
 		return true;
 	}
 	
@@ -177,7 +179,7 @@ public abstract class Break : Object, Focusable {
 	 */
 	public void finish() {
 		this.state = State.WAITING;
-		this.start_update_timeout();
+		this.start_waiting_update_timeout();
 		this.focus_manager.release_focus(this);
 	}
 	

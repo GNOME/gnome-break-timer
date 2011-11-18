@@ -15,9 +15,6 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* TODO: notification when user is away for rest duration */
-/* TODO: replace pause break if appropriate */
-
 using Notify;
 
 public abstract class TimerBreakView : BreakView {
@@ -33,7 +30,7 @@ public abstract class TimerBreakView : BreakView {
 		this.status_widget = new TimerBreakStatusWidget();
 		
 		this.overlay_started.connect(this.overlay_started_cb);
-		timer_break.break_update.connect(this.break_update_cb);
+		timer_break.active_timer_update.connect(this.active_timer_update_cb);
 	}
 	
 	public override string get_status_message() {
@@ -73,7 +70,7 @@ public abstract class TimerBreakView : BreakView {
 		return this.status_widget;
 	}
 	
-	private void break_update_cb(int time_remaining) {
+	private void active_timer_update_cb(int time_remaining) {
 		stdout.printf("Timer break. %f remaining\n", time_remaining);
 		this.status_widget.set_time(time_remaining);
 	}

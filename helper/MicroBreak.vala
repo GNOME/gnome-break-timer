@@ -27,7 +27,7 @@ public class MicroBreak : TimerBreak {
 		return break_view;
 	}
 	
-	protected override void update() {
+	protected override void waiting_update() {
 		/* break has been satisfied if user is idle for longer than break duration */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
@@ -35,7 +35,7 @@ public class MicroBreak : TimerBreak {
 			this.finish();
 		}
 		
-		base.update();
+		base.waiting_update();
 	}
 	
 	/**
@@ -46,7 +46,7 @@ public class MicroBreak : TimerBreak {
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
 		if (idle_time < this.get_break_time()) {
-			this.reset_break_timer();
+			this.reset_active_timer();
 		}
 		
 		base.active_timeout();

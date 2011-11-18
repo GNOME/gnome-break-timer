@@ -16,16 +16,28 @@
  */
 
 public abstract class TimerBreak : Break {
-	public signal void break_update(int time_remaining);
+	/**
+	 * The break is active and time_remaining has changed.
+	 */
+	public signal void active_timer_update(int time_remaining);
+	
+	/**
+	 * The break is active and the user is not paying attention to it.
+	 * At this point, a time penalty may have been added.
+	 */
+	public signal void active_reminder();
 	
 	public int interval {get; protected set;}
 	public int duration {get; protected set;}
 	
-	private uint break_update_source_id;
+	private uint active_timeout_source_id;
 	
 	private Timer interval_timer;
-	private Timer break_timer;
-	private bool break_timer_paused;
+	
+	private Timer active_timer;
+	private bool active_timer_paused;
+	private int current_duration;
+	private int64 last_active_time;
 	
 	public TimerBreak(FocusManager focus_manager, FocusPriority priority, Settings settings) {
 		int accurate_update_interval = settings.get_int("interval-seconds");
@@ -37,24 +49,24 @@ public abstract class TimerBreak : Break {
 		settings.bind("duration-seconds", this, "duration", SettingsBindFlags.GET);
 		
 		this.interval_timer = new Timer();
-		this.break_timer = new Timer();
+		this.active_timer = new Timer();
 		
-		this.break_update_source_id = 0;
+		this.active_timeout_source_id = 0;
 		
 		this.activated.connect(this.activated_cb);
 		this.finished.connect(this.finished_cb);
 	}
 	
-	protected override void start_update_timeout() {
-		base.start_update_timeout();
+	protected override void start_waiting_update_timeout() {
+		base.start_waiting_update_timeout();
 		this.interval_timer.start();
 	}
-	protected override void stop_update_timeout() {
-		base.stop_update_timeout();
+	protected override void stop_waiting_update_timeout() {
+		base.stop_waiting_update_timeout();
 		this.interval_timer.stop();
 	}
 	
-	protected override void update() {
+	protected override void waiting_update() {
 		/* Start break if the user has been active for interval */
 		if (starts_in() <= 0) {
 			this.activate();
@@ -62,47 +74,62 @@ public abstract class TimerBreak : Break {
 	}
 	
 	private void activated_cb() {
-		this.reset_break_timer();
-		this.break_update_source_id = Timeout.add_seconds(1, this.active_timeout_cb);
+		this.reset_active_timer();
+		this.last_active_time = new DateTime.now_utc().to_unix();
+		this.active_timeout_source_id = Timeout.add_seconds(1, this.active_timeout_cb);
 	}
 	
 	private void finished_cb() {
-		this.pause_break_timer();
-		if (this.break_update_source_id > 0) {
-			Source.remove(this.break_update_source_id);
-			this.break_update_source_id = 0;
+		this.pause_active_timer();
+		if (this.active_timeout_source_id > 0) {
+			Source.remove(this.active_timeout_source_id);
+			this.active_timeout_source_id = 0;
 		}
-		this.start_update_timeout();
+		this.start_waiting_update_timeout();
 	}
 	
 	protected int get_break_time() {
-		return (int)Math.round(this.break_timer.elapsed());
+		return (int)Math.round(this.active_timer.elapsed());
 	}
 	
-	protected bool break_timer_is_paused() {
-		return this.break_timer_paused;
+	protected bool active_timer_is_paused() {
+		return this.active_timer_paused;
 	}
 	
-	protected void pause_break_timer() {
-		this.break_timer.stop();
-		this.break_timer_paused = true;
+	protected void pause_active_timer() {
+		this.active_timer.stop();
+		this.active_timer_paused = true;
 	}
 	
-	protected void resume_break_timer() {
-		this.break_timer.continue();
-		this.break_timer_paused = false;
+	protected void resume_active_timer() {
+		this.active_timer.continue();
+		this.active_timer_paused = false;
 	}
 	
-	protected void reset_break_timer() {
-		this.break_timer.start();
-		this.break_timer_paused = false;
+	protected void reset_active_timer() {
+		this.current_duration = this.duration;
+		this.active_timer.start();
+		this.active_timer_paused = false;
+	}
+	
+	protected void add_penalty(int penalty) {
+		int maximum_duration = this.duration * 2;
+		if (this.current_duration + penalty < maximum_duration) {
+			this.current_duration += penalty;
+		} else {
+			this.current_duration = maximum_duration;
+		}
+	}
+	
+	protected void add_bonus(int bonus) {
+		this.current_duration -= bonus;
 	}
 	
 	public int get_time_remaining() {
 		int time_remaining = 0;
 		if (this.state == Break.State.ACTIVE) {
-			int time_elapsed_seconds = (int)Math.round(this.break_timer.elapsed());
-			time_remaining = (int)this.duration - time_elapsed_seconds;
+			int time_elapsed_seconds = (int)Math.round(this.active_timer.elapsed());
+			time_remaining = this.current_duration - time_elapsed_seconds;
 		}
 		return time_remaining;
 	}
@@ -119,16 +146,26 @@ public abstract class TimerBreak : Break {
 	 * Aggressively checks if break is satisfied and updates watchers.
 	 */
 	protected virtual void active_timeout() {
-		if (this.state != Break.State.ACTIVE) stdout.printf("WTF THIS SHOULDN'T HAPPEN\n");
+		assert(this.state == Break.State.ACTIVE);
 		
-		/* FIXME: timer wrongly pauses when system suspends */
+		int64 now = new DateTime.now_utc().to_unix();
+		int64 time_difference = now - this.last_active_time;
+		if (time_difference > 10) {
+			// Timeout hasn't run for 10 seconds!
+			// We'll assume this is due to system sleep (or
+			// inconcievably heavy load) and adjust current_duration
+			// to account for the user not touching the computer
+			// during this time.
+			this.add_bonus((int)time_difference);
+		}
+		this.last_active_time = now;
 		
 		int time_remaining = this.get_time_remaining();
 		
 		if (time_remaining < 1) {
 			this.finish();
 		} else {
-			this.break_update(time_remaining);
+			this.active_timer_update(time_remaining);
 		}
 	}
 	private bool active_timeout_cb() {
