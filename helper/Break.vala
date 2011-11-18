@@ -67,19 +67,19 @@ public abstract class Break : Object, Focusable {
 	
 	private BreakView break_view;
 	
-	private int update_interval;
-	private uint update_source_id;
+	private int waiting_update_interval;
+	private uint waiting_update_source_id;
 	
 	
-	public Break(FocusManager focus_manager, FocusPriority priority, Settings settings, int update_interval) {
+	public Break(FocusManager focus_manager, FocusPriority priority, Settings settings, int waiting_update_interval) {
 		this.focus_manager = focus_manager;
 		this.priority = priority;
 		this.settings = settings;
-		this.update_interval = update_interval;
+		this.waiting_update_interval = waiting_update_interval;
 		
 		this.state = State.STOPPED;
 		
-		this.update_source_id = 0;
+		this.waiting_update_source_id = 0;
 		
 		this.break_view = this.make_view();
 		
@@ -118,12 +118,12 @@ public abstract class Break : Object, Focusable {
 	
 	protected virtual void start_waiting_update_timeout() {
 		this.stop_waiting_update_timeout();
-		this.update_source_id = Timeout.add_seconds(this.update_interval, this.waiting_update_timeout_cb);
+		this.waiting_update_source_id = Timeout.add_seconds(this.waiting_update_interval, this.waiting_update_timeout_cb);
 	}
 	protected virtual void stop_waiting_update_timeout() {
-		if (this.update_source_id > 0) {
-			Source.remove(this.update_source_id);
-			this.update_source_id = 0;
+		if (this.waiting_update_source_id > 0) {
+			Source.remove(this.waiting_update_source_id);
+			this.waiting_update_source_id = 0;
 		}
 	}
 	
