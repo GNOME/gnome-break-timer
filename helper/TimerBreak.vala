@@ -31,13 +31,13 @@ public abstract class TimerBreak : Break {
 	public int duration {get; protected set;}
 	
 	private uint active_timeout_source_id;
+	private int64 active_timeout_last_time;
 	
 	private Timer interval_timer;
 	
 	private Timer active_timer;
 	private bool active_timer_paused;
 	private int current_duration;
-	private int64 last_active_time;
 	
 	public TimerBreak(FocusManager focus_manager, FocusPriority priority, Settings settings) {
 		int accurate_update_interval = settings.get_int("interval-seconds");
@@ -52,21 +52,22 @@ public abstract class TimerBreak : Break {
 		this.active_timer = new Timer();
 		
 		this.active_timeout_source_id = 0;
+		this.active_timeout_last_time = 0;
 		
 		this.activated.connect(this.activated_cb);
 		this.finished.connect(this.finished_cb);
 	}
 	
-	protected override void start_waiting_update_timeout() {
-		base.start_waiting_update_timeout();
+	protected override void start_waiting_timeout() {
+		base.start_waiting_timeout();
 		this.interval_timer.start();
 	}
-	protected override void stop_waiting_update_timeout() {
-		base.stop_waiting_update_timeout();
+	protected override void stop_waiting_timeout() {
+		base.stop_waiting_timeout();
 		this.interval_timer.stop();
 	}
 	
-	protected override void waiting_update() {
+	protected override void waiting_timeout(int time_delta) {
 		/* Start break if the user has been active for interval */
 		if (starts_in() <= 0) {
 			this.activate();
@@ -75,7 +76,6 @@ public abstract class TimerBreak : Break {
 	
 	private void activated_cb() {
 		this.reset_active_timer();
-		this.last_active_time = new DateTime.now_utc().to_unix();
 		this.active_timeout_source_id = Timeout.add_seconds(1, this.active_timeout_cb);
 	}
 	
@@ -84,8 +84,9 @@ public abstract class TimerBreak : Break {
 		if (this.active_timeout_source_id > 0) {
 			Source.remove(this.active_timeout_source_id);
 			this.active_timeout_source_id = 0;
+			this.active_timeout_last_time = 0;
 		}
-		this.start_waiting_update_timeout();
+		this.start_waiting_timeout();
 	}
 	
 	protected int get_break_time() {
@@ -144,21 +145,10 @@ public abstract class TimerBreak : Break {
 	/**
 	 * Per-second timeout during break.
 	 * Aggressively checks if break is satisfied and updates watchers.
+	 * @param time_delta The time, in seconds, since the timeout was last run.
 	 */
-	protected virtual void active_timeout() {
+	protected virtual void active_timeout(int time_delta) {
 		assert(this.state == Break.State.ACTIVE);
-		
-		int64 now = new DateTime.now_utc().to_unix();
-		int64 time_difference = now - this.last_active_time;
-		if (time_difference > 10) {
-			// Timeout hasn't run for 10 seconds!
-			// We'll assume this is due to system sleep (or
-			// inconcievably heavy load) and adjust current_duration
-			// to account for the user not touching the computer
-			// during this time.
-			this.add_bonus((int)time_difference);
-		}
-		this.last_active_time = now;
 		
 		int time_remaining = this.get_time_remaining();
 		
@@ -169,7 +159,14 @@ public abstract class TimerBreak : Break {
 		}
 	}
 	private bool active_timeout_cb() {
-		this.active_timeout();
+		int64 now = new DateTime.now_utc().to_unix();
+		int64 time_delta = 0;
+		if (this.active_timeout_last_time > 0) {
+			time_delta = now - this.active_timeout_last_time;
+		}
+		this.active_timeout_last_time = now;
+		
+		this.active_timeout((int)time_delta);
 		return true;
 	}
 }

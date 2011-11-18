@@ -27,9 +27,14 @@ public class RestBreak : TimerBreak {
 		return break_view;
 	}
 	
-	protected override void waiting_update() {
+	protected override void waiting_timeout(int time_delta) {
 		/* break has been satisfied if user is idle for longer than break duration */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
+		
+		// detect system sleep and count time sleeping as idle_time
+		if (time_delta > idle_time) {
+			idle_time = time_delta;
+		}
 		
 		if (idle_time > this.duration) {
 			this.finish();
@@ -39,22 +44,26 @@ public class RestBreak : TimerBreak {
 			this.warn();
 		}
 		
-		base.waiting_update();
+		base.waiting_timeout(time_delta);
 	}
 	
-	protected override void active_timeout() {
-		/* Delay during active computer use */
+	protected override void active_timeout(int time_delta) {
+		// Delay during active computer use
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
-		
 		if (idle_time > 4) {
 			if (this.active_timer_is_paused()) this.resume_active_timer();
 		} else {
 			if (! this.active_timer_is_paused()) this.pause_active_timer();
 		}
 		
-		base.active_timeout();
+		// Detect system sleep and assume this counts as time away from the computer
+		if (time_delta > 10) {
+			this.add_bonus(time_delta);
+		}
 		
-		// if time since active start time > interval/2, add penalty of duration/2
+		base.active_timeout(time_delta);
+		
+		// TODO: if time since active start time > interval/2, add penalty of duration/2
 	}
 }
 

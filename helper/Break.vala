@@ -67,19 +67,20 @@ public abstract class Break : Object, Focusable {
 	
 	private BreakView break_view;
 	
-	private int waiting_update_interval;
-	private uint waiting_update_source_id;
+	private int waiting_timeout_interval;
+	private uint waiting_timeout_source_id;
+	private int64 waiting_timeout_last_time;
 	
 	
-	public Break(FocusManager focus_manager, FocusPriority priority, Settings settings, int waiting_update_interval) {
+	public Break(FocusManager focus_manager, FocusPriority priority, Settings settings, int waiting_timeout_interval) {
 		this.focus_manager = focus_manager;
 		this.priority = priority;
 		this.settings = settings;
-		this.waiting_update_interval = waiting_update_interval;
+		this.waiting_timeout_interval = waiting_timeout_interval;
 		
 		this.state = State.STOPPED;
 		
-		this.waiting_update_source_id = 0;
+		this.waiting_timeout_source_id = 0;
 		
 		this.break_view = this.make_view();
 		
@@ -104,35 +105,43 @@ public abstract class Break : Object, Focusable {
 		
 		this.finish();
 		this.state = State.WAITING;
-		this.start_waiting_update_timeout();
+		this.start_waiting_timeout();
 		if (!was_started) this.started();
 	}
 	protected virtual void stop() {
 		bool was_started = this.is_started();
 		
 		this.finish();
-		this.stop_waiting_update_timeout();
+		this.stop_waiting_timeout();
 		this.state = State.STOPPED;
 		if (was_started) this.stopped();
 	}
 	
-	protected virtual void start_waiting_update_timeout() {
-		this.stop_waiting_update_timeout();
-		this.waiting_update_source_id = Timeout.add_seconds(this.waiting_update_interval, this.waiting_update_timeout_cb);
+	protected virtual void start_waiting_timeout() {
+		this.stop_waiting_timeout();
+		this.waiting_timeout_source_id = Timeout.add_seconds(this.waiting_timeout_interval, this.waiting_timeout_cb);
 	}
-	protected virtual void stop_waiting_update_timeout() {
-		if (this.waiting_update_source_id > 0) {
-			Source.remove(this.waiting_update_source_id);
-			this.waiting_update_source_id = 0;
+	protected virtual void stop_waiting_timeout() {
+		if (this.waiting_timeout_source_id > 0) {
+			Source.remove(this.waiting_timeout_source_id);
+			this.waiting_timeout_source_id = 0;
 		}
 	}
 	
 	/**
 	 * Runs frequently to test if it is time to activate the break.
+	 * @param time_delta The time, in seconds, since the timeout was last run.
 	 */
-	protected abstract void waiting_update();
-	private bool waiting_update_timeout_cb() {
-		this.waiting_update();
+	protected abstract void waiting_timeout(int time_delta);
+	private bool waiting_timeout_cb() {
+		int64 now = new DateTime.now_utc().to_unix();
+		int64 time_delta = 0;
+		if (this.waiting_timeout_last_time > 0) {
+			time_delta = now - this.waiting_timeout_last_time;
+		}
+		this.waiting_timeout_last_time = now;
+		
+		this.waiting_timeout((int)time_delta);
 		return true;
 	}
 	
@@ -179,7 +188,7 @@ public abstract class Break : Object, Focusable {
 	 */
 	public void finish() {
 		this.state = State.WAITING;
-		this.start_waiting_update_timeout();
+		this.start_waiting_timeout();
 		this.focus_manager.release_focus(this);
 	}
 	

@@ -27,29 +27,35 @@ public class MicroBreak : TimerBreak {
 		return break_view;
 	}
 	
-	protected override void waiting_update() {
+	protected override void waiting_timeout(int time_delta) {
 		/* break has been satisfied if user is idle for longer than break duration */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
+		
+		// detect system sleep and count time sleeping as idle_time
+		if (time_delta > idle_time) {
+			idle_time = time_delta;
+		}
 		
 		if (idle_time > this.duration) {
 			this.finish();
 		}
 		
-		base.waiting_update();
+		base.waiting_timeout(time_delta);
 	}
 	
-	/**
-	 * Per-second timeout during micro break.
-	 */
-	protected override void active_timeout() {
-		/* Reset countdown from active computer use */
+	protected override void active_timeout(int time_delta) {
+		// Reset countdown from active computer use
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
-		
 		if (idle_time < this.get_break_time()) {
 			this.reset_active_timer();
 		}
 		
-		base.active_timeout();
+		// Detect system sleep and assume this counts as time away from the computer
+		if (time_delta > 10) {
+			this.add_bonus(time_delta);
+		}
+		
+		base.active_timeout(time_delta);
 	}
 }
 
