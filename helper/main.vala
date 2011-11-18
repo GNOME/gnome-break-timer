@@ -43,7 +43,7 @@ public class Application : Gtk.Application {
 			@define-color bg_inner rgba(15, 15, 15, 0.92);
 			@define-color bg_outer rgba(0, 0, 0, 0.96);
 
-			GtkWindow {
+			GtkWindow.brainbreak-screen-overlay {
 				background-color: @bg_inner;
 				background-image:-gtk-gradient (linear,
 				       center top,
