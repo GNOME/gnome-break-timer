@@ -72,7 +72,6 @@ public abstract class TimerBreakView : BreakView {
 	}
 	
 	private void active_timer_update_cb(int time_remaining) {
-		stdout.printf("Timer break. %f remaining\n", time_remaining);
 		this.status_widget.set_time(time_remaining);
 	}
 	

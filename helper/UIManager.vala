@@ -82,7 +82,6 @@ public class UIManager : Object {
 	private void break_activated(Break brk) {
 		if (!brk.is_focused()) {
 			// we don't care about breaks that aren't focused
-			stdout.printf("An unfocused break made it to UIManager\n");
 			return;
 		}
 		
