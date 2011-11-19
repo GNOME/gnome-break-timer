@@ -67,8 +67,8 @@ public class RestBreak : TimerBreak {
 		} else {
 			if (! this.active_timer_is_paused()) this.pause_active_timer();
 			
-			if (this.active_total_timer.elapsed() > this.interval/2) {
-				this.add_penalty(this.duration/2);
+			if (this.active_total_timer.elapsed() > this.interval/4) {
+				this.add_penalty(this.duration/4);
 				this.active_reminder();
 				this.active_total_timer.start();
 			}
