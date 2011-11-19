@@ -76,13 +76,13 @@ public class BreakOverlay : ScreenOverlay {
 		this.get_position(out start_x, out start_y);
 		
 		int shake_count = 0;
-		double velocity_x = 3;
+		double velocity_x = 1.5;
 		double velocity_y = 0;
 		
 		double move_x = start_x;
 		double move_y = start_y;
 		
-		Timeout.add(30, () => {
+		Timeout.add(15, () => {
 			if (shake_count < 42) {
 				if (move_x - start_x > 6 || move_x - start_x < -6) {
 					velocity_x = -velocity_x;
