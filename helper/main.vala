@@ -20,7 +20,9 @@ public class Application : Gtk.Application {
 	const string app_name = _("Brain Break");
 	
 	[DBus (name = "org.brainbreak.Helper")]
-	private class BreakHelperServer : BreakHelperRemote, Object {
+	private class BreakHelperServer : Object {
+		// FIXME: this used to implement BreakHelperRemote, but currently
+		// it does not due to a problem detected by Debian's build log filter.
 		private BreakManager break_manager;
 	
 		public BreakHelperServer(BreakManager break_manager) {
