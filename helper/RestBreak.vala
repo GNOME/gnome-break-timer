@@ -16,10 +16,25 @@
  */
 
 public class RestBreak : TimerBreak {
+	private Timer active_total_timer; // active time, including time paused
+	
 	public RestBreak(FocusManager focus_manager) {
 		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
 		
 		base(focus_manager, FocusPriority.HIGH, settings);
+		
+		this.active_total_timer = new Timer();
+		
+		this.activated.connect(this.activated_cb);
+		this.finished.connect(this.finished_cb);
+	}
+	
+	private void activated_cb() {
+		this.active_total_timer.start();
+	}
+	
+	private void finished_cb() {
+		this.active_total_timer.stop();
 	}
 	
 	protected override BreakView make_view() {
@@ -36,11 +51,11 @@ public class RestBreak : TimerBreak {
 			idle_time = time_delta;
 		}
 		
-		if (idle_time > this.duration) {
+		if (idle_time > this.get_adjusted_duration()) {
 			this.finish();
 		}
 		
-		if (this.starts_in() <= this.duration) {
+		if (this.starts_in() <= this.get_adjusted_duration()) {
 			this.warn();
 		}
 		
@@ -54,6 +69,12 @@ public class RestBreak : TimerBreak {
 			if (this.active_timer_is_paused()) this.resume_active_timer();
 		} else {
 			if (! this.active_timer_is_paused()) this.pause_active_timer();
+			
+			if (this.active_total_timer.elapsed() > this.interval/2) {
+				this.add_penalty(this.duration/2);
+				this.active_reminder();
+				this.active_total_timer.start();
+			}
 		}
 		
 		// Detect system sleep and assume this counts as time away from the computer
@@ -62,8 +83,6 @@ public class RestBreak : TimerBreak {
 		}
 		
 		base.active_timeout(time_delta);
-		
-		// TODO: if time since active start time > interval/2, add penalty of duration/2
 	}
 }
 

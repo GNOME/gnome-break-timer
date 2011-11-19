@@ -31,6 +31,7 @@ public abstract class TimerBreakView : BreakView {
 		
 		this.overlay_started.connect(this.overlay_started_cb);
 		timer_break.active_timer_update.connect(this.active_timer_update_cb);
+		timer_break.active_reminder.connect(this.active_reminder_cb);
 	}
 	
 	public override string get_status_message() {
@@ -73,6 +74,10 @@ public abstract class TimerBreakView : BreakView {
 	private void active_timer_update_cb(int time_remaining) {
 		stdout.printf("Timer break. %f remaining\n", time_remaining);
 		this.status_widget.set_time(time_remaining);
+	}
+	
+	private void active_reminder_cb() {
+		this.request_attention();
 	}
 	
 	private void overlay_started_cb() {

@@ -141,7 +141,9 @@ public abstract class Break : Object, Focusable {
 		}
 		this.waiting_timeout_last_time = now;
 		
-		this.waiting_timeout((int)time_delta);
+		if (this.state < State.ACTIVE) {
+			this.waiting_timeout((int)time_delta);
+		}
 		return true;
 	}
 	

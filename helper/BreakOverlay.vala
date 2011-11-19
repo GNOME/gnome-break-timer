@@ -32,6 +32,7 @@ public class BreakOverlay : ScreenOverlay {
 	
 	private void set_source(BreakOverlaySource? new_source) {
 		if (this.current_source != null) {
+			this.current_source.request_attention.disconnect(this.source_request_attention_cb);
 			this.current_source.overlay_stopped();
 		}
 		
@@ -41,6 +42,9 @@ public class BreakOverlay : ScreenOverlay {
 		
 		if (new_source != null) {
 			new_source.overlay_started();
+			
+			new_source.request_attention.connect(this.source_request_attention_cb);
+			
 			this.set_title(new_source.get_overlay_title());
 			Gtk.Widget new_content = new_source.get_overlay_content();
 			this.content_area.add(new_content);
@@ -61,12 +65,47 @@ public class BreakOverlay : ScreenOverlay {
 		this.hide();
 		this.set_source(null);
 	}
+	
+	private void source_request_attention_cb() {
+		this.shake();
+	}
+	
+	public void shake() {
+		int start_x;
+		int start_y;
+		this.get_position(out start_x, out start_y);
+		
+		int shake_count = 0;
+		double velocity_x = 3;
+		double velocity_y = 0;
+		
+		double move_x = start_x;
+		double move_y = start_y;
+		
+		Timeout.add(30, () => {
+			if (shake_count < 42) {
+				if (move_x - start_x > 6 || move_x - start_x < -6) {
+					velocity_x = -velocity_x;
+				}
+				move_x = move_x + velocity_x;
+				move_y = move_y + velocity_y;
+				this.move((int)move_x, (int)move_y);
+				shake_count += 1;
+				return true;
+			} else {
+				this.move(start_x, start_y);
+				return false;
+			}
+		});
+	}
 }
 
 public interface BreakOverlaySource : Object {
 	// TODO: background image, class name for StyleContext
 	public signal void overlay_started();
 	public signal void overlay_stopped();
+	
+	public signal void request_attention();
 	
 	public abstract string get_overlay_title();
 	public abstract Gtk.Widget get_overlay_content();

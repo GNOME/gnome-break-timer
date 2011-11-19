@@ -37,11 +37,14 @@ public abstract class TimerBreak : Break {
 	
 	private Timer active_timer;
 	private bool active_timer_paused;
-	private int current_duration;
+	private int duration_penalty;
 	
 	public TimerBreak(FocusManager focus_manager, FocusPriority priority, Settings settings) {
-		int accurate_update_interval = settings.get_int("interval-seconds");
-		if (accurate_update_interval > 10) accurate_update_interval = 10;
+		int accurate_update_interval = 10;
+		int test_interval = settings.get_int("interval-seconds");
+		int test_duration = settings.get_int("duration-seconds");
+		if (test_interval < accurate_update_interval) accurate_update_interval = test_interval;
+		if (test_duration < accurate_update_interval) accurate_update_interval = test_duration;
 		
 		base(focus_manager, priority, settings, accurate_update_interval);
 		
@@ -53,6 +56,8 @@ public abstract class TimerBreak : Break {
 		
 		this.active_timeout_source_id = 0;
 		this.active_timeout_last_time = 0;
+		
+		this.duration_penalty = 0;
 		
 		this.activated.connect(this.activated_cb);
 		this.finished.connect(this.finished_cb);
@@ -108,29 +113,34 @@ public abstract class TimerBreak : Break {
 	}
 	
 	protected void reset_active_timer() {
-		this.current_duration = this.duration;
+		this.duration_penalty = 0;
 		this.active_timer.start();
 		this.active_timer_paused = false;
 	}
 	
 	protected void add_penalty(int penalty) {
-		int maximum_duration = this.duration * 2;
-		if (this.current_duration + penalty < maximum_duration) {
-			this.current_duration += penalty;
-		} else {
-			this.current_duration = maximum_duration;
-		}
+		this.duration_penalty += penalty;
 	}
 	
 	protected void add_bonus(int bonus) {
-		this.current_duration -= bonus;
+		this.duration_penalty -= bonus;
+	}
+	
+	protected int get_adjusted_duration() {
+		int maximum_duration = this.duration * 2;
+		int adjusted_duration = this.duration + this.duration_penalty;
+		if (adjusted_duration > maximum_duration) {
+			return maximum_duration;
+		} else {
+			return adjusted_duration;
+		}
 	}
 	
 	public int get_time_remaining() {
 		int time_remaining = 0;
 		if (this.state == Break.State.ACTIVE) {
 			int time_elapsed_seconds = (int)Math.round(this.active_timer.elapsed());
-			time_remaining = this.current_duration - time_elapsed_seconds;
+			time_remaining = this.get_adjusted_duration() - time_elapsed_seconds;
 		}
 		return time_remaining;
 	}
@@ -166,7 +176,9 @@ public abstract class TimerBreak : Break {
 		}
 		this.active_timeout_last_time = now;
 		
-		this.active_timeout((int)time_delta);
+		if (this.state == State.ACTIVE) {
+			this.active_timeout((int)time_delta);
+		}
 		return true;
 	}
 }
