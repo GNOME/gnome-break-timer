@@ -43,7 +43,6 @@ public class RestBreak : TimerBreak {
 	}
 	
 	protected override void waiting_timeout(int time_delta) {
-		/* break has been satisfied if user is idle for longer than break duration */
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
 		// detect system sleep and count time sleeping as idle_time
@@ -53,9 +52,7 @@ public class RestBreak : TimerBreak {
 		
 		if (idle_time > this.get_adjusted_duration()) {
 			this.finish();
-		}
-		
-		if (this.starts_in() <= this.get_adjusted_duration()) {
+		} else if (this.starts_in() <= this.get_adjusted_duration()) {
 			this.warn();
 		}
 		

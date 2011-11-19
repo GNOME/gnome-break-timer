@@ -73,7 +73,7 @@ public abstract class TimerBreak : Break {
 	}
 	
 	protected override void waiting_timeout(int time_delta) {
-		/* Start break if the user has been active for interval */
+		// Start break if the user has been active for interval
 		if (starts_in() <= 0) {
 			this.activate();
 		}
@@ -91,6 +91,7 @@ public abstract class TimerBreak : Break {
 			this.active_timeout_source_id = 0;
 			this.active_timeout_last_time = 0;
 		}
+		this.duration_penalty = 0;
 		this.start_waiting_timeout();
 	}
 	
@@ -113,7 +114,6 @@ public abstract class TimerBreak : Break {
 	}
 	
 	protected void reset_active_timer() {
-		this.duration_penalty = 0;
 		this.active_timer.start();
 		this.active_timer_paused = false;
 	}
@@ -130,10 +130,9 @@ public abstract class TimerBreak : Break {
 		int maximum_duration = this.duration * 2;
 		int adjusted_duration = this.duration + this.duration_penalty;
 		if (adjusted_duration > maximum_duration) {
-			return maximum_duration;
-		} else {
-			return adjusted_duration;
+			adjusted_duration = maximum_duration;
 		}
+		return adjusted_duration;
 	}
 	
 	public int get_time_remaining() {
