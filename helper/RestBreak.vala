@@ -16,25 +16,27 @@
  */
 
 public class RestBreak : TimerBreak {
-	private Timer active_total_timer; // active time, including time paused
+	private Timer paused_timer;
 	
 	public RestBreak(FocusManager focus_manager) {
 		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
 		
 		base(focus_manager, FocusPriority.HIGH, settings);
 		
-		this.active_total_timer = new Timer();
+		this.paused_timer = new Timer();
+		this.paused_timer.stop();
 		
 		this.activated.connect(this.activated_cb);
 		this.finished.connect(this.finished_cb);
 	}
 	
 	private void activated_cb() {
-		this.active_total_timer.start();
+		this.paused_timer.start();
+		this.paused_timer.stop();
 	}
 	
 	private void finished_cb() {
-		this.active_total_timer.stop();
+		this.paused_timer.stop();
 	}
 	
 	protected override BreakView make_view() {
@@ -62,15 +64,22 @@ public class RestBreak : TimerBreak {
 	protected override void active_timeout(int time_delta) {
 		// Delay during active computer use
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
+		
 		if (idle_time > 4) {
-			if (this.active_timer_is_paused()) this.resume_active_timer();
+			if (this.active_timer_is_paused()) {
+				this.resume_active_timer();
+				this.paused_timer.stop();
+			}
 		} else {
-			if (! this.active_timer_is_paused()) this.pause_active_timer();
+			if (! this.active_timer_is_paused()) {
+				this.pause_active_timer();
+				this.paused_timer.continue();
+			}
 			
-			if (this.active_total_timer.elapsed() > this.interval/4) {
+			if (this.paused_timer.elapsed() > this.interval/6) {
 				this.add_penalty(this.duration/4);
 				this.active_reminder();
-				this.active_total_timer.start();
+				this.paused_timer.start();
 			}
 		}
 		
