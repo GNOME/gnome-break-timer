@@ -68,6 +68,8 @@ public class BreakOverlay : ScreenOverlay {
 	
 	private void source_request_attention_cb() {
 		this.shake();
+		Gdk.Window gdk_window = this.get_window();
+		gdk_window.beep();		
 	}
 	
 	public void shake() {
