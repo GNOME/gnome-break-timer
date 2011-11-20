@@ -15,6 +15,13 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * A type of break that is activated and finished according to timers.
+ * The TimerBreak has two timers: an interval (time between breaks) and
+ * a duration (the length of each break). Once started, the TimerBreak
+ * continuously counts down for its interval, then activates and counts
+ * down for its duration.
+ */
 public abstract class TimerBreak : Break {
 	/**
 	 * The break is active and time_remaining has changed.

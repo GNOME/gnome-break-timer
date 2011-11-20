@@ -17,8 +17,14 @@
 
 /**
  * Base class for a type of break.
- * A break inherently activates according to a set time interval, but the
- * mechanism for finishing a break is unique to each implementation.
+ * A break can be started or stopped, and once started it will be activated
+ * and finished either manually or autonomously based on things like user
+ * activity. The mechanism for activating a break and for satisfying it is
+ * unique to each implementation.
+ * As well as the fundamentals of break state, this base class provides a
+ * timeout that is run at a set interval to determine when it is time for a
+ * break, and it refers to FocusManager to make sure it is the only break
+ * in focus at a given time.
  */
 public abstract class Break : Object, Focusable {
 	private FocusManager focus_manager;

@@ -15,6 +15,12 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * A type of timer break designed for longer durations. Satisfied when the user
+ * is inactive for its entire duration, but allows the user to interact with
+ * the computer while it counts down. The timer will stop until the user has
+ * finished using the computer, and then it will start to count down again.
+ */
 public class RestBreak : TimerBreak {
 	private Timer paused_timer; // time the break has been paused due to user activity
 	

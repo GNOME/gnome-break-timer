@@ -15,6 +15,12 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * A type of timer break that should activate frequently and for short
+ * durations. Satisfied when the user is inactive for its entire duration,
+ * and when it is active it restarts its countdown whenever the user moves
+ * the mouse or types.
+ */
 public class MicroBreak : TimerBreak {
 	private Timer active_reminder_timer; // time the break has been waiting to finish
 	
