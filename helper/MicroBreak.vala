@@ -16,26 +16,26 @@
  */
 
 public class MicroBreak : TimerBreak {
-	private Timer active_total_timer; // active time, including time paused
+	private Timer active_reminder_timer; // time the break has been waiting to finish
 	
 	public MicroBreak(FocusManager focus_manager) {
 		Settings settings = new Settings("org.brainbreak.breaks.microbreak");
 		
 		base(focus_manager, FocusPriority.LOW, settings);
 		
-		this.active_total_timer = new Timer();
-		this.active_total_timer.stop();
+		this.active_reminder_timer = new Timer();
+		this.active_reminder_timer.stop();
 		
 		this.activated.connect(this.activated_cb);
 		this.finished.connect(this.finished_cb);
 	}
 	
 	private void activated_cb() {
-		this.active_total_timer.start();
+		this.active_reminder_timer.start();
 	}
 	
 	private void finished_cb() {
-		this.active_total_timer.stop();
+		this.active_reminder_timer.stop();
 	}
 	
 	protected override BreakView make_view() {
@@ -63,11 +63,11 @@ public class MicroBreak : TimerBreak {
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		if (idle_time < this.get_break_time()) {
 			this.reset_active_timer();
-		}
-		
-		if (this.active_total_timer.elapsed() > this.interval/4) {
-			this.active_reminder();
-			this.active_total_timer.start();
+			
+			if (this.active_reminder_timer.elapsed() > this.interval/4) {
+				this.active_reminder();
+				this.active_reminder_timer.start();
+			}
 		}
 		
 		// Detect system sleep and assume this counts as time away from the computer

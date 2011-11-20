@@ -16,7 +16,7 @@
  */
 
 public class RestBreak : TimerBreak {
-	private Timer paused_timer;
+	private Timer paused_timer; // time the break has been paused due to user activity
 	
 	public RestBreak(FocusManager focus_manager) {
 		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
