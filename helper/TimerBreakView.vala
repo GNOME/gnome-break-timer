@@ -36,24 +36,28 @@ public abstract class TimerBreakView : BreakView {
 	
 	public override string get_status_message() {
 		string message;
+		NaturalTime natural_time = NaturalTime.get_instance();
+		
 		if (this.timer_break.state < Break.State.ACTIVE) {
 			int starts_in = this.timer_break.starts_in();
 			
 			if (starts_in < 10 || (this.timer_break.interval < 10 && starts_in < this.timer_break.interval)) {
 				starts_in = this.timer_break.interval;
-				string start_time = NaturalTime.get_instance().get_countdown_for_seconds(starts_in);
+				string start_time = natural_time.get_countdown_for_seconds_with_start(starts_in, this.timer_break.interval);
 				message = _("+~%s").printf(start_time);
 			} else {
-				string start_time = NaturalTime.get_instance().get_countdown_for_seconds(starts_in);
+				string start_time = natural_time.get_countdown_for_seconds_with_start(starts_in, this.timer_break.interval);
 				message = _("+%s").printf(start_time);
 			}
 		} else if (this.timer_break.state == Break.State.ACTIVE) {
 			int time_remaining = this.timer_break.get_time_remaining();
-			string finish_time = NaturalTime.get_instance().get_countdown_for_seconds(time_remaining);
+			int maximum_duration = this.timer_break.get_adjusted_duration();
+			string finish_time = natural_time.get_countdown_for_seconds_with_start(time_remaining, maximum_duration);
 			message = _("-%s").printf(finish_time);
 		} else {
 			message = "";
 		}
+		
 		return message;
 	}
 	
@@ -72,7 +76,9 @@ public abstract class TimerBreakView : BreakView {
 	}
 	
 	private void active_timer_update_cb(int time_remaining) {
-		this.status_widget.set_time(time_remaining);
+		NaturalTime natural_time = NaturalTime.get_instance();
+		string countdown = natural_time.get_countdown_for_seconds_with_start( time_remaining, this.timer_break.get_adjusted_duration() );
+		this.status_widget.set_time( countdown );
 	}
 	
 	private void active_reminder_cb() {
@@ -80,9 +86,7 @@ public abstract class TimerBreakView : BreakView {
 	}
 	
 	private void overlay_started_cb() {
-		TimerBreak timer_break = (TimerBreak)this.break_scheduler;
-		int time_remaining = timer_break.get_time_remaining();
-		this.status_widget.set_time(time_remaining);
+		this.active_timer_update_cb( this.timer_break.get_time_remaining() );
 	}
 }
 

@@ -16,8 +16,6 @@
  */
 
 public class TimerBreakStatusWidget : Gtk.Grid {
-	private TimerBreak timer_break;
-	
 	private Gtk.Label timer_label;
 	private Gtk.Label message_label;
 	
@@ -48,9 +46,8 @@ public class TimerBreakStatusWidget : Gtk.Grid {
 	}
 	
 	/** Set the time remaining */
-	public void set_time(int seconds) {
-		string timer_text = NaturalTime.get_instance().get_countdown_for_seconds(seconds);
-		this.timer_label.set_text(timer_text);
+	public void set_time(string time) {
+		this.timer_label.set_text(time);
 	}
 }
 

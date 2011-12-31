@@ -133,7 +133,7 @@ public abstract class TimerBreak : Break {
 		this.duration_penalty -= bonus;
 	}
 	
-	protected int get_adjusted_duration() {
+	public int get_adjusted_duration() {
 		int maximum_duration = this.duration * 2;
 		int adjusted_duration = this.duration + this.duration_penalty;
 		if (adjusted_duration > maximum_duration) {

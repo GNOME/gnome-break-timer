@@ -60,6 +60,13 @@ class NaturalTime : Object {
 		return instance;
 	}
 	
+	/**
+	 * Get a list of possible matches for a natural time input such as
+	 * "5 seconds." An input of "50" will return an array with 50 of every
+	 * known time interval: "50 seconds", "50 minutes" and "50 hours."
+	 * @param input a string representing an amount of time.
+	 * @return a list of strings representing the same time in different units.
+	 */
 	public string[] get_completions_for_input (string input) {
 		int time = get_time_for_input(input);
 		if (time < 1) time = 1;
@@ -67,6 +74,15 @@ class NaturalTime : Object {
 		return get_completions_for_time(time);
 	}
 	
+	/**
+	 * Get a list of natural representations of the given amount of time,
+	 * one for each known unit. Note that this does not do unit conversion
+	 * for time, so that number is treated exactly as given. For example,
+	 * an input of 50 will return a string representation of 50 seconds, 50
+	 * hours and 50 minutes
+	 * @param input an amount of time.
+	 * @return a list of strings representing the same time in different units.
+	 */
 	public string[] get_completions_for_time (int time) {
 		string[] completions = new string[units.length];
 		
@@ -80,6 +96,15 @@ class NaturalTime : Object {
 		return completions;
 	}
 	
+	/**
+	 * Get a natural label for the given time in seconds. This function
+	 * will attempt to convert the time in seconds to a matching unit, but
+	 * the unit will only be used if it can represent seconds precisely.
+	 * So, an input of 60 will return "1 minute", but 61 will return
+	 * "61 seconds".
+	 * @param seconds time in seconds.
+	 * @return a string with a natural and accurate representation of the time.
+	 */
 	public string get_label_for_seconds (int seconds) {
 		TimeUnit label_unit = units[0];
 		
@@ -94,19 +119,46 @@ class NaturalTime : Object {
 		return label_unit.format_seconds(seconds);
 	}
 	
-	public string get_countdown_for_seconds (int seconds) {
+	private int soften_seconds_for_countdown(int seconds) {
 		int interval = 1;
 		if (seconds <= 10) {
 			interval = 1;
 		} else if (seconds <= 60) {
-			interval = 5;
+			interval = 10;
 		} else {
 			interval = 60;
 		}
-		
-		int seconds_snapped_to_interval = (int)((seconds-1) / interval + 1) * interval;
-		
-		return get_label_for_seconds(seconds_snapped_to_interval);
+		return (int)((seconds-1) / (interval+1)) * interval;
+	}
+	
+	/**
+	 * Get a natural label for the given time in seconds, in an imprecise
+	 * format intented for a countdown. Precision is unimportant, so this
+	 * function softens the time by a gradually smaller interval as seconds
+	 * reaches 0.
+	 * @param seconds number of seconds remaining in the countdown.
+	 * @return a string representing the time remaining.
+	 */
+	public string get_countdown_for_seconds (int seconds) {
+		int seconds_softened = soften_seconds_for_countdown(seconds);
+		return get_label_for_seconds(seconds_softened);
+	}
+	
+	/**
+	 * Get a natural label for the given time in seconds, in an imprecise
+	 * format intented for a countdown. Precision is unimportant, so this
+	 * function softens the time by a gradually smaller interval as seconds
+	 * reaches 0.
+	 * When the remaining time is near the given start time, the start time
+	 * is shown instead, without being softened.
+	 * @param seconds number of seconds remaining in the countdown.
+	 * @param start countdown start time, in seconds, which will be shown exactly.
+	 * @return a string representing the time remaining.
+	 */
+	public string get_countdown_for_seconds_with_start (int seconds, int start) {
+		int seconds_softened = soften_seconds_for_countdown(seconds);
+		if (seconds_softened > start) seconds_softened = start;
+		return get_label_for_seconds(seconds_softened);
 	}
 	
 	private bool get_unit_for_input (string input, out TimeUnit? out_unit, out int out_time) {
@@ -127,7 +179,7 @@ class NaturalTime : Object {
 		return false;
 	}
 	
-	public int get_time_for_input (string input) {
+	private int get_time_for_input (string input) {
 		// this assumes \\d+ will _only_ match the time
 		Regex re = new Regex("(\\d+)");
 		
@@ -141,6 +193,13 @@ class NaturalTime : Object {
 		}
 	}
 	
+	/**
+	 * Convert an input string representing a time to its corresponding
+	 * number of seconds. The input should be in a format understood by
+	 * NaturalTime, such as a string provided by get_completions_for_time.
+	 * @param input a string representing some amount of time.
+	 * @return int the time, in seconds, corresponding to the input.
+	 */
 	public int get_seconds_for_input (string input) {
 		TimeUnit? unit;
 		int time;
