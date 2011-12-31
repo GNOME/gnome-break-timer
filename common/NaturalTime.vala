@@ -128,7 +128,8 @@ class NaturalTime : Object {
 		} else {
 			interval = 60;
 		}
-		return (int)((seconds-1) / (interval+1)) * interval;
+		int time_softened = ((seconds-1) / interval) + 1;
+		return time_softened * interval;
 	}
 	
 	/**
