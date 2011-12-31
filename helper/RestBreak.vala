@@ -58,9 +58,9 @@ public class RestBreak : TimerBreak {
 			idle_time = time_delta;
 		}
 		
-		if (idle_time > this.get_adjusted_duration()) {
+		if (idle_time > this.get_current_duration()) {
 			this.finish();
-		} else if (this.starts_in() <= this.get_adjusted_duration()) {
+		} else if (this.starts_in() <= this.get_current_duration()) {
 			this.warn();
 		}
 		

@@ -51,8 +51,8 @@ public abstract class TimerBreakView : BreakView {
 			}
 		} else if (this.timer_break.state == Break.State.ACTIVE) {
 			int time_remaining = this.timer_break.get_time_remaining();
-			int maximum_duration = this.timer_break.get_adjusted_duration();
-			string finish_time = natural_time.get_countdown_for_seconds_with_start(time_remaining, maximum_duration);
+			int start_time = this.timer_break.get_current_duration();
+			string finish_time = natural_time.get_countdown_for_seconds_with_start(time_remaining, start_time);
 			message = _("-%s").printf(finish_time);
 		} else {
 			message = "";
@@ -77,7 +77,8 @@ public abstract class TimerBreakView : BreakView {
 	
 	private void active_timer_update_cb(int time_remaining) {
 		NaturalTime natural_time = NaturalTime.get_instance();
-		string countdown = natural_time.get_countdown_for_seconds_with_start( time_remaining, this.timer_break.get_adjusted_duration() );
+		int start_time = this.timer_break.get_current_duration();
+		string countdown = natural_time.get_countdown_for_seconds_with_start( time_remaining, start_time );
 		this.status_widget.set_time( countdown );
 	}
 	

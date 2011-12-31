@@ -133,20 +133,20 @@ public abstract class TimerBreak : Break {
 		this.duration_penalty -= bonus;
 	}
 	
-	public int get_adjusted_duration() {
+	public int get_current_duration() {
 		int maximum_duration = this.duration * 2;
-		int adjusted_duration = this.duration + this.duration_penalty;
-		if (adjusted_duration > maximum_duration) {
-			adjusted_duration = maximum_duration;
+		int current_duration = this.duration + this.duration_penalty;
+		if (current_duration > maximum_duration) {
+			current_duration = maximum_duration;
 		}
-		return adjusted_duration;
+		return current_duration;
 	}
 	
 	public int get_time_remaining() {
 		int time_remaining = 0;
 		if (this.state == Break.State.ACTIVE) {
 			int time_elapsed_seconds = (int)Math.round(this.active_timer.elapsed());
-			time_remaining = this.get_adjusted_duration() - time_elapsed_seconds;
+			time_remaining = this.get_current_duration() - time_elapsed_seconds;
 		}
 		return time_remaining;
 	}
