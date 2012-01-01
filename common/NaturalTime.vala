@@ -97,9 +97,9 @@ class NaturalTime : Object {
 	}
 	
 	/**
-	 * Get a natural label for the given time in seconds. This function
-	 * will attempt to convert the time in seconds to a matching unit, but
-	 * the unit will only be used if it can represent seconds precisely.
+	 * Get a natural label for the given time in seconds. Converts seconds
+	 * to a unit that will represent the time as accurately as possible,
+	 * favouring precision over unit selection.
 	 * So, an input of 60 will return "1 minute", but 61 will return
 	 * "61 seconds".
 	 * @param seconds time in seconds.
@@ -107,7 +107,6 @@ class NaturalTime : Object {
 	 */
 	public string get_label_for_seconds (int seconds) {
 		TimeUnit label_unit = units[0];
-		
 		foreach (TimeUnit unit in units) {
 			if (seconds % unit.seconds == 0) {
 				label_unit = unit;
@@ -115,7 +114,25 @@ class NaturalTime : Object {
 				if (seconds == 0) break;
 			}
 		}
-		
+		return label_unit.format_seconds(seconds);
+	}
+	
+	/**
+	 * Get a natural label for the given time in seconds. Converts seconds
+	 * to a unit that will represent the time as cleanly as possible,
+	 * favouring the simplest possible unit over precision.
+	 * So, an input of 60 will return "1 minute", and 61 will return the
+	 * same.
+	 * @param seconds time in seconds.
+	 * @return a string with a natural and accurate representation of the time.
+	 */
+	public string get_simplest_label_for_seconds (int seconds) {
+		TimeUnit label_unit = units[0];
+		foreach (TimeUnit unit in units) {
+			if (seconds >= unit.seconds) {
+				label_unit = unit;
+			}
+		}
 		return label_unit.format_seconds(seconds);
 	}
 	
@@ -142,7 +159,7 @@ class NaturalTime : Object {
 	 */
 	public string get_countdown_for_seconds (int seconds) {
 		int seconds_softened = soften_seconds_for_countdown(seconds);
-		return get_label_for_seconds(seconds_softened);
+		return get_simplest_label_for_seconds(seconds_softened);
 	}
 	
 	/**
@@ -159,7 +176,7 @@ class NaturalTime : Object {
 	public string get_countdown_for_seconds_with_start (int seconds, int start) {
 		int seconds_softened = soften_seconds_for_countdown(seconds);
 		if (seconds_softened > start) seconds_softened = start;
-		return get_label_for_seconds(seconds_softened);
+		return get_simplest_label_for_seconds(seconds_softened);
 	}
 	
 	private bool get_unit_for_input (string input, out TimeUnit? out_unit, out int out_time) {
