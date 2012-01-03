@@ -15,86 +15,39 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public abstract class TogglePanel : Gtk.Grid {
-	protected string title;
+public abstract class TogglePanel : Panel {
+	private Gtk.Grid inner_details_grid;
 	
-	private SwitchHeader header;
-	private Gtk.Container details_grid;
-	
+	// FIXME: we're only exposing this so QuietMode can do cool stuff with GSettings.bind to its active property
 	public Gtk.Switch toggle_switch;
-	
 	public signal void toggled(bool enabled);
 	
 	public TogglePanel(string title) {
-		Object();
+		base(title);
 		
-		this.title = title;
+		Gtk.Grid content = base.get_content_area();
 		
-		this.set_row_spacing(4);
+		this.toggle_switch = new Gtk.Switch();
+		this.toggle_switch.set_halign(Gtk.Align.START);
+		this.toggle_switch.set_valign(Gtk.Align.START);
+		content.add(this.toggle_switch);
 		
-		this.header = new SwitchHeader(this.title);
-		this.toggle_switch = header.toggle;
-		this.attach(header, 0, 0, 1, 1);
+		this.inner_details_grid = new Gtk.Grid();
+		this.inner_details_grid.set_margin_left(36);
+		content.attach_next_to(this.inner_details_grid, this.toggle_switch, Gtk.PositionType.RIGHT, 1, 1);
 		
-		this.details_grid = new Gtk.Grid();
-		this.details_grid.set_halign(Gtk.Align.START);
-		this.details_grid.set_margin_left(12);
-		this.attach_next_to(this.details_grid, this.header, Gtk.PositionType.BOTTOM, 1, 1);
+		this.toggle_switch.notify["active"].connect((s, p) => {
+			this.toggled(this.toggle_switch.active);
+		});
+		this.toggled.connect((enabled) => {
+			this.get_content_area().sensitive = this.toggle_switch.active;
+		});
 		
 		this.show_all();
-		
-		this.header.toggle.notify["active"].connect((s, p) => {
-			this.toggled(this.header.toggle.active);
-		});
-		
-		this.toggled.connect((enabled) => {
-			this.details_grid.sensitive = this.header.toggle.active;
-		});
 	}
 	
-	public void set_status_text(string text) {
-		this.header.set_status_text(text);
-	}
-	
-	public Gtk.Container get_content_area() {
-		return this.details_grid;
-	}
-}
-
-private class SwitchHeader : Gtk.Grid {
-	private Gtk.Label title_label;
-	private Gtk.Label status_label;
-	public Gtk.Switch toggle {get; private set;}
-	
-	public SwitchHeader(string title) {
-		Object();
-		
-		this.set_column_spacing(12);
-		
-		this.title_label = new Gtk.Label.with_mnemonic(title);
-		this.title_label.set_halign(Gtk.Align.END);
-		this.title_label.get_style_context().add_class("brainbreak-settings-title");
-		this.attach(this.title_label, 0, 0, 1, 1);
-		
-		this.status_label = new Gtk.Label(null);
-		this.status_label.set_hexpand(true);
-		this.status_label.set_halign(Gtk.Align.START);
-		this.status_label.set_justify(Gtk.Justification.RIGHT);
-		this.status_label.get_style_context().add_class("brainbreak-settings-status");
-		this.attach_next_to(this.status_label, this.title_label, Gtk.PositionType.RIGHT, 1, 1);
-		
-		this.toggle = new Gtk.Switch();
-		this.toggle.set_halign(Gtk.Align.END);
-		this.attach_next_to(this.toggle, this.status_label, Gtk.PositionType.RIGHT, 1, 1);
-		this.status_label.set_mnemonic_widget(this.toggle);
-		
-		this.title_label.show();
-		this.status_label.show();
-		this.toggle.show();
-	}
-	
-	public void set_status_text(string text) {
-		this.status_label.set_text(text);
+	public override Gtk.Grid get_content_area() {
+		return this.inner_details_grid;
 	}
 }
 

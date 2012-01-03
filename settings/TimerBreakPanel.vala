@@ -16,6 +16,8 @@
  */
 
 public class TimerBreakPanel : BreakPanel {
+	private string title;
+	
 	protected int[] duration_options;
 	
 	public TimeChooser interval_chooser;
@@ -23,6 +25,8 @@ public class TimerBreakPanel : BreakPanel {
 	
 	public TimerBreakPanel(string title, int[] interval_options, int[] duration_options) {
 		base(title, interval_options);
+		
+		this.title = title;
 		
 		this.duration_options = duration_options;
 		

@@ -18,7 +18,7 @@
 public class MicroBreakType : TimerBreakType {
 	public MicroBreakType() {
 		Settings settings = new Settings("org.brainbreak.breaks.microbreak");
-		string name = _("Micro break");
+		string name = _("Micro Break");
 		base("microbreak", settings, name);
 	}
 	

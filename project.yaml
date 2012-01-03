@@ -82,6 +82,7 @@ targets:
       - BreakType.vala
       - main.vala
       - MicroBreakType.vala
+      - Panel.vala
       - QuietMode.vala
       - QuietModePanel.vala
       - RestBreakType.vala

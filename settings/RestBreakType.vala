@@ -18,7 +18,7 @@
 public class RestBreakType : TimerBreakType {
 	public RestBreakType() {
 		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
-		string title = _("Rest break");
+		string title = _("Rest Break");
 		base("restbreak", settings, title);
 	}
 	

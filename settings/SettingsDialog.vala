@@ -30,7 +30,6 @@ public class SettingsDialog : Gtk.Dialog {
 		
 		this.set_title(_("Break Settings"));
 		this.set_resizable(false);
-		this.set_size_request(325, -1);
 		
 		Gtk.Widget about_button = this.add_button(Gtk.Stock.ABOUT, Gtk.ResponseType.HELP);
 		Gtk.Widget close_button = this.add_button(Gtk.Stock.CLOSE, Gtk.ResponseType.CLOSE);

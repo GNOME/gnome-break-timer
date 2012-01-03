@@ -15,25 +15,30 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// FIXME: we should inherit from something less loaded
-public class QuietModePanel : TogglePanel {
-	private Settings settings;
-	
+public class QuietModePanel : Panel {
 	public int64 expire_time {get; set;}
 	
-	private Gtk.Label countdown_label;
+	public Gtk.ToggleButton toggle_switch;
+	
+	public signal void toggled(bool enabled);
+	
 	private uint countdown_source_id;
 	
 	public QuietModePanel() {
-		base(_("Quiet Mode"));
+		base("Quiet Mode");
+		
+		Gtk.Grid content = this.get_content_area();
+		
+		this.toggle_switch = new Gtk.CheckButton.with_label(_("Please don't interrupt me. I'm doing something important."));
+		content.add(this.toggle_switch);
+		
+		this.show_all();
+		
+		this.toggle_switch.notify["active"].connect((s, p) => {
+			this.toggled(this.toggle_switch.active);
+		});
 		
 		this.countdown_source_id = 0;
-		
-		Gtk.Grid details_grid = new Gtk.Grid();
-		details_grid.set_column_spacing(8);
-		details_grid.set_row_spacing(8);
-		
-		this.get_content_area().add(details_grid);
 		
 		this.notify["expire-time"].connect((s, p) => {
 			if (this.toggle_switch.active == true) {
@@ -72,5 +77,7 @@ public class QuietModePanel : TogglePanel {
 		
 		return true;
 	}
+	
+	
 }
 
