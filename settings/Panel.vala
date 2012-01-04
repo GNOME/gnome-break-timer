@@ -61,8 +61,8 @@ private class PanelHeader : Gtk.Grid {
 		
 		this.status_label = new Gtk.Label(null);
 		this.status_label.set_hexpand(true);
-		this.status_label.set_halign(Gtk.Align.START);
-		this.status_label.set_justify(Gtk.Justification.RIGHT);
+		this.status_label.set_halign(Gtk.Align.FILL);
+		this.status_label.set_alignment(0, 0);
 		this.status_label.get_style_context().add_class("brainbreak-settings-status");
 		this.attach_next_to(this.status_label, this.title_label, Gtk.PositionType.RIGHT, 1, 1);
 		
