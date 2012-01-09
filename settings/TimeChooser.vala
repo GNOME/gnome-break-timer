@@ -126,7 +126,7 @@ public class TimeChooser : Gtk.ComboBox {
 		if (! parent_window.is_toplevel()) {
 			parent_window = null;
 		}
-		TimeEntryDialog dialog = new TimeEntryDialog(parent_window, this.title);
+		TimeEntryDialog dialog = new TimeEntryDialog.with_example(parent_window, this.title, this.time_seconds);
 		dialog.time_entered.connect((time) => {
 			bool success = this.set_time(time);
 			if (! success) {
@@ -141,6 +141,8 @@ public class TimeChooser : Gtk.ComboBox {
 }
 
 private class TimeEntryDialog : Gtk.Dialog {
+	private Gtk.Grid content_grid;
+	
 	private Gtk.Widget ok_button;
 	private Gtk.Entry time_entry;
 	//private Gtk.SpinButton time_spinner;
@@ -170,18 +172,19 @@ private class TimeEntryDialog : Gtk.Dialog {
 		
 		Gtk.Container content_area = (Gtk.Container)this.get_content_area();
 		
-		Gtk.Grid content_grid = new Gtk.Grid();
-		content_grid.margin = 6;
-		content_grid.set_row_spacing(4);
-		content_area.add(content_grid);
+		this.content_grid = new Gtk.Grid();
+		this.content_grid.margin = 6;
+		this.content_grid.set_row_spacing(4);
+		this.content_grid.set_orientation(Gtk.Orientation.VERTICAL);
+		content_area.add(this.content_grid);
 		
 		Gtk.Label entry_label = new Gtk.Label(title);
-		content_grid.attach(entry_label, 0, 0, 1, 1);
+		this.content_grid.add(entry_label);
 		
 		this.time_entry = new Gtk.Entry();
 		this.time_entry.activate.connect(this.submit);
 		this.time_entry.changed.connect(this.time_entry_changed);
-		content_grid.attach(this.time_entry, 0, 1, 1, 1);
+		this.content_grid.add(this.time_entry);
 		
 		/*
 		Gtk.Adjustment time_spinner_adjustment = new Gtk.Adjustment(30, 1, 86400, 1, 60, 60);
@@ -204,6 +207,18 @@ private class TimeEntryDialog : Gtk.Dialog {
 		this.validate_input();
 		
 		content_area.show_all();
+	}
+	
+	public TimeEntryDialog.with_example(Gtk.Window? parent, string title, int example_seconds) {
+		this(parent, title);
+		
+		string example = NaturalTime.get_instance().get_label_for_seconds(example_seconds);
+		
+		Gtk.Label example_label = new Gtk.Label(null);
+		example_label.set_markup("<small>Example: %s</small>".printf(example));
+		content_grid.add(example_label);
+		
+		example_label.show();
 	}
 	
 	private void validate_input() {

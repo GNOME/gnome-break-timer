@@ -46,7 +46,7 @@ public class TimerBreakPanel : BreakPanel {
 		interval_label.set_halign(Gtk.Align.END);
 		details_grid.attach(interval_label, 0, 1, 1, 1);
 		
-		this.interval_chooser = new TimeChooser(this.interval_options, _("%s interval").printf(this.title));
+		this.interval_chooser = new TimeChooser(this.interval_options, _("%s frequency").printf(this.title));
 		details_grid.attach_next_to(this.interval_chooser, interval_label, Gtk.PositionType.RIGHT, 1, 1);
 		
 		Gtk.Label duration_label = new Gtk.Label.with_mnemonic("For");
