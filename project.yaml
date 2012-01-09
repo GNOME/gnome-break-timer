@@ -90,7 +90,6 @@ targets:
       - TimeChooser.vala
       - TimerBreakPanel.vala
       - TimerBreakType.vala
-      - TogglePanel.vala
       - ../common/BreakHelperRemote.vala
       - ../common/NaturalTime.vala
     defines:

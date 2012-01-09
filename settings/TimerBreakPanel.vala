@@ -16,22 +16,24 @@
  */
 
 public class TimerBreakPanel : BreakPanel {
-	private string title;
-	
-	protected int[] duration_options;
-	
 	public TimeChooser interval_chooser;
 	public TimeChooser duration_chooser;
 	
-	public TimerBreakPanel(string title, int[] interval_options, int[] duration_options) {
-		base(title, interval_options);
+	protected int[] interval_options;
+	protected int[] duration_options;
+	
+	private string title;
+	
+	public TimerBreakPanel(string title, string? description, int[] interval_options, int[] duration_options) {
+		base(title, description);
 		
 		this.title = title;
 		
+		this.interval_options = interval_options;
 		this.duration_options = duration_options;
 		
 		Gtk.Grid details_grid = this.build_details_grid();
-		this.get_content_area().add(details_grid);
+		this.get_content().add(details_grid);
 	}
 	
 	private inline Gtk.Grid build_details_grid() {

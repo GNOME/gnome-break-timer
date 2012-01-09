@@ -24,8 +24,6 @@ public class Application : Gtk.Application {
 			GtkLabel.brainbreak-settings-title {
 				font-weight:bold;
 			}
-			GtkLabel.brainbreak-settings-status {
-			}
 			""";
 	
 	public Application() {
@@ -50,8 +48,8 @@ public class Application : Gtk.Application {
 				Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 		
 		SettingsDialog dialog = new SettingsDialog();
-		dialog.add_break_type(new RestBreakType());
 		dialog.add_break_type(new MicroBreakType());
+		dialog.add_break_type(new RestBreakType());
 		
 		this.add_window(dialog);
 		dialog.show();

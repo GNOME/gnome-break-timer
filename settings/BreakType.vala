@@ -21,13 +21,11 @@ public abstract class BreakType : Object {
 	private BreakPanel settings_panel;
 	
 	public string name {get; private set;}
-	public string title {get; private set;}
 	public bool enabled {get; set; default=true;}
 	
-	public BreakType(string name, Settings settings, string title) {
+	public BreakType(string name, Settings settings) {
 		this.name = name;
 		this.settings = settings;
-		this.title = title;
 		
 		this.settings_panel = this.make_settings_panel();
 		

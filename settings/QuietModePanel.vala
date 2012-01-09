@@ -22,14 +22,28 @@ public class QuietModePanel : Panel {
 	
 	public signal void toggled(bool enabled);
 	
+	private Gtk.Label countdown_label;
+	
 	private uint countdown_source_id;
 	
 	public QuietModePanel() {
-		base("Quiet Mode");
+		base();
 		
-		Gtk.Grid content = this.get_content_area();
+		Gtk.Container header = this.get_header();
 		
-		this.toggle_switch = new Gtk.CheckButton.with_label(_("Please don't interrupt me. I'm doing something important."));
+		Gtk.Label title_label = new Gtk.Label(_("Quiet Mode"));
+		title_label.set_halign(Gtk.Align.START);
+		title_label.get_style_context().add_class("brainbreak-settings-title");
+		header.add(title_label);
+		
+		this.countdown_label = new Gtk.Label(null);
+		this.countdown_label.set_hexpand(true);
+		this.countdown_label.set_halign(Gtk.Align.END);
+		header.add(this.countdown_label);
+		
+		Gtk.Container content = this.get_content();
+		
+		this.toggle_switch = new Gtk.CheckButton.with_label(_("Please don't interrupt me. I'm doing something important"));
 		content.add(this.toggle_switch);
 		
 		this.show_all();
@@ -55,7 +69,7 @@ public class QuietModePanel : Panel {
 	}
 	
 	public void end_countdown() {
-		this.set_status_text("");
+		this.countdown_label.set_markup("");
 		this.toggle_switch.active = false;
 		if (this.countdown_source_id > 0) {
 			Source.remove(this.countdown_source_id);
@@ -68,8 +82,8 @@ public class QuietModePanel : Panel {
 		int64 time_remaining = this.expire_time - now.to_unix();
 		
 		if (time_remaining > 0) {
-			string label = NaturalTime.get_instance().get_countdown_for_seconds((int)time_remaining);
-			this.set_status_text("%s".printf(label));
+			string countdown = NaturalTime.get_instance().get_countdown_for_seconds((int)time_remaining);
+			this.countdown_label.set_markup(_("<small>%s remaining</small>").printf(countdown));
 		} else {
 			this.end_countdown();
 			return false;

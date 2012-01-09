@@ -16,61 +16,35 @@
  */
 
 public abstract class Panel : Gtk.Grid {
-	private PanelHeader header;
-	private Gtk.Grid details_grid;
+	private Gtk.Grid header;
+	private Gtk.Grid content;
 	
-	public Panel(string title) {
+	public Panel() {
 		Object();
 		
-		this.set_row_spacing(4);
+		this.set_orientation(Gtk.Orientation.VERTICAL);
+		this.set_row_spacing(12);
 		
-		this.header = new PanelHeader(title);
-		this.attach(header, 0, 0, 1, 1);
+		this.header = new Gtk.Grid();
+		this.header.set_orientation(Gtk.Orientation.HORIZONTAL);
+		this.header.set_column_spacing(12);
+		this.add(header);
 		
-		this.details_grid = new Gtk.Grid();
-		this.details_grid.set_margin_left(12);
-		this.details_grid.set_orientation(Gtk.Orientation.VERTICAL);
-		this.attach_next_to(this.details_grid, this.header, Gtk.PositionType.BOTTOM, 1, 1);
+		this.content = new Gtk.Grid();
+		this.content.set_orientation(Gtk.Orientation.HORIZONTAL);
+		this.content.set_column_spacing(6);
+		this.content.set_margin_left(12);
+		this.add(this.content);
 		
 		this.show_all();
 	}
 	
-	public void set_status_text(string text) {
-		this.header.set_status_text(text);
+	public virtual Gtk.Container get_header() {
+		return this.header;
 	}
 	
-	public virtual Gtk.Grid get_content_area() {
-		return this.details_grid;
-	}
-}
-
-private class PanelHeader : Gtk.Grid {
-	private Gtk.Label title_label;
-	private Gtk.Label status_label;
-	
-	public PanelHeader(string title) {
-		Object();
-		
-		this.set_column_spacing(24);
-		this.set_row_spacing(6);
-		
-		this.title_label = new Gtk.Label.with_mnemonic(title);
-		this.title_label.set_halign(Gtk.Align.START);
-		this.title_label.get_style_context().add_class("brainbreak-settings-title");
-		this.attach(this.title_label, 0, 0, 1, 1);
-		
-		this.status_label = new Gtk.Label(null);
-		this.status_label.set_hexpand(true);
-		this.status_label.set_halign(Gtk.Align.FILL);
-		this.status_label.set_alignment(0, 0);
-		this.status_label.get_style_context().add_class("brainbreak-settings-status");
-		this.attach_next_to(this.status_label, this.title_label, Gtk.PositionType.RIGHT, 1, 1);
-		
-		this.show_all();
-	}
-	
-	public void set_status_text(string text) {
-		this.status_label.set_markup("<i>%s</i>".printf(text));
+	public virtual Gtk.Container get_content() {
+		return this.content;
 	}
 }
 

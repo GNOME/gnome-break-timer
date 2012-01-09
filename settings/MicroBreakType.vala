@@ -16,16 +16,18 @@
  */
 
 public class MicroBreakType : TimerBreakType {
+	static string title = _("Micro Break");
+	static string description = _("Pause frequently to relax your eyes");
+	
 	public MicroBreakType() {
 		Settings settings = new Settings("org.brainbreak.breaks.microbreak");
-		string name = _("Micro Break");
-		base("microbreak", settings, name);
+		base("microbreak", settings);
 	}
 	
 	protected override BreakPanel make_settings_panel() {
 		int[] interval_options = {480, 600, 720, 900};
 		int[] duration_options = {15, 20, 30, 45, 60};
-		TimerBreakPanel panel = new TimerBreakPanel(this.title, interval_options, duration_options);
+		TimerBreakPanel panel = new TimerBreakPanel(title, description, interval_options, duration_options);
 		
 		this.bind_to_settings_panel(panel);
 		
