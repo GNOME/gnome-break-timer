@@ -31,13 +31,21 @@ public class BreakManager : Object {
 		this.register_break("microbreak", new MicroBreak(this.focus_manager));
 	}
 	
+	private void break_enable_change(Break brk) {
+		bool enabled = brk.settings.get_boolean("enabled");
+		brk.set_enabled(enabled);
+	}
+	
 	private void register_break(string name, Break brk) {
 		this.breaks.set(name, brk);
 		this.ui_manager.watch_break(brk);
 		
 		// FIXME: Breaks are currently enabled by their own settings.
 		// Instead, enabled breaks should be stored in a list somewhere.
-		brk.settings.bind("enabled", brk, "enabled", SettingsBindFlags.GET);
+		brk.settings.changed["enabled"].connect(() => {
+			brk.set_enabled(brk.settings.get_boolean("enabled"));
+		});
+		brk.set_enabled(brk.settings.get_boolean("enabled"));
 	}
 	
 	public Break get_break_for_name(string name) {

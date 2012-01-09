@@ -31,31 +31,25 @@ public abstract class Break : Object, Focusable {
 	
 	public Settings settings {get; private set;}
 	
-	public bool enabled {get; set; default=false;}
-	
 	public enum State {
 		WAITING,
 		WARN,
 		ACTIVE,
-		STOPPED
+		DISABLED
 	}
 	public State state {get; private set;}
 	
 	/**
-	 * The break has been stopped. Its timers have been stopped and
-	 * it will not do anything until it is started again.
-	 * If the break has already been stopped and you call stop(),
-	 * this signal will not be emitted.
+	 * The break has been enabled. It will monitor user activity and
+	 * emit activated() or finished() signals until it is disabled.
 	 */
-	public signal void stopped();
+	public signal void enabled();
 	
 	/**
-	 * The break has been started. It will monitor user activity and
-	 * emit activated() or finished() signals when appropriate.
-	 * If the break has already been started and you call start(),
-	 * this signal will not be emitted.
+	 * The break has been disabled. Its timers have been stopped and
+	 * it will not do anything until it is enabled again.
 	 */
-	public signal void started();
+	public signal void disabled();
 	
 	/**
 	 * The break has been activated and is now counting down
@@ -84,43 +78,52 @@ public abstract class Break : Object, Focusable {
 		this.settings = settings;
 		this.waiting_timeout_interval = waiting_timeout_interval;
 		
-		this.state = State.STOPPED;
+		this.state = State.DISABLED;
 		
 		this.waiting_timeout_source_id = 0;
 		
 		this.break_view = this.make_view();
 		
 		settings.changed.connect(() => {
-			// restart the break with new settings, if necessary
-			if (this.is_started()) this.start();
-		});
-		
-		this.notify["enabled"].connect(() => {
-			if (this.enabled) {
-				this.start();
-			} else {
-				this.stop();
-			}
+			// make sure timers and the like restart with new settings
+			this.reset();
 		});
 	}
 	
 	protected abstract BreakView make_view();
 	
-	protected virtual void start() {
-		bool was_started = this.is_started();
-		
-		this.finish();
-		this.state = State.WAITING;
-		this.start_waiting_timeout();
-		if (!was_started) this.started();
+	protected void reset() {
+		if (this.is_enabled()) {
+			this.finish();
+		}
 	}
-	protected virtual void stop() {
-		bool was_started = this.is_started();
-		
-		this.finish();
-		this.stop_waiting_timeout();
-		this.state = State.STOPPED;
-		if (was_started) this.stopped();
+	
+	/**
+	 * Set whether the break is enabled or disabled. If it is enabled,
+	 * it will periodically update in the background, and if it is
+	 * disabled it will do nothing (and consume fewer resources).
+	 * This will also emit the enabled() or disabled() signal.
+	 * @param enable True to enable the break, false to disable it
+	 */
+	public void set_enabled(bool enable) {
+		if (enable) {
+			this.state = State.WAITING;
+			this.start_waiting_timeout();
+			this.focus_manager.release_focus(this);
+			this.enabled();
+		} else {
+			this.state = State.DISABLED;
+			this.stop_waiting_timeout();
+			this.focus_manager.release_focus(this);
+			this.disabled();
+		}
+	}
+	
+	/**
+	 * Break is enabled and periodically updating in the background.
+	 */
+	public bool is_enabled() {
+		return this.state != State.DISABLED;
 	}
 	
 	protected virtual void start_waiting_timeout() {
@@ -151,13 +154,6 @@ public abstract class Break : Object, Focusable {
 			this.waiting_timeout((int)time_delta);
 		}
 		return true;
-	}
-	
-	/**
-	 * Break is enabled and periodically updating in the background.
-	 */
-	public bool is_started() {
-		return this.state != State.STOPPED;
 	}
 	
 	/**

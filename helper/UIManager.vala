@@ -49,11 +49,11 @@ public class UIManager : Object {
 	}
 	
 	public void watch_break(Break brk) {
-		brk.started.connect(() => {
+		brk.enabled.connect(() => {
 			this.application.hold();
 		});
 		
-		brk.stopped.connect(() => {
+		brk.disabled.connect(() => {
 			this.application.release();
 		});
 		
@@ -62,7 +62,7 @@ public class UIManager : Object {
 		});
 		
 		brk.finished.connect(() => {
-			this.break_stopped(brk);
+			this.break_finished(brk);
 		});
 	}
 	
@@ -110,7 +110,7 @@ public class UIManager : Object {
 		}
 	}
 	
-	private void break_stopped(Break brk) {
+	private void break_finished(Break brk) {
 		if (this.active_break == brk) {
 			BreakView break_view = brk.get_view();
 			
