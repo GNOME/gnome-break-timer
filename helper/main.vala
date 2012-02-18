@@ -42,19 +42,20 @@ public class Application : Gtk.Application {
 	
 	static const string STYLE_DATA =
 			"""
-			@define-color bg_inner rgba(15, 15, 15, 0.92);
-			@define-color bg_outer rgba(0, 0, 0, 0.96);
+			@define-color bg_top rgba(60, 60, 60, 0.85);
+			@define-color bg_middle rgba(12, 12, 12, 0.92);
+			@define-color bg_bottom rgba(0, 0, 0, 0.96);
 
 			GtkWindow.brainbreak-screen-overlay {
 				background-color: @bg_inner;
 				background-image:-gtk-gradient (linear,
 				       center top,
 				       center bottom,
-				       color-stop (0, @bg_outer),
-				       color-stop (0.1, @bg_inner),
-				       color-stop (0.9, @bg_inner),
-				       color-stop (1, @bg_outer));
-				border-radius: 8;
+				       color-stop (0, @bg_top),
+				       color-stop (0.06, @bg_middle),
+				       color-stop (0.9, @bg_middle),
+				       color-stop (1, @bg_bottom));
+				/*border-radius: 8;*/
 				color: #ffffff;
 			}
 
@@ -76,9 +77,12 @@ public class Application : Gtk.Application {
 	}
 	
 	public override void activate() {
+		base.activate();
 	}
 	
 	public override void startup() {
+		base.startup();
+		
 		Magic.begin();
 		Notify.init(app_name);
 		

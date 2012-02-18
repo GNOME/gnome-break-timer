@@ -32,12 +32,15 @@ public class Application : Gtk.Application {
 	}
 	
 	public override void activate() {
+		base.activate();
 		foreach (Gtk.Window window in this.get_windows()) {
 			window.present();
 		}
 	}
 	
 	public override void startup() {
+		base.startup();
+		
 		/* set up custom gtk style for application */
 		Gdk.Screen screen = Gdk.Screen.get_default();
 		Gtk.CssProvider style_provider = new Gtk.CssProvider();

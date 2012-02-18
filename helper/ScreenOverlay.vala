@@ -16,8 +16,23 @@
  */
 
 public class ScreenOverlay : Gtk.Window {
+	public enum Format {
+		MINI,
+		FULL
+	}
+	private Format format;
+	
 	public ScreenOverlay() {
 		Object(type: Gtk.WindowType.POPUP);
+		
+		/*
+		this.set_decorated(false);
+		this.stick();
+		this.set_keep_above(true);
+		this.set_skip_pager_hint(true);
+		this.set_skip_taskbar_hint(true);
+		this.set_accept_focus(false);
+		*/
 		
 		this.realize.connect(this.on_realize);
 		
@@ -25,12 +40,51 @@ public class ScreenOverlay : Gtk.Window {
 		screen.composited_changed.connect(this.on_screen_composited_changed);
 		this.on_screen_composited_changed(screen);
 		
-		/* we don't want any input, ever */
-		/* FIXME: surely we can just say what input we want instead of making a region? */
-		this.input_shape_combine_region(new Cairo.Region());
+		this.set_format(Format.FULL);
 		
 		Gtk.StyleContext style = this.get_style_context();
 		style.add_class("brainbreak-screen-overlay");
+	}
+	
+	private void update_format() {
+		/* FIXME: This switch is really nasty. Maybe a facade would do the trick? */
+		/* FIXME: this is fucking broken. DO A FACADE NOW! */
+		switch(this.format) {
+		case Format.MINI:
+			this.input_shape_combine_region((Cairo.Region)null);
+			
+			this.set_size_request(-1, -1);
+			this.resize(1, 1);
+			
+			break;
+		case Format.FULL:
+			/* empty input region to ignore any input */
+			this.input_shape_combine_region(new Cairo.Region());
+			
+			Gdk.Screen screen = this.get_screen();
+			int monitor = screen.get_monitor_at_window(this.get_window());
+			Gdk.Rectangle geom;
+			screen.get_monitor_geometry(monitor, out geom);
+			
+			string? session = Environment.get_variable("DESKTOP_SESSION");
+			
+			if (session == "gnome-shell") {
+				/* make sure the overlay doesn't cause the top panel to hide */
+				// FIXME: position _properly_ around panel, using _NET_WORKAREA or a maximized toplevel window
+				this.set_size_request(geom.width, geom.height-1);
+				this.move(0, 1);
+			} else {
+				this.set_size_request(geom.width, geom.height);
+			}
+			
+			break;
+		}
+	}
+	
+	public void set_format(Format format) {
+		this.format = format;
+		
+		if (this.get_realized()) this.update_format();
 	}
 	
 	private void on_screen_composited_changed(Gdk.Screen screen) {
@@ -45,13 +99,7 @@ public class ScreenOverlay : Gtk.Window {
 	}
 	
 	private void on_realize() {
-		Gdk.Screen screen = this.get_screen();
-		int monitor = screen.get_monitor_at_window(this.get_window());
-		Gdk.Rectangle geom;
-		screen.get_monitor_geometry(monitor, out geom);
-		
-		this.set_default_size((int)(geom.width * 0.9), (int)(geom.height * 0.9));
-		this.set_position(Gtk.WindowPosition.CENTER);
+		this.update_format();
 	}
 }
 

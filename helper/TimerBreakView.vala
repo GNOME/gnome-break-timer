@@ -40,13 +40,10 @@ public abstract class TimerBreakView : BreakView {
 		
 		if (this.timer_break.state < Break.State.ACTIVE) {
 			int starts_in = this.timer_break.starts_in();
-			
-			if (starts_in < 10 || (this.timer_break.interval < 10 && starts_in < this.timer_break.interval)) {
-				starts_in = this.timer_break.interval;
-				string start_time = natural_time.get_countdown_for_seconds_with_start(starts_in, this.timer_break.interval);
+			string start_time = natural_time.get_countdown_for_seconds_with_start(starts_in, this.timer_break.interval);
+			if (starts_in < 10) {
 				message = _("+~%s").printf(start_time);
 			} else {
-				string start_time = natural_time.get_countdown_for_seconds_with_start(starts_in, this.timer_break.interval);
 				message = _("+%s").printf(start_time);
 			}
 		} else if (this.timer_break.state == Break.State.ACTIVE) {

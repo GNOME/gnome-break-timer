@@ -22,27 +22,14 @@
  * finished using the computer, and then it will start to count down again.
  */
 public class RestBreak : TimerBreak {
-	private Timer paused_timer; // time the break has been paused due to user activity
+	private Countdown paused_countdown; // time the break has been paused due to user activity
 	
 	public RestBreak(FocusManager focus_manager) {
 		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
 		
 		base(focus_manager, FocusPriority.HIGH, settings);
 		
-		this.paused_timer = new Timer();
-		this.paused_timer.stop();
-		
-		this.activated.connect(this.activated_cb);
-		this.finished.connect(this.finished_cb);
-	}
-	
-	private void activated_cb() {
-		this.paused_timer.start();
-		this.paused_timer.stop();
-	}
-	
-	private void finished_cb() {
-		this.paused_timer.stop();
+		this.paused_countdown = new Countdown();
 	}
 	
 	protected override BreakView make_view() {
@@ -50,7 +37,7 @@ public class RestBreak : TimerBreak {
 		return break_view;
 	}
 	
-	protected override void waiting_timeout(int time_delta) {
+	protected override void waiting_timeout_cb(CleverTimeout timeout, int time_delta) {
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
 		// detect system sleep and count time sleeping as idle_time
@@ -58,43 +45,38 @@ public class RestBreak : TimerBreak {
 			idle_time = time_delta;
 		}
 		
-		if (idle_time > this.get_current_duration()) {
+		if (idle_time > this.duration) {
 			this.finish();
-		} else if (this.starts_in() <= this.get_current_duration()) {
+		} else if (this.starts_in() <= duration) {
 			this.warn();
 		}
 		
-		base.waiting_timeout(time_delta);
+		base.waiting_timeout_cb(timeout, time_delta);
 	}
 	
-	protected override void active_timeout(int time_delta) {
-		// Delay during active computer use
+	protected override void active_timeout_cb(CleverTimeout timeout, int time_delta) {
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
-		if (idle_time > 4) {
-			if (this.active_timer_is_paused()) {
-				this.resume_active_timer();
-				this.paused_timer.stop();
+		if (idle_time < time_delta*2) {
+			// Pause during active computer use
+			if (! this.duration_countdown.is_paused()) {
+				this.duration_countdown.pause();
+				this.paused_countdown.start(this.interval/6);
+			}
+			if (this.paused_countdown.get_time_remaining() <= 0) {
+				if (this.duration_countdown.get_penalty() < this.duration) {
+					this.duration_countdown.add_penalty(this.duration/4);
+				}
+				this.active_reminder();
+				this.paused_countdown.start(this.interval/6);
 			}
 		} else {
-			if (! this.active_timer_is_paused()) {
-				this.pause_active_timer();
-				this.paused_timer.continue();
-			}
-			
-			if (this.paused_timer.elapsed() > this.interval/6) {
-				this.add_penalty(this.duration/4);
-				this.active_reminder();
-				this.paused_timer.start();
+			if (this.duration_countdown.is_paused()) {
+				this.duration_countdown.continue();
 			}
 		}
 		
-		// Detect system sleep and assume this counts as time away from the computer
-		if (time_delta > 10) {
-			this.add_bonus(time_delta);
-		}
-		
-		base.active_timeout(time_delta);
+		base.active_timeout_cb(timeout, time_delta);
 	}
 }
 

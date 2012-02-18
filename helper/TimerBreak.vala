@@ -26,6 +26,7 @@ public abstract class TimerBreak : Break {
 	/**
 	 * The break is active and time_remaining has changed.
 	 */
+	/* FIXME: RENAME THIS SIGNAL NOW! */
 	public signal void active_timer_update(int time_remaining);
 	
 	/**
@@ -37,116 +38,68 @@ public abstract class TimerBreak : Break {
 	public int interval {get; protected set;}
 	public int duration {get; protected set;}
 	
-	private uint active_timeout_source_id;
-	private int64 active_timeout_last_time;
+	protected CleverTimeout waiting_timeout;
+	protected Timer interval_timer;
 	
-	private Timer interval_timer;
-	
-	private Timer active_timer;
-	private bool active_timer_paused;
-	private int duration_penalty;
+	protected CleverTimeout active_timeout;
+	protected Countdown duration_countdown;
 	
 	public TimerBreak(FocusManager focus_manager, FocusPriority priority, Settings settings) {
-		int accurate_update_interval = 10;
-		int test_interval = settings.get_int("interval-seconds");
-		int test_duration = settings.get_int("duration-seconds");
-		if (test_interval < accurate_update_interval) accurate_update_interval = test_interval;
-		if (test_duration < accurate_update_interval) accurate_update_interval = test_duration;
-		
-		base(focus_manager, priority, settings, accurate_update_interval);
+		base(focus_manager, priority, settings);
 		
 		settings.bind("interval-seconds", this, "interval", SettingsBindFlags.GET);
 		settings.bind("duration-seconds", this, "duration", SettingsBindFlags.GET);
 		
+		this.waiting_timeout = new CleverTimeout(this.waiting_timeout_cb);
 		this.interval_timer = new Timer();
-		this.active_timer = new Timer();
 		
-		this.active_timeout_source_id = 0;
-		this.active_timeout_last_time = 0;
+		this.active_timeout = new CleverTimeout(this.active_timeout_cb);
+		this.duration_countdown = new Countdown();
 		
-		this.duration_penalty = 0;
+		this.enabled.connect(this.enabled_cb);
+		this.disabled.connect(this.disabled_cb);
 		
 		this.activated.connect(this.activated_cb);
 		this.finished.connect(this.finished_cb);
 	}
 	
-	protected override void start_waiting_timeout() {
-		base.start_waiting_timeout();
+	private int get_waiting_update_frequency() {
+		int update_frequency = 10;
+		update_frequency = int.min(this.interval, 10);
+		update_frequency = int.min(this.duration, update_frequency);
+		return update_frequency;
+	}
+	
+	private void enabled_cb() {
+		this.waiting_timeout.start(this.get_waiting_update_frequency());
 		this.interval_timer.start();
 	}
-	protected override void stop_waiting_timeout() {
-		base.stop_waiting_timeout();
+	
+	private void disabled_cb() {
+		this.waiting_timeout.stop();
 		this.interval_timer.stop();
 	}
 	
-	protected override void waiting_timeout(int time_delta) {
-		// Start break if the user has been active for interval
-		if (starts_in() <= 0) {
-			this.activate();
-		}
-	}
-	
 	private void activated_cb() {
-		this.reset_active_timer();
-		this.active_timeout_source_id = Timeout.add_seconds(1, this.active_timeout_cb);
+		this.duration_countdown.start(this.duration);
+		this.active_timeout.start(1);
+		this.interval_timer.stop();
 	}
 	
 	private void finished_cb() {
-		this.pause_active_timer();
-		if (this.active_timeout_source_id > 0) {
-			Source.remove(this.active_timeout_source_id);
-			this.active_timeout_source_id = 0;
-			this.active_timeout_last_time = 0;
-		}
-		this.duration_penalty = 0;
-		this.start_waiting_timeout();
-	}
-	
-	protected int get_break_time() {
-		return (int)Math.round(this.active_timer.elapsed());
-	}
-	
-	protected bool active_timer_is_paused() {
-		return this.active_timer_paused;
-	}
-	
-	protected void pause_active_timer() {
-		this.active_timer.stop();
-		this.active_timer_paused = true;
-	}
-	
-	protected void resume_active_timer() {
-		this.active_timer.continue();
-		this.active_timer_paused = false;
-	}
-	
-	protected void reset_active_timer() {
-		this.active_timer.start();
-		this.active_timer_paused = false;
-	}
-	
-	protected void add_penalty(int penalty) {
-		this.duration_penalty += penalty;
-	}
-	
-	protected void add_bonus(int bonus) {
-		this.duration_penalty -= bonus;
+		this.duration_countdown.pause();
+		this.active_timeout.stop();
+		this.interval_timer.start();
 	}
 	
 	public int get_current_duration() {
-		int maximum_duration = this.duration * 2;
-		int current_duration = this.duration + this.duration_penalty;
-		if (current_duration > maximum_duration) {
-			current_duration = maximum_duration;
-		}
-		return current_duration;
+		return this.duration_countdown.get_duration();
 	}
 	
 	public int get_time_remaining() {
 		int time_remaining = 0;
 		if (this.state == Break.State.ACTIVE) {
-			int time_elapsed_seconds = (int)Math.round(this.active_timer.elapsed());
-			time_remaining = this.get_current_duration() - time_elapsed_seconds;
+			time_remaining = this.duration_countdown.get_time_remaining();
 		}
 		return time_remaining;
 	}
@@ -159,33 +112,34 @@ public abstract class TimerBreak : Break {
 	}
 	
 	/**
-	 * Per-second timeout during break.
-	 * Aggressively checks if break is satisfied and updates watchers.
+	 * Runs frequently to test if it is time to activate the break.
 	 * @param time_delta The time, in seconds, since the timeout was last run.
 	 */
-	protected virtual void active_timeout(int time_delta) {
-		assert(this.state == Break.State.ACTIVE);
+	protected virtual void waiting_timeout_cb(CleverTimeout timeout, int time_delta) {
+		// Activate if break interval is finished
+		if (this.starts_in() <= 0) {
+			this.activate();
+		}
+	}
+	
+	/**
+	 * Per-second timeout during break.
+	 * Aggressively checks if break is satisfied and updates watchers.
+	 * Note that this will run at the same time as waiting_timeout_cb.
+	 * @param time_delta The time, in seconds, since the timeout was last run.
+	 */
+	protected virtual void active_timeout_cb(CleverTimeout timeout, int time_delta) {
+		if (this.state != Break.State.ACTIVE) {
+			stderr.printf("TimerBreak active_timeout_cb called while Break.State != ACTIVE\n");
+		}
 		
 		int time_remaining = this.get_time_remaining();
 		
-		if (time_remaining < 1) {
+		if (time_remaining <= 0) {
 			this.finish();
 		} else {
 			this.active_timer_update(time_remaining);
 		}
-	}
-	private bool active_timeout_cb() {
-		int64 now = new DateTime.now_utc().to_unix();
-		int64 time_delta = 0;
-		if (this.active_timeout_last_time > 0) {
-			time_delta = now - this.active_timeout_last_time;
-		}
-		this.active_timeout_last_time = now;
-		
-		if (this.state == State.ACTIVE) {
-			this.active_timeout((int)time_delta);
-		}
-		return true;
 	}
 }
 

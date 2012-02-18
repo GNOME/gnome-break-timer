@@ -16,6 +16,18 @@ requires:
     type: package
     version: 1.7
     mandatory: True
+  x11:
+    type: package
+    mandatory: True
+  xscrnsaver:
+    type: package
+    mandatory: True
+  gdk-3.0:
+    type: package
+    mandatory: True
+  gdk-x11-3.0:
+    type: package
+    mandatory: True
   gee-1.0:
     type: package
     version: 0.6.2
@@ -47,6 +59,8 @@ targets:
       - BreakManager.vala
       - BreakOverlay.vala
       - BreakView.vala
+      - CleverTimeout.vala
+      - Countdown.vala
       - FocusManager.vala
       - Magic.vala
       - main.vala
@@ -107,6 +121,8 @@ targets:
     input:
       - magic_core.c
     packages:
-      - xcb
-      - xcb-screensaver
+      - x11
+      - xscrnsaver
+      - gdk-3.0
+      - gdk-x11-3.0
 

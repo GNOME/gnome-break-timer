@@ -18,30 +18,14 @@
 /**
  * A type of timer break that should activate frequently and for short
  * durations. Satisfied when the user is inactive for its entire duration,
- * and when it is active it restarts its countdown whenever the user moves
- * the mouse or types.
+ * and when it is active it restarts its countdown whenever the user types
+ * or moves the mouse.
  */
 public class MicroBreak : TimerBreak {
-	private Timer active_reminder_timer; // time the break has been waiting to finish
-	
 	public MicroBreak(FocusManager focus_manager) {
 		Settings settings = new Settings("org.brainbreak.breaks.microbreak");
 		
 		base(focus_manager, FocusPriority.LOW, settings);
-		
-		this.active_reminder_timer = new Timer();
-		this.active_reminder_timer.stop();
-		
-		this.activated.connect(this.activated_cb);
-		this.finished.connect(this.finished_cb);
-	}
-	
-	private void activated_cb() {
-		this.active_reminder_timer.start();
-	}
-	
-	private void finished_cb() {
-		this.active_reminder_timer.stop();
 	}
 	
 	protected override BreakView make_view() {
@@ -49,7 +33,7 @@ public class MicroBreak : TimerBreak {
 		return break_view;
 	}
 	
-	protected override void waiting_timeout(int time_delta) {
+	protected override void waiting_timeout_cb(CleverTimeout timeout, int time_delta) {
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
 		// detect system sleep and count time sleeping as idle_time
@@ -57,31 +41,24 @@ public class MicroBreak : TimerBreak {
 			idle_time = time_delta;
 		}
 		
-		if (idle_time > this.get_current_duration()) {
+		if (idle_time > this.duration) {
 			this.finish();
 		}
 		
-		base.waiting_timeout(time_delta);
+		base.waiting_timeout_cb(timeout, time_delta);
 	}
 	
-	protected override void active_timeout(int time_delta) {
-		// Reset countdown from active computer use
+	protected override void active_timeout_cb(CleverTimeout timeout, int time_delta) {
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
-		if (idle_time < this.get_break_time()) {
-			this.reset_active_timer();
+		
+		if (idle_time < time_delta*2) {
+			// Reset countdown from active computer use
+			this.duration_countdown.start(this.duration);
 			
-			if (this.active_reminder_timer.elapsed() > this.interval/4) {
-				this.active_reminder();
-				this.active_reminder_timer.start();
-			}
+			// FIXME: active_reminder + increased length if delayed for a long time
 		}
 		
-		// Detect system sleep and assume this counts as time away from the computer
-		if (time_delta > 10) {
-			this.add_bonus(time_delta);
-		}
-		
-		base.active_timeout(time_delta);
+		base.active_timeout_cb(timeout, time_delta);
 	}
 }
 

@@ -42,8 +42,11 @@ public class UIManager : Object {
 		this.notify["quiet-mode"].connect((s, p) => {
 			if (this.quiet_mode) {
 				// hide the overlay (if it is currently showing)
-				this.break_overlay.remove_source();
-				this.overlay_triggered_for_break = false;
+				//this.break_overlay.remove_source();
+				this.break_overlay.set_format(ScreenOverlay.Format.MINI);
+				//this.overlay_triggered_for_break = false;
+			} else {
+				this.break_overlay.set_format(ScreenOverlay.Format.FULL);
 			}
 		});
 	}
@@ -57,12 +60,12 @@ public class UIManager : Object {
 			this.application.release();
 		});
 		
-		brk.activated.connect(() => {
-			this.break_activated(brk);
+		brk.focus_started.connect(() => {
+			this.show_break(brk);
 		});
 		
-		brk.finished.connect(() => {
-			this.break_finished(brk);
+		brk.focus_ended.connect(() => {
+			this.hide_break(brk);
 		});
 	}
 	
@@ -79,7 +82,7 @@ public class UIManager : Object {
 		return false;
 	}
 	
-	private void break_activated(Break brk) {
+	private void show_break(Break brk) {
 		if (!brk.is_focused()) {
 			// we don't care about breaks that aren't focused
 			return;
@@ -110,7 +113,7 @@ public class UIManager : Object {
 		}
 	}
 	
-	private void break_finished(Break brk) {
+	private void hide_break(Break brk) {
 		if (this.active_break == brk) {
 			BreakView break_view = brk.get_view();
 			

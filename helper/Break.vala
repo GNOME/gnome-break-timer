@@ -53,34 +53,28 @@ public abstract class Break : Object, Focusable {
 	
 	/**
 	 * The break has been activated and is now counting down
-	 * aggressively until it is satisfied. This is the point where
-	 * the UI should block the screen and notify the user to take a
-	 * break.
+	 * aggressively until it is satisfied.
 	 */
 	public signal void activated();
 	
 	/**
-	 * The break has been satisfied. This can happen at any point.
+	 * The break has been satisfied. This can happen at any time, including
 	 * while the break is waiting or after it has been activiated.
 	 */
 	public signal void finished();
 	
+	public signal void focus_started();
+	
+	public signal void focus_ended();
+	
 	private BreakView break_view;
 	
-	private int waiting_timeout_interval;
-	private uint waiting_timeout_source_id;
-	private int64 waiting_timeout_last_time;
-	
-	
-	public Break(FocusManager focus_manager, FocusPriority priority, Settings settings, int waiting_timeout_interval) {
+	public Break(FocusManager focus_manager, FocusPriority priority, Settings settings) {
 		this.focus_manager = focus_manager;
 		this.priority = priority;
 		this.settings = settings;
-		this.waiting_timeout_interval = waiting_timeout_interval;
 		
 		this.state = State.DISABLED;
-		
-		this.waiting_timeout_source_id = 0;
 		
 		this.break_view = this.make_view();
 		
@@ -92,7 +86,7 @@ public abstract class Break : Object, Focusable {
 	
 	protected abstract BreakView make_view();
 	
-	protected void reset() {
+	private void reset() {
 		if (this.is_enabled()) {
 			this.finish();
 		}
@@ -108,56 +102,24 @@ public abstract class Break : Object, Focusable {
 	public void set_enabled(bool enable) {
 		if (enable) {
 			this.state = State.WAITING;
-			this.start_waiting_timeout();
 			this.focus_manager.release_focus(this);
 			this.enabled();
 		} else {
 			this.state = State.DISABLED;
-			this.stop_waiting_timeout();
 			this.focus_manager.release_focus(this);
 			this.disabled();
 		}
 	}
 	
 	/**
-	 * Break is enabled and periodically updating in the background.
+	 * @return true if the break is enabled and waiting to start automatically
 	 */
 	public bool is_enabled() {
 		return this.state != State.DISABLED;
 	}
 	
-	protected virtual void start_waiting_timeout() {
-		this.stop_waiting_timeout();
-		this.waiting_timeout_source_id = Timeout.add_seconds(this.waiting_timeout_interval, this.waiting_timeout_cb);
-	}
-	protected virtual void stop_waiting_timeout() {
-		if (this.waiting_timeout_source_id > 0) {
-			Source.remove(this.waiting_timeout_source_id);
-			this.waiting_timeout_source_id = 0;
-		}
-	}
-	
 	/**
-	 * Runs frequently to test if it is time to activate the break.
-	 * @param time_delta The time, in seconds, since the timeout was last run.
-	 */
-	protected abstract void waiting_timeout(int time_delta);
-	private bool waiting_timeout_cb() {
-		int64 now = new DateTime.now_utc().to_unix();
-		int64 time_delta = 0;
-		if (this.waiting_timeout_last_time > 0) {
-			time_delta = now - this.waiting_timeout_last_time;
-		}
-		this.waiting_timeout_last_time = now;
-		
-		if (this.state < State.ACTIVE) {
-			this.waiting_timeout((int)time_delta);
-		}
-		return true;
-	}
-	
-	/**
-	 * Break has been triggered and is counting down to completion.
+	 * @return true if the break has been activated, is in focus, and expects to be satisfied
 	 */
 	public bool is_active() {
 		return this.state == State.ACTIVE;
@@ -183,6 +145,7 @@ public abstract class Break : Object, Focusable {
 		if (this.state < State.ACTIVE) {
 			this.state = State.ACTIVE;
 			this.focus_manager.request_focus(this);
+			this.activated();
 		}
 	}
 	
@@ -192,8 +155,8 @@ public abstract class Break : Object, Focusable {
 	 */
 	public void finish() {
 		this.state = State.WAITING;
-		this.start_waiting_timeout();
 		this.focus_manager.release_focus(this);
+		this.finished();
 	}
 	
 	/**
@@ -220,12 +183,12 @@ public abstract class Break : Object, Focusable {
 	
 	public void start_focus() {
 		this.focused = true;
-		this.activated();
+		this.focus_started();
 	}
 	
 	public void stop_focus(bool replaced) {
 		this.focused = false;
-		this.finished();
+		this.focus_ended();
 	}
 }
 
