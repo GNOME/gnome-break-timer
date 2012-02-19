@@ -5,9 +5,6 @@ project:
 
 
 requires:
-  glib-2.0:
-    type: package
-    mandatory: True
   xcb:
     type: package
     version: 1.7
@@ -16,25 +13,8 @@ requires:
     type: package
     version: 1.7
     mandatory: True
-  x11:
+  glib-2.0:
     type: package
-    mandatory: True
-  xscrnsaver:
-    type: package
-    mandatory: True
-  gdk-3.0:
-    type: package
-    mandatory: True
-  gdk-x11-3.0:
-    type: package
-    mandatory: True
-  gee-1.0:
-    type: package
-    version: 0.6.2
-    mandatory: True
-  gtk+-3.0:
-    type: package
-    version: 3.0.8
     mandatory: True
   gio-2.0:
     type: package
@@ -43,6 +23,14 @@ requires:
   gio-unix-2.0:
     type: package
     version: 2.30.0
+    mandatory: True
+  gtk+-3.0:
+    type: package
+    version: 3.0.8
+    mandatory: True
+  gee-1.0:
+    type: package
+    version: 0.6.2
     mandatory: True
   libnotify:
     type: package
@@ -81,9 +69,9 @@ targets:
       - magic-core
     packages:
       - glib-2.0
+      - gio-2.0
       - gtk+-3.0
       - gee-1.0
-      - gio-2.0
       - libnotify
   
   brainbreak-settings:
@@ -110,9 +98,9 @@ targets:
       - GETTEXT_PACKAGE="brainbreak"
     packages:
       - gtk+-3.0
-      - gee-1.0
       - gio-2.0
       - gio-unix-2.0
+      - gee-1.0
   
   magic-core:
     tool: cc
@@ -121,8 +109,6 @@ targets:
     input:
       - magic_core.c
     packages:
-      - x11
-      - xscrnsaver
-      - gdk-3.0
-      - gdk-x11-3.0
+      - xcb
+      - xcb-screensaver
 

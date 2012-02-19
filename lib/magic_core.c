@@ -15,35 +15,35 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <X11/Xlib.h>
- 
-#include <X11/Xutil.h>
-#include <X11/extensions/scrnsaver.h>
+#include <stdlib.h>
+#include <xcb/xcb.h>
+#include <xcb/screensaver.h>
 
-#include <gtk-3.0/gdk/gdk.h>
-#include <gtk-3.0/gdk/gdkx.h>
+static xcb_connection_t * connection;
+static xcb_screen_t * screen;
 
+/**
+ * Connects to the X server (via xcb) and gets the screen
+ */
 void magic_begin () {
+	connection = xcb_connect (NULL, NULL);
+	screen = xcb_setup_roots_iterator (xcb_get_setup (connection)).data;
 }
 
+/**
+ * Asks X for the time the user has been idle
+ * @returns idle time in milliseconds
+ */
 unsigned long magic_get_idle_time () {
-	/*Display *dpy = XOpenDisplay(NULL);
-	int scr = DefaultScreen(dpy);
-	Window rootwin = RootWindow(dpy, scr);*/
+	xcb_screensaver_query_info_cookie_t cookie;
+	xcb_screensaver_query_info_reply_t *info;
 	
-	Display * display = gdk_x11_get_default_xdisplay();
-	Window rootwin = gdk_x11_get_default_root_xwindow();
+	cookie = xcb_screensaver_query_info (connection, screen->root);
+	info = xcb_screensaver_query_info_reply (connection, cookie, NULL);
 	
+	uint32_t idle = info->ms_since_user_input;
+	free (info);
 	
-	static XScreenSaverInfo *mit_info = NULL;
-	int event_base, error_base;
-	if (XScreenSaverQueryExtension(display, &event_base, &error_base)) {
-		mit_info = XScreenSaverAllocInfo();
-		XScreenSaverQueryInfo(display, rootwin, mit_info);
-		return (long)mit_info->idle;
-	} else {
-		return 0;
-	}
+	return idle;
 }
 
