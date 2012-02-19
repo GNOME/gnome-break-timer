@@ -1,41 +1,67 @@
 /**
  * A countdown timer that counts seconds from a start time down to 0. Uses
- * system time, so it will count regardless of system state.
+ * "wall-clock" time instead of monotonic time, so it will count
+ * regardless of system state.
  * The countdown can be paused, and its duration can be adjusted at any time
  * using penalty and bonus time.
  */
 public class Countdown : Object {
+	private enum State {
+		STOPPED,
+		PAUSED,
+		COUNTING
+	}
+	private State state;
+	
+	private int base_duration;
+	
 	private int64 start_time;
-	
-	private bool paused;
-	private int pause_time_elapsed;
-	
-	private int duration;
+	private int stop_time_elapsed;
 	private int penalty;
 	
-	public Countdown() {
+	public Countdown(int base_duration) {
+		this.base_duration = base_duration;
+		this.reset();
 	}
 	
-	public void start(int initial_duration) {
-		this.start_time = new DateTime.now_utc().to_unix();
-		this.duration = initial_duration;
+	/**
+	 * Stop the countdown and forget its current position.
+	 * This is the same as calling Countdown.start(), except the countdown
+	 * will not advance.
+	 */
+	public void reset() {
 		this.penalty = 0;
-		this.pause_time_elapsed = 0;
-		this.paused = false;
+		this.stop_time_elapsed = 0;
+		this.state = State.STOPPED;
 	}
 	
+	/**
+	 * Start counting down from the time set with set_base_duration.
+	 * This is the same as calling Countdown.stop() followed by
+	 * Countdown.continue().
+	 */
+	public void start() {
+		this.reset();
+		this.continue();
+	}
+	
+	/**
+	 * Pause the countdown, keeping its current position.
+	 */
 	public void pause() {
-		if (this.paused) return;
-		
-		this.pause_time_elapsed = this.get_time_elapsed();
-		this.paused = true;
+		this.stop_time_elapsed = this.get_time_elapsed();
+		this.state = State.PAUSED;
 	}
 	
+	/**
+	 * Start the countdown, continuing from the current position if
+	 * possible.
+	 */
 	public void continue() {
-		if (! this.paused) return;
-		
-		this.start_time = new DateTime.now_utc().to_unix();
-		this.paused = false;
+		if (this.state < State.COUNTING) {
+			this.start_time = new DateTime.now_utc().to_unix();
+			this.state = State.COUNTING;
+		}
 	}
 	
 	public void add_penalty(int penalty) {
@@ -50,18 +76,22 @@ public class Countdown : Object {
 		return this.penalty;
 	}
 	
-	public bool is_paused() {
-		return this.paused;
+	public bool is_counting() {
+		return this.state == State.COUNTING;
+	}
+	
+	public void set_base_duration(int base_duration) {
+		this.base_duration = base_duration;
 	}
 	
 	public int get_duration() {
-		return int.max(0, this.duration + this.penalty);
+		return int.max(0, this.base_duration + this.penalty);
 	}
 	
 	private int get_time_elapsed() {
-		int time_elapsed = this.pause_time_elapsed;
+		int time_elapsed = this.stop_time_elapsed;
 		
-		if (! this.paused) {
+		if (this.state == State.COUNTING) {
 			int64 now = new DateTime.now_utc().to_unix();
 			time_elapsed += (int)(now - this.start_time);
 		}
@@ -71,7 +101,7 @@ public class Countdown : Object {
 	
 	public int get_time_remaining() {
 		int time_remaining = this.get_duration() - this.get_time_elapsed();
-		return time_remaining;
+		return int.max(0, time_remaining);
 	}
 }
 

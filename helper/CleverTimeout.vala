@@ -10,11 +10,13 @@ public class CleverTimeout : Object {
 	public signal void stopped();
 	
 	private unowned TimeoutCB timeout_cb;
+	private int frequency;
 	private uint source_id;
 	private int64 last_time;
 	
-	public CleverTimeout(TimeoutCB callback) {
+	public CleverTimeout(TimeoutCB callback, int frequency) {
 		this.timeout_cb = callback;
+		this.frequency = frequency;
 	}
 	
 	private bool timeout_wrapper() {
@@ -28,7 +30,7 @@ public class CleverTimeout : Object {
 		return true;
 	}
 	
-	public void start(int interval) {
+	public void start() {
 		if (this.is_running()) {
 			Source.remove(this.source_id);
 		}
@@ -36,9 +38,16 @@ public class CleverTimeout : Object {
 		int64 now = new DateTime.now_utc().to_unix();
 		this.last_time = now;
 		
-		this.source_id = Timeout.add_seconds(interval, this.timeout_wrapper);
+		this.source_id = Timeout.add_seconds(this.frequency, this.timeout_wrapper);
 		
 		this.started();
+	}
+	
+	public void set_frequency(int frequency) {
+		this.frequency = frequency;
+		if (this.is_running()) {
+			this.start();
+		}
 	}
 	
 	public void stop() {

@@ -38,11 +38,11 @@ public abstract class TimerBreak : Break {
 	public int interval {get; protected set;}
 	public int duration {get; protected set;}
 	
+	protected Countdown interval_countdown;
 	protected CleverTimeout waiting_timeout;
-	protected Timer interval_timer;
 	
-	protected CleverTimeout active_timeout;
 	protected Countdown duration_countdown;
+	protected CleverTimeout active_timeout;
 	
 	public TimerBreak(FocusManager focus_manager, FocusPriority priority, Settings settings) {
 		base(focus_manager, priority, settings);
@@ -50,11 +50,20 @@ public abstract class TimerBreak : Break {
 		settings.bind("interval-seconds", this, "interval", SettingsBindFlags.GET);
 		settings.bind("duration-seconds", this, "duration", SettingsBindFlags.GET);
 		
-		this.waiting_timeout = new CleverTimeout(this.waiting_timeout_cb);
-		this.interval_timer = new Timer();
+		this.interval_countdown = new Countdown(this.interval);
+		this.waiting_timeout = new CleverTimeout(this.waiting_timeout_cb, this.get_waiting_update_frequency());
 		
-		this.active_timeout = new CleverTimeout(this.active_timeout_cb);
-		this.duration_countdown = new Countdown();
+		this.duration_countdown = new Countdown(this.duration);
+		this.active_timeout = new CleverTimeout(this.active_timeout_cb, 1);
+		
+		this.notify["interval"].connect((s, p) => {
+			this.interval_countdown.set_base_duration(this.interval);
+			this.waiting_timeout.set_frequency(this.get_waiting_update_frequency());
+		});
+		this.notify["duration"].connect((s, p) => {
+			this.duration_countdown.set_base_duration(this.duration);
+			this.waiting_timeout.set_frequency(this.get_waiting_update_frequency());
+		});
 		
 		this.enabled.connect(this.enabled_cb);
 		this.disabled.connect(this.disabled_cb);
@@ -65,31 +74,37 @@ public abstract class TimerBreak : Break {
 	
 	private int get_waiting_update_frequency() {
 		int update_frequency = 10;
-		update_frequency = int.min(this.interval, 10);
-		update_frequency = int.min(this.duration, update_frequency);
+		update_frequency = int.min(update_frequency, this.interval / 2);
+		update_frequency = int.min(update_frequency, this.duration / 2);
 		return update_frequency;
 	}
 	
 	private void enabled_cb() {
-		this.waiting_timeout.start(this.get_waiting_update_frequency());
-		this.interval_timer.start();
+		this.interval_countdown.continue();
+		this.waiting_timeout.start();
 	}
 	
 	private void disabled_cb() {
+		this.interval_countdown.pause();
 		this.waiting_timeout.stop();
-		this.interval_timer.stop();
+		
+		this.duration_countdown.pause();
+		this.active_timeout.stop();
 	}
 	
 	private void activated_cb() {
-		this.duration_countdown.start(this.duration);
-		this.active_timeout.start(1);
-		this.interval_timer.stop();
+		this.waiting_timeout.stop();
+		
+		this.duration_countdown.continue();
+		this.active_timeout.start();
 	}
 	
 	private void finished_cb() {
-		this.duration_countdown.pause();
+		this.duration_countdown.reset();
 		this.active_timeout.stop();
-		this.interval_timer.start();
+		
+		this.interval_countdown.start();
+		this.waiting_timeout.start();
 	}
 	
 	public int get_current_duration() {
@@ -108,7 +123,7 @@ public abstract class TimerBreak : Break {
 	 * @return Time until the next scheduled break, in seconds.
 	 */
 	public int starts_in() {
-		return this.interval - (int)this.interval_timer.elapsed();
+		return this.interval_countdown.get_time_remaining();
 	}
 	
 	/**

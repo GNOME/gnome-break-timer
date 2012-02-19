@@ -77,20 +77,9 @@ public abstract class Break : Object, Focusable {
 		this.state = State.DISABLED;
 		
 		this.break_view = this.make_view();
-		
-		settings.changed.connect(() => {
-			// make sure timers and the like restart with new settings
-			this.reset();
-		});
 	}
 	
 	protected abstract BreakView make_view();
-	
-	private void reset() {
-		if (this.is_enabled()) {
-			this.finish();
-		}
-	}
 	
 	/**
 	 * Set whether the break is enabled or disabled. If it is enabled,
@@ -144,8 +133,8 @@ public abstract class Break : Object, Focusable {
 	public void activate() {
 		if (this.state < State.ACTIVE) {
 			this.state = State.ACTIVE;
-			this.focus_manager.request_focus(this);
 			this.activated();
+			this.focus_manager.request_focus(this);
 		}
 	}
 	
@@ -155,8 +144,8 @@ public abstract class Break : Object, Focusable {
 	 */
 	public void finish() {
 		this.state = State.WAITING;
-		this.focus_manager.release_focus(this);
 		this.finished();
+		this.focus_manager.release_focus(this);
 	}
 	
 	/**

@@ -52,8 +52,8 @@ public class MicroBreak : TimerBreak {
 		int idle_time = (int)(Magic.get_idle_time() / 1000);
 		
 		if (idle_time < time_delta*2) {
-			// Reset countdown from active computer use
-			this.duration_countdown.start(this.duration);
+			// Restart countdown from active computer use
+			this.duration_countdown.start();
 			
 			// FIXME: active_reminder + increased length if delayed for a long time
 		}

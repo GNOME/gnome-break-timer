@@ -64,6 +64,10 @@ public class UIManager : Object {
 			this.show_break(brk);
 		});
 		
+		brk.finished.connect(() => {
+			this.break_finished(brk);
+		});
+		
 		brk.focus_ended.connect(() => {
 			this.hide_break(brk);
 		});
@@ -113,19 +117,20 @@ public class UIManager : Object {
 		}
 	}
 	
-	private void hide_break(Break brk) {
-		if (this.active_break == brk) {
+	private void break_finished(Break brk) {
+		if (this.active_break == brk && this.overlay_triggered_for_break == false) {
 			BreakView break_view = brk.get_view();
 			
+			Notify.Notification notification = break_view.get_finish_notification();
+			notification.set_urgency(Notify.Urgency.LOW);
+			notification.set_hint("transient", true);
+			notification.show();
+		}
+	}
+	
+	private void hide_break(Break brk) {
+		if (this.active_break == brk) {
 			this.break_overlay.remove_source();
-			
-			if (this.overlay_triggered_for_break == false) {
-				Notify.Notification notification = break_view.get_finish_notification();
-				notification.set_urgency(Notify.Urgency.LOW);
-				notification.set_hint("transient", true);
-				notification.show();
-			}
-			
 			this.active_break = null;
 		}
 	}

@@ -22,14 +22,14 @@
  * finished using the computer, and then it will start to count down again.
  */
 public class RestBreak : TimerBreak {
-	private Countdown paused_countdown; // time the break has been paused due to user activity
+	private Timer paused_timer; // time the break has been paused due to user activity
 	
 	public RestBreak(FocusManager focus_manager) {
 		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
 		
 		base(focus_manager, FocusPriority.HIGH, settings);
 		
-		this.paused_countdown = new Countdown();
+		this.paused_timer = new Timer();
 	}
 	
 	protected override BreakView make_view() {
@@ -59,19 +59,19 @@ public class RestBreak : TimerBreak {
 		
 		if (idle_time < time_delta*2) {
 			// Pause during active computer use
-			if (! this.duration_countdown.is_paused()) {
+			if (this.duration_countdown.is_counting()) {
 				this.duration_countdown.pause();
-				this.paused_countdown.start(this.interval/6);
+				this.paused_timer.start();
 			}
-			if (this.paused_countdown.get_time_remaining() <= 0) {
+			if (this.paused_timer.elapsed() >= this.interval/6) {
 				if (this.duration_countdown.get_penalty() < this.duration) {
 					this.duration_countdown.add_penalty(this.duration/4);
 				}
 				this.active_reminder();
-				this.paused_countdown.start(this.interval/6);
+				this.paused_timer.start();
 			}
 		} else {
-			if (this.duration_countdown.is_paused()) {
+			if (! this.duration_countdown.is_counting()) {
 				this.duration_countdown.continue();
 			}
 		}
