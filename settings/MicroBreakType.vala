@@ -25,7 +25,7 @@ public class MicroBreakType : TimerBreakType {
 	}
 	
 	protected override BreakPanel make_settings_panel() {
-		int[] interval_options = {480, 600, 720, 900};
+		int[] interval_options = {240, 360, 480, 600};
 		int[] duration_options = {15, 20, 30, 45, 60};
 		TimerBreakPanel panel = new TimerBreakPanel(title, description, interval_options, duration_options);
 		

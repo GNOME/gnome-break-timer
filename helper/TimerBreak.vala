@@ -26,14 +26,13 @@ public abstract class TimerBreak : Break {
 	/**
 	 * The break is active and time_remaining has changed.
 	 */
-	/* FIXME: RENAME THIS SIGNAL NOW! */
-	public signal void active_timer_update(int time_remaining);
+	public signal void active_countdown_changed(int time_remaining);
 	
 	/**
 	 * The break is active and the user is not paying attention to it.
 	 * At this point, a time penalty may have been added.
 	 */
-	public signal void active_reminder();
+	public signal void attention_demanded();
 	
 	public int interval {get; protected set;}
 	public int duration {get; protected set;}
@@ -73,14 +72,13 @@ public abstract class TimerBreak : Break {
 	}
 	
 	private int get_waiting_update_frequency() {
-		int update_frequency = 10;
+		int update_frequency = 5;
 		update_frequency = int.min(update_frequency, this.interval / 2);
 		update_frequency = int.min(update_frequency, this.duration / 2);
 		return update_frequency;
 	}
 	
 	private void enabled_cb() {
-		this.interval_countdown.continue();
 		this.waiting_timeout.start();
 	}
 	
@@ -94,29 +92,15 @@ public abstract class TimerBreak : Break {
 	
 	private void activated_cb() {
 		this.waiting_timeout.stop();
-		
-		this.duration_countdown.continue();
 		this.active_timeout.start();
 	}
 	
 	private void finished_cb() {
+		this.interval_countdown.reset();
+		this.waiting_timeout.start();
+		
 		this.duration_countdown.reset();
 		this.active_timeout.stop();
-		
-		this.interval_countdown.start();
-		this.waiting_timeout.start();
-	}
-	
-	public int get_current_duration() {
-		return this.duration_countdown.get_duration();
-	}
-	
-	public int get_time_remaining() {
-		int time_remaining = 0;
-		if (this.state == Break.State.ACTIVE) {
-			time_remaining = this.duration_countdown.get_time_remaining();
-		}
-		return time_remaining;
 	}
 	
 	/**
@@ -126,21 +110,33 @@ public abstract class TimerBreak : Break {
 		return this.interval_countdown.get_time_remaining();
 	}
 	
+	public int get_time_remaining() {
+		return this.duration_countdown.get_time_remaining();
+	}
+	
+	public int get_current_duration() {
+		return this.duration_countdown.get_duration();
+	}
+	
 	/**
 	 * Runs frequently to test if it is time to activate the break.
 	 * @param time_delta The time, in seconds, since the timeout was last run.
 	 */
 	protected virtual void waiting_timeout_cb(CleverTimeout timeout, int time_delta) {
-		// Activate if break interval is finished
+		if (this.get_time_remaining() <= 0) {
+			this.finish();
+		}
+		
 		if (this.starts_in() <= 0) {
 			this.activate();
+		} else if (this.starts_in() <= duration) {
+			this.warn();
 		}
 	}
 	
 	/**
 	 * Per-second timeout during break.
 	 * Aggressively checks if break is satisfied and updates watchers.
-	 * Note that this will run at the same time as waiting_timeout_cb.
 	 * @param time_delta The time, in seconds, since the timeout was last run.
 	 */
 	protected virtual void active_timeout_cb(CleverTimeout timeout, int time_delta) {
@@ -152,9 +148,9 @@ public abstract class TimerBreak : Break {
 		
 		if (time_remaining <= 0) {
 			this.finish();
-		} else {
-			this.active_timer_update(time_remaining);
 		}
+		
+		this.active_countdown_changed(time_remaining);
 	}
 }
 

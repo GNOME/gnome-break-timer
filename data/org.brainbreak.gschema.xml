@@ -51,7 +51,7 @@
     </key>
     
     <key name="interval-seconds" type="i">
-      <default>480</default>
+      <default>360</default>
       <summary>Time between breaks</summary>
       <description>The preferred time between micro breaks, in seconds.</description>
     </key>

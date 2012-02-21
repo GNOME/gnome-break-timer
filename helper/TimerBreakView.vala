@@ -30,10 +30,11 @@ public abstract class TimerBreakView : BreakView {
 		this.status_widget = new TimerBreakStatusWidget();
 		
 		this.overlay_started.connect(this.overlay_started_cb);
-		timer_break.active_timer_update.connect(this.active_timer_update_cb);
-		timer_break.active_reminder.connect(this.active_reminder_cb);
+		timer_break.active_countdown_changed.connect(this.active_countdown_changed_cb);
+		timer_break.attention_demanded.connect(this.attention_demanded_cb);
 	}
 	
+	/*
 	public override string get_status_message() {
 		string message;
 		NaturalTime natural_time = NaturalTime.get_instance();
@@ -57,6 +58,20 @@ public abstract class TimerBreakView : BreakView {
 		
 		return message;
 	}
+	*/
+	
+	public override string get_status_message() {
+		string message;
+		NaturalTime natural_time = NaturalTime.get_instance();
+		
+		int starts_in = this.timer_break.starts_in();
+		int time_remaining = this.timer_break.get_time_remaining();
+		string state_label = this.timer_break.state.to_string();
+		
+		message = "%s, I:%d, D:%d".printf(state_label, starts_in, time_remaining);
+		
+		return message;
+	}
 	
 	public override int get_lead_in_seconds() {
 		int lead_in = this.timer_break.duration+3;
@@ -72,19 +87,19 @@ public abstract class TimerBreakView : BreakView {
 		return this.status_widget;
 	}
 	
-	private void active_timer_update_cb(int time_remaining) {
+	private void active_countdown_changed_cb(int time_remaining) {
 		NaturalTime natural_time = NaturalTime.get_instance();
 		int start_time = this.timer_break.get_current_duration();
 		string countdown = natural_time.get_countdown_for_seconds_with_start( time_remaining, start_time );
 		this.status_widget.set_time( countdown );
 	}
 	
-	private void active_reminder_cb() {
+	private void attention_demanded_cb() {
 		this.request_attention();
 	}
 	
 	private void overlay_started_cb() {
-		this.active_timer_update_cb( this.timer_break.get_time_remaining() );
+		this.active_countdown_changed_cb( this.timer_break.get_time_remaining() );
 	}
 }
 

@@ -15,6 +15,8 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* FIXME: Do another overlay widget and kill the set_format junk :) */
+
 public class ScreenOverlay : Gtk.Window {
 	public enum Format {
 		MINI,
@@ -47,8 +49,6 @@ public class ScreenOverlay : Gtk.Window {
 	}
 	
 	private void update_format() {
-		/* FIXME: This switch is really nasty. Maybe a facade would do the trick? */
-		/* FIXME: this is fucking broken. DO A FACADE NOW! */
 		switch(this.format) {
 		case Format.MINI:
 			this.input_shape_combine_region((Cairo.Region)null);
