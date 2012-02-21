@@ -91,6 +91,7 @@ public abstract class TimerBreak : Break {
 	}
 	
 	private void activated_cb() {
+		this.interval_countdown.pause();
 		this.waiting_timeout.stop();
 		this.active_timeout.start();
 	}

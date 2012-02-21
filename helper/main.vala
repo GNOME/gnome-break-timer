@@ -74,6 +74,9 @@ public class Application : Gtk.Application {
 	public Application() {
 		Object(application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
 		GLib.Environment.set_application_name(app_name);
+		
+		// Keep running for one minute after last break is disabled
+		this.set_inactivity_timeout(60 * 1000);
 	}
 	
 	public override void activate() {

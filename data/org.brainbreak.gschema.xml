@@ -57,7 +57,7 @@
     </key>
     
     <key name="duration-seconds" type="i">
-      <default>20</default>
+      <default>25</default>
       <summary>Duration of each break</summary>
       <description>The preferred duration of each micro break, in seconds.</description>
     </key>
