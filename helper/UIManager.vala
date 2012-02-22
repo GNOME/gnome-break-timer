@@ -29,6 +29,8 @@ public class UIManager : Object {
 	private BreakOverlay break_overlay;
 	private bool overlay_triggered_for_break;
 	
+	private Notify.Notification? notification;
+	
 	public UIManager(Application application) {
 		this.application = application;
 		
@@ -86,6 +88,16 @@ public class UIManager : Object {
 		return false;
 	}
 	
+	private void show_notification(BreakView.NotificationContent content, Notify.Urgency urgency) {
+		if (this.notification == null) {
+			this.notification = new Notify.Notification("", null, null);
+			this.notification.set_hint("transient", true);
+		}
+		this.notification.set_urgency(urgency);
+		this.notification.update(content.summary, content.body, content.icon);
+		this.notification.show();
+	}
+	
 	private void show_break(Break brk) {
 		if (!brk.is_focused()) {
 			// we don't care about breaks that aren't focused
@@ -101,10 +113,8 @@ public class UIManager : Object {
 		} else {
 			this.active_break = brk;
 			
-			Notify.Notification notification = break_view.get_start_notification();
-			notification.set_urgency(Notify.Urgency.NORMAL);
-			notification.set_hint("transient", true);
-			notification.show();
+			BreakView.NotificationContent notification_content = break_view.get_start_notification();
+			this.show_notification(notification_content, Notify.Urgency.NORMAL);
 			
 			this.overlay_triggered_for_break = false;
 			Timeout.add_seconds(break_view.get_lead_in_seconds(), () => {
@@ -121,10 +131,8 @@ public class UIManager : Object {
 		if (this.active_break == brk && this.overlay_triggered_for_break == false) {
 			BreakView break_view = brk.get_view();
 			
-			Notify.Notification notification = break_view.get_finish_notification();
-			notification.set_urgency(Notify.Urgency.LOW);
-			notification.set_hint("transient", true);
-			notification.show();
+			BreakView.NotificationContent notification_content = break_view.get_finish_notification();
+			this.show_notification(notification_content, Notify.Urgency.LOW);
 		}
 	}
 	

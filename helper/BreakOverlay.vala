@@ -56,18 +56,20 @@ public class BreakOverlay : ScreenOverlay {
 		this.current_source = new_source;
 	}
 	
-	public void show_with_source(BreakOverlaySource source) {
+	public void show_with_source(BreakOverlaySource? source) {
 		this.set_source(source);
 		
-		/* Fade in 0.01 per frame over 3000 ms */
-		double opacity = 0.0;
-		this.set_opacity(opacity);
-		this.show();
-		Timeout.add(30, () => {
-			opacity += 0.01;
+		if (! this.get_visible()) {
+			/* Fade in 0.01 per frame over 2000 ms */
+			double opacity = 0.0;
 			this.set_opacity(opacity);
-			return opacity < 1.0;
-		});
+			this.show();
+			Timeout.add(20, () => {
+				opacity += 0.01;
+				this.set_opacity(opacity);
+				return opacity < 1.0;
+			});
+		}
 	}
 	
 	public void remove_source() {

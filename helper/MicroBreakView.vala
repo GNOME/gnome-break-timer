@@ -29,14 +29,20 @@ public class MicroBreakView : TimerBreakView {
 		this.status_widget.set_message("Take a moment to rest your eyes");
 	}
 	
-	public override Notify.Notification get_start_notification() {
-		Notify.Notification notification = new Notification(_("Time for a micro break"), null, null);
-		return notification;
+	public override BreakView.NotificationContent get_start_notification() {
+		return NotificationContent() {
+			summary = _("Time for a micro break"),
+			body = null,
+			icon = null
+		};
 	}
 	
-	public override Notify.Notification get_finish_notification() {
-		Notify.Notification notification = new Notification(_("Micro break finished"), null, null);
-		return notification;
+	public override BreakView.NotificationContent get_finish_notification() {
+		return NotificationContent() {
+			summary = _("Micro break finished"),
+			body = null,
+			icon = null
+		};
 	}
 }
 

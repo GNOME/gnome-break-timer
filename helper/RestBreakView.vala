@@ -37,14 +37,20 @@ public class RestBreakView : TimerBreakView {
 		this.overlay_started.connect(this.overlay_started_cb);
 	}
 	
-	public override Notify.Notification get_start_notification() {
-		Notify.Notification notification = new Notification(_("Time for a rest break"), null, null);
-		return notification;
+	public override BreakView.NotificationContent get_start_notification() {
+		return NotificationContent() {
+			summary = _("Time for a rest break"),
+			body = null,
+			icon = null
+		};
 	}
 	
-	public override Notify.Notification get_finish_notification() {
-		Notify.Notification notification = new Notification(_("Rest break finished"), _("Thank you"), null);
-		return notification;
+	public override BreakView.NotificationContent get_finish_notification() {
+		return NotificationContent() {
+			summary = _("Rest break finished"),
+			body = _("Thank you"),
+			icon = null
+		};
 	}
 	
 	private void overlay_started_cb() {
