@@ -43,7 +43,7 @@ targets:
     type: program
     path: helper
     input:
-      - ActivityTimerBreak.vala
+      - ActivityMonitor.vala
       - Break.vala
       - BreakManager.vala
       - BreakOverlay.vala

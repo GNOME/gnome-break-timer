@@ -93,6 +93,8 @@ public abstract class TimerBreak : Break {
 	private void activated_cb() {
 		this.interval_countdown.pause();
 		this.waiting_timeout.stop();
+		
+		this.duration_countdown.continue();
 		this.active_timeout.start();
 	}
 	
@@ -123,12 +125,12 @@ public abstract class TimerBreak : Break {
 	 * Runs frequently to test if it is time to activate the break.
 	 * @param time_delta The time, in seconds, since the timeout was last run.
 	 */
-	protected virtual void waiting_timeout_cb(CleverTimeout timeout, int time_delta) {
-		if (this.get_time_remaining() <= 0) {
+	protected virtual void waiting_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
+		if (this.get_time_remaining() == 0) {
 			this.finish();
 		}
 		
-		if (this.starts_in() <= 0) {
+		if (this.starts_in() == 0) {
 			this.activate();
 		} else if (this.starts_in() <= duration) {
 			this.warn();
@@ -140,14 +142,14 @@ public abstract class TimerBreak : Break {
 	 * Aggressively checks if break is satisfied and updates watchers.
 	 * @param time_delta The time, in seconds, since the timeout was last run.
 	 */
-	protected virtual void active_timeout_cb(CleverTimeout timeout, int time_delta) {
+	protected virtual void active_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
 		if (this.state != Break.State.ACTIVE) {
 			stderr.printf("TimerBreak active_timeout_cb called while Break.State != ACTIVE\n");
 		}
 		
 		int time_remaining = this.get_time_remaining();
 		
-		if (time_remaining <= 0) {
+		if (time_remaining == 0) {
 			this.finish();
 		}
 		

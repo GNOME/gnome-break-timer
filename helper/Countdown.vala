@@ -41,8 +41,17 @@ public class Countdown : Object {
 	 * Countdown.continue().
 	 */
 	public void start() {
+		this.start_from(0);
+	}
+	
+	/**
+	 * Start counting with the time offset by the given number of seconds.
+	 * Useful if the countdown should have started in the past.
+	 * @param start_offset the number of seconds by which to offset the start time
+	 */
+	public void start_from(int start_offset) {
 		this.reset();
-		this.continue();
+		this.continue_from(start_offset);
 	}
 	
 	/**
@@ -58,8 +67,13 @@ public class Countdown : Object {
 	 * possible.
 	 */
 	public void continue() {
+		this.continue_from(0);
+	}
+	
+	public void continue_from(int start_offset) {
 		if (this.state < State.COUNTING) {
-			this.start_time = new DateTime.now_utc().to_unix();
+			int64 now = new DateTime.now_utc().to_unix();
+			this.start_time = now + start_offset;
 			this.state = State.COUNTING;
 		}
 	}

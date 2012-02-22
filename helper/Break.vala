@@ -33,7 +33,6 @@ public abstract class Break : Object, Focusable {
 	
 	public enum State {
 		WAITING,
-		WARN,
 		ACTIVE,
 		DISABLED
 	}
@@ -119,10 +118,7 @@ public abstract class Break : Object, Focusable {
 	 * This will prevent lower priority breaks from gaining focus.
 	 */
 	public void warn() {
-		if (this.state < State.WARN) {
-			this.state = State.WARN;
-			this.focus_manager.set_hold(this);
-		}
+		this.focus_manager.set_hold(this);
 	}
 	
 	/**

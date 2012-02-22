@@ -21,15 +21,21 @@
  * the computer while it counts down. The timer will stop until the user has
  * finished using the computer, and then it will start to count down again.
  */
-public class RestBreak : ActivityTimerBreak {
-	private Timer activity_timer; // time the user has been active during break
+public class RestBreak : TimerBreak {
+	private ActivityMonitor activity_monitor;
+	private Countdown reminder_countdown;
 	
 	public RestBreak(FocusManager focus_manager) {
 		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
 		
 		base(focus_manager, FocusPriority.HIGH, settings);
 		
-		this.activity_timer = new Timer();
+		this.activity_monitor = ActivityMonitor.get_instance();
+		
+		this.reminder_countdown = new Countdown(this.interval / 6);
+		this.notify["interval"].connect((s, p) => {
+			this.reminder_countdown.set_base_duration(this.interval / 6);
+		});
 	}
 	
 	protected override BreakView make_view() {
@@ -37,25 +43,44 @@ public class RestBreak : ActivityTimerBreak {
 		return break_view;
 	}
 	
-	protected override void active_nice() {
-		this.duration_countdown.continue();
-	}
-	
-	protected override void active_naughty() {
-		// Pause countdown
-		if (this.duration_countdown.is_counting()) {
-			this.duration_countdown.pause();
-			this.activity_timer.start();
+	protected override void waiting_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
+		if (this.activity_monitor.user_is_active()) {
+			this.interval_countdown.continue();
+			this.duration_countdown.reset();
+		} else {
+			this.interval_countdown.pause();
+			
+			if (! this.duration_countdown.is_counting()) {
+				int idle_time = this.activity_monitor.get_idle_time();
+				this.duration_countdown.continue_from(-idle_time);
+			}
 		}
 		
-		// Demand attention if countdown is paused for a long time
-		if (this.activity_timer.elapsed() >= this.interval/6) {
-			if (this.duration_countdown.get_penalty() < this.duration) {
-				this.duration_countdown.add_penalty(this.duration/4);
+		base.waiting_timeout_cb(timeout, delta_millisecs);
+	}
+	
+	protected override void active_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
+		if (this.activity_monitor.user_is_active_within(4)) {
+			// Pause countdown
+			if (this.duration_countdown.is_counting()) {
+				this.duration_countdown.pause();
+				this.reminder_countdown.continue();
 			}
-			this.attention_demanded();
-			this.activity_timer.start();
+			
+			// Demand attention if paused for a long time
+			if (this.reminder_countdown.get_time_remaining() == 0) {
+				if (this.duration_countdown.get_penalty() < this.duration) {
+					this.duration_countdown.add_penalty(this.duration/4);
+				}
+				this.attention_demanded();
+				this.reminder_countdown.start();
+			}
+		} else {
+			this.duration_countdown.continue();
+			this.reminder_countdown.pause();
 		}
+		
+		base.active_timeout_cb(timeout, delta_millisecs);
 	}
 }
 

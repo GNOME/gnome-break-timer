@@ -4,10 +4,7 @@
  * any time, and it is provided with the time since its last call.
  */
 public class CleverTimeout : Object {
-	public delegate void TimeoutCB(CleverTimeout timeout, int time_delta);
-	
-	public signal void started();
-	public signal void stopped();
+	public delegate void TimeoutCB(CleverTimeout timeout, int delta_millisecs);
 	
 	private unowned TimeoutCB timeout_cb;
 	private int frequency;
@@ -20,12 +17,12 @@ public class CleverTimeout : Object {
 	}
 	
 	private bool timeout_wrapper() {
-		int64 now = new DateTime.now_utc().to_unix();
+		int64 now = get_monotonic_time();
 		int64 time_delta = now - this.last_time;
 		this.last_time = now;
 		
-		assert(this.is_running());
-		this.timeout_cb(this, (int)time_delta);
+		int delta_millisecs = (int) (time_delta / 1000);
+		this.timeout_cb(this, delta_millisecs);
 		
 		return true;
 	}
@@ -35,12 +32,9 @@ public class CleverTimeout : Object {
 			Source.remove(this.source_id);
 		}
 		
-		int64 now = new DateTime.now_utc().to_unix();
-		this.last_time = now;
+		this.last_time = get_monotonic_time();
 		
 		this.source_id = Timeout.add_seconds(this.frequency, this.timeout_wrapper);
-		
-		this.started();
 	}
 	
 	public void set_frequency(int frequency) {
@@ -55,8 +49,6 @@ public class CleverTimeout : Object {
 			Source.remove(this.source_id);
 			this.source_id = 0;
 		}
-		
-		this.stopped();
 	}
 	
 	public bool is_running() {

@@ -18,4 +18,8 @@
 namespace Magic {
 	[Import] public static extern void begin();
 	[Import] public static extern uint32 get_idle_time();
+	
+	public static int get_idle_seconds() {
+		return (int)(Magic.get_idle_time() / 1000);
+	}
 }
