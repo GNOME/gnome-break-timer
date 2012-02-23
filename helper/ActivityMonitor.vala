@@ -16,62 +16,76 @@
  */
 
 class ActivityMonitor : Object {
-	private Timer activity_timer;
-	private CleverTimeout update_timeout;
-	private int64 last_update_wall_time;
+	public struct UserActivity {
+		public bool is_active;
+		public int idle_time;
+		
+		public bool is_active_within(int seconds) {
+			bool idle_within_seconds = idle_time < seconds;
+			return is_active || idle_within_seconds;
+		}
+
+	}
 	
-	private bool activity_detected;
+	private Timer activity_timer;
 	private int last_idle_time;
 	
-	ActivityMonitor() {
+	public ActivityMonitor() {
+		this.get_monotonic_time_delta();
+		this.get_wall_time_delta();
+		
 		this.activity_timer = new Timer();
-		this.update_timeout = new CleverTimeout(this.update_timeout_cb, 3);
-		this.last_update_wall_time = new DateTime.now_utc().to_unix();
-		
-		this.activity_detected = false;
 		this.last_idle_time = 0;
+	}
+	
+	private const int MICROSECONDS_IN_SECONDS = 1000 * 1000;
+	
+	private int64 last_monotonic_time;
+	/**
+	 * @returns milliseconds in monotonic time since this function was last called
+	 */
+	private int get_monotonic_time_delta() {
+		int64 now = get_monotonic_time();
+		int64 time_delta = now - this.last_monotonic_time;
+		this.last_monotonic_time = now;
+		return (int) (time_delta / MICROSECONDS_IN_SECONDS);
+	}
+	
+	private int64 last_wall_time;
+	/**
+	 * @returns milliseconds in real time since this function was last called
+	 */
+	private int get_wall_time_delta() {
+		int64 now = get_real_time();
+		int64 time_delta = now - this.last_wall_time;
+		this.last_wall_time = now;
+		return (int) (time_delta / MICROSECONDS_IN_SECONDS);
+	}
+	
+	/**
+	 * Determines user activity level since the last call to this function.
+	 * Note that this will behave strangely if it is called more than once.
+	 * @returns a struct with information about the user's current activity
+	 */
+	public UserActivity get_activity() {
+		UserActivity activity = UserActivity();
 		
-		this.update_timeout.start();
-	}
-	
-	public bool user_is_active() {
-		return this.activity_detected;
-	}
-	
-	public bool user_is_active_within(int seconds) {
-		bool idle_within_seconds = this.get_idle_time() < seconds;
-		return this.user_is_active() || idle_within_seconds;
-	}
-	
-	public int get_idle_time() {
-		return int.max(this.last_idle_time, Magic.get_idle_seconds());
-	}
-	
-	private void update_timeout_cb(CleverTimeout timeout, int frequency) {
-		int64 now = new DateTime.now_utc().to_unix();
-		int64 wall_time_delta = now - this.last_update_wall_time;
-		this.last_update_wall_time = now;
+		// detect sleeping with difference between monotonic time and real time
+		int monotonic_time_delta = this.get_monotonic_time_delta();
+		int wall_time_delta = this.get_wall_time_delta();
+		int sleep_time = (int)(wall_time_delta - monotonic_time_delta);
 		
-		// detect sleeping using difference between monotonic time and wall time
-		int sleep_time = (int)(wall_time_delta - frequency);
-		int idle_time = int.max(sleep_time, Magic.get_idle_seconds());
+		activity.idle_time = int.max(sleep_time, Magic.get_idle_seconds());
 		
-		if (idle_time > this.last_idle_time) {
-			this.activity_detected = false;
+		if (activity.idle_time > this.last_idle_time) {
+			activity.is_active = false;
 		} else {
-			this.activity_detected = this.activity_timer.elapsed() < 15;
+			activity.is_active = this.activity_timer.elapsed() < 15;
 			this.activity_timer.start();
 		}
-		this.last_idle_time = idle_time;
-	}
-	
-	private static ActivityMonitor instance;
-	public static ActivityMonitor get_instance() {
-		// TODO: This should have some way to be cleaned up when unused
-		if (instance == null) {
-			instance = new ActivityMonitor();
-		}
-		return instance;
+		this.last_idle_time = activity.idle_time;
+		
+		return activity;
 	}
 }
 

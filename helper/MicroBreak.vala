@@ -29,7 +29,7 @@ public class MicroBreak : TimerBreak {
 		
 		base(focus_manager, FocusPriority.LOW, settings);
 		
-		this.activity_monitor = ActivityMonitor.get_instance();
+		this.activity_monitor = new ActivityMonitor();
 	}
 	
 	protected override BreakView make_view() {
@@ -38,15 +38,16 @@ public class MicroBreak : TimerBreak {
 	}
 	
 	protected override void waiting_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
-		if (this.activity_monitor.user_is_active()) {
+		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
+		
+		if (activity.is_active) {
 			this.interval_countdown.continue();
 			this.duration_countdown.reset();
 		} else {
 			this.interval_countdown.pause();
 			
 			if (! this.duration_countdown.is_counting()) {
-				int idle_time = this.activity_monitor.get_idle_time();
-				this.duration_countdown.continue_from(-idle_time);
+				this.duration_countdown.continue_from(-activity.idle_time);
 			}
 		}
 		
@@ -54,7 +55,9 @@ public class MicroBreak : TimerBreak {
 	}
 	
 	protected override void active_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
-		if (this.activity_monitor.user_is_active()) {
+		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
+		
+		if (activity.is_active) {
 			this.duration_countdown.start();
 		} else {
 			this.duration_countdown.continue();

@@ -30,7 +30,7 @@ public class RestBreak : TimerBreak {
 		
 		base(focus_manager, FocusPriority.HIGH, settings);
 		
-		this.activity_monitor = ActivityMonitor.get_instance();
+		this.activity_monitor = new ActivityMonitor();
 		
 		this.reminder_countdown = new Countdown(this.interval / 6);
 		this.notify["interval"].connect((s, p) => {
@@ -44,15 +44,16 @@ public class RestBreak : TimerBreak {
 	}
 	
 	protected override void waiting_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
-		if (this.activity_monitor.user_is_active()) {
+		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
+		
+		if (activity.is_active) {
 			this.interval_countdown.continue();
 			this.duration_countdown.reset();
 		} else {
 			this.interval_countdown.pause();
 			
 			if (! this.duration_countdown.is_counting()) {
-				int idle_time = this.activity_monitor.get_idle_time();
-				this.duration_countdown.continue_from(-idle_time);
+				this.duration_countdown.continue_from(-activity.idle_time);
 			}
 		}
 		
@@ -60,7 +61,9 @@ public class RestBreak : TimerBreak {
 	}
 	
 	protected override void active_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
-		if (this.activity_monitor.user_is_active_within(4)) {
+		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
+		
+		if (activity.is_active_within(4)) {
 			// Pause countdown
 			if (this.duration_countdown.is_counting()) {
 				this.duration_countdown.pause();
@@ -76,7 +79,12 @@ public class RestBreak : TimerBreak {
 				this.reminder_countdown.start();
 			}
 		} else {
-			this.duration_countdown.continue();
+			if (! this.duration_countdown.is_counting()) {
+				if (activity.idle_time > 15) { // don't give back the space around pausing
+					this.duration_countdown.continue_from(-activity.idle_time);
+				}
+			}
+			
 			this.reminder_countdown.pause();
 		}
 		
