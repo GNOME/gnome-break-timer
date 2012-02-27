@@ -52,6 +52,8 @@ public class BreakFocusManager : Object, FocusManager<BreakType> {
 			this.current_focus = new_focus;
 			// the order is very important here
 			// this way, new_focus can smoothly replace old_focus
+			if (new_focus != null) stdout.printf("New focus: %s\n", new_focus.owner.id);
+			if (old_focus != null) stdout.printf("(Old focus: %s)\n", old_focus.owner.id);
 			if (new_focus != null) this.focus_started(new_focus.owner);
 			if (old_focus != null) this.focus_stopped(old_focus.owner);
 		}
@@ -59,6 +61,7 @@ public class BreakFocusManager : Object, FocusManager<BreakType> {
 	
 	private void update_focus() {
 		Request? new_focus = null;
+		stdout.printf("update_focus\n");
 		if (this.focus_requests.length() > 0) {
 			new_focus = this.focus_requests.last().data;
 		}
@@ -73,6 +76,7 @@ public class BreakFocusManager : Object, FocusManager<BreakType> {
 	}
 	
 	public void request_focus(BreakType owner, FocusPriority priority) {
+		stdout.printf("%s, request focus\n", owner.id);
 		if (! this.focus_requested(owner)) {
 			Request request = new Request();
 			request.owner = owner;
@@ -84,6 +88,7 @@ public class BreakFocusManager : Object, FocusManager<BreakType> {
 	}
 	
 	public void release_focus(BreakType owner) {
+		stdout.printf("%s, release focus\n", owner.id);
 		foreach (Request request in this.focus_requests) {
 			if (request.owner == owner) this.focus_requests.remove(request);
 		}

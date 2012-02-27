@@ -38,7 +38,7 @@ public interface FocusManager<T> : Object {
 	public abstract T get_focus();
 	
 	public bool is_focusing(T focusable) {
-		return this.get_focus == focusable;
+		return this.get_focus() == focusable;
 	}
 }
 

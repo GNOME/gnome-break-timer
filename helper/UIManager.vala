@@ -42,7 +42,6 @@ public class UIManager : Object {
 			this.break_loaded_cb(break_type);
 		}
 		
-		/* TODO: Connect signal to attach / detach break from UI */
 		this.focus_manager.focus_started.connect(this.break_focused_cb);
 		this.focus_manager.focus_stopped.connect(this.break_unfocused_cb);
 		
@@ -131,7 +130,9 @@ public class UIManager : Object {
 	
 	private bool break_is_showable(BreakType break_type) {
 		bool focused = this.focus_manager.is_focusing(break_type);
+		stdout.printf("focused: %s\n", focused.to_string());
 		bool active = break_type.model.is_active();
+		stdout.printf("active: %s\n", active.to_string());
 		return focused && active;
 	}
 	
