@@ -38,36 +38,59 @@ requires:
     mandatory: True
 
 targets:
+  common:
+    tool: vala
+    type: staticlib
+    path: common
+    input:
+      - NaturalTime.vala
+    defines:
+      - GETTEXT_PACKAGE="brainbreak"
+    packages:
+      - glib-2.0
+  
+  activity-monitor-backend:
+    tool: cc
+    type: staticlib
+    path: helper/util/activity-monitor
+    input:
+      - magic_xcb.c
+    packages:
+      - xcb
+      - xcb-screensaver
+  
   brainbreak:
     tool: vala
     type: program
     path: helper
     input:
-      - ActivityMonitor.vala
-      - Break.vala
       - BreakManager.vala
       - BreakOverlay.vala
-      - BreakView.vala
-      - CleverTimeout.vala
-      - Countdown.vala
-      - FocusManager.vala
-      - Magic.vala
+      - BreakFocusManager.vala
       - main.vala
-      - MicroBreak.vala
-      - MicroBreakView.vala
-      - RestBreak.vala
-      - RestBreakView.vala
       - ScreenOverlay.vala
-      - TimerBreak.vala
-      - TimerBreakStatusWidget.vala
-      - TimerBreakView.vala
       - UIManager.vala
-      - ../common/BreakHelperRemote.vala
-      - ../common/NaturalTime.vala
+      - IFocusManager.vala
+      - util/activity-monitor/ActivityMonitor.vala
+      - util/CleverTimeout.vala
+      - util/Countdown.vala
+      - break/BreakType.vala
+      - break/Break.vala
+      - break/BreakView.vala
+      - break/TimerBreakStatusWidget.vala
+      - break/TimerBreak.vala
+      - break/TimerBreakView.vala
+      - microbreak/MicroBreakType.vala
+      - microbreak/MicroBreak.vala
+      - microbreak/MicroBreakView.vala
+      - restbreak/RestBreakType.vala
+      - restbreak/RestBreak.vala
+      - restbreak/RestBreakView.vala
     defines:
       - GETTEXT_PACKAGE="brainbreak"
     uses:
-      - magic-core
+      - common
+      - activity-monitor-backend
     packages:
       - glib-2.0
       - gio-2.0
@@ -93,8 +116,8 @@ targets:
       - TimeChooser.vala
       - TimerBreakPanel.vala
       - TimerBreakType.vala
-      - ../common/BreakHelperRemote.vala
-      - ../common/NaturalTime.vala
+    uses:
+      - common
     defines:
       - GETTEXT_PACKAGE="brainbreak"
     packages:
@@ -102,14 +125,4 @@ targets:
       - gio-2.0
       - gio-unix-2.0
       - gee-1.0
-  
-  magic-core:
-    tool: cc
-    type: staticlib
-    path: lib
-    input:
-      - magic_core.c
-    packages:
-      - xcb
-      - xcb-screensaver
 

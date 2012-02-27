@@ -15,8 +15,6 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Notify;
-
 public abstract class TimerBreakView : BreakView {
 	protected TimerBreak timer_break;
 	
@@ -30,8 +28,29 @@ public abstract class TimerBreakView : BreakView {
 		this.status_widget = new TimerBreakStatusWidget();
 		
 		this.overlay_started.connect(this.overlay_started_cb);
+		
+		timer_break.warning.connect(this.timer_break_warning_cb);
 		timer_break.active_countdown_changed.connect(this.active_countdown_changed_cb);
 		timer_break.attention_demanded.connect(this.attention_demanded_cb);
+	}
+	
+	private void overlay_started_cb() {
+		this.active_countdown_changed_cb( this.timer_break.get_time_remaining() );
+	}
+	
+	private void timer_break_warning_cb() {
+		this.request_focus();
+	}
+	
+	private void active_countdown_changed_cb(int time_remaining) {
+		NaturalTime natural_time = NaturalTime.get_instance();
+		int start_time = this.timer_break.get_current_duration();
+		string countdown = natural_time.get_countdown_for_seconds_with_start( time_remaining, start_time );
+		this.status_widget.set_time( countdown );
+	}
+	
+	private void attention_demanded_cb() {
+		this.request_attention();
 	}
 	
 	/*
@@ -62,7 +81,6 @@ public abstract class TimerBreakView : BreakView {
 	
 	public override string get_status_message() {
 		string message;
-		NaturalTime natural_time = NaturalTime.get_instance();
 		
 		int starts_in = this.timer_break.starts_in();
 		int time_remaining = this.timer_break.get_time_remaining();
@@ -85,21 +103,6 @@ public abstract class TimerBreakView : BreakView {
 	
 	public override Gtk.Widget get_overlay_content() {
 		return this.status_widget;
-	}
-	
-	private void active_countdown_changed_cb(int time_remaining) {
-		NaturalTime natural_time = NaturalTime.get_instance();
-		int start_time = this.timer_break.get_current_duration();
-		string countdown = natural_time.get_countdown_for_seconds_with_start( time_remaining, start_time );
-		this.status_widget.set_time( countdown );
-	}
-	
-	private void attention_demanded_cb() {
-		this.request_attention();
-	}
-	
-	private void overlay_started_cb() {
-		this.active_countdown_changed_cb( this.timer_break.get_time_remaining() );
 	}
 }
 

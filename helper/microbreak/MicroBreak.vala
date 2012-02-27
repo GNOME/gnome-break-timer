@@ -24,17 +24,12 @@
 public class MicroBreak : TimerBreak {
 	private ActivityMonitor activity_monitor;
 	
-	public MicroBreak(FocusManager focus_manager) {
+	public MicroBreak() {
 		Settings settings = new Settings("org.brainbreak.breaks.microbreak");
 		
-		base(focus_manager, FocusPriority.LOW, settings);
+		base(settings);
 		
 		this.activity_monitor = new ActivityMonitor();
-	}
-	
-	protected override BreakView make_view() {
-		BreakView break_view = new MicroBreakView(this);
-		return break_view;
 	}
 	
 	protected override void waiting_timeout_cb(CleverTimeout timeout, int delta_millisecs) {

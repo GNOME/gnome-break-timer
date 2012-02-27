@@ -15,11 +15,11 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Magic {
-	[Import] public static extern void begin();
-	[Import] public static extern uint32 get_idle_time();
-	
-	public static int get_idle_seconds() {
-		return (int)(Magic.get_idle_time() / 1000);
+public class RestBreakType : BreakType {
+	public RestBreakType(FocusManager<BreakType> focus_manager) {
+		RestBreak brk = new RestBreak();
+		RestBreakView view = new RestBreakView(brk);
+		base("restbreak", brk, view, FocusPriority.HIGH, focus_manager);
 	}
 }
+

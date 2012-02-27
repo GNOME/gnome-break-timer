@@ -30,13 +30,13 @@ public class Application : Gtk.Application {
 		}
 	
 		public string get_status_for_break(string break_name) {
-			Break brk = this.break_manager.get_break_for_name(break_name);
-			return brk.get_view().get_status_message();
+			BreakType break_type = this.break_manager.get_break_type_for_name(break_name);
+			return break_type.view.get_status_message();
 		}
 	
 		public void trigger_break(string break_name) {
-			Break brk = this.break_manager.get_break_for_name(break_name);
-			brk.activate();
+			BreakType break_type = this.break_manager.get_break_type_for_name(break_name);
+			break_type.brk.activate();
 		}
 	}
 	
@@ -86,7 +86,7 @@ public class Application : Gtk.Application {
 	public override void startup() {
 		base.startup();
 		
-		Magic.begin();
+		ActivityMonitor.setup();
 		Notify.init(app_name);
 		
 		/* set up custom gtk style for application */
@@ -98,8 +98,11 @@ public class Application : Gtk.Application {
 		                                         style_provider,
 		                                         Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 		
-		this.ui_manager = new UIManager(this);
-		this.break_manager = new BreakManager(this.ui_manager);
+		this.break_manager = new BreakManager();
+		this.ui_manager = new UIManager(this, this.break_manager);
+		
+		/* FIXME: Move this back to break enable */
+		this.hold();
 		
 		DBusConnection connection = Bus.get_sync(BusType.SESSION, null);
 		this.break_helper_server = new BreakHelperServer(this.break_manager);

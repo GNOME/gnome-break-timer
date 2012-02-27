@@ -15,7 +15,7 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class NaturalTime : Object {
+public class NaturalTime : Object {
 	private struct TimeUnit {
 		public string label_single;
 		public string label_plural;

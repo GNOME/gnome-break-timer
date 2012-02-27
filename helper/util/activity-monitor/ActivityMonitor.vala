@@ -15,19 +15,31 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class ActivityMonitor : Object {
+namespace Magic {
+	[Import] private static extern void begin();
+	[Import] private static extern uint32 get_idle_time();
+	
+	private static int get_idle_seconds() {
+		return (int)(get_idle_time() / 1000);
+	}
+}
+
+public class ActivityMonitor : Object {
 	public struct UserActivity {
 		public bool is_active;
 		public int idle_time;
+		private int64 last_active_time;
 		
 		public bool is_active_within(int seconds) {
-			bool idle_within_seconds = idle_time < seconds;
-			return is_active || idle_within_seconds;
+			int64 now = get_real_time() / MICROSECONDS_IN_SECONDS;
+			bool idle_within_seconds = now - this.last_active_time < seconds;
+			return this.is_active || idle_within_seconds;
 		}
 
 	}
 	
 	private Timer activity_timer;
+	private UserActivity last_activity;
 	private int last_idle_time;
 	
 	public ActivityMonitor() {
@@ -35,7 +47,12 @@ class ActivityMonitor : Object {
 		this.get_wall_time_delta();
 		
 		this.activity_timer = new Timer();
+		this.last_activity = UserActivity();
 		this.last_idle_time = 0;
+	}
+	
+	public static void setup() {
+		Magic.begin();
 	}
 	
 	private const int MICROSECONDS_IN_SECONDS = 1000 * 1000;
@@ -68,7 +85,7 @@ class ActivityMonitor : Object {
 	 * @returns a struct with information about the user's current activity
 	 */
 	public UserActivity get_activity() {
-		UserActivity activity = UserActivity();
+		UserActivity activity = this.last_activity;
 		
 		// detect sleeping with difference between monotonic time and real time
 		int monotonic_time_delta = this.get_monotonic_time_delta();
@@ -81,9 +98,14 @@ class ActivityMonitor : Object {
 			activity.is_active = false;
 		} else {
 			activity.is_active = this.activity_timer.elapsed() < 15;
+			if (activity.is_active) {
+				activity.last_active_time = get_real_time() / MICROSECONDS_IN_SECONDS;
+			}
 			this.activity_timer.start();
 		}
 		this.last_idle_time = activity.idle_time;
+		
+		this.last_activity = activity;
 		
 		return activity;
 	}

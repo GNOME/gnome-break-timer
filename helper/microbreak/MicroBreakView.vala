@@ -18,28 +18,18 @@
 /* TODO: notification when user is away for rest duration */
 /* TODO: replace pause break if appropriate */
 
-using Notify;
-
-public class RestBreakView : TimerBreakView {
-	string[] rest_quotes;
-	
-	public RestBreakView(RestBreak rest_break) {
-		base(rest_break);
+public class MicroBreakView : TimerBreakView {
+	public MicroBreakView(MicroBreak micro_break) {
+		base(micro_break);
 		
-		this.title = _("Rest break");
+		this.title = _("Micro break");
 		
-		this.rest_quotes = {
-			_("The quieter you become, the more you can hear."),
-			_("Knock on the sky and Listen to the sound."),
-			_("So little time, so little to do.")
-		};
-		
-		this.overlay_started.connect(this.overlay_started_cb);
+		this.status_widget.set_message("Take a moment to rest your eyes");
 	}
 	
 	public override BreakView.NotificationContent get_start_notification() {
 		return NotificationContent() {
-			summary = _("Time for a rest break"),
+			summary = _("Time for a micro break"),
 			body = null,
 			icon = null
 		};
@@ -47,16 +37,10 @@ public class RestBreakView : TimerBreakView {
 	
 	public override BreakView.NotificationContent get_finish_notification() {
 		return NotificationContent() {
-			summary = _("Rest break finished"),
-			body = _("Thank you"),
+			summary = _("Micro break finished"),
+			body = null,
 			icon = null
 		};
-	}
-	
-	private void overlay_started_cb() {
-		int quote_number = Random.int_range(0, this.rest_quotes.length);
-		string random_quote = this.rest_quotes[quote_number];
-		this.status_widget.set_message(random_quote);
 	}
 }
 

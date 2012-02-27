@@ -16,19 +16,15 @@
  */
 
 public class BreakManager : Object {
-	private UIManager ui_manager;
+	private BreakFocusManager focus_manager;
+	private Gee.Map<string, BreakType> breaks;
 	
-	private FocusManager focus_manager;
-	private Gee.Map<string, Break> breaks;
-	
-	public BreakManager(UIManager ui_manager) {
-		this.ui_manager = ui_manager;
+	public BreakManager() {
+		this.focus_manager = new BreakFocusManager();
+		this.breaks = new Gee.HashMap<string, BreakType>();
 		
-		this.focus_manager = new FocusManager();
-		this.breaks = new Gee.HashMap<string, Break>();
-		
-		this.register_break("restbreak", new RestBreak(this.focus_manager));
-		this.register_break("microbreak", new MicroBreak(this.focus_manager));
+		this.register_break(new MicroBreakType(this.focus_manager));
+		this.register_break(new RestBreakType(this.focus_manager));
 	}
 	
 	private void break_enable_change(Break brk) {
@@ -36,9 +32,10 @@ public class BreakManager : Object {
 		brk.set_enabled(enabled);
 	}
 	
-	private void register_break(string name, Break brk) {
-		this.breaks.set(name, brk);
-		this.ui_manager.watch_break(brk);
+	private void register_break(BreakType break_type) {
+		this.breaks.set(break_type.id, break_type);
+		
+		Break brk = break_type.brk;
 		
 		// FIXME: Breaks are currently enabled by their own settings.
 		// Instead, enabled breaks should be stored in a list somewhere.
@@ -48,7 +45,20 @@ public class BreakManager : Object {
 		brk.set_enabled(brk.settings.get_boolean("enabled"));
 	}
 	
+	public FocusManager<BreakType> get_focus_manager() {
+		return this.focus_manager;
+	}
+	
+	public Gee.Iterable<BreakType> get_all_breaks() {
+		return this.breaks.values;
+	}
+	
+	[Deprecated]
 	public Break get_break_for_name(string name) {
+		return this.breaks.get(name).brk;
+	}
+	
+	public BreakType get_break_type_for_name(string name) {
 		return this.breaks.get(name);
 	}
 }

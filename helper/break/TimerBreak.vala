@@ -29,6 +29,12 @@ public abstract class TimerBreak : Break {
 	public signal void active_countdown_changed(int time_remaining);
 	
 	/**
+	 * The break may start soon, according to its schedule. The break
+	 * view should subscribe to this to request early focus.
+	 */
+	public signal void warning();
+	
+	/**
 	 * The break is active and the user is not paying attention to it.
 	 * At this point, a time penalty may have been added.
 	 */
@@ -43,8 +49,8 @@ public abstract class TimerBreak : Break {
 	protected Countdown duration_countdown;
 	protected CleverTimeout active_timeout;
 	
-	public TimerBreak(FocusManager focus_manager, FocusPriority priority, Settings settings) {
-		base(focus_manager, priority, settings);
+	public TimerBreak(Settings settings) {
+		base(settings);
 		
 		settings.bind("interval-seconds", this, "interval", SettingsBindFlags.GET);
 		settings.bind("duration-seconds", this, "duration", SettingsBindFlags.GET);
@@ -102,7 +108,7 @@ public abstract class TimerBreak : Break {
 		this.interval_countdown.reset();
 		this.waiting_timeout.start();
 		
-		this.duration_countdown.reset();
+		this.duration_countdown.pause();
 		this.active_timeout.stop();
 	}
 	
@@ -133,7 +139,7 @@ public abstract class TimerBreak : Break {
 		if (this.starts_in() == 0) {
 			this.activate();
 		} else if (this.starts_in() <= duration) {
-			this.warn();
+			this.warning();
 		}
 	}
 	
@@ -150,6 +156,7 @@ public abstract class TimerBreak : Break {
 		int time_remaining = this.get_time_remaining();
 		
 		if (time_remaining == 0) {
+			this.duration_countdown.reset();
 			this.finish();
 		}
 		

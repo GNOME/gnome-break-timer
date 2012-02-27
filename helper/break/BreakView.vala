@@ -15,8 +15,22 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public abstract class BreakView : BreakOverlaySource, Object {
-	protected Break break_scheduler {get; private set;}
+public interface BreakOverlaySource : Object {
+	// TODO: background image, class name for StyleContext
+	public signal void overlay_started();
+	public signal void overlay_stopped();
+	
+	public signal void request_attention();
+	
+	public abstract string get_overlay_title();
+	public abstract Gtk.Widget get_overlay_content();
+}
+
+public abstract class BreakView : Object, BreakOverlaySource {
+	protected Break brk {get; private set;}
+	
+	public signal void request_focus();
+	public signal void release_focus();
 	
 	public string title {get; protected set;}
 	
@@ -26,8 +40,14 @@ public abstract class BreakView : BreakOverlaySource, Object {
 		public string? icon;
 	}
 	
-	public BreakView(Break break_scheduler) {
-		this.break_scheduler = break_scheduler;
+	public BreakView(Break brk) {
+		this.brk = brk;
+		
+		brk.activated.connect(() => { this.request_focus(); });
+		brk.finished.connect(() => { this.release_focus(); });
+		
+		brk.enabled.connect(() => { this.release_focus(); });
+		brk.disabled.connect(() => { this.release_focus(); });
 	}
 	
 	public abstract string get_status_message();

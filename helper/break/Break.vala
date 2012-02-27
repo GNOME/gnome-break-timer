@@ -26,9 +26,7 @@
  * break, and it refers to FocusManager to make sure it is the only break
  * in focus at a given time.
  */
-public abstract class Break : Object, Focusable {
-	private FocusManager focus_manager;
-	
+public abstract class Break : Object {
 	public Settings settings {get; private set;}
 	
 	public enum State {
@@ -62,23 +60,10 @@ public abstract class Break : Object, Focusable {
 	 */
 	public signal void finished();
 	
-	public signal void focus_started();
-	
-	public signal void focus_ended();
-	
-	private BreakView break_view;
-	
-	public Break(FocusManager focus_manager, FocusPriority priority, Settings settings) {
-		this.focus_manager = focus_manager;
-		this.priority = priority;
+	public Break(Settings settings) {
 		this.settings = settings;
-		
 		this.state = State.DISABLED;
-		
-		this.break_view = this.make_view();
 	}
-	
-	protected abstract BreakView make_view();
 	
 	/**
 	 * Set whether the break is enabled or disabled. If it is enabled,
@@ -90,11 +75,9 @@ public abstract class Break : Object, Focusable {
 	public void set_enabled(bool enable) {
 		if (enable) {
 			this.state = State.WAITING;
-			this.focus_manager.release_focus(this);
 			this.enabled();
 		} else {
 			this.state = State.DISABLED;
-			this.focus_manager.release_focus(this);
 			this.disabled();
 		}
 	}
@@ -114,14 +97,6 @@ public abstract class Break : Object, Focusable {
 	}
 	
 	/**
-	 * A scheduled break is coming up.
-	 * This will prevent lower priority breaks from gaining focus.
-	 */
-	public void warn() {
-		this.focus_manager.set_hold(this);
-	}
-	
-	/**
 	 * Start a break.
 	 * This is usually triggered automatically, but may be triggered
 	 * externally as well.
@@ -130,7 +105,6 @@ public abstract class Break : Object, Focusable {
 		if (this.state < State.ACTIVE) {
 			this.state = State.ACTIVE;
 			this.activated();
-			this.focus_manager.request_focus(this);
 		}
 	}
 	
@@ -141,39 +115,6 @@ public abstract class Break : Object, Focusable {
 	public void finish() {
 		this.state = State.WAITING;
 		this.finished();
-		this.focus_manager.release_focus(this);
-	}
-	
-	/**
-	 * @return the BreakView for this break
-	 */
-	public BreakView get_view() {
-		return this.break_view;
-	}
-	
-	
-	
-	/***** Focusable interface ******/
-	
-	private FocusPriority priority;
-	private bool focused;
-	
-	public FocusPriority get_priority() {
-		return this.priority;
-	}
-	
-	public bool is_focused() {
-		return this.focused;
-	}
-	
-	public void start_focus() {
-		this.focused = true;
-		this.focus_started();
-	}
-	
-	public void stop_focus(bool replaced) {
-		this.focused = false;
-		this.focus_ended();
 	}
 }
 

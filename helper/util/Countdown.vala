@@ -1,3 +1,20 @@
+/*
+ * This file is part of Brain Break.
+ * 
+ * Brain Break is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Brain Break is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 /**
  * A countdown timer that counts seconds from a start time down to 0. Uses
  * "wall-clock" time instead of monotonic time, so it will count
@@ -5,6 +22,7 @@
  * The countdown can be paused, and its duration can be adjusted at any time
  * using penalty and bonus time.
  */
+
 public class Countdown : Object {
 	private enum State {
 		STOPPED,

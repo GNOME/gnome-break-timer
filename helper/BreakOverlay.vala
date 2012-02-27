@@ -72,9 +72,15 @@ public class BreakOverlay : ScreenOverlay {
 		}
 	}
 	
-	public void remove_source() {
-		this.hide();
-		this.set_source(null);
+	public bool is_showing_source() {
+		return this.current_source != null;
+	}
+	
+	public void remove_source(BreakOverlaySource? source) {
+		if (this.current_source == source) {
+			this.hide();
+			this.set_source(null);
+		}
 	}
 	
 	private void source_request_attention_cb() {
@@ -111,16 +117,5 @@ public class BreakOverlay : ScreenOverlay {
 			}
 		});
 	}
-}
-
-public interface BreakOverlaySource : Object {
-	// TODO: background image, class name for StyleContext
-	public signal void overlay_started();
-	public signal void overlay_stopped();
-	
-	public signal void request_attention();
-	
-	public abstract string get_overlay_title();
-	public abstract Gtk.Widget get_overlay_content();
 }
 

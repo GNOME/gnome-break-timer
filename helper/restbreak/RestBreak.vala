@@ -25,10 +25,10 @@ public class RestBreak : TimerBreak {
 	private ActivityMonitor activity_monitor;
 	private Countdown reminder_countdown;
 	
-	public RestBreak(FocusManager focus_manager) {
+	public RestBreak() {
 		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
 		
-		base(focus_manager, FocusPriority.HIGH, settings);
+		base(settings);
 		
 		this.activity_monitor = new ActivityMonitor();
 		
@@ -36,11 +36,9 @@ public class RestBreak : TimerBreak {
 		this.notify["interval"].connect((s, p) => {
 			this.reminder_countdown.set_base_duration(this.interval / 6);
 		});
-	}
-	
-	protected override BreakView make_view() {
-		BreakView break_view = new RestBreakView(this);
-		return break_view;
+		this.activated.connect(() => {
+			this.reminder_countdown.reset();
+		});
 	}
 	
 	protected override void waiting_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
