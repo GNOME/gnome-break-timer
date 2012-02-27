@@ -45,9 +45,9 @@ public abstract class BreakView : Object, IBreakOverlaySource {
 		this.model = model;
 		this.priority = priority;
 		
-		model.activated.connect(this.request_focus_cb);
-		model.finished.connect(this.release_focus_cb);
-		model.disabled.connect(this.release_focus_cb);
+		model.activated.connect_after(this.request_focus_cb);
+		model.finished.connect_after(this.release_focus_cb);
+		model.disabled.connect_after(this.release_focus_cb);
 	}
 	
 	private void request_focus_cb() {

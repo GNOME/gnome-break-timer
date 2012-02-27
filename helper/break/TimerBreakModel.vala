@@ -85,6 +85,7 @@ public abstract class TimerBreakModel : BreakModel {
 	}
 	
 	private void enabled_cb() {
+		this.interval_countdown.continue();
 		this.waiting_timeout.start();
 	}
 	
