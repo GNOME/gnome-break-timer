@@ -48,16 +48,11 @@ public class BreakManager : Object {
 		this.register_break(new RestBreakType());
 	}
 	
-	public Gee.Iterable<BreakType> get_all_breaks() {
+	public Gee.Iterable<BreakType> all_breaks() {
 		return this.breaks.values;
 	}
 	
-	[Deprecated]
-	public BreakModel get_break_for_name(string name) {
-		return this.breaks.get(name).model;
-	}
-	
-	public BreakType get_break_type_for_name(string name) {
+	public BreakType? get_break_type_for_name(string name) {
 		return this.breaks.get(name);
 	}
 }

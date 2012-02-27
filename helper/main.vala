@@ -24,19 +24,29 @@ public class Application : Gtk.Application {
 		// FIXME: this used to implement BreakHelperRemote, but currently
 		// it does not due to a problem detected by Debian's build log filter.
 		private BreakManager break_manager;
-	
+		
 		public BreakHelperServer(BreakManager break_manager) {
 			this.break_manager = break_manager;
 		}
-	
-		public string get_status_for_break(string break_name) {
-			BreakType break_type = this.break_manager.get_break_type_for_name(break_name);
-			return break_type.view.get_status_message();
+		
+		public bool is_active() {
+			bool active = false;
+			foreach (BreakType break_type in this.break_manager.all_breaks()) {
+				active = active || break_type.model.is_active();
+			}
+			return active;
 		}
-	
+		
+		public string get_status_for_break(string break_name) {
+			BreakType? break_type = this.break_manager.get_break_type_for_name(break_name);
+			string status_message = "";
+			if (break_type != null) status_message = break_type.view.get_status_message();
+			return status_message;
+		}
+		
 		public void trigger_break(string break_name) {
-			BreakType break_type = this.break_manager.get_break_type_for_name(break_name);
-			break_type.model.activate();
+			BreakType? break_type = this.break_manager.get_break_type_for_name(break_name);
+			if (break_type != null) break_type.model.activate();
 		}
 	}
 	

@@ -16,10 +16,8 @@
  */
 
 /**
- * Smooths interaction between multiple breaks by managing focus, where only a
- * single break can ask for focus at a single time; all others continue in idle
- * mode. The break manager can postpone breaks or cancel breaks as appropriate,
- * depending on others waiting in line.
+ * A FocusManager that keeps track of focus between BreakTypes, so only one
+ * break is shown to the user at a time.
  */
 public class BreakFocusManager : Object, FocusManager<BreakType> {
 	private class Request : Object {
@@ -68,18 +66,18 @@ public class BreakFocusManager : Object, FocusManager<BreakType> {
 		this.set_focus(new_focus);
 	}
 	
-	private bool focus_requested(BreakType owner) {
+	private bool focus_requested(BreakType break_type) {
 		foreach (Request request in this.focus_requests) {
-			if (request.owner == owner) return true;
+			if (request.owner == break_type) return true;
 		}
 		return false;
 	}
 	
-	public void request_focus(BreakType owner, FocusPriority priority) {
-		stdout.printf("%s, request focus\n", owner.id);
-		if (! this.focus_requested(owner)) {
+	public void request_focus(BreakType break_type, FocusPriority priority) {
+		stdout.printf("%s, request focus\n", break_type.id);
+		if (! this.focus_requested(break_type)) {
 			Request request = new Request();
-			request.owner = owner;
+			request.owner = break_type;
 			request.priority = priority;
 			
 			this.focus_requests.insert_sorted(request, Request.priority_compare_func);
@@ -87,20 +85,29 @@ public class BreakFocusManager : Object, FocusManager<BreakType> {
 		}
 	}
 	
-	public void release_focus(BreakType owner) {
-		stdout.printf("%s, release focus\n", owner.id);
+	public void release_focus(BreakType break_type) {
+		stdout.printf("%s, release focus\n", break_type.id);
 		foreach (Request request in this.focus_requests) {
-			if (request.owner == owner) this.focus_requests.remove(request);
+			if (request.owner == break_type) this.focus_requests.remove(request);
 		}
 		this.update_focus();
 	}
 	
-	public BreakType get_focus() {
+	/**
+	 * @return the break that is currently in focus, or null if there is not one.
+	 */
+	// This is not defined in the interface, because we can't make T
+	// nullable in the interface.
+	public BreakType? get_focus() {
 		if (this.current_focus != null) {
 			return this.current_focus.owner;
 		} else {
 			return null;
 		}
+	}
+	
+	public bool is_focusing(BreakType break_type) {
+		return this.get_focus() == break_type;
 	}
 	
 	/**

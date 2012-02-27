@@ -38,7 +38,7 @@ public class UIManager : Object {
 		this.break_overlay = new BreakOverlay();
 		
 		this.break_manager.break_loaded.connect(this.break_loaded_cb);
-		foreach (BreakType break_type in this.break_manager.get_all_breaks()) {
+		foreach (BreakType break_type in this.break_manager.all_breaks()) {
 			this.break_loaded_cb(break_type);
 		}
 		
