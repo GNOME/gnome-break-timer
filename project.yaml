@@ -75,16 +75,16 @@ targets:
       - util/CleverTimeout.vala
       - util/Countdown.vala
       - break/BreakType.vala
-      - break/Break.vala
+      - break/BreakModel.vala
       - break/BreakView.vala
       - break/TimerBreakStatusWidget.vala
-      - break/TimerBreak.vala
+      - break/TimerBreakModel.vala
       - break/TimerBreakView.vala
       - microbreak/MicroBreakType.vala
-      - microbreak/MicroBreak.vala
+      - microbreak/MicroBreakModel.vala
       - microbreak/MicroBreakView.vala
       - restbreak/RestBreakType.vala
-      - restbreak/RestBreak.vala
+      - restbreak/RestBreakModel.vala
       - restbreak/RestBreakView.vala
     defines:
       - GETTEXT_PACKAGE="brainbreak"

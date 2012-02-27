@@ -22,7 +22,7 @@
  * continuously counts down for its interval, then activates and counts
  * down for its duration.
  */
-public abstract class TimerBreak : Break {
+public abstract class TimerBreakModel : BreakModel {
 	/**
 	 * The break is active and time_remaining has changed.
 	 */
@@ -49,7 +49,7 @@ public abstract class TimerBreak : Break {
 	protected Countdown duration_countdown;
 	protected CleverTimeout active_timeout;
 	
-	public TimerBreak(Settings settings) {
+	public TimerBreakModel(Settings settings) {
 		base(settings);
 		
 		settings.bind("interval-seconds", this, "interval", SettingsBindFlags.GET);
@@ -149,7 +149,7 @@ public abstract class TimerBreak : Break {
 	 * @param time_delta The time, in seconds, since the timeout was last run.
 	 */
 	protected virtual void active_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
-		if (this.state != Break.State.ACTIVE) {
+		if (this.state != BreakModel.State.ACTIVE) {
 			stderr.printf("TimerBreak active_timeout_cb called while Break.State != ACTIVE\n");
 		}
 		

@@ -27,22 +27,22 @@ public class BreakManager : Object {
 		this.register_break(new RestBreakType(this.focus_manager));
 	}
 	
-	private void break_enable_change(Break brk) {
-		bool enabled = brk.settings.get_boolean("enabled");
-		brk.set_enabled(enabled);
+	private void break_enable_change(BreakModel model) {
+		bool enabled = model.settings.get_boolean("enabled");
+		model.set_enabled(enabled);
 	}
 	
 	private void register_break(BreakType break_type) {
 		this.breaks.set(break_type.id, break_type);
 		
-		Break brk = break_type.brk;
+		BreakModel model = break_type.model;
 		
 		// FIXME: Breaks are currently enabled by their own settings.
 		// Instead, enabled breaks should be stored in a list somewhere.
-		brk.settings.changed["enabled"].connect(() => {
-			brk.set_enabled(brk.settings.get_boolean("enabled"));
+		model.settings.changed["enabled"].connect(() => {
+			model.set_enabled(model.settings.get_boolean("enabled"));
 		});
-		brk.set_enabled(brk.settings.get_boolean("enabled"));
+		model.set_enabled(model.settings.get_boolean("enabled"));
 	}
 	
 	public FocusManager<BreakType> get_focus_manager() {
@@ -54,8 +54,8 @@ public class BreakManager : Object {
 	}
 	
 	[Deprecated]
-	public Break get_break_for_name(string name) {
-		return this.breaks.get(name).brk;
+	public BreakModel get_break_for_name(string name) {
+		return this.breaks.get(name).model;
 	}
 	
 	public BreakType get_break_type_for_name(string name) {

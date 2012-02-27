@@ -17,9 +17,9 @@
 
 public class MicroBreakType : BreakType {
 	public MicroBreakType(FocusManager<BreakType> focus_manager) {
-		MicroBreak brk = new MicroBreak();
-		MicroBreakView view = new MicroBreakView(brk);
-		base("microbreak", brk, view, FocusPriority.LOW, focus_manager);
+		MicroBreakModel model = new MicroBreakModel();
+		MicroBreakView view = new MicroBreakView(model);
+		base("microbreak", model, view, FocusPriority.LOW, focus_manager);
 	}
 }
 

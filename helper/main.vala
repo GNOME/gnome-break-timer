@@ -36,7 +36,7 @@ public class Application : Gtk.Application {
 	
 		public void trigger_break(string break_name) {
 			BreakType break_type = this.break_manager.get_break_type_for_name(break_name);
-			break_type.brk.activate();
+			break_type.model.activate();
 		}
 	}
 	

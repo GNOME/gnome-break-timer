@@ -21,11 +21,11 @@
  * the computer while it counts down. The timer will stop until the user has
  * finished using the computer, and then it will start to count down again.
  */
-public class RestBreak : TimerBreak {
+public class RestBreakModel : TimerBreakModel {
 	private ActivityMonitor activity_monitor;
 	private Countdown reminder_countdown;
 	
-	public RestBreak() {
+	public RestBreakModel() {
 		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
 		
 		base(settings);

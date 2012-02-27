@@ -17,12 +17,12 @@
 
 public abstract class BreakType : Object {
 	public string id;
-	public Break brk;
+	public BreakModel model;
 	public BreakView view;
 	
-	public BreakType(string id, Break brk, BreakView view, FocusPriority priority, FocusManager<BreakType> focus_manager) {
+	public BreakType(string id, BreakModel model, BreakView view, FocusPriority priority, FocusManager<BreakType> focus_manager) {
 		this.id = id;
-		this.brk = brk;
+		this.model = model;
 		this.view = view;
 		
 		this.view.request_focus.connect(() => {

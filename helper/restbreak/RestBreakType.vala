@@ -17,9 +17,9 @@
 
 public class RestBreakType : BreakType {
 	public RestBreakType(FocusManager<BreakType> focus_manager) {
-		RestBreak brk = new RestBreak();
-		RestBreakView view = new RestBreakView(brk);
-		base("restbreak", brk, view, FocusPriority.HIGH, focus_manager);
+		RestBreakModel model = new RestBreakModel();
+		RestBreakView view = new RestBreakView(model);
+		base("restbreak", model, view, FocusPriority.HIGH, focus_manager);
 	}
 }
 

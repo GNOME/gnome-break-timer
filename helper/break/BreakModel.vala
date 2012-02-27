@@ -26,7 +26,7 @@
  * break, and it refers to FocusManager to make sure it is the only break
  * in focus at a given time.
  */
-public abstract class Break : Object {
+public abstract class BreakModel : Object {
 	public Settings settings {get; private set;}
 	
 	public enum State {
@@ -60,7 +60,7 @@ public abstract class Break : Object {
 	 */
 	public signal void finished();
 	
-	public Break(Settings settings) {
+	public BreakModel(Settings settings) {
 		this.settings = settings;
 		this.state = State.DISABLED;
 	}

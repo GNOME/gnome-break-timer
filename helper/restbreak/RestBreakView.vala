@@ -21,8 +21,8 @@
 public class RestBreakView : TimerBreakView {
 	string[] rest_quotes;
 	
-	public RestBreakView(RestBreak rest_break) {
-		base(rest_break);
+	public RestBreakView(RestBreakModel model) {
+		base(model);
 		
 		this.title = _("Rest break");
 		

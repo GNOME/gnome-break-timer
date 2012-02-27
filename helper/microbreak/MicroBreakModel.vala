@@ -21,10 +21,10 @@
  * and when it is active it restarts its countdown whenever the user types
  * or moves the mouse.
  */
-public class MicroBreak : TimerBreak {
+public class MicroBreakModel : TimerBreakModel {
 	private ActivityMonitor activity_monitor;
 	
-	public MicroBreak() {
+	public MicroBreakModel() {
 		Settings settings = new Settings("org.brainbreak.breaks.microbreak");
 		
 		base(settings);

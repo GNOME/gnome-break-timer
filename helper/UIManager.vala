@@ -28,7 +28,6 @@ public class UIManager : Object {
 	public int64 quiet_mode_expire_time {get; set;}
 	
 	private BreakOverlay break_overlay;
-	private Break active_break;
 	
 	private Notify.Notification? notification;
 	

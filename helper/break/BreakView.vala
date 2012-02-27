@@ -27,7 +27,7 @@ public interface BreakOverlaySource : Object {
 }
 
 public abstract class BreakView : Object, BreakOverlaySource {
-	protected Break brk {get; private set;}
+	protected BreakModel model {get; private set;}
 	
 	public signal void request_focus();
 	public signal void release_focus();
@@ -40,14 +40,14 @@ public abstract class BreakView : Object, BreakOverlaySource {
 		public string? icon;
 	}
 	
-	public BreakView(Break brk) {
-		this.brk = brk;
+	public BreakView(BreakModel model) {
+		this.model = model;
 		
-		brk.activated.connect(() => { this.request_focus(); });
-		brk.finished.connect(() => { this.release_focus(); });
+		model.activated.connect(() => { this.request_focus(); });
+		model.finished.connect(() => { this.release_focus(); });
 		
-		brk.enabled.connect(() => { this.release_focus(); });
-		brk.disabled.connect(() => { this.release_focus(); });
+		model.enabled.connect(() => { this.release_focus(); });
+		model.disabled.connect(() => { this.release_focus(); });
 	}
 	
 	public abstract string get_status_message();
