@@ -15,7 +15,7 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public interface BreakOverlaySource : Object {
+public interface IBreakOverlaySource : Object {
 	// TODO: background image, class name for StyleContext
 	public signal void overlay_started();
 	public signal void overlay_stopped();
@@ -26,7 +26,7 @@ public interface BreakOverlaySource : Object {
 	public abstract Gtk.Widget get_overlay_content();
 }
 
-public abstract class BreakView : Object, BreakOverlaySource {
+public abstract class BreakView : Object, IBreakOverlaySource {
 	protected BreakModel model {get; private set;}
 	
 	public signal void request_focus();
@@ -56,7 +56,7 @@ public abstract class BreakView : Object, BreakOverlaySource {
 	public abstract NotificationContent get_finish_notification();
 	public abstract int get_lead_in_seconds();
 	
-	/***** BreakOverlaySource interface ******/
+	/***** IBreakOverlaySource interface ******/
 	
 	public string get_overlay_title() {
 		return this.title;

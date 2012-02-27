@@ -16,7 +16,7 @@
  */
 
 [DBus (name = "org.brainbreak.Helper")]
-public interface BreakHelperRemote : Object {
+public interface IBreakHelper : Object {
 	public abstract string get_status_for_break(string break_name) throws IOError;
 	public abstract void trigger_break(string break_name) throws IOError;
 }

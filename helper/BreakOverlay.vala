@@ -18,7 +18,7 @@
 public class BreakOverlay : ScreenOverlay {
 	private Gtk.Grid content_area;
 	
-	private BreakOverlaySource? current_source;
+	private IBreakOverlaySource? current_source;
 	
 	public BreakOverlay() {
 		base();
@@ -30,7 +30,7 @@ public class BreakOverlay : ScreenOverlay {
 		this.content_area.show();
 	}
 	
-	private void set_source(BreakOverlaySource? new_source) {
+	private void set_source(IBreakOverlaySource? new_source) {
 		if (this.current_source != null) {
 			this.current_source.request_attention.disconnect(this.source_request_attention_cb);
 			this.current_source.overlay_stopped();
@@ -56,7 +56,7 @@ public class BreakOverlay : ScreenOverlay {
 		this.current_source = new_source;
 	}
 	
-	public void show_with_source(BreakOverlaySource? source) {
+	public void show_with_source(IBreakOverlaySource? source) {
 		this.set_source(source);
 		
 		if (! this.get_visible()) {
@@ -76,7 +76,7 @@ public class BreakOverlay : ScreenOverlay {
 		return this.current_source != null;
 	}
 	
-	public void remove_source(BreakOverlaySource? source) {
+	public void remove_source(IBreakOverlaySource? source) {
 		if (this.current_source == source) {
 			this.hide();
 			this.set_source(null);
