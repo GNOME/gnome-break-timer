@@ -133,6 +133,7 @@ public abstract class TimerBreakModel : BreakModel {
 	 */
 	protected virtual void waiting_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
 		if (this.get_time_remaining() == 0) {
+			this.duration_countdown.reset();
 			this.finish();
 		}
 		

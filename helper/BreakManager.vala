@@ -16,15 +16,12 @@
  */
 
 public class BreakManager : Object {
-	private BreakFocusManager focus_manager;
 	private Gee.Map<string, BreakType> breaks;
 	
+	public signal void break_loaded(BreakType break_type);
+	
 	public BreakManager() {
-		this.focus_manager = new BreakFocusManager();
 		this.breaks = new Gee.HashMap<string, BreakType>();
-		
-		this.register_break(new MicroBreakType(this.focus_manager));
-		this.register_break(new RestBreakType(this.focus_manager));
 	}
 	
 	private void break_enable_change(BreakModel model) {
@@ -34,6 +31,7 @@ public class BreakManager : Object {
 	
 	private void register_break(BreakType break_type) {
 		this.breaks.set(break_type.id, break_type);
+		this.break_loaded(break_type);
 		
 		BreakModel model = break_type.model;
 		
@@ -45,8 +43,9 @@ public class BreakManager : Object {
 		model.set_enabled(model.settings.get_boolean("enabled"));
 	}
 	
-	public FocusManager<BreakType> get_focus_manager() {
-		return this.focus_manager;
+	public void load_breaks() {
+		this.register_break(new MicroBreakType());
+		this.register_break(new RestBreakType());
 	}
 	
 	public Gee.Iterable<BreakType> get_all_breaks() {

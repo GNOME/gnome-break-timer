@@ -48,10 +48,12 @@ public class RestBreakModel : TimerBreakModel {
 			this.interval_countdown.continue();
 			this.duration_countdown.reset();
 		} else {
-			this.interval_countdown.pause();
-			
-			if (! this.duration_countdown.is_counting()) {
-				this.duration_countdown.continue_from(-activity.idle_time);
+			if (this.interval_countdown.is_counting()) {
+				this.interval_countdown.pause();
+				
+				if (! this.duration_countdown.is_counting()) {
+					this.duration_countdown.continue_from(-activity.idle_time);
+				}
 			}
 		}
 		

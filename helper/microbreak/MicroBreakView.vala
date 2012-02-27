@@ -20,7 +20,7 @@
 
 public class MicroBreakView : TimerBreakView {
 	public MicroBreakView(MicroBreakModel model) {
-		base(model);
+		base(model, FocusPriority.LOW);
 		
 		this.title = _("Micro break");
 		

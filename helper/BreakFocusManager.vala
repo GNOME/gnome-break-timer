@@ -90,8 +90,26 @@ public class BreakFocusManager : Object, FocusManager<BreakType> {
 		this.update_focus();
 	}
 	
-	public bool is_focused(BreakType focusable) {
-		return focusable == this.current_focus.owner;
+	public BreakType get_focus() {
+		if (this.current_focus != null) {
+			return this.current_focus.owner;
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Convenience function to attach the focus-related signals in
+	 * BreakView directly to this focus manager.
+	 */
+	public void monitor_break_type(BreakType break_type) {
+		BreakView view = break_type.view;
+		view.focus_requested.connect((priority) => {
+			this.request_focus(break_type, priority);
+		});
+		view.focus_released.connect((priority) => {
+			this.release_focus(break_type);
+		});
 	}
 }
 

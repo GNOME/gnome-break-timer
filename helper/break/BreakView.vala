@@ -28,9 +28,10 @@ public interface IBreakOverlaySource : Object {
 
 public abstract class BreakView : Object, IBreakOverlaySource {
 	protected BreakModel model {get; private set;}
+	protected FocusPriority priority;
 	
-	public signal void request_focus();
-	public signal void release_focus();
+	public signal void focus_requested(FocusPriority priority);
+	public signal void focus_released();
 	
 	public string title {get; protected set;}
 	
@@ -40,14 +41,24 @@ public abstract class BreakView : Object, IBreakOverlaySource {
 		public string? icon;
 	}
 	
-	public BreakView(BreakModel model) {
+	public BreakView(BreakModel model, FocusPriority priority) {
 		this.model = model;
+		this.priority = priority;
 		
 		model.activated.connect(() => { this.request_focus(); });
 		model.finished.connect(() => { this.release_focus(); });
 		
 		model.enabled.connect(() => { this.release_focus(); });
 		model.disabled.connect(() => { this.release_focus(); });
+	}
+	
+	protected void request_focus(FocusPriority? priority = null) {
+		if (priority == null) priority = this.priority;
+		this.focus_requested(priority);
+	}
+	
+	protected void release_focus() {
+		this.focus_released();
 	}
 	
 	public abstract string get_status_message();

@@ -20,8 +20,8 @@ public abstract class TimerBreakView : BreakView {
 	
 	protected TimerBreakStatusWidget status_widget;
 	
-	public TimerBreakView(TimerBreakModel timer_break) {
-		base(timer_break);
+	public TimerBreakView(TimerBreakModel timer_break, FocusPriority priority) {
+		base(timer_break, priority);
 		
 		this.timer_break = timer_break;
 		
@@ -52,32 +52,6 @@ public abstract class TimerBreakView : BreakView {
 	private void attention_demanded_cb() {
 		this.request_attention();
 	}
-	
-	/*
-	public override string get_status_message() {
-		string message;
-		NaturalTime natural_time = NaturalTime.get_instance();
-		
-		if (this.timer_break.state < Break.State.ACTIVE) {
-			int starts_in = this.timer_break.starts_in();
-			string start_time = natural_time.get_countdown_for_seconds_with_start(starts_in, this.timer_break.interval);
-			if (starts_in < 10) {
-				message = _("+~%s").printf(start_time);
-			} else {
-				message = _("+%s").printf(start_time);
-			}
-		} else if (this.timer_break.state == Break.State.ACTIVE) {
-			int time_remaining = this.timer_break.get_time_remaining();
-			int start_time = this.timer_break.get_current_duration();
-			string finish_time = natural_time.get_countdown_for_seconds_with_start(time_remaining, start_time);
-			message = _("-%s").printf(finish_time);
-		} else {
-			message = "";
-		}
-		
-		return message;
-	}
-	*/
 	
 	public override string get_status_message() {
 		string message;

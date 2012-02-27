@@ -35,6 +35,10 @@ public interface FocusManager<T> : Object {
 	
 	public abstract void release_focus(T owner);
 	
-	public abstract  bool is_focused(T focusable);
+	public abstract T get_focus();
+	
+	public bool is_focusing(T focusable) {
+		return this.get_focus == focusable;
+	}
 }
 

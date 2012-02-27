@@ -20,17 +20,10 @@ public abstract class BreakType : Object {
 	public BreakModel model;
 	public BreakView view;
 	
-	public BreakType(string id, BreakModel model, BreakView view, FocusPriority priority, FocusManager<BreakType> focus_manager) {
+	public BreakType(string id, BreakModel model, BreakView view) {
 		this.id = id;
 		this.model = model;
 		this.view = view;
-		
-		this.view.request_focus.connect(() => {
-			focus_manager.request_focus(this, priority);
-		});
-		this.view.release_focus.connect(() => {
-			focus_manager.release_focus(this);
-		});
 	}
 }
 

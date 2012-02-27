@@ -104,6 +104,8 @@ public class Application : Gtk.Application {
 		/* FIXME: Move this back to break enable */
 		this.hold();
 		
+		this.break_manager.load_breaks();
+		
 		DBusConnection connection = Bus.get_sync(BusType.SESSION, null);
 		this.break_helper_server = new BreakHelperServer(this.break_manager);
 		connection.register_object ("/org/brainbreak/Helper", this.break_helper_server);

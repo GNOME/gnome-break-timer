@@ -22,34 +22,33 @@
 public class UIManager : Object {
 	private Application application;
 	private BreakManager break_manager;
-	private FocusManager<BreakType> focus_manager;
+	private BreakFocusManager focus_manager;
 	
 	public bool quiet_mode {get; set; default=false;}
 	public int64 quiet_mode_expire_time {get; set;}
 	
 	private BreakOverlay break_overlay;
-	
 	private Notify.Notification? notification;
 	
 	public UIManager(Application application, BreakManager break_manager) {
 		this.application = application;
 		this.break_manager = break_manager;
-		this.focus_manager = break_manager.get_focus_manager();
+		this.focus_manager = new BreakFocusManager();
 		
 		this.break_overlay = new BreakOverlay();
+		
+		this.break_manager.break_loaded.connect(this.break_loaded_cb);
+		foreach (BreakType break_type in this.break_manager.get_all_breaks()) {
+			this.break_loaded_cb(break_type);
+		}
+		
+		/* TODO: Connect signal to attach / detach break from UI */
+		this.focus_manager.focus_started.connect(this.break_focused_cb);
+		this.focus_manager.focus_stopped.connect(this.break_unfocused_cb);
 		
 		Settings settings = new Settings("org.brainbreak.breaks");
 		settings.bind("quiet-mode", this, "quiet-mode", SettingsBindFlags.DEFAULT);
 		settings.bind("quiet-mode-expire-time", this, "quiet-mode-expire-time", SettingsBindFlags.DEFAULT);
-		
-		foreach (BreakType break_type in this.break_manager.get_all_breaks()) {
-			stdout.printf("%s\n", break_type.id);
-			/* TODO: Connect signal to show / hide break UI */
-		}
-		
-		/* TODO: Connect signal to attach / detach break from UI */
-		this.focus_manager.focus_started.connect(this.focus_started_cb);
-		this.focus_manager.focus_stopped.connect(this.focus_stopped_cb);
 		
 		this.notify["quiet-mode"].connect((s, p) => {
 			if (this.quiet_mode) {
@@ -86,69 +85,79 @@ public class UIManager : Object {
 		this.notification.show();
 	}
 	
-	private void focus_started_cb(BreakType break_type) {
-		this.show_break(break_type);
-	}
-	
-	private void focus_stopped_cb(BreakType break_type) {
-		this.hide_break(break_type);
-	}
-	
-	/*
-	private void watch_break(BreakType break_type) {
-		break_type.brk.enabled.connect(() => {
+	private void break_loaded_cb(BreakType break_type) {
+		this.focus_manager.monitor_break_type(break_type);
+		
+		break_type.model.enabled.connect(() => {
 			this.application.hold();
 		});
-		break_type.brk.disabled.connect(() => {
+		
+		break_type.model.disabled.connect(() => {
 			this.application.release();
 		});
 		
-		break_type.brk.activated.connect(() => {
-			this.show_break(break_type);
-		});
-		break_type.brk.finished.connect(() => {
-			this.hide_break(break_type);
+		break_type.model.activated.connect(() => {
+			this.break_activated(break_type);
 		});
 		
-		break_type.view.focus_started.connect(() => {
-			this.show_break(break_type);
-		});
-		break_type.view.focus_ended.connect(() => {
-			this.hide_break(break_type);
+		break_type.model.finished.connect(() => {
+			this.break_finished(break_type);
 		});
 	}
-	*/
+	
+	private void break_focused_cb(BreakType break_type) {
+		stdout.printf("%s, break_focused_cb\n", break_type.id);
+		this.show_break(break_type);
+	}
+	
+	private void break_unfocused_cb(BreakType break_type) {
+		stdout.printf("%s, break_unfocused_cb\n", break_type.id);
+		this.hide_break(break_type);
+	}
+	
+	private void break_activated(BreakType break_type) {
+		stdout.printf("%s, break_activated_cb\n", break_type.id);
+		this.show_break(break_type);
+	}
+	
+	private void break_finished(BreakType break_type) {
+		stdout.printf("%s, break_finished_cb\n", break_type.id);
+		if (this.focus_manager.is_focusing(break_type) && ! this.break_overlay.is_showing()) {
+			BreakView.NotificationContent notification_content = break_type.view.get_finish_notification();
+			this.show_notification(notification_content, Notify.Urgency.LOW);
+		}
+		this.hide_break(break_type);
+	}
+	
+	private bool break_is_showable(BreakType break_type) {
+		bool focused = this.focus_manager.is_focusing(break_type);
+		bool active = break_type.model.is_active();
+		return focused && active;
+	}
 	
 	private void show_break(BreakType break_type) {
-		BreakView break_view = break_type.view;
+		if (! this.break_is_showable(break_type)) return;
 		
-		if (this.break_overlay.is_showing_source()) {
-			// a running break has been replaced
-			this.break_overlay.show_with_source(break_view);
+		if (this.break_overlay.is_showing()) {
+			this.break_overlay.show_with_source(break_type.view);
+			stdout.printf("show_break: replaced\n");
 		} else {
-			BreakView.NotificationContent notification_content = break_view.get_start_notification();
+			BreakView.NotificationContent notification_content = break_type.view.get_start_notification();
 			this.show_notification(notification_content, Notify.Urgency.NORMAL);
 			
-			Timeout.add_seconds(break_view.get_lead_in_seconds(), () => {
-				if (this.focus_manager.is_focused(break_type)) {
-					this.break_overlay.show_with_source(break_view);
+			Timeout.add_seconds(break_type.view.get_lead_in_seconds(), () => {
+				if (this.break_is_showable(break_type)) {
+					this.break_overlay.show_with_source(break_type.view);
 				}
 				return false;
 			});
+			stdout.printf("show_break: notified\n");
 		}
 	}
 	
-	/*private void break_finished(Break brk) {
-		if (this.active_break == brk && this.overlay_triggered_for_break == false) {
-			BreakView break_view = brk.get_view();
-			
-			BreakView.NotificationContent notification_content = break_view.get_finish_notification();
-			this.show_notification(notification_content, Notify.Urgency.LOW);
-		}
-	}*/
-	
 	private void hide_break(BreakType break_type) {
 		this.break_overlay.remove_source(break_type.view);
+		stdout.printf("hide_break\n");
 	}
 }
 

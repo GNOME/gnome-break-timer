@@ -72,7 +72,7 @@ public class BreakOverlay : ScreenOverlay {
 		}
 	}
 	
-	public bool is_showing_source() {
+	public bool is_showing() {
 		return this.current_source != null;
 	}
 	

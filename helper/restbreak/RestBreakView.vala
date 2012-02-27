@@ -22,7 +22,7 @@ public class RestBreakView : TimerBreakView {
 	string[] rest_quotes;
 	
 	public RestBreakView(RestBreakModel model) {
-		base(model);
+		base(model, FocusPriority.HIGH);
 		
 		this.title = _("Rest break");
 		
