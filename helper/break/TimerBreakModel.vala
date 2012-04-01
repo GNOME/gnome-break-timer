@@ -32,7 +32,9 @@ public abstract class TimerBreakModel : BreakModel {
 	 * The break may start soon, according to its schedule. The break
 	 * view should subscribe to this to request early focus.
 	 */
-	public signal void warning();
+	public signal void warned();
+	
+	public signal void unwarned();
 	
 	/**
 	 * The break is active and the user is not paying attention to it.
@@ -113,6 +115,20 @@ public abstract class TimerBreakModel : BreakModel {
 		this.active_timeout.stop();
 	}
 	
+	bool is_warned;
+	private void warn() {
+		if (! is_warned) {
+			is_warned = true;
+			this.warned();
+		}
+	}
+	private void unwarn() {
+		if (is_warned) {
+			is_warned = false;
+			this.unwarned();
+		}
+	}
+	
 	/**
 	 * @return Time until the next scheduled break, in seconds.
 	 */
@@ -141,7 +157,9 @@ public abstract class TimerBreakModel : BreakModel {
 		if (this.starts_in() == 0) {
 			this.activate();
 		} else if (this.starts_in() <= duration) {
-			this.warning();
+			this.warn();
+		} else {
+			this.unwarn();
 		}
 	}
 	

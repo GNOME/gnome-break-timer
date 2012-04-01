@@ -44,7 +44,13 @@ public class Application : Gtk.Application {
 		/* set up custom gtk style for application */
 		Gdk.Screen screen = Gdk.Screen.get_default();
 		Gtk.CssProvider style_provider = new Gtk.CssProvider();
-		style_provider.load_from_data(STYLE_DATA, -1);
+		
+		try {
+			style_provider.load_from_data(STYLE_DATA, -1);
+		} catch (Error error) {
+			stderr.printf("Error loading style data: %s\n", error.message);
+		}
+		
 		Gtk.StyleContext.add_provider_for_screen(
 				screen,
 				style_provider,

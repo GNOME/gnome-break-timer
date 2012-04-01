@@ -25,12 +25,12 @@ public class RestBreakModel : TimerBreakModel {
 	private ActivityMonitor activity_monitor;
 	private Countdown reminder_countdown;
 	
-	public RestBreakModel() {
+	public RestBreakModel(IActivityMonitorBackend activity_monitor_backend) {
 		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
 		
 		base(settings);
 		
-		this.activity_monitor = new ActivityMonitor();
+		this.activity_monitor = new ActivityMonitor(activity_monitor_backend);
 		
 		this.reminder_countdown = new Countdown(this.interval / 6);
 		this.notify["interval"].connect((s, p) => {

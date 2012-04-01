@@ -44,8 +44,17 @@ public class BreakManager : Object {
 	}
 	
 	public void load_breaks() {
-		this.register_break(new MicroBreakType());
-		this.register_break(new RestBreakType());
+		IActivityMonitorBackend activity_monitor_backend;
+		try {
+			activity_monitor_backend = new X11ActivityMonitorBackend();
+		} catch {
+			activity_monitor_backend = null;
+		}
+		
+		if (activity_monitor_backend != null) {
+			this.register_break(new MicroBreakType(activity_monitor_backend));
+			this.register_break(new RestBreakType(activity_monitor_backend));
+		}
 	}
 	
 	public Gee.Iterable<BreakType> all_breaks() {

@@ -16,8 +16,8 @@
  */
 
 public class MicroBreakType : BreakType {
-	public MicroBreakType() {
-		MicroBreakModel model = new MicroBreakModel();
+	public MicroBreakType(IActivityMonitorBackend activity_monitor_backend) {
+		MicroBreakModel model = new MicroBreakModel(activity_monitor_backend);
 		MicroBreakView view = new MicroBreakView(model);
 		base("microbreak", model, view);
 	}

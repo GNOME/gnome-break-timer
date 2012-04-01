@@ -24,21 +24,37 @@ public class NaturalTime : Object {
 		public Regex re_single;
 		public Regex re_plural;
 		
-		public TimeUnit(string label_single, string label_plural, int seconds) {
+		public TimeUnit (string label_single, string label_plural, int seconds) {
 			this.label_single = label_single;
 			this.label_plural = label_plural;
 			this.seconds = seconds;
 			
-			this.re_single = new Regex(label_single.replace("%d", "(\\d+)"));
-			this.re_plural = new Regex(label_plural.replace("%d", "(\\d+)"));
+			try {
+				this.re_single = new Regex(label_single.replace("%d", "(\\d+)"));
+			} catch (RegexError error) {
+				stderr.printf("Error compiling regex for TimeUnit: %s\n", error.message);
+			}
+			
+			try {
+				this.re_plural = new Regex(label_plural.replace("%d", "(\\d+)"));
+			} catch (RegexError error) {
+				stderr.printf("Error compiling regex for TimeUnit: %s\n", error.message);
+			}
 		}
 		
-		public string format_seconds(int seconds) {
+		public string format_seconds (int seconds) {
 			int time = seconds / this.seconds;
 			
 			return ngettext(this.label_single.printf(time),
 					this.label_plural.printf(time),
 					time);
+		}
+		
+		public MatchInfo? matches_for_input (string input) {
+			MatchInfo? match_info = null;
+			bool single_matched = this.re_single.match(input, RegexMatchFlags.ANCHORED, out match_info);
+			if (! single_matched) this.re_plural.match(input, RegexMatchFlags.ANCHORED, out match_info);
+			return match_info;
 		}
 	}
 	
@@ -184,9 +200,8 @@ public class NaturalTime : Object {
 		out_time = -1;
 		
 		foreach (TimeUnit unit in units) {
-			MatchInfo match_info;
-			if (unit.re_single.match(input, RegexMatchFlags.ANCHORED, out match_info) ||
-					unit.re_plural.match(input, RegexMatchFlags.ANCHORED, out match_info)) {
+			MatchInfo? match_info = unit.matches_for_input(input);
+			if (match_info != null && match_info.matches()) {
 				string time_str = match_info.fetch(1);
 				out_time = int.parse(time_str);
 				out_unit = unit;
@@ -198,11 +213,17 @@ public class NaturalTime : Object {
 	}
 	
 	private int get_time_for_input (string input) {
-		// this assumes \\d+ will _only_ match the time
-		Regex re = new Regex("(\\d+)");
+		Regex time_re;
+		try {
+			// this assumes \\d+ will _only_ match the time
+			time_re = new Regex("(\\d+)");
+		} catch (RegexError error) {
+			stderr.printf("Error compiling regex: %s\n", error.message);
+			return -1;
+		}
 		
 		MatchInfo match_info;
-		if (re.match(input, 0, out match_info)) {
+		if (time_re.match(input, 0, out match_info)) {
 			string time_str = match_info.fetch(1);
 			int time = int.parse(time_str);
 			return time;

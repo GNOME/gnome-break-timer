@@ -24,12 +24,12 @@
 public class MicroBreakModel : TimerBreakModel {
 	private ActivityMonitor activity_monitor;
 	
-	public MicroBreakModel() {
+	public MicroBreakModel(IActivityMonitorBackend activity_monitor_backend) {
 		Settings settings = new Settings("org.brainbreak.breaks.microbreak");
 		
 		base(settings);
 		
-		this.activity_monitor = new ActivityMonitor();
+		this.activity_monitor = new ActivityMonitor(activity_monitor_backend);
 	}
 	
 	protected override void waiting_timeout_cb(CleverTimeout timeout, int delta_millisecs) {

@@ -96,7 +96,12 @@ private class AppNotRunningInfoBar : Gtk.InfoBar {
 	private void launch_helper() {
 		AppInfo helper_app_info = new DesktopAppInfo("brainbreak-helper.desktop");
 		AppLaunchContext app_launch_context = new AppLaunchContext();
-		helper_app_info.launch(null, app_launch_context);
+		
+		try {
+			helper_app_info.launch(null, app_launch_context);
+		} catch (Error error) {
+			stderr.printf("Error launching brainbreak helper: %s\n", error.message);
+		}
 	}
 }
 

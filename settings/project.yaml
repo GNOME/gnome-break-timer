@@ -1,0 +1,29 @@
+targets:
+  brainbreak-settings:
+    tool: vala
+    type: program
+    input:
+      - ApplicationPanel.vala
+      - BreakPanel.vala
+      - BreakType.vala
+      - main.vala
+      - MicroBreakType.vala
+      - Panel.vala
+      - QuietMode.vala
+      - QuietModePanel.vala
+      - RestBreakType.vala
+      - SettingsDialog.vala
+      - TimeChooser.vala
+      - TimerBreakPanel.vala
+      - TimerBreakType.vala
+    uses:
+      - common
+      - util
+    defines:
+      - GETTEXT_PACKAGE="brainbreak"
+    packages:
+      - gtk+-3.0
+      - gio-2.0
+      - gio-unix-2.0
+      - gee-1.0
+

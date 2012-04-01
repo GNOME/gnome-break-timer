@@ -29,7 +29,9 @@ public abstract class TimerBreakView : BreakView {
 		
 		this.overlay_started.connect(this.overlay_started_cb);
 		
-		timer_break.warning.connect(this.timer_break_warning_cb);
+		timer_break.warned.connect(this.timer_break_warned_cb);
+		timer_break.unwarned.connect(this.timer_break_unwarned_cb);
+		
 		timer_break.active_countdown_changed.connect(this.active_countdown_changed_cb);
 		timer_break.attention_demanded.connect(this.attention_demanded_cb);
 	}
@@ -38,8 +40,12 @@ public abstract class TimerBreakView : BreakView {
 		this.active_countdown_changed_cb( this.timer_break.get_time_remaining() );
 	}
 	
-	private void timer_break_warning_cb() {
+	private void timer_break_warned_cb() {
 		this.request_focus();
+	}
+	
+	private void timer_break_unwarned_cb() {
+		this.release_focus();
 	}
 	
 	private void active_countdown_changed_cb(int time_remaining) {

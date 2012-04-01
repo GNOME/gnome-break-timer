@@ -17,10 +17,29 @@
 
 #include <stdlib.h>
 #include <xcb/xcb.h>
-#include <xcb/screensaver.h>
+#include <xcb/record.h>
 
-static xcb_connection_t * connection;
-static xcb_screen_t * screen;
+static xcb_record_context_t record_context;
+
+void start_xrecord () {
+	static xcb_connection_t * connection = xcb_connect (NULL, NULL);
+	
+	xcb_record_element_header_t record_element_header;
+	
+	xcb_record_client_spec_t * client_specs = XCB_RECORD_CS_ALL_CLIENTS;
+	
+	xcb_record_range_t * record_range = 
+	
+	xcb_void_cookie_t cookie = xcb_record_create_context (
+		connection,
+		&record_context,
+		&record_element_header,
+		1,
+		1,
+		&client_specs,
+		
+		
+}
 
 /**
  * Connects to the X server (via xcb) and gets the screen

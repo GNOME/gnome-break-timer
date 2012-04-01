@@ -16,8 +16,8 @@
  */
 
 public class RestBreakType : BreakType {
-	public RestBreakType() {
-		RestBreakModel model = new RestBreakModel();
+	public RestBreakType(IActivityMonitorBackend activity_monitor_backend) {
+		RestBreakModel model = new RestBreakModel(activity_monitor_backend);
 		RestBreakView view = new RestBreakView(model);
 		base("restbreak", model, view);
 	}

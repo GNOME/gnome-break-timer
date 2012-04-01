@@ -81,7 +81,12 @@ public class UIManager : Object {
 		}
 		this.notification.set_urgency(urgency);
 		this.notification.update(content.summary, content.body, content.icon);
-		this.notification.show();
+		
+		try {
+			this.notification.show();
+		} catch (Error error) {
+			stderr.printf("Error showing notification: %s\n", error.message);
+		}
 	}
 	
 	private void break_loaded_cb(BreakType break_type) {

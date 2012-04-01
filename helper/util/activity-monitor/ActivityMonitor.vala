@@ -15,13 +15,8 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Magic {
-	[Import] private static extern void begin();
-	[Import] private static extern uint32 get_idle_time();
-	
-	private static int get_idle_seconds() {
-		return (int)(get_idle_time() / 1000);
-	}
+public interface IActivityMonitorBackend : Object {
+	public abstract int get_idle_seconds();
 }
 
 public class ActivityMonitor : Object {
@@ -42,17 +37,17 @@ public class ActivityMonitor : Object {
 	private UserActivity last_activity;
 	private int last_idle_time;
 	
-	public ActivityMonitor() {
+	private IActivityMonitorBackend backend;
+	
+	public ActivityMonitor(IActivityMonitorBackend backend) {
 		this.get_monotonic_time_delta();
 		this.get_wall_time_delta();
+		
+		this.backend = backend;
 		
 		this.activity_timer = new Timer();
 		this.last_activity = UserActivity();
 		this.last_idle_time = 0;
-	}
-	
-	public static void setup() {
-		Magic.begin();
 	}
 	
 	private const int MICROSECONDS_IN_SECONDS = 1000 * 1000;
@@ -92,7 +87,7 @@ public class ActivityMonitor : Object {
 		int wall_time_delta = this.get_wall_time_delta();
 		int sleep_time = (int)(wall_time_delta - monotonic_time_delta);
 		
-		activity.idle_time = int.max(sleep_time, Magic.get_idle_seconds());
+		activity.idle_time = int.max(sleep_time, backend.get_idle_seconds());
 		
 		if (activity.idle_time > this.last_idle_time) {
 			activity.is_active = false;

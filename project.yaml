@@ -5,13 +5,20 @@ project:
 
 
 requires:
-  xcb:
+  x11:
     type: package
-    version: 1.7
+    version: 1.4.99.1
     mandatory: True
-  xcb-screensaver:
+  xtst:
     type: package
-    version: 1.7
+    version: 1.2.0
+    mandatory: True
+  xi:
+    type: package
+    version: 1.5.99.3
+    mandatory: True
+  gdk-x11-3.0:
+    type: package
     mandatory: True
   glib-2.0:
     type: package
@@ -37,6 +44,10 @@ requires:
     version: 0.4.5
     mandatory: True
 
+subdirs:
+  - settings
+  - helper
+
 targets:
   common:
     tool: vala
@@ -48,81 +59,4 @@ targets:
       - GETTEXT_PACKAGE="brainbreak"
     packages:
       - glib-2.0
-  
-  activity-monitor-backend:
-    tool: cc
-    type: staticlib
-    path: helper/util/activity-monitor
-    input:
-      - magic_xcb.c
-    packages:
-      - xcb
-      - xcb-screensaver
-  
-  brainbreak:
-    tool: vala
-    type: program
-    path: helper
-    input:
-      - BreakManager.vala
-      - BreakOverlay.vala
-      - BreakFocusManager.vala
-      - main.vala
-      - ScreenOverlay.vala
-      - UIManager.vala
-      - IFocusManager.vala
-      - util/activity-monitor/ActivityMonitor.vala
-      - util/CleverTimeout.vala
-      - util/Countdown.vala
-      - break/BreakType.vala
-      - break/BreakModel.vala
-      - break/BreakView.vala
-      - break/TimerBreakStatusWidget.vala
-      - break/TimerBreakModel.vala
-      - break/TimerBreakView.vala
-      - microbreak/MicroBreakType.vala
-      - microbreak/MicroBreakModel.vala
-      - microbreak/MicroBreakView.vala
-      - restbreak/RestBreakType.vala
-      - restbreak/RestBreakModel.vala
-      - restbreak/RestBreakView.vala
-    defines:
-      - GETTEXT_PACKAGE="brainbreak"
-    uses:
-      - common
-      - activity-monitor-backend
-    packages:
-      - glib-2.0
-      - gio-2.0
-      - gtk+-3.0
-      - gee-1.0
-      - libnotify
-  
-  brainbreak-settings:
-    tool: vala
-    type: program
-    path: settings
-    input:
-      - ApplicationPanel.vala
-      - BreakPanel.vala
-      - BreakType.vala
-      - main.vala
-      - MicroBreakType.vala
-      - Panel.vala
-      - QuietMode.vala
-      - QuietModePanel.vala
-      - RestBreakType.vala
-      - SettingsDialog.vala
-      - TimeChooser.vala
-      - TimerBreakPanel.vala
-      - TimerBreakType.vala
-    uses:
-      - common
-    defines:
-      - GETTEXT_PACKAGE="brainbreak"
-    packages:
-      - gtk+-3.0
-      - gio-2.0
-      - gio-unix-2.0
-      - gee-1.0
 
