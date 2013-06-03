@@ -9,8 +9,9 @@ Build-Depends: cdbs (>= 0.4.43),
  libglib2.0-dev (>= 2.30.0),
  libgtk-3-dev (>= 3.2.0),
  libnotify-dev (>= 0.7.4),
- libxcb1-dev (>= 1.7),
- libxcb-screensaver0-dev (>= 1.7)
+ libx11-dev (>= 1.4.0),
+ libxtst-dev (>= 1.2.0),
+ libxi-dev (>= 1.6.0)
 Maintainer: Dylan McCall <dylanmccall@ubuntu.com>
 Vcs-Bzr: https://code.launchpad.net/~dylanmccall/brainbreak/trunk
 Standards-Version: 3.9.1
@@ -23,8 +24,9 @@ Depends: ${misc:Depends},
  libglib2.0-0 (>= 2.30.0),
  libgtk-3-0 (>= 3.2.0),
  libnotify4 (>= 0.7.4),
- libxcb1 (>= 1.7),
- libxcb-screensaver0 (>= 1.7)
+ libx11-6 (>= 1.4),
+ libxtst6 (>= 1.2.0),
+ libxi6 (>= 1.6.0)
 Recommends: 
 Suggests: 
 Description: Computer break timer for active minds 
