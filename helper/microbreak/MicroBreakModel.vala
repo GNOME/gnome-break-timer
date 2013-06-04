@@ -37,7 +37,13 @@ public class MicroBreakModel : TimerBreakModel {
 		
 		if (activity.is_active) {
 			this.interval_countdown.continue();
-			this.duration_countdown.reset();
+			if (this.duration_countdown.is_counting()) {
+				// If the user is active, we stop counting down break duration
+				this.duration_countdown.pause();
+			} else {
+				// If the user continues to be active, we reset that countdown
+				this.duration_countdown.reset();
+			}
 		} else {
 			if (this.interval_countdown.is_counting()) {
 				this.interval_countdown.pause();

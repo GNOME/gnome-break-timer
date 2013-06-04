@@ -89,15 +89,7 @@ public class ActivityMonitor : Object {
 		
 		activity.idle_time = int.max(sleep_time, backend.get_idle_seconds());
 		
-		if (activity.idle_time > this.last_idle_time) {
-			activity.is_active = false;
-		} else {
-			activity.is_active = this.activity_timer.elapsed() < 15;
-			if (activity.is_active) {
-				activity.last_active_time = get_real_time() / MICROSECONDS_IN_SECONDS;
-			}
-			this.activity_timer.start();
-		}
+		activity.is_active = activity.idle_time <= this.last_idle_time;
 		this.last_idle_time = activity.idle_time;
 		
 		this.last_activity = activity;
