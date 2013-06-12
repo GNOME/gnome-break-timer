@@ -79,6 +79,7 @@ public class RestBreakModel : TimerBreakModel {
 			// Demand attention if paused for a long time
 			if (this.reminder_countdown.get_time_remaining() == 0) {
 				if (this.duration_countdown.get_penalty() < this.duration) {
+					this.duration_countdown.reset();
 					this.duration_countdown.add_penalty(this.duration/4);
 				}
 				this.attention_demanded();
