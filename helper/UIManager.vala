@@ -26,6 +26,7 @@ public class UIManager : Object {
 	
 	public bool quiet_mode {get; set; default=false;}
 	public int64 quiet_mode_expire_time {get; set;}
+	private uint quiet_mode_expire_timeout;
 	
 	private BreakOverlay break_overlay;
 	private Notify.Notification? notification;
@@ -50,36 +51,39 @@ public class UIManager : Object {
 		settings.bind("quiet-mode-expire-time", this, "quiet-mode-expire-time", SettingsBindFlags.DEFAULT);
 		
 		this.notify["quiet-mode"].connect((s, p) => {
-			this.update_break_overlay_format();
+			this.start_quiet_mode();
 		});
-		this.update_break_overlay_format();
+		this.update_quiet_mode_countdown();
+		this.start_quiet_mode();
 	}
 
-	private void update_break_overlay_format() {
+	private void start_quiet_mode() {
+		if (this.quiet_mode_expire_timeout > 0) {
+			Source.remove(this.quiet_mode_expire_timeout);
+			this.quiet_mode_expire_timeout = 0;
+		}
+
 		if (this.quiet_mode) {
 			this.break_overlay.set_format(ScreenOverlay.Format.SILENT);
-			if (this.break_overlay.is_showing()) {
-				this.break_overlay.fade_out();
-			}
+			// We should finish quiet mode close to the scheduled time,
+			// but it doesn't need to be exact
+			this.quiet_mode_expire_timeout = Timeout.add_seconds(30, () => {
+				this.update_quiet_mode_countdown();
+				return true;
+			});
 		} else {
 			this.break_overlay.set_format(ScreenOverlay.Format.FULL);
-			if (this.break_overlay.is_showing()) {
-				this.break_overlay.fade_in();
-			}
 		}
 	}
-	
-	private bool quiet_mode_is_enabled() {
+
+	private void update_quiet_mode_countdown() {
 		if (this.quiet_mode) {
 			DateTime now = new DateTime.now_utc();
-			if (now.to_unix() < this.quiet_mode_expire_time) {
-				return true;
-			} else {
+			if (now.to_unix() > this.quiet_mode_expire_time) {
 				this.quiet_mode = false;
 				this.quiet_mode_expire_time = 0;
 			}
 		}
-		return false;
 	}
 	
 	private void show_notification(BreakView.NotificationContent content, Notify.Urgency urgency) {

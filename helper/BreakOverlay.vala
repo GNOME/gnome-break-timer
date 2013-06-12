@@ -30,6 +30,12 @@ public class BreakOverlay : ScreenOverlay {
 		this.add(this.content_area);
 		this.content_area.show();
 	}
+
+	public override void fade_in(double rate = 0.01) {
+		if (this.current_source != null) {
+			base.fade_in(rate);
+		}
+	}
 	
 	private void set_source(IBreakOverlaySource? new_source) {
 		if (this.current_source != null) {
@@ -43,7 +49,9 @@ public class BreakOverlay : ScreenOverlay {
 			new_source.request_attention.connect(this.source_request_attention_cb);
 			
 			this.set_title(new_source.get_overlay_title());
-			if (this.source_content != null) this.content_area.remove(this.source_content);
+			if (this.source_content != null) {
+				this.content_area.remove(this.source_content);
+			}
 			this.source_content = new_source.get_overlay_content();
 			this.content_area.add(this.source_content);
 			this.source_content.show();
@@ -54,9 +62,7 @@ public class BreakOverlay : ScreenOverlay {
 	
 	public void show_with_source(IBreakOverlaySource? source) {
 		this.set_source(source);
-		if (this.format != Format.SILENT) {
-			this.fade_in();
-		}
+		this.fade_in();
 	}
 	
 	public bool is_showing() {

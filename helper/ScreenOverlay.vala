@@ -38,25 +38,33 @@ public class ScreenOverlay : Gtk.Window {
 		this.set_accept_focus(false);
 		*/
 		
-		this.realize.connect(this.on_realize);
+		this.format = Format.FULL;
 		
 		Gdk.Screen screen = this.get_screen();
 		screen.composited_changed.connect(this.on_screen_composited_changed);
 		this.on_screen_composited_changed(screen);
 		
-		this.set_format(Format.FULL);
-		
 		Gtk.StyleContext style = this.get_style_context();
 		style.add_class("brainbreak-screen-overlay");
+
+		this.realize.connect(this.on_realize);
+
+		this.realize();
 	}
-	
-	private void update_format() {
-		switch(this.format) {
+
+	protected void apply_format(Format format) {
+		switch(format) {
+		case Format.SILENT:
+			this.fade_out();
+			break;
+
 		case Format.MINI:
 			this.input_shape_combine_region((Cairo.Region)null);
 			
 			this.set_size_request(-1, -1);
 			this.resize(1, 1);
+
+			this.fade_in();
 
 			break;
 
@@ -79,6 +87,8 @@ public class ScreenOverlay : Gtk.Window {
 			} else {
 				this.set_size_request(geom.width, geom.height);
 			}
+
+			this.fade_in();
 			
 			break;
 		}
@@ -86,12 +96,14 @@ public class ScreenOverlay : Gtk.Window {
 	
 	public void set_format(Format format) {
 		this.format = format;
-		
-		if (this.get_realized()) this.update_format();
+		if (this.get_realized()) this.apply_format(format);
 	}
 
-	public void fade_in(double rate = 0.01) {
+	public virtual void fade_in(double rate = 0.01) {
 		assert(rate > 0);
+
+		if (this.format == Format.SILENT) return;
+
 		double opacity;
 		if (this.get_visible()) {
 			opacity = this.get_opacity();
@@ -99,7 +111,9 @@ public class ScreenOverlay : Gtk.Window {
 			opacity = 0.0;
 			this.set_opacity(opacity);
 		}
+
 		this.show();
+
 		if (this.fade_timeout > 0) Source.remove(this.fade_timeout);
 		this.fade_timeout = Timeout.add(20, () => {
 			opacity += rate;
@@ -109,14 +123,16 @@ public class ScreenOverlay : Gtk.Window {
 		});
 	}
 
-	public void fade_out(double rate = 0.02) {
+	public virtual void fade_out(double rate = 0.02) {
 		assert(rate > 0);
+
 		double opacity;
 		if (this.get_visible()) {
 			opacity = this.get_opacity();
 		} else {
 			return;
 		}
+
 		if (this.fade_timeout > 0) Source.remove(this.fade_timeout);
 		this.fade_timeout = Timeout.add(20, () => {
 			opacity -= rate;
@@ -127,7 +143,7 @@ public class ScreenOverlay : Gtk.Window {
 		});
 	}
 
-	public void pop_out() {
+	public virtual void pop_out() {
 		// TODO: Pretty animation when break is finished.
 		// For now we'll just fade out.
 		this.fade_out();
@@ -145,7 +161,7 @@ public class ScreenOverlay : Gtk.Window {
 	}
 	
 	private void on_realize() {
-		this.update_format();
+		this.apply_format(this.format);
 	}
 }
 
