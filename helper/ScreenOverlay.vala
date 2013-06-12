@@ -19,10 +19,12 @@
 
 public class ScreenOverlay : Gtk.Window {
 	public enum Format {
+		SILENT,
 		MINI,
 		FULL
 	}
-	private Format format;
+	protected Format format;
+	private uint fade_timeout;
 	
 	public ScreenOverlay() {
 		Object(type: Gtk.WindowType.POPUP);
@@ -55,8 +57,9 @@ public class ScreenOverlay : Gtk.Window {
 			
 			this.set_size_request(-1, -1);
 			this.resize(1, 1);
-			
+
 			break;
+
 		case Format.FULL:
 			/* empty input region to ignore any input */
 			this.input_shape_combine_region(new Cairo.Region());
@@ -85,6 +88,49 @@ public class ScreenOverlay : Gtk.Window {
 		this.format = format;
 		
 		if (this.get_realized()) this.update_format();
+	}
+
+	public void fade_in(double rate = 0.01) {
+		assert(rate > 0);
+		double opacity;
+		if (this.get_visible()) {
+			opacity = this.get_opacity();
+		} else {
+			opacity = 0.0;
+			this.set_opacity(opacity);
+		}
+		this.show();
+		if (this.fade_timeout > 0) Source.remove(this.fade_timeout);
+		this.fade_timeout = Timeout.add(20, () => {
+			opacity += rate;
+			this.set_opacity(opacity);
+			bool do_continue = opacity < 1.0;
+			return do_continue;
+		});
+	}
+
+	public void fade_out(double rate = 0.02) {
+		assert(rate > 0);
+		double opacity;
+		if (this.get_visible()) {
+			opacity = this.get_opacity();
+		} else {
+			return;
+		}
+		if (this.fade_timeout > 0) Source.remove(this.fade_timeout);
+		this.fade_timeout = Timeout.add(20, () => {
+			opacity -= rate;
+			this.set_opacity(opacity);
+			bool do_continue = opacity > 0.0;
+			if (do_continue == false) this.hide();
+			return do_continue;
+		});
+	}
+
+	public void pop_out() {
+		// TODO: Pretty animation when break is finished.
+		// For now we'll just fade out.
+		this.fade_out();
 	}
 	
 	private void on_screen_composited_changed(Gdk.Screen screen) {

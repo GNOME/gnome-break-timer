@@ -28,11 +28,25 @@ public class RestBreakView : TimerBreakView {
 		
 		this.rest_quotes = {
 			_("The quieter you become, the more you can hear."),
-			_("Knock on the sky and Listen to the sound."),
-			_("So little time, so little to do.")
+			_("Knock on the sky and listen to the sound."),
+			_("So little time, so little to do."),
+			_("Sometimes the questions are complicated and the answers are simple."),
+			_("You cannot step into the same river twice."),
+			_("The obstacle is the path."),
+			_("No snowflake ever falls in the wrong place."),
+			_("The energy of the mind is the essence of life.")
 		};
 		
 		this.overlay_started.connect(this.overlay_started_cb);
+	}
+
+	protected override string get_countdown_label(int time_remaining, int start_time) {
+		NaturalTime natural_time = NaturalTime.get_instance();
+		if (time_remaining > 0) {
+			return natural_time.get_countdown_for_seconds_with_start(time_remaining, start_time);
+		} else {
+			return _("Thank you");
+		}
 	}
 	
 	public override BreakView.NotificationContent get_start_notification() {

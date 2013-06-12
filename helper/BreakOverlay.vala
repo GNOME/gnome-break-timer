@@ -19,6 +19,7 @@ public class BreakOverlay : ScreenOverlay {
 	private Gtk.Grid content_area;
 	
 	private IBreakOverlaySource? current_source;
+	private Gtk.Widget? source_content;
 	
 	public BreakOverlay() {
 		base();
@@ -36,21 +37,16 @@ public class BreakOverlay : ScreenOverlay {
 			this.current_source.overlay_stopped();
 		}
 		
-		foreach (Gtk.Widget child in this.content_area.get_children()) {
-			this.content_area.remove(child);
-		}
-		
 		if (new_source != null) {
 			new_source.overlay_started();
 			
 			new_source.request_attention.connect(this.source_request_attention_cb);
 			
 			this.set_title(new_source.get_overlay_title());
-			Gtk.Widget new_content = new_source.get_overlay_content();
-			this.content_area.add(new_content);
-			new_content.show();
-		} else {
-			this.set_title("");
+			if (this.source_content != null) this.content_area.remove(this.source_content);
+			this.source_content = new_source.get_overlay_content();
+			this.content_area.add(this.source_content);
+			this.source_content.show();
 		}
 		
 		this.current_source = new_source;
@@ -58,27 +54,18 @@ public class BreakOverlay : ScreenOverlay {
 	
 	public void show_with_source(IBreakOverlaySource? source) {
 		this.set_source(source);
-		
-		if (! this.get_visible()) {
-			/* Fade in 0.01 per frame over 2000 ms */
-			double opacity = 0.0;
-			this.set_opacity(opacity);
-			this.show();
-			Timeout.add(20, () => {
-				opacity += 0.01;
-				this.set_opacity(opacity);
-				return opacity < 1.0;
-			});
+		if (this.format != Format.SILENT) {
+			this.fade_in();
 		}
 	}
 	
 	public bool is_showing() {
-		return this.current_source != null;
+		return this.current_source != null && this.get_visible();
 	}
 	
 	public void remove_source(IBreakOverlaySource? source) {
 		if (this.current_source == source) {
-			this.hide();
+			this.pop_out();
 			this.set_source(null);
 		}
 	}

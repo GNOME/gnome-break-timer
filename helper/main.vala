@@ -52,9 +52,9 @@ public class Application : Gtk.Application {
 	
 	static const string STYLE_DATA =
 			"""
-			@define-color bg_top rgba(60, 60, 60, 0.85);
-			@define-color bg_middle rgba(12, 12, 12, 0.92);
-			@define-color bg_bottom rgba(0, 0, 0, 0.96);
+			@define-color bg_top rgba(218, 236, 237, 0.85);
+			@define-color bg_middle rgba(226, 237, 236, 0.92);
+			@define-color bg_bottom rgba(179, 209, 183, 0.94);
 
 			GtkWindow.brainbreak-screen-overlay {
 				background-color: @bg_inner;
@@ -62,17 +62,18 @@ public class Application : Gtk.Application {
 				       center top,
 				       center bottom,
 				       color-stop (0, @bg_top),
-				       color-stop (0.06, @bg_middle),
-				       color-stop (0.9, @bg_middle),
+				       color-stop (0.08, @bg_middle),
+				       color-stop (0.92, @bg_middle),
 				       color-stop (1, @bg_bottom));
-				/*border-radius: 8;*/
-				color: #ffffff;
+				font-size: 18px;
+				color: #999;
 			}
 
 			GtkLabel.brainbreak-timer-label {
-				font-weight:bold;
-				font-size:25;
-				text-shadow:1 1 5 rgba(0,0,0,0.5);
+				font-weight: bold;
+				font-size: 36px;
+				color: #333;
+				text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
 			}
 			""";
 	
@@ -85,7 +86,7 @@ public class Application : Gtk.Application {
 		Object(application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
 		GLib.Environment.set_application_name(app_name);
 		
-		// Keep running for one minute after last break is disabled
+		// Keep running for one minute after the last break is disabled
 		this.set_inactivity_timeout(60 * 1000);
 	}
 	

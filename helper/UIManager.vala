@@ -50,15 +50,23 @@ public class UIManager : Object {
 		settings.bind("quiet-mode-expire-time", this, "quiet-mode-expire-time", SettingsBindFlags.DEFAULT);
 		
 		this.notify["quiet-mode"].connect((s, p) => {
-			if (this.quiet_mode) {
-				// hide the overlay (if it is currently showing)
-				//this.break_overlay.remove_source();
-				this.break_overlay.set_format(ScreenOverlay.Format.MINI);
-				//this.overlay_triggered_for_break = false;
-			} else {
-				this.break_overlay.set_format(ScreenOverlay.Format.FULL);
-			}
+			this.update_break_overlay_format();
 		});
+		this.update_break_overlay_format();
+	}
+
+	private void update_break_overlay_format() {
+		if (this.quiet_mode) {
+			this.break_overlay.set_format(ScreenOverlay.Format.SILENT);
+			if (this.break_overlay.is_showing()) {
+				this.break_overlay.fade_out();
+			}
+		} else {
+			this.break_overlay.set_format(ScreenOverlay.Format.FULL);
+			if (this.break_overlay.is_showing()) {
+				this.break_overlay.fade_in();
+			}
+		}
 	}
 	
 	private bool quiet_mode_is_enabled() {
@@ -135,9 +143,7 @@ public class UIManager : Object {
 	
 	private bool break_is_showable(BreakType break_type) {
 		bool focused = this.focus_manager.is_focusing(break_type);
-		stdout.printf("focused: %s\n", focused.to_string());
 		bool active = break_type.model.is_active();
-		stdout.printf("active: %s\n", active.to_string());
 		return focused && active;
 	}
 	
@@ -150,7 +156,6 @@ public class UIManager : Object {
 		} else {
 			BreakView.NotificationContent notification_content = break_type.view.get_start_notification();
 			this.show_notification(notification_content, Notify.Urgency.NORMAL);
-			
 			Timeout.add_seconds(break_type.view.get_lead_in_seconds(), () => {
 				if (this.break_is_showable(break_type)) {
 					this.break_overlay.show_with_source(break_type.view);

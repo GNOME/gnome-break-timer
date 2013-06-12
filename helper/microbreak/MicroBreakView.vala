@@ -26,6 +26,15 @@ public class MicroBreakView : TimerBreakView {
 		
 		this.status_widget.set_message("Take a moment to rest your eyes");
 	}
+
+	protected override string get_countdown_label(int time_remaining, int start_time) {
+		NaturalTime natural_time = NaturalTime.get_instance();
+		if (time_remaining > 0) {
+			return natural_time.get_countdown_for_seconds_with_start(time_remaining, start_time);
+		} else {
+			return _("Thank you");
+		}
+	}
 	
 	public override BreakView.NotificationContent get_start_notification() {
 		return NotificationContent() {

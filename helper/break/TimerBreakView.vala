@@ -35,6 +35,8 @@ public abstract class TimerBreakView : BreakView {
 		timer_break.active_countdown_changed.connect(this.active_countdown_changed_cb);
 		timer_break.attention_demanded.connect(this.attention_demanded_cb);
 	}
+
+	protected abstract string get_countdown_label(int time_remaining, int start_time);
 	
 	private void overlay_started_cb() {
 		this.active_countdown_changed_cb( this.timer_break.get_time_remaining() );
@@ -49,9 +51,8 @@ public abstract class TimerBreakView : BreakView {
 	}
 	
 	private void active_countdown_changed_cb(int time_remaining) {
-		NaturalTime natural_time = NaturalTime.get_instance();
 		int start_time = this.timer_break.get_current_duration();
-		string countdown = natural_time.get_countdown_for_seconds_with_start( time_remaining, start_time );
+		string countdown = this.get_countdown_label(time_remaining, start_time);
 		this.status_widget.set_time( countdown );
 	}
 	
