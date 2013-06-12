@@ -170,7 +170,7 @@ public abstract class TimerBreakModel : BreakModel {
 	 */
 	protected virtual void active_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
 		if (this.state != BreakModel.State.ACTIVE) {
-			stderr.printf("TimerBreak active_timeout_cb called while Break.State != ACTIVE\n");
+			GLib.error("TimerBreak active_timeout_cb called while Break.State != ACTIVE");
 		}
 		
 		int time_remaining = this.get_time_remaining();

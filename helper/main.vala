@@ -106,7 +106,7 @@ public class Application : Gtk.Application {
 		try {
 			style_provider.load_from_data(STYLE_DATA, -1);
 		} catch (Error error) {
-			stderr.printf("Error loading style data: %s\n", error.message);
+			GLib.error("Error loading style data: %s", error.message);
 		}
 		
 		Gtk.StyleContext.add_provider_for_screen(
@@ -126,7 +126,7 @@ public class Application : Gtk.Application {
 			DBusConnection connection = Bus.get_sync(BusType.SESSION, null);
 			connection.register_object ("/org/brainbreak/Helper", this.break_helper_server);
 		} catch (IOError error) {
-			stderr.printf("Error registering helper on session bus: %s\n", error.message);
+			GLib.error("Error registering helper on the session bus: %s", error.message);
 		}
 	}
 }

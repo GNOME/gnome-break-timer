@@ -93,7 +93,7 @@ public class UIManager : Object {
 		try {
 			this.notification.show();
 		} catch (Error error) {
-			stderr.printf("Error showing notification: %s\n", error.message);
+			GLib.error("Error showing notification: %s", error.message);
 		}
 	}
 	
@@ -118,22 +118,22 @@ public class UIManager : Object {
 	}
 	
 	private void break_focused_cb(BreakType break_type) {
-		stdout.printf("%s, break_focused_cb\n", break_type.id);
+		GLib.debug("%s, break_focused_cb", break_type.id);
 		this.show_break(break_type);
 	}
 	
 	private void break_unfocused_cb(BreakType break_type) {
-		stdout.printf("%s, break_unfocused_cb\n", break_type.id);
+		GLib.debug("%s, break_unfocused_cb", break_type.id);
 		this.hide_break(break_type);
 	}
 	
 	private void break_activated(BreakType break_type) {
-		stdout.printf("%s, break_activated_cb\n", break_type.id);
+		GLib.debug("%s, break_activated_cb", break_type.id);
 		this.show_break(break_type);
 	}
 	
 	private void break_finished(BreakType break_type) {
-		stdout.printf("%s, break_finished_cb\n", break_type.id);
+		GLib.debug("%s, break_finished_cb", break_type.id);
 		if (this.focus_manager.is_focusing(break_type) && ! this.break_overlay.is_showing()) {
 			BreakView.NotificationContent notification_content = break_type.view.get_finish_notification();
 			this.show_notification(notification_content, Notify.Urgency.LOW);
@@ -152,7 +152,7 @@ public class UIManager : Object {
 		
 		if (this.break_overlay.is_showing()) {
 			this.break_overlay.show_with_source(break_type.view);
-			stdout.printf("show_break: replaced\n");
+			GLib.debug("show_break: replaced");
 		} else {
 			BreakView.NotificationContent notification_content = break_type.view.get_start_notification();
 			this.show_notification(notification_content, Notify.Urgency.NORMAL);
@@ -162,13 +162,13 @@ public class UIManager : Object {
 				}
 				return false;
 			});
-			stdout.printf("show_break: notified\n");
+			GLib.debug("show_break: notified");
 		}
 	}
 	
 	private void hide_break(BreakType break_type) {
 		this.break_overlay.remove_source(break_type.view);
-		stdout.printf("hide_break\n");
+		GLib.debug("hide_break");
 	}
 }
 
