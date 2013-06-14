@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
-Name=Brain Break
+Name=Break Timer
+Comment=Provides a gentle reminder to take regular breaks
 X-Ubuntu-Gettext-Domain=brainbreak
 NoDisplay=true
-
 Exec=/usr/bin/brainbreak
-
+X-GNOME-UsesNotifications=true
