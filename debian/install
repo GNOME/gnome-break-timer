@@ -1,4 +1,0 @@
-data/brainbreak-settings.desktop /usr/share/applications
-data/brainbreak-helper.desktop /usr/share/applications
-data/brainbreak-helper-autostart.desktop /etc/xdg/autostart
-data/org.brainbreak.gschema.xml /usr/share/glib-2.0/schemas
