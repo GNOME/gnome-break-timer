@@ -1,0 +1,46 @@
+AM_CPPFLAGS = \
+	$(BRAINBREAK_CFLAGS) \
+	-include $(CONFIG_HEADER) \
+	-I $(top_srcdir)/common
+
+SUBDIRS = 
+
+bin_PROGRAMS = \
+	brainbreak-settings
+
+brainbreak_settings_SOURCES = \
+	ApplicationPanel.vala \
+	BreakPanel.vala \
+	BreakType.vala \
+	main.vala \
+	MicroBreakType.vala \
+	Panel.vala \
+	QuietMode.vala \
+	QuietModePanel.vala \
+	RestBreakType.vala \
+	SettingsDialog.vala \
+	TimeChooser.vala \
+	TimerBreakPanel.vala \
+	TimerBreakType.vala
+
+brainbreak_settings_VALAFLAGS = \
+	--pkg gtk+-3.0 \
+	--pkg gio-2.0 \
+	--pkg gio-unix-2.0 \
+	--pkg gee-1.0 \
+	$(top_srcdir)/common/natural_time.vapi
+
+brainbreak_settings_LDADD = \
+	$(BRAINBREAK_LIBS) \
+	$(top_srcdir)/common/libnatural_time.la
+
+junk_files = \
+	$(brainbreak_settings_SOURCES:.vala=.c) \
+	brainbreak_settings_vala.stamp
+
+dist-hook:
+	cd $(distdir) && rm $(junk_files)
+
+CLEANFILES = \
+	$(junk_files)
+

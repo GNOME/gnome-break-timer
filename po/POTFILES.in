@@ -1,0 +1,16 @@
+data/brainbreak-helper.desktop.in
+data/brainbreak-helper-autostart.desktop.in
+data/brainbreak-settings.desktop.in
+data/org.brainbreak.gschema.xml.in
+common/NaturalTime.vala
+helper/main.vala
+helper/microbreak/MicroBreakView.vala
+helper/restbreak/RestBreakView.vala
+settings/main.vala
+settings/MicroBreakType.vala
+settings/QuietModePanel.vala
+settings/RestBreakType.vala
+settings/SettingsDialog.vala
+settings/TimeChooser.vala
+settings/TimerBreakPanel.vala
+
