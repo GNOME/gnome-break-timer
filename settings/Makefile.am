@@ -39,7 +39,7 @@ junk_files = \
 	brainbreak_settings_vala.stamp
 
 dist-hook:
-	cd $(distdir) && rm $(junk_files)
+	cd $(distdir) && rm -f $(junk_files)
 
 CLEANFILES = \
 	$(junk_files)

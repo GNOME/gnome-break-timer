@@ -1,6 +1,6 @@
 ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 
-SUBDIRS = common settings helper data po
+SUBDIRS = data po common settings helper
 
 INTLTOOL_FILES = intltool-extract.in \
                  intltool-merge.in \
@@ -13,6 +13,7 @@ BrainBreakdoc_DATA = \
 	AUTHORS
 
 EXTRA_DIST = \
+	autogen.sh \
 	$(BrainBreakdoc_DATA) \
 	intltool-extract.in \
 	intltool-merge.in \

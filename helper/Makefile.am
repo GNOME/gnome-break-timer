@@ -47,12 +47,17 @@ brainbreak_LDADD = \
 	activity-monitor/libactivity_monitor.la \
 	util/libutil.la
 
+brainbreak_vala.stamp: \
+	$(top_srcdir)/common/libnatural_time_la_vala.stamp \
+	activity-monitor/libactivity_monitor_la_vala.stamp \
+	util/libutil_la_vala.stamp
+
 junk_files = \
 	$(brainbreak_SOURCES:.vala=.c) \
 	brainbreak_vala.stamp
 
 dist-hook:
-	cd $(distdir) && rm $(junk_files)
+	cd $(distdir) && rm -f $(junk_files)
 
 CLEANFILES = \
 	$(junk_files)
