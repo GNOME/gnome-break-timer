@@ -97,7 +97,7 @@ public class UIManager : Object {
 		try {
 			this.notification.show();
 		} catch (Error error) {
-			GLib.error("Error showing notification: %s", error.message);
+			GLib.warning("Error showing notification: %s", error.message);
 		}
 	}
 	
