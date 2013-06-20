@@ -11,7 +11,7 @@ autostartdir = $(sysconfdir)/xdg/autostart
 autostart_DATA = brainbreak-helper-autostart.desktop
 
 check: $(desktop_DATA) $(autostart_DATA)
-	@for desktop in $(desktop_DATA) $(autostart_DATA); do \
+	@for desktop in $(desktop_DATA); do \
 		desktop-file-validate $${desktop} || exit 1; \
 	done
 
