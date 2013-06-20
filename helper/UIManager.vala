@@ -104,19 +104,19 @@ public class UIManager : Object {
 	private void break_loaded_cb(BreakType break_type) {
 		this.focus_manager.monitor_break_type(break_type);
 		
-		break_type.model.enabled.connect(() => {
+		break_type.break_controller.enabled.connect(() => {
 			this.application.hold();
 		});
 		
-		break_type.model.disabled.connect(() => {
+		break_type.break_controller.disabled.connect(() => {
 			this.application.release();
 		});
 		
-		break_type.model.activated.connect(() => {
+		break_type.break_controller.activated.connect(() => {
 			this.break_activated(break_type);
 		});
 		
-		break_type.model.finished.connect(() => {
+		break_type.break_controller.finished.connect(() => {
 			this.break_finished(break_type);
 		});
 	}
@@ -139,7 +139,7 @@ public class UIManager : Object {
 	private void break_finished(BreakType break_type) {
 		GLib.debug("%s, break_finished_cb", break_type.id);
 		if (this.focus_manager.is_focusing(break_type) && ! this.break_overlay.is_showing()) {
-			BreakView.NotificationContent notification_content = break_type.view.get_finish_notification();
+			BreakView.NotificationContent notification_content = break_type.break_view.get_finish_notification();
 			this.show_notification(notification_content, Notify.Urgency.LOW);
 		}
 		this.hide_break(break_type);
@@ -147,7 +147,7 @@ public class UIManager : Object {
 	
 	private bool break_is_showable(BreakType break_type) {
 		bool focused = this.focus_manager.is_focusing(break_type);
-		bool active = break_type.model.is_active();
+		bool active = break_type.break_controller.is_active();
 		return focused && active;
 	}
 	
@@ -155,14 +155,14 @@ public class UIManager : Object {
 		if (! this.break_is_showable(break_type)) return;
 		
 		if (this.break_overlay.is_showing()) {
-			this.break_overlay.show_with_source(break_type.view);
+			this.break_overlay.show_with_source(break_type.break_view);
 			GLib.debug("show_break: replaced");
 		} else {
-			BreakView.NotificationContent notification_content = break_type.view.get_start_notification();
+			BreakView.NotificationContent notification_content = break_type.break_view.get_start_notification();
 			this.show_notification(notification_content, Notify.Urgency.NORMAL);
-			Timeout.add_seconds(break_type.view.get_lead_in_seconds(), () => {
+			Timeout.add_seconds(break_type.break_view.get_lead_in_seconds(), () => {
 				if (this.break_is_showable(break_type)) {
-					this.break_overlay.show_with_source(break_type.view);
+					this.break_overlay.show_with_source(break_type.break_view);
 				}
 				return false;
 			});
@@ -171,7 +171,7 @@ public class UIManager : Object {
 	}
 	
 	private void hide_break(BreakType break_type) {
-		this.break_overlay.remove_source(break_type.view);
+		this.break_overlay.remove_source(break_type.break_view);
 		GLib.debug("hide_break");
 	}
 }

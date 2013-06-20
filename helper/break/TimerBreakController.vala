@@ -17,12 +17,12 @@
 
 /**
  * A type of break that is activated and finished according to timers.
- * The TimerBreak has two timers: an interval (time between breaks) and
- * a duration (the length of each break). Once started, the TimerBreak
+ * The timer break has two timers: an interval (time between breaks) and
+ * a duration (the length of each break). Once started, the timer break
  * continuously counts down for its interval, then activates and counts
  * down for its duration.
  */
-public abstract class TimerBreakModel : BreakModel {
+public abstract class TimerBreakController : BreakController {
 	/**
 	 * The break is active and time_remaining has changed.
 	 */
@@ -46,22 +46,22 @@ public abstract class TimerBreakModel : BreakModel {
 	public int duration {get; protected set;}
 	
 	protected Countdown interval_countdown;
-	protected CleverTimeout waiting_timeout;
+	protected PausableTimeout waiting_timeout;
 	
 	protected Countdown duration_countdown;
-	protected CleverTimeout active_timeout;
+	protected PausableTimeout active_timeout;
 	
-	public TimerBreakModel(Settings settings) {
+	public TimerBreakController(Settings settings) {
 		base(settings);
 		
 		settings.bind("interval-seconds", this, "interval", SettingsBindFlags.GET);
 		settings.bind("duration-seconds", this, "duration", SettingsBindFlags.GET);
 		
 		this.interval_countdown = new Countdown(this.interval);
-		this.waiting_timeout = new CleverTimeout(this.waiting_timeout_cb, this.get_waiting_update_frequency());
+		this.waiting_timeout = new PausableTimeout(this.waiting_timeout_cb, this.get_waiting_update_frequency());
 		
 		this.duration_countdown = new Countdown(this.duration);
-		this.active_timeout = new CleverTimeout(this.active_timeout_cb, 1);
+		this.active_timeout = new PausableTimeout(this.active_timeout_cb, 1);
 		
 		this.notify["interval"].connect((s, p) => {
 			this.interval_countdown.set_base_duration(this.interval);
@@ -148,7 +148,7 @@ public abstract class TimerBreakModel : BreakModel {
 	 * Runs frequently to test if it is time to activate the break.
 	 * @param time_delta The time, in seconds, since the timeout was last run.
 	 */
-	protected virtual void waiting_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
+	protected virtual void waiting_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
 		if (this.get_time_remaining() == 0) {
 			this.duration_countdown.reset();
 			this.finish();
@@ -168,9 +168,9 @@ public abstract class TimerBreakModel : BreakModel {
 	 * Aggressively checks if break is satisfied and updates watchers.
 	 * @param time_delta The time, in seconds, since the timeout was last run.
 	 */
-	protected virtual void active_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
-		if (this.state != BreakModel.State.ACTIVE) {
-			GLib.error("TimerBreak active_timeout_cb called while Break.State != ACTIVE");
+	protected virtual void active_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
+		if (this.state != BreakController.State.ACTIVE) {
+			GLib.warning("TimerBreakController active_timeout_cb called while BreakController.State != ACTIVE");
 		}
 		
 		int time_remaining = this.get_time_remaining();

@@ -16,19 +16,30 @@
  */
 
 /**
- * Base class for a type of break.
+ * Base class for a break's activity tracking functionality.
  * A break can be started or stopped, and once started it will be activated
- * and finished either manually or autonomously based on things like user
- * activity. The mechanism for activating a break and for satisfying it is
- * unique to each implementation.
- * As well as the fundamentals of break state, this base class provides a
- * timeout that is run at a set interval to determine when it is time for a
- * break, and it refers to FocusManager to make sure it is the only break
- * in focus at a given time.
+ * and finished either manually or autonomously based on user activity, or
+ * some related metric. The mechanism for activating a break and for
+ * satisfying it is unique to each implementation.
+ * This class provides mechanisms for tracking and directly setting the
+ * break's state, which can be either WAITING, ACTIVE, or DISABLED.
  */
-public abstract class BreakModel : Object {
+public abstract class BreakController : Object {
 	public Settings settings {get; private set;}
 	
+	/**
+	 * ''WAITING'':  The break has not started yet. For example, it may be
+	 *               monitoring user activity in the background, waiting
+	 *               until the user has been working for a particular
+	 *               time.
+	 * ''ACTIVE'':   The break has started. For example, when a break
+	 *               becomes active, it might show a "Take a break"
+	 *               screen. Once the break has been satisfied, it should
+	 *               return to the WAITING state.
+	 * ''DISABLED'': The break is not in use, and should not be monitoring
+	 *               activity. This state is usually set explicitly by
+	 *               BreakManager.
+	*/
 	public enum State {
 		WAITING,
 		ACTIVE,
@@ -60,7 +71,7 @@ public abstract class BreakModel : Object {
 	 */
 	public signal void finished();
 	
-	public BreakModel(Settings settings) {
+	public BreakController(Settings settings) {
 		this.settings = settings;
 		this.state = State.DISABLED;
 	}
@@ -97,9 +108,8 @@ public abstract class BreakModel : Object {
 	}
 	
 	/**
-	 * Start a break.
-	 * This is usually triggered automatically, but may be triggered
-	 * externally as well.
+	 * Start a break. This is usually triggered automatically by the break
+	 * controller itself, but it may be triggered externally as well.
 	 */
 	public void activate() {
 		if (this.state < State.ACTIVE) {
@@ -109,7 +119,7 @@ public abstract class BreakModel : Object {
 	}
 	
 	/**
-	 * Break's requirements have been satisfied. Start counting from
+	 * The break's requirements have been satisfied. Start counting from
 	 * the beginning again.
 	 */
 	public void finish() {

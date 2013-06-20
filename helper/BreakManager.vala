@@ -24,23 +24,23 @@ public class BreakManager : Object {
 		this.breaks = new Gee.HashMap<string, BreakType>();
 	}
 	
-	private void break_enable_change(BreakModel model) {
-		bool enabled = model.settings.get_boolean("enabled");
-		model.set_enabled(enabled);
+	private void break_enable_change(BreakController break_controller) {
+		bool enabled = break_controller.settings.get_boolean("enabled");
+		break_controller.set_enabled(enabled);
 	}
 	
 	private void register_break(BreakType break_type) {
 		this.breaks.set(break_type.id, break_type);
 		this.break_loaded(break_type);
 		
-		BreakModel model = break_type.model;
+		BreakController break_controller = break_type.break_controller;
 		
 		// FIXME: Breaks are currently enabled by their own settings.
 		// Instead, enabled breaks should be stored in a list somewhere.
-		model.settings.changed["enabled"].connect(() => {
-			model.set_enabled(model.settings.get_boolean("enabled"));
+		break_controller.settings.changed["enabled"].connect(() => {
+			break_controller.set_enabled(break_controller.settings.get_boolean("enabled"));
 		});
-		model.set_enabled(model.settings.get_boolean("enabled"));
+		break_controller.set_enabled(break_controller.settings.get_boolean("enabled"));
 	}
 	
 	public void load_breaks() {

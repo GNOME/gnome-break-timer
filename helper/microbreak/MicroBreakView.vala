@@ -19,8 +19,8 @@
 /* TODO: replace pause break if appropriate */
 
 public class MicroBreakView : TimerBreakView {
-	public MicroBreakView(MicroBreakModel model) {
-		base(model, FocusPriority.LOW);
+	public MicroBreakView(MicroBreakController break_controller) {
+		base(break_controller, FocusPriority.LOW);
 		
 		this.title = _("Micro break");
 		

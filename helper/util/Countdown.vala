@@ -17,12 +17,10 @@
 
 /**
  * A countdown timer that counts seconds from a start time down to 0. Uses
- * "wall-clock" time instead of monotonic time, so it will count
- * regardless of system state.
- * The countdown can be paused, and its duration can be adjusted at any time
- * using penalty and bonus time.
+ * "wall-clock" time instead of monotonic time, so it will count regardless
+ * regardless of system state. The countdown can be paused, and its duration
+ * can be adjusted at any time using penalty and bonus time.
  */
-
 public class Countdown : Object {
 	private enum State {
 		STOPPED,

@@ -32,7 +32,7 @@ public class Application : Gtk.Application {
 		public bool is_active() {
 			bool active = false;
 			foreach (BreakType break_type in this.break_manager.all_breaks()) {
-				active = active || break_type.model.is_active();
+				active = active || break_type.break_controller.is_active();
 			}
 			return active;
 		}
@@ -40,13 +40,13 @@ public class Application : Gtk.Application {
 		public string get_status_for_break(string break_name) {
 			BreakType? break_type = this.break_manager.get_break_type_for_name(break_name);
 			string status_message = "";
-			if (break_type != null) status_message = break_type.view.get_status_message();
+			if (break_type != null) status_message = break_type.break_view.get_status_message();
 			return status_message;
 		}
 		
 		public void trigger_break(string break_name) {
 			BreakType? break_type = this.break_manager.get_break_type_for_name(break_name);
-			if (break_type != null) break_type.model.activate();
+			if (break_type != null) break_type.break_controller.activate();
 		}
 	}
 	

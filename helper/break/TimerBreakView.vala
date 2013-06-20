@@ -16,11 +16,11 @@
  */
 
 public abstract class TimerBreakView : BreakView {
-	protected TimerBreakModel timer_break;
+	protected TimerBreakController timer_break;
 	
 	protected TimerBreakStatusWidget status_widget;
 	
-	public TimerBreakView(TimerBreakModel timer_break, FocusPriority priority) {
+	public TimerBreakView(TimerBreakController timer_break, FocusPriority priority) {
 		base(timer_break, priority);
 		
 		this.timer_break = timer_break;

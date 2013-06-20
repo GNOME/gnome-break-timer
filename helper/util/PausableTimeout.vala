@@ -16,19 +16,20 @@
  */
 
 /**
- * A wrapper around GLib's Timeout functionality, specifically intended for
- * timeouts that persist. The TimeoutCB callback can be stopped and started at
- * any time, and it is provided with the time since its last call.
+ * Calls a function continuously with a particular interval, in seconds. An
+ * instance of PausableTimout is attached to a particular TimeoutCB function,
+ * so it is trivial to stop and start the timeout by calling the stop and
+ * start methods, respectively.
  */
-public class CleverTimeout : Object {
-	public delegate void TimeoutCB(CleverTimeout timeout, int delta_millisecs);
+public class PausableTimeout : Object {
+	public delegate void TimeoutCB(PausableTimeout timeout, int delta_millisecs);
 	
 	private unowned TimeoutCB timeout_cb;
 	private int frequency;
 	private uint source_id;
 	private int64 last_time;
 	
-	public CleverTimeout(TimeoutCB callback, int frequency) {
+	public PausableTimeout(TimeoutCB callback, int frequency) {
 		this.timeout_cb = callback;
 		this.frequency = frequency;
 	}

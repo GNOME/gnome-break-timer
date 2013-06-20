@@ -21,10 +21,10 @@
  * and when it is active it restarts its countdown whenever the user types
  * or moves the mouse.
  */
-public class MicroBreakModel : TimerBreakModel {
+public class MicroBreakController : TimerBreakController {
 	private ActivityMonitor activity_monitor;
 	
-	public MicroBreakModel(IActivityMonitorBackend activity_monitor_backend) {
+	public MicroBreakController(IActivityMonitorBackend activity_monitor_backend) {
 		Settings settings = new Settings("org.brainbreak.breaks.microbreak");
 		
 		base(settings);
@@ -32,7 +32,7 @@ public class MicroBreakModel : TimerBreakModel {
 		this.activity_monitor = new ActivityMonitor(activity_monitor_backend);
 	}
 	
-	protected override void waiting_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
+	protected override void waiting_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
 		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
 		
 		if (activity.is_active) {
@@ -57,7 +57,7 @@ public class MicroBreakModel : TimerBreakModel {
 		base.waiting_timeout_cb(timeout, delta_millisecs);
 	}
 	
-	protected override void active_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
+	protected override void active_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
 		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
 		
 		if (activity.is_active) {

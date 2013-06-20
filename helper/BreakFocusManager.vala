@@ -115,11 +115,11 @@ public class BreakFocusManager : Object, FocusManager<BreakType> {
 	 * BreakView directly to this focus manager.
 	 */
 	public void monitor_break_type(BreakType break_type) {
-		BreakView view = break_type.view;
-		view.focus_requested.connect((priority) => {
+		BreakView break_view = break_type.break_view;
+		break_view.focus_requested.connect((priority) => {
 			this.request_focus(break_type, priority);
 		});
-		view.focus_released.connect((priority) => {
+		break_view.focus_released.connect((priority) => {
 			this.release_focus(break_type);
 		});
 	}

@@ -13,17 +13,17 @@ bin_PROGRAMS = \
 	brainbreak
 
 brainbreak_SOURCES = \
+	break/BreakController.vala \
 	break/BreakType.vala \
-	break/BreakModel.vala \
 	break/BreakView.vala \
+	break/TimerBreakController.vala \
 	break/TimerBreakStatusWidget.vala \
-	break/TimerBreakModel.vala \
 	break/TimerBreakView.vala \
+	microbreak/MicroBreakController.vala \
 	microbreak/MicroBreakType.vala \
-	microbreak/MicroBreakModel.vala \
 	microbreak/MicroBreakView.vala \
+	restbreak/RestBreakController.vala \
 	restbreak/RestBreakType.vala \
-	restbreak/RestBreakModel.vala \
 	restbreak/RestBreakView.vala \
 	BreakManager.vala \
 	BreakOverlay.vala \

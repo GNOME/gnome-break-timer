@@ -21,11 +21,11 @@
  * the computer while it counts down. The timer will stop until the user has
  * finished using the computer, and then it will start to count down again.
  */
-public class RestBreakModel : TimerBreakModel {
+public class RestBreakController : TimerBreakController {
 	private ActivityMonitor activity_monitor;
 	private Countdown reminder_countdown;
 	
-	public RestBreakModel(IActivityMonitorBackend activity_monitor_backend) {
+	public RestBreakController(IActivityMonitorBackend activity_monitor_backend) {
 		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
 		
 		base(settings);
@@ -41,7 +41,7 @@ public class RestBreakModel : TimerBreakModel {
 		});
 	}
 	
-	protected override void waiting_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
+	protected override void waiting_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
 		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
 		
 		if (activity.is_active) {
@@ -66,7 +66,7 @@ public class RestBreakModel : TimerBreakModel {
 		base.waiting_timeout_cb(timeout, delta_millisecs);
 	}
 	
-	protected override void active_timeout_cb(CleverTimeout timeout, int delta_millisecs) {
+	protected override void active_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
 		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
 		
 		if (activity.is_active_within(4)) {

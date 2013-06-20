@@ -17,13 +17,13 @@
 
 public abstract class BreakType : Object {
 	public string id;
-	public BreakModel model;
-	public BreakView view;
+	public BreakController break_controller;
+	public BreakView break_view;
 	
-	public BreakType(string id, BreakModel model, BreakView view) {
+	public BreakType(string id, BreakController break_controller, BreakView break_view) {
 		this.id = id;
-		this.model = model;
-		this.view = view;
+		this.break_controller = break_controller;
+		this.break_view = break_view;
 	}
 }
 
