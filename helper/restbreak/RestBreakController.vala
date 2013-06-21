@@ -42,41 +42,17 @@ public class RestBreakController : TimerBreakController {
 	
 	protected override void waiting_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
 		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
-		
-		if (activity.is_active) {
-			this.interval_countdown.continue();
-			if (this.duration_countdown.is_counting()) {
-				// If the user is active, we stop counting down break duration
-				this.duration_countdown.pause();
-			} else {
-				// If the user continues to be active, we reset that countdown
-				this.duration_countdown.reset();
-			}
-		} else {
-			if (this.interval_countdown.is_counting()) {
-				this.interval_countdown.pause();
-				
-				if (! this.duration_countdown.is_counting()) {
-					this.duration_countdown.continue_from(-activity.idle_time);
-				}
-			}
-		}
-		
+		this.update_waiting_countdowns_for_activity(activity);
 		base.waiting_timeout_cb(timeout, delta_millisecs);
 	}
 	
 	protected override void active_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
 		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
-		
-		if (activity.is_active_within(4)) {
-			// Pause countdown
-			if (this.duration_countdown.is_counting()) {
-				this.duration_countdown.pause();
-				this.reminder_countdown.continue();
-			}
-			
-			// Demand attention if paused for a long time
-			if (this.reminder_countdown.get_time_remaining() == 0) {
+		bool is_delayed = this.update_active_countdowns_for_activity(activity, 5);
+		if (is_delayed) {
+			this.reminder_countdown.continue();
+			if (this.reminder_countdown.is_finished()) {
+				// Demand attention if the break is delayed for a long time
 				if (this.duration_countdown.get_penalty() < this.duration) {
 					this.duration_countdown.reset();
 					this.duration_countdown.add_penalty(this.duration/4);
@@ -85,15 +61,8 @@ public class RestBreakController : TimerBreakController {
 				this.reminder_countdown.start();
 			}
 		} else {
-			if (! this.duration_countdown.is_counting()) {
-				if (activity.idle_time > 15) { // don't give back the space around pausing
-					this.duration_countdown.continue_from(-activity.idle_time);
-				}
-			}
-			
 			this.reminder_countdown.pause();
 		}
-		
 		base.active_timeout_cb(timeout, delta_millisecs);
 	}
 }

@@ -93,7 +93,7 @@ public class RestBreakView : TimerBreakView {
 
 	protected override string get_countdown_label(int time_remaining, int start_time) {
 		NaturalTime natural_time = NaturalTime.get_instance();
-		if (time_remaining > 0) {
+		if (this.break_controller.is_active()) {
 			return natural_time.get_countdown_for_seconds_with_start(time_remaining, start_time);
 		} else {
 			return _("Thank you");

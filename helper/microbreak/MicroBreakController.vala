@@ -28,41 +28,19 @@ public class MicroBreakController : TimerBreakController {
 		base(break_type, settings);
 		this.activity_monitor = new ActivityMonitor(activity_monitor_backend);
 	}
-	
+
 	protected override void waiting_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
 		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
-		
-		if (activity.is_active) {
-			this.interval_countdown.continue();
-			if (this.duration_countdown.is_counting()) {
-				// If the user is active, we stop counting down break duration
-				this.duration_countdown.pause();
-			} else {
-				// If the user continues to be active, we reset that countdown
-				this.duration_countdown.reset();
-			}
-		} else {
-			if (this.interval_countdown.is_counting()) {
-				this.interval_countdown.pause();
-				
-				if (! this.duration_countdown.is_counting()) {
-					this.duration_countdown.continue_from(-activity.idle_time);
-				}
-			}
-		}
-		
+		this.update_waiting_countdowns_for_activity(activity);
 		base.waiting_timeout_cb(timeout, delta_millisecs);
 	}
 	
 	protected override void active_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
 		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
-		
-		if (activity.is_active) {
-			this.duration_countdown.start();
-		} else {
-			this.duration_countdown.continue();
+		bool is_delayed = this.update_active_countdowns_for_activity(activity, 0);
+		if (is_delayed) {
+			this.duration_countdown.reset();
 		}
-		
 		base.active_timeout_cb(timeout, delta_millisecs);
 	}
 }
