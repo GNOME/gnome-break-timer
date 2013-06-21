@@ -16,77 +16,66 @@
  */
 
 /**
- * Handles UI concerns throughout the application, including overlays and
- * notifications for breaks.
+ * Central place to manage UI throughout the application. We need this to
+ * maintain a simple, modal structure. This uses a simple focus tracking
+ * mechanism to make sure only one break is affecting the UI at a time. This
+ * class also helps to keep UI events nicely spaced so they don't turn into
+ * noise. Each BreakView implementation talks to a common instance of
+ * UIManager.
  */
-public class UIManager : Object {
+public class UIManager : BreakFocusManager {
 	private Application application;
-	private BreakManager break_manager;
-	private BreakFocusManager focus_manager;
 	
 	public bool quiet_mode {get; set; default=false;}
 	public int64 quiet_mode_expire_time {get; set;}
-	private uint quiet_mode_expire_timeout;
+
+	private PausableTimeout quiet_mode_timeout;
+
+	public BreakOverlay break_overlay;
+	public Notify.Notification? notification;
 	
-	private BreakOverlay break_overlay;
-	private Notify.Notification? notification;
-	
-	public UIManager(Application application, BreakManager break_manager) {
+	public UIManager(Application application) {
+		base();
 		this.application = application;
-		this.break_manager = break_manager;
-		this.focus_manager = new BreakFocusManager();
-		
 		this.break_overlay = new BreakOverlay();
 		
-		this.break_manager.break_loaded.connect(this.break_loaded_cb);
-		foreach (BreakType break_type in this.break_manager.all_breaks()) {
-			this.break_loaded_cb(break_type);
-		}
-		
-		this.focus_manager.focus_started.connect(this.break_focused_cb);
-		this.focus_manager.focus_stopped.connect(this.break_unfocused_cb);
+		this.focus_started.connect(this.break_focused_cb);
+		this.focus_stopped.connect(this.break_unfocused_cb);
 		
 		Settings settings = new Settings("org.brainbreak.breaks");
 		settings.bind("quiet-mode", this, "quiet-mode", SettingsBindFlags.DEFAULT);
 		settings.bind("quiet-mode-expire-time", this, "quiet-mode-expire-time", SettingsBindFlags.DEFAULT);
-		
+
+		this.quiet_mode_timeout = new PausableTimeout(this.quiet_mode_timeout_cb, 30);
 		this.notify["quiet-mode"].connect((s, p) => {
-			this.start_quiet_mode();
+			this.update_overlay_format();
 		});
-		this.update_quiet_mode_countdown();
-		this.start_quiet_mode();
+		this.update_overlay_format();
 	}
 
-	private void start_quiet_mode() {
-		if (this.quiet_mode_expire_timeout > 0) {
-			Source.remove(this.quiet_mode_expire_timeout);
-			this.quiet_mode_expire_timeout = 0;
+	private void quiet_mode_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
+		DateTime now = new DateTime.now_utc();
+		if (this.quiet_mode && now.to_unix() > this.quiet_mode_expire_time) {
+			this.quiet_mode = false;
+			this.quiet_mode_expire_time = 0;
+			GLib.debug("Automatically expiring quiet mode");
 		}
+	}
 
+	private void update_overlay_format() {
 		if (this.quiet_mode) {
 			this.break_overlay.set_format(ScreenOverlay.Format.SILENT);
-			// We should finish quiet mode close to the scheduled time,
-			// but it doesn't need to be exact
-			this.quiet_mode_expire_timeout = Timeout.add_seconds(30, () => {
-				this.update_quiet_mode_countdown();
-				return true;
-			});
+			this.quiet_mode_timeout.start();
+			this.quiet_mode_timeout.run_once();
+			GLib.debug("Quiet mode enabled");
 		} else {
 			this.break_overlay.set_format(ScreenOverlay.Format.FULL);
-		}
-	}
-
-	private void update_quiet_mode_countdown() {
-		if (this.quiet_mode) {
-			DateTime now = new DateTime.now_utc();
-			if (now.to_unix() > this.quiet_mode_expire_time) {
-				this.quiet_mode = false;
-				this.quiet_mode_expire_time = 0;
-			}
+			this.quiet_mode_timeout.stop();
+			GLib.debug("Quiet mode disabled");
 		}
 	}
 	
-	private void show_notification(BreakView.NotificationContent content, Notify.Urgency urgency) {
+	public void show_notification(BreakView.NotificationContent content, Notify.Urgency urgency) {
 		if (this.notification == null) {
 			this.notification = new Notify.Notification("", null, null);
 			this.notification.set_hint("transient", true);
@@ -100,79 +89,22 @@ public class UIManager : Object {
 			GLib.warning("Error showing notification: %s", error.message);
 		}
 	}
-	
-	private void break_loaded_cb(BreakType break_type) {
-		this.focus_manager.monitor_break_type(break_type);
-		
-		break_type.break_controller.enabled.connect(() => {
-			this.application.hold();
-		});
-		
-		break_type.break_controller.disabled.connect(() => {
-			this.application.release();
-		});
-		
-		break_type.break_controller.activated.connect(() => {
-			this.break_activated(break_type);
-		});
-		
-		break_type.break_controller.finished.connect(() => {
-			this.break_finished(break_type);
-		});
+
+	public void add_break(BreakView break_view) {
+		this.application.hold();
+	}
+
+	public void remove_break(BreakView break_view) {
+		this.release_focus(break_view);
+		this.application.release();
+	}
+
+	private void break_focused_cb(BreakView break_view) {
+		break_view.begin_ui_focus();
 	}
 	
-	private void break_focused_cb(BreakType break_type) {
-		GLib.debug("%s, break_focused_cb", break_type.id);
-		this.show_break(break_type);
-	}
-	
-	private void break_unfocused_cb(BreakType break_type) {
-		GLib.debug("%s, break_unfocused_cb", break_type.id);
-		this.hide_break(break_type);
-	}
-	
-	private void break_activated(BreakType break_type) {
-		GLib.debug("%s, break_activated_cb", break_type.id);
-		this.show_break(break_type);
-	}
-	
-	private void break_finished(BreakType break_type) {
-		GLib.debug("%s, break_finished_cb", break_type.id);
-		if (this.focus_manager.is_focusing(break_type) && ! this.break_overlay.is_showing()) {
-			BreakView.NotificationContent notification_content = break_type.break_view.get_finish_notification();
-			this.show_notification(notification_content, Notify.Urgency.LOW);
-		}
-		this.hide_break(break_type);
-	}
-	
-	private bool break_is_showable(BreakType break_type) {
-		bool focused = this.focus_manager.is_focusing(break_type);
-		bool active = break_type.break_controller.is_active();
-		return focused && active;
-	}
-	
-	private void show_break(BreakType break_type) {
-		if (! this.break_is_showable(break_type)) return;
-		
-		if (this.break_overlay.is_showing()) {
-			this.break_overlay.show_with_source(break_type.break_view);
-			GLib.debug("show_break: replaced");
-		} else {
-			BreakView.NotificationContent notification_content = break_type.break_view.get_start_notification();
-			this.show_notification(notification_content, Notify.Urgency.NORMAL);
-			Timeout.add_seconds(break_type.break_view.get_lead_in_seconds(), () => {
-				if (this.break_is_showable(break_type)) {
-					this.break_overlay.show_with_source(break_type.break_view);
-				}
-				return false;
-			});
-			GLib.debug("show_break: notified");
-		}
-	}
-	
-	private void hide_break(BreakType break_type) {
-		this.break_overlay.remove_source(break_type.break_view);
-		GLib.debug("hide_break");
+	private void break_unfocused_cb(BreakView break_view) {
+		break_view.end_ui_focus();
 	}
 }
 

@@ -25,7 +25,7 @@
  * break's state, which can be either WAITING, ACTIVE, or DISABLED.
  */
 public abstract class BreakController : Object {
-	public Settings settings {get; private set;}
+	protected BreakType break_type;
 	
 	/**
 	 * ''WAITING'':  The break has not started yet. For example, it may be
@@ -71,8 +71,8 @@ public abstract class BreakController : Object {
 	 */
 	public signal void finished();
 	
-	public BreakController(Settings settings) {
-		this.settings = settings;
+	public BreakController(BreakType break_type) {
+		this.break_type = break_type;
 		this.state = State.DISABLED;
 	}
 	

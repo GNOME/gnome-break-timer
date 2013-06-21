@@ -15,22 +15,20 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public abstract class TimerBreakView : BreakView {
+public abstract class TimerBreakView : BreakView, IBreakOverlaySource {
 	protected TimerBreakController timer_break;
-	
+
+	protected string title;
 	protected TimerBreakStatusWidget status_widget;
 	
-	public TimerBreakView(TimerBreakController timer_break, FocusPriority priority) {
-		base(timer_break, priority);
+	public TimerBreakView(BreakType break_type, TimerBreakController timer_break, UIManager ui_manager) {
+		base(break_type, timer_break, ui_manager);
 		
 		this.timer_break = timer_break;
 		
 		this.status_widget = new TimerBreakStatusWidget();
 		
 		this.overlay_started.connect(this.overlay_started_cb);
-		
-		timer_break.warned.connect(this.timer_break_warned_cb);
-		timer_break.unwarned.connect(this.timer_break_unwarned_cb);
 		
 		timer_break.active_countdown_changed.connect(this.active_countdown_changed_cb);
 		timer_break.attention_demanded.connect(this.attention_demanded_cb);
@@ -40,14 +38,6 @@ public abstract class TimerBreakView : BreakView {
 	
 	private void overlay_started_cb() {
 		this.active_countdown_changed_cb( this.timer_break.get_time_remaining() );
-	}
-	
-	private void timer_break_warned_cb() {
-		this.request_focus();
-	}
-	
-	private void timer_break_unwarned_cb() {
-		this.release_focus();
 	}
 	
 	private void active_countdown_changed_cb(int time_remaining) {
@@ -72,7 +62,7 @@ public abstract class TimerBreakView : BreakView {
 		return message;
 	}
 	
-	public override int get_lead_in_seconds() {
+	protected int get_lead_in_seconds() {
 		int lead_in = this.timer_break.duration+3;
 		if (lead_in > 40) {
 			lead_in = 40;
@@ -81,8 +71,14 @@ public abstract class TimerBreakView : BreakView {
 		}
 		return lead_in;
 	}
+
+	/***** IBreakOverlaySource interface ******/
+
+	public string get_overlay_title() {
+		return this.title;
+	}
 	
-	public override Gtk.Widget get_overlay_content() {
+	public Gtk.Widget get_overlay_content() {
 		return this.status_widget;
 	}
 }

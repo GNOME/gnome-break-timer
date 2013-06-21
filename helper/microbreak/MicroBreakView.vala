@@ -19,13 +19,63 @@
 /* TODO: replace pause break if appropriate */
 
 public class MicroBreakView : TimerBreakView {
-	public MicroBreakView(MicroBreakController break_controller) {
-		base(break_controller, FocusPriority.LOW);
-		
+	public MicroBreakView(BreakType break_type, MicroBreakController micro_break, UIManager ui_manager) {
+		base(break_type, micro_break, ui_manager);
+
 		this.title = _("Micro break");
 		
 		this.status_widget.set_message("Take a moment to rest your eyes");
+
+		micro_break.warned.connect(this.warned_cb);
+		micro_break.unwarned.connect(this.unwarned_cb);
+		micro_break.activated.connect(this.activated_cb);
+		micro_break.finished.connect(this.finished_cb);
 	}
+
+	private void warned_cb() {
+		this.request_ui_focus(FocusPriority.LOW);
+	}
+
+	private void unwarned_cb() {
+		this.release_ui_focus();
+	}
+
+	private void activated_cb() {
+		this.request_ui_focus(FocusPriority.LOW);
+	}
+
+	private void finished_cb() {
+		if (this.has_ui_focus() && ! ui_manager.break_overlay.is_showing()) {
+			BreakView.NotificationContent notification_content = this.get_finish_notification();
+			ui_manager.show_notification(notification_content, Notify.Urgency.LOW);
+		}
+		
+		this.release_ui_focus();
+	}
+
+	protected override void show_active_ui() {
+		if (ui_manager.break_overlay.is_showing()) {
+			ui_manager.break_overlay.show_with_source(this);
+			GLib.debug("show_break: replaced");
+		} else {
+			BreakView.NotificationContent notification_content = this.get_start_notification();
+			ui_manager.show_notification(notification_content, Notify.Urgency.NORMAL);
+			Timeout.add_seconds(this.get_lead_in_seconds(), () => {
+				if (this.has_ui_focus() && this.break_controller.is_active()) {
+					ui_manager.break_overlay.show_with_source(this);
+				}
+				return false;
+			});
+			GLib.debug("show_break: notified");
+		}
+	}
+
+	protected override void hide_active_ui() {
+		ui_manager.break_overlay.remove_source(this);
+	}
+
+
+
 
 	protected override string get_countdown_label(int time_remaining, int start_time) {
 		NaturalTime natural_time = NaturalTime.get_instance();

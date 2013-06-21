@@ -19,11 +19,19 @@ public abstract class BreakType : Object {
 	public string id;
 	public BreakController break_controller;
 	public BreakView break_view;
+
+	protected Settings settings;
 	
-	public BreakType(string id, BreakController break_controller, BreakView break_view) {
+	public BreakType(string id, Settings settings) {
 		this.id = id;
-		this.break_controller = break_controller;
-		this.break_view = break_view;
+		this.settings = settings;
+	}
+
+	public void initialize() {
+		this.settings.changed["enabled"].connect(() => {
+			this.break_controller.set_enabled(this.settings.get_boolean("enabled"));
+		});
+		this.break_controller.set_enabled(this.settings.get_boolean("enabled"));
 	}
 }
 

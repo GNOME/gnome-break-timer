@@ -19,10 +19,10 @@
 /* TODO: replace pause break if appropriate */
 
 public class RestBreakView : TimerBreakView {
-	string[] rest_quotes;
+	private string[] rest_quotes;
 	
-	public RestBreakView(RestBreakController break_controller) {
-		base(break_controller, FocusPriority.HIGH);
+	public RestBreakView(BreakType break_type, RestBreakController rest_break, UIManager ui_manager) {
+		base(break_type, rest_break, ui_manager);
 		
 		this.title = _("Rest break");
 		
@@ -38,7 +38,58 @@ public class RestBreakView : TimerBreakView {
 		};
 		
 		this.overlay_started.connect(this.overlay_started_cb);
+
+		rest_break.warned.connect(this.warned_cb);
+		rest_break.unwarned.connect(this.unwarned_cb);
+		rest_break.activated.connect(this.activated_cb);
+		rest_break.finished.connect(this.finished_cb);
 	}
+
+	private void warned_cb() {
+		this.request_ui_focus(FocusPriority.HIGH);
+	}
+
+	private void unwarned_cb() {
+		this.release_ui_focus();
+	}
+
+	private void activated_cb() {
+		this.request_ui_focus(FocusPriority.HIGH);
+	}
+
+	private void finished_cb() {
+		this.release_ui_focus();
+
+		if (ui_manager.is_focusing(this) && ! ui_manager.break_overlay.is_showing()) {
+			BreakView.NotificationContent notification_content = this.get_finish_notification();
+			ui_manager.show_notification(notification_content, Notify.Urgency.LOW);
+		}
+	}
+
+	protected override void show_active_ui() {
+		if (ui_manager.break_overlay.is_showing()) {
+			ui_manager.break_overlay.show_with_source(this);
+			GLib.debug("show_break: replaced");
+		} else {
+			BreakView.NotificationContent notification_content = this.get_start_notification();
+			ui_manager.show_notification(notification_content, Notify.Urgency.NORMAL);
+			Timeout.add_seconds(this.get_lead_in_seconds(), () => {
+				if (this.has_ui_focus() && this.break_controller.is_active()) {
+					ui_manager.break_overlay.show_with_source(this);
+				}
+				return false;
+			});
+			GLib.debug("show_break: notified");
+		}
+	}
+
+	protected override void hide_active_ui() {
+		ui_manager.break_overlay.remove_source(this);
+	}
+
+
+
+
 
 	protected override string get_countdown_label(int time_remaining, int start_time) {
 		NaturalTime natural_time = NaturalTime.get_instance();

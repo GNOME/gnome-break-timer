@@ -25,13 +25,12 @@ public class RestBreakController : TimerBreakController {
 	private ActivityMonitor activity_monitor;
 	private Countdown reminder_countdown;
 	
-	public RestBreakController(IActivityMonitorBackend activity_monitor_backend) {
-		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
-		
-		base(settings);
-		
+	public RestBreakController(BreakType break_type, Settings settings, IActivityMonitorBackend activity_monitor_backend) {
+		base(break_type, settings);
 		this.activity_monitor = new ActivityMonitor(activity_monitor_backend);
 		
+		// Countdown for an extra reminder that a break is ongoing, if the
+		// user is ignoring it
 		this.reminder_countdown = new Countdown(this.interval / 6);
 		this.notify["interval"].connect((s, p) => {
 			this.reminder_countdown.set_base_duration(this.interval / 6);

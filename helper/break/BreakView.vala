@@ -15,25 +15,10 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public interface IBreakOverlaySource : Object {
-	// TODO: background image, class name for StyleContext
-	public signal void overlay_started();
-	public signal void overlay_stopped();
-	
-	public signal void request_attention();
-	
-	public abstract string get_overlay_title();
-	public abstract Gtk.Widget get_overlay_content();
-}
-
-public abstract class BreakView : Object, IBreakOverlaySource {
+public abstract class BreakView : Object {
+	protected BreakType break_type;
 	protected BreakController break_controller {get; private set;}
-	protected FocusPriority priority;
-	
-	public signal void focus_requested(FocusPriority priority);
-	public signal void focus_released();
-	
-	public string title {get; protected set;}
+	protected UIManager ui_manager;
 	
 	public struct NotificationContent {
 		public string summary;
@@ -41,43 +26,55 @@ public abstract class BreakView : Object, IBreakOverlaySource {
 		public string? icon;
 	}
 	
-	public BreakView(BreakController break_controller, FocusPriority priority) {
+	public BreakView(BreakType break_type, BreakController break_controller, UIManager ui_manager) {
+		this.break_type = break_type;
 		this.break_controller = break_controller;
-		this.priority = priority;
-		
-		break_controller.activated.connect_after(this.request_focus_cb);
-		break_controller.finished.connect_after(this.release_focus_cb);
-		break_controller.disabled.connect_after(this.release_focus_cb);
+		this.ui_manager = ui_manager;
+
+		break_controller.enabled.connect(() => {
+			this.ui_manager.add_break(this);
+		});
+
+		break_controller.disabled.connect(() => {
+			this.ui_manager.remove_break(this);
+		});
+	}
+
+	public string get_id() {
+		return this.break_type.id;
 	}
 	
-	private void request_focus_cb() {
-		this.request_focus();
-	}
-	private void release_focus_cb() {
-		this.release_focus();
+	protected void request_ui_focus(FocusPriority priority) {
+		this.ui_manager.request_focus(this, priority);
 	}
 	
-	protected void request_focus(FocusPriority? priority = null) {
-		if (priority == null) priority = this.priority;
-		this.focus_requested(priority);
+	protected void release_ui_focus() {
+		this.ui_manager.release_focus(this);
 	}
-	
-	protected void release_focus() {
-		this.focus_released();
+
+	public void begin_ui_focus() {
+		if (this.break_controller.is_active()) {
+			this.show_active_ui();
+		}
 	}
+
+	public void end_ui_focus() {
+		this.hide_active_ui();
+	}
+
+	protected bool has_ui_focus() {
+		return this.ui_manager.is_focusing(this);
+	}
+
+	protected abstract void show_active_ui();
+	protected abstract void hide_active_ui();
+
 	
+
+
 	public abstract string get_status_message();
 	
 	public abstract NotificationContent get_start_notification();
 	public abstract NotificationContent get_finish_notification();
-	public abstract int get_lead_in_seconds();
-	
-	/***** IBreakOverlaySource interface ******/
-	
-	public string get_overlay_title() {
-		return this.title;
-	}
-	
-	public abstract Gtk.Widget get_overlay_content();
 }
 

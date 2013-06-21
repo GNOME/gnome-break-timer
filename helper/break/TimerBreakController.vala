@@ -50,9 +50,12 @@ public abstract class TimerBreakController : BreakController {
 	
 	protected Countdown duration_countdown;
 	protected PausableTimeout active_timeout;
+
+	protected Settings settings;
 	
-	public TimerBreakController(Settings settings) {
-		base(settings);
+	public TimerBreakController(BreakType break_type, Settings settings) {
+		base(break_type);
+		this.settings = settings;
 		
 		settings.bind("interval-seconds", this, "interval", SettingsBindFlags.GET);
 		settings.bind("duration-seconds", this, "duration", SettingsBindFlags.GET);

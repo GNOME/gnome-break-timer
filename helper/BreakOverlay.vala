@@ -15,6 +15,17 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+public interface IBreakOverlaySource : Object {
+	// TODO: background image, class name for StyleContext
+	public signal void overlay_started();
+	public signal void overlay_stopped();
+	
+	public signal void request_attention();
+	
+	public abstract string get_overlay_title();
+	public abstract Gtk.Widget get_overlay_content();
+}
+
 public class BreakOverlay : ScreenOverlay {
 	private Gtk.Grid content_area;
 	

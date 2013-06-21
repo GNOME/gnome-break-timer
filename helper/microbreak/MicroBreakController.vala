@@ -24,11 +24,8 @@
 public class MicroBreakController : TimerBreakController {
 	private ActivityMonitor activity_monitor;
 	
-	public MicroBreakController(IActivityMonitorBackend activity_monitor_backend) {
-		Settings settings = new Settings("org.brainbreak.breaks.microbreak");
-		
-		base(settings);
-		
+	public MicroBreakController(BreakType break_type, Settings settings, IActivityMonitorBackend activity_monitor_backend) {
+		base(break_type, settings);
 		this.activity_monitor = new ActivityMonitor(activity_monitor_backend);
 	}
 	
