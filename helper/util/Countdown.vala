@@ -93,6 +93,10 @@ public class Countdown : Object {
 			this.state = State.COUNTING;
 		}
 	}
+
+	public void set_penalty(int penalty) {
+		this.penalty = penalty;
+	}
 	
 	public void add_penalty(int penalty) {
 		this.penalty += penalty;

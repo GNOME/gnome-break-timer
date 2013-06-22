@@ -31,9 +31,9 @@ public class RestBreakController : TimerBreakController {
 		
 		// Countdown for an extra reminder that a break is ongoing, if the
 		// user is ignoring it
-		this.reminder_countdown = new Countdown(this.interval / 6);
+		this.reminder_countdown = new Countdown(this.interval / 4);
 		this.notify["interval"].connect((s, p) => {
-			this.reminder_countdown.set_base_duration(this.interval / 6);
+			this.reminder_countdown.set_base_duration(this.interval / 4);
 		});
 		this.activated.connect(() => {
 			this.reminder_countdown.reset();
@@ -53,10 +53,10 @@ public class RestBreakController : TimerBreakController {
 			this.reminder_countdown.continue();
 			if (this.reminder_countdown.is_finished()) {
 				// Demand attention if the break is delayed for a long time
-				if (this.duration_countdown.get_penalty() < this.duration) {
-					this.duration_countdown.reset();
-					this.duration_countdown.add_penalty(this.duration/4);
-				}
+				int new_penalty = this.duration_countdown.get_penalty() + (this.duration/4);
+				new_penalty = int.min(new_penalty, this.duration/2);
+				this.duration_countdown.reset();
+				this.duration_countdown.set_penalty(new_penalty);
 				this.attention_demanded();
 				this.reminder_countdown.start();
 			}
