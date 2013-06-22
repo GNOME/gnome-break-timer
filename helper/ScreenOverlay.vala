@@ -23,22 +23,22 @@ public class ScreenOverlay : Gtk.Window {
 		MINI,
 		FULL
 	}
-	protected Format format;
+
+	private Format format;
+	private Gtk.Grid wrapper_grid;
+	private Gtk.Widget? custom_content;
 	private uint fade_timeout;
 	
 	public ScreenOverlay() {
 		Object(type: Gtk.WindowType.POPUP);
 		
-		/*
-		this.set_decorated(false);
-		this.stick();
-		this.set_keep_above(true);
-		this.set_skip_pager_hint(true);
-		this.set_skip_taskbar_hint(true);
-		this.set_accept_focus(false);
-		*/
-		
 		this.format = Format.FULL;
+
+		this.wrapper_grid = new Gtk.Grid();
+		this.add(this.wrapper_grid);
+		this.wrapper_grid.show();
+		this.wrapper_grid.set_halign(Gtk.Align.CENTER);
+		this.wrapper_grid.set_valign(Gtk.Align.CENTER);
 		
 		Gdk.Screen screen = this.get_screen();
 		screen.composited_changed.connect(this.on_screen_composited_changed);
@@ -48,11 +48,25 @@ public class ScreenOverlay : Gtk.Window {
 		style.add_class("brainbreak-screen-overlay");
 
 		this.realize.connect(this.on_realize);
-
 		this.realize();
 	}
 
-	protected void apply_format(Format format) {
+	private void on_screen_composited_changed(Gdk.Screen screen) {
+		Gdk.Visual? screen_visual = null;
+		if (screen.is_composited()) {
+			screen_visual = screen.get_rgba_visual();
+		}
+		if (screen_visual == null) {
+			screen_visual = screen.get_system_visual();
+		}
+		this.set_visual(screen_visual);
+	}
+	
+	private void on_realize() {
+		this.apply_format(this.format);
+	}
+
+	private void apply_format(Format format) {
 		switch(format) {
 		case Format.SILENT:
 			this.fade_out();
@@ -102,6 +116,7 @@ public class ScreenOverlay : Gtk.Window {
 	public virtual void fade_in(double rate = 0.01) {
 		assert(rate > 0);
 
+		if (this.custom_content == null) return;
 		if (this.format == Format.SILENT) return;
 
 		double opacity;
@@ -148,20 +163,76 @@ public class ScreenOverlay : Gtk.Window {
 		// For now we'll just fade out.
 		this.fade_out();
 	}
-	
-	private void on_screen_composited_changed(Gdk.Screen screen) {
-		Gdk.Visual? screen_visual = null;
-		if (screen.is_composited()) {
-			screen_visual = screen.get_rgba_visual();
-		}
-		if (screen_visual == null) {
-			screen_visual = screen.get_system_visual();
-		}
-		this.set_visual(screen_visual);
+
+	public void shake() {
+		int start_x;
+		int start_y;
+		this.get_position(out start_x, out start_y);
+		
+		int shake_count = 0;
+		double velocity_x = 1.5;
+		double velocity_y = 0;
+		
+		double move_x = start_x;
+		double move_y = start_y;
+		
+		Timeout.add(15, () => {
+			if (shake_count < 42) {
+				if (move_x - start_x > 6 || move_x - start_x < -6) {
+					velocity_x = -velocity_x;
+				}
+				move_x = move_x + velocity_x;
+				move_y = move_y + velocity_y;
+				this.move((int)move_x, (int)move_y);
+				shake_count += 1;
+				return true;
+			} else {
+				this.move(start_x, start_y);
+				return false;
+			}
+		});
 	}
-	
-	private void on_realize() {
-		this.apply_format(this.format);
+
+	public void request_attention() {
+		this.shake();
+		Gdk.Window gdk_window = this.get_window();
+		gdk_window.beep();
+	}
+
+	private void set_content(Gtk.Widget? widget) {
+		if (this.custom_content != null) {
+			this.wrapper_grid.remove(this.custom_content);
+		}
+		if (widget != null) {
+			this.wrapper_grid.add(widget);
+		}
+		this.custom_content = widget;
+	}
+
+	public void reveal_content(Gtk.Widget? widget) {
+		this.set_content(widget);
+		this.fade_in();
+	}
+
+	public void disappear_content(Gtk.Widget? widget) {
+		if (this.custom_content == widget) {
+			this.pop_out();
+			// TODO: call this.set_content(null) after the pop_out animation
+			// is finished. For now, we cheat by never removing the widget.
+			// this.set_content(null);
+		}
+	}
+
+	public bool is_showing() {
+		return this.get_visible();
+	}
+
+	public bool is_showing_content(Gtk.Widget? widget) {
+		if (widget == null) {
+			return false;
+		} else {
+			return this.get_visible() && this.custom_content == widget;
+		}
 	}
 }
 

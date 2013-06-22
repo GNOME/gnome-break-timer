@@ -16,39 +16,54 @@
  */
 
 public class TimerBreakStatusWidget : Gtk.Grid {
+	private TimerBreakController timer_break;
+
 	private Gtk.Label timer_label;
 	private Gtk.Label message_label;
 	
-	public TimerBreakStatusWidget() {
+	public TimerBreakStatusWidget(TimerBreakController timer_break) {
 		Object();
+		this.timer_break = timer_break;
 		
 		this.set_column_spacing(12);
 		this.set_row_spacing(12);
 		
-		Gtk.Label timer_label = new Gtk.Label(null);
-		Gtk.StyleContext timer_style = timer_label.get_style_context();
+		this.timer_label = new Gtk.Label(null);
+		this.attach(this.timer_label, 0, 0, 1, 1);
+		Gtk.StyleContext timer_style = this.timer_label.get_style_context();
 		timer_style.add_class("brainbreak-timer-label");
 		
-		Gtk.Label message_label = new Gtk.Label(null);
-		message_label.set_line_wrap(true);
-		
-		this.attach(timer_label, 0, 0, 1, 1);
-		this.attach(message_label, 0, 1, 1, 1);
-		
-		this.timer_label = timer_label;
-		this.message_label = message_label;
-		
+		this.message_label = new Gtk.Label(null);
+		this.attach(this.message_label, 0, 1, 1, 1);
+		this.message_label.set_line_wrap(true);
+
 		this.show_all();
+
+		this.timer_break.active_countdown_changed.connect(this.active_countdown_changed_cb);
+		// Make sure visible time is correct when the widget first appears,
+		// to avoid stammering
+		int time_remaining = this.timer_break.get_time_remaining();
+		this.active_countdown_changed_cb(time_remaining);
+	}
+
+	private void active_countdown_changed_cb(int time_remaining) {
+		int start_time = this.timer_break.get_current_duration();
+		string countdown = this.get_countdown_text(time_remaining, start_time);
+		this.timer_label.set_text(countdown);
+	}
+
+	private string get_countdown_text(int time_remaining, int start_time) {
+		NaturalTime natural_time = NaturalTime.get_instance();
+		if (this.timer_break.is_active()) {
+			return natural_time.get_countdown_for_seconds_with_start(time_remaining, start_time);
+		} else {
+			return _("Thank you");
+		}
 	}
 	
 	/** Set a reassuring message to accompany the break timer */
 	public void set_message(string message) {
 		this.message_label.set_text(message);
-	}
-	
-	/** Set the time remaining */
-	public void set_time(string time) {
-		this.timer_label.set_text(time);
 	}
 }
 

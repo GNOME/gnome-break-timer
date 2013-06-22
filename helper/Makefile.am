@@ -26,7 +26,6 @@ brainbreak_SOURCES = \
 	restbreak/RestBreakType.vala \
 	restbreak/RestBreakView.vala \
 	BreakManager.vala \
-	BreakOverlay.vala \
 	BreakFocusManager.vala \
 	main.vala \
 	ScreenOverlay.vala \

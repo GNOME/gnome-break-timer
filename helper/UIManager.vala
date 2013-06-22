@@ -31,13 +31,13 @@ public class UIManager : BreakFocusManager {
 
 	private PausableTimeout quiet_mode_timeout;
 
-	public BreakOverlay break_overlay;
+	public ScreenOverlay screen_overlay;
 	public Notify.Notification? notification;
 	
 	public UIManager(Application application) {
 		base();
 		this.application = application;
-		this.break_overlay = new BreakOverlay();
+		this.screen_overlay = new ScreenOverlay();
 		
 		this.focus_started.connect(this.break_focused_cb);
 		this.focus_stopped.connect(this.break_unfocused_cb);
@@ -64,12 +64,12 @@ public class UIManager : BreakFocusManager {
 
 	private void update_overlay_format() {
 		if (this.quiet_mode) {
-			this.break_overlay.set_format(ScreenOverlay.Format.SILENT);
+			this.screen_overlay.set_format(ScreenOverlay.Format.SILENT);
 			this.quiet_mode_timeout.start();
 			this.quiet_mode_timeout.run_once();
 			GLib.debug("Quiet mode enabled");
 		} else {
-			this.break_overlay.set_format(ScreenOverlay.Format.FULL);
+			this.screen_overlay.set_format(ScreenOverlay.Format.FULL);
 			this.quiet_mode_timeout.stop();
 			GLib.debug("Quiet mode disabled");
 		}

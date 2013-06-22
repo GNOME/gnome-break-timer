@@ -19,12 +19,10 @@
 /* TODO: replace pause break if appropriate */
 
 public class MicroBreakView : TimerBreakView {
+	private TimerBreakStatusWidget? status_widget;
+
 	public MicroBreakView(BreakType break_type, MicroBreakController micro_break, UIManager ui_manager) {
 		base(break_type, micro_break, ui_manager);
-
-		this.title = _("Micro break");
-		
-		this.status_widget.set_message("Take a moment to rest your eyes");
 
 		micro_break.warned.connect(this.warned_cb);
 		micro_break.unwarned.connect(this.unwarned_cb);
@@ -45,24 +43,31 @@ public class MicroBreakView : TimerBreakView {
 	}
 
 	private void finished_cb() {
-		if (this.has_ui_focus() && ! ui_manager.break_overlay.is_showing()) {
-			BreakView.NotificationContent notification_content = this.get_finish_notification();
-			ui_manager.show_notification(notification_content, Notify.Urgency.LOW);
+		if (this.has_ui_focus()) {
+			if (! ui_manager.screen_overlay.is_showing_content(this.status_widget)) {
+				BreakView.NotificationContent notification_content = this.get_finish_notification();
+				ui_manager.show_notification(notification_content, Notify.Urgency.LOW);
+			}
 		}
-		
 		this.release_ui_focus();
 	}
 
+	private void build_screen_overlay() {
+		this.status_widget = new TimerBreakStatusWidget((TimerBreakController)this.break_controller);
+		this.status_widget.set_message(_("Take a moment to rest your eyes"));
+		ui_manager.screen_overlay.reveal_content(this.status_widget);
+	}
+
 	protected override void show_active_ui() {
-		if (ui_manager.break_overlay.is_showing()) {
-			ui_manager.break_overlay.show_with_source(this);
+		if (ui_manager.screen_overlay.is_showing()) {
+			this.build_screen_overlay();
 			GLib.debug("show_break: replaced");
 		} else {
 			BreakView.NotificationContent notification_content = this.get_start_notification();
 			ui_manager.show_notification(notification_content, Notify.Urgency.NORMAL);
 			Timeout.add_seconds(this.get_lead_in_seconds(), () => {
 				if (this.has_ui_focus() && this.break_controller.is_active()) {
-					ui_manager.break_overlay.show_with_source(this);
+					this.build_screen_overlay();
 				}
 				return false;
 			});
@@ -71,20 +76,13 @@ public class MicroBreakView : TimerBreakView {
 	}
 
 	protected override void hide_active_ui() {
-		ui_manager.break_overlay.remove_source(this);
+		ui_manager.screen_overlay.disappear_content(this.status_widget);
 	}
 
 
 
 
-	protected override string get_countdown_label(int time_remaining, int start_time) {
-		NaturalTime natural_time = NaturalTime.get_instance();
-		if (this.break_controller.is_active()) {
-			return natural_time.get_countdown_for_seconds_with_start(time_remaining, start_time);
-		} else {
-			return _("Thank you");
-		}
-	}
+	
 	
 	public override BreakView.NotificationContent get_start_notification() {
 		return NotificationContent() {

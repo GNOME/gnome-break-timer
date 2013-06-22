@@ -19,30 +19,27 @@
 /* TODO: replace pause break if appropriate */
 
 public class RestBreakView : TimerBreakView {
-	private string[] rest_quotes;
+	private TimerBreakStatusWidget? status_widget;
+	private string[] rest_quotes = {
+		_("The quieter you become, the more you can hear."),
+		_("Knock on the sky and listen to the sound."),
+		_("So little time, so little to do."),
+		_("Sometimes the questions are complicated and the answers are simple."),
+		_("You cannot step into the same river twice."),
+		_("The obstacle is the path."),
+		_("No snowflake ever falls in the wrong place."),
+		_("The energy of the mind is the essence of life.")
+	};
 	
 	public RestBreakView(BreakType break_type, RestBreakController rest_break, UIManager ui_manager) {
 		base(break_type, rest_break, ui_manager);
-		
-		this.title = _("Rest break");
-		
-		this.rest_quotes = {
-			_("The quieter you become, the more you can hear."),
-			_("Knock on the sky and listen to the sound."),
-			_("So little time, so little to do."),
-			_("Sometimes the questions are complicated and the answers are simple."),
-			_("You cannot step into the same river twice."),
-			_("The obstacle is the path."),
-			_("No snowflake ever falls in the wrong place."),
-			_("The energy of the mind is the essence of life.")
-		};
-		
-		this.overlay_started.connect(this.overlay_started_cb);
 
 		rest_break.warned.connect(this.warned_cb);
 		rest_break.unwarned.connect(this.unwarned_cb);
 		rest_break.activated.connect(this.activated_cb);
 		rest_break.finished.connect(this.finished_cb);
+
+		rest_break.attention_demanded.connect(this.attention_demanded_cb);
 	}
 
 	private void warned_cb() {
@@ -58,24 +55,39 @@ public class RestBreakView : TimerBreakView {
 	}
 
 	private void finished_cb() {
-		if (this.has_ui_focus() && ! ui_manager.break_overlay.is_showing()) {
-			BreakView.NotificationContent notification_content = this.get_finish_notification();
-			ui_manager.show_notification(notification_content, Notify.Urgency.LOW);
+		if (this.has_ui_focus()) {
+			if (! ui_manager.screen_overlay.is_showing_content(this.status_widget)) {
+				BreakView.NotificationContent notification_content = this.get_finish_notification();
+				ui_manager.show_notification(notification_content, Notify.Urgency.LOW);
+			}
 		}
-
 		this.release_ui_focus();
 	}
 
+	private void attention_demanded_cb() {
+		if (ui_manager.screen_overlay.is_showing_content(this.status_widget)) {
+			ui_manager.screen_overlay.request_attention();
+		}
+	}
+
+	private void build_screen_overlay() {
+		this.status_widget = new TimerBreakStatusWidget((TimerBreakController)this.break_controller);
+		int quote_number = Random.int_range(0, this.rest_quotes.length);
+		string random_quote = this.rest_quotes[quote_number];
+		this.status_widget.set_message(random_quote);
+		ui_manager.screen_overlay.reveal_content(this.status_widget);
+	}
+
 	protected override void show_active_ui() {
-		if (ui_manager.break_overlay.is_showing()) {
-			ui_manager.break_overlay.show_with_source(this);
+		if (ui_manager.screen_overlay.is_showing()) {
+			this.build_screen_overlay();
 			GLib.debug("show_break: replaced");
 		} else {
 			BreakView.NotificationContent notification_content = this.get_start_notification();
 			ui_manager.show_notification(notification_content, Notify.Urgency.NORMAL);
 			Timeout.add_seconds(this.get_lead_in_seconds(), () => {
 				if (this.has_ui_focus() && this.break_controller.is_active()) {
-					ui_manager.break_overlay.show_with_source(this);
+					this.build_screen_overlay();
 				}
 				return false;
 			});
@@ -84,21 +96,12 @@ public class RestBreakView : TimerBreakView {
 	}
 
 	protected override void hide_active_ui() {
-		ui_manager.break_overlay.remove_source(this);
+		ui_manager.screen_overlay.disappear_content(this.status_widget);
 	}
 
 
 
 
-
-	protected override string get_countdown_label(int time_remaining, int start_time) {
-		NaturalTime natural_time = NaturalTime.get_instance();
-		if (this.break_controller.is_active()) {
-			return natural_time.get_countdown_for_seconds_with_start(time_remaining, start_time);
-		} else {
-			return _("Thank you");
-		}
-	}
 	
 	public override BreakView.NotificationContent get_start_notification() {
 		return NotificationContent() {
@@ -114,12 +117,6 @@ public class RestBreakView : TimerBreakView {
 			body = _("Thank you"),
 			icon = null
 		};
-	}
-	
-	private void overlay_started_cb() {
-		int quote_number = Random.int_range(0, this.rest_quotes.length);
-		string random_quote = this.rest_quotes[quote_number];
-		this.status_widget.set_message(random_quote);
 	}
 }
 
