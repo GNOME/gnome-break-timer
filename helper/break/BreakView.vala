@@ -45,7 +45,13 @@ public abstract class BreakView : Object {
 	}
 	
 	protected void request_ui_focus(FocusPriority priority) {
-		this.ui_manager.request_focus(this, priority);
+		if (this.has_ui_focus()) {
+			// If we already gained focus earlier, UIManager will not call
+			// begin_ui_focus again - we need to call it ourselves
+			this.begin_ui_focus();
+		} else {
+			this.ui_manager.request_focus(this, priority);
+		}
 	}
 	
 	protected void release_ui_focus() {

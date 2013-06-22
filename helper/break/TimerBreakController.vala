@@ -158,7 +158,7 @@ public abstract class TimerBreakController : BreakController {
 	protected virtual void waiting_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
 		if (this.starts_in() == 0) {
 			this.activate();
-		} else if (this.starts_in() <= duration) {
+		} else if (this.starts_in() <= this.duration) {
 			this.warn();
 		} else {
 			this.unwarn();

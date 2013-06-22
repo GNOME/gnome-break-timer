@@ -58,12 +58,12 @@ public class RestBreakView : TimerBreakView {
 	}
 
 	private void finished_cb() {
-		this.release_ui_focus();
-
-		if (ui_manager.is_focusing(this) && ! ui_manager.break_overlay.is_showing()) {
+		if (this.has_ui_focus() && ! ui_manager.break_overlay.is_showing()) {
 			BreakView.NotificationContent notification_content = this.get_finish_notification();
 			ui_manager.show_notification(notification_content, Notify.Urgency.LOW);
 		}
+
+		this.release_ui_focus();
 	}
 
 	protected override void show_active_ui() {
