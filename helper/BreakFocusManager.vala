@@ -16,12 +16,12 @@
  */
 
 /**
- * A FocusManager that keeps track of focus between BreakTypes, so only one
+ * A FocusManager that keeps track of focus between BreakViews, so only one
  * break is shown to the user at a time.
  */
-public class BreakFocusManager : Object, FocusManager<BreakType> {
+public class BreakFocusManager : Object, FocusManager<BreakView> {
 	private class Request : Object {
-		public BreakType owner;
+		public BreakView owner;
 		public FocusPriority priority;
 	
 		public static int priority_compare_func(Request a, Request b) {
@@ -50,8 +50,8 @@ public class BreakFocusManager : Object, FocusManager<BreakType> {
 			this.current_focus = new_focus;
 			// the order is very important here
 			// this way, new_focus can smoothly replace old_focus
-			if (new_focus != null) GLib.debug("New focus: %s", new_focus.owner.id);
-			if (old_focus != null) GLib.debug("(Old focus: %s)", old_focus.owner.id);
+			if (new_focus != null) GLib.debug("New focus: %s", new_focus.owner.get_id());
+			if (old_focus != null) GLib.debug("(Old focus: %s)", old_focus.owner.get_id());
 			if (new_focus != null) this.focus_started(new_focus.owner);
 			if (old_focus != null) this.focus_stopped(old_focus.owner);
 		}
@@ -66,18 +66,18 @@ public class BreakFocusManager : Object, FocusManager<BreakType> {
 		this.set_focus(new_focus);
 	}
 	
-	private bool focus_requested(BreakType break_type) {
+	private bool focus_requested(BreakView break_view) {
 		foreach (Request request in this.focus_requests) {
-			if (request.owner == break_type) return true;
+			if (request.owner == break_view) return true;
 		}
 		return false;
 	}
 	
-	public void request_focus(BreakType break_type, FocusPriority priority) {
-		GLib.debug("%s, request focus", break_type.id);
-		if (! this.focus_requested(break_type)) {
+	public void request_focus(BreakView break_view, FocusPriority priority) {
+		GLib.debug("%s, request focus", break_view.get_id());
+		if (! this.focus_requested(break_view)) {
 			Request request = new Request();
-			request.owner = break_type;
+			request.owner = break_view;
 			request.priority = priority;
 			
 			this.focus_requests.insert_sorted(request, Request.priority_compare_func);
@@ -85,10 +85,10 @@ public class BreakFocusManager : Object, FocusManager<BreakType> {
 		}
 	}
 	
-	public void release_focus(BreakType break_type) {
-		GLib.debug("%s, release focus", break_type.id);
+	public void release_focus(BreakView break_view) {
+		GLib.debug("%s, release focus", break_view.get_id());
 		foreach (Request request in this.focus_requests) {
-			if (request.owner == break_type) this.focus_requests.remove(request);
+			if (request.owner == break_view) this.focus_requests.remove(request);
 		}
 		this.update_focus();
 	}
@@ -98,7 +98,7 @@ public class BreakFocusManager : Object, FocusManager<BreakType> {
 	 */
 	// This is not defined in the interface, because we can't make T
 	// nullable in the interface.
-	public BreakType? get_focus() {
+	public BreakView? get_focus() {
 		if (this.current_focus != null) {
 			return this.current_focus.owner;
 		} else {
@@ -106,22 +106,8 @@ public class BreakFocusManager : Object, FocusManager<BreakType> {
 		}
 	}
 	
-	public bool is_focusing(BreakType break_type) {
-		return this.get_focus() == break_type;
-	}
-	
-	/**
-	 * Convenience function to attach the focus-related signals in
-	 * BreakView directly to this focus manager.
-	 */
-	public void monitor_break_type(BreakType break_type) {
-		BreakView break_view = break_type.break_view;
-		break_view.focus_requested.connect((priority) => {
-			this.request_focus(break_type, priority);
-		});
-		break_view.focus_released.connect((priority) => {
-			this.release_focus(break_type);
-		});
+	public bool is_focusing(BreakView break_view) {
+		return this.get_focus() == break_view;
 	}
 }
 

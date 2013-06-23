@@ -44,6 +44,10 @@ public class PausableTimeout : Object {
 		
 		return true;
 	}
+
+	public void run_once() {
+		this.timeout_wrapper();
+	}
 	
 	public void start() {
 		if (this.is_running()) {

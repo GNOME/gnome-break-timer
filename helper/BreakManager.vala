@@ -16,31 +16,22 @@
  */
 
 public class BreakManager : Object {
+	private UIManager ui_manager;
+
 	private Gee.Map<string, BreakType> breaks;
 	
-	public signal void break_loaded(BreakType break_type);
-	
-	public BreakManager() {
+	public BreakManager(UIManager ui_manager) {
+		this.ui_manager = ui_manager;
 		this.breaks = new Gee.HashMap<string, BreakType>();
 	}
 	
-	private void break_enable_change(BreakController break_controller) {
-		bool enabled = break_controller.settings.get_boolean("enabled");
-		break_controller.set_enabled(enabled);
-	}
-	
-	private void register_break(BreakType break_type) {
+	private void add_break(BreakType break_type) {
 		this.breaks.set(break_type.id, break_type);
-		this.break_loaded(break_type);
+		break_type.initialize();
 		
-		BreakController break_controller = break_type.break_controller;
-		
-		// FIXME: Breaks are currently enabled by their own settings.
-		// Instead, enabled breaks should be stored in a list somewhere.
-		break_controller.settings.changed["enabled"].connect(() => {
-			break_controller.set_enabled(break_controller.settings.get_boolean("enabled"));
-		});
-		break_controller.set_enabled(break_controller.settings.get_boolean("enabled"));
+		// TODO: At the moment, we expect breaks to enable and disable
+		// themselves using their own settings. In the future, it might be
+		// useful to have a global list of enabled break types, instead.
 	}
 	
 	public void load_breaks() {
@@ -48,12 +39,13 @@ public class BreakManager : Object {
 		try {
 			activity_monitor_backend = new X11ActivityMonitorBackend();
 		} catch {
+			GLib.warning("Failed to initialize activity monitor backend");
 			activity_monitor_backend = null;
 		}
 		
 		if (activity_monitor_backend != null) {
-			this.register_break(new MicroBreakType(activity_monitor_backend));
-			this.register_break(new RestBreakType(activity_monitor_backend));
+			this.add_break(new MicroBreakType(activity_monitor_backend, this.ui_manager));
+			this.add_break(new RestBreakType(activity_monitor_backend, this.ui_manager));
 		}
 	}
 	

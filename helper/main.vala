@@ -115,9 +115,8 @@ public class Application : Gtk.Application {
 			Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 		);
 		
-		this.break_manager = new BreakManager();
-		this.ui_manager = new UIManager(this, this.break_manager);
-		
+		this.ui_manager = new UIManager(this);
+		this.break_manager = new BreakManager(this.ui_manager);
 		this.break_manager.load_breaks();
 		
 		this.break_helper_server = new BreakHelperServer(this.break_manager);

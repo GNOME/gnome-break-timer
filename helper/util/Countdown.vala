@@ -18,8 +18,8 @@
 /**
  * A countdown timer that counts seconds from a start time down to 0. Uses
  * "wall-clock" time instead of monotonic time, so it will count regardless
- * regardless of system state. The countdown can be paused, and its duration
- * can be adjusted at any time using penalty and bonus time.
+ * of system state. The countdown can be paused, and its duration can be
+ * adjusted at any time using penalty and bonus time.
  */
 public class Countdown : Object {
 	private enum State {
@@ -83,15 +83,19 @@ public class Countdown : Object {
 	 * possible.
 	 */
 	public void continue() {
-		this.continue_from(0);
+		if (this.state < State.COUNTING) {
+			this.continue_from(0);
+		}
 	}
 	
 	public void continue_from(int start_offset) {
-		if (this.state < State.COUNTING) {
-			int64 now = new DateTime.now_utc().to_unix();
-			this.start_time = now + start_offset;
-			this.state = State.COUNTING;
-		}
+		int64 now = new DateTime.now_utc().to_unix();
+		this.start_time = now + start_offset;
+		this.state = State.COUNTING;
+	}
+
+	public void set_penalty(int penalty) {
+		this.penalty = penalty;
 	}
 	
 	public void add_penalty(int penalty) {
@@ -132,6 +136,10 @@ public class Countdown : Object {
 	public int get_time_remaining() {
 		int time_remaining = this.get_duration() - this.get_time_elapsed();
 		return int.max(0, time_remaining);
+	}
+
+	public bool is_finished() {
+		return this.get_time_remaining() == 0;
 	}
 }
 

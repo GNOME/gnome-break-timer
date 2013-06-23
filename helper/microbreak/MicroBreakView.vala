@@ -19,22 +19,70 @@
 /* TODO: replace pause break if appropriate */
 
 public class MicroBreakView : TimerBreakView {
-	public MicroBreakView(MicroBreakController break_controller) {
-		base(break_controller, FocusPriority.LOW);
-		
-		this.title = _("Micro break");
-		
-		this.status_widget.set_message("Take a moment to rest your eyes");
+	private TimerBreakStatusWidget? status_widget;
+
+	public MicroBreakView(BreakType break_type, MicroBreakController micro_break, UIManager ui_manager) {
+		base(break_type, micro_break, ui_manager);
+
+		micro_break.warned.connect(this.warned_cb);
+		micro_break.unwarned.connect(this.unwarned_cb);
+		micro_break.activated.connect(this.activated_cb);
+		micro_break.finished.connect(this.finished_cb);
 	}
 
-	protected override string get_countdown_label(int time_remaining, int start_time) {
-		NaturalTime natural_time = NaturalTime.get_instance();
-		if (time_remaining > 0) {
-			return natural_time.get_countdown_for_seconds_with_start(time_remaining, start_time);
+	private void warned_cb() {
+		this.request_ui_focus(FocusPriority.LOW);
+	}
+
+	private void unwarned_cb() {
+		this.release_ui_focus();
+	}
+
+	private void activated_cb() {
+		this.request_ui_focus(FocusPriority.LOW);
+	}
+
+	private void finished_cb() {
+		if (this.has_ui_focus()) {
+			if (! ui_manager.screen_overlay.is_showing_content(this.status_widget)) {
+				BreakView.NotificationContent notification_content = this.get_finish_notification();
+				ui_manager.show_notification(notification_content, Notify.Urgency.LOW);
+			}
+		}
+		this.release_ui_focus();
+	}
+
+	private void build_screen_overlay() {
+		this.status_widget = new TimerBreakStatusWidget((TimerBreakController)this.break_controller);
+		this.status_widget.set_message(_("Take a moment to rest your eyes"));
+		ui_manager.screen_overlay.reveal_content(this.status_widget);
+	}
+
+	protected override void show_active_ui() {
+		if (ui_manager.screen_overlay.is_showing()) {
+			this.build_screen_overlay();
+			GLib.debug("show_break: replaced");
 		} else {
-			return _("Thank you");
+			BreakView.NotificationContent notification_content = this.get_start_notification();
+			ui_manager.show_notification(notification_content, Notify.Urgency.NORMAL);
+			Timeout.add_seconds(this.get_lead_in_seconds(), () => {
+				if (this.has_ui_focus() && this.break_controller.is_active()) {
+					this.build_screen_overlay();
+				}
+				return false;
+			});
+			GLib.debug("show_break: notified");
 		}
 	}
+
+	protected override void hide_active_ui() {
+		ui_manager.screen_overlay.disappear_content(this.status_widget);
+	}
+
+
+
+
+	
 	
 	public override BreakView.NotificationContent get_start_notification() {
 		return NotificationContent() {
