@@ -83,15 +83,15 @@ public class Countdown : Object {
 	 * possible.
 	 */
 	public void continue() {
-		this.continue_from(0);
+		if (this.state < State.COUNTING) {
+			this.continue_from(0);
+		}
 	}
 	
 	public void continue_from(int start_offset) {
-		if (this.state < State.COUNTING) {
-			int64 now = new DateTime.now_utc().to_unix();
-			this.start_time = now + start_offset;
-			this.state = State.COUNTING;
-		}
+		int64 now = new DateTime.now_utc().to_unix();
+		this.start_time = now + start_offset;
+		this.state = State.COUNTING;
 	}
 
 	public void set_penalty(int penalty) {

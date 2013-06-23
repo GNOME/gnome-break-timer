@@ -215,9 +215,13 @@ public abstract class TimerBreakController : BreakController {
 		} else {
 			if (this.interval_countdown.is_counting()) {
 				this.interval_countdown.pause();
-				if (! this.duration_countdown.is_counting()) {
-					this.duration_countdown.continue_from(-activity.idle_time);
+			}
+			if (! this.duration_countdown.is_counting()) {
+				int duration_correction = 0;
+				if (activity.idle_time > 0) {
+					duration_correction = -activity.idle_time;
 				}
+				this.duration_countdown.continue_from(duration_correction);
 			}
 		}
 
@@ -236,13 +240,13 @@ public abstract class TimerBreakController : BreakController {
 	 * This function should be called from active_timeout_cb.
 	 *
 	 * @param activity User activity data from ActivityMonitor.get_activity
-	 * @param pause_penalty Extra time to pause duration_countdown if the user is using the computer
+	 * @param pause_time Extra time to pause duration_countdown if the user is using the computer
 	 * @return true if the break is being delayed for user activity
 	 * @see ActivityMonitor
 	 * @see active_timeout_cb
 	 */
-	protected bool update_active_countdowns_for_activity(ActivityMonitor.UserActivity activity, int pause_penalty=0) {
-		if (activity.is_active_within(pause_penalty)) {
+	protected bool update_active_countdowns_for_activity(ActivityMonitor.UserActivity activity, int pause_time=0) {
+		if (activity.is_active_within(pause_time)) {
 			if (this.duration_countdown.is_counting()) {
 				this.duration_countdown.pause();
 			} else {
@@ -251,16 +255,16 @@ public abstract class TimerBreakController : BreakController {
 				return true;
 			}
 		} else {
-			if (! this.duration_countdown.is_counting()) {
+			if (activity.was_sleeping) {
+				// Update duration_countdown to catch up extra idle time,
+				// usually from the device sleeping.
 				this.duration_countdown.continue_from(-activity.idle_time);
-				if (activity.idle_time > 15) {
-					// Update duration_countdown to catch up unexpected extra
-					// idle time. This can happen if the user suspends the
-					// computer during a break, for example.
-					this.duration_countdown.continue_from(-activity.idle_time);
-				} else {
-					this.duration_countdown.continue();
+			} else if (! this.duration_countdown.is_counting()) {
+				int duration_correction = 0;
+				if (activity.idle_time > pause_time) {
+					duration_correction = -activity.idle_time + pause_time;
 				}
+				this.duration_countdown.continue_from(duration_correction);
 			}
 		}
 		return false;
