@@ -31,7 +31,7 @@ public class MicroBreakController : TimerBreakController {
 
 	protected override void waiting_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
 		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
-		this.update_waiting_countdowns_for_activity(activity);
+		this.update_waiting_countdowns_for_activity(activity, false);
 		base.waiting_timeout_cb(timeout, delta_millisecs);
 	}
 	
