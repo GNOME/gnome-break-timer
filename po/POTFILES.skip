@@ -1,6 +1,9 @@
 common/NaturalTime.c
+helper/main.c
+helper/break/TimerBreakStatusWidget.c
 helper/microbreak/MicroBreakView.c
 helper/restbreak/RestBreakView.c
+settings/main.c
 settings/MicroBreakType.c
 settings/QuietModePanel.c
 settings/RestBreakType.c
