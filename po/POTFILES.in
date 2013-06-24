@@ -4,6 +4,7 @@ data/brainbreak-settings.desktop.in
 data/org.brainbreak.gschema.xml.in
 common/NaturalTime.vala
 helper/main.vala
+helper/break/TimerBreakStatusWidget.vala
 helper/microbreak/MicroBreakView.vala
 helper/restbreak/RestBreakView.vala
 settings/main.vala
