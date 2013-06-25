@@ -217,6 +217,7 @@ public class ScreenOverlay : Gtk.Window {
 	public void disappear_content(Gtk.Widget? widget) {
 		if (this.custom_content == widget) {
 			this.pop_out();
+			this.custom_content = null;
 			// TODO: call this.set_content(null) after the pop_out animation
 			// is finished. For now, we cheat by never removing the widget.
 			// this.set_content(null);
