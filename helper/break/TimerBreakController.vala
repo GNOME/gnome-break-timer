@@ -84,8 +84,8 @@ public abstract class TimerBreakController : BreakController {
 	
 	private int get_waiting_update_frequency() {
 		int update_frequency = 5;
-		update_frequency = int.min(update_frequency, this.interval / 2);
-		update_frequency = int.min(update_frequency, this.duration / 2);
+		update_frequency = int.min(update_frequency, this.interval / 8);
+		update_frequency = int.min(update_frequency, this.duration / 8);
 		return update_frequency;
 	}
 	
@@ -197,17 +197,18 @@ public abstract class TimerBreakController : BreakController {
 	 * This function should be called from waiting_timeout_cb.
 	 *
 	 * @param activity User activity data from ActivityMonitor.get_activity
+	 * @param active_reset True to pause before resetting the duration countdown if activity is detected, or false to reset immediately
 	 * @see ActivityMonitor
 	 * @see waiting_timeout_cb
 	 */
-	protected void update_waiting_countdowns_for_activity(ActivityMonitor.UserActivity activity) {
+	protected void update_waiting_countdowns_for_activity(ActivityMonitor.UserActivity activity, bool careful_reset) {
 		if (activity.is_active) {
 			this.interval_countdown.continue();
 			// Pause duration_countdown if the user is active, and reset the
 			// countdown if that activity continues. This assumes that the
 			// function is being called a particular, regular but reasonably
 			// large interval.
-			if (this.duration_countdown.is_counting()) {
+			if (this.duration_countdown.is_counting() && careful_reset) {
 				this.duration_countdown.pause();
 			} else {
 				this.duration_countdown.reset();
