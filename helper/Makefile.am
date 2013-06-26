@@ -46,6 +46,8 @@ brainbreak_LDADD = \
 	activity-monitor/libactivity_monitor.la \
 	util/libutil.la
 
+brainbreak_LDFLAGS = -lm
+
 brainbreak_vala.stamp: \
 	$(top_srcdir)/common/libnatural_time_la_vala.stamp \
 	activity-monitor/libactivity_monitor_la_vala.stamp \

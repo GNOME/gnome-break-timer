@@ -15,7 +15,7 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class TimerBreakStatusWidget : Gtk.Grid {
+public class TimerBreakStatusWidget : Gtk.Grid, IScreenOverlayContent {
 	private TimerBreakController timer_break;
 
 	private Gtk.Label timer_label;
@@ -38,32 +38,49 @@ public class TimerBreakStatusWidget : Gtk.Grid {
 		this.message_label.set_line_wrap(true);
 
 		this.show_all();
-
-		this.timer_break.active_countdown_changed.connect(this.active_countdown_changed_cb);
-		// Make sure visible time is correct when the widget first appears,
-		// to avoid stammering
-		int time_remaining = this.timer_break.get_time_remaining();
-		this.active_countdown_changed_cb(time_remaining);
 	}
 
 	private void active_countdown_changed_cb(int time_remaining) {
 		int start_time = this.timer_break.get_current_duration();
-		string countdown = this.get_countdown_text(time_remaining, start_time);
+		string countdown;
+		if (this.timer_break.is_active()) {
+			NaturalTime natural_time = NaturalTime.get_instance();
+			countdown = natural_time.get_countdown_for_seconds_with_start(time_remaining, start_time);
+		} else {
+			countdown = _("Thank you");
+		}
 		this.timer_label.set_text(countdown);
 	}
 
-	private string get_countdown_text(int time_remaining, int start_time) {
-		NaturalTime natural_time = NaturalTime.get_instance();
-		if (this.timer_break.is_active()) {
-			return natural_time.get_countdown_for_seconds_with_start(time_remaining, start_time);
-		} else {
-			return _("Thank you");
-		}
+	private void update_content() {
+		// Make sure the content being displayed is up to date. This is
+		// usually called when the widget is about to appear.
+		int time_remaining = this.timer_break.get_time_remaining();
+		this.active_countdown_changed_cb(time_remaining);
 	}
 	
 	/** Set a reassuring message to accompany the break timer */
 	public void set_message(string message) {
 		this.message_label.set_text(message);
+	}
+
+
+	/* IScreenOverlayContent interface */
+
+	public void added_to_overlay() {
+		this.timer_break.active_countdown_changed.connect(this.active_countdown_changed_cb);
+	}
+
+	public void removed_from_overlay() {
+		this.timer_break.active_countdown_changed.disconnect(this.active_countdown_changed_cb);
+	}
+
+	public void before_fade_in() {
+		this.update_content();
+	}
+
+	public void before_fade_out() {
+		this.update_content();
 	}
 }
 
