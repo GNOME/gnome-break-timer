@@ -17,6 +17,14 @@
 
 /* FIXME: Do another overlay widget and kill the set_format junk :) */
 
+public interface IScreenOverlayContent : Gtk.Widget {
+	public abstract void added_to_overlay();
+	public abstract void removed_from_overlay();
+	public abstract void before_fade_in();
+	public abstract void before_fade_out();
+}
+
+
 public class ScreenOverlay : Gtk.Window {
 	public enum Format {
 		SILENT,
@@ -26,8 +34,10 @@ public class ScreenOverlay : Gtk.Window {
 
 	private Format format;
 	private Gtk.Grid wrapper_grid;
-	private Gtk.Widget? custom_content;
+	private IScreenOverlayContent? custom_content;
 	private uint fade_timeout;
+
+	private delegate void FadeCompleteCb();
 	
 	public ScreenOverlay() {
 		Object(type: Gtk.WindowType.POPUP);
@@ -113,48 +123,60 @@ public class ScreenOverlay : Gtk.Window {
 		if (this.get_realized()) this.apply_format(format);
 	}
 
-	public virtual void fade_in(double rate = 0.01) {
-		assert(rate > 0);
+	private static double ease_swing(double p) {
+		return 0.5 - Math.cos(p*Math.PI) / 2.0;
+	}
 
-		if (this.custom_content == null) return;
-		if (this.format == Format.SILENT) return;
-
-		double opacity;
+	private void fade_opacity(double duration_ms, double to, FadeCompleteCb? complete_cb = null) {
+		double from;
 		if (this.get_visible()) {
-			opacity = this.get_opacity();
+			from = this.get_opacity();
 		} else {
-			opacity = 0.0;
-			this.set_opacity(opacity);
+			from = 0.0;
+			this.set_opacity(from);
+			this.show();
 		}
 
-		this.show();
+		double fade_direction = (double)(to - from);
+		Timer fade_timer = new Timer();
 
 		if (this.fade_timeout > 0) Source.remove(this.fade_timeout);
 		this.fade_timeout = Timeout.add(20, () => {
-			opacity += rate;
+			double elapsed_ms = fade_timer.elapsed() * 1000.0;
+			double percent = elapsed_ms / duration_ms;
+			percent = percent.clamp(0, 1);
+			double opacity = from + (fade_direction * ease_swing(percent));
 			this.set_opacity(opacity);
-			bool do_continue = opacity < 1.0;
+
+			bool do_continue = percent < 1.0;
+			if (! do_continue) {
+				if (complete_cb != null) complete_cb();
+			}
 			return do_continue;
 		});
 	}
 
-	public virtual void fade_out(double rate = 0.02) {
-		assert(rate > 0);
+	public void fade_in() {
+		if (this.custom_content == null) return;
+		if (this.format == Format.SILENT) return;
 
-		double opacity;
-		if (this.get_visible()) {
-			opacity = this.get_opacity();
-		} else {
-			return;
+		if (this.custom_content != null) {
+			this.custom_content.before_fade_in();
 		}
 
-		if (this.fade_timeout > 0) Source.remove(this.fade_timeout);
-		this.fade_timeout = Timeout.add(20, () => {
-			opacity -= rate;
-			this.set_opacity(opacity);
-			bool do_continue = opacity > 0.0;
-			if (do_continue == false) this.hide();
-			return do_continue;
+		this.fade_opacity(2000, 1);
+	}
+
+	public void fade_out() {
+		if (! this.get_visible()) return;
+
+		if (this.custom_content != null) {
+			this.custom_content.before_fade_out();
+		}
+
+		this.fade_opacity(1500, 0, () => {
+			this.hide();
+			this.set_content(null);
 		});
 	}
 
@@ -199,28 +221,26 @@ public class ScreenOverlay : Gtk.Window {
 		gdk_window.beep();
 	}
 
-	private void set_content(Gtk.Widget? widget) {
+	private void set_content(IScreenOverlayContent? widget) {
 		if (this.custom_content != null) {
+			this.custom_content.removed_from_overlay();
 			this.wrapper_grid.remove(this.custom_content);
 		}
 		if (widget != null) {
+			widget.added_to_overlay();
 			this.wrapper_grid.add(widget);
 		}
 		this.custom_content = widget;
 	}
 
-	public void reveal_content(Gtk.Widget? widget) {
+	public void reveal_content(IScreenOverlayContent? widget) {
 		this.set_content(widget);
 		this.fade_in();
 	}
 
-	public void disappear_content(Gtk.Widget? widget) {
+	public void disappear_content(IScreenOverlayContent? widget) {
 		if (this.custom_content == widget) {
 			this.pop_out();
-			this.custom_content = null;
-			// TODO: call this.set_content(null) after the pop_out animation
-			// is finished. For now, we cheat by never removing the widget.
-			// this.set_content(null);
 		}
 	}
 
@@ -228,7 +248,7 @@ public class ScreenOverlay : Gtk.Window {
 		return this.get_visible();
 	}
 
-	public bool is_showing_content(Gtk.Widget? widget) {
+	public bool is_showing_content(IScreenOverlayContent? widget) {
 		if (widget == null) {
 			return false;
 		} else {

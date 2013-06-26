@@ -53,9 +53,9 @@ public class Application : Gtk.Application {
 	/* FIXME: font-size should have units, but we can only do that with GTK 3.8 and later */
 	static const string STYLE_DATA =
 			"""
-			@define-color bg_top rgba(218, 236, 237, 0.85);
-			@define-color bg_middle rgba(226, 237, 236, 0.92);
-			@define-color bg_bottom rgba(179, 209, 183, 0.94);
+			@define-color bg_top rgba(218, 236, 237, 0.80);
+			@define-color bg_middle rgba(226, 237, 236, 0.87);
+			@define-color bg_bottom rgba(179, 209, 183, 0.89);
 
 			GtkWindow.brainbreak-screen-overlay {
 				background-color: @bg_inner;
