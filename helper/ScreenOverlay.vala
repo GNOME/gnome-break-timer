@@ -157,33 +157,35 @@ public class ScreenOverlay : Gtk.Window {
 	}
 
 	public void fade_in() {
-		if (this.custom_content == null) return;
-		if (this.format == Format.SILENT) return;
-
-		if (this.custom_content != null) {
-			this.custom_content.before_fade_in();
+		if (this.format != Format.SILENT) {
+			if (this.custom_content != null) {
+				this.custom_content.before_fade_in();
+				this.fade_opacity(2000, 1);
+			}
 		}
-
-		this.fade_opacity(2000, 1);
 	}
 
 	public void fade_out() {
-		if (! this.get_visible()) return;
-
-		if (this.custom_content != null) {
-			this.custom_content.before_fade_out();
+		if (this.get_visible()) {
+			if (this.custom_content != null) {
+				this.custom_content.before_fade_out();
+			}
+			this.fade_opacity(1500, 0, () => {
+				this.hide();
+			});
 		}
-
-		this.fade_opacity(1500, 0, () => {
-			this.hide();
-			this.set_content(null);
-		});
 	}
 
-	public virtual void pop_out() {
-		// TODO: Pretty animation when break is finished.
-		// For now we'll just fade out.
-		this.fade_out();
+	private void fade_out_and_remove() {
+		if (this.get_visible()) {
+			if (this.custom_content != null) this.custom_content.before_fade_out();
+			this.fade_opacity(1500, 0, () => {
+				this.hide();
+				this.set_content(null);
+			});
+		} else {
+			this.set_content(null);
+		}
 	}
 
 	public void shake() {
@@ -240,7 +242,7 @@ public class ScreenOverlay : Gtk.Window {
 
 	public void disappear_content(IScreenOverlayContent? widget) {
 		if (this.custom_content == widget) {
-			this.pop_out();
+			this.fade_out_and_remove();
 		}
 	}
 
@@ -252,4 +254,3 @@ public class ScreenOverlay : Gtk.Window {
 		}
 	}
 }
-
