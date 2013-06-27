@@ -19,7 +19,10 @@
 /* TODO: replace pause break if appropriate */
 
 public class RestBreakView : TimerBreakView {
-	private TimerBreakStatusWidget? status_widget;
+	protected RestBreakController rest_break {
+		get {return (RestBreakController)this.break_controller; }
+	}
+
 	private string[] rest_quotes = {
 		_("The quieter you become, the more you can hear."),
 		_("Knock on the sky and listen to the sound."),
@@ -55,68 +58,47 @@ public class RestBreakView : TimerBreakView {
 	}
 
 	private void finished_cb() {
-		if (this.has_ui_focus()) {
-			if (! ui_manager.screen_overlay.is_showing_content(this.status_widget)) {
-				BreakView.NotificationContent notification_content = this.get_finish_notification();
-				ui_manager.show_notification(notification_content, Notify.Urgency.LOW);
-			}
+		if (! this.overlay_is_visible()) {
+			Notify.Notification notification = new Notify.Notification(
+				_("Break is over"),
+				_("Your break time is finished"),
+				null
+			);
+			notification.set_hint("transient", true);
+			notification.set_urgency(Notify.Urgency.LOW);
+			this.show_notification(notification);
 		}
 		this.release_ui_focus();
 	}
 
 	private void attention_demanded_cb() {
-		if (ui_manager.screen_overlay.is_showing_content(this.status_widget)) {
-			ui_manager.screen_overlay.request_attention();
-		}
-	}
-
-	private void build_screen_overlay() {
-		this.status_widget = new TimerBreakStatusWidget((TimerBreakController)this.break_controller);
-		int quote_number = Random.int_range(0, this.rest_quotes.length);
-		string random_quote = this.rest_quotes[quote_number];
-		this.status_widget.set_message(random_quote);
-		ui_manager.screen_overlay.reveal_content(this.status_widget);
+		this.shake_overlay();
 	}
 
 	protected override void show_active_ui() {
-		if (ui_manager.screen_overlay.is_showing()) {
-			this.build_screen_overlay();
-			GLib.debug("show_break: replaced");
-		} else {
-			BreakView.NotificationContent notification_content = this.get_start_notification();
-			ui_manager.show_notification(notification_content, Notify.Urgency.NORMAL);
+		var status_widget = new TimerBreakStatusWidget(this.rest_break);
+		int quote_number = Random.int_range(0, this.rest_quotes.length);
+		string random_quote = this.rest_quotes[quote_number];
+		status_widget.set_message(random_quote);
+		this.set_overlay(status_widget);
+
+		if (! this.overlay_is_visible()) {
+			// FIXME: This should say something like "It's time to take a 5 minute break..."
+			Notify.Notification notification = new Notify.Notification(
+				_("Time for a break"),
+				_("It’s time to take a break. Get away from the computer for a little while!"),
+				null
+			);
+			notification.set_urgency(Notify.Urgency.CRITICAL);
+			this.show_notification(notification);
+
 			Timeout.add_seconds(this.get_lead_in_seconds(), () => {
 				if (this.has_ui_focus() && this.break_controller.is_active()) {
-					this.build_screen_overlay();
+					this.reveal_overlay();
 				}
 				return false;
 			});
-			GLib.debug("show_break: notified");
 		}
-	}
-
-	protected override void hide_active_ui() {
-		ui_manager.screen_overlay.disappear_content(this.status_widget);
-	}
-
-
-
-
-	
-	public override BreakView.NotificationContent get_start_notification() {
-		return NotificationContent() {
-			summary = _("Time for a rest break"),
-			body = null,
-			icon = null
-		};
-	}
-	
-	public override BreakView.NotificationContent get_finish_notification() {
-		return NotificationContent() {
-			summary = _("Rest break finished"),
-			body = _("Thank you"),
-			icon = null
-		};
 	}
 }
 

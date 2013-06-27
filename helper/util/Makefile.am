@@ -7,8 +7,8 @@ noinst_LTLIBRARIES = \
 
 libutil_la_SOURCES = \
 	Countdown.vala \
-	IFocusManager.vala \
-	PausableTimeout.vala
+	PausableTimeout.vala \
+	SimpleFocusManager.vala
 
 libutil_la_LIBADD = \
 	$(BRAINBREAK_LIBS)

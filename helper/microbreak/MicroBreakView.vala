@@ -19,7 +19,9 @@
 /* TODO: replace pause break if appropriate */
 
 public class MicroBreakView : TimerBreakView {
-	private TimerBreakStatusWidget? status_widget;
+	protected MicroBreakController micro_break {
+		get {return (MicroBreakController)this.break_controller; }
+	}
 
 	public MicroBreakView(BreakType break_type, MicroBreakController micro_break, UIManager ui_manager) {
 		base(break_type, micro_break, ui_manager);
@@ -43,61 +45,40 @@ public class MicroBreakView : TimerBreakView {
 	}
 
 	private void finished_cb() {
-		if (this.has_ui_focus()) {
-			if (! ui_manager.screen_overlay.is_showing_content(this.status_widget)) {
-				BreakView.NotificationContent notification_content = this.get_finish_notification();
-				ui_manager.show_notification(notification_content, Notify.Urgency.LOW);
-			}
+		if (! this.overlay_is_visible()) {
+			Notify.Notification notification = new Notify.Notification(
+				_("Break is over"),
+				_("Your break time is finished"),
+				null
+			);
+			notification.set_hint("transient", true);
+			notification.set_urgency(Notify.Urgency.LOW);
+			this.show_notification(notification);
 		}
 		this.release_ui_focus();
 	}
 
-	private void build_screen_overlay() {
-		this.status_widget = new TimerBreakStatusWidget((TimerBreakController)this.break_controller);
-		this.status_widget.set_message(_("Take a moment to rest your eyes"));
-		ui_manager.screen_overlay.reveal_content(this.status_widget);
-	}
-
 	protected override void show_active_ui() {
-		if (ui_manager.screen_overlay.is_showing()) {
-			this.build_screen_overlay();
-			GLib.debug("show_break: replaced");
-		} else {
-			BreakView.NotificationContent notification_content = this.get_start_notification();
-			ui_manager.show_notification(notification_content, Notify.Urgency.NORMAL);
+		var status_widget = new TimerBreakStatusWidget(this.micro_break);
+		status_widget.set_message(_("Take a moment to rest your eyes"));
+		this.set_overlay(status_widget);
+
+		if (! this.overlay_is_visible()) {
+			Notify.Notification notification = new Notify.Notification(
+				_("It’s time for a micro break"),
+				_("Take a break from typing and look away from the screen"),
+				null
+			);
+			notification.set_urgency(Notify.Urgency.NORMAL);
+			this.show_notification(notification);
+
 			Timeout.add_seconds(this.get_lead_in_seconds(), () => {
-				if (this.has_ui_focus() && this.break_controller.is_active()) {
-					this.build_screen_overlay();
+				if (this.has_ui_focus() && this.micro_break.is_active()) {
+					this.reveal_overlay();
 				}
 				return false;
 			});
-			GLib.debug("show_break: notified");
 		}
-	}
-
-	protected override void hide_active_ui() {
-		ui_manager.screen_overlay.disappear_content(this.status_widget);
-	}
-
-
-
-
-	
-	
-	public override BreakView.NotificationContent get_start_notification() {
-		return NotificationContent() {
-			summary = _("Time for a micro break"),
-			body = null,
-			icon = null
-		};
-	}
-	
-	public override BreakView.NotificationContent get_finish_notification() {
-		return NotificationContent() {
-			summary = _("Micro break finished"),
-			body = null,
-			icon = null
-		};
 	}
 }
 

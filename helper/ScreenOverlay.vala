@@ -221,7 +221,7 @@ public class ScreenOverlay : Gtk.Window {
 		gdk_window.beep();
 	}
 
-	private void set_content(IScreenOverlayContent? widget) {
+	public void set_content(IScreenOverlayContent? widget) {
 		if (this.custom_content != null) {
 			this.custom_content.removed_from_overlay();
 			this.wrapper_grid.remove(this.custom_content);
@@ -242,10 +242,6 @@ public class ScreenOverlay : Gtk.Window {
 		if (this.custom_content == widget) {
 			this.pop_out();
 		}
-	}
-
-	public bool is_showing() {
-		return this.get_visible();
 	}
 
 	public bool is_showing_content(IScreenOverlayContent? widget) {

@@ -16,12 +16,12 @@
  */
 
 public abstract class TimerBreakView : BreakView {
-	protected TimerBreakController timer_break;
+	protected TimerBreakController timer_break {
+		get {return (TimerBreakController)this.break_controller; }
+	}
 	
 	public TimerBreakView(BreakType break_type, TimerBreakController timer_break, UIManager ui_manager) {
 		base(break_type, timer_break, ui_manager);
-		
-		this.timer_break = timer_break;
 	}
 	
 	public override string get_status_message() {

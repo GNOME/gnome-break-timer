@@ -23,7 +23,86 @@
  * noise. Each BreakView implementation talks to a common instance of
  * UIManager.
  */
-public class UIManager : BreakFocusManager {
+public class UIManager : SimpleFocusManager {
+	public abstract class UIFragment : Object, IFocusable {
+		protected UIManager ui_manager;
+		protected IScreenOverlayContent? overlay_content;
+		protected Notify.Notification? notification;
+
+		public abstract string get_id();
+		protected abstract bool is_active();
+		protected abstract void show_active_ui();
+
+		protected void request_ui_focus(FocusPriority priority) {
+			if (this.has_ui_focus()) {
+				// If we already have focus, UIManager will not call
+				// focus_started again. We need to call it ourselves.
+				this.focus_started();
+			} else {
+				this.ui_manager.request_focus(this, priority);
+			}
+		}
+		
+		protected void release_ui_focus() {
+			this.ui_manager.release_focus(this);
+		}
+
+		protected bool has_ui_focus() {
+			return this.ui_manager.is_focusing(this);
+		}
+
+		protected void show_notification(Notify.Notification notification) {
+			if (this.has_ui_focus()) {
+				this.ui_manager.show_notification(notification);
+				this.notification = notification;
+			}
+		}
+
+		protected void hide_notification() {
+			this.ui_manager.hide_notification(this.notification);
+		}
+
+		protected void set_overlay(IScreenOverlayContent overlay_content) {
+			this.overlay_content = overlay_content;
+
+			if (this.has_ui_focus()) {
+				this.ui_manager.screen_overlay.set_content(this.overlay_content);
+			}
+		}
+
+		protected void reveal_overlay() {
+			if (this.has_ui_focus()) {
+				this.ui_manager.screen_overlay.reveal_content(this.overlay_content);
+			}
+		}
+
+		protected void shake_overlay() {
+			if (this.overlay_is_visible()) {
+				this.ui_manager.screen_overlay.request_attention();
+			}
+		}
+
+		protected bool overlay_is_visible() {
+			return this.ui_manager.screen_overlay.is_showing_content(this.overlay_content);
+		}
+
+		protected void hide_overlay() {
+			this.ui_manager.screen_overlay.disappear_content(this.overlay_content);
+		}
+
+		/* IFocusable interface */
+
+		public void focus_started() {
+			if (this.is_active()) {
+				this.show_active_ui();
+			}
+		}
+
+		public void focus_stopped() {
+			this.hide_overlay();
+		}
+	}
+
 	private Application application;
 	
 	public bool quiet_mode {get; set; default=false;}
@@ -31,16 +110,12 @@ public class UIManager : BreakFocusManager {
 
 	private PausableTimeout quiet_mode_timeout;
 
-	public ScreenOverlay screen_overlay;
-	public Notify.Notification? notification;
+	protected ScreenOverlay screen_overlay;
+	protected Notify.Notification? notification;
 	
 	public UIManager(Application application) {
-		base();
 		this.application = application;
 		this.screen_overlay = new ScreenOverlay();
-		
-		this.focus_started.connect(this.break_focused_cb);
-		this.focus_stopped.connect(this.break_unfocused_cb);
 		
 		Settings settings = new Settings("org.brainbreak.breaks");
 		settings.bind("quiet-mode", this, "quiet-mode", SettingsBindFlags.DEFAULT);
@@ -74,20 +149,28 @@ public class UIManager : BreakFocusManager {
 			GLib.debug("Quiet mode disabled");
 		}
 	}
-	
-	public void show_notification(BreakView.NotificationContent content, Notify.Urgency urgency) {
-		if (this.notification == null) {
-			this.notification = new Notify.Notification("", null, null);
-			this.notification.set_hint("transient", true);
+
+	protected void show_notification(Notify.Notification notification) {
+		if (notification != this.notification) {
+			this.hide_notification(this.notification);
 		}
-		this.notification.set_urgency(urgency);
-		this.notification.update(content.summary, content.body, content.icon);
-		
 		try {
-			this.notification.show();
+			notification.show();
 		} catch (Error error) {
 			GLib.warning("Error showing notification: %s", error.message);
 		}
+		this.notification = notification;
+	}
+
+	protected void hide_notification(Notify.Notification? notification) {
+		if (notification != null && notification == this.notification) {
+			try {
+				this.notification.close();
+			} catch (Error error) {
+				GLib.warning("Error closing notification: %s", error.message);
+			}
+		}
+		this.notification = null;
 	}
 
 	public void add_break(BreakView break_view) {
@@ -97,14 +180,6 @@ public class UIManager : BreakFocusManager {
 	public void remove_break(BreakView break_view) {
 		this.release_focus(break_view);
 		this.application.release();
-	}
-
-	private void break_focused_cb(BreakView break_view) {
-		break_view.begin_ui_focus();
-	}
-	
-	private void break_unfocused_cb(BreakView break_view) {
-		break_view.end_ui_focus();
 	}
 }
 

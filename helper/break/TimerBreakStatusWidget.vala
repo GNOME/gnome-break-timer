@@ -64,11 +64,11 @@ public class TimerBreakStatusWidget : Gtk.Grid, IScreenOverlayContent {
 		this.message_label.set_text(message);
 	}
 
-
 	/* IScreenOverlayContent interface */
 
 	public void added_to_overlay() {
 		this.timer_break.active_countdown_changed.connect(this.active_countdown_changed_cb);
+		this.update_content();
 	}
 
 	public void removed_from_overlay() {
