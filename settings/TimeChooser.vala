@@ -44,7 +44,7 @@ public class TimeChooser : Gtk.ComboBox {
 		this.set_attributes(cell, "text", null);
 		
 		foreach (int time in options) {
-			string label = NaturalTime.get_instance().get_label_for_seconds(time);
+			string label = NaturalTime.instance.get_label_for_seconds(time);
 			this.add_option(label, time);
 		}
 		this.other_item = this.add_option(_("Other…"), OPTION_OTHER);
@@ -90,7 +90,7 @@ public class TimeChooser : Gtk.ComboBox {
 	}
 	
 	private Gtk.TreeIter add_custom_option(int seconds) {
-		string label = NaturalTime.get_instance().get_label_for_seconds(seconds);
+		string label = NaturalTime.instance.get_label_for_seconds(seconds);
 		string id = seconds.to_string();
 		
 		if (this.custom_item == null) {
@@ -212,7 +212,7 @@ private class TimeEntryDialog : Gtk.Dialog {
 	public TimeEntryDialog.with_example(Gtk.Window? parent, string title, int example_seconds) {
 		this(parent, title);
 		
-		string example = NaturalTime.get_instance().get_label_for_seconds(example_seconds);
+		string example = NaturalTime.instance.get_label_for_seconds(example_seconds);
 		
 		Gtk.Label example_label = new Gtk.Label(null);
 		example_label.set_markup("<small>Example: %s</small>".printf(example));
@@ -224,14 +224,14 @@ private class TimeEntryDialog : Gtk.Dialog {
 	private void validate_input() {
 		string text = this.time_entry.get_text();
 		
-		bool valid = NaturalTime.get_instance().get_instance().get_seconds_for_input(text) > 0;
+		bool valid = NaturalTime.instance.get_seconds_for_input(text) > 0;
 		
 		this.set_response_sensitive(Gtk.ResponseType.OK, valid);
 	}
 	
 	private void time_entry_changed() {
 		string text = this.time_entry.get_text();
-		string[] completions = NaturalTime.get_instance().get_completions_for_input(text);
+		string[] completions = NaturalTime.instance.get_completions_for_input(text);
 		
 		// replace completion options without deleting rows
 		// if we delete rows, gtk throws some unhappy error messages
@@ -253,7 +253,7 @@ private class TimeEntryDialog : Gtk.Dialog {
 	private bool time_spinner_output() {
 		Gtk.Adjustment adjustment = this.time_spinner.get_adjustment();
 		int seconds = (int)adjustment.get_value();
-		string label = NaturalTime.get_instance().get_label_for_seconds(seconds);
+		string label = NaturalTime.instance.get_label_for_seconds(seconds);
 		this.time_spinner.set_text(label);
 		
 		return true;
@@ -273,7 +273,7 @@ private class TimeEntryDialog : Gtk.Dialog {
 	*/
 	
 	private void submit() {
-		int time = NaturalTime.get_instance().get_seconds_for_input(this.time_entry.get_text());
+		int time = NaturalTime.instance.get_seconds_for_input(this.time_entry.get_text());
 		if (time > 0) {
 			this.time_entered(time);
 			this.destroy();

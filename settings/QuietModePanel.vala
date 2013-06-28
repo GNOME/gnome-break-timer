@@ -82,7 +82,7 @@ public class QuietModePanel : Panel {
 		int64 time_remaining = this.expire_time - now.to_unix();
 		
 		if (time_remaining > 0) {
-			string countdown = NaturalTime.get_instance().get_countdown_for_seconds((int)time_remaining);
+			string countdown = NaturalTime.instance.get_countdown_for_seconds((int)time_remaining);
 			this.countdown_label.set_markup(_("<small>Turns off in %s</small>").printf(countdown));
 		} else {
 			this.end_countdown();

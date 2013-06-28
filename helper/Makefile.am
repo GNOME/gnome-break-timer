@@ -1,9 +1,8 @@
-AM_CPPFLAGS = \
-	$(BRAINBREAK_CFLAGS) \
+AM_CPPFLAGS = $(BRAINBREAK_CFLAGS) \
 	-include $(CONFIG_HEADER) \
 	-I $(top_srcdir)/common \
-	-I activity-monitor \
-	-I util
+	-I $(top_srcdir)/helper/activity-monitor \
+	-I $(top_srcdir)/helper/util
 
 SUBDIRS = \
 	activity-monitor \
@@ -35,22 +34,22 @@ brainbreak_VALAFLAGS = \
 	--pkg gio-2.0 \
 	--pkg gee-1.0 \
 	--pkg libnotify \
-	$(top_srcdir)/common/natural_time.vapi \
-	activity-monitor/activity_monitor.vapi \
-	util/util.vapi
+	$(top_srcdir)/common/common.vapi \
+	$(top_srcdir)/helper/activity-monitor/activity_monitor.vapi \
+	$(top_srcdir)/helper/util/util.vapi
 
 brainbreak_LDADD = \
 	$(BRAINBREAK_LIBS) \
-	$(top_srcdir)/common/libnatural_time.la \
-	activity-monitor/libactivity_monitor.la \
-	util/libutil.la
+	$(top_srcdir)/common/libcommon.la \
+	$(top_srcdir)/helper/activity-monitor/libactivity_monitor.la \
+	$(top_srcdir)/helper/util/libutil.la
 
 brainbreak_LDFLAGS = -lm
 
 brainbreak_vala.stamp: \
-	$(top_srcdir)/common/libnatural_time_la_vala.stamp \
-	activity-monitor/libactivity_monitor_la_vala.stamp \
-	util/libutil_la_vala.stamp
+	$(top_srcdir)/common/libcommon_la_vala.stamp \
+	$(top_srcdir)/helper/activity-monitor/libactivity_monitor_la_vala.stamp \
+	$(top_srcdir)/helper/util/libutil_la_vala.stamp
 
 junk_files = \
 	$(brainbreak_SOURCES:.vala=.c) \

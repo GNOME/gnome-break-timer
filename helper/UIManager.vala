@@ -17,21 +17,20 @@
 
 /**
  * Central place to manage UI throughout the application. We need this to
- * maintain a simple, modal structure. This uses a simple focus tracking
- * mechanism to make sure only one break is affecting the UI at a time. This
- * class also helps to keep UI events nicely spaced so they don't turn into
- * noise. Each BreakView implementation talks to a common instance of
- * UIManager.
+ * maintain a simple, modal structure. This uses SimpleFocusManager to make
+ * sure only one break is affecting the UI at a time. This class also tries
+ * to keep UI events nicely spaced so they don't turn into noise. Any object
+ * which needs to provide a GUI implements UIFragment, which provides a simple
+ * interface to create notifications and overlays.
  */
 public class UIManager : SimpleFocusManager {
 	public abstract class UIFragment : Object, IFocusable {
 		protected UIManager ui_manager;
+
 		protected IScreenOverlayContent? overlay_content;
 		protected Notify.Notification? notification;
 
 		public abstract string get_id();
-		protected abstract bool is_active();
-		protected abstract void show_active_ui();
 
 		protected void request_ui_focus(FocusPriority priority) {
 			if (this.has_ui_focus()) {
@@ -54,6 +53,13 @@ public class UIManager : SimpleFocusManager {
 		protected void show_notification(Notify.Notification notification) {
 			if (this.has_ui_focus()) {
 				this.ui_manager.show_notification(notification);
+				this.notification = notification;
+			}
+		}
+
+		protected void show_lock_notification(Notify.Notification notification) {
+			if (this.has_ui_focus()) {
+				this.ui_manager.show_lock_notification(notification);
 				this.notification = notification;
 			}
 		}
@@ -92,15 +98,8 @@ public class UIManager : SimpleFocusManager {
 
 		/* IFocusable interface */
 
-		public void focus_started() {
-			if (this.is_active()) {
-				this.show_active_ui();
-			}
-		}
-
-		public void focus_stopped() {
-			this.hide_overlay();
-		}
+		public abstract void focus_started();
+		public abstract void focus_stopped();
 	}
 
 	private Application application;
@@ -150,6 +149,10 @@ public class UIManager : SimpleFocusManager {
 		}
 	}
 
+	/**
+	 * Show a notification, ensuring that the application is only showing one
+	 * notification at any time.
+	 */
 	protected void show_notification(Notify.Notification notification) {
 		if (notification != this.notification) {
 			this.hide_notification(this.notification);
@@ -162,6 +165,27 @@ public class UIManager : SimpleFocusManager {
 		this.notification = notification;
 	}
 
+	private Notify.Notification? lock_notification;
+	/**
+	 * Show a notification that will only appear in the lock screen. The
+	 * notification automatically hides when the screen is unlocked.
+	 */
+	protected void show_lock_notification(Notify.Notification notification) {
+		if (SessionStatus.instance.is_locked()) {
+			this.show_notification(notification);
+			this.lock_notification = notification;
+			SessionStatus.instance.unlocked.connect(this.hide_lock_notification_cb);
+		}
+	}
+
+	private void hide_lock_notification_cb() {
+		this.hide_notification(this.lock_notification);
+		SessionStatus.instance.unlocked.disconnect(this.hide_lock_notification_cb);
+	}
+
+	/**
+	 * Close a notification proactively, if it is still open.
+	 */
 	protected void hide_notification(Notify.Notification? notification) {
 		if (notification != null && notification == this.notification) {
 			try {

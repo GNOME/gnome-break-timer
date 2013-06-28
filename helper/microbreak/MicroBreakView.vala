@@ -48,14 +48,24 @@ public class MicroBreakView : TimerBreakView {
 		if (! this.overlay_is_visible()) {
 			Notify.Notification notification = new Notify.Notification(
 				_("Break is over"),
-				_("Your break time is finished"),
+				_("Your break time has ended"),
 				null
 			);
-			notification.set_hint("transient", true);
-			notification.set_urgency(Notify.Urgency.LOW);
-			this.show_notification(notification);
+			if (SessionStatus.instance.is_locked()) {
+				notification.set_urgency(Notify.Urgency.NORMAL);
+				this.show_lock_notification(notification);
+			} else {
+				notification.set_hint("transient", true);
+				notification.set_urgency(Notify.Urgency.LOW);
+				this.show_notification(notification);
+			}
 		}
 		this.release_ui_focus();
+	}
+
+	private void notification_action_skip_cb() {
+		// TODO: We need to suppress the "finished" notification, here
+		this.micro_break.finish();
 	}
 
 	protected override void show_active_ui() {
@@ -69,6 +79,7 @@ public class MicroBreakView : TimerBreakView {
 				_("Take a break from typing and look away from the screen"),
 				null
 			);
+			notification.add_action("skip", _("Skip this one"), this.notification_action_skip_cb);
 			notification.set_urgency(Notify.Urgency.NORMAL);
 			this.show_notification(notification);
 

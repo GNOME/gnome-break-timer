@@ -1,5 +1,4 @@
-AM_CPPFLAGS = \
-	$(BRAINBREAK_CFLAGS) \
+AM_CPPFLAGS = $(BRAINBREAK_CFLAGS) \
 	-include $(CONFIG_HEADER) \
 	-I $(top_srcdir)/common
 
@@ -28,11 +27,14 @@ brainbreak_settings_VALAFLAGS = \
 	--pkg gio-2.0 \
 	--pkg gio-unix-2.0 \
 	--pkg gee-1.0 \
-	$(top_srcdir)/common/natural_time.vapi
+	$(top_srcdir)/common/common.vapi
 
 brainbreak_settings_LDADD = \
 	$(BRAINBREAK_LIBS) \
-	$(top_srcdir)/common/libnatural_time.la
+	$(top_srcdir)/common/libcommon.la
+
+brainbreak_settings_vala.stamp: \
+	$(top_srcdir)/common/libcommon_la_vala.stamp
 
 junk_files = \
 	$(brainbreak_settings_SOURCES:.vala=.c) \

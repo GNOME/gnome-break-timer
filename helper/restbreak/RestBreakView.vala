@@ -61,18 +61,28 @@ public class RestBreakView : TimerBreakView {
 		if (! this.overlay_is_visible()) {
 			Notify.Notification notification = new Notify.Notification(
 				_("Break is over"),
-				_("Your break time is finished"),
+				_("Your break time has ended"),
 				null
 			);
-			notification.set_hint("transient", true);
-			notification.set_urgency(Notify.Urgency.LOW);
-			this.show_notification(notification);
+			if (SessionStatus.instance.is_locked()) {
+				notification.set_urgency(Notify.Urgency.NORMAL);
+				this.show_lock_notification(notification);
+			} else {
+				notification.set_hint("transient", true);
+				notification.set_urgency(Notify.Urgency.LOW);
+				this.show_notification(notification);
+			}
 		}
 		this.release_ui_focus();
 	}
 
 	private void attention_demanded_cb() {
 		this.shake_overlay();
+	}
+
+	private void notification_action_delay_cb() {
+		// TODO: Don't bother the user for a while
+		// Show another notification in a minute or so
 	}
 
 	protected override void show_active_ui() {
@@ -89,6 +99,7 @@ public class RestBreakView : TimerBreakView {
 				_("It’s time to take a break. Get away from the computer for a little while!"),
 				null
 			);
+			notification.add_action("delay", _("Remind me later"), this.notification_action_delay_cb);
 			notification.set_urgency(Notify.Urgency.CRITICAL);
 			this.show_notification(notification);
 

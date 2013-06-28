@@ -33,14 +33,26 @@ public abstract class BreakView : UIManager.UIFragment {
 		});
 	}
 
+	public abstract string get_status_message();
+	
+	protected abstract void show_active_ui();
+
+	/* UIFragment interface */
+
 	public override string get_id() {
 		return this.break_type.id;
 	}
 
-	protected override bool is_active() {
-		return this.break_controller.is_active();
+	public override void focus_started() {
+		if (this.break_controller.is_active()) {
+			this.show_active_ui();
+		}
 	}
-	
-	public abstract string get_status_message();
+
+	public override void focus_stopped() {
+		this.hide_overlay();
+		// We don't hide the current notification, because we might have a
+		// "Finished" notification that outlasts the UIFragment
+	}
 }
 

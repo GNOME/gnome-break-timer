@@ -45,7 +45,7 @@ public class ActivityMonitor : Object {
 		this.backend = backend;
 		
 		this.activity_timer = new Timer();
-		this.last_activity = UserActivity();
+		this.last_activity = new UserActivity();
 		this.last_idle_time = 0;
 	}
 
@@ -94,7 +94,9 @@ public class ActivityMonitor : Object {
 		} else {
 			activity.idle_time = idle_seconds;
 			activity.was_sleeping = false;
-			activity.is_active = activity.idle_time <= this.last_idle_time;
+			activity.is_active = 
+				(activity.idle_time <= this.last_idle_time) &&
+				(! SessionStatus.instance.is_locked());
 		}
 
 		if (activity.is_active) activity.last_active_time = get_real_time_seconds();
@@ -105,4 +107,3 @@ public class ActivityMonitor : Object {
 		return activity;
 	}
 }
-

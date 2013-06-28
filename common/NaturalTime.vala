@@ -67,13 +67,15 @@ public class NaturalTime : Object {
 			TimeUnit(_("%d hour"), _("%d hours"), 3600)
 		};
 	}
-	
-	private static NaturalTime? instance;
-	public static NaturalTime get_instance() {
-		if (instance == null) {
-			instance = new NaturalTime();
+
+	private static NaturalTime _instance;
+	public static NaturalTime instance {
+		get {
+			if (_instance == null) {
+				_instance = new NaturalTime();
+			}
+			return _instance;
 		}
-		return instance;
 	}
 	
 	/**

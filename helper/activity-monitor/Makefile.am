@@ -1,6 +1,6 @@
-AM_CPPFLAGS = \
-	$(BRAINBREAK_CFLAGS) \
-	-include $(CONFIG_HEADER)
+AM_CPPFLAGS = $(BRAINBREAK_CFLAGS) \
+	-include $(CONFIG_HEADER) \
+	-I $(top_srcdir)/common
 
 noinst_LTLIBRARIES = \
 	libc_x11_activity_monitor_backend.la \
@@ -16,15 +16,20 @@ libactivity_monitor_la_SOURCES = \
 	ActivityMonitor.vala \
 	X11ActivityMonitorBackend.vala
 
-libactivity_monitor_la_LIBADD = \
-	$(BRAINBREAK_LIBS) \
-	libc_x11_activity_monitor_backend.la
-
 libactivity_monitor_la_VALAFLAGS = \
 	--pkg gdk-x11-3.0 \
 	--library activity_monitor \
 	--vapi activity_monitor.vapi \
-	-H activity_monitor.h
+	-H activity_monitor.h \
+	$(top_srcdir)/common/common.vapi
+
+libactivity_monitor_la_LIBADD = \
+	$(BRAINBREAK_LIBS) \
+	libc_x11_activity_monitor_backend.la \
+	$(top_srcdir)/common/libcommon.la
+
+libactivity_monitor_la_vala.stamp: \
+	$(top_srcdir)/common/libcommon_la_vala.stamp
 
 junk_files = \
 	$(libactivity_monitor_la_SOURCES:.vala=.c) \

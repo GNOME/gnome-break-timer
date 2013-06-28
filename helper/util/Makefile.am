@@ -1,6 +1,6 @@
-AM_CPPFLAGS = \
-	$(BRAINBREAK_CFLAGS) \
-	-include $(CONFIG_HEADER)
+AM_CPPFLAGS = $(BRAINBREAK_CFLAGS) \
+	-include $(CONFIG_HEADER) \
+	-I $(top_srcdir)/common
 
 noinst_LTLIBRARIES = \
 	libutil.la
