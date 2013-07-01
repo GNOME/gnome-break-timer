@@ -47,28 +47,19 @@ public abstract class BreakController : Object {
 	}
 	public State state {get; private set;}
 	
-	/**
-	 * The break has been enabled. It will monitor user activity and
-	 * emit activated() or finished() signals until it is disabled.
-	 */
+	/** The break has been enabled. It will monitor user activity and emit activated() or finished() signals until it is disabled. */
 	public signal void enabled();
-	
-	/**
-	 * The break has been disabled. Its timers have been stopped and
-	 * it will not do anything until it is enabled again.
-	 */
+	/** The break has been disabled. Its timers have been stopped and it will not do anything until it is enabled again. */
 	public signal void disabled();
+
+	/** The break is going to happen soon */
+	public signal void warned();
+	/** The break is no longer going to start soon */ 
+	public signal void unwarned();
 	
-	/**
-	 * The break has been activated and is now counting down
-	 * aggressively until it is satisfied.
-	 */
+	/** The break has been activated and is now counting down aggressively until it is satisfied. */
 	public signal void activated();
-	
-	/**
-	 * The break has been satisfied. This can happen at any time, including
-	 * while the break is waiting or after it has been activiated.
-	 */
+	/** The break has been satisfied. This can happen at any time, including while the break is waiting or after it has been activiated. */
 	public signal void finished();
 	
 	public BreakController(BreakType break_type) {

@@ -26,8 +26,8 @@ public class RestBreakController : TimerBreakController {
 	private Countdown reminder_countdown;
 	
 	public RestBreakController(BreakType break_type, Settings settings, IActivityMonitorBackend activity_monitor_backend) {
-		base(break_type, settings);
-		this.activity_monitor = new ActivityMonitor(activity_monitor_backend);
+		base(break_type, settings, activity_monitor_backend);
+		this.fuzzy_delay_seconds = 5;
 		
 		// Countdown for an extra reminder that a break is ongoing, if the
 		// user is ignoring it
@@ -38,32 +38,31 @@ public class RestBreakController : TimerBreakController {
 		this.activated.connect(() => {
 			this.reminder_countdown.reset();
 		});
+
+
+		this.counting.connect(this.counting_cb);
+		this.delayed.connect(this.delayed_cb);
 	}
-	
-	protected override void waiting_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
-		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
-		this.update_waiting_countdowns_for_activity(activity, true);
-		base.waiting_timeout_cb(timeout, delta_millisecs);
+
+	private void counting_cb(int time_counting) {
+		this.reminder_countdown.pause();
+		// FIXME: reset after a minute of counting
 	}
-	
-	protected override void active_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
-		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
-		bool is_delayed = this.update_active_countdowns_for_activity(activity, 5);
-		if (is_delayed) {
-			this.reminder_countdown.continue();
-			if (this.reminder_countdown.is_finished()) {
-				// Demand attention if the break is delayed for a long time
-				int new_penalty = this.duration_countdown.get_penalty() + (this.duration/4);
-				new_penalty = int.min(new_penalty, this.duration/2);
-				this.duration_countdown.reset();
-				this.duration_countdown.set_penalty(new_penalty);
-				this.attention_demanded();
-				this.reminder_countdown.start();
-			}
-		} else {
-			this.reminder_countdown.pause();
+
+	private void delayed_cb(int time_delayed) {
+		/* FIXME: After some delay ... */
+		this.duration_countdown.reset();
+
+		this.reminder_countdown.continue();
+		if (this.reminder_countdown.is_finished()) {
+			// Demand attention if the break is delayed for a long time
+			int new_penalty = this.duration_countdown.get_penalty() + (this.duration/4);
+			new_penalty = int.min(new_penalty, this.duration/2);
+			this.duration_countdown.reset();
+			this.duration_countdown.set_penalty(new_penalty);
+			this.attention_demanded();
+			this.reminder_countdown.start();
 		}
-		base.active_timeout_cb(timeout, delta_millisecs);
 	}
 }
 

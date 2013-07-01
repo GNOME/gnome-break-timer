@@ -20,28 +20,14 @@
 
 public class MicroBreakView : TimerBreakView {
 	protected MicroBreakController micro_break {
-		get {return (MicroBreakController)this.break_controller; }
+		get { return (MicroBreakController)this.break_controller; }
 	}
 
 	public MicroBreakView(BreakType break_type, MicroBreakController micro_break, UIManager ui_manager) {
 		base(break_type, micro_break, ui_manager);
+		this.focus_priority = FocusPriority.LOW;
 
-		micro_break.warned.connect(this.warned_cb);
-		micro_break.unwarned.connect(this.unwarned_cb);
-		micro_break.activated.connect(this.activated_cb);
 		micro_break.finished.connect(this.finished_cb);
-	}
-
-	private void warned_cb() {
-		this.request_ui_focus(FocusPriority.LOW);
-	}
-
-	private void unwarned_cb() {
-		this.release_ui_focus();
-	}
-
-	private void activated_cb() {
-		this.request_ui_focus(FocusPriority.LOW);
 	}
 
 	private void finished_cb() {
@@ -60,7 +46,6 @@ public class MicroBreakView : TimerBreakView {
 				this.show_notification(notification);
 			}
 		}
-		this.release_ui_focus();
 	}
 
 	private void notification_action_skip_cb() {

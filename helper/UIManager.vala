@@ -30,15 +30,17 @@ public class UIManager : SimpleFocusManager {
 		protected IScreenOverlayContent? overlay_content;
 		protected Notify.Notification? notification;
 
+		protected FocusPriority focus_priority = FocusPriority.LOW;
+
 		public abstract string get_id();
 
-		protected void request_ui_focus(FocusPriority priority) {
+		protected void request_ui_focus() {
 			if (this.has_ui_focus()) {
 				// If we already have focus, UIManager will not call
 				// focus_started again. We need to call it ourselves.
 				this.focus_started();
 			} else {
-				this.ui_manager.request_focus(this, priority);
+				this.ui_manager.request_focus(this, this.focus_priority);
 			}
 		}
 		

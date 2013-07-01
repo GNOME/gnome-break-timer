@@ -20,7 +20,7 @@
 
 public class RestBreakView : TimerBreakView {
 	protected RestBreakController rest_break {
-		get {return (RestBreakController)this.break_controller; }
+		get { return (RestBreakController)this.break_controller; }
 	}
 
 	private string[] rest_quotes = {
@@ -36,25 +36,11 @@ public class RestBreakView : TimerBreakView {
 	
 	public RestBreakView(BreakType break_type, RestBreakController rest_break, UIManager ui_manager) {
 		base(break_type, rest_break, ui_manager);
+		this.focus_priority = FocusPriority.HIGH;
 
-		rest_break.warned.connect(this.warned_cb);
-		rest_break.unwarned.connect(this.unwarned_cb);
-		rest_break.activated.connect(this.activated_cb);
 		rest_break.finished.connect(this.finished_cb);
 
 		rest_break.attention_demanded.connect(this.attention_demanded_cb);
-	}
-
-	private void warned_cb() {
-		this.request_ui_focus(FocusPriority.HIGH);
-	}
-
-	private void unwarned_cb() {
-		this.release_ui_focus();
-	}
-
-	private void activated_cb() {
-		this.request_ui_focus(FocusPriority.HIGH);
 	}
 
 	private void finished_cb() {
@@ -73,7 +59,6 @@ public class RestBreakView : TimerBreakView {
 				this.show_notification(notification);
 			}
 		}
-		this.release_ui_focus();
 	}
 
 	private void attention_demanded_cb() {

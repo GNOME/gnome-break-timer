@@ -94,6 +94,11 @@ public class Countdown : Object {
 		this.state = State.COUNTING;
 	}
 
+	public void advance_time(int seconds_off) {
+		int64 now = new DateTime.now_utc().to_unix();
+		this.start_time = now - seconds_off;
+	}
+
 	public void set_penalty(int penalty) {
 		this.penalty = penalty;
 	}

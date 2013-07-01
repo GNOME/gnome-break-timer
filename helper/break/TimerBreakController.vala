@@ -16,30 +16,22 @@
  */
 
 /**
- * A type of break that is activated and finished according to timers.
- * The timer break has two timers: an interval (time between breaks) and
- * a duration (the length of each break). Once started, the timer break
- * continuously counts down for its interval, then activates and counts
- * down for its duration.
+ * A type of break that times user activity. It activates after a particular
+ * amount of uninterupted activity, and the break is finished after a
+ * different amount of inactivity. The timer break has two timers: an interval
+ * (time between breaks) and a duration (the length of each break). Once
+ * started, the timer break continuously counts down for its interval, then
+ * activates and counts down for its duration.
  */
 public abstract class TimerBreakController : BreakController {
-	/**
-	 * The break is active and time_remaining has changed.
-	 */
+	/** The break is active and time_remaining has changed. */
 	public signal void active_countdown_changed(int time_remaining);
-	
-	/**
-	 * The break may start soon, according to its schedule. The break
-	 * view should subscribe to this to request early focus.
-	 */
-	public signal void warned();
-	
-	public signal void unwarned();
-	
-	/**
-	 * The break is active and the user is not paying attention to it.
-	 * At this point, a time penalty may have been added.
-	 */
+	/** Fires continually, as long as the break is active and counting down. */
+	public signal void counting(int time_counting);
+	/** Fires as long as the break is active but is not counting down. */
+	public signal void delayed(int time_delayed);
+
+	// FIXME: GET RID OF THIS
 	public signal void attention_demanded();
 	
 	public int interval {get; protected set;}
@@ -51,20 +43,25 @@ public abstract class TimerBreakController : BreakController {
 	protected Countdown duration_countdown;
 	protected PausableTimeout active_timeout;
 
-	protected Settings settings;
+	protected int fuzzy_delay_seconds = 0;
+
+	private Settings settings;
+
+	private ActivityMonitor activity_monitor;
 	
-	public TimerBreakController(BreakType break_type, Settings settings) {
+	public TimerBreakController(BreakType break_type, Settings settings, IActivityMonitorBackend activity_monitor_backend) {
 		base(break_type);
 		this.settings = settings;
+		this.activity_monitor = new ActivityMonitor(activity_monitor_backend);
 		
 		settings.bind("interval-seconds", this, "interval", SettingsBindFlags.GET);
 		settings.bind("duration-seconds", this, "duration", SettingsBindFlags.GET);
 		
 		this.interval_countdown = new Countdown(this.interval);
-		this.waiting_timeout = new PausableTimeout(this.waiting_timeout_cb, this.get_waiting_update_frequency());
+		this.waiting_timeout = new PausableTimeout(this.update_countdowns, this.get_waiting_update_frequency());
 		
 		this.duration_countdown = new Countdown(this.duration);
-		this.active_timeout = new PausableTimeout(this.active_timeout_cb, 1);
+		this.active_timeout = new PausableTimeout(this.update_countdowns, 1);
 		
 		this.notify["interval"].connect((s, p) => {
 			this.interval_countdown.set_base_duration(this.interval);
@@ -146,7 +143,34 @@ public abstract class TimerBreakController : BreakController {
 	public int get_current_duration() {
 		return this.duration_countdown.get_duration();
 	}
-	
+
+	const int COUNTDOWN_PAUSE_TIME = 5;
+	private void continue_countdown(int idle_time) {
+		if (this.state == State.WAITING) {
+			this.interval_countdown.pause();
+		}
+
+		if (! this.duration_countdown.is_counting()) {
+			if (idle_time > this.fuzzy_delay_seconds > 0) {
+				int time_correction = idle_time - this.fuzzy_delay_seconds;
+				this.duration_countdown.advance_time(time_correction);
+			}
+		}
+		this.duration_countdown.continue();
+
+		this.counting(0);
+	}
+
+	private void delay_countdown() {
+		if (this.state == State.WAITING) {
+			this.interval_countdown.continue();
+		}
+		this.duration_countdown.pause();
+
+		// TODO: Call after a particular length of time (delay_soft_seconds)
+		this.delayed(0);
+	}
+
 	/**
 	 * Runs frequently to test if it is time to activate the break. With the
 	 * default implementation, it is activated as soon as interval_countdown
@@ -155,120 +179,38 @@ public abstract class TimerBreakController : BreakController {
 	 * @param timeout The PausableTimeout which is calling this function.
 	 * @param delta_millisecs The time since the last time this function was called.
 	 */
-	protected virtual void waiting_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
-		if (this.starts_in() == 0) {
-			this.activate();
-		} else if (this.starts_in() <= this.duration) {
-			this.warn();
-		} else {
-			this.unwarn();
-		}
-	}
-	
-	/**
-	 * Per-second timeout that runs during a break.
-	 * Aggressively checks if break is satisfied and updates watchers with the
-	 * amount of time remaining.
-	 * @param time_delta The time, in seconds, since the timeout was last run.
-	 */
-	protected virtual void active_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
-		if (this.state != BreakController.State.ACTIVE) {
-			GLib.warning("TimerBreakController active_timeout_cb called while BreakController.State != ACTIVE");
-		}
-		
-		if (this.duration_countdown.is_finished()) {
-			this.duration_countdown.reset();
-			this.finish();
-		}
-		
-		this.active_countdown_changed(this.get_time_remaining());
-	}
+	private void update_countdowns(PausableTimeout timeout, int delta_millisecs) {
+		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
 
-	/**
-	 * Helper function for counting down to a break's start based on user
-	 * activity data. While the user is using the computer, interval_countdown
-	 * counts down normally. When the user is not using the computer, we
-	 * instead count down duration_countdown, and if that reaches 0 we reset
-	 * interval_countdown. This way, the user can take a break at any time.
-	 * duration_countdown resets to the beginning when the user is active, but
-	 * we provide some buffer because we can't be sure that the user activity
-	 * information is entirely accurate.
-	 *
-	 * This function should be called from waiting_timeout_cb.
-	 *
-	 * @param activity User activity data from ActivityMonitor.get_activity
-	 * @param active_reset True to pause before resetting the duration countdown if activity is detected, or false to reset immediately
-	 * @see ActivityMonitor
-	 * @see waiting_timeout_cb
-	 */
-	protected void update_waiting_countdowns_for_activity(ActivityMonitor.UserActivity activity, bool careful_reset) {
-		if (activity.is_active) {
-			this.interval_countdown.continue();
-			// Pause duration_countdown if the user is active, and reset the
-			// countdown if that activity continues. This assumes that the
-			// function is being called a particular, regular but reasonably
-			// large interval.
-			if (this.duration_countdown.is_counting() && careful_reset) {
-				this.duration_countdown.pause();
-			} else {
-				this.duration_countdown.reset();
-			}
+		if (activity.is_active_within(this.fuzzy_delay_seconds)) {
+			/* FIXME: Set happy counter */
+			this.delay_countdown();
 		} else {
-			if (this.interval_countdown.is_counting()) {
-				this.interval_countdown.pause();
-			}
-			if (! this.duration_countdown.is_counting()) {
-				int duration_correction = 0;
-				if (activity.idle_time > 0) {
-					duration_correction = -activity.idle_time;
-				}
-				this.duration_countdown.continue_from(duration_correction);
-			}
-		}
-
-		if (this.duration_countdown.is_finished()) {
-			this.duration_countdown.reset();
-			this.finish();
-		}
-	}
-
-	/**
-	 * Helper function for counting down to a break's finish based on user
-	 * activity data. While the user is not using the computer,
-	 * duration_countdown counts down normally. If the user is using the
-	 * computer, we pause duration_countdown.
-	 *
-	 * This function should be called from active_timeout_cb.
-	 *
-	 * @param activity User activity data from ActivityMonitor.get_activity
-	 * @param pause_time Extra time to pause duration_countdown if the user is using the computer
-	 * @return true if the break is being delayed for user activity
-	 * @see ActivityMonitor
-	 * @see active_timeout_cb
-	 */
-	protected bool update_active_countdowns_for_activity(ActivityMonitor.UserActivity activity, int pause_time=0) {
-		if (activity.is_active_within(pause_time)) {
-			if (this.duration_countdown.is_counting()) {
-				this.duration_countdown.pause();
-			} else {
-				// we say the break is being delayed if activity.is_active was
-				// true for at least two consecutive calls to this function
-				return true;
-			}
-		} else {
+			/* FIXME: Set angry counter */
 			if (activity.was_sleeping) {
-				// Update duration_countdown to catch up extra idle time,
-				// usually from the device sleeping.
-				this.duration_countdown.continue_from(-activity.idle_time);
-			} else if (! this.duration_countdown.is_counting()) {
-				int duration_correction = 0;
-				if (activity.idle_time > pause_time) {
-					duration_correction = -activity.idle_time + pause_time;
-				}
-				this.duration_countdown.continue_from(duration_correction);
+				// Quietly adjust the duration countdown for system sleep and the like
+				this.duration_countdown.advance_time(activity.idle_time);
+				this.continue_countdown(0);
+			} else {
+				this.continue_countdown(activity.idle_time);
 			}
 		}
-		return false;
+
+		if (this.duration_countdown.is_finished()) {
+			this.duration_countdown.reset();
+			this.finish();
+		}
+
+		if (this.state == State.WAITING) {
+			if (this.starts_in() == 0) {
+				this.activate();
+			} else if (this.starts_in() <= this.duration) {
+				this.warn();
+			} else {
+				this.unwarn();
+			}
+		} else if (this.state == State.ACTIVE) {
+			this.active_countdown_changed(this.get_time_remaining());
+		}
 	}
 }
-
