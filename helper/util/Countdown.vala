@@ -127,7 +127,7 @@ public class Countdown : Object {
 		return int.max(0, this.base_duration + this.penalty);
 	}
 	
-	private int get_time_elapsed() {
+	public int get_time_elapsed() {
 		int time_elapsed = this.stop_time_elapsed;
 		
 		if (this.state == State.COUNTING) {

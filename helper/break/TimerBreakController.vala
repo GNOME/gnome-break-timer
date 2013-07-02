@@ -86,6 +86,7 @@ public abstract class TimerBreakController : BreakController {
 		int update_frequency = 5;
 		update_frequency = int.min(update_frequency, this.interval / 8);
 		update_frequency = int.min(update_frequency, this.duration / 8);
+		update_frequency = int.max(update_frequency, 1);
 		return update_frequency;
 	}
 	
@@ -147,7 +148,6 @@ public abstract class TimerBreakController : BreakController {
 		return this.duration_countdown.get_duration();
 	}
 
-	const int COUNTDOWN_PAUSE_TIME = 5;
 	private void continue_countdown(int idle_time) {
 		int time_counting;
 
@@ -159,17 +159,21 @@ public abstract class TimerBreakController : BreakController {
 			time_counting = (int)this.counting_timer.elapsed();
 		}
 
-		if (this.state == State.WAITING) {
-			this.interval_countdown.pause();
-		}
-
 		if (! this.duration_countdown.is_counting()) {
 			if (idle_time > this.fuzzy_delay_seconds > 0) {
 				int time_correction = idle_time - this.fuzzy_delay_seconds;
 				this.duration_countdown.advance_time(time_correction);
 			}
 		}
-		this.duration_countdown.continue();
+
+		if (this.state == State.WAITING) {
+			if (this.interval_countdown.get_time_elapsed() > 0) {
+				this.duration_countdown.continue();
+			}
+			this.interval_countdown.pause();
+		} else {
+			this.duration_countdown.continue();
+		}
 
 		this.counting(time_counting);
 	}
@@ -185,10 +189,10 @@ public abstract class TimerBreakController : BreakController {
 			time_delayed = (int)this.delayed_timer.elapsed();
 		}
 		
+		this.duration_countdown.pause();
 		if (this.state == State.WAITING) {
 			this.interval_countdown.continue();
 		}
-		this.duration_countdown.pause();
 
 		this.delayed(time_delayed);
 	}
