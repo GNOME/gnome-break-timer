@@ -41,14 +41,17 @@ public class TimerBreakStatusWidget : Gtk.Grid, IScreenOverlayContent {
 	}
 
 	private void active_countdown_changed_cb(int time_remaining) {
-		int start_time = this.timer_break.get_current_duration();
-		string countdown;
 		if (this.timer_break.is_active()) {
-			countdown = NaturalTime.instance.get_countdown_for_seconds_with_start(time_remaining, start_time);
-		} else {
-			countdown = _("Thank you");
+			int start_time = this.timer_break.get_current_duration();
+			string countdown = NaturalTime.instance.get_countdown_for_seconds_with_start(time_remaining, start_time);
+			this.timer_label.set_text(countdown);
 		}
-		this.timer_label.set_text(countdown);
+	}
+
+	private void finished_cb(BreakController.FinishedReason reason) {
+		if (reason == BreakController.FinishedReason.SATISFIED) {
+			this.timer_label.set_text(_("Thank you"));
+		}
 	}
 
 	private void update_content() {
@@ -67,11 +70,13 @@ public class TimerBreakStatusWidget : Gtk.Grid, IScreenOverlayContent {
 
 	public void added_to_overlay() {
 		this.timer_break.active_countdown_changed.connect(this.active_countdown_changed_cb);
+		this.timer_break.finished.connect(this.finished_cb);
 		this.update_content();
 	}
 
 	public void removed_from_overlay() {
 		this.timer_break.active_countdown_changed.disconnect(this.active_countdown_changed_cb);
+		this.timer_break.finished.disconnect(this.finished_cb);
 	}
 
 	public void before_fade_in() {

@@ -46,6 +46,11 @@ public abstract class BreakController : Object {
 		DISABLED
 	}
 	public State state {get; private set;}
+
+	public enum FinishedReason {
+		SKIPPED,
+		SATISFIED
+	}
 	
 	/** The break has been enabled. It will monitor user activity and emit activated() or finished() signals until it is disabled. */
 	public signal void enabled();
@@ -60,7 +65,7 @@ public abstract class BreakController : Object {
 	/** The break has been activated and is now counting down aggressively until it is satisfied. */
 	public signal void activated();
 	/** The break has been satisfied. This can happen at any time, including while the break is waiting or after it has been activiated. */
-	public signal void finished();
+	public signal void finished(BreakController.FinishedReason reason);
 	
 	public BreakController(BreakType break_type) {
 		this.break_type = break_type;
@@ -115,7 +120,19 @@ public abstract class BreakController : Object {
 	 */
 	public void finish() {
 		this.state = State.WAITING;
-		this.finished();
+		this.finished(BreakController.FinishedReason.SATISFIED);
+	}
+
+	/**
+	 * We're skipping this break. The BreakController should act as if the
+	 * break has finished as usual, but we will send a different
+	 * FinishedReason to the "finished" signal. This way, its BreakView will
+	 * know to present this differently than if the break has actually been
+	 * satisfied.
+	 */
+	public void skip() {
+		this.state = State.WAITING;
+		this.finished(BreakController.FinishedReason.SKIPPED);
 	}
 }
 

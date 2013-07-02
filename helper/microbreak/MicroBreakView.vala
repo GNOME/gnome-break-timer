@@ -30,8 +30,8 @@ public class MicroBreakView : TimerBreakView {
 		micro_break.finished.connect(this.finished_cb);
 	}
 
-	private void finished_cb() {
-		if (! this.overlay_is_visible()) {
+	private void finished_cb(BreakController.FinishedReason reason) {
+		if (! this.overlay_is_visible() && reason == BreakController.FinishedReason.SATISFIED) {
 			Notify.Notification notification = new Notify.Notification(
 				_("Break is over"),
 				_("Your break time has ended"),
@@ -50,7 +50,7 @@ public class MicroBreakView : TimerBreakView {
 
 	private void notification_action_skip_cb() {
 		// TODO: We need to suppress the "finished" notification, here
-		this.micro_break.finish();
+		this.micro_break.skip();
 	}
 
 	protected override void show_active_ui() {

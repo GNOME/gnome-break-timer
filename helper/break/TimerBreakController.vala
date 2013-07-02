@@ -45,6 +45,9 @@ public abstract class TimerBreakController : BreakController {
 
 	protected int fuzzy_delay_seconds = 0;
 
+	private StatefulTimer counting_timer = new StatefulTimer();
+	private StatefulTimer delayed_timer = new StatefulTimer();
+
 	private Settings settings;
 
 	private ActivityMonitor activity_monitor;
@@ -107,7 +110,7 @@ public abstract class TimerBreakController : BreakController {
 		this.active_timeout.start();
 	}
 	
-	private void finished_cb() {
+	private void finished_cb(BreakController.FinishedReason reason) {
 		this.interval_countdown.reset();
 		this.waiting_timeout.start();
 		
@@ -146,6 +149,16 @@ public abstract class TimerBreakController : BreakController {
 
 	const int COUNTDOWN_PAUSE_TIME = 5;
 	private void continue_countdown(int idle_time) {
+		int time_counting;
+
+		this.delayed_timer.stop();
+		if (this.counting_timer.is_stopped()) {
+			this.counting_timer.start();
+			time_counting = idle_time;
+		} else {
+			time_counting = (int)this.counting_timer.elapsed();
+		}
+
 		if (this.state == State.WAITING) {
 			this.interval_countdown.pause();
 		}
@@ -158,17 +171,26 @@ public abstract class TimerBreakController : BreakController {
 		}
 		this.duration_countdown.continue();
 
-		this.counting(0);
+		this.counting(time_counting);
 	}
 
 	private void delay_countdown() {
+		int time_delayed;
+
+		this.counting_timer.stop();
+		if (this.delayed_timer.is_stopped()) {
+			this.delayed_timer.start();
+			time_delayed = 0;
+		} else {
+			time_delayed = (int)this.delayed_timer.elapsed();
+		}
+		
 		if (this.state == State.WAITING) {
 			this.interval_countdown.continue();
 		}
 		this.duration_countdown.pause();
 
-		// TODO: Call after a particular length of time (delay_soft_seconds)
-		this.delayed(0);
+		this.delayed(time_delayed);
 	}
 
 	/**
@@ -183,10 +205,8 @@ public abstract class TimerBreakController : BreakController {
 		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
 
 		if (activity.is_active_within(this.fuzzy_delay_seconds)) {
-			/* FIXME: Set happy counter */
 			this.delay_countdown();
 		} else {
-			/* FIXME: Set angry counter */
 			if (activity.was_sleeping) {
 				// Quietly adjust the duration countdown for system sleep and the like
 				this.duration_countdown.advance_time(activity.idle_time);

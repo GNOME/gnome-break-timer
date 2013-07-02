@@ -43,8 +43,8 @@ public class RestBreakView : TimerBreakView {
 		rest_break.attention_demanded.connect(this.attention_demanded_cb);
 	}
 
-	private void finished_cb() {
-		if (! this.overlay_is_visible()) {
+	private void finished_cb(BreakController.FinishedReason reason) {
+		if (! this.overlay_is_visible() && reason == BreakController.FinishedReason.SATISFIED) {
 			Notify.Notification notification = new Notify.Notification(
 				_("Break is over"),
 				_("Your break time has ended"),
