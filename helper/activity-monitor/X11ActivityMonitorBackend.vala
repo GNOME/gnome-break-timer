@@ -28,7 +28,7 @@ public class X11ActivityMonitorBackend : Object, IActivityMonitorBackend {
 	private Gdk.Window window;
 	
 	private unowned void * monitor_context;
-	private unowned Thread<void*> monitor_thread;
+	private Thread<void*> monitor_thread;
 	
 	public X11ActivityMonitorBackend() throws ThreadError {
 		Gdk.WindowAttr attributes = Gdk.WindowAttr() {
@@ -38,12 +38,11 @@ public class X11ActivityMonitorBackend : Object, IActivityMonitorBackend {
 		
 		this.monitor_context = c_x11_activity_monitor_backend.create_context();
 		
-		this.monitor_thread = Thread.create<void*>(this.thread_func, false);
+		this.monitor_thread = new Thread<void*>("activity-monitor", this.thread_func);
 	}
 	
 	~X11ActivityMonitorBackend() {
 		c_x11_activity_monitor_backend.stop(this.monitor_context);
-		this.monitor_thread.yield();
 	}
 	
 	private void* thread_func() {

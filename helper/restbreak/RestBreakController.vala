@@ -22,13 +22,12 @@
  * finished using the computer, and then it will start to count down again.
  */
 public class RestBreakController : TimerBreakController {
-	private ActivityMonitor activity_monitor;
 	private Countdown reminder_countdown;
-	
-	public RestBreakController(BreakType break_type, Settings settings, IActivityMonitorBackend activity_monitor_backend) {
-		base(break_type, settings, activity_monitor_backend);
-		this.fuzzy_delay_seconds = 5;
-		
+
+	public RestBreakController(BreakType break_type, Settings settings, ActivityMonitor activity_monitor) {
+		base(break_type, settings, activity_monitor);
+		this.fuzzy_seconds = 5;
+
 		// Countdown for an extra reminder that a break is ongoing, if the
 		// user is ignoring it
 		this.reminder_countdown = new Countdown(this.interval / 4);
@@ -38,7 +37,6 @@ public class RestBreakController : TimerBreakController {
 		this.activated.connect(() => {
 			this.reminder_countdown.reset();
 		});
-
 
 		this.counting.connect(this.counting_cb);
 		this.delayed.connect(this.delayed_cb);
@@ -52,7 +50,6 @@ public class RestBreakController : TimerBreakController {
 	}
 
 	private void delayed_cb(int time_delayed) {
-		/* FIXME: After some delay ... */
 		if (this.state == State.WAITING && time_delayed > 10) {
 			this.duration_countdown.reset();
 		}

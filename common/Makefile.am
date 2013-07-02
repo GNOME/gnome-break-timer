@@ -8,10 +8,9 @@ libcommon_la_SOURCES = \
 	NaturalTime.vala \
 	SessionStatus.vala
 
-libcommon_la_LIBADD = \
-	$(BRAINBREAK_LIBS)
+libcommon_la_LIBADD = $(BRAINBREAK_LIBS)
 
-libcommon_la_VALAFLAGS = \
+libcommon_la_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
 	--pkg gio-2.0 \
 	--library common \
 	--vapi common.vapi \

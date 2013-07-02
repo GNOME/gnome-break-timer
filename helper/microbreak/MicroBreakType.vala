@@ -16,11 +16,11 @@
  */
 
 public class MicroBreakType : BreakType {
-	public MicroBreakType(IActivityMonitorBackend activity_monitor_backend, UIManager ui_manager) {
+	public MicroBreakType(ActivityMonitor activity_monitor, UIManager ui_manager) {
 		Settings settings = new Settings("org.brainbreak.breaks.microbreak");
 		base("microbreak", settings);
 
-		this.break_controller = new MicroBreakController(this, settings, activity_monitor_backend);
+		this.break_controller = new MicroBreakController(this, settings, activity_monitor);
 		this.break_view = new MicroBreakView(this, (MicroBreakController)this.break_controller, ui_manager);
 	}
 }

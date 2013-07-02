@@ -38,12 +38,10 @@ public abstract class TimerBreakController : BreakController {
 	public int duration {get; protected set;}
 	
 	protected Countdown interval_countdown;
-	protected PausableTimeout waiting_timeout;
-	
 	protected Countdown duration_countdown;
-	protected PausableTimeout active_timeout;
+	protected PausableTimeout countdowns_timeout;
 
-	protected int fuzzy_delay_seconds = 0;
+	protected int fuzzy_seconds = 0;
 
 	private StatefulTimer counting_timer = new StatefulTimer();
 	private StatefulTimer delayed_timer = new StatefulTimer();
@@ -52,28 +50,27 @@ public abstract class TimerBreakController : BreakController {
 
 	private ActivityMonitor activity_monitor;
 	
-	public TimerBreakController(BreakType break_type, Settings settings, IActivityMonitorBackend activity_monitor_backend) {
+	public TimerBreakController(BreakType break_type, Settings settings, ActivityMonitor activity_monitor) {
 		base(break_type);
 		this.settings = settings;
-		this.activity_monitor = new ActivityMonitor(activity_monitor_backend);
+		this.activity_monitor = activity_monitor;
 		
 		settings.bind("interval-seconds", this, "interval", SettingsBindFlags.GET);
 		settings.bind("duration-seconds", this, "duration", SettingsBindFlags.GET);
 		
 		this.interval_countdown = new Countdown(this.interval);
-		this.waiting_timeout = new PausableTimeout(this.update_countdowns, this.get_waiting_update_frequency());
-		
 		this.duration_countdown = new Countdown(this.duration);
-		this.active_timeout = new PausableTimeout(this.update_countdowns, 1);
-		
+		this.countdowns_timeout = new PausableTimeout(this.update_countdowns, 1);
+
 		this.notify["interval"].connect((s, p) => {
 			this.interval_countdown.set_base_duration(this.interval);
-			this.waiting_timeout.set_frequency(this.get_waiting_update_frequency());
 		});
 		this.notify["duration"].connect((s, p) => {
 			this.duration_countdown.set_base_duration(this.duration);
-			this.waiting_timeout.set_frequency(this.get_waiting_update_frequency());
 		});
+
+		this.activity_monitor.detected_activity.connect(this.detected_activity_cb);
+		this.activity_monitor.detected_idle.connect(this.detected_idle_cb);
 		
 		this.enabled.connect(this.enabled_cb);
 		this.disabled.connect(this.disabled_cb);
@@ -82,41 +79,27 @@ public abstract class TimerBreakController : BreakController {
 		this.finished.connect(this.finished_cb);
 	}
 	
-	private int get_waiting_update_frequency() {
-		int update_frequency = 5;
-		update_frequency = int.min(update_frequency, this.interval / 8);
-		update_frequency = int.min(update_frequency, this.duration / 8);
-		update_frequency = int.max(update_frequency, 1);
-		return update_frequency;
-	}
-	
 	private void enabled_cb() {
 		this.interval_countdown.continue();
-		this.waiting_timeout.start();
+		this.activity_monitor.start();
+		this.countdowns_timeout.start();
 	}
 	
 	private void disabled_cb() {
 		this.interval_countdown.pause();
-		this.waiting_timeout.stop();
-		
 		this.duration_countdown.pause();
-		this.active_timeout.stop();
+		this.activity_monitor.stop();
+		this.countdowns_timeout.stop();
 	}
 	
 	private void activated_cb() {
 		this.interval_countdown.pause();
-		this.waiting_timeout.stop();
-		
 		this.duration_countdown.continue();
-		this.active_timeout.start();
 	}
 	
 	private void finished_cb(BreakController.FinishedReason reason) {
 		this.interval_countdown.reset();
-		this.waiting_timeout.start();
-		
 		this.duration_countdown.pause();
-		this.active_timeout.stop();
 	}
 	
 	bool is_warned;
@@ -140,30 +123,38 @@ public abstract class TimerBreakController : BreakController {
 		return this.interval_countdown.get_time_remaining();
 	}
 	
+	/**
+	 * @return Idle time remaining until the break is satisfied.
+	 */
 	public int get_time_remaining() {
 		return this.duration_countdown.get_time_remaining();
 	}
 	
+	/**
+	 * @return Total length of the break, taking into account extra time that
+	 *         may have been added outside of the break's settings.
+	 */
 	public int get_current_duration() {
 		return this.duration_countdown.get_duration();
 	}
 
-	private void continue_countdown(int idle_time) {
-		int time_counting;
+	private void detected_idle_cb(ActivityMonitor.UserActivity activity) {
+		if (activity.time_since_active < this.fuzzy_seconds) {
+			this.detected_activity_cb(activity);
+			return;
+		}
 
+		if (activity.time_correction > 0) {
+			this.duration_countdown.advance_time(activity.time_correction);
+		}
+
+		int time_counting;
 		this.delayed_timer.stop();
 		if (this.counting_timer.is_stopped()) {
 			this.counting_timer.start();
-			time_counting = idle_time;
+			time_counting = activity.idle_time;
 		} else {
 			time_counting = (int)this.counting_timer.elapsed();
-		}
-
-		if (! this.duration_countdown.is_counting()) {
-			if (idle_time > this.fuzzy_delay_seconds > 0) {
-				int time_correction = idle_time - this.fuzzy_delay_seconds;
-				this.duration_countdown.advance_time(time_correction);
-			}
 		}
 
 		if (this.state == State.WAITING) {
@@ -178,7 +169,7 @@ public abstract class TimerBreakController : BreakController {
 		this.counting(time_counting);
 	}
 
-	private void delay_countdown() {
+	private void detected_activity_cb(ActivityMonitor.UserActivity activity) {
 		int time_delayed;
 
 		this.counting_timer.stop();
@@ -198,28 +189,12 @@ public abstract class TimerBreakController : BreakController {
 	}
 
 	/**
-	 * Runs frequently to test if it is time to activate the break. With the
-	 * default implementation, it is activated as soon as interval_countdown
-	 * reaches 0. In addition, the break's "warned" signal is fired when the
-	 * break is close (within its set duration) to starting.
-	 * @param timeout The PausableTimeout which is calling this function.
-	 * @param delta_millisecs The time since the last time this function was called.
+	 * Checks if it is time to activate the break. The break will activate as
+	 * soon as soon as interval_countdown reaches 0. The break's "warned"
+	 * signal is fired when the break is close (within its set duration) to
+	 * starting.
 	 */
 	private void update_countdowns(PausableTimeout timeout, int delta_millisecs) {
-		ActivityMonitor.UserActivity activity = this.activity_monitor.get_activity();
-
-		if (activity.is_active_within(this.fuzzy_delay_seconds)) {
-			this.delay_countdown();
-		} else {
-			if (activity.was_sleeping) {
-				// Quietly adjust the duration countdown for system sleep and the like
-				this.duration_countdown.advance_time(activity.idle_time);
-				this.continue_countdown(0);
-			} else {
-				this.continue_countdown(activity.idle_time);
-			}
-		}
-
 		if (this.duration_countdown.is_finished()) {
 			this.duration_countdown.reset();
 			this.finish();

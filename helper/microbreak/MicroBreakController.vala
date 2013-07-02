@@ -22,10 +22,9 @@
  * or moves the mouse.
  */
 public class MicroBreakController : TimerBreakController {
-	private ActivityMonitor activity_monitor;
-	
-	public MicroBreakController(BreakType break_type, Settings settings, IActivityMonitorBackend activity_monitor_backend) {
-		base(break_type, settings, activity_monitor_backend);
+	public MicroBreakController(BreakType break_type, Settings settings, ActivityMonitor activity_monitor) {
+		base(break_type, settings, activity_monitor);
+		this.fuzzy_seconds = 0;
 
 		this.counting.connect(this.counting_cb);
 		this.delayed.connect(this.delayed_cb);

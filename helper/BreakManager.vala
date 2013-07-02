@@ -35,7 +35,7 @@ public class BreakManager : Object {
 	}
 	
 	public void load_breaks() {
-		IActivityMonitorBackend activity_monitor_backend;
+		IActivityMonitorBackend? activity_monitor_backend;
 		try {
 			activity_monitor_backend = new X11ActivityMonitorBackend();
 		} catch {
@@ -44,8 +44,9 @@ public class BreakManager : Object {
 		}
 		
 		if (activity_monitor_backend != null) {
-			this.add_break(new MicroBreakType(activity_monitor_backend, this.ui_manager));
-			this.add_break(new RestBreakType(activity_monitor_backend, this.ui_manager));
+			ActivityMonitor activity_monitor = new ActivityMonitor(activity_monitor_backend);
+			this.add_break(new MicroBreakType(activity_monitor, this.ui_manager));
+			this.add_break(new RestBreakType(activity_monitor, this.ui_manager));
 		}
 	}
 	

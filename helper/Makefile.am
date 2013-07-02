@@ -1,12 +1,12 @@
+SUBDIRS = \
+	activity-monitor \
+	util
+
 AM_CPPFLAGS = $(BRAINBREAK_CFLAGS) \
 	-include $(CONFIG_HEADER) \
 	-I $(top_srcdir)/common \
 	-I $(top_srcdir)/helper/activity-monitor \
 	-I $(top_srcdir)/helper/util
-
-SUBDIRS = \
-	activity-monitor \
-	util
 
 bin_PROGRAMS = \
 	brainbreak
@@ -29,7 +29,7 @@ brainbreak_SOURCES = \
 	ScreenOverlay.vala \
 	UIManager.vala
 
-brainbreak_VALAFLAGS = \
+brainbreak_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
 	--pkg gtk+-3.0 \
 	--pkg gio-2.0 \
 	--pkg gee-1.0 \
@@ -38,8 +38,7 @@ brainbreak_VALAFLAGS = \
 	$(top_srcdir)/helper/activity-monitor/activity_monitor.vapi \
 	$(top_srcdir)/helper/util/util.vapi
 
-brainbreak_LDADD = \
-	$(BRAINBREAK_LIBS) \
+brainbreak_LDADD = $(BRAINBREAK_LIBS) \
 	$(top_srcdir)/common/libcommon.la \
 	$(top_srcdir)/helper/activity-monitor/libactivity_monitor.la \
 	$(top_srcdir)/helper/util/libutil.la

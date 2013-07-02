@@ -16,11 +16,11 @@
  */
 
 public class RestBreakType : BreakType {
-	public RestBreakType(IActivityMonitorBackend activity_monitor_backend, UIManager ui_manager) {
+	public RestBreakType(ActivityMonitor activity_monitor, UIManager ui_manager) {
 		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
 		base("restbreak", settings);
 
-		this.break_controller = new RestBreakController(this, settings, activity_monitor_backend);
+		this.break_controller = new RestBreakController(this, settings, activity_monitor);
 		this.break_view = new RestBreakView(this, (RestBreakController)this.break_controller, ui_manager);
 	}
 }

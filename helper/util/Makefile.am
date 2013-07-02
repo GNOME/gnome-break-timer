@@ -11,10 +11,9 @@ libutil_la_SOURCES = \
 	SimpleFocusManager.vala \
 	StatefulTimer.vala
 
-libutil_la_LIBADD = \
-	$(BRAINBREAK_LIBS)
+libutil_la_LIBADD = $(BRAINBREAK_LIBS)
 
-libutil_la_VALAFLAGS = \
+libutil_la_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
 	--library util \
 	--vapi util.vapi \
 	-H util.h
@@ -30,4 +29,3 @@ CLEANFILES = \
 	$(junk_files) \
 	util.vapi \
 	util.h
-

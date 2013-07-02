@@ -43,7 +43,8 @@ public class TimerBreakStatusWidget : Gtk.Grid, IScreenOverlayContent {
 	private void active_countdown_changed_cb(int time_remaining) {
 		if (this.timer_break.is_active()) {
 			int start_time = this.timer_break.get_current_duration();
-			string countdown = NaturalTime.instance.get_countdown_for_seconds_with_start(time_remaining, start_time);
+			string countdown = NaturalTime.instance.get_countdown_for_seconds_with_start(
+				time_remaining, start_time);
 			this.timer_label.set_text(countdown);
 		}
 	}

@@ -38,9 +38,25 @@ public class RestBreakView : TimerBreakView {
 		base(break_type, rest_break, ui_manager);
 		this.focus_priority = FocusPriority.HIGH;
 
+		rest_break.delayed.connect(this.delayed_cb);
 		rest_break.finished.connect(this.finished_cb);
-
 		rest_break.attention_demanded.connect(this.attention_demanded_cb);
+	}
+
+	private void delayed_cb(int time_delayed) {
+		int time_remaining = this.rest_break.get_time_remaining();
+		int start_time = this.rest_break.get_current_duration();
+		string countdown = NaturalTime.instance.get_countdown_for_seconds_with_start(
+			time_remaining, start_time);
+
+		Notify.Notification notification = new Notify.Notification(
+			_("Break interrupted"),
+			_("%s of break remaining").printf(countdown),
+			null
+		);
+		notification.set_hint("transient", true);
+		notification.set_urgency(Notify.Urgency.CRITICAL);
+		this.show_notification(notification);
 	}
 
 	private void finished_cb(BreakController.FinishedReason reason) {
