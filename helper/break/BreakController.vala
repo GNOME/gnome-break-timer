@@ -66,6 +66,8 @@ public abstract class BreakController : Object {
 	public signal void activated();
 	/** The break has been satisfied. This can happen at any time, including while the break is waiting or after it has been activiated. */
 	public signal void finished(BreakController.FinishedReason reason);
+
+	private int64 activate_timestamp;
 	
 	public BreakController(BreakType break_type) {
 		this.break_type = break_type;
@@ -90,17 +92,28 @@ public abstract class BreakController : Object {
 	}
 	
 	/**
-	 * @return true if the break is enabled and waiting to start automatically
+	 * @return True if the break is enabled and waiting to start automatically
 	 */
 	public bool is_enabled() {
 		return this.state != State.DISABLED;
 	}
 	
 	/**
-	 * @return true if the break has been activated, is in focus, and expects to be satisfied
+	 * @return True if the break has been activated, is in focus, and expects to be satisfied
 	 */
 	public bool is_active() {
 		return this.state == State.ACTIVE;
+	}
+
+	/**
+	 * @return The real time, in seconds, since the break was activated.
+	 */
+	public int get_seconds_since_start() {
+		if (this.is_active()) {
+			return (int) (Util.get_real_time_seconds() - this.activate_timestamp);
+		} else {
+			return 0;
+		}
 	}
 	
 	/**
@@ -110,6 +123,7 @@ public abstract class BreakController : Object {
 	public void activate() {
 		if (this.state < State.ACTIVE) {
 			this.state = State.ACTIVE;
+			this.activate_timestamp = Util.get_real_time_seconds();
 			this.activated();
 		}
 	}

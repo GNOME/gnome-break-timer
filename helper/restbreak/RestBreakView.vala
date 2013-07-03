@@ -33,30 +33,22 @@ public class RestBreakView : TimerBreakView {
 		_("No snowflake ever falls in the wrong place."),
 		_("The energy of the mind is the essence of life.")
 	};
+
+	private bool proceeding_happily;
 	
 	public RestBreakView(BreakType break_type, RestBreakController rest_break, UIManager ui_manager) {
 		base(break_type, rest_break, ui_manager);
 		this.focus_priority = FocusPriority.HIGH;
 
-		rest_break.delayed.connect(this.delayed_cb);
+		rest_break.activated.connect(this.activated_cb);
 		rest_break.finished.connect(this.finished_cb);
+		rest_break.counting.connect(this.counting_cb);
+		rest_break.delayed.connect(this.delayed_cb);
 		rest_break.attention_demanded.connect(this.attention_demanded_cb);
 	}
 
-	private void delayed_cb(int time_delayed) {
-		int time_remaining = this.rest_break.get_time_remaining();
-		int start_time = this.rest_break.get_current_duration();
-		string countdown = NaturalTime.instance.get_countdown_for_seconds_with_start(
-			time_remaining, start_time);
-
-		Notify.Notification notification = new Notify.Notification(
-			_("Break interrupted"),
-			_("%s of break remaining").printf(countdown),
-			null
-		);
-		notification.set_hint("transient", true);
-		notification.set_urgency(Notify.Urgency.CRITICAL);
-		this.show_notification(notification);
+	private void activated_cb() {
+		this.proceeding_happily = false;
 	}
 
 	private void finished_cb(BreakController.FinishedReason reason) {
@@ -74,6 +66,33 @@ public class RestBreakView : TimerBreakView {
 				notification.set_urgency(Notify.Urgency.LOW);
 				this.show_notification(notification);
 			}
+		}
+	}
+
+	private void counting_cb(int time_counting) {
+		this.proceeding_happily = time_counting > 20;
+	}
+
+	private void delayed_cb(int time_delayed) {
+		if (this.proceeding_happily) {
+			// Show a "Break interrupted" notification if the break has been
+			// counting down happily for a while
+
+			this.proceeding_happily = false;
+
+			int time_remaining = this.rest_break.get_time_remaining();
+			int start_time = this.rest_break.get_current_duration();
+			string countdown = NaturalTime.instance.get_countdown_for_seconds_with_start(
+				time_remaining, start_time);
+
+			Notify.Notification notification = new Notify.Notification(
+				_("Break interrupted"),
+				_("%s of break remaining").printf(countdown),
+				null
+			);
+			notification.set_hint("transient", true);
+			notification.set_urgency(Notify.Urgency.CRITICAL);
+			this.show_notification(notification);
 		}
 	}
 

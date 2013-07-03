@@ -47,8 +47,6 @@ public class ActivityMonitor : Object {
 	private int64 last_active_timestamp;
 
 	private IActivityMonitorBackend backend;
-
-	private const int MICROSECONDS_IN_SECONDS = 1000 * 1000;
 	
 	public ActivityMonitor(IActivityMonitorBackend backend) {
 		this.backend = backend;
@@ -72,22 +70,14 @@ public class ActivityMonitor : Object {
 		this.poll_activity_timeout.set_frequency(frequency);
 	}
 
-	private static int64 get_real_time_seconds() {
-		return (GLib.get_real_time() / MICROSECONDS_IN_SECONDS);
-	}
-
-	private static int64 get_monotonic_time_seconds() {
-		return (GLib.get_monotonic_time() / MICROSECONDS_IN_SECONDS);
-	}
-
-	private int64 last_real_time = get_real_time_seconds();
-	private int64 last_monotonic_time = get_monotonic_time_seconds();
+	private int64 last_real_time = Util.get_real_time_seconds();
+	private int64 last_monotonic_time = Util.get_monotonic_time_seconds();
 	private int pop_sleep_time() {
 		// Detect if the device has been asleep using the difference between
 		// monotonic time and real time.
 		// TODO: Should we detect when the process is suspended, too?
-		int64 now_real = get_real_time_seconds();
-		int64 now_monotonic = get_monotonic_time_seconds();
+		int64 now_real = Util.get_real_time_seconds();
+		int64 now_monotonic = Util.get_monotonic_time_seconds();
 		int real_time_delta = (int) (now_real - this.last_real_time);
 		int monotonic_time_delta = (int) (now_monotonic - this.last_monotonic_time);
 		int sleep_time = (int)(real_time_delta - monotonic_time_delta);
@@ -117,7 +107,7 @@ public class ActivityMonitor : Object {
 	private void add_activity(UserActivity activity) {
 		this.last_activity = activity;
 		if (activity.is_active()) {
-			this.last_active_timestamp = get_real_time_seconds();
+			this.last_active_timestamp = Util.get_real_time_seconds();
 			this.detected_activity(activity);
 		} else {
 			this.detected_idle(activity);
@@ -135,7 +125,7 @@ public class ActivityMonitor : Object {
 
 		int sleep_time = this.pop_sleep_time();
 		int idle_time = backend.get_idle_seconds();
-		int time_since_active = (int) (get_real_time_seconds() - this.last_active_timestamp);
+		int time_since_active = (int) (Util.get_real_time_seconds() - this.last_active_timestamp);
 
 		if (SessionStatus.instance.is_locked()) {
 			activity = UserActivity() {
