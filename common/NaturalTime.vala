@@ -32,13 +32,13 @@ public class NaturalTime : Object {
 			try {
 				this.re_single = new Regex(label_single.replace("%d", "(\\d+)"));
 			} catch (RegexError error) {
-				stderr.printf("Error compiling regex for TimeUnit: %s\n", error.message);
+				GLib.warning("Error compiling regex for TimeUnit: %s", error.message);
 			}
 			
 			try {
 				this.re_plural = new Regex(label_plural.replace("%d", "(\\d+)"));
 			} catch (RegexError error) {
-				stderr.printf("Error compiling regex for TimeUnit: %s\n", error.message);
+				GLib.warning("Error compiling regex for TimeUnit: %s", error.message);
 			}
 		}
 		
@@ -220,7 +220,7 @@ public class NaturalTime : Object {
 			// this assumes \\d+ will _only_ match the time
 			time_re = new Regex("(\\d+)");
 		} catch (RegexError error) {
-			stderr.printf("Error compiling regex: %s\n", error.message);
+			GLib.warning("Error compiling regex: %s", error.message);
 			return -1;
 		}
 		
