@@ -15,8 +15,7 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* TODO: notification when user is away for rest duration */
-/* TODO: replace pause break if appropriate */
+/* TODO: Use a single persistent notification throughout a given break */
 
 public class RestBreakView : TimerBreakView {
 	protected RestBreakController rest_break {
@@ -34,25 +33,30 @@ public class RestBreakView : TimerBreakView {
 		_("The energy of the mind is the essence of life.")
 	};
 
-	private bool proceeding_happily;
+	private bool is_postponed = false;
+	private bool proceeding_happily = false;
 	
 	public RestBreakView(BreakType break_type, RestBreakController rest_break, UIManager ui_manager) {
 		base(break_type, rest_break, ui_manager);
 		this.focus_priority = FocusPriority.HIGH;
 
-		rest_break.activated.connect(this.activated_cb);
-		rest_break.finished.connect(this.finished_cb);
-		rest_break.counting.connect(this.counting_cb);
-		rest_break.delayed.connect(this.delayed_cb);
-		rest_break.attention_demanded.connect(this.attention_demanded_cb);
+		this.rest_break.activated.connect(this.activated_cb);
+		this.rest_break.finished.connect(this.finished_cb);
+		this.rest_break.attention_demanded.connect(this.attention_demanded_cb);
 	}
 
 	private void activated_cb() {
+		this.rest_break.counting.connect(this.counting_cb);
+		this.rest_break.delayed.connect(this.delayed_cb);
+
+		this.is_postponed = false;
 		this.proceeding_happily = false;
 	}
 
 	private void finished_cb(BreakController.FinishedReason reason) {
 		if (! this.overlay_is_visible() && reason == BreakController.FinishedReason.SATISFIED) {
+			// TODO: Make a cheerful sound :)
+
 			Notify.Notification notification = new Notify.Notification(
 				_("Break is over"),
 				_("Your break time has ended"),
@@ -67,14 +71,25 @@ public class RestBreakView : TimerBreakView {
 				this.show_notification(notification);
 			}
 		}
+
+		this.rest_break.counting.disconnect(this.counting_cb);
+		this.rest_break.delayed.disconnect(this.delayed_cb);
 	}
 
 	private void counting_cb(int time_counting) {
 		this.proceeding_happily = time_counting > 20;
+
+		if (this.has_ui_focus()) {
+			if (this.proceeding_happily && ! SessionStatus.instance.is_locked()) {
+				// TODO: Make a sound
+				SessionStatus.instance.lock_screen();
+				this.is_postponed = false;
+			}
+		}
 	}
 
 	private void delayed_cb(int time_delayed) {
-		if (this.proceeding_happily) {
+		if (this.proceeding_happily && ! this.is_postponed) {
 			// Show a "Break interrupted" notification if the break has been
 			// counting down happily for a while
 
@@ -103,6 +118,26 @@ public class RestBreakView : TimerBreakView {
 	private void notification_action_delay_cb() {
 		// TODO: Don't bother the user for a while
 		// Show another notification in a minute or so
+		this.is_postponed = true;
+		this.hide_notification();
+		Timeout.add_seconds(60, () => {
+			if (this.is_postponed) {
+				this.is_postponed = false;
+				Notify.Notification notification = new Notify.Notification(
+					_("Overdue break"),
+					_("You were due to take a break a minute ago"),
+					null
+				);
+				notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
+				notification.set_urgency(Notify.Urgency.CRITICAL);
+				this.show_notification(notification);
+			}
+
+			return false;
+		});
+	}
+
+	private void notification_action_info_cb() {
 	}
 
 	protected override void show_active_ui() {
@@ -120,6 +155,7 @@ public class RestBreakView : TimerBreakView {
 				null
 			);
 			notification.add_action("delay", _("Remind me later"), this.notification_action_delay_cb);
+			notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
 			notification.set_urgency(Notify.Urgency.CRITICAL);
 			this.show_notification(notification);
 

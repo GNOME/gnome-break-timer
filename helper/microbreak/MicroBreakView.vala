@@ -27,7 +27,7 @@ public class MicroBreakView : TimerBreakView {
 		base(break_type, micro_break, ui_manager);
 		this.focus_priority = FocusPriority.LOW;
 
-		micro_break.finished.connect(this.finished_cb);
+		this.micro_break.finished.connect(this.finished_cb);
 	}
 
 	private void finished_cb(BreakController.FinishedReason reason) {
@@ -49,8 +49,10 @@ public class MicroBreakView : TimerBreakView {
 	}
 
 	private void notification_action_skip_cb() {
-		// TODO: We need to suppress the "finished" notification, here
 		this.micro_break.skip();
+	}
+
+	private void notification_action_info_cb() {
 	}
 
 	protected override void show_active_ui() {
@@ -65,6 +67,7 @@ public class MicroBreakView : TimerBreakView {
 				null
 			);
 			notification.add_action("skip", _("Skip this one"), this.notification_action_skip_cb);
+			notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
 			notification.set_urgency(Notify.Urgency.NORMAL);
 			this.show_notification(notification);
 
