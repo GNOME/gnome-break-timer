@@ -81,32 +81,43 @@ public class UIManager : SimpleFocusManager {
 		}
 
 		protected void set_overlay(IScreenOverlayContent overlay_content) {
-			// this.overlay_content = overlay_content;
+			if (this.ui_manager.screen_overlay == null) return;
 
-			// if (this.has_ui_focus()) {
-			// 	this.ui_manager.screen_overlay.set_content(this.overlay_content);
-			// }
+			this.overlay_content = overlay_content;
+
+			if (this.has_ui_focus()) {
+				this.ui_manager.screen_overlay.set_content(this.overlay_content);
+			}
 		}
 
 		protected void reveal_overlay() {
-			// if (this.has_ui_focus()) {
-			// 	this.ui_manager.screen_overlay.reveal_content(this.overlay_content);
-			// }
+			if (this.ui_manager.screen_overlay == null) return;
+
+			if (this.has_ui_focus()) {
+				this.ui_manager.screen_overlay.reveal_content(this.overlay_content);
+			}
 		}
 
 		protected void shake_overlay() {
-			// if (this.overlay_is_visible()) {
-			// 	this.ui_manager.screen_overlay.request_attention();
-			// }
+			if (this.ui_manager.screen_overlay == null) return;
+
+			if (this.overlay_is_visible()) {
+				this.ui_manager.screen_overlay.request_attention();
+			}
 		}
 
 		protected bool overlay_is_visible() {
-			// return this.ui_manager.screen_overlay.is_showing_content(this.overlay_content);
-			return false;
+			if (this.ui_manager.screen_overlay == null) {
+				return false;
+			} else {
+				return this.ui_manager.screen_overlay.is_showing_content(this.overlay_content);
+			}
 		}
 
 		protected void hide_overlay() {
-			// this.ui_manager.screen_overlay.disappear_content(this.overlay_content);
+			if (this.ui_manager.screen_overlay == null) return;
+
+			this.ui_manager.screen_overlay.disappear_content(this.overlay_content);
 		}
 
 		/* IFocusable interface */
@@ -122,12 +133,14 @@ public class UIManager : SimpleFocusManager {
 
 	private PausableTimeout quiet_mode_timeout;
 
-	protected ScreenOverlay screen_overlay;
+	protected ScreenOverlay? screen_overlay;
 	protected Notify.Notification? notification;
 	
-	public UIManager(Application application) {
+	public UIManager(Application application, bool with_overlay) {
 		this.application = application;
-		this.screen_overlay = new ScreenOverlay();
+		if (with_overlay) {
+			this.screen_overlay = new ScreenOverlay();
+		}
 		
 		Settings settings = new Settings("org.brainbreak.breaks");
 		settings.bind("quiet-mode", this, "quiet-mode", SettingsBindFlags.DEFAULT);
@@ -150,6 +163,8 @@ public class UIManager : SimpleFocusManager {
 	}
 
 	private void update_overlay_format() {
+		if (this.screen_overlay == null) return;
+
 		if (this.quiet_mode) {
 			this.screen_overlay.set_format(ScreenOverlay.Format.SILENT);
 			this.quiet_mode_timeout.start();
