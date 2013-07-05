@@ -55,7 +55,7 @@ public class ScreenOverlay : Gtk.Window {
 		this.on_screen_composited_changed(screen);
 		
 		Gtk.StyleContext style = this.get_style_context();
-		style.add_class("brainbreak-screen-overlay");
+		style.add_class("_screen-overlay");
 
 		this.realize.connect(this.on_realize);
 		this.realize();

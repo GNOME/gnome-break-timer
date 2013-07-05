@@ -33,13 +33,13 @@ public abstract class BreakPanel : Panel {
 		
 		Gtk.Label title_label = new Gtk.Label(title);
 		title_label.set_halign(Gtk.Align.START);
-		title_label.get_style_context().add_class("brainbreak-settings-title");
+		title_label.get_style_context().add_class("_settings-title");
 		title_grid.add(title_label);
 		
 		Gtk.Label description_label = new Gtk.Label("<small>%s</small>".printf(description));
 		description_label.set_use_markup(true);
 		description_label.set_halign(Gtk.Align.START);
-		description_label.get_style_context().add_class("brainbreak-settings-description");
+		description_label.get_style_context().add_class("_settings-description");
 		title_grid.add(description_label);
 		
 		this.toggle_switch = new Gtk.Switch();
@@ -58,14 +58,3 @@ public abstract class BreakPanel : Panel {
 		});
 	}
 }
-
-
-/*
-this.status_label = new Gtk.Label(null);
-this.status_label.set_hexpand(true);
-this.status_label.set_halign(Gtk.Align.FILL);
-this.status_label.set_alignment(0, 0);
-this.status_label.get_style_context().add_class("brainbreak-settings-status");
-this.attach(this.status_label, 1, 0, 1, 2);
-*/
-

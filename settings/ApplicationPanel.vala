@@ -94,7 +94,7 @@ private class AppNotRunningInfoBar : Gtk.InfoBar {
 	}
 	
 	private void launch_helper() {
-		AppInfo helper_app_info = new DesktopAppInfo("brainbreak-helper.desktop");
+		AppInfo helper_app_info = new DesktopAppInfo("brainbreak.desktop");
 		AppLaunchContext app_launch_context = new AppLaunchContext();
 		
 		try {

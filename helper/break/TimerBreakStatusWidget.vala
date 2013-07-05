@@ -31,7 +31,7 @@ public class TimerBreakStatusWidget : Gtk.Grid, IScreenOverlayContent {
 		this.timer_label = new Gtk.Label(null);
 		this.attach(this.timer_label, 0, 0, 1, 1);
 		Gtk.StyleContext timer_style = this.timer_label.get_style_context();
-		timer_style.add_class("brainbreak-timer-label");
+		timer_style.add_class("_timer-label");
 		
 		this.message_label = new Gtk.Label(null);
 		this.attach(this.message_label, 0, 1, 1, 1);

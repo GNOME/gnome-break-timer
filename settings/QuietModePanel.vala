@@ -33,7 +33,7 @@ public class QuietModePanel : Panel {
 		
 		Gtk.Label title_label = new Gtk.Label(_("Quiet Mode"));
 		title_label.set_halign(Gtk.Align.START);
-		title_label.get_style_context().add_class("brainbreak-settings-title");
+		title_label.get_style_context().add_class("_settings-title");
 		header.add(title_label);
 		
 		this.countdown_label = new Gtk.Label(null);

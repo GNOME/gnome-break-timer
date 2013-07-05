@@ -57,7 +57,7 @@ public class Application : Gtk.Application {
 			@define-color bg_middle rgba(226, 237, 236, 0.87);
 			@define-color bg_bottom rgba(179, 209, 183, 0.89);
 
-			GtkWindow.brainbreak-screen-overlay {
+			GtkWindow._screen-overlay {
 				background-color: @bg_inner;
 				background-image:-gtk-gradient (linear,
 				       center top,
@@ -70,7 +70,7 @@ public class Application : Gtk.Application {
 				color: #999;
 			}
 
-			GtkLabel.brainbreak-timer-label {
+			GtkLabel._timer-label {
 				font-weight: bold;
 				font-size: 36;
 				color: #333;
