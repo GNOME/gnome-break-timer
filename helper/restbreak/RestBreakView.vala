@@ -33,6 +33,7 @@ public class RestBreakView : TimerBreakView {
 		_("The energy of the mind is the essence of life.")
 	};
 
+	private bool notified_start = false;
 	private bool is_postponed = false;
 	private bool proceeding_happily = false;
 	
@@ -54,7 +55,7 @@ public class RestBreakView : TimerBreakView {
 	}
 
 	private void finished_cb(BreakController.FinishedReason reason) {
-		if (! this.overlay_is_visible() && reason == BreakController.FinishedReason.SATISFIED) {
+		if (reason == BreakController.FinishedReason.SATISFIED && this.notified_start && ! this.overlay_is_visible()) {
 			// TODO: Make a cheerful sound :)
 
 			Notify.Notification notification = new Notify.Notification(
@@ -71,6 +72,8 @@ public class RestBreakView : TimerBreakView {
 				this.show_notification(notification);
 			}
 		}
+
+		this.notified_start = false;
 
 		this.rest_break.counting.disconnect(this.counting_cb);
 		this.rest_break.delayed.disconnect(this.delayed_cb);
@@ -156,6 +159,8 @@ public class RestBreakView : TimerBreakView {
 			notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
 			notification.set_urgency(Notify.Urgency.CRITICAL);
 			this.show_notification(notification);
+
+			this.notified_start = true;
 
 			Timeout.add_seconds(this.get_lead_in_seconds(), () => {
 				if (this.has_ui_focus() && this.break_controller.is_active()) {

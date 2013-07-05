@@ -23,6 +23,8 @@ public class MicroBreakView : TimerBreakView {
 		get { return (MicroBreakController)this.break_controller; }
 	}
 
+	private bool notified_start = false;
+
 	public MicroBreakView(BreakType break_type, MicroBreakController micro_break, UIManager ui_manager) {
 		base(break_type, micro_break, ui_manager);
 		this.focus_priority = FocusPriority.LOW;
@@ -31,7 +33,7 @@ public class MicroBreakView : TimerBreakView {
 	}
 
 	private void finished_cb(BreakController.FinishedReason reason) {
-		if (! this.overlay_is_visible() && reason == BreakController.FinishedReason.SATISFIED) {
+		if (reason == BreakController.FinishedReason.SATISFIED && this.notified_start && ! this.overlay_is_visible()) {
 			Notify.Notification notification = new Notify.Notification(
 				_("Break is over"),
 				_("Your break time has ended"),
@@ -46,6 +48,8 @@ public class MicroBreakView : TimerBreakView {
 				this.show_notification(notification);
 			}
 		}
+
+		this.notified_start = false;
 	}
 
 	private void notification_action_skip_cb() {
@@ -70,6 +74,8 @@ public class MicroBreakView : TimerBreakView {
 			notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
 			notification.set_urgency(Notify.Urgency.NORMAL);
 			this.show_notification(notification);
+			
+			this.notified_start = true;
 
 			Timeout.add_seconds(this.get_lead_in_seconds(), () => {
 				if (this.has_ui_focus() && this.micro_break.is_active()) {

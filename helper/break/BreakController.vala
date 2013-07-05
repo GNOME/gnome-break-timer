@@ -48,6 +48,7 @@ public abstract class BreakController : Object {
 	public State state {get; private set;}
 
 	public enum FinishedReason {
+		DISABLED,
 		SKIPPED,
 		SATISFIED
 	}
@@ -87,6 +88,7 @@ public abstract class BreakController : Object {
 			this.enabled();
 		} else if (this.is_enabled()) {
 			this.state = State.DISABLED;
+			this.finished(BreakController.FinishedReason.DISABLED);
 			this.disabled();
 		}
 	}
