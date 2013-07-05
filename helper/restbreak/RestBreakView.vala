@@ -56,8 +56,6 @@ public class RestBreakView : TimerBreakView {
 
 	private void finished_cb(BreakController.FinishedReason reason) {
 		if (reason == BreakController.FinishedReason.SATISFIED && this.notified_start && ! this.overlay_is_visible()) {
-			// TODO: Make a cheerful sound :)
-
 			Notify.Notification notification = new Notify.Notification(
 				_("Break is over"),
 				_("Your break time has ended"),
@@ -71,6 +69,7 @@ public class RestBreakView : TimerBreakView {
 				notification.set_urgency(Notify.Urgency.LOW);
 				this.show_notification(notification);
 			}
+			this.play_sound_from_id("complete");
 		}
 
 		this.notified_start = false;
@@ -155,6 +154,7 @@ public class RestBreakView : TimerBreakView {
 				_("It’s time to take a break. Get away from the computer for a little while!"),
 				null
 			);
+			notification.set_hint("sound-name", "message");
 			notification.add_action("delay", _("Remind me later"), this.notification_action_delay_cb);
 			notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
 			notification.set_urgency(Notify.Urgency.CRITICAL);

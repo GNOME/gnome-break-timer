@@ -52,6 +52,16 @@ public class UIManager : SimpleFocusManager {
 			return this.ui_manager.is_focusing(this);
 		}
 
+		protected void play_sound_from_id(string event_id) {
+			if (this.has_ui_focus()) {
+				Canberra.Context canberra;
+				Canberra.Context.create(out canberra);
+				canberra.play(0,
+					Canberra.PROP_EVENT_ID, event_id
+				);
+			}
+		}
+
 		protected void show_notification(Notify.Notification notification) {
 			if (this.has_ui_focus()) {
 				this.ui_manager.show_notification(notification);

@@ -19,10 +19,10 @@
 interface IScreenSaver : Object {
     public signal void active_changed (bool active);
 
-    public abstract void lock() throws IOError;
     public abstract bool get_active() throws IOError;
+    public abstract uint32 get_active_time() throws IOError;
+    public abstract void lock() throws IOError;
     public abstract void set_active(bool active) throws IOError;
-    public abstract int get_active_time() throws IOError;
 }
 
 /**
@@ -37,8 +37,8 @@ public class SessionStatus : Object {
 	public signal void unlocked();
 
 	private SessionStatus() {
-		Bus.watch_name(BusType.SESSION, "org.gnome.Shell", BusNameWatcherFlags.NONE,
-				this.shell_appeared, this.shell_disappeared);
+		Bus.watch_name(BusType.SESSION, "org.gnome.ScreenSaver", BusNameWatcherFlags.NONE,
+				this.sceensaver_appeared, this.sceensaver_disappeared);
 	}
 
 	private static SessionStatus _instance;
@@ -51,19 +51,19 @@ public class SessionStatus : Object {
 		}
 	}
 
-	private void shell_appeared() {
+	private void sceensaver_appeared() {
 		try {
-			this.screensaver = Bus.get_proxy_sync(BusType.SESSION, "org.gnome.Shell", "/org/gnome/ScreenSaver");
+			this.screensaver = Bus.get_proxy_sync(BusType.SESSION, "org.gnome.ScreenSaver", "/org/gnome/ScreenSaver");
 			this.screensaver.active_changed.connect(this.screensaver_active_changed_cb);
 			this.screensaver_is_active = this.screensaver.get_active();
 
 		} catch (IOError error) {
 			this.screensaver = null;
-			GLib.warning("Error connecting to gnome-screensaver: %s", error.message);
+			GLib.warning("Error connecting to screensaver service: %s", error.message);
 		}
 	}
 	
-	private void shell_disappeared() {
+	private void sceensaver_disappeared() {
 		this.screensaver.active_changed.disconnect(this.screensaver_active_changed_cb);
 		this.screensaver = null;
 	}
@@ -92,6 +92,18 @@ public class SessionStatus : Object {
 			} catch (IOError error) {
 				GLib.warning("Error locking screen: %s", error.message);
 			}
+		}
+	}
+
+	public void blank_screen() {
+		if (this.screensaver != null) {
+			this.screensaver.set_active(true);
+		}
+	}
+
+	public void unblank_screen() {
+		if (this.screensaver != null) {
+			this.screensaver.set_active(false);
 		}
 	}
 }

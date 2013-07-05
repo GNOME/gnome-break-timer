@@ -47,6 +47,7 @@ public class MicroBreakView : TimerBreakView {
 				notification.set_urgency(Notify.Urgency.LOW);
 				this.show_notification(notification);
 			}
+			this.play_sound_from_id("complete");
 		}
 
 		this.notified_start = false;
@@ -70,6 +71,7 @@ public class MicroBreakView : TimerBreakView {
 				_("Take a break from typing and look away from the screen"),
 				null
 			);
+			notification.set_hint("sound-name", "message");
 			notification.add_action("skip", _("Skip this one"), this.notification_action_skip_cb);
 			notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
 			notification.set_urgency(Notify.Urgency.NORMAL);
