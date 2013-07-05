@@ -36,7 +36,7 @@ PKG_CHECK_MODULES(BRAINBREAK, [
 	glib-2.0 >= $GLIB_REQUIRED
 	gobject-2.0 >= $GLIB_REQUIRED
 	gtk+-3.0 >= $GTK_REQUIRED
-	libcanberra >= 0.30
+	libcanberra >= 0.28
 	libnotify >= 0.4.5
 	x11 >= 1.4.99.1
 	xi >= 1.5.99.3

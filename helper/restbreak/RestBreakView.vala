@@ -81,17 +81,17 @@ public class RestBreakView : TimerBreakView {
 	private void counting_cb(int time_counting) {
 		this.proceeding_happily = time_counting > 20;
 
-		if (this.has_ui_focus()) {
-			if (this.proceeding_happily && ! SessionStatus.instance.is_locked()) {
-				// TODO: Make a sound
+		if (this.has_ui_focus() && this.proceeding_happily) {
+			this.is_postponed = false;
+			// TODO: Make a sound
+			if (! SessionStatus.instance.is_locked()) {
 				SessionStatus.instance.lock_screen();
-				this.is_postponed = false;
 			}
 		}
 	}
 
 	private void delayed_cb(int time_delayed) {
-		if (this.proceeding_happily && ! this.is_postponed) {
+		if (this.proceeding_happily && ! this.is_postponed && ! this.overlay_is_visible()) {
 			// Show a "Break interrupted" notification if the break has been
 			// counting down happily for a while
 
