@@ -71,31 +71,32 @@ public class UIManager : SimpleFocusManager {
 		}
 
 		protected void set_overlay(IScreenOverlayContent overlay_content) {
-			this.overlay_content = overlay_content;
+			// this.overlay_content = overlay_content;
 
-			if (this.has_ui_focus()) {
-				this.ui_manager.screen_overlay.set_content(this.overlay_content);
-			}
+			// if (this.has_ui_focus()) {
+			// 	this.ui_manager.screen_overlay.set_content(this.overlay_content);
+			// }
 		}
 
 		protected void reveal_overlay() {
-			if (this.has_ui_focus()) {
-				this.ui_manager.screen_overlay.reveal_content(this.overlay_content);
-			}
+			// if (this.has_ui_focus()) {
+			// 	this.ui_manager.screen_overlay.reveal_content(this.overlay_content);
+			// }
 		}
 
 		protected void shake_overlay() {
-			if (this.overlay_is_visible()) {
-				this.ui_manager.screen_overlay.request_attention();
-			}
+			// if (this.overlay_is_visible()) {
+			// 	this.ui_manager.screen_overlay.request_attention();
+			// }
 		}
 
 		protected bool overlay_is_visible() {
-			return this.ui_manager.screen_overlay.is_showing_content(this.overlay_content);
+			// return this.ui_manager.screen_overlay.is_showing_content(this.overlay_content);
+			return false;
 		}
 
 		protected void hide_overlay() {
-			this.ui_manager.screen_overlay.disappear_content(this.overlay_content);
+			// this.ui_manager.screen_overlay.disappear_content(this.overlay_content);
 		}
 
 		/* IFocusable interface */

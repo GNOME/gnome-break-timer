@@ -42,7 +42,7 @@ public class RestBreakView : TimerBreakView {
 
 		this.rest_break.activated.connect(this.activated_cb);
 		this.rest_break.finished.connect(this.finished_cb);
-		this.rest_break.attention_demanded.connect(this.attention_demanded_cb);
+		this.rest_break.duration_adjusted.connect(this.duration_adjusted_cb);
 	}
 
 	private void activated_cb() {
@@ -111,13 +111,11 @@ public class RestBreakView : TimerBreakView {
 		}
 	}
 
-	private void attention_demanded_cb() {
+	private void duration_adjusted_cb() {
 		this.shake_overlay();
 	}
 
 	private void notification_action_delay_cb() {
-		// TODO: Don't bother the user for a while
-		// Show another notification in a minute or so
 		this.is_postponed = true;
 		this.hide_notification();
 		Timeout.add_seconds(60, () => {

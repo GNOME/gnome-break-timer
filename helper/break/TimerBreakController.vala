@@ -30,9 +30,6 @@ public abstract class TimerBreakController : BreakController {
 	public signal void counting(int time_counting);
 	/** Fires as long as the break is active but is not counting down. */
 	public signal void delayed(int time_delayed);
-
-	// FIXME: GET RID OF THIS
-	public signal void attention_demanded();
 	
 	public int interval {get; protected set;}
 	public int duration {get; protected set;}
