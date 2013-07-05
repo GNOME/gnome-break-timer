@@ -45,6 +45,8 @@ PKG_CHECK_MODULES(BRAINBREAK, [
 AC_SUBST(BRAINBREAK_CFLAGS)
 AC_SUBST(BRAINBREAK_LIBS)
 
+LIBGD_INIT([header-bar stack revealer vapi])
+
 AC_SUBST([BRAINBREAK_VALAFLAGS], "--pkg glib-2.0 --target-glib=$GLIB_REQUIRED")
 
 AC_CONFIG_FILES([Makefile
@@ -54,6 +56,7 @@ AC_CONFIG_FILES([Makefile
 	helper/activity-monitor/Makefile
 	helper/util/Makefile
 	data/Makefile
+	libgd/Makefile
 	po/Makefile.in])
 
 AC_OUTPUT

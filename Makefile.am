@@ -1,4 +1,12 @@
-SUBDIRS = data po common settings helper
+SUBDIRS = \
+	data \
+	po \
+	libgd \
+	common \
+	settings \
+	helper
+
+ACLOCAL_AMFLAGS = -I m4 -I libgd
 
 INTLTOOL_FILES = intltool-extract.in \
                  intltool-merge.in \
@@ -22,4 +30,3 @@ DISTCLEANFILES = \
 	intltool-merge \
 	intltool-update \
 	po/.intltool-merge-cache
-

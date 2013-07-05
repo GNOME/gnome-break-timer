@@ -4,9 +4,9 @@ SUBDIRS = \
 
 AM_CPPFLAGS = $(BRAINBREAK_CFLAGS) \
 	-include $(CONFIG_HEADER) \
-	-I $(top_srcdir)/common \
-	-I $(top_srcdir)/helper/activity-monitor \
-	-I $(top_srcdir)/helper/util
+	-I $(top_builddir)/common \
+	-I $(top_builddir)/helper/activity-monitor \
+	-I $(top_builddir)/helper/util
 
 bin_PROGRAMS = \
 	brainbreak
@@ -35,21 +35,22 @@ brainbreak_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
 	--pkg gee-1.0 \
 	--pkg libcanberra \
 	--pkg libnotify \
-	$(top_srcdir)/common/common.vapi \
-	$(top_srcdir)/helper/activity-monitor/activity_monitor.vapi \
-	$(top_srcdir)/helper/util/util.vapi
+	$(top_builddir)/common/common.vapi \
+	$(top_builddir)/helper/activity-monitor/activity_monitor.vapi \
+	$(top_builddir)/helper/util/util.vapi
 
 brainbreak_LDADD = $(BRAINBREAK_LIBS) \
-	$(top_srcdir)/common/libcommon.la \
-	$(top_srcdir)/helper/activity-monitor/libactivity_monitor.la \
-	$(top_srcdir)/helper/util/libutil.la
+	$(top_builddir)/common/libcommon.la \
+	$(top_builddir)/helper/activity-monitor/libactivity_monitor.la \
+	$(top_builddir)/helper/util/libutil.la
 
+# Additional glib math library
 brainbreak_LDFLAGS = -lm
 
 brainbreak_vala.stamp: \
-	$(top_srcdir)/common/libcommon_la_vala.stamp \
-	$(top_srcdir)/helper/activity-monitor/libactivity_monitor_la_vala.stamp \
-	$(top_srcdir)/helper/util/libutil_la_vala.stamp
+	$(top_builddir)/common/libcommon_la_vala.stamp \
+	$(top_builddir)/helper/activity-monitor/libactivity_monitor_la_vala.stamp \
+	$(top_builddir)/helper/util/libutil_la_vala.stamp
 
 junk_files = \
 	$(brainbreak_SOURCES:.vala=.c) \

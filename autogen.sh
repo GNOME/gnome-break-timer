@@ -19,7 +19,14 @@ if test -z $INTLTOOLIZE; then
     exit 1
 fi
 
-git submodule update --init --recursive
+# git submodule update --init --recursive
+# We don't use git, yet, so we're going to pretend to have a git submodule for libgd
+mkdir 
+if test ! -d libgd; then
+	git clone git://git.gnome.org/libgd
+else
+	(cd libgd && git pull)
+fi
 
 autopoint --force || exit $?
 AUTOPOINT='intltoolize --automake --copy' autoreconf --force --install --verbose
