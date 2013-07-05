@@ -1,6 +1,6 @@
 SUBDIRS = \
-	activity-monitor \
-	util
+	util \
+	activity-monitor
 
 AM_CPPFLAGS = $(BRAINBREAK_CFLAGS) \
 	-include $(CONFIG_HEADER) \

@@ -1,6 +1,3 @@
-SUBDIRS = \
-	../util
-
 AM_CPPFLAGS = $(BRAINBREAK_CFLAGS) \
 	-include $(CONFIG_HEADER) \
 	-I $(top_srcdir)/common \
