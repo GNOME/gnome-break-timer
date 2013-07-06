@@ -15,36 +15,43 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public abstract class Panel : Gtk.Grid {
+public abstract class SettingsPanel : Gtk.Grid {
 	private Gtk.Grid header;
-	private Gtk.Grid content;
+	private Gtk.Grid details;
 	
-	public Panel() {
+	public SettingsPanel() {
 		Object();
 		
 		this.set_orientation(Gtk.Orientation.VERTICAL);
 		this.set_row_spacing(12);
 		
 		this.header = new Gtk.Grid();
-		this.header.set_orientation(Gtk.Orientation.HORIZONTAL);
 		this.header.set_column_spacing(12);
 		this.add(header);
 		
-		this.content = new Gtk.Grid();
-		this.content.set_orientation(Gtk.Orientation.HORIZONTAL);
-		this.content.set_column_spacing(6);
-		this.content.set_margin_left(12);
-		this.add(this.content);
+		this.details = new Gtk.Grid();
+		this.details.set_margin_left(12);
+		this.add(this.details);
 		
 		this.show_all();
 	}
 	
-	public virtual Gtk.Container get_header() {
-		return this.header;
+	public void set_header(Gtk.Widget content) {
+		this.header.attach(content, 0, 0, 1, 1);
+	}
+
+	public void set_header_action(Gtk.Widget content) {
+		this.header.attach(content, 1, 0, 1, 1);
+		content.set_halign(Gtk.Align.END);
+		content.set_valign(Gtk.Align.CENTER);
 	}
 	
-	public virtual Gtk.Container get_content() {
-		return this.content;
+	public void set_details(Gtk.Widget content) {
+		this.details.add(content);
+	}
+
+	public void set_editable(bool sensitive) {
+		this.details.sensitive = sensitive;
 	}
 }
 

@@ -16,31 +16,25 @@
  */
 
 public class Application : Gtk.Application {
-	const string app_id = "org.brainbreak.Settings";
-	const string app_name = _("Break Settings");
-	
-	static const string STYLE_DATA =
-			"""
-			GtkLabel._settings-title {
-				font-weight:bold;
-			}
-			""";
-	
+	private const string app_id = "org.brainbreak.Settings";
+	private static const string STYLE_DATA =
+		"""
+		GtkLabel._settings-title {
+			font-weight:bold;
+		}
+		""";
+
+	public BreakType[] breaks {public get; private set;}
+
+	private MainWindow main_window;
+
 	public Application() {
 		Object(application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
-		GLib.Environment.set_application_name(app_name);
 	}
 	
 	public override void activate() {
 		base.activate();
-		foreach (Gtk.Window window in this.get_windows()) {
-			window.present();
-		}
-	}
-	
-	public override void startup() {
-		base.startup();
-		
+
 		/* set up custom gtk style for application */
 		Gdk.Screen screen = Gdk.Screen.get_default();
 		Gtk.CssProvider style_provider = new Gtk.CssProvider();
@@ -56,12 +50,36 @@ public class Application : Gtk.Application {
 				style_provider,
 				Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 		
-		SettingsDialog dialog = new SettingsDialog();
-		dialog.add_break_type(new MicroBreakType());
-		dialog.add_break_type(new RestBreakType());
-		
-		this.add_window(dialog);
-		dialog.show();
+		this.breaks = {
+			new MicroBreakType(),
+			new RestBreakType()
+		};
+
+		this.main_window = new MainWindow(this);
+		this.add_window(this.main_window);
+
+		SimpleAction about_action = new SimpleAction("about", null);
+		this.add_action(about_action);
+		about_action.activate.connect(this.on_about_activate_cb);
+
+		SimpleAction quit_action = new SimpleAction("quit", null);
+		this.add_action(quit_action);
+		quit_action.activate.connect(this.quit);
+
+		Menu app_menu = new Menu();
+		app_menu.append(_("About"), "app.about");
+		app_menu.append(_("Quit"), "app.quit");
+		this.set_app_menu(app_menu);
+
+		this.main_window.present();
+	}
+	
+	public override void startup() {
+		base.startup();
+	}
+
+	private void on_about_activate_cb() {
+		this.main_window.show_about_dialog();
 	}
 }
 

@@ -10,17 +10,16 @@ bin_PROGRAMS = \
 
 brainbreak_settings_SOURCES = \
 	ApplicationPanel.vala \
-	BreakPanel.vala \
+	BreakSettingsPanel.vala \
 	BreakType.vala \
 	main.vala \
+	MainWindow.vala \
 	MicroBreakType.vala \
-	Panel.vala \
-	QuietMode.vala \
-	QuietModePanel.vala \
 	RestBreakType.vala \
 	SettingsDialog.vala \
+	SettingsPanel.vala \
 	TimeChooser.vala \
-	TimerBreakPanel.vala \
+	TimerBreakSettingsPanel.vala \
 	TimerBreakType.vala
 
 brainbreak_settings_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \

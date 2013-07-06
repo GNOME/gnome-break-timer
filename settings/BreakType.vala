@@ -16,29 +16,16 @@
  */
 
 public abstract class BreakType : Object {
-	protected Settings settings;
+	public string id {get; private set;}
+
+	public Settings settings;
 	
-	private BreakPanel settings_panel;
-	
-	public string name {get; private set;}
-	public bool enabled {get; set; default=true;}
-	
-	public BreakType(string name, Settings settings) {
-		this.name = name;
+	public BreakType(string id, Settings settings) {
+		this.id = id;
 		this.settings = settings;
-		
-		this.settings_panel = this.make_settings_panel();
-		
-		this.settings.bind("enabled", this, "enabled", SettingsBindFlags.DEFAULT);
 	}
 	
-	protected abstract BreakPanel make_settings_panel();
-	public BreakPanel get_settings_panel() {
-		return this.settings_panel;
-	}
-	
-	protected void bind_to_settings_panel(BreakPanel panel) {
-		this.settings.bind("enabled", panel.toggle_switch, "active", SettingsBindFlags.DEFAULT);
-	}
+	public abstract Gtk.Widget get_status_panel();
+	public abstract Gtk.Widget get_settings_panel();
 }
 

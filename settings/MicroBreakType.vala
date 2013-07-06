@@ -16,22 +16,28 @@
  */
 
 public class MicroBreakType : TimerBreakType {
-	static string title = _("Micro Break");
-	static string description = _("Pause frequently to relax your eyes");
-	
 	public MicroBreakType() {
 		Settings settings = new Settings("org.brainbreak.breaks.microbreak");
 		base("microbreak", settings);
+
+		this.interval_options = {240, 360, 480, 600};
+		this.duration_options = {15, 20, 25, 30, 45};
+	}
+
+	public override Gtk.Widget get_status_panel() {
+		var panel = new Gtk.Grid();
+		var label = new Gtk.Label("Micro Break");
+		panel.add(label);
+		panel.show_all();
+		return panel;
 	}
 	
-	protected override BreakPanel make_settings_panel() {
-		int[] interval_options = {240, 360, 480, 600};
-		int[] duration_options = {15, 20, 25, 30, 45};
-		TimerBreakPanel panel = new TimerBreakPanel(title, description, interval_options, duration_options);
-		
-		this.bind_to_settings_panel(panel);
-		
-		return panel;
+	public override Gtk.Widget get_settings_panel() {
+		return new TimerBreakSettingsPanel(
+			this,
+			_("Micro Break"),
+			_("Pause frequently to relax your eyes")
+		);
 	}
 }
 

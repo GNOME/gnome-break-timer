@@ -16,22 +16,28 @@
  */
 
 public class RestBreakType : TimerBreakType {
-	static string title = _("Rest Break");
-	static string description = _("And take some longer breaks to stretch your legs");
-	
 	public RestBreakType() {
 		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
 		base("restbreak", settings);
+
+		this.interval_options = {1800, 2400, 3000, 3600};
+		this.duration_options = {300, 360, 420, 480, 540, 600};
 	}
 	
-	protected override BreakPanel make_settings_panel() {
-		int[] interval_options = {1800, 2400, 3000, 3600};
-		int[] duration_options = {300, 360, 420, 480, 540, 600};
-		TimerBreakPanel panel = new TimerBreakPanel(title, description, interval_options, duration_options);
-		
-		this.bind_to_settings_panel(panel);
-		
+	public override Gtk.Widget get_status_panel() {
+		var panel = new Gtk.Grid();
+		var label = new Gtk.Label("Rest Break");
+		panel.add(label);
+		panel.show_all();
 		return panel;
+	}
+
+	public override Gtk.Widget get_settings_panel() {
+		return new TimerBreakSettingsPanel(
+			this,
+			_("Rest Break"),
+			_("And take some longer breaks to stretch your legs")
+		);
 	}
 }
 

@@ -16,20 +16,11 @@
  */
 
 public abstract class TimerBreakType : BreakType {
-	public int interval {get; set;}
-	public int duration {get; set;}
-	
+	public int[] interval_options;
+	public int[] duration_options;
+
 	public TimerBreakType(string name, Settings settings) {
 		base(name, settings);
-		
-		this.settings.bind("interval-seconds", this, "interval", SettingsBindFlags.DEFAULT);
-		this.settings.bind("duration-seconds", this, "duration", SettingsBindFlags.DEFAULT);
-	}
-	
-	protected new void bind_to_settings_panel(TimerBreakPanel panel) {
-		base.bind_to_settings_panel(panel);
-		this.settings.bind("interval-seconds", panel.interval_chooser, "time-seconds", SettingsBindFlags.DEFAULT);
-		this.settings.bind("duration-seconds", panel.duration_chooser, "time-seconds", SettingsBindFlags.DEFAULT);
 	}
 }
 
