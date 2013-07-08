@@ -5,6 +5,7 @@ noinst_LTLIBRARIES = \
 	libcommon.la
 
 libcommon_la_SOURCES = \
+	IBreakHelper.vala \
 	NaturalTime.vala \
 	SessionStatus.vala
 

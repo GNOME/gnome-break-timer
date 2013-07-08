@@ -15,13 +15,30 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class RestBreakType : BreakType {
-	public RestBreakType(ActivityMonitor activity_monitor, UIManager ui_manager) {
+public class RestBreakType : TimerBreakType {
+	private BreakHelper_TimerBreakServer break_type_server;
+
+	private ActivityMonitor activity_monitor;
+
+	public RestBreakType(ActivityMonitor activity_monitor) {
 		Settings settings = new Settings("org.brainbreak.breaks.restbreak");
 		base("restbreak", settings);
+		this.activity_monitor = activity_monitor;
+	}
 
-		this.break_controller = new RestBreakController(this, settings, activity_monitor);
-		this.break_view = new RestBreakView(this, (RestBreakController)this.break_controller, ui_manager);
+	protected override BreakController get_break_controller(Settings settings) {
+		return new RestBreakController(
+			this,
+			settings,
+			this.activity_monitor
+		);
+	}
+
+	protected override BreakView get_break_view(BreakController controller, UIManager ui_manager) {
+		return new RestBreakView(
+			this,
+			(RestBreakController)controller,
+			ui_manager
+		);
 	}
 }
-

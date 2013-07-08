@@ -16,6 +16,7 @@ brainbreak_SOURCES = \
 	break/BreakType.vala \
 	break/BreakView.vala \
 	break/TimerBreakController.vala \
+	break/TimerBreakType.vala \
 	break/TimerBreakStatusWidget.vala \
 	break/TimerBreakView.vala \
 	microbreak/MicroBreakController.vala \

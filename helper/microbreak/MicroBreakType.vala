@@ -15,13 +15,30 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class MicroBreakType : BreakType {
-	public MicroBreakType(ActivityMonitor activity_monitor, UIManager ui_manager) {
+public class MicroBreakType : TimerBreakType {
+	private BreakHelper_TimerBreakServer break_type_server;
+
+	private ActivityMonitor activity_monitor;
+
+	public MicroBreakType(ActivityMonitor activity_monitor) {
 		Settings settings = new Settings("org.brainbreak.breaks.microbreak");
 		base("microbreak", settings);
+		this.activity_monitor = activity_monitor;
+	}
 
-		this.break_controller = new MicroBreakController(this, settings, activity_monitor);
-		this.break_view = new MicroBreakView(this, (MicroBreakController)this.break_controller, ui_manager);
+	protected override BreakController get_break_controller(Settings settings) {
+		return new MicroBreakController(
+			this,
+			settings,
+			this.activity_monitor
+		);
+	}
+
+	protected override BreakView get_break_view(BreakController controller, UIManager ui_manager) {
+		return new MicroBreakView(
+			this,
+			(MicroBreakController)controller,
+			ui_manager
+		);
 	}
 }
-

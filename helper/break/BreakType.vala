@@ -27,11 +27,16 @@ public abstract class BreakType : Object {
 		this.settings = settings;
 	}
 
-	public void initialize() {
+	public virtual void initialize(UIManager ui_manager) {
+		this.break_controller = this.get_break_controller(this.settings);
+		this.break_view = this.get_break_view(this.break_controller, ui_manager);
+
 		this.settings.changed["enabled"].connect(() => {
 			this.break_controller.set_enabled(this.settings.get_boolean("enabled"));
 		});
 		this.break_controller.set_enabled(this.settings.get_boolean("enabled"));
 	}
-}
 
+	protected abstract BreakController get_break_controller(Settings settings);
+	protected abstract BreakView get_break_view(BreakController controller, UIManager ui_manager);
+}

@@ -27,11 +27,11 @@ public class BreakManager : Object {
 	
 	private void add_break(BreakType break_type) {
 		this.breaks.set(break_type.id, break_type);
-		break_type.initialize();
+		break_type.initialize(this.ui_manager);
 		
-		// TODO: At the moment, we expect breaks to enable and disable
-		// themselves using their own settings. In the future, it might be
-		// useful to have a global list of enabled break types, instead.
+		// At the moment, we expect breaks to enable and disable themselves
+		// using settings keys under their own namespaces. In the future, we
+		// might want a global list of enabled break types, instead.
 	}
 	
 	public void load_breaks() {
@@ -45,12 +45,16 @@ public class BreakManager : Object {
 		
 		if (activity_monitor_backend != null) {
 			ActivityMonitor activity_monitor = new ActivityMonitor(activity_monitor_backend);
-			this.add_break(new MicroBreakType(activity_monitor, this.ui_manager));
-			this.add_break(new RestBreakType(activity_monitor, this.ui_manager));
+			this.add_break(new MicroBreakType(activity_monitor));
+			this.add_break(new RestBreakType(activity_monitor));
 		}
 	}
+
+	public Gee.Set<string> all_break_ids() {
+		return this.breaks.keys;
+	}
 	
-	public Gee.Iterable<BreakType> all_breaks() {
+	public Gee.Collection<BreakType> all_breaks() {
 		return this.breaks.values;
 	}
 	

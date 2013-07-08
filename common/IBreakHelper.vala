@@ -17,7 +17,20 @@
 
 [DBus (name = "org.brainbreak.Helper")]
 public interface IBreakHelper : Object {
-	public abstract string get_status_for_break(string break_name) throws IOError;
+	public abstract string[] get_break_ids() throws IOError;
+	public abstract string[] get_status_messages() throws IOError;
 	public abstract void trigger_break(string break_name) throws IOError;
 }
 
+[DBus (name = "org.brainbreak.Breaks.TimerBreak")]
+public interface IBreakHelper_TimerBreak : Object {
+	public abstract TimerBreakStatus get_status() throws IOError;
+	public abstract void activate() throws IOError;
+}
+
+public struct TimerBreakStatus {
+	bool is_active;
+	int starts_in;
+	int time_remaining;
+	int current_duration;
+}

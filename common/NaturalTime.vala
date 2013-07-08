@@ -80,7 +80,7 @@ public class NaturalTime : Object {
 	
 	/**
 	 * Get a list of possible matches for a natural time input such as
-	 * "5 seconds." An input of "50" will return an array with 50 of every
+	 * "5 seconds." An input of "50" will return an array with "50" in every
 	 * known time interval: "50 seconds", "50 minutes" and "50 hours."
 	 * @param input a string representing an amount of time.
 	 * @return a list of strings representing the same time in different units.

@@ -19,37 +19,6 @@ public class Application : Gtk.Application {
 	const string app_id = "org.brainbreak.Helper";
 	const string app_name = _("Brain Break");
 	
-	[DBus (name = "org.brainbreak.Helper")]
-	private class BreakHelperServer : Object {
-		// FIXME: this used to implement BreakHelperRemote, but currently
-		// it does not due to a problem detected by Debian's build log filter.
-		private BreakManager break_manager;
-		
-		public BreakHelperServer(BreakManager break_manager) {
-			this.break_manager = break_manager;
-		}
-		
-		public bool is_active() {
-			bool active = false;
-			foreach (BreakType break_type in this.break_manager.all_breaks()) {
-				active = active || break_type.break_controller.is_active();
-			}
-			return active;
-		}
-		
-		public string get_status_for_break(string break_name) {
-			BreakType? break_type = this.break_manager.get_break_type_for_name(break_name);
-			string status_message = "";
-			if (break_type != null) status_message = break_type.break_view.get_status_message();
-			return status_message;
-		}
-		
-		public void trigger_break(string break_name) {
-			BreakType? break_type = this.break_manager.get_break_type_for_name(break_name);
-			if (break_type != null) break_type.break_controller.activate();
-		}
-	}
-	
 	/* FIXME: font-size should have units, but we can only do that with GTK 3.8 and later */
 	static const string STYLE_DATA =
 			"""
@@ -131,9 +100,45 @@ public class Application : Gtk.Application {
 	}
 }
 
+[DBus (name = "org.brainbreak.Helper")]
+private class BreakHelperServer : Object, IBreakHelper {
+	// FIXME: this used to implement IBreakHelper, but currently
+	// it does not due to a problem detected by Debian's build log filter.
+	private BreakManager break_manager;
+	
+	public BreakHelperServer(BreakManager break_manager) {
+		this.break_manager = break_manager;
+	}
+	
+	public bool is_active() {
+		bool active = false;
+		foreach (BreakType break_type in this.break_manager.all_breaks()) {
+			active = active || break_type.break_controller.is_active();
+		}
+		return active;
+	}
+
+	public string[] get_break_ids() {
+		return this.break_manager.all_break_ids().to_array();
+	}
+	
+	public string[] get_status_messages() {
+		var messages = new Gee.ArrayList<string>();
+		foreach (BreakType break_type in break_manager.all_breaks()) {
+			string status_message = break_type.break_view.get_status_message();
+			messages.add("%s:\t%s".printf(break_type.id, status_message));
+		}
+		return messages.to_array();
+	}
+	
+	public void trigger_break(string break_name) {
+		BreakType? break_type = this.break_manager.get_break_type_for_name(break_name);
+		if (break_type != null) break_type.break_controller.activate();
+	}
+}
+
 public int main(string[] args) {
 	Gtk.init(ref args);
 	Application application = new Application();
 	return application.run(args);
 }
-
