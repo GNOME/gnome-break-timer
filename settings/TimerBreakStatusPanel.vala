@@ -106,8 +106,7 @@ class TimerBreakStatusPanel : Gtk.Grid {
 				HELPER_BUS_NAME,
 				HELPER_BREAK_OBJECT_BASE_PATH+this.break_type.id
 			);
-			//this.break_server.active_changed.connect(this.screensaver_active_changed_cb);
-			this.update_timeout_id = Timeout.add(1, this.update_status_cb);
+			this.update_timeout_id = Timeout.add_seconds(1, this.update_status_cb);
 			this.update_status_cb();
 		} catch (IOError error) {
 			this.break_server = null;
@@ -121,5 +120,6 @@ class TimerBreakStatusPanel : Gtk.Grid {
 			this.update_timeout_id = 0;
 		}
 		this.break_server = null;
+		this.update_status_cb();
 	}
 }

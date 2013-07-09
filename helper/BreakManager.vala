@@ -16,11 +16,13 @@
  */
 
 public class BreakManager : Object {
+	private Application application;
 	private UIManager ui_manager;
 
 	private Gee.Map<string, BreakType> breaks;
 	
-	public BreakManager(UIManager ui_manager) {
+	public BreakManager(Application application, UIManager ui_manager) {
+		this.application = application;
 		this.ui_manager = ui_manager;
 		this.breaks = new Gee.HashMap<string, BreakType>();
 	}
@@ -48,6 +50,9 @@ public class BreakManager : Object {
 			this.add_break(new MicroBreakType(activity_monitor));
 			this.add_break(new RestBreakType(activity_monitor));
 		}
+
+		//Bus.own_name(BusType.SESSION, HELPER_BREAKS_BUS_NAME, BusNameOwnerFlags.NONE,
+		//		this.on_bus_acquired, this.on_name_acquired, this.on_name_lost);
 	}
 
 	public Gee.Set<string> all_break_ids() {

@@ -16,7 +16,7 @@
  */
 
 public class Application : Gtk.Application {
-	const string app_id = HELPER_BUS_NAME;
+	const string app_id = HELPER_BUS_NAME+".Application";
 	const string app_name = _("Brain Break");
 	
 	/* FIXME: font-size should have units, but we can only do that with GTK 3.8 and later */
@@ -63,10 +63,10 @@ public class Application : Gtk.Application {
 	public override void activate() {
 		base.activate();
 	}
-	
+
 	public override void startup() {
 		base.startup();
-		
+
 		Notify.init(app_name);
 		
 		/* set up custom gtk style for application */
@@ -86,7 +86,7 @@ public class Application : Gtk.Application {
 		);
 		
 		this.ui_manager = new UIManager(this, false);
-		this.break_manager = new BreakManager(this.ui_manager);
+		this.break_manager = new BreakManager(this, this.ui_manager);
 		this.break_manager.load_breaks();
 		
 		this.break_helper_server = new BreakHelperServer(this.break_manager);
@@ -100,10 +100,15 @@ public class Application : Gtk.Application {
 		} catch (IOError error) {
 			GLib.error("Error registering helper on the session bus: %s", error.message);
 		}
+
+		var connection = this.get_dbus_connection();
+		if (connection != null) {
+			Bus.own_name_on_connection(connection, HELPER_BUS_NAME, BusNameOwnerFlags.REPLACE, null, null);
+		}
 	}
 }
 
-[DBus (name = "org.brainbreak.Helper")]
+[DBus (name = "org.brainbreak.Monitor")]
 private class BreakHelperServer : Object, IBreakHelper {
 	// FIXME: this used to implement IBreakHelper, but currently
 	// it does not due to a problem detected by Debian's build log filter.

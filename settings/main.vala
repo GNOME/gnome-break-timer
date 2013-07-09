@@ -42,6 +42,12 @@ public class Application : Gtk.Application {
 	
 	public override void activate() {
 		base.activate();
+		
+		this.main_window.present();
+	}
+	
+	public override void startup() {
+		base.startup();
 
 		/* set up custom gtk style for application */
 		Gdk.Screen screen = Gdk.Screen.get_default();
@@ -64,7 +70,6 @@ public class Application : Gtk.Application {
 		};
 
 		this.main_window = new MainWindow(this);
-		this.add_window(this.main_window);
 
 		SimpleAction about_action = new SimpleAction("about", null);
 		this.add_action(about_action);
@@ -78,12 +83,6 @@ public class Application : Gtk.Application {
 		app_menu.append(_("About"), "app.about");
 		app_menu.append(_("Quit"), "app.quit");
 		this.set_app_menu(app_menu);
-
-		this.main_window.present();
-	}
-	
-	public override void startup() {
-		base.startup();
 	}
 
 	private void on_about_activate_cb() {

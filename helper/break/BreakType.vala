@@ -21,20 +21,27 @@ public abstract class BreakType : Object {
 	public BreakView break_view;
 
 	protected Settings settings;
+	protected Settings global_settings;
 	
 	public BreakType(string id, Settings settings) {
 		this.id = id;
 		this.settings = settings;
+		this.global_settings = new Settings("org.brainbreak.breaks");
 	}
 
 	public virtual void initialize(UIManager ui_manager) {
 		this.break_controller = this.get_break_controller(this.settings);
 		this.break_view = this.get_break_view(this.break_controller, ui_manager);
 
-		this.settings.changed["enabled"].connect(() => {
-			this.break_controller.set_enabled(this.settings.get_boolean("enabled"));
-		});
-		this.break_controller.set_enabled(this.settings.get_boolean("enabled"));
+		this.global_settings.changed["master-enabled"].connect(this.update_enabled);
+		this.settings.changed["enabled"].connect(this.update_enabled);
+		this.update_enabled();
+	}
+
+	private void update_enabled() {
+		bool is_enabled = this.global_settings.get_boolean("master-enabled") &&
+			this.settings.get_boolean("enabled");
+		this.break_controller.set_enabled(is_enabled);
 	}
 
 	protected abstract BreakController get_break_controller(Settings settings);
