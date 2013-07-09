@@ -24,6 +24,10 @@ public abstract class BreakType : Object {
 		this.id = id;
 		this.settings = settings;
 	}
+
+	public bool is_enabled() {
+		return this.settings.get_boolean("enabled");
+	}
 	
 	public abstract Gtk.Widget get_status_panel();
 	public abstract Gtk.Widget get_settings_panel();

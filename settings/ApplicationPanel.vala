@@ -36,7 +36,7 @@ public class ApplicationPanel : Gtk.Grid {
 		
 		this.show();
 		
-		Bus.watch_name(BusType.SESSION, "org.brainbreak.Helper", BusNameWatcherFlags.NONE,
+		Bus.watch_name(BusType.SESSION, HELPER_BUS_NAME, BusNameWatcherFlags.NONE,
 				this.break_helper_appeared, this.break_helper_disappeared);
 		
 		this.settings.bind("master-enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);

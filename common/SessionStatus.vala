@@ -53,10 +53,13 @@ public class SessionStatus : Object {
 
 	private void sceensaver_appeared() {
 		try {
-			this.screensaver = Bus.get_proxy_sync(BusType.SESSION, "org.gnome.ScreenSaver", "/org/gnome/ScreenSaver");
+			this.screensaver = Bus.get_proxy_sync(
+				BusType.SESSION,
+				"org.gnome.ScreenSaver",
+				"/org/gnome/ScreenSaver"
+			);
 			this.screensaver.active_changed.connect(this.screensaver_active_changed_cb);
 			this.screensaver_is_active = this.screensaver.get_active();
-
 		} catch (IOError error) {
 			this.screensaver = null;
 			GLib.warning("Error connecting to screensaver service: %s", error.message);

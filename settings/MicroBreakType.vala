@@ -22,19 +22,33 @@ public class MicroBreakType : TimerBreakType {
 
 		this.interval_options = {240, 360, 480, 600};
 		this.duration_options = {15, 20, 25, 30, 45};
+
+		
 	}
 
 	public override Gtk.Widget get_status_panel() {
-		var panel = new Gtk.Grid();
-		var label = new Gtk.Label("Micro Break");
-		panel.add(label);
-		panel.show_all();
-		return panel;
+		return new MicroBreakStatusPanel(this);
 	}
 	
 	public override Gtk.Widget get_settings_panel() {
-		return new TimerBreakSettingsPanel(
-			this,
+		return new MicroBreakSettingsPanel(this);
+	}
+}
+
+class MicroBreakStatusPanel : TimerBreakStatusPanel {
+	public MicroBreakStatusPanel(MicroBreakType break_type) {
+		base(
+			break_type,
+			_("Your next microbreak is in"),
+			_("It's time for a microbreak")
+		);
+	}
+}
+
+class MicroBreakSettingsPanel : TimerBreakSettingsPanel {
+	public MicroBreakSettingsPanel(MicroBreakType break_type) {
+		base(
+			break_type,
 			_("Micro Break"),
 			_("Pause frequently to relax your eyes")
 		);

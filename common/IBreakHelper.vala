@@ -15,6 +15,10 @@
  * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+public const string HELPER_BUS_NAME = "org.brainbreak.Helper";
+public const string HELPER_OBJECT_PATH = "/org/brainbreak/Helper";
+public const string HELPER_BREAK_OBJECT_BASE_PATH = "/org/brainbreak/Breaks/";
+
 [DBus (name = "org.brainbreak.Helper")]
 public interface IBreakHelper : Object {
 	public abstract string[] get_break_ids() throws IOError;
@@ -29,6 +33,7 @@ public interface IBreakHelper_TimerBreak : Object {
 }
 
 public struct TimerBreakStatus {
+	bool is_enabled;
 	bool is_active;
 	int starts_in;
 	int time_remaining;

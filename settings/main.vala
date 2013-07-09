@@ -22,6 +22,14 @@ public class Application : Gtk.Application {
 		GtkLabel._settings-title {
 			font-weight:bold;
 		}
+
+		._break-status {
+			font-size: 12;
+		}
+
+		._break-status-icon {
+			opacity: 0.2;
+		}
 		""";
 
 	public BreakType[] breaks {public get; private set;}

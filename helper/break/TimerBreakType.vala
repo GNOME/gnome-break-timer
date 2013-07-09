@@ -28,10 +28,12 @@ public abstract class TimerBreakType : BreakType {
 		this.break_type_server = new BreakHelper_TimerBreakServer(
 			(TimerBreakController)this.break_controller
 		);
-		string object_path = "/org/brainbreak/Breaks/%s".printf(this.id);
 		try {
 			DBusConnection connection = Bus.get_sync(BusType.SESSION, null);
-			connection.register_object (object_path, break_type_server);
+			connection.register_object(
+				HELPER_BREAK_OBJECT_BASE_PATH+this.id,
+				this.break_type_server
+			);
 		} catch (IOError error) {
 			GLib.error("Error registering break type on the session bus: %s", error.message);
 		}
@@ -40,8 +42,6 @@ public abstract class TimerBreakType : BreakType {
 
 [DBus (name = "org.brainbreak.Breaks.TimerBreak")]
 private class BreakHelper_TimerBreakServer : Object, IBreakHelper_TimerBreak {
-	// FIXME: this used to implement IBreakHelper, but currently
-	// it does not due to a problem detected by Debian's build log filter.
 	private TimerBreakController break_controller;
 	
 	public BreakHelper_TimerBreakServer(TimerBreakController break_controller) {
@@ -50,6 +50,7 @@ private class BreakHelper_TimerBreakServer : Object, IBreakHelper_TimerBreak {
 	
 	public TimerBreakStatus get_status() {
 		return TimerBreakStatus() {
+			is_enabled = this.break_controller.is_enabled(),
 			is_active = this.break_controller.is_active(),
 			starts_in = this.break_controller.starts_in(),
 			time_remaining = this.break_controller.get_time_remaining(),

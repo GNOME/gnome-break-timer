@@ -16,7 +16,7 @@
  */
 
 public class Application : Gtk.Application {
-	const string app_id = "org.brainbreak.Helper";
+	const string app_id = HELPER_BUS_NAME;
 	const string app_name = _("Brain Break");
 	
 	/* FIXME: font-size should have units, but we can only do that with GTK 3.8 and later */
@@ -93,7 +93,10 @@ public class Application : Gtk.Application {
 		
 		try {
 			DBusConnection connection = Bus.get_sync(BusType.SESSION, null);
-			connection.register_object ("/org/brainbreak/Helper", this.break_helper_server);
+			connection.register_object(
+				HELPER_OBJECT_PATH,
+				this.break_helper_server
+			);
 		} catch (IOError error) {
 			GLib.error("Error registering helper on the session bus: %s", error.message);
 		}

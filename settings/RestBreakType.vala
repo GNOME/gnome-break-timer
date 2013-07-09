@@ -25,16 +25,28 @@ public class RestBreakType : TimerBreakType {
 	}
 	
 	public override Gtk.Widget get_status_panel() {
-		var panel = new Gtk.Grid();
-		var label = new Gtk.Label("Rest Break");
-		panel.add(label);
-		panel.show_all();
-		return panel;
+		return new RestBreakStatusPanel(this);
 	}
 
 	public override Gtk.Widget get_settings_panel() {
-		return new TimerBreakSettingsPanel(
-			this,
+		return new RestBreakSettingsPanel(this);
+	}
+}
+
+class RestBreakStatusPanel : TimerBreakStatusPanel {
+	public RestBreakStatusPanel(RestBreakType break_type) {
+		base(
+			break_type,
+			_("Your next full break is in"),
+			_("It's break time")
+		);
+	}
+}
+
+class RestBreakSettingsPanel : TimerBreakSettingsPanel {
+	public RestBreakSettingsPanel(RestBreakType break_type) {
+		base(
+			break_type,
 			_("Rest Break"),
 			_("And take some longer breaks to stretch your legs")
 		);

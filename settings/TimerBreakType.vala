@@ -16,11 +16,17 @@
  */
 
 public abstract class TimerBreakType : BreakType {
+	public int interval {get; protected set;}
+	public int duration {get; protected set;}
+
 	public int[] interval_options;
 	public int[] duration_options;
 
 	public TimerBreakType(string name, Settings settings) {
 		base(name, settings);
+
+		settings.bind("interval-seconds", this, "interval", SettingsBindFlags.GET);
+		settings.bind("duration-seconds", this, "duration", SettingsBindFlags.GET);
 	}
 }
 

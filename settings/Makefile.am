@@ -20,6 +20,7 @@ brainbreak_settings_SOURCES = \
 	SettingsPanel.vala \
 	TimeChooser.vala \
 	TimerBreakSettingsPanel.vala \
+	TimerBreakStatusPanel.vala \
 	TimerBreakType.vala
 
 brainbreak_settings_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
