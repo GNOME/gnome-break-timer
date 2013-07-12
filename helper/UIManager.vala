@@ -34,6 +34,10 @@ public class UIManager : SimpleFocusManager {
 
 		public abstract string get_id();
 
+		public bool has_ui_focus() {
+			return this.ui_manager.is_focusing(this);
+		}
+
 		protected void request_ui_focus() {
 			if (this.has_ui_focus()) {
 				// If we already have focus, UIManager will not call
@@ -46,10 +50,6 @@ public class UIManager : SimpleFocusManager {
 		
 		protected void release_ui_focus() {
 			this.ui_manager.release_focus(this);
-		}
-
-		protected bool has_ui_focus() {
-			return this.ui_manager.is_focusing(this);
 		}
 
 		protected void play_sound_from_id(string event_id) {
@@ -122,8 +122,8 @@ public class UIManager : SimpleFocusManager {
 
 		/* IFocusable interface */
 
-		public abstract void focus_started();
-		public abstract void focus_stopped();
+		protected abstract void focus_started();
+		protected abstract void focus_stopped();
 	}
 
 	private Application application;
@@ -219,7 +219,8 @@ public class UIManager : SimpleFocusManager {
 			try {
 				this.notification.close();
 			} catch (Error error) {
-				GLib.warning("Error closing notification: %s", error.message);
+				// We ignore this error, because it's usually just noise
+				// GLib.warning("Error closing notification: %s", error.message);
 			}
 		}
 		this.notification = null;

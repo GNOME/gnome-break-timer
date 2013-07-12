@@ -19,20 +19,30 @@ public class Application : Gtk.Application {
 	private const string app_id = "org.brainbreak.Settings";
 	private static const string STYLE_DATA =
 		"""
-		GtkLabel._settings-title {
+		._settings-title {
 			font-weight:bold;
 		}
 
-		._break-status {
+		._break-info {
 			font-size: 12;
+		}
+
+		._break-info-heading {
+			font-size: 22;
+		}
+
+		._break-status-heading {
+			font-size: 12;
+		}
+
+		._break-status-hint {
+			font-size: 11;
 		}
 
 		._break-status-icon {
 			opacity: 0.2;
 		}
 		""";
-
-	public BreakType[] breaks {public get; private set;}
 
 	private MainWindow main_window;
 
@@ -63,13 +73,6 @@ public class Application : Gtk.Application {
 				screen,
 				style_provider,
 				Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-		
-		this.breaks = {
-			new MicroBreakType(),
-			new RestBreakType()
-		};
-
-		this.main_window = new MainWindow(this);
 
 		SimpleAction about_action = new SimpleAction("about", null);
 		this.add_action(about_action);
@@ -83,6 +86,10 @@ public class Application : Gtk.Application {
 		app_menu.append(_("About"), "app.about");
 		app_menu.append(_("Quit"), "app.quit");
 		this.set_app_menu(app_menu);
+		
+		var break_manager = new BreakManager(this);
+		this.main_window = new MainWindow(this, break_manager);
+		break_manager.load_breaks();
 	}
 
 	private void on_about_activate_cb() {

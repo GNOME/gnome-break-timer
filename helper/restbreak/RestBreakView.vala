@@ -41,6 +41,7 @@ public class RestBreakView : TimerBreakView {
 		base(break_type, rest_break, ui_manager);
 		this.focus_priority = FocusPriority.HIGH;
 
+		this.focused_and_activated.connect(this.focused_and_activated_cb);
 		this.rest_break.activated.connect(this.activated_cb);
 		this.rest_break.finished.connect(this.finished_cb);
 		this.rest_break.duration_adjusted.connect(this.duration_adjusted_cb);
@@ -140,7 +141,7 @@ public class RestBreakView : TimerBreakView {
 	private void notification_action_info_cb() {
 	}
 
-	protected override void show_active_ui() {
+	private void focused_and_activated_cb() {
 		var status_widget = new TimerBreakStatusWidget(this.rest_break);
 		int quote_number = Random.int_range(0, this.rest_quotes.length);
 		string random_quote = this.rest_quotes[quote_number];

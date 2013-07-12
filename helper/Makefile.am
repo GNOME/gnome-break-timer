@@ -26,9 +26,9 @@ brainbreak_SOURCES = \
 	restbreak/RestBreakType.vala \
 	restbreak/RestBreakView.vala \
 	BreakManager.vala \
-	main.vala \
 	ScreenOverlay.vala \
-	UIManager.vala
+	UIManager.vala \
+	main.vala
 
 brainbreak_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
 	--pkg gtk+-3.0 \

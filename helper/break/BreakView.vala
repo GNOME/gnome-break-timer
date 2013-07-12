@@ -18,6 +18,10 @@
 public abstract class BreakView : UIManager.UIFragment {
 	protected BreakType break_type;
 	protected BreakController break_controller;
+
+	/** The break is active and has been given UI focus */
+	public signal void focused_and_activated();
+	public signal void lost_ui_focus();
 	
 	public BreakView(BreakType break_type, BreakController break_controller, UIManager ui_manager) {
 		this.ui_manager = ui_manager;
@@ -34,8 +38,6 @@ public abstract class BreakView : UIManager.UIFragment {
 	}
 
 	public abstract string get_status_message();
-	
-	protected abstract void show_active_ui();
 
 	/* UIFragment interface */
 
@@ -43,14 +45,16 @@ public abstract class BreakView : UIManager.UIFragment {
 		return this.break_type.id;
 	}
 
-	public override void focus_started() {
+	protected override void focus_started() {
 		if (this.break_controller.is_active()) {
-			this.show_active_ui();
+			this.focused_and_activated();
 		}
+		// else the break may have been given focus early. (See the BreakController.warned signal).
 	}
 
-	public override void focus_stopped() {
+	protected override void focus_stopped() {
 		this.hide_overlay();
+		this.lost_ui_focus();
 		// We don't hide the current notification, because we might have a
 		// "Finished" notification that outlasts the UIFragment
 	}

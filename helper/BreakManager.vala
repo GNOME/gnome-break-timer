@@ -19,21 +19,25 @@ public class BreakManager : Object {
 	private Application application;
 	private UIManager ui_manager;
 
+	private BreakHelperServer break_helper_server;
+
 	private Gee.Map<string, BreakType> breaks;
 	
 	public BreakManager(Application application, UIManager ui_manager) {
 		this.application = application;
 		this.ui_manager = ui_manager;
 		this.breaks = new Gee.HashMap<string, BreakType>();
-	}
-	
-	private void add_break(BreakType break_type) {
-		this.breaks.set(break_type.id, break_type);
-		break_type.initialize(this.ui_manager);
-		
-		// At the moment, we expect breaks to enable and disable themselves
-		// using settings keys under their own namespaces. In the future, we
-		// might want a global list of enabled break types, instead.
+
+		this.break_helper_server = new BreakHelperServer(this);
+		try {
+			DBusConnection connection = Bus.get_sync(BusType.SESSION, null);
+			connection.register_object(
+				HELPER_OBJECT_PATH,
+				this.break_helper_server
+			);
+		} catch (IOError error) {
+			GLib.error("Error registering helper on the session bus: %s", error.message);
+		}
 	}
 	
 	public void load_breaks() {
@@ -50,9 +54,6 @@ public class BreakManager : Object {
 			this.add_break(new MicroBreakType(activity_monitor));
 			this.add_break(new RestBreakType(activity_monitor));
 		}
-
-		//Bus.own_name(BusType.SESSION, HELPER_BREAKS_BUS_NAME, BusNameOwnerFlags.NONE,
-		//		this.on_bus_acquired, this.on_name_acquired, this.on_name_lost);
 	}
 
 	public Gee.Set<string> all_break_ids() {
@@ -65,6 +66,60 @@ public class BreakManager : Object {
 	
 	public BreakType? get_break_type_for_name(string name) {
 		return this.breaks.get(name);
+	}
+
+	private void add_break(BreakType break_type) {
+		this.breaks.set(break_type.id, break_type);
+		break_type.initialize(this.ui_manager);
+		
+		// At the moment, we expect breaks to enable and disable themselves
+		// using settings keys under their own namespaces. In the future, we
+		// might want a global list of enabled break types, instead.
+	}
+}
+
+[DBus (name = "org.brainbreak.Helper")]
+private class BreakHelperServer : Object, IBreakHelper {
+	private BreakManager break_manager;
+	
+	public BreakHelperServer(BreakManager break_manager) {
+		this.break_manager = break_manager;
+	}
+
+	public string? get_current_active_break() {
+		/* Ask  for focused break */
+		foreach (BreakType break_type in this.break_manager.all_breaks()) {
+			bool is_active = break_type.break_view.has_ui_focus() &&
+				break_type.break_controller.is_active();
+			if (is_active) return break_type.id;
+		}
+		return null;
+	}
+	
+	public bool is_active() {
+		bool active = false;
+		foreach (BreakType break_type in this.break_manager.all_breaks()) {
+			active = active || break_type.break_controller.is_active();
+		}
+		return active;
+	}
+
+	public string[] get_break_ids() {
+		return this.break_manager.all_break_ids().to_array();
+	}
+	
+	public string[] get_status_messages() {
+		var messages = new Gee.ArrayList<string>();
+		foreach (BreakType break_type in break_manager.all_breaks()) {
+			string status_message = break_type.break_view.get_status_message();
+			messages.add("%s:\t%s".printf(break_type.id, status_message));
+		}
+		return messages.to_array();
+	}
+	
+	public void activate_break(string break_name) {
+		BreakType? break_type = this.break_manager.get_break_type_for_name(break_name);
+		if (break_type != null) break_type.break_controller.activate();
 	}
 }
 

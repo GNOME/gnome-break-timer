@@ -26,7 +26,8 @@ public abstract class TimerBreakType : BreakType {
 		base.initialize(ui_manager);
 
 		this.break_type_server = new BreakHelper_TimerBreakServer(
-			(TimerBreakController)this.break_controller
+			(TimerBreakController)this.break_controller,
+			(TimerBreakView)this.break_view
 		);
 		try {
 			DBusConnection connection = Bus.get_sync(BusType.SESSION, null);
@@ -43,14 +44,17 @@ public abstract class TimerBreakType : BreakType {
 [DBus (name = "org.brainbreak.Breaks.TimerBreak")]
 private class BreakHelper_TimerBreakServer : Object, IBreakHelper_TimerBreak {
 	private TimerBreakController break_controller;
+	private TimerBreakView break_view;
 	
-	public BreakHelper_TimerBreakServer(TimerBreakController break_controller) {
+	public BreakHelper_TimerBreakServer(TimerBreakController break_controller, TimerBreakView break_view) {
 		this.break_controller = break_controller;
+		this.break_view = break_view;
 	}
 	
 	public TimerBreakStatus get_status() {
 		return TimerBreakStatus() {
 			is_enabled = this.break_controller.is_enabled(),
+			is_focused = this.break_view.has_ui_focus(),
 			is_active = this.break_controller.is_active(),
 			starts_in = this.break_controller.starts_in(),
 			time_remaining = this.break_controller.get_time_remaining(),

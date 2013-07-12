@@ -21,7 +21,7 @@ public class SettingsDialog : Gtk.Dialog {
 	
 	private static const int ABOUT_BUTTON_RESPONSE = 5;
 	
-	public SettingsDialog(Application application) {
+	public SettingsDialog(BreakManager break_manager) {
 		Object();
 		
 		this.set_title(_("Choose Your Break Preferences"));
@@ -39,17 +39,14 @@ public class SettingsDialog : Gtk.Dialog {
 		this.breaks_grid.margin = 12;
 		this.breaks_grid.set_row_spacing(18);
 		content.add(this.breaks_grid);
-
-		foreach (BreakType break_type in application.breaks) {
-			this.add_break_type(break_type);
-		}
 		
 		content.show_all();
+
+		break_manager.break_added.connect(this.break_added_cb);
 	}
-	
-	private void add_break_type(BreakType break_type) {
-		Gtk.Widget settings_panel = break_type.get_settings_panel();
-		breaks_grid.add(settings_panel);
+
+	private void break_added_cb(BreakType break_type) {
+		breaks_grid.add(break_type.settings_panel);
 	}
 	
 	private void response_cb(int response_id) {

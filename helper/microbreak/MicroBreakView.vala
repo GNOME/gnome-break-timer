@@ -29,6 +29,7 @@ public class MicroBreakView : TimerBreakView {
 		base(break_type, micro_break, ui_manager);
 		this.focus_priority = FocusPriority.LOW;
 
+		this.focused_and_activated.connect(this.focused_and_activated_cb);
 		this.micro_break.finished.connect(this.finished_cb);
 	}
 
@@ -60,7 +61,7 @@ public class MicroBreakView : TimerBreakView {
 	private void notification_action_info_cb() {
 	}
 
-	protected override void show_active_ui() {
+	private void focused_and_activated_cb() {
 		var status_widget = new TimerBreakStatusWidget(this.micro_break);
 		status_widget.set_message(_("Take a moment to rest your eyes"));
 		this.set_overlay(status_widget);

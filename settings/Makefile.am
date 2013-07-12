@@ -10,18 +10,16 @@ bin_PROGRAMS = \
 
 brainbreak_settings_SOURCES = \
 	ApplicationPanel.vala \
-	BreakSettingsPanel.vala \
+	BreakManager.vala \
 	BreakType.vala \
-	main.vala \
 	MainWindow.vala \
 	MicroBreakType.vala \
 	RestBreakType.vala \
 	SettingsDialog.vala \
 	SettingsPanel.vala \
 	TimeChooser.vala \
-	TimerBreakSettingsPanel.vala \
-	TimerBreakStatusPanel.vala \
-	TimerBreakType.vala
+	TimerBreakType.vala \
+	main.vala
 
 brainbreak_settings_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
 	--pkg gtk+-3.0 \

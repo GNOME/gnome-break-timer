@@ -22,16 +22,35 @@ public class MicroBreakType : TimerBreakType {
 
 		this.interval_options = {240, 360, 480, 600};
 		this.duration_options = {15, 20, 25, 30, 45};
-
-		
 	}
 
-	public override Gtk.Widget get_status_panel() {
+	protected override BreakInfoPanel get_info_panel() {
+		return new MicroBreakInfoPanel(this);
+	}
+
+	protected override BreakStatusPanel get_status_panel() {
 		return new MicroBreakStatusPanel(this);
 	}
 	
-	public override Gtk.Widget get_settings_panel() {
+	protected override BreakSettingsPanel get_settings_panel() {
 		return new MicroBreakSettingsPanel(this);
+	}
+}
+
+class MicroBreakInfoPanel : BreakInfoPanel {
+	const string DESCRIPTION_FORMAT = _(
+"Take a break from typing and look away from the screen for a short while.
+
+I'll chime when it's time to start using the computer again.");
+
+	public MicroBreakInfoPanel(MicroBreakType break_type) {
+		base(
+			break_type,
+			_("Microbreak")
+		);
+
+		this.set_heading(_("It’s microbreak time"));
+		this.set_description(DESCRIPTION_FORMAT);
 	}
 }
 
@@ -49,7 +68,7 @@ class MicroBreakSettingsPanel : TimerBreakSettingsPanel {
 	public MicroBreakSettingsPanel(MicroBreakType break_type) {
 		base(
 			break_type,
-			_("Micro Break"),
+			_("Microbreak"),
 			_("Pause frequently to relax your eyes")
 		);
 	}

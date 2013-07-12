@@ -23,13 +23,41 @@ public class RestBreakType : TimerBreakType {
 		this.interval_options = {1800, 2400, 3000, 3600};
 		this.duration_options = {300, 360, 420, 480, 540, 600};
 	}
+
+	protected override BreakInfoPanel get_info_panel() {
+		return new RestBreakInfoPanel(this);
+	}
 	
-	public override Gtk.Widget get_status_panel() {
+	protected override BreakStatusPanel get_status_panel() {
 		return new RestBreakStatusPanel(this);
 	}
 
-	public override Gtk.Widget get_settings_panel() {
+	protected override BreakSettingsPanel get_settings_panel() {
 		return new RestBreakSettingsPanel(this);
+	}
+}
+
+class RestBreakInfoPanel : BreakInfoPanel {
+	const string DESCRIPTION_FORMAT = _(
+"Take some time away from the computer. Stretch and move around.
+
+Your break is scheduled to last for %s. I’ll remind you when your time is up.");
+
+	public RestBreakInfoPanel(RestBreakType break_type) {
+		base(
+			break_type,
+			_("Break")
+		);
+
+		this.set_heading(_("It’s break time"));
+		break_type.notify["duration"].connect(this.update_description);
+		this.update_description();
+	}
+
+	private void update_description() {
+		var timer_break_type = (TimerBreakType)this.break_type;
+		string break_duration = NaturalTime.instance.get_label_for_seconds(timer_break_type.duration);
+		this.set_description(DESCRIPTION_FORMAT.printf(break_duration));
 	}
 }
 
@@ -47,7 +75,7 @@ class RestBreakSettingsPanel : TimerBreakSettingsPanel {
 	public RestBreakSettingsPanel(RestBreakType break_type) {
 		base(
 			break_type,
-			_("Rest Break"),
+			_("Full break"),
 			_("And take some longer breaks to stretch your legs")
 		);
 	}

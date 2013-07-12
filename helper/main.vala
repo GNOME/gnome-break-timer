@@ -50,8 +50,6 @@ public class Application : Gtk.Application {
 	private BreakManager break_manager;
 	private UIManager ui_manager;
 	
-	private BreakHelperServer break_helper_server;
-	
 	public Application() {
 		Object(application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
 		GLib.Environment.set_application_name(app_name);
@@ -88,60 +86,11 @@ public class Application : Gtk.Application {
 		this.ui_manager = new UIManager(this, false);
 		this.break_manager = new BreakManager(this, this.ui_manager);
 		this.break_manager.load_breaks();
-		
-		this.break_helper_server = new BreakHelperServer(this.break_manager);
-		
-		try {
-			DBusConnection connection = Bus.get_sync(BusType.SESSION, null);
-			connection.register_object(
-				HELPER_OBJECT_PATH,
-				this.break_helper_server
-			);
-		} catch (IOError error) {
-			GLib.error("Error registering helper on the session bus: %s", error.message);
-		}
 
 		var connection = this.get_dbus_connection();
 		if (connection != null) {
 			Bus.own_name_on_connection(connection, HELPER_BUS_NAME, BusNameOwnerFlags.REPLACE, null, null);
 		}
-	}
-}
-
-[DBus (name = "org.brainbreak.Monitor")]
-private class BreakHelperServer : Object, IBreakHelper {
-	// FIXME: this used to implement IBreakHelper, but currently
-	// it does not due to a problem detected by Debian's build log filter.
-	private BreakManager break_manager;
-	
-	public BreakHelperServer(BreakManager break_manager) {
-		this.break_manager = break_manager;
-	}
-	
-	public bool is_active() {
-		bool active = false;
-		foreach (BreakType break_type in this.break_manager.all_breaks()) {
-			active = active || break_type.break_controller.is_active();
-		}
-		return active;
-	}
-
-	public string[] get_break_ids() {
-		return this.break_manager.all_break_ids().to_array();
-	}
-	
-	public string[] get_status_messages() {
-		var messages = new Gee.ArrayList<string>();
-		foreach (BreakType break_type in break_manager.all_breaks()) {
-			string status_message = break_type.break_view.get_status_message();
-			messages.add("%s:\t%s".printf(break_type.id, status_message));
-		}
-		return messages.to_array();
-	}
-	
-	public void trigger_break(string break_name) {
-		BreakType? break_type = this.break_manager.get_break_type_for_name(break_name);
-		if (break_type != null) break_type.break_controller.activate();
 	}
 }
 
