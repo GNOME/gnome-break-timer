@@ -11,12 +11,11 @@ bin_PROGRAMS = \
 brainbreak_settings_SOURCES = \
 	ApplicationPanel.vala \
 	BreakManager.vala \
+	BreakSettingsDialog.vala \
 	BreakType.vala \
 	MainWindow.vala \
 	MicroBreakType.vala \
 	RestBreakType.vala \
-	SettingsDialog.vala \
-	SettingsPanel.vala \
 	TimeChooser.vala \
 	TimerBreakType.vala \
 	main.vala

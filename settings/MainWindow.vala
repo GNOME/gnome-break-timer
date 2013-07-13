@@ -21,7 +21,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 	private IBreakHelper? break_helper_server;
 
 	private Gd.HeaderBar header;
-	private SettingsDialog settings_dialog;
+	private BreakSettingsDialog break_settings_dialog;
 	private Gd.Stack main_stack;
 
 	private StatusPanel status_panel;
@@ -34,9 +34,9 @@ public class MainWindow : Gtk.ApplicationWindow {
 		this.set_title(_("Break Timer"));
 		this.set_hide_titlebar_when_maximized(true);
 
-		this.settings_dialog = new SettingsDialog(break_manager);
-		this.settings_dialog.set_modal(true);
-		this.settings_dialog.set_transient_for(this);
+		this.break_settings_dialog = new BreakSettingsDialog(break_manager);
+		this.break_settings_dialog.set_modal(true);
+		this.break_settings_dialog.set_transient_for(this);
 		
 		Gtk.Grid content = new Gtk.Grid();
 		this.add(content);
@@ -104,7 +104,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 	}
 
 	private void settings_clicked_cb() {
-		this.settings_dialog.show();
+		this.break_settings_dialog.show();
 	}
 
 	private void launch_helper() {
@@ -119,11 +119,16 @@ public class MainWindow : Gtk.ApplicationWindow {
 	}
 }
 
+private class WelcomePanel : Gd.Stack {
+	
+}
+
 private class StatusPanel : Gd.Stack {
 	private BreakManager break_manager;
 
 	private Gtk.Grid breaks_list;
 	private Gtk.Grid no_breaks_message;
+	private Gtk.Grid error_message;
 
 	public StatusPanel(BreakManager break_manager) {
 		// TODO: Once we port to Gtk.Stack, set property "homogenous: false"
@@ -141,6 +146,9 @@ private class StatusPanel : Gd.Stack {
 		this.no_breaks_message = this.build_no_breaks_message();
 		this.add(this.no_breaks_message);
 
+		this.error_message = this.build_error_message();
+		this.add(this.error_message);
+
 		break_manager.break_added.connect(this.break_added_cb);
 	}
 
@@ -153,27 +161,45 @@ private class StatusPanel : Gd.Stack {
 		return breaks_list;
 	}
 
+	private Gtk.Grid build_message(string icon_name, string heading, string detail) {
+		var message = new Gtk.Grid();
+		message.set_orientation(Gtk.Orientation.VERTICAL);
+		message.set_halign(Gtk.Align.CENTER);
+		message.set_valign(Gtk.Align.CENTER);
+		message.set_row_spacing(12);
+
+		var image = new Gtk.Image.from_icon_name(icon_name, Gtk.IconSize.DIALOG);
+		message.add(image);
+		image.set_pixel_size(120);
+		image.get_style_context().add_class("_break-status-icon");
+
+		var heading_label = new Gtk.Label(heading);
+		message.add(heading_label);
+		heading_label.get_style_context().add_class("_break-status-heading");
+
+		var detail_label = new Gtk.Label(null);
+		message.add(detail_label);
+		detail_label.set_markup(detail);
+		detail_label.get_style_context().add_class("_break-status-hint");
+		detail_label.set_max_width_chars(60);
+
+		return message;
+	}
+
 	private Gtk.Grid build_no_breaks_message() {
-		var no_breaks_message = new Gtk.Grid();
-		no_breaks_message.set_orientation(Gtk.Orientation.VERTICAL);
-		no_breaks_message.set_halign(Gtk.Align.CENTER);
-		no_breaks_message.set_valign(Gtk.Align.CENTER);
-		no_breaks_message.set_row_spacing(12);
+		return this.build_message(
+			"face-sad-symbolic",
+			_("Break Timer is taking a break"),
+			_("Turn me on to get those breaks going")
+		);
+	}
 
-		var no_breaks_image = new Gtk.Image.from_icon_name("face-sick-symbolic", Gtk.IconSize.DIALOG);
-		no_breaks_message.add(no_breaks_image);
-		no_breaks_image.set_pixel_size(120);
-		no_breaks_image.get_style_context().add_class("_break-status-icon");
-
-		var no_breaks_heading = new Gtk.Label(_("Break Timer is taking a break"));
-		no_breaks_message.add(no_breaks_heading);
-		no_breaks_heading.get_style_context().add_class("_break-status-heading");
-
-		var no_breaks_detail = new Gtk.Label(_("Turn me on to get those breaks going"));
-		no_breaks_message.add(no_breaks_detail);
-		no_breaks_detail.get_style_context().add_class("_break-status-hint");
-
-		return no_breaks_message;
+	private Gtk.Grid build_error_message() {
+		return this.build_message(
+			"face-sick-symbolic",
+			_("Break Timer isn’t responding"),
+			_("If this continues the next time you log in, please <a href=\"https://bugs.launchpad.net/brainbreak\">open a bug report</a>.")
+		);
 	}
 
 	private void break_added_cb(BreakType break_type) {
@@ -189,21 +215,30 @@ private class StatusPanel : Gd.Stack {
 	}
 
 	private void update_breaks_list() {
+		bool success = false;
 		bool any_breaks_enabled = false;
 
-		foreach (BreakType break_type in this.break_manager.all_breaks()) {
-			if (break_type.status.is_enabled) {
-				break_type.status_panel.show();
-				any_breaks_enabled = true;
-			} else {
-				break_type.status_panel.hide();
+		unowned List<BreakType> all_breaks = this.break_manager.all_breaks();
+		foreach (BreakType break_type in all_breaks) {
+			var status = break_type.status;
+			if (status != null) {
+				success = true;
+				if (status.is_enabled) {
+					break_type.status_panel.show();
+					any_breaks_enabled = true;
+				} else {
+					break_type.status_panel.hide();
+				}
 			}
 		}
+		if (all_breaks.length() == 0) success = true;
 
 		if (any_breaks_enabled) {
 			this.set_visible_child(this.breaks_list);
-		} else {
+		} else if (success || !this.break_manager.master_enabled) {
 			this.set_visible_child(this.no_breaks_message);
+		} else {
+			this.set_visible_child(this.error_message);
 		}
 	}
 }

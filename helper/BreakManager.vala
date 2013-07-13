@@ -19,14 +19,24 @@ public class BreakManager : Object {
 	private Application application;
 	private UIManager ui_manager;
 
+	private Gee.Map<string, BreakType> breaks;
 	private BreakHelperServer break_helper_server;
 
-	private Gee.Map<string, BreakType> breaks;
+	private Settings settings;
+	public bool master_enabled {get; set;}
+	public string[] selected_break_ids {get; set;}
 	
 	public BreakManager(Application application, UIManager ui_manager) {
 		this.application = application;
 		this.ui_manager = ui_manager;
+
 		this.breaks = new Gee.HashMap<string, BreakType>();
+		this.settings = new Settings("org.brainbreak.breaks");
+
+		this.settings.bind("master-enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
+		this.settings.bind("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);
+		this.notify["master-enabled"].connect(this.update_enabled_breaks);
+		this.notify["selected-break-ids"].connect(this.update_enabled_breaks);
 
 		this.break_helper_server = new BreakHelperServer(this);
 		try {
@@ -54,6 +64,8 @@ public class BreakManager : Object {
 			this.add_break(new MicroBreakType(activity_monitor));
 			this.add_break(new RestBreakType(activity_monitor));
 		}
+
+		this.update_enabled_breaks();
 	}
 
 	public Gee.Set<string> all_break_ids() {
@@ -71,10 +83,13 @@ public class BreakManager : Object {
 	private void add_break(BreakType break_type) {
 		this.breaks.set(break_type.id, break_type);
 		break_type.initialize(this.ui_manager);
-		
-		// At the moment, we expect breaks to enable and disable themselves
-		// using settings keys under their own namespaces. In the future, we
-		// might want a global list of enabled break types, instead.
+	}
+
+	private void update_enabled_breaks() {
+		foreach (BreakType break_type in this.all_breaks()) {
+			bool is_enabled = this.master_enabled && break_type.id in this.selected_break_ids;
+			break_type.break_controller.set_enabled(is_enabled);
+		}
 	}
 }
 

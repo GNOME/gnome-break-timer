@@ -30,7 +30,7 @@ public abstract class TimerBreakType : BreakType {
 		settings.bind("duration-seconds", this, "duration", SettingsBindFlags.GET);
 	}
 
-	public signal void timer_status_changed(TimerBreakStatus status);
+	public signal void timer_status_changed(TimerBreakStatus? status);
 
 	public override void initialize() {
 		base.initialize();
@@ -38,21 +38,23 @@ public abstract class TimerBreakType : BreakType {
 				this.breakhelper_appeared, this.breakhelper_disappeared);
 	}
 
-	protected new void update_status(TimerBreakStatus status) {
-		base.update_status(BreakStatus() {
-			is_enabled = status.is_enabled,
-			is_focused = status.is_focused,
-			is_active = status.is_active
-		});
+	protected new void update_status(TimerBreakStatus? status) {
+		if (status != null) {
+			base.update_status(BreakStatus() {
+				is_enabled = status.is_enabled,
+				is_focused = status.is_focused,
+				is_active = status.is_active
+			});
+		} else {
+			base.update_status(null);
+		}
 		this.timer_status_changed(status);
 	}
 
 	private uint update_timeout_id;
 	private bool update_status_cb() {
 		TimerBreakStatus? status = this.get_status();
-		if (status != null) {
-			this.update_status(status);
-		}
+		this.update_status(status);
 		return true;
 	}
 
@@ -141,7 +143,9 @@ public abstract class TimerBreakStatusPanel : BreakStatusPanel {
 		break_type.timer_status_changed.connect(this.timer_status_changed_cb);
 	}
 
-	private void timer_status_changed_cb(TimerBreakStatus status) {
+	private void timer_status_changed_cb(TimerBreakStatus? status) {
+		if (status == null) return;
+		
 		if (status.is_active) {
 			// TODO: Instead of this, explain the current break. Implement
 			// the "What should I do?" button from the mockup, seen at

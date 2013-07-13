@@ -95,8 +95,10 @@ public abstract class TimerBreakController : BreakController {
 	}
 	
 	private void finished_cb(BreakController.FinishedReason reason) {
-		this.interval_countdown.reset();
-		this.duration_countdown.reset();
+		if (reason > BreakController.FinishedReason.DISABLED) {
+			this.interval_countdown.reset();
+			this.duration_countdown.reset();
+		}
 	}
 	
 	bool is_warned;

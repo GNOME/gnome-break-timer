@@ -5,20 +5,25 @@
   
   <schema id="org.brainbreak.breaks" path="/org/brainbreak/breaks/" gettext-domain="brainbreak">
     <key name="master-enabled" type="b">
-      <default>true</default>
       <_summary>True to enable Brain Break</_summary>
+      <default>true</default>
+    </key>
+
+    <key name="selected-breaks" type="as">
+      <_summary>The list of breaks that are currently enabled</_summary>
+      <default>[]</default>
     </key>
     
     <key name="quiet-mode" type="b">
-      <default>false</default>
       <_summary>True to enable quiet mode</_summary>
       <_description>Hides breaks until quiet-mode-expire-time.</_description>
+      <default>false</default>
     </key>
     
     <key name="quiet-mode-expire-time" type="x">
-      <default>0</default>
       <_summary>Time to end quiet mode.</_summary>
       <_description>The time to automatically disable quiet mode, in unix time.</_description>
+      <default>0</default>
     </key>
     
     <child schema="org.brainbreak.breaks.restbreak" name="restbreak"/>
@@ -26,34 +31,24 @@
   </schema>
   
   <schema id="org.brainbreak.breaks.restbreak" path="/org/brainbreak/breaks/restbreak/" gettext-domain="brainbreak">
-    <key name="enabled" type="b">
-      <default>true</default>
-      <_summary>True to enable break type</_summary>
-    </key>
-    
     <key name="interval-seconds" type="i">
-      <default>2400</default>
       <_summary>Time between breaks</_summary>
       <_description>The time between rest breaks, in seconds.</_description>
+      <default>2400</default>
     </key>
     
     <key name="duration-seconds" type="i">
-      <default>360</default>
       <_summary>Duration of each break</_summary>
       <_description>The duration of each rest break, in seconds.</_description>
+      <default>360</default>
     </key>
   </schema>
   
   <schema id="org.brainbreak.breaks.microbreak" path="/org/brainbreak/breaks/microbreak/" gettext-domain="brainbreak">
-     <key name="enabled" type="b">
-      <default>true</default>
-      <_summary>True to enable break type</_summary>
-    </key>
-    
     <key name="interval-seconds" type="i">
-      <default>360</default>
       <_summary>Time between breaks</_summary>
       <_description>The preferred time between micro breaks, in seconds.</_description>
+      <default>360</default>
     </key>
     
     <key name="duration-seconds" type="i">

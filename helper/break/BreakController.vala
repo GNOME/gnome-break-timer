@@ -83,10 +83,10 @@ public abstract class BreakController : Object {
 	 * @param enable True to enable the break, false to disable it
 	 */
 	public void set_enabled(bool enable) {
-		if (enable && ! this.is_enabled()) {
+		if (enable && !this.is_enabled()) {
 			this.state = State.WAITING;
 			this.enabled();
-		} else if (this.is_enabled()) {
+		} else if (!enable && this.is_enabled()) {
 			this.state = State.DISABLED;
 			this.finished(BreakController.FinishedReason.DISABLED);
 			this.disabled();

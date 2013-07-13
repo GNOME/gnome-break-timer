@@ -26,10 +26,18 @@ public class BreakManager : Object {
 	private Gee.Map<string, BreakType> breaks;
 	private List<BreakType> breaks_ordered;
 
+	private Settings settings;
+	public bool master_enabled {get; set;}
+	public string[] selected_break_ids {get; set;}
+
 	public BreakManager(Application application) {
 		this.application = application;
 		this.breaks = new Gee.HashMap<string, BreakType>();
 		this.breaks_ordered = new List<BreakType>();
+
+		this.settings = new Settings("org.brainbreak.breaks");
+		this.settings.bind("master-enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
+		this.settings.bind("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);
 	}
 
 	public signal void break_added(BreakType break_type);
@@ -71,8 +79,8 @@ public class BreakManager : Object {
 		}
 	}
 
-	private void break_status_changed(BreakType break_type, BreakStatus break_status) {
-		if (break_status.is_focused && break_status.is_active) {
+	private void break_status_changed(BreakType break_type, BreakStatus? break_status) {
+		if (break_status != null && break_status.is_focused && break_status.is_active) {
 			this.set_foreground_break(break_type);
 		} else if (this.foreground_break == break_type) {
 			this.set_foreground_break(null);

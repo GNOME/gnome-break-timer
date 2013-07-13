@@ -17,8 +17,7 @@
 
 public abstract class BreakType : Object {
 	public string id {get; private set;}
-	public bool enabled {get; protected set;}
-	public BreakStatus status;
+	public BreakStatus? status;
 
 	public BreakInfoPanel info_panel;
 	public BreakStatusPanel status_panel;
@@ -29,11 +28,9 @@ public abstract class BreakType : Object {
 	public BreakType(string id, Settings settings) {
 		this.id = id;
 		this.settings = settings;
-
-		settings.bind("enabled", this, "enabled", SettingsBindFlags.DEFAULT);
 	}
 
-	public signal void status_changed(BreakStatus status);
+	public signal void status_changed(BreakStatus? status);
 
 	public virtual void initialize() {
 		this.info_panel = this.get_info_panel();
@@ -41,7 +38,7 @@ public abstract class BreakType : Object {
 		this.settings_panel = this.get_settings_panel();
 	}
 
-	protected void update_status(BreakStatus status) {
+	protected void update_status(BreakStatus? status) {
 		this.status = status;
 		this.status_changed(status);
 	}
@@ -102,9 +99,19 @@ public abstract class BreakStatusPanel : Gtk.Grid {
 	}
 }
 
-public abstract class BreakSettingsPanel : SettingsPanel {
+public abstract class BreakSettingsPanel : Gtk.Grid {
+	private Gtk.Grid header;
+	private Gtk.Grid details;
+
 	public BreakSettingsPanel(BreakType break_type, string title, string? description) {
-		base();
+		Object();
+
+		this.set_orientation(Gtk.Orientation.VERTICAL);
+		this.set_row_spacing(10);
+
+		this.header = new Gtk.Grid();
+		this.add(this.header);
+		this.header.set_column_spacing(12);
 		
 		var title_grid = new Gtk.Grid();
 		this.set_header(title_grid);
@@ -112,28 +119,40 @@ public abstract class BreakSettingsPanel : SettingsPanel {
 		title_grid.set_row_spacing(4);
 		
 		var title_label = new Gtk.Label(title);
-		title_label.set_halign(Gtk.Align.START);
-		title_label.get_style_context().add_class("_settings-title");
 		title_grid.add(title_label);
+		title_label.get_style_context().add_class("_settings-title");
+		title_label.set_halign(Gtk.Align.FILL);
+		title_label.set_hexpand(true);
+		title_label.set_justify(Gtk.Justification.CENTER);
 		
-		var description_label = new Gtk.Label("<small>%s</small>".printf(description));
-		description_label.set_use_markup(true);
-		description_label.set_halign(Gtk.Align.START);
-		description_label.get_style_context().add_class("_settings-description");
-		title_grid.add(description_label);
-		
-		var toggle_switch = new Gtk.Switch();
-		this.set_header_action(toggle_switch);
-		toggle_switch.set_hexpand(true);
-		toggle_switch.set_halign(Gtk.Align.END);
-		toggle_switch.set_valign(Gtk.Align.CENTER);
-		break_type.settings.bind("enabled", toggle_switch, "active", SettingsBindFlags.DEFAULT);
+		// var description_label = new Gtk.Label("<small>%s</small>".printf(description));
+		// title_grid.add(description_label);
+		// description_label.get_style_context().add_class("_settings-description");
+		// description_label.set_use_markup(true);
+		// description_label.set_halign(Gtk.Align.FILL);
+		// description_label.set_hexpand(true);
+		// description_label.set_justify(Gtk.Justification.CENTER);
+
+		this.details = new Gtk.Grid();
+		this.add(this.details);
+		this.details.set_margin_left(12);
+		this.details.set_halign(Gtk.Align.CENTER);
+		this.details.set_hexpand(true);
 
 		this.show_all();
-		
-		toggle_switch.notify["active"].connect((s, p) => {
-			bool enabled = toggle_switch.active;
-			this.set_editable(enabled);
-		});
+	}
+
+	protected void set_header(Gtk.Widget content) {
+		this.header.attach(content, 0, 0, 1, 1);
+	}
+
+	protected void set_header_action(Gtk.Widget content) {
+		this.header.attach(content, 1, 0, 1, 1);
+		content.set_halign(Gtk.Align.END);
+		content.set_valign(Gtk.Align.CENTER);
+	}
+	
+	protected void set_details(Gtk.Widget content) {
+		this.details.add(content);
 	}
 }
