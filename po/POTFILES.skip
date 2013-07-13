@@ -1,12 +1,12 @@
 common/NaturalTime.c
-helper/main.c
 helper/break/TimerBreakStatusWidget.c
 helper/microbreak/MicroBreakView.c
 helper/restbreak/RestBreakView.c
-settings/main.c
+helper/main.c
+settings/BreakSettingsDialog.c
+settings/MainWindow.c
 settings/MicroBreakType.c
-settings/QuietModePanel.c
 settings/RestBreakType.c
-settings/SettingsDialog.c
 settings/TimeChooser.c
-settings/TimerBreakPanel.c
+settings/TimerBreakType.c
+settings/main.c
