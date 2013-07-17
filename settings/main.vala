@@ -47,6 +47,7 @@ public class Application : Gtk.Application {
 		}
 		""";
 
+	private BreakManager break_manager;
 	private MainWindow main_window;
 
 	public Application() {
@@ -56,7 +57,13 @@ public class Application : Gtk.Application {
 	public override void activate() {
 		base.activate();
 		
-		this.main_window.present();
+		if (this.break_manager.is_working()) {
+			this.main_window.present();
+		} else {
+			// Something may be wrong, but it could just be a delay before the
+			// break helper starts. We'll wait before showing the main window.
+			this.delayed_start();
+		}
 	}
 	
 	public override void startup() {
@@ -90,9 +97,23 @@ public class Application : Gtk.Application {
 		app_menu.append(_("Quit"), "app.quit");
 		this.set_app_menu(app_menu);
 		
-		var break_manager = new BreakManager(this);
-		this.main_window = new MainWindow(this, break_manager);
-		break_manager.load_breaks();
+		this.break_manager = new BreakManager(this);
+		this.main_window = new MainWindow(this, this.break_manager);
+		this.break_manager.load_breaks();
+	}
+
+	private uint delay_start_timeout_id;
+	private void delayed_start() {
+		// Delay up to 500ms waiting for break_manager to initialize
+		this.break_manager.break_status_available.connect(this.delayed_start_cb);
+		Timeout.add(500, () => { delayed_start_cb(); return false; });
+	}
+
+	private void delayed_start_cb() {
+		this.break_manager.break_status_available.disconnect(this.delayed_start_cb);
+		if (! this.main_window.is_visible()) {
+			this.main_window.present();
+		}
 	}
 
 	private void on_about_activate_cb() {

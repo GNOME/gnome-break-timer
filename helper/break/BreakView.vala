@@ -39,6 +39,17 @@ public abstract class BreakView : UIManager.UIFragment {
 
 	public abstract string get_status_message();
 
+	protected void show_break_info() {
+		// TODO: Use dbus activation once we can depend on GLib >= 2.37
+		AppInfo settings_app_info = new DesktopAppInfo("brainbreak-settings.desktop");
+		AppLaunchContext app_launch_context = new AppLaunchContext();
+		try {
+			settings_app_info.launch(null, app_launch_context);
+		} catch (Error error) {
+			stderr.printf("Error launching settings application: %s\n", error.message);
+		}
+	}
+
 	/* UIFragment interface */
 
 	public override string get_id() {

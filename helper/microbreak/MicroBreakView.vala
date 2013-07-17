@@ -59,6 +59,7 @@ public class MicroBreakView : TimerBreakView {
 	}
 
 	private void notification_action_info_cb() {
+		this.show_break_info();
 	}
 
 	private void focused_and_activated_cb() {

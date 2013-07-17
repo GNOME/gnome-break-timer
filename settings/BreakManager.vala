@@ -41,6 +41,7 @@ public class BreakManager : Object {
 		this.settings.bind("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);
 	}
 
+	public signal void break_status_available();
 	public signal void break_added(BreakType break_type);
 	
 	public void load_breaks() {
@@ -57,6 +58,17 @@ public class BreakManager : Object {
 	
 	public unowned List<BreakType> all_breaks() {
 		return this.breaks_ordered;
+	}
+
+	/**
+	 * @returns true if the break helper is working correctly.
+	 */
+	public bool is_working() {
+		if (!this.master_enabled || this.break_helper != null || this.breaks.size == 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public BreakType? get_break_type_for_name(string name) {
@@ -92,6 +104,7 @@ public class BreakManager : Object {
 				HELPER_BUS_NAME,
 				HELPER_OBJECT_PATH
 			);
+			this.break_status_available();
 		} catch (IOError error) {
 			this.break_helper = null;
 			GLib.warning("Error connecting to break helper service: %s", error.message);
@@ -99,6 +112,18 @@ public class BreakManager : Object {
 	}
 
 	private void break_helper_disappeared() {
+		if (this.break_helper == null && this.master_enabled) {
+			// Try to start break_helper automatically if it should be
+			// running. Only do this once, if it was not running previously.
+			// TODO: Use dbus activation once we can depend on GLib >= 2.37
+			AppInfo helper_app_info = new DesktopAppInfo("brainbreak.desktop");
+			AppLaunchContext app_launch_context = new AppLaunchContext();
+			try {
+				helper_app_info.launch(null, app_launch_context);
+			} catch (Error error) {
+				stderr.printf("Error launching helper application: %s\n", error.message);
+			}
+		}
 		this.break_helper = null;
 	}
 }

@@ -96,6 +96,15 @@ public class MainWindow : Gtk.ApplicationWindow {
 	}
 
 	private void update_visible_panel() {
+		// Use a transition when switching from the welcome panel
+		// TODO: Once we switch to GtkStack, use set_visible_child_full
+		if (this.main_stack.get_visible_child() == this.welcome_panel) {
+			main_stack.set_transition_type(Gd.StackTransitionType.SLIDE_LEFT);
+			main_stack.set_transition_duration(250);
+		} else {
+			main_stack.set_transition_type(Gd.StackTransitionType.NONE);
+		}
+
 		BreakType? foreground_break = this.break_manager.foreground_break;
 		if (this.welcome_panel.is_active()) {
 			this.main_stack.set_visible_child(this.welcome_panel);
@@ -164,6 +173,9 @@ private class WelcomePanel : Gd.Stack {
 		} else {
 			this.current_step = Step.WELCOME;
 		}
+
+		this.set_transition_type(Gd.StackTransitionType.SLIDE_LEFT);
+		this.set_transition_duration(250);
 
 		this.start_page = builder.get_object("welcome_start") as Gtk.Widget;
 		this.add(this.start_page);
@@ -273,14 +285,12 @@ private class StatusPanel : Gd.Stack {
 	}
 
 	private void update_breaks_list() {
-		bool success = false;
 		bool any_breaks_enabled = false;
 
 		unowned List<BreakType> all_breaks = this.break_manager.all_breaks();
 		foreach (BreakType break_type in all_breaks) {
 			var status = break_type.status;
 			if (status != null) {
-				success = true;
 				if (status.is_enabled) {
 					break_type.status_panel.show();
 					any_breaks_enabled = true;
@@ -289,11 +299,10 @@ private class StatusPanel : Gd.Stack {
 				}
 			}
 		}
-		if (all_breaks.length() == 0) success = true;
 
 		if (any_breaks_enabled) {
 			this.set_visible_child(this.breaks_list);
-		} else if (success || !this.break_manager.master_enabled) {
+		} else if (break_manager.is_working()) {
 			this.set_visible_child(this.no_breaks_message);
 		} else {
 			this.set_visible_child(this.error_message);

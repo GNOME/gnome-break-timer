@@ -14,7 +14,6 @@ bin_PROGRAMS = \
 	brainbreak-settings
 
 brainbreak_settings_SOURCES = \
-	ApplicationPanel.vala \
 	BreakManager.vala \
 	BreakSettingsDialog.vala \
 	BreakType.vala \
