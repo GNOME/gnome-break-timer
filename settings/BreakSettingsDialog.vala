@@ -18,7 +18,6 @@
 public class BreakSettingsDialog : Gtk.Dialog {
 	private BreakManager break_manager;
 
-	private ApplicationPanel application_panel;
 	private BreakConfigurationChooser configuration_chooser;
 	private Gtk.Grid breaks_grid;
 	

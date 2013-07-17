@@ -97,5 +97,6 @@ public class Application : Gtk.Application {
 public int main(string[] args) {
 	Gtk.init(ref args);
 	Application application = new Application();
-	return application.run(args);
+	int status = application.run(args);
+	return status;
 }

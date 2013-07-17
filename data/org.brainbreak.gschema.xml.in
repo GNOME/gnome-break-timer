@@ -6,7 +6,7 @@
   <schema id="org.brainbreak.breaks" path="/org/brainbreak/breaks/" gettext-domain="brainbreak">
     <key name="master-enabled" type="b">
       <_summary>True to enable Brain Break</_summary>
-      <default>true</default>
+      <default>false</default>
     </key>
 
     <key name="selected-breaks" type="as">
