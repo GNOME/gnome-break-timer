@@ -11,7 +11,7 @@
 
     <key name="selected-breaks" type="as">
       <_summary>The list of breaks that are currently enabled</_summary>
-      <default>[]</default>
+      <default>['microbreak', 'restbreak']</default>
     </key>
     
     <key name="quiet-mode" type="b">

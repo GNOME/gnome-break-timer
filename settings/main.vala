@@ -28,15 +28,18 @@ public class Application : Gtk.Application {
 		}
 
 		._break-info-heading {
-			font-size: 22;
+			font-size: large;
 		}
 
 		._break-status-heading {
-			font-size: 12;
+			font-size: larger;
+		}
+
+		._break-status-body {
 		}
 
 		._break-status-hint {
-			font-size: 11;
+			font-size: small;
 		}
 
 		._break-status-icon {

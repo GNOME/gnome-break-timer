@@ -19,6 +19,7 @@ EXTRA_DIST= \
     brainbreak.desktop \
     brainbreak-autostart.desktop \
     brainbreak-settings.desktop \
+    brainbreak.gresource.xml \
     $(service_in_files) \
     $(desktop_in_files) \
     $(gsettingsschema_in_files)

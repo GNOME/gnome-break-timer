@@ -5,6 +5,11 @@ AM_CPPFLAGS = $(BRAINBREAK_CFLAGS) \
 
 SUBDIRS = 
 
+BUILT_SOURCES = resources.c
+
+resources.c: $(top_srcdir)/data/brainbreak.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir=$(top_srcdir)/data/ $(top_srcdir)/data/brainbreak.gresource.xml)
+	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(top_srcdir)/data/ --generate-source $<
+
 bin_PROGRAMS = \
 	brainbreak-settings
 
@@ -18,7 +23,8 @@ brainbreak_settings_SOURCES = \
 	RestBreakType.vala \
 	TimeChooser.vala \
 	TimerBreakType.vala \
-	main.vala
+	main.vala \
+	$(BUILT_SOURCES)
 
 brainbreak_settings_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
 	--pkg gtk+-3.0 \

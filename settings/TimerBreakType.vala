@@ -136,7 +136,7 @@ public abstract class TimerBreakStatusPanel : BreakStatusPanel {
 		this.time_label = new Gtk.Label(null);
 		labels_grid.add(this.time_label);
 		this.time_label.set_width_chars(25);
-		this.time_label.get_style_context().add_class("_break-status-hint");
+		this.time_label.get_style_context().add_class("_break-status-body");
 
 		this.show_all();
 

@@ -2,6 +2,7 @@ data/brainbreak.desktop.in
 data/brainbreak-autostart.desktop.in
 data/brainbreak-settings.desktop.in
 data/org.brainbreak.gschema.xml.in
+data/settings-panels.ui
 common/NaturalTime.vala
 helper/break/TimerBreakStatusWidget.vala
 helper/microbreak/MicroBreakView.vala

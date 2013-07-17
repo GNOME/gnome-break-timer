@@ -29,6 +29,7 @@ public class BreakManager : Object {
 	private Settings settings;
 	public bool master_enabled {get; set;}
 	public string[] selected_break_ids {get; set;}
+	public BreakType? foreground_break {get; private set;}
 
 	public BreakManager(Application application) {
 		this.application = application;
@@ -41,7 +42,6 @@ public class BreakManager : Object {
 	}
 
 	public signal void break_added(BreakType break_type);
-	public signal void foreground_break_changed(BreakType? break_type);
 	
 	public void load_breaks() {
 		this.add_break(new MicroBreakType());
@@ -71,19 +71,17 @@ public class BreakManager : Object {
 		this.break_added(break_type);
 	}
 
-	private BreakType? foreground_break;
-	private void set_foreground_break(BreakType? break_type) {
-		if (break_type != this.foreground_break) {
-			this.foreground_break = break_type;
-			this.foreground_break_changed(break_type);
-		}
-	}
-
 	private void break_status_changed(BreakType break_type, BreakStatus? break_status) {
+		BreakType? new_foreground_break = this.foreground_break;
+
 		if (break_status != null && break_status.is_focused && break_status.is_active) {
-			this.set_foreground_break(break_type);
+			new_foreground_break = break_type;
 		} else if (this.foreground_break == break_type) {
-			this.set_foreground_break(null);
+			new_foreground_break = null;
+		}
+
+		if (this.foreground_break != new_foreground_break) {
+			this.foreground_break = new_foreground_break;
 		}
 	}
 
