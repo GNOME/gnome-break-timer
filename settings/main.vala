@@ -28,7 +28,7 @@ public class Application : Gtk.Application {
 		}
 
 		._break-info-heading {
-			font-size: large;
+			font-size: xx-large;
 		}
 
 		._break-status-heading {

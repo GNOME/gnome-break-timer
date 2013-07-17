@@ -40,7 +40,6 @@ public class MicroBreakType : TimerBreakType {
 class MicroBreakInfoPanel : BreakInfoPanel {
 	const string DESCRIPTION_FORMAT = _(
 "Take a break from typing and look away from the screen for a short while.
-
 I'll chime when it's time to start using the computer again.");
 
 	public MicroBreakInfoPanel(MicroBreakType break_type) {

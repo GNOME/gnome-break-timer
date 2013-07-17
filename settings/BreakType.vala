@@ -62,7 +62,7 @@ public abstract class BreakInfoPanel : Gtk.Grid {
 
 		this.set_orientation(Gtk.Orientation.VERTICAL);
 		this.set_hexpand(true);
-		this.set_row_spacing(18);
+		this.set_row_spacing(24);
 		this.get_style_context().add_class("_break-info");
 
 		this.heading_label = new Gtk.Label(null);
