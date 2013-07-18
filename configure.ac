@@ -9,6 +9,9 @@ LT_INIT
 AM_MAINTAINER_MODE
 AC_CONFIG_HEADERS([config.h])
 
+AC_DEFINE(HELPER_DESKTOP_ID, "brainbreak.desktop", [Name of the .desktop file used for the helper service])
+AC_DEFINE(SETTINGS_DESKTOP_ID, "brainbreak-settings.desktop", [Name of the .desktop file used for the settings application])
+
 AC_PATH_PROG(VALAC, valac, valac)
 AC_SUBST(VALAC)
 

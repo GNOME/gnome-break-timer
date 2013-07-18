@@ -37,6 +37,7 @@ brainbreak_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
 	--pkg gee-1.0 \
 	--pkg libcanberra \
 	--pkg libnotify \
+	$(top_srcdir)/config.vapi \
 	$(top_builddir)/common/common.vapi \
 	$(top_builddir)/helper/activity-monitor/activity_monitor.vapi \
 	$(top_builddir)/helper/util/util.vapi

@@ -5,7 +5,7 @@ gsettings_SCHEMAS = org.brainbreak.gschema.xml
 
 @INTLTOOL_DESKTOP_RULE@
 desktopdir = $(datadir)/applications
-desktop_DATA = brainbreak.desktop brainbreak-settings.desktop
+desktop_DATA = $(HELPER_DESKTOP_FILE) $(SETTINGS_DESKTOP_FILE)
 
 autostartdir = $(sysconfdir)/xdg/autostart
 autostart_DATA = brainbreak-autostart.desktop
@@ -16,10 +16,9 @@ check: $(desktop_DATA) $(autostart_DATA)
 	done
 
 EXTRA_DIST= \
-    brainbreak.desktop \
-    brainbreak-autostart.desktop \
-    brainbreak-settings.desktop \
     brainbreak.gresource.xml \
+    $(desktop_DATA) \
+    $(autostart_DATA) \
     $(service_in_files) \
     $(desktop_in_files) \
     $(gsettingsschema_in_files)

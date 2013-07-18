@@ -30,8 +30,9 @@ brainbreak_settings_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
 	--pkg gio-2.0 \
 	--pkg gio-unix-2.0 \
 	--pkg gee-1.0 \
-	$(top_builddir)/libgd/gd-1.0.vapi \
-	$(top_builddir)/common/common.vapi
+	$(top_srcdir)/config.vapi \
+	$(top_builddir)/common/common.vapi \
+	$(top_builddir)/libgd/gd-1.0.vapi
 
 brainbreak_settings_LDADD = $(BRAINBREAK_LIBS) \
 	$(top_builddir)/libgd/libgd.la \
