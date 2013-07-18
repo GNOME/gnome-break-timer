@@ -38,7 +38,7 @@ public class MicroBreakView : TimerBreakView {
 			Notify.Notification notification = new Notify.Notification(
 				_("Break is over"),
 				_("Your break time has ended"),
-				null
+				"alarm-symbolic"
 			);
 			if (SessionStatus.instance.is_locked()) {
 				notification.set_urgency(Notify.Urgency.NORMAL);
@@ -71,7 +71,7 @@ public class MicroBreakView : TimerBreakView {
 			Notify.Notification notification = new Notify.Notification(
 				_("It’s time for a micro break"),
 				_("Take a break from typing and look away from the screen"),
-				null
+				"alarm-symbolic"
 			);
 			notification.set_hint("sound-name", "message");
 			notification.add_action("skip", _("Skip this one"), this.notification_action_skip_cb);

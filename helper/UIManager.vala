@@ -135,6 +135,12 @@ public class UIManager : SimpleFocusManager {
 
 	protected ScreenOverlay? screen_overlay;
 	protected Notify.Notification? notification;
+
+	// The desktop-entry notification hint wants our desktop ID without the
+	// ".desktop" part, so we need to trim it accordingly
+	private static string DESKTOP_ENTRY_BASENAME = Config.HELPER_DESKTOP_ID.slice(
+		0, Config.HELPER_DESKTOP_ID.last_index_of(".desktop")
+	);
 	
 	public UIManager(Application application, bool with_overlay) {
 		this.application = application;
@@ -186,6 +192,7 @@ public class UIManager : SimpleFocusManager {
 			this.hide_notification(this.notification);
 		}
 		try {
+			notification.set_hint("desktop-entry", DESKTOP_ENTRY_BASENAME);
 			notification.show();
 		} catch (Error error) {
 			GLib.warning("Error showing notification: %s", error.message);

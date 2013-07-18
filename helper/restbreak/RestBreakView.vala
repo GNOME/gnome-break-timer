@@ -60,7 +60,7 @@ public class RestBreakView : TimerBreakView {
 			Notify.Notification notification = new Notify.Notification(
 				_("Break is over"),
 				_("Your break time has ended"),
-				null
+				"alarm-symbolic"
 			);
 			if (SessionStatus.instance.is_locked()) {
 				notification.set_urgency(Notify.Urgency.NORMAL);
@@ -106,7 +106,7 @@ public class RestBreakView : TimerBreakView {
 			Notify.Notification notification = new Notify.Notification(
 				_("Break interrupted"),
 				_("%s of break remaining").printf(countdown),
-				null
+				"alarm-symbolic"
 			);
 			notification.set_hint("transient", true);
 			notification.set_urgency(Notify.Urgency.CRITICAL);
@@ -127,7 +127,7 @@ public class RestBreakView : TimerBreakView {
 				Notify.Notification notification = new Notify.Notification(
 					_("Overdue break"),
 					_("You were due to take a break a minute ago"),
-					null
+					"alarm-symbolic"
 				);
 				notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
 				notification.set_urgency(Notify.Urgency.CRITICAL);
@@ -154,7 +154,7 @@ public class RestBreakView : TimerBreakView {
 			Notify.Notification notification = new Notify.Notification(
 				_("Time for a break"),
 				_("It’s time to take a break. Get away from the computer for a little while!"),
-				null
+				"alarm-symbolic"
 			);
 			notification.set_hint("sound-name", "message");
 			notification.add_action("delay", _("Remind me later"), this.notification_action_delay_cb);
