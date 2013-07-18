@@ -5,7 +5,7 @@ gsettings_SCHEMAS = org.brainbreak.gschema.xml
 
 @INTLTOOL_DESKTOP_RULE@
 desktopdir = $(datadir)/applications
-desktop_DATA = $(HELPER_DESKTOP_FILE) $(SETTINGS_DESKTOP_FILE)
+desktop_DATA = brainbreak.desktop brainbreak-settings.desktop
 
 autostartdir = $(sysconfdir)/xdg/autostart
 autostart_DATA = brainbreak-autostart.desktop
