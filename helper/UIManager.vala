@@ -54,12 +54,15 @@ public class UIManager : SimpleFocusManager {
 
 		protected void play_sound_from_id(string event_id) {
 			if (this.has_ui_focus()) {
-				Canberra.Context canberra;
-				Canberra.Context.create(out canberra);
-				canberra.play(0,
+				unowned Canberra.Context canberra = CanberraGtk.context_get();
+				int code = canberra.play(0,
 					Canberra.PROP_EVENT_ID, event_id
 				);
 			}
+		}
+
+		protected Notify.Notification build_common_notification(string summary, string? body, string? icon) {
+			return this.ui_manager.build_common_notification(summary, body, icon);
 		}
 
 		protected void show_notification(Notify.Notification notification) {
@@ -157,6 +160,8 @@ public class UIManager : SimpleFocusManager {
 			this.update_overlay_format();
 		});
 		this.update_overlay_format();
+
+		SessionStatus.instance.unlocked.connect(this.hide_lock_notification_cb);
 	}
 
 	private void quiet_mode_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
@@ -183,6 +188,20 @@ public class UIManager : SimpleFocusManager {
 		}
 	}
 
+	protected Notify.Notification build_common_notification(string summary, string? body, string? icon) {
+		Notify.Notification notification;
+		if (this.notification != null) {
+			notification = this.notification;
+			notification.clear_actions();
+			notification.clear_hints();
+			notification.update(summary, body, icon);
+		} else {
+			notification = new Notify.Notification(summary, body, icon);
+		}
+		notification.set_hint("desktop-entry", DESKTOP_ENTRY_BASENAME);
+		return notification;
+	}
+
 	/**
 	 * Show a notification, ensuring that the application is only showing one
 	 * notification at any time.
@@ -192,7 +211,6 @@ public class UIManager : SimpleFocusManager {
 			this.hide_notification(this.notification);
 		}
 		try {
-			notification.set_hint("desktop-entry", DESKTOP_ENTRY_BASENAME);
 			notification.show();
 		} catch (Error error) {
 			GLib.warning("Error showing notification: %s", error.message);
@@ -206,25 +224,30 @@ public class UIManager : SimpleFocusManager {
 	 * notification automatically hides when the screen is unlocked.
 	 */
 	protected void show_lock_notification(Notify.Notification notification) {
-		if (SessionStatus.instance.is_locked()) {
-			this.show_notification(notification);
-			this.lock_notification = notification;
-			SessionStatus.instance.unlocked.connect(this.hide_lock_notification_cb);
+		this.show_notification(notification);
+		this.lock_notification = notification;
+		if (! SessionStatus.instance.is_locked()) {
+			this.hide_lock_notification_cb();
 		}
 	}
 
 	private void hide_lock_notification_cb() {
-		this.hide_notification(this.lock_notification);
-		SessionStatus.instance.unlocked.disconnect(this.hide_lock_notification_cb);
+		this.hide_notification(this.lock_notification, false);
+		this.lock_notification = null;
 	}
 
 	/**
 	 * Close a notification proactively, if it is still open.
 	 */
-	protected void hide_notification(Notify.Notification? notification) {
-		if (notification != null && notification == this.notification) {
+	protected void hide_notification(Notify.Notification? notification, bool immediate=true) {
+		if (notification != null && this.notification == notification) {
 			try {
-				this.notification.close();
+				if (immediate) {
+					this.notification.close();
+				} else {
+					this.notification.set_hint("transient", true);
+					this.notification.show();
+				}
 			} catch (Error error) {
 				// We ignore this error, because it's usually just noise
 				// GLib.warning("Error closing notification: %s", error.message);

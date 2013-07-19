@@ -57,19 +57,14 @@ public class RestBreakView : TimerBreakView {
 
 	private void finished_cb(BreakController.FinishedReason reason) {
 		if (reason == BreakController.FinishedReason.SATISFIED && this.notified_start && ! this.overlay_is_visible()) {
-			Notify.Notification notification = new Notify.Notification(
+			var notification = this.build_common_notification(
 				_("Break is over"),
 				_("Your break time has ended"),
 				"alarm-symbolic"
 			);
-			if (SessionStatus.instance.is_locked()) {
-				notification.set_urgency(Notify.Urgency.NORMAL);
-				this.show_lock_notification(notification);
-			} else {
-				notification.set_hint("transient", true);
-				notification.set_urgency(Notify.Urgency.LOW);
-				this.show_notification(notification);
-			}
+			notification.set_urgency(Notify.Urgency.NORMAL);
+			this.show_lock_notification(notification);
+			
 			this.play_sound_from_id("complete");
 		}
 
@@ -103,13 +98,13 @@ public class RestBreakView : TimerBreakView {
 			string countdown = NaturalTime.instance.get_countdown_for_seconds_with_start(
 				time_remaining, start_time);
 
-			Notify.Notification notification = new Notify.Notification(
+			var notification = this.build_common_notification(
 				_("Break interrupted"),
 				_("%s of break remaining").printf(countdown),
 				"alarm-symbolic"
 			);
-			notification.set_hint("transient", true);
 			notification.set_urgency(Notify.Urgency.CRITICAL);
+			notification.set_hint("transient", true);
 			this.show_notification(notification);
 		}
 	}
@@ -124,13 +119,13 @@ public class RestBreakView : TimerBreakView {
 		Timeout.add_seconds(60, () => {
 			if (this.is_postponed) {
 				this.is_postponed = false;
-				Notify.Notification notification = new Notify.Notification(
+				var notification = this.build_common_notification(
 					_("Overdue break"),
 					_("You were due to take a break a minute ago"),
 					"alarm-symbolic"
 				);
-				notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
 				notification.set_urgency(Notify.Urgency.CRITICAL);
+				notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
 				this.show_notification(notification);
 			}
 
@@ -151,15 +146,15 @@ public class RestBreakView : TimerBreakView {
 
 		if (! this.overlay_is_visible()) {
 			// FIXME: This should say something like "It's time to take a 5 minute break..."
-			Notify.Notification notification = new Notify.Notification(
+			var notification = this.build_common_notification(
 				_("Time for a break"),
 				_("It’s time to take a break. Get away from the computer for a little while!"),
 				"alarm-symbolic"
 			);
+			notification.set_urgency(Notify.Urgency.CRITICAL);
 			notification.set_hint("sound-name", "message");
 			notification.add_action("delay", _("Remind me later"), this.notification_action_delay_cb);
 			notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
-			notification.set_urgency(Notify.Urgency.CRITICAL);
 			this.show_notification(notification);
 
 			this.notified_start = true;

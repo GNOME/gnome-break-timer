@@ -35,22 +35,17 @@ public class MicroBreakView : TimerBreakView {
 
 	private void finished_cb(BreakController.FinishedReason reason) {
 		if (reason == BreakController.FinishedReason.SATISFIED && this.notified_start && ! this.overlay_is_visible()) {
-			Notify.Notification notification = new Notify.Notification(
+			var notification = this.build_common_notification(
 				_("Break is over"),
 				_("Your break time has ended"),
 				"alarm-symbolic"
 			);
-			if (SessionStatus.instance.is_locked()) {
-				notification.set_urgency(Notify.Urgency.NORMAL);
-				this.show_lock_notification(notification);
-			} else {
-				notification.set_hint("transient", true);
-				notification.set_urgency(Notify.Urgency.LOW);
-				this.show_notification(notification);
-			}
+			notification.set_urgency(Notify.Urgency.NORMAL);
+			this.show_lock_notification(notification);
+
 			this.play_sound_from_id("complete");
 		}
-
+		
 		this.notified_start = false;
 	}
 
@@ -68,15 +63,15 @@ public class MicroBreakView : TimerBreakView {
 		this.set_overlay(status_widget);
 
 		if (! this.overlay_is_visible()) {
-			Notify.Notification notification = new Notify.Notification(
+			var notification = this.build_common_notification(
 				_("It’s time for a micro break"),
 				_("Take a break from typing and look away from the screen"),
 				"alarm-symbolic"
 			);
+			notification.set_urgency(Notify.Urgency.NORMAL);
 			notification.set_hint("sound-name", "message");
 			notification.add_action("skip", _("Skip this one"), this.notification_action_skip_cb);
 			notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
-			notification.set_urgency(Notify.Urgency.NORMAL);
 			this.show_notification(notification);
 			
 			this.notified_start = true;

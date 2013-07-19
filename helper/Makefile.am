@@ -36,6 +36,7 @@ brainbreak_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
 	--pkg gio-unix-2.0 \
 	--pkg gee-1.0 \
 	--pkg libcanberra \
+	--pkg libcanberra-gtk \
 	--pkg libnotify \
 	$(top_srcdir)/config.vapi \
 	$(top_builddir)/common/common.vapi \
