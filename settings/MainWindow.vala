@@ -54,7 +54,6 @@ public class MainWindow : Gtk.ApplicationWindow {
 
 		Gtk.Switch master_switch = new Gtk.Switch();
 		header.pack_start(master_switch);
-		//this.settings.bind("master-enabled", master_switch, "active", SettingsBindFlags.DEFAULT);
 		break_manager.bind_property("master-enabled", master_switch, "active", BindingFlags.BIDIRECTIONAL | BindingFlags.SYNC_CREATE);
 
 		Gtk.Button settings_button = new Gtk.Button();
@@ -135,17 +134,6 @@ public class MainWindow : Gtk.ApplicationWindow {
 	private void settings_clicked_cb() {
 		this.break_settings_dialog.show();
 		this.welcome_panel.settings_button_clicked();
-	}
-
-	private void launch_helper() {
-		AppInfo helper_app_info = new DesktopAppInfo("brainbreak.desktop");
-		AppLaunchContext app_launch_context = new AppLaunchContext();
-		
-		try {
-			helper_app_info.launch(null, app_launch_context);
-		} catch (Error error) {
-			stderr.printf("Error launching brainbreak helper: %s\n", error.message);
-		}
 	}
 }
 
@@ -261,6 +249,7 @@ private class StatusPanel : Gd.Stack {
 		this.add(this.error_message);
 
 		break_manager.break_added.connect(this.break_added_cb);
+		break_manager.status_changed.connect(this.status_changed_cb);
 	}
 
 	private Gtk.Grid build_breaks_list(BreakManager break_manager) {
@@ -277,14 +266,9 @@ private class StatusPanel : Gd.Stack {
 		this.breaks_list.add(status_panel);
 		status_panel.set_margin_top(18);
 		status_panel.set_margin_bottom(18);
-
-		break_type.status_changed.connect(() => {
-			this.update_breaks_list();
-		});
-		this.update_breaks_list();
 	}
 
-	private void update_breaks_list() {
+	private void status_changed_cb() {
 		bool any_breaks_enabled = false;
 
 		unowned List<BreakType> all_breaks = this.break_manager.all_breaks();
@@ -302,7 +286,7 @@ private class StatusPanel : Gd.Stack {
 
 		if (any_breaks_enabled) {
 			this.set_visible_child(this.breaks_list);
-		} else if (break_manager.is_working()) {
+		} else if (this.break_manager.is_working()) {
 			this.set_visible_child(this.no_breaks_message);
 		} else {
 			this.set_visible_child(this.error_message);

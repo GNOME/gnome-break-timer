@@ -22,7 +22,7 @@ public abstract class TimerBreakType : BreakType {
 	public int[] interval_options;
 	public int[] duration_options;
 
-	private IBreakHelper_TimerBreak? break_server {public get; private set;}
+	public IBreakHelper_TimerBreak? break_server;
 
 	public TimerBreakType(string name, Settings settings) {
 		base(name, settings);

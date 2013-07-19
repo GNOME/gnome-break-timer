@@ -39,14 +39,22 @@ public class BreakManager : Object {
 		this.settings = new Settings("org.brainbreak.breaks");
 		this.settings.bind("master-enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
 		this.settings.bind("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);
+
+		// We choose not too send a signal when master-enabled changes because
+		// we might be starting the break helper at the same time, so the
+		// value of is_working() could fluctuate unpleasantly.
+		//this.notify["master-enabled"].connect(() => { this.status_changed(); });
 	}
 
 	public signal void break_status_available();
 	public signal void break_added(BreakType break_type);
+	public signal void status_changed();
 	
 	public void load_breaks() {
 		this.add_break(new MicroBreakType());
 		this.add_break(new RestBreakType());
+
+		this.status_changed();
 
 		Bus.watch_name(BusType.SESSION, HELPER_BUS_NAME, BusNameWatcherFlags.NONE,
 				this.break_helper_appeared, this.break_helper_disappeared);
@@ -64,11 +72,7 @@ public class BreakManager : Object {
 	 * @returns true if the break helper is working correctly.
 	 */
 	public bool is_working() {
-		if (!this.master_enabled || this.break_helper != null || this.breaks.size == 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return (this.master_enabled == false || this.breaks.size == 0 || this.break_helper != null);
 	}
 	
 	public BreakType? get_break_type_for_name(string name) {
@@ -95,6 +99,8 @@ public class BreakManager : Object {
 		if (this.foreground_break != new_foreground_break) {
 			this.foreground_break = new_foreground_break;
 		}
+
+		this.status_changed();
 	}
 
 	private void break_helper_appeared() {
@@ -121,9 +127,12 @@ public class BreakManager : Object {
 			try {
 				helper_app_info.launch(null, app_launch_context);
 			} catch (Error error) {
-				stderr.printf("Error launching helper application: %s\n", error.message);
+				GLib.warning("Error launching helper application: %s", error.message);
 			}
 		}
+
 		this.break_helper = null;
+
+		this.status_changed();
 	}
 }
