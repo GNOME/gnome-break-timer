@@ -44,15 +44,15 @@ public class RestBreakController : TimerBreakController {
 		this.delayed.connect(this.delayed_cb);
 	}
 
-	private void counting_cb(int time_counting) {
+	private void counting_cb(int lap_time, int total_time) {
 		this.reminder_countdown.pause();
-		if (time_counting > 60) {
+		if (lap_time > 60) {
 			this.reminder_countdown.reset();
 		}
 	}
 
-	private void delayed_cb(int time_delayed) {
-		if (this.state == State.WAITING && time_delayed > 10) {
+	private void delayed_cb(int lap_time, int total_time) {
+		if (this.state == State.WAITING && lap_time > 10) {
 			this.duration_countdown.reset();
 		}
 		this.reminder_countdown.continue();

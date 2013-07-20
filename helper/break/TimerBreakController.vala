@@ -24,13 +24,6 @@
  * activates and counts down for its duration.
  */
 public abstract class TimerBreakController : BreakController {
-	/** The break is active and time_remaining has changed. */
-	public signal void active_countdown_changed(int time_remaining);
-	/** Fires continually, as long as the break is active and counting down. */
-	public signal void counting(int time_counting);
-	/** Fires as long as the break is active but is not counting down. */
-	public signal void delayed(int time_delayed);
-	
 	public int interval {get; protected set;}
 	public int duration {get; protected set;}
 	
@@ -75,6 +68,13 @@ public abstract class TimerBreakController : BreakController {
 		this.activated.connect(this.activated_cb);
 		this.finished.connect(this.finished_cb);
 	}
+
+	/** The break is active and time_remaining has changed. */
+	public signal void active_countdown_changed(int time_remaining);
+	/** Fires continually, as long as the break is active and counting down. */
+	public signal void counting(int lap_time, int total_time);
+	/** Fires as long as the break is active but is not counting down. */
+	public signal void delayed(int lap_time, int total_time);
 	
 	private void enabled_cb() {
 		this.interval_countdown.continue();
@@ -151,15 +151,6 @@ public abstract class TimerBreakController : BreakController {
 			this.duration_countdown.advance_time(activity.time_correction);
 		}
 
-		int time_counting;
-		this.delayed_timer.freeze();
-		if (this.counting_timer.is_stopped()) {
-			this.counting_timer.start_lap();
-			time_counting = activity.idle_time;
-		} else {
-			time_counting = (int)this.counting_timer.elapsed();
-		}
-
 		if (this.state == State.WAITING) {
 			if (this.interval_countdown.get_time_elapsed() > 0) {
 				this.duration_countdown.continue();
@@ -169,18 +160,31 @@ public abstract class TimerBreakController : BreakController {
 			this.duration_countdown.continue();
 		}
 
-		this.counting(time_counting);
+		int lap_time;
+
+		this.delayed_timer.freeze();
+		if (this.counting_timer.is_stopped()) {
+			this.counting_timer.start_lap();
+			lap_time = activity.idle_time;
+		} else {
+			lap_time = (int)this.counting_timer.lap_time();
+		}
+
+		this.counting(
+			lap_time,
+			(int)this.counting_timer.elapsed()
+		);
 	}
 
 	private void detected_activity_cb(ActivityMonitor.UserActivity activity) {
-		int delay_elapsed;
+		int lap_time;
 
 		this.counting_timer.freeze();
 		if (this.delayed_timer.is_stopped()) {
 			this.delayed_timer.start_lap();
-			delay_elapsed = 0;
+			lap_time = 0;
 		} else {
-			delay_elapsed = (int)this.delayed_timer.elapsed();
+			lap_time = (int)this.counting_timer.lap_time();
 		}
 		
 		this.duration_countdown.pause();
@@ -188,7 +192,10 @@ public abstract class TimerBreakController : BreakController {
 			this.interval_countdown.continue();
 		}
 
-		this.delayed(delay_elapsed);
+		this.delayed(
+			lap_time,
+			(int)this.counting_timer.elapsed()
+		);
 	}
 
 	/**

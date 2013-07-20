@@ -76,8 +76,8 @@ public class RestBreakView : TimerBreakView {
 		this.rest_break.delayed.disconnect(this.delayed_cb);
 	}
 
-	private void counting_cb(int time_counting) {
-		this.proceeding_happily = time_counting > 20;
+	private void counting_cb(int lap_time, int total_time) {
+		this.proceeding_happily = lap_time > 30;
 
 		if (this.has_ui_focus() && this.proceeding_happily) {
 			this.is_postponed = false;
@@ -88,7 +88,7 @@ public class RestBreakView : TimerBreakView {
 		}
 	}
 
-	private void delayed_cb(int time_delayed) {
+	private void delayed_cb(int lap_time, int total_time) {
 		if (this.proceeding_happily && ! this.is_postponed && ! this.overlay_is_visible()) {
 			// Show a "Break interrupted" notification if the break has been
 			// counting down happily for a while

@@ -26,15 +26,10 @@ public class MicroBreakController : TimerBreakController {
 		base(break_type, settings, activity_monitor);
 		this.fuzzy_seconds = 0;
 
-		this.counting.connect(this.counting_cb);
 		this.delayed.connect(this.delayed_cb);
 	}
-
-	private void counting_cb(int time_counting) {
-
-	}
 	
-	private void delayed_cb(int time_delayed) {
+	private void delayed_cb(int lap_time, int total_time) {
 		this.duration_countdown.reset();
 	}
 }
