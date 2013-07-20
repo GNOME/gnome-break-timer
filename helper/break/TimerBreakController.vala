@@ -92,12 +92,16 @@ public abstract class TimerBreakController : BreakController {
 	private void activated_cb() {
 		this.interval_countdown.pause();
 		this.duration_countdown.continue();
+		this.counting_timer.reset();
+		this.delayed_timer.reset();
 	}
 	
 	private void finished_cb(BreakController.FinishedReason reason) {
 		if (reason > BreakController.FinishedReason.DISABLED) {
 			this.interval_countdown.reset();
 			this.duration_countdown.reset();
+			this.counting_timer.reset();
+			this.delayed_timer.reset();
 		}
 	}
 	
@@ -148,9 +152,9 @@ public abstract class TimerBreakController : BreakController {
 		}
 
 		int time_counting;
-		this.delayed_timer.stop();
+		this.delayed_timer.freeze();
 		if (this.counting_timer.is_stopped()) {
-			this.counting_timer.start();
+			this.counting_timer.start_lap();
 			time_counting = activity.idle_time;
 		} else {
 			time_counting = (int)this.counting_timer.elapsed();
@@ -169,14 +173,14 @@ public abstract class TimerBreakController : BreakController {
 	}
 
 	private void detected_activity_cb(ActivityMonitor.UserActivity activity) {
-		int time_delayed;
+		int delay_elapsed;
 
-		this.counting_timer.stop();
+		this.counting_timer.freeze();
 		if (this.delayed_timer.is_stopped()) {
-			this.delayed_timer.start();
-			time_delayed = 0;
+			this.delayed_timer.start_lap();
+			delay_elapsed = 0;
 		} else {
-			time_delayed = (int)this.delayed_timer.elapsed();
+			delay_elapsed = (int)this.delayed_timer.elapsed();
 		}
 		
 		this.duration_countdown.pause();
@@ -184,7 +188,7 @@ public abstract class TimerBreakController : BreakController {
 			this.interval_countdown.continue();
 		}
 
-		this.delayed(time_delayed);
+		this.delayed(delay_elapsed);
 	}
 
 	/**

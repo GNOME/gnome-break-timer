@@ -18,8 +18,9 @@
 /**
  * A simple GTimer lookalike that keeps track of its own state.
  * This is implemented using the GTimer API, internally, so it behaves
- * exactly as described in the GTimer documentation - just with an extra
- * "state" field for convenience.
+ * exactly as described in the GTimer documentation, with two additions:
+ *  - a state property to keep track of whether the timer is stopped.
+ *  - a "lap" feature (start_lap, lap_time) to measure smaller time intervals
  */
 public class StatefulTimer : Object {
 	public enum State {
@@ -29,6 +30,7 @@ public class StatefulTimer : Object {
 	public State state {public get; private set;}
 
 	private Timer timer;
+	private double lap_start;
 
 	public StatefulTimer() {
 		this.timer = new Timer();
@@ -46,6 +48,7 @@ public class StatefulTimer : Object {
 	public void start() {
 		this.timer.start();
 		this.state = State.COUNTING;
+		this.lap_start = 0;
 	}
 
 	public void stop() {
@@ -64,5 +67,33 @@ public class StatefulTimer : Object {
 
 	public void reset() {
 		this.start();
+	}
+
+	/**
+	 * Starts counting a new lap, and continues the timer if it is not
+	 * already counting.
+	 */
+	public void start_lap() {
+		if (this.is_stopped()) this.continue();
+		this.lap_start = this.timer.elapsed();
+	}
+
+	/**
+	 * Returns the time since the last lap was created, or the elapsed time if
+	 * no laps have been created.
+	 * @see start_lap
+	 */
+	public double lap_time() {
+		return this.timer.elapsed() - this.lap_start;
+	}
+
+	/**
+	 * Stops the timer, but does not advance the end time if if is already
+	 * stopped.
+	 */
+	public void freeze() {
+		if (this.state > State.STOPPED) {
+			this.stop();
+		}
 	}
 }

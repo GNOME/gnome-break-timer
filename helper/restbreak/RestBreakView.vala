@@ -64,8 +64,10 @@ public class RestBreakView : TimerBreakView {
 			);
 			notification.set_urgency(Notify.Urgency.NORMAL);
 			this.show_lock_notification(notification);
-			
+
 			this.play_sound_from_id("complete");
+		} else {
+			this.hide_notification();
 		}
 
 		this.notified_start = false;
@@ -103,8 +105,7 @@ public class RestBreakView : TimerBreakView {
 				_("%s of break remaining").printf(countdown),
 				"alarm-symbolic"
 			);
-			notification.set_urgency(Notify.Urgency.CRITICAL);
-			notification.set_hint("transient", true);
+			notification.set_urgency(Notify.Urgency.NORMAL);
 			this.show_notification(notification);
 		}
 	}
@@ -124,7 +125,7 @@ public class RestBreakView : TimerBreakView {
 					_("You were due to take a break a minute ago"),
 					"alarm-symbolic"
 				);
-				notification.set_urgency(Notify.Urgency.CRITICAL);
+				notification.set_urgency(Notify.Urgency.NORMAL);
 				notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
 				this.show_notification(notification);
 			}
@@ -145,13 +146,13 @@ public class RestBreakView : TimerBreakView {
 		this.set_overlay(status_widget);
 
 		if (! this.overlay_is_visible()) {
-			// FIXME: This should say something like "It's time to take a 5 minute break..."
+			// FIXME: Should say how long the break is?
 			var notification = this.build_common_notification(
 				_("Time for a break"),
 				_("It’s time to take a break. Get away from the computer for a little while!"),
 				"alarm-symbolic"
 			);
-			notification.set_urgency(Notify.Urgency.CRITICAL);
+			notification.set_urgency(Notify.Urgency.NORMAL);
 			notification.set_hint("sound-name", "message");
 			notification.add_action("delay", _("Remind me later"), this.notification_action_delay_cb);
 			notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);

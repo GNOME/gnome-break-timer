@@ -199,6 +199,7 @@ public class UIManager : SimpleFocusManager {
 			notification = new Notify.Notification(summary, body, icon);
 		}
 		notification.set_hint("desktop-entry", DESKTOP_ENTRY_BASENAME);
+		notification.set_hint("resident", true);
 		return notification;
 	}
 

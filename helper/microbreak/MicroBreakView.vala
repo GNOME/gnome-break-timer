@@ -44,8 +44,10 @@ public class MicroBreakView : TimerBreakView {
 			this.show_lock_notification(notification);
 
 			this.play_sound_from_id("complete");
+		} else {
+			this.hide_notification();
 		}
-		
+
 		this.notified_start = false;
 	}
 
