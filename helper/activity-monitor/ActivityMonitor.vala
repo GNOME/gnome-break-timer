@@ -127,13 +127,10 @@ public class ActivityMonitor : Object {
 		int idle_time = backend.get_idle_seconds();
 		int time_since_active = (int) (Util.get_real_time_seconds() - this.last_active_timestamp);
 
-		if (SessionStatus.instance.is_locked()) {
-			activity = UserActivity() {
-				type = ActivityType.LOCKED,
-				idle_time = idle_time,
-				time_correction = 0
-			};
-		} else if (sleep_time > idle_time + 15) {
+		// Order is important here: some types of activity (or inactivity)
+		// happen at the same time, and are only reported once.
+
+		if (sleep_time > idle_time + 15) {
 			// Detected sleep time exceeds reported idle time by a healthy
 			// margin. We use a magic number to filter out rounding error
 			// converting from microseconds to seconds, among other things.
@@ -143,6 +140,12 @@ public class ActivityMonitor : Object {
 				time_correction = sleep_time
 			};
 			GLib.debug("Detected system sleep for %d seconds", sleep_time);
+		} else if (SessionStatus.instance.is_locked()) {
+			activity = UserActivity() {
+				type = ActivityType.LOCKED,
+				idle_time = idle_time,
+				time_correction = 0
+			};
 		} else if (idle_time <= this.last_activity.idle_time) {
 			activity = UserActivity() {
 				type = ActivityType.INPUT,
