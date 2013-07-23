@@ -42,15 +42,30 @@ public abstract class BreakView : UIManager.UIFragment {
 
 	public abstract string get_status_message();
 
-	protected void show_break_info() {
-		// TODO: Use dbus activation once we can depend on GLib >= 2.37
-		AppInfo settings_app_info = new DesktopAppInfo(Config.SETTINGS_DESKTOP_ID);
-		AppLaunchContext app_launch_context = new AppLaunchContext();
-		try {
-			settings_app_info.launch(null, app_launch_context);
-		} catch (Error error) {
-			stderr.printf("Error launching settings application: %s\n", error.message);
+	/**
+	 * Each BreakView should use a single resident notification, which we
+	 * update as the break's status changes. Removing the notification, at any
+	 * point, should skip the break. This function is guaranteed to return a
+	 * notification matching that description. Initially, it will create a
+	 * new notification, and once that notification is shown it will continue
+	 * to return a reference to that same notification until it is removed by
+	 * the application.
+	 * @see show_break_notification
+	 * @see hide_notification
+	 */
+	protected Notify.Notification build_common_notification(string summary, string? body, string? icon) {
+		Notify.Notification notification;
+		if (this.notification != null) {
+			notification = this.notification;
+			notification.clear_actions();
+			notification.clear_hints();
+			notification.update(summary, body, icon);
+		} else {
+			notification = new Notify.Notification(summary, body, icon);
+			notification.closed.connect(this.notification_closed_cb);
 		}
+		notification.set_hint("resident", true);
+		return notification;
 	}
 
 	protected void show_break_notification(Notify.Notification notification) {
@@ -70,8 +85,29 @@ public abstract class BreakView : UIManager.UIFragment {
 		}
 	}
 
+	protected void show_break_info() {
+		// TODO: Use dbus activation once we can depend on GLib >= 2.37
+		AppInfo settings_app_info = new DesktopAppInfo(Config.SETTINGS_DESKTOP_ID);
+		AppLaunchContext app_launch_context = new AppLaunchContext();
+		try {
+			settings_app_info.launch(null, app_launch_context);
+		} catch (Error error) {
+			stderr.printf("Error launching settings application: %s\n", error.message);
+		}
+	}
+
 	private void notification_action_info_cb() {
 		this.show_break_info();
+	}
+
+	private void notification_closed_cb() {
+		// If the notification is dismissed, we assume the user is cutting the break short.
+		// Since we're using persistent notifications, this requires the user to explicitly
+		// remove the notification from its context menu in the message tray.
+		if (this.notification.get_closed_reason() == 2) {
+			// Notification closed reason code 2: dismissed by the user
+			this.break_controller.skip();
+		}
 	}
 
 	/* UIFragment interface */

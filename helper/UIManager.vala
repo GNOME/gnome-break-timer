@@ -61,10 +61,6 @@ public class UIManager : SimpleFocusManager {
 			}
 		}
 
-		protected Notify.Notification build_common_notification(string summary, string? body, string? icon) {
-			return this.ui_manager.build_common_notification(summary, body, icon);
-		}
-
 		protected void show_notification(Notify.Notification notification) {
 			if (this.has_ui_focus()) {
 				this.ui_manager.show_notification(notification);
@@ -188,21 +184,6 @@ public class UIManager : SimpleFocusManager {
 		}
 	}
 
-	protected Notify.Notification build_common_notification(string summary, string? body, string? icon) {
-		Notify.Notification notification;
-		if (this.notification != null) {
-			notification = this.notification;
-			notification.clear_actions();
-			notification.clear_hints();
-			notification.update(summary, body, icon);
-		} else {
-			notification = new Notify.Notification(summary, body, icon);
-		}
-		notification.set_hint("desktop-entry", DESKTOP_ENTRY_BASENAME);
-		notification.set_hint("resident", true);
-		return notification;
-	}
-
 	/**
 	 * Show a notification, ensuring that the application is only showing one
 	 * notification at any time.
@@ -211,6 +192,7 @@ public class UIManager : SimpleFocusManager {
 		if (notification != this.notification) {
 			this.hide_notification(this.notification);
 		}
+		notification.set_hint("desktop-entry", DESKTOP_ENTRY_BASENAME);
 		try {
 			notification.show();
 		} catch (Error error) {

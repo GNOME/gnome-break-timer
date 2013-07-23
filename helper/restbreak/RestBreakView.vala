@@ -61,7 +61,6 @@ public class RestBreakView : TimerBreakView {
 		);
 		notification.set_urgency(Notify.Urgency.NORMAL);
 		notification.set_hint("sound-name", "message");
-		notification.closed.connect(this.notification_closed_cb);
 		this.show_break_notification(notification, true);
 	}
 
@@ -172,16 +171,6 @@ public class RestBreakView : TimerBreakView {
 
 	private void current_duration_changed_cb() {
 		this.shake_overlay();
-	}
-
-	private void notification_closed_cb() {
-		// If the notification is dismissed, we assume the user is cutting the break short.
-		// Since we're using persistent notifications, this requires the user to explicitly
-		// remove the notification from its context menu in the message tray.
-		if (this.notification.get_closed_reason() == 2) {
-			// Notification closed reason code 2: dismissed by the user
-			this.rest_break.skip();
-		}
 	}
 
 	private void notification_action_postpone_cb() {
