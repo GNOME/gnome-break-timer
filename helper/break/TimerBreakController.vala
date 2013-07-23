@@ -57,6 +57,8 @@ public abstract class TimerBreakController : BreakController {
 		});
 		this.notify["duration"].connect((s, p) => {
 			this.duration_countdown.set_base_duration(this.duration);
+			// Unwarn (for now) in case the new duration is shorter than the old one
+			if (this.state == State.WAITING) this.unwarn();
 		});
 
 		this.activity_monitor.detected_activity.connect(this.detected_activity_cb);

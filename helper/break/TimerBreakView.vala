@@ -31,7 +31,12 @@ public abstract class TimerBreakView : BreakView {
 		int time_remaining = this.timer_break.get_time_remaining();
 		string state_label = this.timer_break.state.to_string();
 		
-		message = "%s, I:%d, D:%d".printf(state_label, starts_in, time_remaining);
+		message = "%s%s, I:%d, D:%d".printf(
+			this.has_ui_focus() ? ">" : "",
+			state_label,
+			starts_in,
+			time_remaining
+		);
 		
 		return message;
 	}
