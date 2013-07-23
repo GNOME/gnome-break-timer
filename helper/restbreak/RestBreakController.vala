@@ -24,7 +24,7 @@
 public class RestBreakController : TimerBreakController {
 	private Countdown reminder_countdown;
 
-	public signal void duration_adjusted();
+	public signal void current_duration_changed();
 
 	public RestBreakController(BreakType break_type, Settings settings, ActivityMonitor activity_monitor) {
 		base(break_type, settings, activity_monitor);
@@ -63,7 +63,7 @@ public class RestBreakController : TimerBreakController {
 			new_penalty = int.min(new_penalty, this.duration/2);
 			this.duration_countdown.reset();
 			this.duration_countdown.set_penalty(new_penalty);
-			this.duration_adjusted();
+			this.current_duration_changed();
 			this.reminder_countdown.start();
 		}
 	}

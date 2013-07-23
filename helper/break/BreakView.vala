@@ -19,9 +19,7 @@ public abstract class BreakView : UIManager.UIFragment {
 	protected BreakType break_type;
 	protected BreakController break_controller;
 
-	/** The break is active and has been given UI focus */
-	public signal void focused_and_activated();
-	public signal void lost_ui_focus();
+	private int64 last_break_notification_time = 0;
 	
 	public BreakView(BreakType break_type, BreakController break_controller, UIManager ui_manager) {
 		this.ui_manager = ui_manager;
@@ -37,6 +35,11 @@ public abstract class BreakView : UIManager.UIFragment {
 		break_controller.finished.connect_after(() => { this.release_ui_focus(); });
 	}
 
+	/** The break is active and has been given UI focus. This is the point where we start caring about it. */
+	public signal void focused_and_activated();
+	/** The break has lost UI focus. We don't need to display anything at this point. */
+	public signal void lost_ui_focus();
+
 	public abstract string get_status_message();
 
 	protected void show_break_info() {
@@ -48,6 +51,27 @@ public abstract class BreakView : UIManager.UIFragment {
 		} catch (Error error) {
 			stderr.printf("Error launching settings application: %s\n", error.message);
 		}
+	}
+
+	protected void show_break_notification(Notify.Notification notification) {
+		if (this.overlay_is_visible()) return;
+
+		notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
+		this.show_notification(notification);
+		this.last_break_notification_time = Util.get_real_time_seconds();
+	}
+
+	protected int seconds_since_last_break_notification() {
+		int64 now = Util.get_real_time_seconds();
+		if (this.last_break_notification_time > 0) {
+			return (int)(now - this.last_break_notification_time);
+		} else {
+			return 0;
+		}
+	}
+
+	private void notification_action_info_cb() {
+		this.show_break_info();
 	}
 
 	/* UIFragment interface */

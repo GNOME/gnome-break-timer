@@ -23,16 +23,6 @@ public abstract class TimerBreakView : BreakView {
 	public TimerBreakView(BreakType break_type, TimerBreakController timer_break, UIManager ui_manager) {
 		base(break_type, timer_break, ui_manager);
 	}
-
-	protected int get_lead_in_seconds() {
-		int lead_in = this.timer_break.duration+3;
-		if (lead_in > 40) {
-			lead_in = 40;
-		} else if (lead_in < 15) {
-			lead_in = 15;
-		}
-		return lead_in;
-	}
 	
 	public override string get_status_message() {
 		string message;
@@ -44,6 +34,16 @@ public abstract class TimerBreakView : BreakView {
 		message = "%s, I:%d, D:%d".printf(state_label, starts_in, time_remaining);
 		
 		return message;
+	}
+
+	protected int get_lead_in_seconds() {
+		int lead_in = this.timer_break.duration+3;
+		if (lead_in > 40) {
+			lead_in = 40;
+		} else if (lead_in < 15) {
+			lead_in = 15;
+		}
+		return lead_in;
 	}
 }
 

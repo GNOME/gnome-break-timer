@@ -33,7 +33,6 @@ public class RestBreakView : TimerBreakView {
 		_("The energy of the mind is the essence of life.")
 	};
 
-	private bool notified_start = false;
 	private bool is_postponed = false;
 	private bool proceeding_happily = false;
 	
@@ -42,38 +41,105 @@ public class RestBreakView : TimerBreakView {
 		this.focus_priority = FocusPriority.HIGH;
 
 		this.focused_and_activated.connect(this.focused_and_activated_cb);
-		this.rest_break.activated.connect(this.activated_cb);
+		this.lost_ui_focus.connect(this.lost_ui_focus_cb);
 		this.rest_break.finished.connect(this.finished_cb);
-		this.rest_break.duration_adjusted.connect(this.duration_adjusted_cb);
 	}
 
-	private void activated_cb() {
-		this.rest_break.counting.connect(this.counting_cb);
-		this.rest_break.delayed.connect(this.delayed_cb);
+	protected new void show_break_notification(Notify.Notification notification, bool allow_postpone) {
+		if (allow_postpone) {
+			notification.add_action("postpone", _("Remind me later"), this.notification_action_postpone_cb);
+		}
+		base.show_break_notification(notification);
+	}
 
+	private void show_start_notification() {
+		// FIXME: Should say how long the break is?
+		var notification = this.build_common_notification(
+			_("Time for a break"),
+			_("It’s time to take a break. Get away from the computer for a little while!"),
+			"alarm-symbolic"
+		);
+		notification.set_urgency(Notify.Urgency.NORMAL);
+		notification.set_hint("sound-name", "message");
+		notification.closed.connect(this.notification_closed_cb);
+		this.show_break_notification(notification, true);
+	}
+
+	private void show_interrupted_notification() {
+		int time_remaining = this.rest_break.get_time_remaining();
+		int start_time = this.rest_break.get_current_duration();
+		string countdown = NaturalTime.instance.get_countdown_for_seconds_with_start(
+			time_remaining, start_time);
+		var notification = this.build_common_notification(
+			_("Break interrupted"),
+			_("%s of break remaining").printf(countdown),
+			"alarm-symbolic"
+		);
+		notification.set_urgency(Notify.Urgency.NORMAL);
+		this.show_break_notification(notification, false);
+	}
+
+	private void show_overdue_notification() {
+		int time_since_start = this.rest_break.get_seconds_since_start();
+		string delay_string = NaturalTime.instance.get_simplest_label_for_seconds(
+			time_since_start);
+		var notification = this.build_common_notification(
+			_("Overdue break"),
+			_("You were due to take a break %s ago").printf(delay_string),
+			"alarm-symbolic"
+		);
+		notification.set_urgency(Notify.Urgency.NORMAL);
+		this.show_break_notification(notification, false);
+	}
+
+	private void show_finished_notification() {
+		var notification = this.build_common_notification(
+			_("Break is over"),
+			_("Your break time has ended"),
+			"alarm-symbolic"
+		);
+		notification.set_urgency(Notify.Urgency.NORMAL);
+		this.show_lock_notification(notification);
+
+		this.play_sound_from_id("complete");
+	}
+
+	private void focused_and_activated_cb() {
 		this.is_postponed = false;
 		this.proceeding_happily = false;
+
+		var status_widget = new TimerBreakStatusWidget(this.rest_break);
+		int quote_number = Random.int_range(0, this.rest_quotes.length);
+		string random_quote = this.rest_quotes[quote_number];
+		status_widget.set_message(random_quote);
+		this.set_overlay(status_widget);
+
+		if (! this.overlay_is_visible()) {
+			this.show_start_notification();
+
+			Timeout.add_seconds(this.get_lead_in_seconds(), () => {
+				this.reveal_overlay();
+				return false;
+			});
+		}
+
+		this.rest_break.counting.connect(this.counting_cb);
+		this.rest_break.delayed.connect(this.delayed_cb);
+		this.rest_break.current_duration_changed.connect(this.current_duration_changed_cb);
 	}
 
-	private void finished_cb(BreakController.FinishedReason reason) {
-		if (reason == BreakController.FinishedReason.SATISFIED && this.notified_start && ! this.overlay_is_visible()) {
-			var notification = this.build_common_notification(
-				_("Break is over"),
-				_("Your break time has ended"),
-				"alarm-symbolic"
-			);
-			notification.set_urgency(Notify.Urgency.NORMAL);
-			this.show_lock_notification(notification);
+	private void lost_ui_focus_cb() {
+		this.rest_break.counting.disconnect(this.counting_cb);
+		this.rest_break.delayed.disconnect(this.delayed_cb);
+		this.rest_break.current_duration_changed.disconnect(this.current_duration_changed_cb);
+	}
 
-			this.play_sound_from_id("complete");
+	private void finished_cb(BreakController.FinishedReason reason, bool was_active) {
+		if (reason == BreakController.FinishedReason.SATISFIED && was_active) {
+			this.show_finished_notification();
 		} else {
 			this.hide_notification();
 		}
-
-		this.notified_start = false;
-
-		this.rest_break.counting.disconnect(this.counting_cb);
-		this.rest_break.delayed.disconnect(this.delayed_cb);
 	}
 
 	private void counting_cb(int lap_time, int total_time) {
@@ -89,84 +155,46 @@ public class RestBreakView : TimerBreakView {
 	}
 
 	private void delayed_cb(int lap_time, int total_time) {
-		if (this.proceeding_happily && ! this.is_postponed && ! this.overlay_is_visible()) {
-			// Show a "Break interrupted" notification if the break has been
-			// counting down happily for a while
-
-			this.proceeding_happily = false;
-
-			int time_remaining = this.rest_break.get_time_remaining();
-			int start_time = this.rest_break.get_current_duration();
-			string countdown = NaturalTime.instance.get_countdown_for_seconds_with_start(
-				time_remaining, start_time);
-
-			var notification = this.build_common_notification(
-				_("Break interrupted"),
-				_("%s of break remaining").printf(countdown),
-				"alarm-symbolic"
-			);
-			notification.set_urgency(Notify.Urgency.NORMAL);
-			this.show_notification(notification);
+		if (! this.is_postponed) {
+			if (this.proceeding_happily) {
+				// Show a "Break interrupted" notification if the break has
+				// been counting down happily until now
+				this.show_interrupted_notification();
+			} else if (this.seconds_since_last_break_notification() > 60) {
+				// Show an "Overdue break" notification every minute if the
+				// break is being delayed.
+				this.show_overdue_notification();
+			}
 		}
+
+		this.proceeding_happily = false;
 	}
 
-	private void duration_adjusted_cb() {
+	private void current_duration_changed_cb() {
 		this.shake_overlay();
 	}
 
-	private void notification_action_delay_cb() {
+	private void notification_closed_cb() {
+		// If the notification is dismissed, we assume the user is cutting the break short.
+		// Since we're using persistent notifications, this requires the user to explicitly
+		// remove the notification from its context menu in the message tray.
+		if (this.notification.get_closed_reason() == 2) {
+			// Notification closed reason code 2: dismissed by the user
+			this.rest_break.skip();
+		}
+	}
+
+	private void notification_action_postpone_cb() {
 		this.is_postponed = true;
 		this.hide_notification();
+
 		Timeout.add_seconds(60, () => {
 			if (this.is_postponed) {
+				this.show_overdue_notification();
 				this.is_postponed = false;
-				var notification = this.build_common_notification(
-					_("Overdue break"),
-					_("You were due to take a break a minute ago"),
-					"alarm-symbolic"
-				);
-				notification.set_urgency(Notify.Urgency.NORMAL);
-				notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
-				this.show_notification(notification);
 			}
-
 			return false;
 		});
-	}
-
-	private void notification_action_info_cb() {
-		this.show_break_info();
-	}
-
-	private void focused_and_activated_cb() {
-		var status_widget = new TimerBreakStatusWidget(this.rest_break);
-		int quote_number = Random.int_range(0, this.rest_quotes.length);
-		string random_quote = this.rest_quotes[quote_number];
-		status_widget.set_message(random_quote);
-		this.set_overlay(status_widget);
-
-		if (! this.overlay_is_visible()) {
-			// FIXME: Should say how long the break is?
-			var notification = this.build_common_notification(
-				_("Time for a break"),
-				_("It’s time to take a break. Get away from the computer for a little while!"),
-				"alarm-symbolic"
-			);
-			notification.set_urgency(Notify.Urgency.NORMAL);
-			notification.set_hint("sound-name", "message");
-			notification.add_action("delay", _("Remind me later"), this.notification_action_delay_cb);
-			notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
-			this.show_notification(notification);
-
-			this.notified_start = true;
-
-			Timeout.add_seconds(this.get_lead_in_seconds(), () => {
-				if (this.has_ui_focus() && this.break_controller.is_active()) {
-					this.reveal_overlay();
-				}
-				return false;
-			});
-		}
 	}
 }
 

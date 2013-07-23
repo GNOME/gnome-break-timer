@@ -23,40 +23,54 @@ public class MicroBreakView : TimerBreakView {
 		get { return (MicroBreakController)this.break_controller; }
 	}
 
-	private bool notified_start = false;
-
 	public MicroBreakView(BreakType break_type, MicroBreakController micro_break, UIManager ui_manager) {
 		base(break_type, micro_break, ui_manager);
 		this.focus_priority = FocusPriority.LOW;
 
 		this.focused_and_activated.connect(this.focused_and_activated_cb);
+		this.lost_ui_focus.connect(this.lost_ui_focus_cb);
 		this.micro_break.finished.connect(this.finished_cb);
 	}
 
-	private void finished_cb(BreakController.FinishedReason reason) {
-		if (reason == BreakController.FinishedReason.SATISFIED && this.notified_start && ! this.overlay_is_visible()) {
-			var notification = this.build_common_notification(
-				_("Break is over"),
-				_("Your break time has ended"),
-				"alarm-symbolic"
-			);
-			notification.set_urgency(Notify.Urgency.NORMAL);
-			this.show_lock_notification(notification);
-
-			this.play_sound_from_id("complete");
-		} else {
-			this.hide_notification();
-		}
-
-		this.notified_start = false;
+	protected new void show_break_notification(Notify.Notification notification) {
+		notification.add_action("skip", _("Skip this one"), this.notification_action_skip_cb);
+		base.show_break_notification(notification);
 	}
 
-	private void notification_action_skip_cb() {
-		this.micro_break.skip();
+	private void show_start_notification() {
+		var notification = this.build_common_notification(
+			_("It’s time for a micro break"),
+			_("Take a break from typing and look away from the screen"),
+			"alarm-symbolic"
+		);
+		notification.set_urgency(Notify.Urgency.NORMAL);
+		notification.set_hint("sound-name", "message");
+		this.show_break_notification(notification);
 	}
 
-	private void notification_action_info_cb() {
-		this.show_break_info();
+	private void show_overdue_notification() {
+		int time_since_start = this.micro_break.get_seconds_since_start();
+		string delay_string = NaturalTime.instance.get_simplest_label_for_seconds(
+			time_since_start);
+		var notification = this.build_common_notification(
+			_("Overdue break"),
+			_("You were due to take a break %s ago").printf(delay_string),
+			"alarm-symbolic"
+		);
+		notification.set_urgency(Notify.Urgency.NORMAL);
+		this.show_break_notification(notification);
+	}
+
+	private void show_finished_notification() {
+		var notification = this.build_common_notification(
+			_("Break is over"),
+			_("Your break time has ended"),
+			"alarm-symbolic"
+		);
+		notification.set_urgency(Notify.Urgency.NORMAL);
+		this.show_lock_notification(notification);
+
+		this.play_sound_from_id("complete");
 	}
 
 	private void focused_and_activated_cb() {
@@ -65,26 +79,37 @@ public class MicroBreakView : TimerBreakView {
 		this.set_overlay(status_widget);
 
 		if (! this.overlay_is_visible()) {
-			var notification = this.build_common_notification(
-				_("It’s time for a micro break"),
-				_("Take a break from typing and look away from the screen"),
-				"alarm-symbolic"
-			);
-			notification.set_urgency(Notify.Urgency.NORMAL);
-			notification.set_hint("sound-name", "message");
-			notification.add_action("skip", _("Skip this one"), this.notification_action_skip_cb);
-			notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
-			this.show_notification(notification);
-			
-			this.notified_start = true;
+			this.show_start_notification();
 
 			Timeout.add_seconds(this.get_lead_in_seconds(), () => {
-				if (this.has_ui_focus() && this.micro_break.is_active()) {
-					this.reveal_overlay();
-				}
+				this.reveal_overlay();
 				return false;
 			});
 		}
+
+		this.micro_break.delayed.connect(this.delayed_cb);
+	}
+
+	private void lost_ui_focus_cb() {
+		this.micro_break.delayed.disconnect(this.delayed_cb);
+	}
+
+	private void finished_cb(BreakController.FinishedReason reason, bool was_active) {
+		if (reason == BreakController.FinishedReason.SATISFIED && was_active) {
+			this.show_finished_notification();
+		} else {
+			this.hide_notification();
+		}
+	}
+
+	private void delayed_cb(int lap_time, int total_time) {
+		if (total_time > this.micro_break.interval) {
+			this.show_overdue_notification();
+		}
+	}
+
+	private void notification_action_skip_cb() {
+		this.break_controller.skip();
 	}
 }
 

@@ -225,15 +225,16 @@ public class UIManager : SimpleFocusManager {
 	 * notification automatically hides when the screen is unlocked.
 	 */
 	protected void show_lock_notification(Notify.Notification notification) {
-		this.show_notification(notification);
-		this.lock_notification = notification;
-		if (! SessionStatus.instance.is_locked()) {
-			this.hide_lock_notification_cb();
+		if (SessionStatus.instance.is_locked()) {
+			this.lock_notification = notification;
+		} else {
+			notification.set_hint("transient", true);
 		}
+		this.show_notification(notification);
 	}
 
 	private void hide_lock_notification_cb() {
-		this.hide_notification(this.lock_notification, false);
+		this.hide_notification(this.lock_notification, true);
 		this.lock_notification = null;
 	}
 

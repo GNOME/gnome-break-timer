@@ -40,7 +40,8 @@ public class TimerBreakStatusWidget : Gtk.Grid, IScreenOverlayContent {
 		this.show_all();
 	}
 
-	private void active_countdown_changed_cb(int time_remaining) {
+	private void active_changed_cb() {
+		int time_remaining = this.timer_break.get_time_remaining();
 		if (this.timer_break.is_active()) {
 			int start_time = this.timer_break.get_current_duration();
 			string countdown = NaturalTime.instance.get_countdown_for_seconds_with_start(
@@ -58,8 +59,7 @@ public class TimerBreakStatusWidget : Gtk.Grid, IScreenOverlayContent {
 	private void update_content() {
 		// Make sure the content being displayed is up to date. This is
 		// usually called when the widget is about to appear.
-		int time_remaining = this.timer_break.get_time_remaining();
-		this.active_countdown_changed_cb(time_remaining);
+		this.active_changed_cb();
 	}
 	
 	/** Set a reassuring message to accompany the break timer */
@@ -70,13 +70,13 @@ public class TimerBreakStatusWidget : Gtk.Grid, IScreenOverlayContent {
 	/* IScreenOverlayContent interface */
 
 	public void added_to_overlay() {
-		this.timer_break.active_countdown_changed.connect(this.active_countdown_changed_cb);
+		this.timer_break.active_changed.connect(this.active_changed_cb);
 		this.timer_break.finished.connect(this.finished_cb);
 		this.update_content();
 	}
 
 	public void removed_from_overlay() {
-		this.timer_break.active_countdown_changed.disconnect(this.active_countdown_changed_cb);
+		this.timer_break.active_changed.disconnect(this.active_changed_cb);
 		this.timer_break.finished.disconnect(this.finished_cb);
 	}
 

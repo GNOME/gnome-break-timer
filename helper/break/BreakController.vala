@@ -66,7 +66,10 @@ public abstract class BreakController : Object {
 	/** The break has been activated and is now counting down aggressively until it is satisfied. */
 	public signal void activated();
 	/** The break has been satisfied. This can happen at any time, including while the break is waiting or after it has been activiated. */
-	public signal void finished(BreakController.FinishedReason reason);
+	public signal void finished(BreakController.FinishedReason reason, bool was_active);
+
+	/** The break is active and it has progressed in some fashion (for example, remaining time has changed). */
+	public signal void active_changed();
 
 	private int64 activate_timestamp;
 	
@@ -87,8 +90,9 @@ public abstract class BreakController : Object {
 			this.state = State.WAITING;
 			this.enabled();
 		} else if (!enable && this.is_enabled()) {
+			bool was_active = this.state == State.ACTIVE;
 			this.state = State.DISABLED;
-			this.finished(BreakController.FinishedReason.DISABLED);
+			this.finished(BreakController.FinishedReason.DISABLED, was_active);
 			this.disabled();
 		}
 	}
@@ -135,8 +139,9 @@ public abstract class BreakController : Object {
 	 * the beginning again.
 	 */
 	public void finish() {
+		bool was_active = this.state == State.ACTIVE;
 		this.state = State.WAITING;
-		this.finished(BreakController.FinishedReason.SATISFIED);
+		this.finished(BreakController.FinishedReason.SATISFIED, was_active);
 	}
 
 	/**
@@ -147,8 +152,9 @@ public abstract class BreakController : Object {
 	 * satisfied.
 	 */
 	public void skip() {
+		bool was_active = this.state == State.ACTIVE;
 		this.state = State.WAITING;
-		this.finished(BreakController.FinishedReason.SKIPPED);
+		this.finished(BreakController.FinishedReason.SKIPPED, was_active);
 	}
 }
 

@@ -69,8 +69,6 @@ public abstract class TimerBreakController : BreakController {
 		this.finished.connect(this.finished_cb);
 	}
 
-	/** The break is active and time_remaining has changed. */
-	public signal void active_countdown_changed(int time_remaining);
 	/** Fires continually, as long as the break is active and counting down. */
 	public signal void counting(int lap_time, int total_time);
 	/** Fires as long as the break is active but is not counting down. */
@@ -184,7 +182,7 @@ public abstract class TimerBreakController : BreakController {
 			this.delayed_timer.start_lap();
 			lap_time = 0;
 		} else {
-			lap_time = (int)this.counting_timer.lap_time();
+			lap_time = (int)this.delayed_timer.lap_time();
 		}
 		
 		this.duration_countdown.pause();
@@ -194,7 +192,7 @@ public abstract class TimerBreakController : BreakController {
 
 		this.delayed(
 			lap_time,
-			(int)this.counting_timer.elapsed()
+			(int)this.delayed_timer.elapsed()
 		);
 	}
 
@@ -219,7 +217,7 @@ public abstract class TimerBreakController : BreakController {
 				this.unwarn();
 			}
 		} else if (this.state == State.ACTIVE) {
-			this.active_countdown_changed(this.get_time_remaining());
+			this.active_changed();
 		}
 	}
 }
