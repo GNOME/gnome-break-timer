@@ -1,4 +1,5 @@
 common/NaturalTime.c
+helper/break/BreakView.c
 helper/break/TimerBreakStatusWidget.c
 helper/microbreak/MicroBreakView.c
 helper/restbreak/RestBreakView.c
