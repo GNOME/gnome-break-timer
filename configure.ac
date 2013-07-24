@@ -1,7 +1,7 @@
-AC_INIT([brainbreak],
+AC_INIT([gnome-break-timer],
 	[1.0],
 	[http://bugs.launchpad.net/brainbreak],
-	[brainbreak],
+	[gnome-break-timer],
 	[https://launchpad.net/brainbreak])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.11 no-dist-gzip dist-xz foreign])
@@ -9,8 +9,8 @@ LT_INIT
 AM_MAINTAINER_MODE
 AC_CONFIG_HEADERS([config.h])
 
-AC_DEFINE(HELPER_DESKTOP_ID, "brainbreak.desktop", [Name of the .desktop file used for the helper service])
-AC_DEFINE(SETTINGS_DESKTOP_ID, "brainbreak-settings.desktop", [Name of the .desktop file used for the settings application])
+AC_DEFINE(SETTINGS_DESKTOP_ID, "gnome-break-timer.desktop", [Name of the .desktop file used for the settings application])
+AC_DEFINE(HELPER_DESKTOP_ID, "gnome-break-timer-service.desktop", [Name of the .desktop file used for the helper service])
 
 AC_PATH_PROG(VALAC, valac, valac)
 AC_SUBST(VALAC)
@@ -33,7 +33,7 @@ AC_SUBST(LDFLAGS)
 GLIB_REQUIRED=2.32.0
 GTK_REQUIRED=3.4.0
 
-PKG_CHECK_MODULES(BRAINBREAK, [
+PKG_CHECK_MODULES(BREAK_TIMER, [
 	gdk-x11-3.0 >= $GTK_REQUIRED
 	gee-1.0 >= 0.6.2
 	gio-2.0 >= 2.30.0
@@ -48,12 +48,12 @@ PKG_CHECK_MODULES(BRAINBREAK, [
 	xi >= 1.5.99.3
 	xtst >= 1.2.0
 ])
-AC_SUBST(BRAINBREAK_CFLAGS)
-AC_SUBST(BRAINBREAK_LIBS)
+AC_SUBST(BREAK_TIMER_CFLAGS)
+AC_SUBST(BREAK_TIMER_LIBS)
 
 LIBGD_INIT([header-bar stack revealer vapi])
 
-AC_SUBST([BRAINBREAK_VALAFLAGS], "--pkg glib-2.0 --target-glib=$GLIB_REQUIRED")
+AC_SUBST([BREAK_TIMER_VALAFLAGS], "--pkg glib-2.0 --target-glib=$GLIB_REQUIRED")
 
 AC_CONFIG_FILES([Makefile
 	common/Makefile

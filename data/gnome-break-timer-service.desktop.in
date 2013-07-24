@@ -2,7 +2,7 @@
 Type=Application
 _Name=Break Timer
 _Comment=Provides a gentle reminder to take regular breaks
-X-Ubuntu-Gettext-Domain=brainbreak
+X-Ubuntu-Gettext-Domain=gnome-break-timer
 NoDisplay=true
-Exec=/usr/bin/brainbreak
+Exec=/usr/bin/gnome-break-timer-service
 X-GNOME-UsesNotifications=true

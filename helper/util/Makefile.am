@@ -1,4 +1,4 @@
-AM_CPPFLAGS = $(BRAINBREAK_CFLAGS) \
+AM_CPPFLAGS = $(BREAK_TIMER_CFLAGS) \
 	-include $(CONFIG_HEADER) \
 	-I $(top_builddir)/common
 
@@ -12,9 +12,9 @@ libutil_la_SOURCES = \
 	StatefulTimer.vala \
 	Util.vala
 
-libutil_la_LIBADD = $(BRAINBREAK_LIBS)
+libutil_la_LIBADD = $(BREAK_TIMER_LIBS)
 
-libutil_la_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
+libutil_la_VALAFLAGS = $(BREAK_TIMER_VALAFLAGS) \
 	--library util \
 	--vapi util.vapi \
 	-H util.h

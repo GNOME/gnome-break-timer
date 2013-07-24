@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+_Name=Break Timer
+_Comment=Choose your preferences for micro breaks and rest breaks
+_Keywords=break;micro;rest;timer;
+X-Ubuntu-Gettext-Domain=gnome-break-timer
+Categories=GNOME;GTK;Utility;Settings;
+Exec=/usr/bin/gnome-break-timer
+StartupNotify=true

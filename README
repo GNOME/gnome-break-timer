@@ -1,17 +1,12 @@
-Brain Break
-...Or Yet Another RSI Prevention Tool. This time prettier and happier.
-Copyright(c) 2011, Dylan McCall and Brain Break contributors.
+GNOME Break Timer
+Copyright 2011, Dylan McCall and GNOME Break Timer contributors.
 
 -----
 
-Brain Break is designed to satisfy those who are not suffering from RSI,
-but are concerned about the mental and physical issues associated with
-heavy computer use. As a result, it is not particular about whether you
-are using a keyboard or a mouse or simply looking at the screen; the
-goal here is to encourage you to space computer use around other things.
-
-Brain Break should stay out of the way and be as non-destructive as
-possible, accommodating users regardless of their current tasks without
-requiring that they change its aggressiveness themselves. It should avoid
-threatening people with things such as permanent statistics, but provide
-incentives to be healthy which fit the moment at hand.
+GNOME Break Timer keeps track of your computer use and provides a gentle
+reminder to take regular breaks. This is great for anyone concerned about the
+mental or physical issues associated with heavy computer use. GNOME Break
+Timer aims to be effective over a long time, so it is assertive as possible
+without being irritating. It avoids threatening people with negative things
+like permanent usage statistics, but it provides incentives to be healthy
+which fit the moment at hand.

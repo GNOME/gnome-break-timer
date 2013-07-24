@@ -1,14 +1,14 @@
 @INTLTOOL_XML_NOMERGE_RULE@
 
 @GSETTINGS_RULES@
-gsettings_SCHEMAS = org.brainbreak.gschema.xml
+gsettings_SCHEMAS = org.gnome.break-timer.gschema.xml
 
 @INTLTOOL_DESKTOP_RULE@
 desktopdir = $(datadir)/applications
-desktop_DATA = brainbreak.desktop brainbreak-settings.desktop
+desktop_DATA = gnome-break-timer.desktop gnome-break-timer-service.desktop
 
 autostartdir = $(sysconfdir)/xdg/autostart
-autostart_DATA = brainbreak-autostart.desktop
+autostart_DATA = gnome-break-timer-autostart.desktop
 
 check: $(desktop_DATA) $(autostart_DATA)
 	@for desktop in $(desktop_DATA); do \
@@ -16,7 +16,7 @@ check: $(desktop_DATA) $(autostart_DATA)
 	done
 
 EXTRA_DIST= \
-    brainbreak.gresource.xml \
+    gnome-break-timer.gresource.xml \
     $(desktop_DATA) \
     $(autostart_DATA) \
     $(service_in_files) \

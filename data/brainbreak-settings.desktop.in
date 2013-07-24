@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-_Name=Break Settings
-_Comment=Change your settings for micro breaks and rest breaks
-_Keywords=break;micro;rest;timer;
-X-Ubuntu-Gettext-Domain=brainbreak
-Categories=GNOME;GTK;Utility;Settings;X-GNOME-SystemSettings;
-Exec=/usr/bin/brainbreak-settings
-StartupNotify=true

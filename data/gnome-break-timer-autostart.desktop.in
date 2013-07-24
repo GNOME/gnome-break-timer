@@ -2,10 +2,10 @@
 Type=Application
 _Name=Break Timer
 _Comment=Provides a gentle reminder to take regular breaks
-X-Ubuntu-Gettext-Domain=brainbreak
+X-Ubuntu-Gettext-Domain=gnome-break-timer
 NoDisplay=true
-Exec=/usr/bin/brainbreak
-AutostartCondition=GSettings org.brainbreak.breaks master-enabled
+Exec=/usr/bin/gnome-break-timer-service
+AutostartCondition=GSettings org.gnome.break-timer master-enabled
 X-GNOME-Autostart-Phase=Applications
 X-GNOME-Autostart-Delay=30
 X-GNOME-AutoRestart=true

@@ -1,25 +1,25 @@
 /*
- * This file is part of Brain Break.
+ * This file is part of GNOME Break Timer.
  * 
- * Brain Break is free software: you can redistribute it and/or modify
+ * GNOME Break Timer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  * 
- * Brain Break is distributed in the hope that it will be useful,
+ * GNOME Break Timer is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
+ * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public const string HELPER_BUS_NAME = "org.brainbreak.Helper";
-public const string HELPER_OBJECT_PATH = "/org/brainbreak/Helper";
-public const string HELPER_BREAK_OBJECT_BASE_PATH = "/org/brainbreak/Breaks/";
+public const string HELPER_BUS_NAME = "org.gnome.break-timer.Helper";
+public const string HELPER_OBJECT_PATH = "/org/gnome/break-timer/Helper";
+public const string HELPER_BREAK_OBJECT_BASE_PATH = "/org/gnome/break-timer/Breaks/";
 
-[DBus (name = "org.brainbreak.Helper")]
+[DBus (name = "org.gnome.break-timer.Helper")]
 public interface IBreakHelper : Object {
 	/** Returns the ID of the break that is currently focused and activated, if any. */
 	public abstract string? get_current_active_break() throws IOError;
@@ -39,7 +39,7 @@ public interface IBreakHelper : Object {
 	// dbus service regularly for updates.
 }
 
-[DBus (name = "org.brainbreak.Breaks.TimerBreak")]
+[DBus (name = "org.gnome.break-timer.Breaks.TimerBreak")]
 public interface IBreakHelper_TimerBreak : Object {
 	/** Get the break's current status, such as time remaining, or time until the break starts */
 	public abstract TimerBreakStatus get_status() throws IOError;

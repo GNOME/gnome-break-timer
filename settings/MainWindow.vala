@@ -1,18 +1,18 @@
 /*
- * This file is part of Brain Break.
+ * This file is part of GNOME Break Timer.
  * 
- * Brain Break is free software: you can redistribute it and/or modify
+ * GNOME Break Timer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  * 
- * Brain Break is distributed in the hope that it will be useful,
+ * GNOME Break Timer is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Brain Break.  If not, see <http://www.gnu.org/licenses/>.
+ * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 public class MainWindow : Gtk.ApplicationWindow {
@@ -34,7 +34,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 
 		Gtk.Builder builder = new Gtk.Builder ();
 		try {
-			builder.add_from_resource("/org/brainbreak/settings/settings-panels.ui");
+			builder.add_from_resource("/org/gnome/break-timer/settings/settings-panels.ui");
 		} catch (Error e) {
 			GLib.error ("Error loading UI: %s", e.message);
 		}
@@ -123,11 +123,11 @@ public class MainWindow : Gtk.ApplicationWindow {
 
 	public void show_about_dialog() {
 		Gtk.show_about_dialog(this,
-			"program-name", _("Brain Break"),
+			"program-name", _("GNOME Break Timer"),
 			"comments", _("Computer break reminders for active minds"),
 			"copyright", _("Copyright © Dylan McCall"),
 			"website", "http://launchpad.net/brainbreak",
-			"website-label", _("Brain Break Website")
+			"website-label", _("GNOME Break Timer Website")
 		);
 	}
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/org/brainbreak/settings">
+  <gresource prefix="/org/gnome/break-timer/settings">
     <file preprocess="xml-stripblanks">settings-panels.ui</file>
   </gresource>
 </gresources>

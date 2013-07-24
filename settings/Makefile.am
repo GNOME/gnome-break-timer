@@ -1,4 +1,4 @@
-AM_CPPFLAGS = $(BRAINBREAK_CFLAGS) \
+AM_CPPFLAGS = $(BREAK_TIMER_CFLAGS) \
 	-include $(CONFIG_HEADER) \
 	-I $(top_builddir)/libgd \
 	-I $(top_builddir)/common
@@ -7,13 +7,13 @@ SUBDIRS =
 
 BUILT_SOURCES = resources.c
 
-resources.c: $(top_srcdir)/data/brainbreak.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir=$(top_srcdir)/data/ $(top_srcdir)/data/brainbreak.gresource.xml)
+resources.c: $(top_srcdir)/data/gnome-break-timer.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir=$(top_srcdir)/data/ $(top_srcdir)/data/gnome-break-timer.gresource.xml)
 	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(top_srcdir)/data/ --generate-source $<
 
 bin_PROGRAMS = \
-	brainbreak-settings
+	gnome-break-timer
 
-brainbreak_settings_SOURCES = \
+gnome_break_timer_SOURCES = \
 	BreakManager.vala \
 	BreakSettingsDialog.vala \
 	BreakType.vala \
@@ -25,7 +25,7 @@ brainbreak_settings_SOURCES = \
 	main.vala \
 	$(BUILT_SOURCES)
 
-brainbreak_settings_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
+gnome_break_timer_VALAFLAGS = $(BREAK_TIMER_VALAFLAGS) \
 	--pkg gtk+-3.0 \
 	--pkg gio-2.0 \
 	--pkg gio-unix-2.0 \
@@ -34,16 +34,16 @@ brainbreak_settings_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
 	$(top_builddir)/common/common.vapi \
 	$(top_builddir)/libgd/gd-1.0.vapi
 
-brainbreak_settings_LDADD = $(BRAINBREAK_LIBS) \
+gnome_break_timer_LDADD = $(BREAK_TIMER_LIBS) \
 	$(top_builddir)/libgd/libgd.la \
 	$(top_builddir)/common/libcommon.la
 
-brainbreak_settings_vala.stamp: \
+gnome_break_timer_vala.stamp: \
 	$(top_builddir)/common/libcommon_la_vala.stamp
 
 junk_files = \
-	$(brainbreak_settings_SOURCES:.vala=.c) \
-	brainbreak_settings_vala.stamp
+	$(gnome_break_timer_SOURCES:.vala=.c) \
+	gnome_break_timer_vala.stamp
 
 dist-hook:
 	cd $(distdir) && rm -f $(junk_files)

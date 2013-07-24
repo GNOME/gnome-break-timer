@@ -2,16 +2,16 @@ SUBDIRS = \
 	util \
 	activity-monitor
 
-AM_CPPFLAGS = $(BRAINBREAK_CFLAGS) \
+AM_CPPFLAGS = $(BREAK_TIMER_CFLAGS) \
 	-include $(CONFIG_HEADER) \
 	-I $(top_builddir)/common \
 	-I $(top_builddir)/helper/activity-monitor \
 	-I $(top_builddir)/helper/util
 
 bin_PROGRAMS = \
-	brainbreak
+	gnome-break-timer-service
 
-brainbreak_SOURCES = \
+gnome_break_timer_service_SOURCES = \
 	break/BreakController.vala \
 	break/BreakType.vala \
 	break/BreakView.vala \
@@ -30,7 +30,7 @@ brainbreak_SOURCES = \
 	UIManager.vala \
 	main.vala
 
-brainbreak_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
+gnome_break_timer_service_VALAFLAGS = $(BREAK_TIMER_VALAFLAGS) \
 	--pkg gtk+-3.0 \
 	--pkg gio-2.0 \
 	--pkg gio-unix-2.0 \
@@ -43,22 +43,22 @@ brainbreak_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
 	$(top_builddir)/helper/activity-monitor/activity_monitor.vapi \
 	$(top_builddir)/helper/util/util.vapi
 
-brainbreak_LDADD = $(BRAINBREAK_LIBS) \
+gnome_break_timer_service_LDADD = $(BREAK_TIMER_LIBS) \
 	$(top_builddir)/common/libcommon.la \
 	$(top_builddir)/helper/activity-monitor/libactivity_monitor.la \
 	$(top_builddir)/helper/util/libutil.la
 
 # Additional glib math library
-brainbreak_LDFLAGS = -lm
+gnome_break_timer_service_LDFLAGS = -lm
 
-brainbreak_vala.stamp: \
+gnome_break_timer_service_vala.stamp: \
 	$(top_builddir)/common/libcommon_la_vala.stamp \
 	$(top_builddir)/helper/activity-monitor/libactivity_monitor_la_vala.stamp \
 	$(top_builddir)/helper/util/libutil_la_vala.stamp
 
 junk_files = \
-	$(brainbreak_SOURCES:.vala=.c) \
-	brainbreak_vala.stamp
+	$(gnome_break_timer_service_SOURCES:.vala=.c) \
+	gnome_break_timer_service_vala.stamp
 
 dist-hook:
 	cd $(distdir) && rm -f $(junk_files)

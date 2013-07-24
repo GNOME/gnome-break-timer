@@ -1,4 +1,4 @@
-AM_CPPFLAGS = $(BRAINBREAK_CFLAGS) \
+AM_CPPFLAGS = $(BREAK_TIMER_CFLAGS) \
 	-include $(CONFIG_HEADER) \
 	-I $(top_builddir)/common \
 	-I $(top_builddir)/helper/util
@@ -10,13 +10,13 @@ noinst_LTLIBRARIES = \
 libc_x11_activity_monitor_backend_la_SOURCES = \
 	c_x11_activity_monitor_backend.c
 
-libc_x11_activity_monitor_backend_la_LIBADD = $(BRAINBREAK_LIBS)
+libc_x11_activity_monitor_backend_la_LIBADD = $(BREAK_TIMER_LIBS)
 
 libactivity_monitor_la_SOURCES = \
 	ActivityMonitor.vala \
 	X11ActivityMonitorBackend.vala
 
-libactivity_monitor_la_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
+libactivity_monitor_la_VALAFLAGS = $(BREAK_TIMER_VALAFLAGS) \
 	--pkg gdk-x11-3.0 \
 	--library activity_monitor \
 	--vapi activity_monitor.vapi \
@@ -24,7 +24,7 @@ libactivity_monitor_la_VALAFLAGS = $(BRAINBREAK_VALAFLAGS) \
 	$(top_builddir)/common/common.vapi \
 	$(top_builddir)/helper/util/util.vapi
 
-libactivity_monitor_la_LIBADD = $(BRAINBREAK_LIBS) \
+libactivity_monitor_la_LIBADD = $(BREAK_TIMER_LIBS) \
 	libc_x11_activity_monitor_backend.la \
 	$(top_builddir)/common/libcommon.la \
 	$(top_builddir)/helper/util/libutil.la
