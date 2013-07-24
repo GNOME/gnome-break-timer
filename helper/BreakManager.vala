@@ -33,7 +33,7 @@ public class BreakManager : Object {
 		this.breaks = new Gee.HashMap<string, BreakType>();
 		this.settings = new Settings("org.gnome.break-timer");
 
-		this.settings.bind("master-enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
+		this.settings.bind("enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
 		this.settings.bind("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);
 		this.notify["master-enabled"].connect(this.update_enabled_breaks);
 		this.notify["selected-break-ids"].connect(this.update_enabled_breaks);
@@ -93,7 +93,7 @@ public class BreakManager : Object {
 	}
 }
 
-[DBus (name = "org.gnome.break-timer.Helper")]
+[DBus (name = "org.gnome.BreakTimer.Helper")]
 private class BreakHelperServer : Object, IBreakHelper {
 	private BreakManager break_manager;
 	

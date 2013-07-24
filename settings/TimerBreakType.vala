@@ -76,7 +76,8 @@ public abstract class TimerBreakType : BreakType {
 			this.break_server = Bus.get_proxy_sync(
 				BusType.SESSION,
 				HELPER_BUS_NAME,
-				HELPER_BREAK_OBJECT_BASE_PATH+this.id
+				HELPER_BREAK_OBJECT_BASE_PATH+this.id,
+				DBusProxyFlags.DO_NOT_AUTO_START
 			);
 			// We can only poll the break helper application for updates, so
 			// for responsiveness we update at a faster than normal rate.

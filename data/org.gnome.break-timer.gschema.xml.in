@@ -1,6 +1,6 @@
 <schemalist>
   <schema id="org.gnome.break-timer" path="/org/gnome/break-timer/" gettext-domain="gnome-break-timer">
-    <key name="master-enabled" type="b">
+    <key name="enabled" type="b">
       <_summary>True to enable GNOME Break Timer</_summary>
       <default>false</default>
     </key>

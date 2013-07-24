@@ -37,13 +37,19 @@ public class BreakManager : Object {
 		this.breaks_ordered = new List<BreakType>();
 
 		this.settings = new Settings("org.gnome.break-timer");
-		this.settings.bind("master-enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
+		this.settings.bind("enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
 		this.settings.bind("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);
 
-		// We choose not too send a signal when master-enabled changes because
+		// We choose not too send a signal when master_enabled changes because
 		// we might be starting the break helper at the same time, so the
 		// value of is_working() could fluctuate unpleasantly.
 		//this.notify["master-enabled"].connect(() => { this.status_changed(); });
+		this.notify["master-enabled"].connect(() => {
+			// Launch the break timer service if the break manager is enabled
+			// TODO: this is redundant, because gnome-session autostarts the
+			// service. However, it is unclear if we should rely on it.
+			if (this.master_enabled) this.launch_break_timer_service();
+		});
 	}
 
 	public signal void break_status_available();
@@ -108,7 +114,8 @@ public class BreakManager : Object {
 			this.break_helper = Bus.get_proxy_sync(
 				BusType.SESSION,
 				HELPER_BUS_NAME,
-				HELPER_OBJECT_PATH
+				HELPER_OBJECT_PATH,
+				DBusProxyFlags.DO_NOT_AUTO_START
 			);
 			this.break_status_available();
 		} catch (IOError error) {
@@ -121,18 +128,22 @@ public class BreakManager : Object {
 		if (this.break_helper == null && this.master_enabled) {
 			// Try to start break_helper automatically if it should be
 			// running. Only do this once, if it was not running previously.
-			// TODO: Use dbus activation once we can depend on GLib >= 2.37
-			AppInfo helper_app_info = new DesktopAppInfo(Config.HELPER_DESKTOP_ID);
-			AppLaunchContext app_launch_context = new AppLaunchContext();
-			try {
-				helper_app_info.launch(null, app_launch_context);
-			} catch (Error error) {
-				GLib.warning("Error launching helper application: %s", error.message);
-			}
+			this.launch_break_timer_service();
 		}
 
 		this.break_helper = null;
 
 		this.status_changed();
+	}
+
+	private void launch_break_timer_service() {
+		// TODO: Use dbus activation once we can depend on GLib >= 2.37
+		AppInfo helper_app_info = new DesktopAppInfo(Config.HELPER_DESKTOP_ID);
+		AppLaunchContext app_launch_context = new AppLaunchContext();
+		try {
+			helper_app_info.launch(null, app_launch_context);
+		} catch (Error error) {
+			GLib.warning("Error launching helper application: %s", error.message);
+		}
 	}
 }
