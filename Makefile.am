@@ -20,6 +20,7 @@ BrainBreakdoc_DATA = \
 
 EXTRA_DIST = \
 	autogen.sh \
+	config.vapi \
 	$(BrainBreakdoc_DATA) \
 	intltool-extract.in \
 	intltool-merge.in \

@@ -1,7 +1,8 @@
 @INTLTOOL_XML_NOMERGE_RULE@
 
 @GSETTINGS_RULES@
-gsettings_SCHEMAS = org.gnome.break-timer.gschema.xml
+gsettingsschema_in_files = org.gnome.break-timer.gschema.xml.in
+gsettings_SCHEMAS = $(org.gnome.break-timer.gschema.xml:.xml.in=.xml)
 
 @INTLTOOL_DESKTOP_RULE@
 desktopdir = $(datadir)/applications
@@ -16,6 +17,7 @@ check: $(desktop_DATA) $(autostart_DATA)
 	done
 
 EXTRA_DIST= \
+    settings-panels.ui \
     gnome-break-timer.gresource.xml \
     $(desktop_DATA) \
     $(autostart_DATA) \

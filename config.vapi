@@ -1,3 +1,6 @@
+/* This is a hand-written vapi file containing constants from config.h that
+ * should exposed to the Vala program */
+
 [CCode (cprefix = "", lower_case_cprefix = "", cheader_filename = "config.h")]
 namespace Config {
 	public const string GETTEXT_PACKAGE;
@@ -7,3 +10,4 @@ namespace Config {
 	public const string HELPER_DESKTOP_ID;
 	public const string SETTINGS_DESKTOP_ID;
 }
+
