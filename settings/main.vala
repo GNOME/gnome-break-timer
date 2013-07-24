@@ -16,7 +16,8 @@
  */
 
 public class Application : Gtk.Application {
-	private const string app_id = "org.gnome.BreakTimer.Settings";
+	const string app_id = HELPER_BUS_NAME+".Settings";
+	
 	private static const string STYLE_DATA =
 		"""
 		._settings-title {

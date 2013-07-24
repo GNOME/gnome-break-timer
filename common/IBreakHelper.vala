@@ -15,11 +15,11 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public const string HELPER_BUS_NAME = "org.gnome.BreakTimer.Helper";
-public const string HELPER_OBJECT_PATH = "/org/gnome/BreakTimer/Helper";
-public const string HELPER_BREAK_OBJECT_BASE_PATH = "/org/gnome/BreakTimer/Breaks/";
+public const string HELPER_BUS_NAME = "org.gnome.BreakTimer";
+public const string HELPER_OBJECT_PATH = "/org/gnome/BreakTimer";
+public const string HELPER_BREAK_OBJECT_BASE_PATH = "/org/gnome/BreakTimer/";
 
-[DBus (name = "org.gnome.BreakTimer.Helper")]
+[DBus (name = "org.gnome.BreakTimer")]
 public interface IBreakHelper : Object {
 	/** Returns the ID of the break that is currently focused and activated, if any. */
 	public abstract string? get_current_active_break() throws IOError;
@@ -39,7 +39,7 @@ public interface IBreakHelper : Object {
 	// dbus service regularly for updates.
 }
 
-[DBus (name = "org.gnome.BreakTimer.Breaks.TimerBreak")]
+[DBus (name = "org.gnome.BreakTimer.TimerBreak")]
 public interface IBreakHelper_TimerBreak : Object {
 	/** Get the break's current status, such as time remaining, or time until the break starts */
 	public abstract TimerBreakStatus get_status() throws IOError;

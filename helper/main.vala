@@ -16,7 +16,7 @@
  */
 
 public class Application : Gtk.Application {
-	const string app_id = HELPER_BUS_NAME+".Application";
+	const string app_id = HELPER_BUS_NAME+".Helper";
 	const string app_name = _("GNOME Break Timer");
 	
 	/* FIXME: font-size should have units, but we can only do that with GTK 3.8 and later */

@@ -93,7 +93,7 @@ public class BreakManager : Object {
 	}
 }
 
-[DBus (name = "org.gnome.BreakTimer.Helper")]
+[DBus (name = "org.gnome.BreakTimer")]
 private class BreakHelperServer : Object, IBreakHelper {
 	private BreakManager break_manager;
 	

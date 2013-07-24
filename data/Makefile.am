@@ -2,7 +2,7 @@
 
 @GSETTINGS_RULES@
 gsettingsschema_in_files = org.gnome.break-timer.gschema.xml.in
-gsettings_SCHEMAS = $(org.gnome.break-timer.gschema.xml:.xml.in=.xml)
+gsettings_SCHEMAS = $(gsettingsschema_in_files:.xml.in=.xml)
 
 @INTLTOOL_DESKTOP_RULE@
 desktopdir = $(datadir)/applications
