@@ -23,6 +23,8 @@ public class MicroBreakView : TimerBreakView {
 		get { return (MicroBreakController)this.break_controller; }
 	}
 
+	private int delay_time_notified = 0;
+
 	public MicroBreakView(BreakType break_type, MicroBreakController micro_break, UIManager ui_manager) {
 		base(break_type, micro_break, ui_manager);
 		this.focus_priority = FocusPriority.LOW;
@@ -53,8 +55,8 @@ public class MicroBreakView : TimerBreakView {
 		string delay_string = NaturalTime.instance.get_simplest_label_for_seconds(
 			time_since_start);
 		var notification = this.build_common_notification(
-			_("Overdue break"),
-			_("You were due to take a break %s ago").printf(delay_string),
+			_("Overdue micro break"),
+			_("You were due to take a micro break %s ago").printf(delay_string),
 			"alarm-symbolic"
 		);
 		notification.set_urgency(Notify.Urgency.NORMAL);
@@ -64,7 +66,7 @@ public class MicroBreakView : TimerBreakView {
 	private void show_finished_notification() {
 		var notification = this.build_common_notification(
 			_("Break is over"),
-			_("Your break time has ended"),
+			_("Your micro break has ended"),
 			"alarm-symbolic"
 		);
 		notification.set_urgency(Notify.Urgency.NORMAL);
@@ -74,6 +76,8 @@ public class MicroBreakView : TimerBreakView {
 	}
 
 	private void focused_and_activated_cb() {
+		this.delay_time_notified = 0;
+
 		var status_widget = new TimerBreakStatusWidget(this.micro_break);
 		status_widget.set_message(_("Take a moment to rest your eyes"));
 		this.set_overlay(status_widget);
@@ -103,8 +107,10 @@ public class MicroBreakView : TimerBreakView {
 	}
 
 	private void delayed_cb(int lap_time, int total_time) {
-		if (total_time > this.micro_break.interval) {
+		int time_since_notified = total_time - this.delay_time_notified;
+		if (time_since_notified > this.micro_break.interval) {
 			this.show_overdue_notification();
+			this.delay_time_notified = total_time;
 		}
 	}
 
