@@ -84,7 +84,6 @@ public class MicroBreakView : TimerBreakView {
 
 		if (! this.overlay_is_visible()) {
 			this.show_start_notification();
-
 			Timeout.add_seconds(this.get_lead_in_seconds(), () => {
 				this.reveal_overlay();
 				return false;

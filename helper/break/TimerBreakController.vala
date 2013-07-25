@@ -132,6 +132,15 @@ public abstract class TimerBreakController : BreakController {
 	public int get_time_remaining() {
 		return this.duration_countdown.get_time_remaining();
 	}
+
+	/**
+	 * Stops the break and starts it again at some point in the future.
+	 * @param resume_after the amount of time to postpone for
+	 */
+	public void postpone(int resume_after) {
+		this.skip();
+		this.interval_countdown.continue_from(resume_after - this.interval);
+	}
 	
 	/**
 	 * @return Total length of the break, taking into account extra time that

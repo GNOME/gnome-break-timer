@@ -33,7 +33,8 @@ public class RestBreakView : TimerBreakView {
 		_("The energy of the mind is the essence of life.")
 	};
 
-	private bool is_postponed = false;
+	private int64 original_start_time = 0;
+	private bool was_skipped = false;
 	private bool proceeding_happily = false;
 	
 	public RestBreakView(BreakType break_type, RestBreakController rest_break, UIManager ui_manager) {
@@ -50,6 +51,12 @@ public class RestBreakView : TimerBreakView {
 			notification.add_action("postpone", _("Remind me later"), this.notification_action_postpone_cb);
 		}
 		base.show_break_notification(notification);
+	}
+
+	protected override void dismiss_break() {
+		// Instead of skipping the break, we postpone for a little while.
+		// Enough time to think about what you've done. You monster.
+		this.rest_break.postpone(this.rest_break.interval / 4);
 	}
 
 	private void show_start_notification() {
@@ -79,7 +86,8 @@ public class RestBreakView : TimerBreakView {
 	}
 
 	private void show_overdue_notification() {
-		int time_since_start = this.rest_break.get_seconds_since_start();
+		int64 now = Util.get_real_time_seconds();
+		int time_since_start = (int)(now - this.original_start_time);
 		string delay_string = NaturalTime.instance.get_simplest_label_for_seconds(
 			time_since_start);
 		var notification = this.build_common_notification(
@@ -104,7 +112,6 @@ public class RestBreakView : TimerBreakView {
 	}
 
 	private void focused_and_activated_cb() {
-		this.is_postponed = false;
 		this.proceeding_happily = false;
 
 		var status_widget = new TimerBreakStatusWidget(this.rest_break);
@@ -114,14 +121,21 @@ public class RestBreakView : TimerBreakView {
 		this.set_overlay(status_widget);
 
 		if (! this.overlay_is_visible()) {
-			this.show_start_notification();
+			// We only show notifications if the break overlay is not visible
+			if (! this.was_skipped) {
+				this.original_start_time = Util.get_real_time_seconds();
+				this.show_start_notification();
+			} else {
+				this.show_overdue_notification();
+			}
 
+			// And we escalate to showing the overlay a little later
 			Timeout.add_seconds(this.get_lead_in_seconds(), () => {
 				this.reveal_overlay();
 				return false;
 			});
 		}
-
+		
 		this.rest_break.counting.connect(this.counting_cb);
 		this.rest_break.delayed.connect(this.delayed_cb);
 		this.rest_break.current_duration_changed.connect(this.current_duration_changed_cb);
@@ -134,7 +148,9 @@ public class RestBreakView : TimerBreakView {
 	}
 
 	private void finished_cb(BreakController.FinishedReason reason, bool was_active) {
-		if (reason == BreakController.FinishedReason.SATISFIED && was_active) {
+		this.was_skipped = (reason == BreakController.FinishedReason.SKIPPED);
+
+		if (was_active && reason == BreakController.FinishedReason.SATISFIED) {
 			this.show_finished_notification();
 		} else {
 			this.hide_notification();
@@ -145,7 +161,6 @@ public class RestBreakView : TimerBreakView {
 		this.proceeding_happily = lap_time > 30;
 
 		if (this.has_ui_focus() && this.proceeding_happily) {
-			this.is_postponed = false;
 			// TODO: Make a sound
 			if (! SessionStatus.instance.is_locked()) {
 				SessionStatus.instance.lock_screen();
@@ -154,16 +169,14 @@ public class RestBreakView : TimerBreakView {
 	}
 
 	private void delayed_cb(int lap_time, int total_time) {
-		if (! this.is_postponed) {
-			if (this.proceeding_happily) {
-				// Show a "Break interrupted" notification if the break has
-				// been counting down happily until now
-				this.show_interrupted_notification();
-			} else if (this.seconds_since_last_break_notification() > 60) {
-				// Show an "Overdue break" notification every minute if the
-				// break is being delayed.
-				this.show_overdue_notification();
-			}
+		if (this.proceeding_happily) {
+			// Show a "Break interrupted" notification if the break has
+			// been counting down happily until now
+			this.show_interrupted_notification();
+		} else if (this.seconds_since_last_break_notification() > 60) {
+			// Show an "Overdue break" notification every minute if the
+			// break is being delayed.
+			this.show_overdue_notification();
 		}
 
 		this.proceeding_happily = false;
@@ -174,16 +187,7 @@ public class RestBreakView : TimerBreakView {
 	}
 
 	private void notification_action_postpone_cb() {
-		this.is_postponed = true;
-		this.hide_notification();
-
-		Timeout.add_seconds(60, () => {
-			if (this.is_postponed) {
-				this.show_overdue_notification();
-				this.is_postponed = false;
-			}
-			return false;
-		});
+		this.rest_break.postpone(60);
 	}
 }
 

@@ -96,6 +96,10 @@ public abstract class BreakView : UIManager.UIFragment {
 		}
 	}
 
+	protected virtual void dismiss_break() {
+		this.break_controller.skip();
+	}
+
 	private void notification_action_info_cb() {
 		this.show_break_info();
 	}
@@ -106,7 +110,7 @@ public abstract class BreakView : UIManager.UIFragment {
 		// remove the notification from its context menu in the message tray.
 		if (this.notification.get_closed_reason() == 2) {
 			// Notification closed reason code 2: dismissed by the user
-			this.break_controller.skip();
+			this.dismiss_break();
 		}
 	}
 
