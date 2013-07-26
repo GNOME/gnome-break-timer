@@ -57,7 +57,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 		this.header = new WindowHeaderBar(this);
 		#if HAS_GTK_3_10
 		this.set_titlebar(this.header);
-		this.header.is_titlebar = true;
+		this.header.set_is_titlebar(true);
 		#else
 		content.add(this.header);
 		this.set_hide_titlebar_when_maximized(true);
@@ -126,7 +126,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 			this.header.set_title(foreground_break.info_panel.title);
 		} else {
 			this.main_stack.set_visible_child(this.status_panel);
-			this.header.set_title(_("Break Timer"));
+			this.header.set_title(null);
 		}
 	}
 

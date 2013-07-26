@@ -27,17 +27,17 @@ using Gd;
  * its own titles accordingly.
  */
 public class WindowHeaderBar : HeaderBar { // Gtk.HeaderBar or Gd.HeaderBar
-	private Gtk.Window owner_window;
+	private weak Gtk.Window owner_window;
 	private Gtk.Button close_button;
 	private Gtk.Separator close_separator;
 
-	public bool is_titlebar {get; set;}
+	private bool is_titlebar;
 
 	public WindowHeaderBar(Gtk.Window window) {
 		this.owner_window = window;
 
 		this.close_separator = new Gtk.Separator (Gtk.Orientation.VERTICAL);
-        this.close_separator.valign = Gtk.Align.FILL;
+		this.close_separator.valign = Gtk.Align.FILL;
 
 		this.close_button = new Gtk.Button();
 		this.close_button.set_image(
@@ -52,36 +52,26 @@ public class WindowHeaderBar : HeaderBar { // Gtk.HeaderBar or Gd.HeaderBar
 			this.pack_end(this.close_separator);
 			this.pack_end(this.close_button);
 		});
-
-		this.notify["is-titlebar"].connect(on_is_titlebar_changed_cb);
 	}
 
 	public new void set_title(string? title) {
-		if (this.is_titlebar) {
-			base.set_title(title);
-		} else {
-			this.owner_window.set_title(title);
+		if (this.is_titlebar && title == null) {
+			title = this.owner_window.title;
 		}
+		base.set_title(title);
 	}
 
-	public new void set_subtitle(string? subtitle) {
-		if (this.is_titlebar) {
-			base.set_subtitle(subtitle);
-		} else {
-			base.set_title(subtitle);
-		}
-	}
-
-	private void on_is_titlebar_changed_cb() {
-		this.close_separator.set_visible(this.is_titlebar);
-		this.close_button.set_visible(this.is_titlebar);
+	public void set_is_titlebar(bool is_titlebar) {
+		this.is_titlebar = is_titlebar;
+		this.close_separator.set_visible(is_titlebar);
+		this.close_button.set_visible(is_titlebar);
+		this.set_title(this.title);
 	}
 
 	private void on_close_button_clicked_cb() {
-		Gdk.Event event;
-        event = new Gdk.Event (Gdk.EventType.DESTROY);
-        event.any.window = this.owner_window.get_window();
-        event.any.send_event = 1;
-        Gtk.main_do_event (event);
+		var event = new Gdk.Event (Gdk.EventType.DESTROY);
+		event.any.window = this.owner_window.get_window();
+		event.any.send_event = 1;
+		Gtk.main_do_event (event);
 	}
 }
