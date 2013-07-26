@@ -34,7 +34,7 @@ public class BreakSettingsDialog : Gtk.Dialog {
 
 		this.delete_event.connect(this.hide_on_delete);
 		
-		Gtk.Widget close_button = this.add_button(Gtk.Stock.CLOSE, Gtk.ResponseType.CLOSE);
+		this.add_button(Gtk.Stock.CLOSE, Gtk.ResponseType.CLOSE);
 		this.response.connect(this.response_cb);
 		
 		Gtk.Container content_area = (Gtk.Container)this.get_content_area();

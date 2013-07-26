@@ -1,12 +1,8 @@
+include $(top_srcdir)/base.am
+
 SUBDIRS = \
 	util \
 	activity-monitor
-
-AM_CPPFLAGS = $(BREAK_TIMER_CFLAGS) \
-	-include $(CONFIG_HEADER) \
-	-I $(top_builddir)/common \
-	-I $(top_builddir)/helper/activity-monitor \
-	-I $(top_builddir)/helper/util
 
 bin_PROGRAMS = \
 	gnome-break-timer-service
@@ -30,7 +26,7 @@ gnome_break_timer_service_SOURCES = \
 	UIManager.vala \
 	main.vala
 
-gnome_break_timer_service_VALAFLAGS = $(BREAK_TIMER_VALAFLAGS) \
+gnome_break_timer_service_VALAFLAGS = $(BASE_VALAFLAGS) \
 	--pkg gtk+-3.0 \
 	--pkg gio-2.0 \
 	--pkg gio-unix-2.0 \
@@ -43,7 +39,12 @@ gnome_break_timer_service_VALAFLAGS = $(BREAK_TIMER_VALAFLAGS) \
 	$(top_builddir)/helper/activity-monitor/activity_monitor.vapi \
 	$(top_builddir)/helper/util/util.vapi
 
-gnome_break_timer_service_LDADD = $(BREAK_TIMER_LIBS) \
+gnome_break_timer_service_CPPFLAGS = $(AM_CPPFLAGS) \
+	$(BASE_CFLAGS) \
+	$(HELPER_CFLAGS)
+
+gnome_break_timer_service_LDADD = $(BASE_LIBS) \
+	$(HELPER_LIBS) \
 	$(top_builddir)/common/libcommon.la \
 	$(top_builddir)/helper/activity-monitor/libactivity_monitor.la \
 	$(top_builddir)/helper/util/libutil.la

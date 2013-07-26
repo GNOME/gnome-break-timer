@@ -1,0 +1,10 @@
+AM_CPPFLAGS = \
+	-include $(CONFIG_HEADER) \
+	-I $(top_builddir)/common \
+	-I $(top_builddir)/helper/activity-monitor \
+	-I $(top_builddir)/helper/util \
+	-I $(top_builddir)/libgd
+
+if HAS_GTK_3_10
+BASE_VALAFLAGS += -D HAS_GTK_3_10
+endif
