@@ -16,8 +16,6 @@
  */
 
 public class RestBreakType : TimerBreakType {
-	private BreakHelper_TimerBreakServer break_type_server;
-
 	private ActivityMonitor activity_monitor;
 
 	public RestBreakType(ActivityMonitor activity_monitor) {

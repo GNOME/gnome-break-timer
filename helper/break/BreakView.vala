@@ -16,8 +16,8 @@
  */
 
 public abstract class BreakView : UIManager.UIFragment {
-	protected BreakType break_type;
-	protected BreakController break_controller;
+	protected weak BreakType break_type;
+	protected weak BreakController break_controller;
 
 	private int64 last_break_notification_time = 0;
 	

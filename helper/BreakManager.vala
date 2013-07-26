@@ -16,7 +16,7 @@
  */
 
 public class BreakManager : Object {
-	private Application application;
+	private weak Application application;
 	private UIManager ui_manager;
 
 	private Gee.Map<string, BreakType> breaks;
@@ -60,7 +60,7 @@ public class BreakManager : Object {
 		}
 		
 		if (activity_monitor_backend != null) {
-			ActivityMonitor activity_monitor = new ActivityMonitor(activity_monitor_backend);
+			var activity_monitor = new ActivityMonitor(activity_monitor_backend);
 			this.add_break(new MicroBreakType(activity_monitor));
 			this.add_break(new RestBreakType(activity_monitor));
 		}
@@ -95,7 +95,7 @@ public class BreakManager : Object {
 
 [DBus (name = "org.gnome.BreakTimer")]
 private class BreakHelperServer : Object, IBreakHelper {
-	private BreakManager break_manager;
+	private weak BreakManager break_manager;
 	
 	public BreakHelperServer(BreakManager break_manager) {
 		this.break_manager = break_manager;

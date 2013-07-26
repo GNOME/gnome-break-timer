@@ -43,8 +43,8 @@ public abstract class TimerBreakType : BreakType {
 
 [DBus (name = "org.gnome.BreakTimer.TimerBreak")]
 private class BreakHelper_TimerBreakServer : Object, IBreakHelper_TimerBreak {
-	private TimerBreakController break_controller;
-	private TimerBreakView break_view;
+	private weak TimerBreakController break_controller;
+	private weak TimerBreakView break_view;
 	
 	public BreakHelper_TimerBreakServer(TimerBreakController break_controller, TimerBreakView break_view) {
 		this.break_controller = break_controller;

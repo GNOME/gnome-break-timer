@@ -16,8 +16,6 @@
  */
 
 public class MicroBreakType : TimerBreakType {
-	private BreakHelper_TimerBreakServer break_type_server;
-
 	private ActivityMonitor activity_monitor;
 
 	public MicroBreakType(ActivityMonitor activity_monitor) {

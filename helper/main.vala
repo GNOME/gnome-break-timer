@@ -48,7 +48,6 @@ public class Application : Gtk.Application {
 			""";
 	
 	private BreakManager break_manager;
-	private UIManager ui_manager;
 	
 	public Application() {
 		Object(application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
@@ -83,8 +82,8 @@ public class Application : Gtk.Application {
 			Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 		);
 		
-		this.ui_manager = new UIManager(this, false);
-		this.break_manager = new BreakManager(this, this.ui_manager);
+		var ui_manager = new UIManager(this, false);
+		this.break_manager = new BreakManager(this, ui_manager);
 		this.break_manager.load_breaks();
 
 		var connection = this.get_dbus_connection();
@@ -95,7 +94,6 @@ public class Application : Gtk.Application {
 }
 
 public int main(string[] args) {
-	Gtk.init(ref args);
 	Application application = new Application();
 	int status = application.run(args);
 	return status;

@@ -125,7 +125,7 @@ public class UIManager : SimpleFocusManager {
 		protected abstract void focus_stopped();
 	}
 
-	private Application application;
+	private weak Application application;
 	
 	public bool quiet_mode {get; set; default=false;}
 	public int64 quiet_mode_expire_time {get; set;}
