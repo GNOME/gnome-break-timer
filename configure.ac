@@ -9,9 +9,6 @@ LT_INIT
 AM_MAINTAINER_MODE
 AC_CONFIG_HEADERS([config.h])
 
-AC_DEFINE(SETTINGS_DESKTOP_ID, "gnome-break-timer.desktop", [Name of the .desktop file used for the settings application])
-AC_DEFINE(HELPER_DESKTOP_ID, "gnome-break-timer-service.desktop", [Name of the .desktop file used for the helper service])
-
 AC_PATH_PROG(VALAC, valac, valac)
 AC_SUBST(VALAC)
 
@@ -66,11 +63,18 @@ PKG_CHECK_MODULES(
 	)]
 )
 
-AM_CONDITIONAL([HAS_GTK_3_10], [test $GTK_MIN_VERSION = 3.10])
-
 LIBGD_INIT([header-bar stack revealer vapi])
 
-AC_SUBST([BASE_VALAFLAGS], "--pkg glib-2.0 --target-glib=$GLIB_REQUIRED")
+
+
+# Some helpful constants that are available to the application
+
+AM_CONDITIONAL([HAS_GTK_3_10], [test $GTK_MIN_VERSION = 3.10])
+
+AC_DEFINE(SETTINGS_DESKTOP_ID, "gnome-break-timer.desktop", [Name of the .desktop file used for the settings application])
+AC_DEFINE(HELPER_DESKTOP_ID, "gnome-break-timer-service.desktop", [Name of the .desktop file used for the helper service])
+
+
 
 AC_CONFIG_FILES([Makefile
 	common/Makefile
