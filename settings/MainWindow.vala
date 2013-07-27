@@ -167,6 +167,7 @@ private class WelcomePanel : Stack {
 	private Gtk.Widget ready_page;
 
 	public WelcomePanel(BreakManager break_manager, Gtk.Builder builder) {
+		Object();
 		this.break_manager = break_manager;
 
 		if (this.break_manager.master_enabled) {
