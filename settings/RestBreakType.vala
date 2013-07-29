@@ -21,7 +21,7 @@ public class RestBreakType : TimerBreakType {
 		base("restbreak", settings);
 
 		this.interval_options = {1800, 2400, 3000, 3600};
-		this.duration_options = {300, 360, 420, 480, 540, 600};
+		this.duration_options = {240, 300, 360,  480, 600};
 	}
 
 	protected override BreakInfoPanel get_info_panel() {

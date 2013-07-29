@@ -20,8 +20,8 @@ public class MicroBreakType : TimerBreakType {
 		Settings settings = new Settings("org.gnome.break-timer.microbreak");
 		base("microbreak", settings);
 
-		this.interval_options = {240, 360, 480, 600};
-		this.duration_options = {15, 20, 25, 30, 45};
+		this.interval_options = {240, 300, 360, 480, 600};
+		this.duration_options = {15, 30, 45, 60};
 	}
 
 	protected override BreakInfoPanel get_info_panel() {

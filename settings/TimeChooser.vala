@@ -47,7 +47,7 @@ public class TimeChooser : Gtk.ComboBox {
 			string label = NaturalTime.instance.get_label_for_seconds(time);
 			this.add_option(label, time);
 		}
-		this.other_item = this.add_option(_("Other…"), OPTION_OTHER);
+		//this.other_item = this.add_option(_("Other…"), OPTION_OTHER);
 		this.custom_item = null;
 		
 		this.changed.connect(this.on_changed);
@@ -145,7 +145,6 @@ private class TimeEntryDialog : Gtk.Dialog {
 	
 	private Gtk.Widget ok_button;
 	private Gtk.Entry time_entry;
-	//private Gtk.SpinButton time_spinner;
 	
 	private Gtk.ListStore completion_store;
 	
@@ -185,14 +184,6 @@ private class TimeEntryDialog : Gtk.Dialog {
 		this.time_entry.activate.connect(this.submit);
 		this.time_entry.changed.connect(this.time_entry_changed);
 		this.content_grid.add(this.time_entry);
-		
-		/*
-		Gtk.Adjustment time_spinner_adjustment = new Gtk.Adjustment(30, 1, 86400, 1, 60, 60);
-		this.time_spinner = new Gtk.SpinButton(time_spinner_adjustment, 60, 0);
-		this.time_spinner.output.connect(this.time_spinner_output);
-		this.time_spinner.value_changed.connect(this.time_spinner_value_changed);
-		content_grid.attach(this.time_spinner, 0, 2, 1, 1);
-		*/
 		
 		Gtk.EntryCompletion completion = new Gtk.EntryCompletion();
 		this.completion_store = new Gtk.ListStore(1, typeof(string));
@@ -248,29 +239,6 @@ private class TimeEntryDialog : Gtk.Dialog {
 		
 		this.validate_input();
 	}
-	
-	/*
-	private bool time_spinner_output() {
-		Gtk.Adjustment adjustment = this.time_spinner.get_adjustment();
-		int seconds = (int)adjustment.get_value();
-		string label = NaturalTime.instance.get_label_for_seconds(seconds);
-		this.time_spinner.set_text(label);
-		
-		return true;
-	}
-	
-	private void time_spinner_value_changed() {
-		Gtk.Adjustment adjustment = this.time_spinner.get_adjustment();
-		int seconds = (int)adjustment.get_value();
-		if (seconds >= 3600) {
-			this.time_spinner.set_increments(3600, 1);
-		} else if (seconds >= 60) {
-			this.time_spinner.set_increments(60, 1);
-		} else {
-			this.time_spinner.set_increments(1, 1);
-		}
-	}
-	*/
 	
 	private void submit() {
 		int time = NaturalTime.instance.get_seconds_for_input(this.time_entry.get_text());
