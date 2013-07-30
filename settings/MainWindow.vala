@@ -27,6 +27,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 	private WindowHeaderBar header;
 	private Stack main_stack; // Gtk.Stack or Gd.Stack
 
+	private Gtk.Button settings_button;
 	private BreakSettingsDialog break_settings_dialog;
 
 	private WelcomePanel welcome_panel;
@@ -68,8 +69,8 @@ public class MainWindow : Gtk.ApplicationWindow {
 		header.pack_start(master_switch);
 		break_manager.bind_property("master-enabled", master_switch, "active", BindingFlags.BIDIRECTIONAL | BindingFlags.SYNC_CREATE);
 
-		Gtk.Button settings_button = new Gtk.Button();
-		header.pack_end(settings_button);
+		this.settings_button = new Gtk.Button();
+		header.pack_end(this.settings_button);
 		settings_button.clicked.connect(this.settings_clicked_cb);
 		// FIXME: This icon is not semantically correct. (Wrong category, especially).
 		settings_button.set_image(new Gtk.Image.from_icon_name(
