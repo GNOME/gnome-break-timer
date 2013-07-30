@@ -46,9 +46,10 @@ public class Application : Gtk.Application {
 				text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
 			}
 			""";
-	
+
 	private BreakManager break_manager;
-	
+	private UIManager ui_manager;
+
 	public Application() {
 		Object(application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
 		GLib.Environment.set_application_name(app_name);
@@ -56,7 +57,7 @@ public class Application : Gtk.Application {
 		// Keep running for one minute after the last break is disabled
 		this.set_inactivity_timeout(60 * 1000);
 	}
-	
+
 	public override void activate() {
 		base.activate();
 	}
@@ -82,9 +83,19 @@ public class Application : Gtk.Application {
 			Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 		);
 		
-		var ui_manager = new UIManager(this, false);
-		this.break_manager = new BreakManager(this, ui_manager);
-		this.break_manager.load_breaks();
+		var session_status = new SessionStatus(this);
+
+		IActivityMonitorBackend activity_monitor_backend;
+		try {
+			activity_monitor_backend = new X11ActivityMonitorBackend();
+		} catch {
+			GLib.error("Failed to initialize activity monitor backend");
+		}
+		var activity_monitor = new ActivityMonitor(session_status, activity_monitor_backend);
+
+		this.ui_manager = new UIManager(this, session_status, false);
+		this.break_manager = new BreakManager(ui_manager);
+		this.break_manager.load_breaks(activity_monitor);
 
 		var connection = this.get_dbus_connection();
 		if (connection != null) {

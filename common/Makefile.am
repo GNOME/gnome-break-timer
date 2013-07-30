@@ -5,8 +5,8 @@ noinst_LTLIBRARIES = \
 
 libcommon_la_SOURCES = \
 	IBreakHelper.vala \
-	NaturalTime.vala \
-	SessionStatus.vala
+	ISessionStatus.vala \
+	NaturalTime.vala
 
 libcommon_la_VALAFLAGS = $(BASE_VALAFLAGS) \
 	--pkg gio-2.0 \

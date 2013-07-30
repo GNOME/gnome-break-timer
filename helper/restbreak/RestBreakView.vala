@@ -158,13 +158,11 @@ public class RestBreakView : TimerBreakView {
 	}
 
 	private void counting_cb(int lap_time, int total_time) {
-		this.proceeding_happily = lap_time > 30;
+		this.proceeding_happily = lap_time > 20;
 
-		if (this.has_ui_focus() && this.proceeding_happily) {
-			// TODO: Make a sound
-			if (! SessionStatus.instance.is_locked()) {
-				SessionStatus.instance.lock_screen();
-			}
+		if (this.proceeding_happily) {
+			// TODO: Make a sound slightly before locking?
+			if (this.can_lock_screen()) this.lock_screen();
 		}
 	}
 

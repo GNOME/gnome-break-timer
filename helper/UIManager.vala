@@ -55,9 +55,21 @@ public class UIManager : SimpleFocusManager {
 		protected void play_sound_from_id(string event_id) {
 			if (this.has_ui_focus()) {
 				unowned Canberra.Context canberra = CanberraGtk.context_get();
-				int code = canberra.play(0,
+				canberra.play(0,
 					Canberra.PROP_EVENT_ID, event_id
 				);
+			}
+		}
+
+		protected bool can_lock_screen() {
+			return ! this.ui_manager.application.is_inhibited(Gtk.ApplicationInhibitFlags.IDLE);
+		}
+
+		protected void lock_screen() {
+			if (this.has_ui_focus()) {
+				if (! this.ui_manager.session_status.is_locked()) {
+					this.ui_manager.session_status.lock_screen();
+				}
 			}
 		}
 
@@ -126,6 +138,7 @@ public class UIManager : SimpleFocusManager {
 	}
 
 	private weak Application application;
+	private SessionStatus session_status;
 	
 	public bool quiet_mode {get; set; default=false;}
 	public int64 quiet_mode_expire_time {get; set;}
@@ -141,8 +154,10 @@ public class UIManager : SimpleFocusManager {
 		0, Config.HELPER_DESKTOP_ID.last_index_of(".desktop")
 	);
 	
-	public UIManager(Application application, bool with_overlay) {
+	public UIManager(Application application, SessionStatus session_status, bool with_overlay) {
 		this.application = application;
+		this.session_status = session_status;
+
 		if (with_overlay) {
 			this.screen_overlay = new ScreenOverlay();
 		}
@@ -157,7 +172,7 @@ public class UIManager : SimpleFocusManager {
 		});
 		this.update_overlay_format();
 
-		SessionStatus.instance.unlocked.connect(this.hide_lock_notification_cb);
+		this.session_status.unlocked.connect(this.hide_lock_notification_cb);
 	}
 
 	private void quiet_mode_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
@@ -207,7 +222,7 @@ public class UIManager : SimpleFocusManager {
 	 * notification automatically hides when the screen is unlocked.
 	 */
 	protected void show_lock_notification(Notify.Notification notification) {
-		if (SessionStatus.instance.is_locked()) {
+		if (this.session_status.is_locked()) {
 			this.lock_notification = notification;
 		} else {
 			notification.set_hint("transient", true);

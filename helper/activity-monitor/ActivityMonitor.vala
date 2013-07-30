@@ -46,14 +46,15 @@ public class ActivityMonitor : Object {
 	private UserActivity last_activity;
 	private int64 last_active_timestamp;
 
+	private ISessionStatus session_status;
 	private IActivityMonitorBackend backend;
 	
-	public ActivityMonitor(IActivityMonitorBackend backend) {
+	public ActivityMonitor(ISessionStatus session_status, IActivityMonitorBackend backend) {
+		this.session_status = session_status;
 		this.backend = backend;
 
 		this.poll_activity_timeout = new PausableTimeout(this.poll_activity_cb, 1);
-		SessionStatus.instance.locked.connect(this.locked_cb);
-		SessionStatus.instance.unlocked.connect(this.unlocked_cb);
+		session_status.unlocked.connect(this.unlocked_cb);
 		
 		this.last_activity = UserActivity();
 	}
@@ -89,10 +90,6 @@ public class ActivityMonitor : Object {
 	private void poll_activity_cb(PausableTimeout timeout, int delta_millisecs) {
 		UserActivity activity = this.collect_activity();
 		this.add_activity(activity);
-	}
-
-	private void locked_cb() {
-
 	}
 
 	private void unlocked_cb() {
@@ -140,7 +137,7 @@ public class ActivityMonitor : Object {
 				time_correction = sleep_time
 			};
 			GLib.debug("Detected system sleep for %d seconds", sleep_time);
-		} else if (SessionStatus.instance.is_locked()) {
+		} else if (this.session_status.is_locked()) {
 			activity = UserActivity() {
 				type = ActivityType.LOCKED,
 				idle_time = idle_time,

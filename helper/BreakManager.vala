@@ -16,7 +16,6 @@
  */
 
 public class BreakManager : Object {
-	private weak Application application;
 	private UIManager ui_manager;
 
 	private Gee.Map<string, BreakType> breaks;
@@ -26,8 +25,7 @@ public class BreakManager : Object {
 	public bool master_enabled {get; set;}
 	public string[] selected_break_ids {get; set;}
 	
-	public BreakManager(Application application, UIManager ui_manager) {
-		this.application = application;
+	public BreakManager(UIManager ui_manager) {
 		this.ui_manager = ui_manager;
 
 		this.breaks = new Gee.HashMap<string, BreakType>();
@@ -50,20 +48,9 @@ public class BreakManager : Object {
 		}
 	}
 	
-	public void load_breaks() {
-		IActivityMonitorBackend? activity_monitor_backend;
-		try {
-			activity_monitor_backend = new X11ActivityMonitorBackend();
-		} catch {
-			GLib.warning("Failed to initialize activity monitor backend");
-			activity_monitor_backend = null;
-		}
-		
-		if (activity_monitor_backend != null) {
-			var activity_monitor = new ActivityMonitor(activity_monitor_backend);
-			this.add_break(new MicroBreakType(activity_monitor));
-			this.add_break(new RestBreakType(activity_monitor));
-		}
+	public void load_breaks(ActivityMonitor activity_monitor) {
+		this.add_break(new MicroBreakType(activity_monitor));
+		this.add_break(new RestBreakType(activity_monitor));
 
 		this.update_enabled_breaks();
 	}

@@ -23,6 +23,7 @@ gnome_break_timer_service_SOURCES = \
 	restbreak/RestBreakView.vala \
 	BreakManager.vala \
 	ScreenOverlay.vala \
+	SessionStatus.vala \
 	UIManager.vala \
 	main.vala
 
