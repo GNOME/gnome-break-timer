@@ -4,7 +4,8 @@ SUBDIRS = \
 	libgd \
 	common \
 	settings \
-	helper
+	helper \
+	tests
 
 ACLOCAL_AMFLAGS = -I m4 -I libgd
 

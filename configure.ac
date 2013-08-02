@@ -84,6 +84,8 @@ AC_CONFIG_FILES([Makefile
 	helper/util/Makefile
 	data/Makefile
 	libgd/Makefile
-	po/Makefile.in])
+	po/Makefile.in
+	tests/Makefile
+])
 
 AC_OUTPUT
