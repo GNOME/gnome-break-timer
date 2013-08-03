@@ -4,7 +4,7 @@ COMMON_SOURCES = \
 	NaturalTime.vala
 TOP_COMMON_SOURCES = $(COMMON_SOURCES:%=$(top_srcdir)/common/%)
 
-COMMON_VALAFLAGS = \
+COMMON_VALAFLAGS = $(BASE_VALAFLAGS) \
 	--pkg gio-2.0
 
 COMMON_CFLAGS = $(AM_CPPFLAGS) \

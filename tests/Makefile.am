@@ -1,16 +1,22 @@
 include $(top_srcdir)/base.am
+include $(top_srcdir)/common/common.am
 
-TEST_PROGS += test-helper
-
+TEST_PROGS += test-common
 noinst_PROGRAMS = $(TEST_PROGS)
 
-test_helper_SOURCES = \
-	tests_common.vala \
-	UnitTestSuite.vala
+# Unit tests for "libcommon" convenience library
 
-test_helper_VALAFLAGS = $(BASE_VALAFLAGS)
+test_common_SOURCES = \
+	tests.vala \
+	unit/common.vala
 
-test_helper_CPPFLAGS = $(AM_CPPFLAGS) \
-	$(CFG_CORE_CFLAGS)
+test_common_VALAFLAGS = $(COMMON_VALAFLAGS) \
+	$(top_builddir)/common/common.vapi
 
-test_helper_LDADD = $(CFG_CORE_LIBS)
+test_common_CPPFLAGS = $(COMMON_CFLAGS)
+
+test_common_LDADD = $(COMMON_LDADD) \
+	$(top_builddir)/common/libcommon.la
+
+test_common_vala.stamp: \
+	$(top_builddir)/common/libcommon.la
