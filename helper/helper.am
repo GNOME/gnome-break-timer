@@ -13,11 +13,11 @@ HELPER_SOURCES = \
 	restbreak/RestBreakType.vala \
 	restbreak/RestBreakView.vala \
 	BreakManager.vala \
+	HelperApplication.vala \
 	ScreenOverlay.vala \
 	SessionStatus.vala \
-	UIManager.vala \
-	main.vala
-TOP_HELPER_SOURCES = $(HELPER_SOURCES:%=$(top_srcdir)/helper/%)
+	UIManager.vala
+TOP_HELPER_SOURCES = $(addprefix $(top_srcdir)/helper/,$(HELPER_SOURCES))
 
 HELPER_VALAFLAGS = $(BASE_VALAFLAGS) \
 	--pkg gtk+-3.0 \

@@ -19,7 +19,7 @@
 // application. Ideally, it should be common code in the future.
 
 public class BreakManager : Object {
-	private Application application;
+	private SettingsApplication application;
 
 	private IBreakHelper break_helper;
 
@@ -31,7 +31,7 @@ public class BreakManager : Object {
 	public string[] selected_break_ids {get; set;}
 	public BreakType? foreground_break {get; private set;}
 
-	public BreakManager(Application application) {
+	public BreakManager(SettingsApplication application) {
 		this.application = application;
 		this.breaks = new Gee.HashMap<string, BreakType>();
 		this.breaks_ordered = new List<BreakType>();

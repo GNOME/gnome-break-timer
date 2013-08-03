@@ -33,7 +33,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 	private WelcomePanel welcome_panel;
 	private StatusPanel status_panel;
 
-	public MainWindow(Application application, BreakManager break_manager) {
+	public MainWindow(SettingsApplication application, BreakManager break_manager) {
 		Object(application: application);
 		this.break_manager = break_manager;
 		

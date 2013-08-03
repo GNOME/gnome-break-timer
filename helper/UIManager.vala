@@ -137,7 +137,7 @@ public class UIManager : SimpleFocusManager {
 		protected abstract void focus_stopped();
 	}
 
-	private weak Application application;
+	private weak Gtk.Application application;
 	private SessionStatus session_status;
 	
 	public bool quiet_mode {get; set; default=false;}
@@ -154,7 +154,7 @@ public class UIManager : SimpleFocusManager {
 		0, Config.HELPER_DESKTOP_ID.last_index_of(".desktop")
 	);
 	
-	public UIManager(Application application, SessionStatus session_status, bool with_overlay) {
+	public UIManager(Gtk.Application application, SessionStatus session_status, bool with_overlay) {
 		this.application = application;
 		this.session_status = session_status;
 

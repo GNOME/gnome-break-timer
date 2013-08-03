@@ -9,7 +9,7 @@ bin_PROGRAMS = \
 	gnome-break-timer-service
 
 
-gnome_break_timer_service_SOURCES = $(HELPER_SOURCES)
+gnome_break_timer_service_SOURCES = main.vala $(HELPER_SOURCES)
 
 gnome_break_timer_service_VALAFLAGS = $(HELPER_VALAFLAGS)
 

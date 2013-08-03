@@ -4,7 +4,7 @@ HELPER_UTIL_SOURCES = \
 	SimpleFocusManager.vala \
 	StatefulTimer.vala \
 	Util.vala
-TOP_HELPER_UTIL_SOURCES = $(HELPER_UTIL_SOURCES:%=$(top_srcdir)/helper/util/%)
+TOP_HELPER_UTIL_SOURCES = $(addprefix $(top_srcdir)/helper/util/,$(HELPER_UTIL_SOURCES))
 
 HELPER_UTIL_VALAFLAGS = $(BASE_VALAFLAGS)
 
