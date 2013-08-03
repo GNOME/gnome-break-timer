@@ -1,4 +1,5 @@
 include $(top_srcdir)/base.am
+include $(top_srcdir)/settings/settings.am
 
 SUBDIRS = 
 
@@ -9,6 +10,7 @@ resources.c: $(top_srcdir)/data/gnome-break-timer.gresource.xml $(shell $(GLIB_C
 
 bin_PROGRAMS = \
 	gnome-break-timer
+
 
 gnome_break_timer_SOURCES = \
 	BreakManager.vala \
@@ -23,24 +25,14 @@ gnome_break_timer_SOURCES = \
 	main.vala \
 	$(BUILT_SOURCES)
 
-gnome_break_timer_VALAFLAGS = $(BASE_VALAFLAGS) \
-	--pkg gtk+-3.0 \
-	--pkg gio-2.0 \
-	--pkg gio-unix-2.0 \
-	--pkg gee-1.0 \
-	$(top_srcdir)/config.vapi \
-	$(top_builddir)/common/common.vapi \
-	$(top_builddir)/libgd/gd-1.0.vapi
+gnome_break_timer_VALAFLAGS = $(SETTINGS_VALAFLAGS)
 
-gnome_break_timer_CPPFLAGS = $(AM_CPPFLAGS) \
-	$(BASE_CFLAGS)
+gnome_break_timer_CPPFLAGS = $(SETTINGS_CFLAGS)
 
-gnome_break_timer_LDADD = $(BASE_LIBS) \
-	$(top_builddir)/libgd/libgd.la \
-	$(top_builddir)/common/libcommon.la
+gnome_break_timer_LDADD = $(SETTINGS_LIBS)
 
-gnome_break_timer_vala.stamp: \
-	$(top_builddir)/common/libcommon_la_vala.stamp
+gnome_break_timer_vala.stamp: $(SETTINGS_DEPENDENCIES)
+
 
 junk_files = \
 	$(gnome_break_timer_SOURCES:.vala=.c) \

@@ -11,6 +11,6 @@ test_helper_SOURCES = \
 test_helper_VALAFLAGS = $(BASE_VALAFLAGS)
 
 test_helper_CPPFLAGS = $(AM_CPPFLAGS) \
-	$(BASE_CFLAGS)
+	$(CFG_CORE_CFLAGS)
 
-test_helper_LDADD = $(BASE_LIBS)
+test_helper_LDADD = $(CFG_CORE_LIBS)

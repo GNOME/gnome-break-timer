@@ -1,0 +1,14 @@
+HELPER_UTIL_SOURCES = \
+	Countdown.vala \
+	PausableTimeout.vala \
+	SimpleFocusManager.vala \
+	StatefulTimer.vala \
+	Util.vala
+TOP_HELPER_UTIL_SOURCES = $(HELPER_UTIL_SOURCES:%=$(top_srcdir)/helper/util/%)
+
+HELPER_UTIL_VALAFLAGS = $(BASE_VALAFLAGS)
+
+HELPER_UTIL_CFLAGS = $(AM_CPPFLAGS) \
+	$(CFG_CORE_CFLAGS)
+
+HELPER_UTIL_LIBS = $(CFG_CORE_LIBS)

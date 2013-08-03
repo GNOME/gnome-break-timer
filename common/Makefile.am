@@ -1,23 +1,21 @@
 include $(top_srcdir)/base.am
+include $(top_srcdir)/common/common.am
 
 noinst_LTLIBRARIES = \
 	libcommon.la
 
-libcommon_la_SOURCES = \
-	IBreakHelper.vala \
-	ISessionStatus.vala \
-	NaturalTime.vala
 
-libcommon_la_VALAFLAGS = $(BASE_VALAFLAGS) \
-	--pkg gio-2.0 \
+libcommon_la_SOURCES = $(COMMON_SOURCES)
+
+libcommon_la_VALAFLAGS = $(COMMON_VALAFLAGS) \
 	--library common \
 	--vapi common.vapi \
 	-H common.h
 
-libcommon_la_CPPFLAGS = $(AM_CPPFLAGS) \
-	$(BASE_CFLAGS)
+libcommon_la_CPPFLAGS = $(COMMON_CFLAGS)
 
-libcommon_la_LIBADD = $(BASE_LIBS)
+libcommon_la_LIBADD = $(COMMON_LIBS)
+
 
 junk_files = \
 	$(libcommon_la_SOURCES:.vala=.c) \

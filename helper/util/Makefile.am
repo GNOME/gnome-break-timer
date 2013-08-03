@@ -1,24 +1,21 @@
 include $(top_srcdir)/base.am
+include $(top_srcdir)/helper/util/util.am
 
 noinst_LTLIBRARIES = \
 	libutil.la
 
-libutil_la_SOURCES = \
-	Countdown.vala \
-	PausableTimeout.vala \
-	SimpleFocusManager.vala \
-	StatefulTimer.vala \
-	Util.vala
 
-libutil_la_VALAFLAGS = $(BASE_VALAFLAGS) \
+libutil_la_SOURCES = $(HELPER_UTIL_SOURCES)
+
+libutil_la_VALAFLAGS = $(HELPER_UTIL_VALAFLAGS) \
 	--library util \
 	--vapi util.vapi \
 	-H util.h
 
-libutil_la_CPPFLAGS = $(AM_CPPFLAGS) \
-	$(BASE_CFLAGS)
+libutil_la_CPPFLAGS = $(HELPER_UTIL_CFLAGS)
 
-libutil_la_LIBADD = $(BASE_LIBS)
+libutil_la_LIBADD = $(HELPER_UTIL_LIBS)
+
 
 junk_files = \
 	$(libutil_la_SOURCES:.vala=.c) \

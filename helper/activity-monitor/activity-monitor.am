@@ -1,0 +1,27 @@
+HELPER_ACTIVITY_MONITOR_VALASOURCES = \
+	ActivityMonitor.vala \
+	X11ActivityMonitorBackend.vala
+HELPER_ACTIVITY_MONITOR_SOURCES = \
+	c_x11_activity_monitor_backend.c \
+	$(HELPER_ACTIVITY_MONITOR_VALASOURCES)
+TOP_HELPER_ACTIVITY_MONITOR_SOURCES = $(HELPER_ACTIVITY_MONITOR_SOURCES:%=$(top_srcdir)/helper/activity-monitor/%)
+
+HELPER_ACTIVITY_MONITOR_VALAFLAGS = $(BASE_VALAFLAGS) \
+	--pkg gdk-x11-3.0 \
+	$(top_builddir)/common/common.vapi \
+	$(top_builddir)/helper/util/util.vapi
+
+HELPER_ACTIVITY_MONITOR_CFLAGS = $(AM_CPPFLAGS) \
+	$(CFG_CORE_CFLAGS) \
+	$(CFG_ACTIVITY_MONITOR_CFLAGS) \
+	$(CFG_ACTIVITY_MONITOR_BACKEND_CFLAGS)
+
+HELPER_ACTIVITY_MONITOR_LIBS = $(CFG_CORE_LIBS) \
+	$(CFG_ACTIVITY_MONITOR_LIBS) \
+	$(CFG_ACTIVITY_MONITOR_BACKEND_LIBS) \
+	$(top_builddir)/common/libcommon.la \
+	$(top_builddir)/helper/util/libutil.la
+
+HELPER_ACTIVITY_MONITOR_DEPENDENCIES = \
+	$(top_builddir)/common/libcommon.la \
+	$(top_builddir)/helper/util/libutil.la

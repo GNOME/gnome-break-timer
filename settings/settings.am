@@ -1,0 +1,18 @@
+SETTINGS_VALAFLAGS = $(BASE_VALAFLAGS) \
+	--pkg gtk+-3.0 \
+	--pkg gio-2.0 \
+	--pkg gio-unix-2.0 \
+	--pkg gee-1.0 \
+	$(top_srcdir)/config.vapi \
+	$(top_builddir)/common/common.vapi \
+	$(top_builddir)/libgd/gd-1.0.vapi
+
+SETTINGS_CFLAGS = $(AM_CPPFLAGS) \
+	$(CFG_CORE_CFLAGS)
+
+SETTINGS_LIBS = $(CFG_CORE_LIBS) \
+	$(top_builddir)/libgd/libgd.la \
+	$(top_builddir)/common/libcommon.la
+
+SETTINGS_DEPENDENCIES = \
+	$(top_builddir)/common/libcommon.la

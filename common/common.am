@@ -1,0 +1,13 @@
+COMMON_SOURCES = \
+	IBreakHelper.vala \
+	ISessionStatus.vala \
+	NaturalTime.vala
+TOP_COMMON_SOURCES = $(COMMON_SOURCES:%=$(top_srcdir)/common/%)
+
+COMMON_VALAFLAGS = \
+	--pkg gio-2.0
+
+COMMON_CFLAGS = $(AM_CPPFLAGS) \
+	$(CFG_CORE_CFLAGS)
+
+COMMON_LIBS = $(CFG_CORE_LIBS)
