@@ -8,11 +8,11 @@ helper/break/BreakView.vala
 helper/break/TimerBreakStatusWidget.vala
 helper/microbreak/MicroBreakView.vala
 helper/restbreak/RestBreakView.vala
-helper/main.vala
+helper/HelperApplication.vala
 settings/BreakSettingsDialog.vala
 settings/MainWindow.vala
 settings/MicroBreakType.vala
 settings/RestBreakType.vala
 settings/TimeChooser.vala
 settings/TimerBreakType.vala
-settings/main.vala
+settings/SettingsApplication.vala

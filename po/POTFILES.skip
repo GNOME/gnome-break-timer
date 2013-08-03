@@ -3,11 +3,11 @@ helper/break/BreakView.c
 helper/break/TimerBreakStatusWidget.c
 helper/microbreak/MicroBreakView.c
 helper/restbreak/RestBreakView.c
-helper/main.c
+helper/HelperApplication.c
 settings/BreakSettingsDialog.c
 settings/MainWindow.c
 settings/MicroBreakType.c
 settings/RestBreakType.c
 settings/TimeChooser.c
 settings/TimerBreakType.c
-settings/main.c
+settings/SettingsApplication.c
