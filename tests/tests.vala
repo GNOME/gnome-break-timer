@@ -24,9 +24,9 @@ public abstract class SimpleTestSuite : Object {
 
 	private class Adaptor {
 		private SimpleTestSuite test_suite;
-		private SimpleTestCase test;
+		private SimpleTestCase<SimpleTestSuite> test;
 
-		public Adaptor(SimpleTestSuite test_suite, owned SimpleTestCase test) {
+		public Adaptor(SimpleTestSuite test_suite, owned SimpleTestCase<SimpleTestSuite> test) {
 			this.test_suite = test_suite;
 			this.test = (owned)test;
 		}
@@ -46,7 +46,7 @@ public abstract class SimpleTestSuite : Object {
 		}
 
 		private void run(void *fixture) {
-			this.test.run();
+			this.test.run(this.test_suite);
 		}
 
 		private void teardown(void *fixture) {
@@ -93,8 +93,12 @@ public abstract class SimpleTestSuite : Object {
 	public virtual void teardown() {}
 }
 
-public abstract class SimpleTestCase : Object {
-	public abstract void run();
+public abstract class SimpleTestCase<T> : Object {
+	public abstract void run(T context);
+
+	public void add_to(SimpleTestSuite test_suite) {
+		test_suite.add_test(this);
+	}
 
 	public string get_name() {
 		return this.get_type().name();
