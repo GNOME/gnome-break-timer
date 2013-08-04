@@ -12,7 +12,7 @@ test_common_SOURCES = \
 	unit/common.vala
 
 test_common_VALAFLAGS = $(COMMON_VALAFLAGS) \
-	$(top_builddir)/common/common.vapi \
+	$(top_builddir)/common/common.vapi
 
 test_common_CPPFLAGS = $(COMMON_CFLAGS)
 
