@@ -71,7 +71,9 @@ public abstract class BreakView : UIManager.UIFragment {
 	protected void show_break_notification(Notify.Notification notification) {
 		if (this.overlay_is_visible()) return;
 
-		notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
+		if (this.notifications_can_do("actions")) {
+			notification.add_action("info", _("What should I do?"), this.notification_action_info_cb);
+		}
 		this.show_notification(notification);
 		this.last_break_notification_time = Util.get_real_time_seconds();
 	}

@@ -74,8 +74,12 @@ public class UIManager : SimpleFocusManager {
 		}
 
 		protected bool notifications_can_do(string capability) {
-			unowned List<string> capabilities = Notify.get_server_caps();
-			return capabilities.index(capability) > -1;
+			// For whatever reason notify_capabilities.index() isn't matching
+			// our capability strings, so we'll search the list ourselves
+			foreach (string server_capability in this.ui_manager.notify_capabilities) {
+				if (server_capability == capability) return true;
+			}
+			return false;
 		}
 
 		protected void show_notification(Notify.Notification notification) {
@@ -153,6 +157,8 @@ public class UIManager : SimpleFocusManager {
 	protected ScreenOverlay? screen_overlay;
 	protected Notify.Notification? notification;
 
+	protected unowned List<string> notify_capabilities;
+
 	// The desktop-entry notification hint wants our desktop ID without the
 	// ".desktop" part, so we need to trim it accordingly
 	private static string DESKTOP_ENTRY_BASENAME = Config.HELPER_DESKTOP_ID.slice(
@@ -178,6 +184,7 @@ public class UIManager : SimpleFocusManager {
 		this.update_overlay_format();
 
 		this.session_status.unlocked.connect(this.hide_lock_notification_cb);
+		this.notify_capabilities = Notify.get_server_caps();
 	}
 
 	private void quiet_mode_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
