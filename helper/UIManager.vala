@@ -73,6 +73,11 @@ public class UIManager : SimpleFocusManager {
 			}
 		}
 
+		protected bool notifications_can_do(string capability) {
+			unowned List<string> capabilities = Notify.get_server_caps();
+			return capabilities.index(capability) > -1;
+		}
+
 		protected void show_notification(Notify.Notification notification) {
 			if (this.has_ui_focus()) {
 				this.ui_manager.show_notification(notification);

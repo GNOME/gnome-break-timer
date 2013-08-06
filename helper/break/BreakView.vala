@@ -105,10 +105,11 @@ public abstract class BreakView : UIManager.UIFragment {
 	}
 
 	private void notification_closed_cb() {
-		// If the notification is dismissed, we assume the user is cutting the break short.
-		// Since we're using persistent notifications, this requires the user to explicitly
-		// remove the notification from its context menu in the message tray.
-		if (this.notification.get_closed_reason() == 2) {
+		// If the notification is dismissed in a particularly forceful way, we assume the
+		// user is cutting the break short. When we're using persistent notifications,
+		// this requires the user to explicitly remove the notification with its context
+		// menu in the message tray.
+		if (this.notification.get_closed_reason() == 2 && this.notifications_can_do("persistence")) {
 			// Notification closed reason code 2: dismissed by the user
 			this.dismiss_break();
 		}

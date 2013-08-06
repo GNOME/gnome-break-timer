@@ -35,7 +35,9 @@ public class MicroBreakView : TimerBreakView {
 	}
 
 	protected new void show_break_notification(Notify.Notification notification) {
-		notification.add_action("skip", _("Skip this one"), this.notification_action_skip_cb);
+		if (this.notifications_can_do("actions")) {
+			notification.add_action("skip", _("Skip this one"), this.notification_action_skip_cb);
+		}
 		base.show_break_notification(notification);
 	}
 

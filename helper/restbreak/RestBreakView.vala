@@ -47,7 +47,7 @@ public class RestBreakView : TimerBreakView {
 	}
 
 	protected new void show_break_notification(Notify.Notification notification, bool allow_postpone) {
-		if (allow_postpone) {
+		if (allow_postpone && this.notifications_can_do("actions")) {
 			notification.add_action("postpone", _("Remind me later"), this.notification_action_postpone_cb);
 		}
 		base.show_break_notification(notification);
