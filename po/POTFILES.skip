@@ -11,3 +11,4 @@ settings/RestBreakType.c
 settings/TimeChooser.c
 settings/TimerBreakType.c
 settings/SettingsApplication.c
+tests

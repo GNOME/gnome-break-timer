@@ -21,3 +21,14 @@ test_common_LDADD = $(COMMON_LIBS) \
 
 test_common_vala.stamp: \
 	$(top_builddir)/common/libcommon.la
+
+
+junk_files = \
+	$(test_common_SOURCES:.vala=.c) \
+	test_common_vala.stamp
+
+dist-hook:
+	cd $(distdir) && rm -f $(junk_files)
+
+CLEANFILES = \
+	$(junk_files)
