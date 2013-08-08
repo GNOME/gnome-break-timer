@@ -45,6 +45,11 @@ public class test_ActivityMonitor : SimpleTestSuite {
 		this.activity_monitor.detected_activity.connect(this.log_activity);
 		this.activity_monitor.stop();
 	}
+	
+	public override void teardown() {
+		Util._override_real_time = -1;
+		Util._override_monotonic_time = -1;
+	}
 
 	internal void set_idle(int idle_seconds) {
 		this.activity_monitor_backend.idle_seconds = idle_seconds;
