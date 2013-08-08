@@ -93,7 +93,7 @@ public abstract class SimpleTestSuite : Object {
 	public virtual void teardown() {}
 }
 
-public abstract class SimpleTestCase<T> : Object {
+public interface SimpleTestCase<T> : Object {
 	public abstract void run(T context);
 
 	public void add_to(SimpleTestSuite test_suite) {

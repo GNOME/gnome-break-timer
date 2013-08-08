@@ -15,7 +15,7 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class test_NaturalTime : SimpleTestSuite {
+public class test_NaturalTime : SimpleTestSuite {
 	public NaturalTime natural_time;
 
 	public test_NaturalTime() {
@@ -31,8 +31,8 @@ class test_NaturalTime : SimpleTestSuite {
 	}
 }
 
-class test_get_label_for_seconds : SimpleTestCase<test_NaturalTime> {
-	public override void run(test_NaturalTime context) {
+class test_get_label_for_seconds : Object, SimpleTestCase<test_NaturalTime> {
+	public void run(test_NaturalTime context) {
 		var label_60 = context.natural_time.get_label_for_seconds(60);
 		var label_61 = context.natural_time.get_label_for_seconds(61);
 
@@ -41,8 +41,8 @@ class test_get_label_for_seconds : SimpleTestCase<test_NaturalTime> {
 	}
 }
 
-class test_get_simplest_label_for_seconds : SimpleTestCase<test_NaturalTime> {
-	public override void run(test_NaturalTime context) {
+class test_get_simplest_label_for_seconds : Object, SimpleTestCase<test_NaturalTime> {
+	public void run(test_NaturalTime context) {
 		var label_60 = context.natural_time.get_simplest_label_for_seconds(60);
 		var label_61 = context.natural_time.get_simplest_label_for_seconds(61);
 		
@@ -51,8 +51,8 @@ class test_get_simplest_label_for_seconds : SimpleTestCase<test_NaturalTime> {
 	}
 }
 
-class test_get_countdown_for_seconds : SimpleTestCase<test_NaturalTime> {
-	public override void run(test_NaturalTime context) {
+class test_get_countdown_for_seconds : Object, SimpleTestCase<test_NaturalTime> {
+	public void run(test_NaturalTime context) {
 		var label_90 = context.natural_time.get_countdown_for_seconds(90);
 		var label_60 = context.natural_time.get_countdown_for_seconds(60);
 		var label_55 = context.natural_time.get_countdown_for_seconds(55);
@@ -67,8 +67,8 @@ class test_get_countdown_for_seconds : SimpleTestCase<test_NaturalTime> {
 	}
 }
 
-class test_get_countdown_for_seconds_with_start : SimpleTestCase<test_NaturalTime> {
-	public override void run(test_NaturalTime context) {
+class test_get_countdown_for_seconds_with_start : Object, SimpleTestCase<test_NaturalTime> {
+	public void run(test_NaturalTime context) {
 		var label_90 = context.natural_time.get_countdown_for_seconds_with_start(90, 90);
 		var label_60 = context.natural_time.get_countdown_for_seconds_with_start(60, 55);
 		var label_55 = context.natural_time.get_countdown_for_seconds_with_start(55, 55);
@@ -81,8 +81,8 @@ class test_get_countdown_for_seconds_with_start : SimpleTestCase<test_NaturalTim
 	}
 }
 
-class test_get_seconds_for_input : SimpleTestCase<test_NaturalTime> {
-	public override void run(test_NaturalTime context) {
+class test_get_seconds_for_input : Object, SimpleTestCase<test_NaturalTime> {
+	public void run(test_NaturalTime context) {
 		var input_2_hours = _("%d hours".printf(2));
 		var input_1_minute = _("%d minute".printf(1));
 		var input_60_seconds = _("%d seconds".printf(60));
@@ -91,12 +91,4 @@ class test_get_seconds_for_input : SimpleTestCase<test_NaturalTime> {
 		assert(context.natural_time.get_seconds_for_input(input_1_minute) == 60);
 		assert(context.natural_time.get_seconds_for_input(input_60_seconds) == 60);
 	}
-}
-
-public static int main(string[] args) {
-	GLib.Test.init(ref args);
-	var root_suite = GLib.TestSuite.get_root();
-	new test_NaturalTime().add_to(root_suite);
-	GLib.Test.run();
-	return 0;
 }

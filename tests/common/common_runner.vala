@@ -15,29 +15,10 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * A collection of handy little functions that can't really be categorized,
- * but end up being used throughout this application.
- */
-public class Util {
-	private const int MICROSECONDS_IN_SECONDS = 1000 * 1000;
-
-	public static int64 _override_real_time = -1;
-	public static int64 _override_monotonic_time = -1;
-
-	public static int64 get_real_time_seconds() {
-		if (_override_real_time >= 0) {
-			return _override_real_time;
-		} else {
-			return (GLib.get_real_time() / MICROSECONDS_IN_SECONDS);
-		}
-	}
-
-	public static int64 get_monotonic_time_seconds() {
-		if (_override_monotonic_time >= 0) {
-			return _override_monotonic_time;
-		} else {
-			return (GLib.get_monotonic_time() / MICROSECONDS_IN_SECONDS);
-		}
-	}
+public static int main(string[] args) {
+	GLib.Test.init(ref args);
+	var root_suite = GLib.TestSuite.get_root();
+	new test_NaturalTime().add_to(root_suite);
+	GLib.Test.run();
+	return 0;
 }

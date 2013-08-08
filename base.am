@@ -1,16 +1,16 @@
-AM_CPPFLAGS = \
+CPPFLAGS += \
 	-include $(CONFIG_HEADER) \
 	-I $(top_builddir)/common \
 	-I $(top_builddir)/helper/activity-monitor \
 	-I $(top_builddir)/helper/util \
 	-I $(top_builddir)/libgd
 
-BASE_VALAFLAGS = \
+VALAFLAGS = \
 	--pkg glib-2.0 \
 	--target-glib=2.36.0
 
 if HAS_GTK_3_10
-BASE_VALAFLAGS += -D HAS_GTK_3_10
+VALAFLAGS += -D HAS_GTK_3_10
 endif
 
 # Run all tests in CWD and subdirs

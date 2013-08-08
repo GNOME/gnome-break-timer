@@ -67,8 +67,9 @@ public class ActivityMonitor : Object {
 		this.poll_activity_timeout.stop();
 	}
 
-	public void set_frequency(int frequency) {
-		this.poll_activity_timeout.set_frequency(frequency);
+	public void poll_activity() {
+		UserActivity activity = this.collect_activity();
+		this.add_activity(activity);
 	}
 
 	private int64 last_real_time = Util.get_real_time_seconds();
@@ -88,8 +89,7 @@ public class ActivityMonitor : Object {
 	}
 
 	private void poll_activity_cb(PausableTimeout timeout, int delta_millisecs) {
-		UserActivity activity = this.collect_activity();
-		this.add_activity(activity);
+		this.poll_activity();
 	}
 
 	private void unlocked_cb() {
