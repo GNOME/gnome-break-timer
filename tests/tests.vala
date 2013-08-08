@@ -104,3 +104,85 @@ public interface SimpleTestCase<T> : Object {
 		return this.get_type().name();
 	}
 }
+
+
+// Special test suites suited for particular pieces of the application
+
+public class TestSuiteWithActivityMonitor : SimpleTestSuite {
+	public testable_ActivityMonitorBackend activity_monitor_backend;
+	public testable_SessionStatus session_status;
+	public ActivityMonitor activity_monitor;
+	public Gee.List<ActivityMonitor.UserActivity?> activity_log;
+
+	public const int START_REAL_TIME = 1000000;
+	public const int START_MONOTONIC_TIME = 5;
+
+	public override void setup() {
+		Util._override_real_time = START_REAL_TIME;
+		Util._override_monotonic_time = START_MONOTONIC_TIME;
+
+		this.activity_log = new Gee.ArrayList<ActivityMonitor.UserActivity?>();
+		this.activity_monitor_backend = new testable_ActivityMonitorBackend();
+		this.session_status = new testable_SessionStatus();
+		this.activity_monitor = new ActivityMonitor(session_status, activity_monitor_backend);
+		this.activity_monitor.detected_idle.connect(this.log_activity);
+		this.activity_monitor.detected_activity.connect(this.log_activity);
+		this.activity_monitor.stop();
+	}
+	
+	public override void teardown() {
+		Util._override_real_time = -1;
+		Util._override_monotonic_time = -1;
+	}
+
+	public void set_idle(int idle_seconds) {
+		this.activity_monitor_backend.idle_seconds = idle_seconds;
+	}
+
+	public void advance_time(int real_seconds, int monotonic_seconds, bool with_idle=false) {
+		Util._override_real_time += real_seconds;
+		Util._override_monotonic_time += monotonic_seconds;
+		if (with_idle) this.activity_monitor_backend.idle_seconds += real_seconds;
+	}
+
+	private void log_activity(ActivityMonitor.UserActivity activity) {
+		this.activity_log.add(activity);
+	}
+}
+
+
+// We also need special testable implementations of certain classes and interfaces
+
+public class testable_ActivityMonitorBackend : Object, IActivityMonitorBackend {
+	public int idle_seconds = 0;
+
+	public int get_idle_seconds() {
+		return this.idle_seconds;
+	}
+}
+
+public class testable_SessionStatus : Object, ISessionStatus {
+	public bool virt_is_locked = false;
+
+	public void do_lock() {
+		this.virt_is_locked = true;
+		this.locked();
+	}
+
+	public void do_unlock() {
+		this.virt_is_locked = false;
+		this.unlocked();
+	}
+
+	public bool is_locked() {
+		return this.virt_is_locked;
+	}
+
+	public void lock_screen() {
+		this.virt_is_locked = true;
+	}
+
+	public void blank_screen() {}
+
+	public void unblank_screen() {}
+}

@@ -25,8 +25,8 @@ public class MicroBreakView : TimerBreakView {
 
 	private int delay_time_notified = 0;
 
-	public MicroBreakView(BreakType break_type, MicroBreakController micro_break, UIManager ui_manager) {
-		base(break_type, micro_break, ui_manager);
+	public MicroBreakView(MicroBreakController micro_break, UIManager ui_manager) {
+		base(micro_break, ui_manager);
 		this.focus_priority = FocusPriority.LOW;
 
 		this.focused_and_activated.connect(this.focused_and_activated_cb);

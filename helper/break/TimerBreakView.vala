@@ -20,8 +20,8 @@ public abstract class TimerBreakView : BreakView {
 		get {return (TimerBreakController)this.break_controller; }
 	}
 	
-	public TimerBreakView(BreakType break_type, TimerBreakController timer_break, UIManager ui_manager) {
-		base(break_type, timer_break, ui_manager);
+	public TimerBreakView(TimerBreakController timer_break, UIManager ui_manager) {
+		base(timer_break, ui_manager);
 	}
 	
 	public override string get_status_message() {

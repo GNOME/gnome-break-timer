@@ -40,8 +40,8 @@ public abstract class TimerBreakController : BreakController {
 
 	private ActivityMonitor activity_monitor;
 	
-	public TimerBreakController(BreakType break_type, Settings settings, ActivityMonitor activity_monitor) {
-		base(break_type);
+	public TimerBreakController(Settings settings, ActivityMonitor activity_monitor) {
+		base();
 		this.settings = settings;
 		this.activity_monitor = activity_monitor;
 		

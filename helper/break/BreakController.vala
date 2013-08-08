@@ -25,8 +25,6 @@
  * break's state, which can be either WAITING, ACTIVE, or DISABLED.
  */
 public abstract class BreakController : Object {
-	protected weak BreakType break_type;
-	
 	/**
 	 * ''WAITING'':  The break has not started yet. For example, it may be
 	 *               monitoring user activity in the background, waiting
@@ -73,8 +71,7 @@ public abstract class BreakController : Object {
 
 	private int64 activate_timestamp;
 	
-	public BreakController(BreakType break_type) {
-		this.break_type = break_type;
+	public BreakController() {
 		this.state = State.DISABLED;
 	}
 	

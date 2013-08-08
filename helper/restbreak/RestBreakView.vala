@@ -37,8 +37,8 @@ public class RestBreakView : TimerBreakView {
 	private bool was_skipped = false;
 	private bool proceeding_happily = false;
 	
-	public RestBreakView(BreakType break_type, RestBreakController rest_break, UIManager ui_manager) {
-		base(break_type, rest_break, ui_manager);
+	public RestBreakView(RestBreakController rest_break, UIManager ui_manager) {
+		base(rest_break, ui_manager);
 		this.focus_priority = FocusPriority.HIGH;
 
 		this.focused_and_activated.connect(this.focused_and_activated_cb);

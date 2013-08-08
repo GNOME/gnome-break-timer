@@ -26,7 +26,6 @@ public class MicroBreakType : TimerBreakType {
 
 	protected override BreakController get_break_controller(Settings settings) {
 		return new MicroBreakController(
-			this,
 			settings,
 			this.activity_monitor
 		);
@@ -34,7 +33,6 @@ public class MicroBreakType : TimerBreakType {
 
 	protected override BreakView get_break_view(BreakController controller, UIManager ui_manager) {
 		return new MicroBreakView(
-			this,
 			(MicroBreakController)controller,
 			ui_manager
 		);

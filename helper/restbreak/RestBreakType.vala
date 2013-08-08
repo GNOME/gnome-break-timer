@@ -26,7 +26,6 @@ public class RestBreakType : TimerBreakType {
 
 	protected override BreakController get_break_controller(Settings settings) {
 		return new RestBreakController(
-			this,
 			settings,
 			this.activity_monitor
 		);
@@ -34,7 +33,6 @@ public class RestBreakType : TimerBreakType {
 
 	protected override BreakView get_break_view(BreakController controller, UIManager ui_manager) {
 		return new RestBreakView(
-			this,
 			(RestBreakController)controller,
 			ui_manager
 		);

@@ -18,7 +18,6 @@
 public interface IFocusable : Object {
 	public abstract void focus_started();
 	public abstract void focus_stopped();
-	public abstract string get_id();
 }
 
 public enum FocusPriority {
@@ -66,18 +65,15 @@ public class SimpleFocusManager : Object {
 			// the order is important so new_focus can gracefully replace old_focus
 			if (new_focus != null) {
 				new_focus.owner.focus_started();
-				GLib.debug("New focus: %s", new_focus.owner.get_id());
 			}
 			if (old_focus != null) {
 				old_focus.owner.focus_stopped();
-				GLib.debug("(Old focus: %s)", old_focus.owner.get_id());
 			}
 		}
 	}
 	
 	private void update_focus() {
 		Request? new_focus = null;
-		GLib.debug("update_focus");
 		if (this.focus_requests.length() > 0) {
 			new_focus = this.focus_requests.last().data;
 		}
@@ -92,7 +88,6 @@ public class SimpleFocusManager : Object {
 	}
 	
 	public void request_focus(IFocusable focusable, FocusPriority priority) {
-		GLib.debug("%s, request focus", focusable.get_id());
 		if (! this.focus_requested(focusable)) {
 			Request request = new Request();
 			request.owner = focusable;
@@ -104,7 +99,6 @@ public class SimpleFocusManager : Object {
 	}
 	
 	public void release_focus(IFocusable focusable) {
-		GLib.debug("%s, release focus", focusable.get_id());
 		foreach (Request request in this.focus_requests) {
 			if (request.owner == focusable) this.focus_requests.remove(request);
 		}

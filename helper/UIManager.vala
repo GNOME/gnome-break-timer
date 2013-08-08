@@ -32,8 +32,6 @@ public class UIManager : SimpleFocusManager {
 
 		protected FocusPriority focus_priority = FocusPriority.LOW;
 
-		public abstract string get_id();
-
 		public bool has_ui_focus() {
 			return this.ui_manager.is_focusing(this);
 		}

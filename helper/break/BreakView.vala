@@ -16,14 +16,12 @@
  */
 
 public abstract class BreakView : UIManager.UIFragment {
-	protected weak BreakType break_type;
 	protected weak BreakController break_controller;
 
 	private int64 last_break_notification_time = 0;
 	
-	public BreakView(BreakType break_type, BreakController break_controller, UIManager ui_manager) {
+	public BreakView(BreakController break_controller, UIManager ui_manager) {
 		this.ui_manager = ui_manager;
-		this.break_type = break_type;
 		this.break_controller = break_controller;
 
 		break_controller.enabled.connect(() => { this.ui_manager.add_break(this); });
@@ -118,10 +116,6 @@ public abstract class BreakView : UIManager.UIFragment {
 	}
 
 	/* UIFragment interface */
-
-	public override string get_id() {
-		return this.break_type.id;
-	}
 
 	protected override void focus_started() {
 		if (this.break_controller.is_active()) {
