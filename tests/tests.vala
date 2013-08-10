@@ -146,7 +146,11 @@ class TestRunner : Object {
 		);
 
 		File target_schema_dir = File.new_for_path(target_schema_path);
-		target_schema_dir.make_directory_with_parents();
+		try {
+			target_schema_dir.make_directory_with_parents();
+		} catch (Error e) {
+			GLib.warning("Error creating directory for schema files: %s", e.message);
+		}
 
 		File target_schema_file = File.new_for_path(
 			Path.build_filename(target_schema_dir.get_path(), SCHEMA_FILE_NAME)
@@ -166,7 +170,11 @@ class TestRunner : Object {
 
 	public virtual void global_teardown() {
 		if (tmp_dir != null) {
-			int delete_tmp_result = Posix.system("rm -rf %s".printf(tmp_dir.get_path()));
+			var tmp_dir_path = tmp_dir.get_path();
+			int delete_tmp_result = Posix.system("rm -rf %s".printf(tmp_dir_path));
+			if (delete_tmp_result != 0) {
+				GLib.warning("Could not delete temporary files in %s", tmp_dir_path);
+			}
 		}
 	}
 

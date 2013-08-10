@@ -16,9 +16,7 @@
  */
 
 public static int main(string[] args) {
-	GLib.Test.init(ref args);
-	var root_suite = GLib.TestSuite.get_root();
-	new test_NaturalTime().add_to(root_suite);
-	GLib.Test.run();
-	return 0;
+	var runner = new TestRunner(ref args);
+	runner.add(new test_NaturalTime());
+	return runner.run();
 }
