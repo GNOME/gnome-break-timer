@@ -25,9 +25,15 @@ public abstract class TimerBreakType : BreakType {
 	protected override void initialize(UIManager ui_manager) {
 		base.initialize(ui_manager);
 
+		var timer_break_controller = (TimerBreakController)this.break_controller;
+		var timer_break_view = (TimerBreakView)this.break_view;
+
+		this.settings.bind("interval-seconds", timer_break_controller, "interval", SettingsBindFlags.GET);
+		this.settings.bind("duration-seconds", timer_break_controller, "duration", SettingsBindFlags.GET);
+
 		this.break_type_server = new BreakHelper_TimerBreakServer(
-			(TimerBreakController)this.break_controller,
-			(TimerBreakView)this.break_view
+			timer_break_controller,
+			timer_break_view
 		);
 		try {
 			DBusConnection connection = Bus.get_sync(BusType.SESSION, null);

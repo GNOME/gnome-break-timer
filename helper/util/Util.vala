@@ -25,19 +25,27 @@ public class Util {
 	public static int64 _override_real_time = -1;
 	public static int64 _override_monotonic_time = -1;
 
-	public static int64 get_real_time_seconds() {
+	public inline static int64 get_real_time() {
 		if (_override_real_time >= 0) {
 			return _override_real_time;
 		} else {
-			return (GLib.get_real_time() / MICROSECONDS_IN_SECONDS);
+			return GLib.get_real_time();
 		}
 	}
 
-	public static int64 get_monotonic_time_seconds() {
+	public inline static int64 get_real_time_seconds() {
+		return get_real_time() / MICROSECONDS_IN_SECONDS;
+	}
+
+	public inline static int64 get_monotonic_time() {
 		if (_override_monotonic_time >= 0) {
 			return _override_monotonic_time;
 		} else {
-			return (GLib.get_monotonic_time() / MICROSECONDS_IN_SECONDS);
+			return GLib.get_monotonic_time();
 		}
+	}
+
+	public inline static int64 get_monotonic_time_seconds() {
+		return get_monotonic_time() / MICROSECONDS_IN_SECONDS;
 	}
 }

@@ -87,10 +87,10 @@ public abstract class SimpleTestSuite : Object {
 	}
 
 	public virtual void setup() {
-		Environment.set_variable("GSETTINGS_BACKEND", "memory", true);
 	}
 
-	public virtual void teardown() {}
+	public virtual void teardown() {
+	}
 }
 
 public interface SimpleTestCase<T> : Object {
@@ -102,6 +102,85 @@ public interface SimpleTestCase<T> : Object {
 
 	public string get_name() {
 		return this.get_type().name();
+	}
+}
+
+
+class TestRunner : Object {
+	private GLib.TestSuite root_suite;
+
+	private File tmp_dir;
+	const string SCHEMA_FILE_NAME = "org.gnome.break-timer.gschema.xml";
+
+	public TestRunner(ref unowned string[] args, GLib.TestSuite? root_suite = null) {
+		GLib.Test.init(ref args);
+		if (root_suite == null) {
+			this.root_suite = GLib.TestSuite.get_root();
+		} else {
+			this.root_suite = root_suite;
+		}
+	}
+
+	public void add(SimpleTestSuite suite) {
+		suite.add_to(this.root_suite);
+	}
+
+	public virtual void global_setup() {
+		try {
+			var tmp_path = DirUtils.make_tmp("gnome-break-timer-test-XXXXXX");
+			tmp_dir = File.new_for_path(tmp_path);
+		} catch (Error e) {
+			GLib.warning("Error creating temporary directory for test files: %s".printf(e.message));
+		}
+
+		string target_data_path = Path.build_filename(tmp_dir.get_path(), "share");
+		string target_schema_path = Path.build_filename(tmp_dir.get_path(), "share", "glib-2.0", "schemas");
+
+		Environment.set_variable("GSETTINGS_BACKEND", "memory", true);
+
+		var original_data_dirs = Environment.get_variable("XDG_DATA_DIRS");
+		Environment.set_variable("XDG_DATA_DIRS", "%s:%s".printf(target_data_path, original_data_dirs), true);
+
+		File source_schema_file = File.new_for_path(
+			Path.build_filename(get_top_builddir(), "data", SCHEMA_FILE_NAME)
+		);
+
+		File target_schema_dir = File.new_for_path(target_schema_path);
+		target_schema_dir.make_directory_with_parents();
+
+		File target_schema_file = File.new_for_path(
+			Path.build_filename(target_schema_dir.get_path(), SCHEMA_FILE_NAME)
+		);
+
+		try {
+			source_schema_file.copy(target_schema_file, FileCopyFlags.OVERWRITE);
+		} catch (Error e) {
+			GLib.warning("Error copying schema file: %s", e.message);
+		}
+
+		int compile_schemas_result = Posix.system("glib-compile-schemas %s".printf(target_schema_path));
+		if (compile_schemas_result != 0) {
+			GLib.warning("Could not compile schemas in %s", target_schema_path);
+		}
+	}
+
+	public virtual void global_teardown() {
+		if (tmp_dir != null) {
+			int delete_tmp_result = Posix.system("rm -rf %s".printf(tmp_dir.get_path()));
+		}
+	}
+
+	public int run() {
+		this.global_setup();
+		GLib.Test.run();
+		this.global_teardown();
+		return 0;
+	}
+
+	private static string get_top_builddir() {
+		var builddir = Environment.get_variable("top_builddir");
+		if (builddir == null) builddir = "..";
+		return builddir;
 	}
 }
 
@@ -118,11 +197,14 @@ public class TestSuiteWithActivityMonitor : SimpleTestSuite {
 	public const int START_MONOTONIC_TIME = 5;
 
 	public override void setup() {
+		base.setup();
+
 		Util._override_real_time = START_REAL_TIME;
 		Util._override_monotonic_time = START_MONOTONIC_TIME;
 
 		this.activity_log = new Gee.ArrayList<ActivityMonitor.UserActivity?>();
 		this.activity_monitor_backend = new testable_ActivityMonitorBackend();
+		this.activity_monitor_backend.idle_seconds = START_MONOTONIC_TIME;
 		this.session_status = new testable_SessionStatus();
 		this.activity_monitor = new ActivityMonitor(session_status, activity_monitor_backend);
 		this.activity_monitor.detected_idle.connect(this.log_activity);
@@ -135,14 +217,17 @@ public class TestSuiteWithActivityMonitor : SimpleTestSuite {
 		Util._override_monotonic_time = -1;
 	}
 
-	public void set_idle(int idle_seconds) {
-		this.activity_monitor_backend.idle_seconds = idle_seconds;
-	}
+	private const int MICROSECONDS_IN_SECONDS = 1000 * 1000;
 
-	public void advance_time(int real_seconds, int monotonic_seconds, bool with_idle=false) {
-		Util._override_real_time += real_seconds;
-		Util._override_monotonic_time += monotonic_seconds;
-		if (with_idle) this.activity_monitor_backend.idle_seconds += real_seconds;
+	public virtual void time_step(bool is_active, int real_seconds, int monotonic_seconds) {
+		Util._override_real_time += real_seconds * MICROSECONDS_IN_SECONDS;
+		Util._override_monotonic_time += monotonic_seconds * MICROSECONDS_IN_SECONDS;
+		if (is_active) {
+			this.activity_monitor_backend.idle_seconds = 0;
+		} else {
+			this.activity_monitor_backend.idle_seconds += monotonic_seconds;
+		}
+		this.activity_monitor.poll_activity();
 	}
 
 	private void log_activity(ActivityMonitor.UserActivity activity) {

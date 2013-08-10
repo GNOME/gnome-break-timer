@@ -186,8 +186,8 @@ public class UIManager : SimpleFocusManager {
 	}
 
 	private void quiet_mode_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
-		DateTime now = new DateTime.now_utc();
-		if (this.quiet_mode && now.to_unix() > this.quiet_mode_expire_time) {
+		int64 now = Util.get_real_time_seconds();
+		if (this.quiet_mode && now > this.quiet_mode_expire_time) {
 			this.quiet_mode = false;
 			this.quiet_mode_expire_time = 0;
 			GLib.debug("Automatically expiring quiet mode");

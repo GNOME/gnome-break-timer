@@ -1,13 +1,21 @@
+HELPER_LIB_PATHS = \
+	$(top_srcdir) \
+	$(top_builddir)/common \
+	$(top_builddir)/helper \
+	$(top_builddir)/helper/activity-monitor \
+	$(top_builddir)/helper/util \
+	$(top_builddir)/libgd
+
 CPPFLAGS += \
 	-include $(CONFIG_HEADER) \
-	-I $(top_builddir)/common \
-	-I $(top_builddir)/helper/activity-monitor \
-	-I $(top_builddir)/helper/util \
-	-I $(top_builddir)/libgd
+	$(addprefix -I ,$(HELPER_LIB_PATHS))
+
+LDFLAGS += -lm
 
 VALAFLAGS = \
 	--pkg glib-2.0 \
-	--target-glib=2.36.0
+	--target-glib=2.36.0 \
+	$(addprefix --vapidir ,$(HELPER_LIB_PATHS))
 
 if HAS_GTK_3_10
 VALAFLAGS += -D HAS_GTK_3_10

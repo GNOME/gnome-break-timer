@@ -29,39 +29,30 @@ public class test_ActivityMonitor : TestSuiteWithActivityMonitor {
 class test_simple_idle : Object, SimpleTestCase<test_ActivityMonitor> {
 	public void run(test_ActivityMonitor context) {
 		context.session_status.virt_is_locked = false;
-		context.set_idle(1);
-		context.advance_time(0, 0);
-		context.activity_monitor.poll_activity();
+		context.time_step(false, 0, 0);
 
-		context.advance_time(1, 1, true);
-		context.activity_monitor.poll_activity();
+		context.time_step(false, 1, 1);
 
 		assert(context.activity_log.size == 2);
 
 		assert(context.activity_log[0].type == ActivityMonitor.ActivityType.NONE);
 		assert(context.activity_log[0].is_active() == false);
-		assert(context.activity_log[0].idle_time == 1);
+		assert(context.activity_log[0].idle_time > 0);
 
 		assert(context.activity_log[1].type == ActivityMonitor.ActivityType.NONE);
 		assert(context.activity_log[1].is_active() == false);
-		assert(context.activity_log[1].idle_time == 2);
+		assert(context.activity_log[1].idle_time == context.activity_log[0].idle_time + 1);
 	}
 }
 
 class test_simple_active : Object, SimpleTestCase<test_ActivityMonitor> {
 	public void run(test_ActivityMonitor context) {
 		context.session_status.virt_is_locked = false;
-		context.set_idle(0);
-		context.advance_time(0, 0);
-		context.activity_monitor.poll_activity();
+		context.time_step(true, 0, 0);
 
-		context.set_idle(0);
-		context.advance_time(1, 1);
-		context.activity_monitor.poll_activity();
+		context.time_step(true, 1, 1);
 
-		context.set_idle(0);
-		context.advance_time(1, 1);
-		context.activity_monitor.poll_activity();
+		context.time_step(true, 1, 1);
 
 		assert(context.activity_log.size == 3);
 
@@ -82,23 +73,15 @@ class test_simple_active : Object, SimpleTestCase<test_ActivityMonitor> {
 class test_active_then_idle : Object, SimpleTestCase<test_ActivityMonitor> {
 	public void run(test_ActivityMonitor context) {
 		context.session_status.virt_is_locked = false;
-		context.set_idle(0);
-		context.advance_time(1, 1);
-		context.activity_monitor.poll_activity();
+		context.time_step(true, 1, 1);
 
-		context.advance_time(1, 1, true);
-		context.activity_monitor.poll_activity();
+		context.time_step(false, 1, 1);
 
-		context.advance_time(1, 1, true);
-		context.activity_monitor.poll_activity();
+		context.time_step(false, 1, 1);
 
-		context.set_idle(0);
-		context.advance_time(1, 1);
-		context.activity_monitor.poll_activity();
+		context.time_step(true, 1, 1);
 
-		context.set_idle(0);
-		context.advance_time(1, 1);
-		context.activity_monitor.poll_activity();
+		context.time_step(true, 1, 1);
 
 		assert(context.activity_log.size == 5);
 
@@ -131,16 +114,11 @@ class test_active_then_idle : Object, SimpleTestCase<test_ActivityMonitor> {
 class test_lock_idle : Object, SimpleTestCase<test_ActivityMonitor> {
 	public void run(test_ActivityMonitor context) {
 		context.session_status.virt_is_locked = true;
-		context.set_idle(0);
-		context.advance_time(1, 1);
-		context.activity_monitor.poll_activity();
+		context.time_step(true, 1, 1);
 
-		context.set_idle(0);
-		context.advance_time(1, 1);
-		context.activity_monitor.poll_activity();
+		context.time_step(true, 1, 1);
 
-		context.advance_time(1, 1, true);
-		context.activity_monitor.poll_activity();
+		context.time_step(false, 1, 1);
 
 		assert(context.activity_log.size == 3);
 
@@ -161,23 +139,15 @@ class test_lock_idle : Object, SimpleTestCase<test_ActivityMonitor> {
 class test_sleep_and_unlock : Object, SimpleTestCase<test_ActivityMonitor> {
 	public void run(test_ActivityMonitor context) {
 		context.session_status.virt_is_locked = false;
-		context.set_idle(0);
-		context.advance_time(1, 1);
-		context.activity_monitor.poll_activity();
+		context.time_step(true, 1, 1);
 
 		context.session_status.virt_is_locked = true;
-		context.set_idle(0);
-		context.advance_time(120, 2);
-		context.activity_monitor.poll_activity();
+		context.time_step(true, 120, 2);
 
-		context.set_idle(0);
-		context.advance_time(1, 1);
-		context.activity_monitor.poll_activity();
+		context.time_step(true, 1, 1);
 
 		context.session_status.virt_is_locked = false;
-		context.set_idle(0);
-		context.advance_time(1, 1);
-		context.activity_monitor.poll_activity();
+		context.time_step(true, 1, 1);
 
 		assert(context.activity_log.size == 4);
 
@@ -207,9 +177,7 @@ class test_sleep_and_unlock : Object, SimpleTestCase<test_ActivityMonitor> {
 class test_unlock_signal_activity : Object, SimpleTestCase<test_ActivityMonitor> {
 	public void run(test_ActivityMonitor context) {
 		context.session_status.virt_is_locked = true;
-		context.set_idle(0);
-		context.advance_time(1, 1);
-		context.activity_monitor.poll_activity();
+		context.time_step(true, 1, 1);
 
 		context.session_status.do_unlock();
 

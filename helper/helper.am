@@ -26,10 +26,10 @@ HELPER_VALAFLAGS = \
 	--pkg libcanberra \
 	--pkg libcanberra-gtk \
 	--pkg libnotify \
-	$(top_srcdir)/config.vapi \
-	$(top_builddir)/common/common.vapi \
-	$(top_builddir)/helper/activity-monitor/activity_monitor.vapi \
-	$(top_builddir)/helper/util/util.vapi
+	--pkg config \
+	--pkg common \
+	--pkg activity_monitor \
+	--pkg util
 
 HELPER_CFLAGS = $(CFG_CORE_CFLAGS) \
 	$(CFG_HELPER_CFLAGS)
@@ -39,8 +39,6 @@ HELPER_LIBS = $(CFG_CORE_LIBS) \
 	$(top_builddir)/common/libcommon.la \
 	$(top_builddir)/helper/activity-monitor/libactivity_monitor.la \
 	$(top_builddir)/helper/util/libutil.la
-
-HELPER_LDFLAGS = -lm
 
 HELPER_DEPENDENCIES = \
 	$(top_builddir)/common/libcommon.la \

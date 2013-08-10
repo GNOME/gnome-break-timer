@@ -15,22 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * A type of timer break that should activate frequently and for short
- * durations. Satisfied when the user is inactive for its entire duration,
- * and when it is active it restarts its countdown whenever the user types
- * or moves the mouse.
- */
-public class MicroBreakController : TimerBreakController {
-	public MicroBreakController(ActivityMonitor activity_monitor) {
-		base(activity_monitor);
-		this.fuzzy_seconds = 0;
-
-		this.delayed.connect(this.delayed_cb);
-	}
-	
-	private void delayed_cb(int lap_time, int total_time) {
-		this.duration_countdown.reset();
-	}
+public static int main(string[] args) {
+	var runner = new TestRunner(ref args);
+	runner.add(new test_TimerBreakController());
+	return runner.run();
 }
-

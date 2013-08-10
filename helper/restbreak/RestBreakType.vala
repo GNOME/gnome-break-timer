@@ -24,9 +24,8 @@ public class RestBreakType : TimerBreakType {
 		this.activity_monitor = activity_monitor;
 	}
 
-	protected override BreakController get_break_controller(Settings settings) {
+	protected override BreakController get_break_controller() {
 		return new RestBreakController(
-			settings,
 			this.activity_monitor
 		);
 	}

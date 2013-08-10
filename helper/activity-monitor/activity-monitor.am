@@ -7,8 +7,8 @@ HELPER_ACTIVITY_MONITOR_SOURCES = \
 
 HELPER_ACTIVITY_MONITOR_VALAFLAGS = \
 	--pkg gdk-x11-3.0 \
-	$(top_builddir)/common/common.vapi \
-	$(top_builddir)/helper/util/util.vapi
+	--pkg common \
+	--pkg util
 
 HELPER_ACTIVITY_MONITOR_CFLAGS = $(CFG_CORE_CFLAGS) \
 	$(CFG_ACTIVITY_MONITOR_CFLAGS) \

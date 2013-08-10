@@ -24,8 +24,8 @@
  * activates and counts down for its duration.
  */
 public abstract class TimerBreakController : BreakController {
-	public int interval {get; protected set;}
-	public int duration {get; protected set;}
+	public int interval {get; set;}
+	public int duration {get; set;}
 	
 	protected Countdown interval_countdown;
 	protected Countdown duration_countdown;
@@ -36,17 +36,11 @@ public abstract class TimerBreakController : BreakController {
 	private StatefulTimer counting_timer = new StatefulTimer();
 	private StatefulTimer delayed_timer = new StatefulTimer();
 
-	private Settings settings;
-
 	private ActivityMonitor activity_monitor;
 	
-	public TimerBreakController(Settings settings, ActivityMonitor activity_monitor) {
+	public TimerBreakController(ActivityMonitor activity_monitor) {
 		base();
-		this.settings = settings;
 		this.activity_monitor = activity_monitor;
-		
-		settings.bind("interval-seconds", this, "interval", SettingsBindFlags.GET);
-		settings.bind("duration-seconds", this, "duration", SettingsBindFlags.GET);
 		
 		this.interval_countdown = new Countdown(this.interval);
 		this.duration_countdown = new Countdown(this.duration);

@@ -89,13 +89,13 @@ public class Countdown : Object {
 	}
 	
 	public void continue_from(int start_offset) {
-		int64 now = new DateTime.now_utc().to_unix();
+		int64 now = Util.get_real_time_seconds();
 		this.start_time = now + start_offset;
 		this.state = State.COUNTING;
 	}
 
 	public void advance_time(int seconds_off) {
-		int64 now = new DateTime.now_utc().to_unix();
+		int64 now = Util.get_real_time_seconds();
 		this.start_time = now - seconds_off;
 	}
 
@@ -131,7 +131,7 @@ public class Countdown : Object {
 		int time_elapsed = this.stop_time_elapsed;
 		
 		if (this.state == State.COUNTING) {
-			int64 now = new DateTime.now_utc().to_unix();
+			int64 now = Util.get_real_time_seconds();
 			time_elapsed += (int)(now - this.start_time);
 		}
 		

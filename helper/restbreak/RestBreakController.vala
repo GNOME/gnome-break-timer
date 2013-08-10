@@ -26,8 +26,8 @@ public class RestBreakController : TimerBreakController {
 
 	public signal void current_duration_changed();
 
-	public RestBreakController(Settings settings, ActivityMonitor activity_monitor) {
-		base(settings, activity_monitor);
+	public RestBreakController(ActivityMonitor activity_monitor) {
+		base(activity_monitor);
 		this.fuzzy_seconds = 5;
 
 		// Countdown for an extra reminder that a break is ongoing, if the
