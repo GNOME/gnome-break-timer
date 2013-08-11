@@ -186,7 +186,6 @@ class test_force_activate : Object, SimpleTestCase<test_TimerBreakController> {
 	public void run(test_TimerBreakController context) {
 		context.break_controller.set_enabled(true);
 
-		int expected_starts_in = test_TimerBreakController.DEFAULT_INTERVAL;
 		int expected_remaining = test_TimerBreakController.DEFAULT_DURATION;
 
 		context.break_controller.activate();
