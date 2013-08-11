@@ -207,6 +207,7 @@ public class TestSuiteWithActivityMonitor : SimpleTestSuite {
 	public override void setup() {
 		base.setup();
 
+		Util._do_override_time = true;
 		Util._override_real_time = START_REAL_TIME;
 		Util._override_monotonic_time = START_MONOTONIC_TIME;
 
@@ -221,15 +222,14 @@ public class TestSuiteWithActivityMonitor : SimpleTestSuite {
 	}
 	
 	public override void teardown() {
-		Util._override_real_time = -1;
-		Util._override_monotonic_time = -1;
+		Util._do_override_time = false;
+		Util._override_real_time = 0;
+		Util._override_monotonic_time = 0;
 	}
 
-	private const int MICROSECONDS_IN_SECONDS = 1000 * 1000;
-
 	public virtual void time_step(bool is_active, int real_seconds, int monotonic_seconds) {
-		Util._override_real_time += real_seconds * MICROSECONDS_IN_SECONDS;
-		Util._override_monotonic_time += monotonic_seconds * MICROSECONDS_IN_SECONDS;
+		Util._override_real_time += real_seconds * Util.MICROSECONDS_IN_SECONDS;
+		Util._override_monotonic_time += monotonic_seconds * Util.MICROSECONDS_IN_SECONDS;
 		if (is_active) {
 			this.activity_monitor_backend.idle_seconds = 0;
 		} else {

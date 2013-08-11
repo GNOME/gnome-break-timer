@@ -20,13 +20,14 @@
  * but end up being used throughout this application.
  */
 public class Util {
-	private const int MICROSECONDS_IN_SECONDS = 1000 * 1000;
+	public const int MICROSECONDS_IN_SECONDS = 1000 * 1000;
 
-	public static int64 _override_real_time = -1;
-	public static int64 _override_monotonic_time = -1;
+	public static bool _do_override_time = false;
+	public static int64 _override_real_time = 0;
+	public static int64 _override_monotonic_time = 0;
 
 	public inline static int64 get_real_time() {
-		if (_override_real_time >= 0) {
+		if (_do_override_time) {
 			return _override_real_time;
 		} else {
 			return GLib.get_real_time();
@@ -38,7 +39,7 @@ public class Util {
 	}
 
 	public inline static int64 get_monotonic_time() {
-		if (_override_monotonic_time >= 0) {
+		if (_do_override_time) {
 			return _override_monotonic_time;
 		} else {
 			return GLib.get_monotonic_time();

@@ -69,10 +69,11 @@ public abstract class BreakController : Object {
 	/** The break is active and it has progressed in some fashion (for example, remaining time has changed). */
 	public signal void active_changed();
 
-	private int64 activate_timestamp;
+	private int64? activate_timestamp;
 	
 	public BreakController() {
 		this.state = State.DISABLED;
+		this.activate_timestamp = null;
 	}
 	
 	/**
@@ -112,7 +113,7 @@ public abstract class BreakController : Object {
 	 * @return The real time, in seconds, since the break was activated.
 	 */
 	public int get_seconds_since_start() {
-		if (this.is_active()) {
+		if (this.activate_timestamp != null) {
 			return (int) (Util.get_real_time_seconds() - this.activate_timestamp);
 		} else {
 			return 0;
@@ -125,8 +126,10 @@ public abstract class BreakController : Object {
 	 */
 	public void activate() {
 		if (this.state < State.ACTIVE) {
+			if (this.activate_timestamp == null) {
+				this.activate_timestamp = Util.get_real_time_seconds();
+			}
 			this.state = State.ACTIVE;
-			this.activate_timestamp = Util.get_real_time_seconds();
 			this.activated();
 		}
 	}
@@ -136,8 +139,9 @@ public abstract class BreakController : Object {
 	 * the beginning again.
 	 */
 	public void finish() {
-		bool was_active = this.state == State.ACTIVE;
+		bool was_active = this.is_active();
 		this.state = State.WAITING;
+		this.activate_timestamp = null;
 		this.finished(BreakController.FinishedReason.SATISFIED, was_active);
 	}
 
@@ -149,7 +153,7 @@ public abstract class BreakController : Object {
 	 * satisfied.
 	 */
 	public void skip() {
-		bool was_active = this.state == State.ACTIVE;
+		bool was_active = this.is_active();
 		this.state = State.WAITING;
 		this.finished(BreakController.FinishedReason.SKIPPED, was_active);
 	}

@@ -27,6 +27,8 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
 		new test_start_disabled().add_to(this);
 		new test_enable_and_idle().add_to(this);
 		new test_enable_and_active().add_to(this);
+		new test_force_activate().add_to(this);
+		new test_postpone().add_to(this);
 	}
 
 	public override void setup() {
@@ -71,9 +73,9 @@ public class testable_TimerBreakController : TimerBreakController {
 		this.countdowns_timeout.run_once();
 	}
 
-	public void assert_timers(int starts_in, int remaining) {
-		assert(this.starts_in() == starts_in);
-		assert(this.get_time_remaining() == remaining);
+	public void assert_timers(int? starts_in, int? remaining) {
+		if (starts_in != null) assert(this.starts_in() == starts_in);
+		if (remaining != null) assert(this.get_time_remaining() == remaining);
 	}
 }
 
@@ -124,7 +126,6 @@ class test_enable_and_idle : Object, SimpleTestCase<test_TimerBreakController> {
 class test_enable_and_active : Object, SimpleTestCase<test_TimerBreakController> {
 	public void run(test_TimerBreakController context) {
 		context.break_controller.set_enabled(true);
-		assert(context.break_log[0] == "enabled");
 
 		int expected_starts_in = test_TimerBreakController.DEFAULT_INTERVAL;
 		int expected_remaining = test_TimerBreakController.DEFAULT_DURATION;
@@ -140,7 +141,7 @@ class test_enable_and_active : Object, SimpleTestCase<test_TimerBreakController>
 		var idle_time_1 = 10;
 		for (int step = 0; step < idle_time_1+1; step++) {
 			context.time_step(false, 1, 1);
-			assert(context.break_timestep_log[0] == "counting");	
+			assert(context.break_timestep_log[0] == "counting");
 		}
 		expected_starts_in -= 1;
 		expected_remaining -= idle_time_1;
@@ -177,6 +178,61 @@ class test_enable_and_active : Object, SimpleTestCase<test_TimerBreakController>
 		}
 		expected_starts_in = test_TimerBreakController.DEFAULT_INTERVAL;
 		expected_remaining = test_TimerBreakController.DEFAULT_DURATION;
+		context.break_controller.assert_timers(expected_starts_in, expected_remaining);
+	}
+}
+
+class test_force_activate : Object, SimpleTestCase<test_TimerBreakController> {
+	public void run(test_TimerBreakController context) {
+		context.break_controller.set_enabled(true);
+
+		int expected_starts_in = test_TimerBreakController.DEFAULT_INTERVAL;
+		int expected_remaining = test_TimerBreakController.DEFAULT_DURATION;
+
+		context.break_controller.activate();
+		assert(context.break_log.last() == "activated");
+
+		assert(context.break_controller.get_seconds_since_start() == 0);
+		context.break_controller.assert_timers(null, expected_remaining);
+
+		for (int step = 0; step < 10; step++) {
+			context.time_step(false, 1, 1);
+		}
+		expected_remaining -= 10;
+		context.break_controller.assert_timers(null, expected_remaining);
+	}
+}
+
+class test_postpone : Object, SimpleTestCase<test_TimerBreakController> {
+	public void run(test_TimerBreakController context) {
+		context.break_controller.set_enabled(true);
+
+		int expected_starts_in = test_TimerBreakController.DEFAULT_INTERVAL;
+		int expected_remaining = test_TimerBreakController.DEFAULT_DURATION;
+
+		context.break_controller.activate();
+		for (int step = 0; step < 10; step++) {
+			context.time_step(false, 1, 1);
+		}
+		expected_remaining -= 10;
+		context.break_controller.assert_timers(null, expected_remaining);
+		assert(context.break_controller.get_seconds_since_start() == 10);
+
+		context.break_controller.postpone(60);
+		expected_starts_in = 60;
+		expected_remaining = test_TimerBreakController.DEFAULT_DURATION;
+		assert(context.break_controller.is_active() == false);
+		context.break_controller.assert_timers(expected_starts_in, expected_remaining);
+
+		for (int step = 0; step < expected_starts_in; step++) {
+			context.time_step(true, 1, 1);
+			if (step == expected_starts_in-1) {
+				assert(context.break_timestep_log[1] == "activated");
+			}
+		}
+		expected_starts_in = 0;
+		expected_remaining = test_TimerBreakController.DEFAULT_DURATION;
+		assert(context.break_controller.is_active() == true);
 		context.break_controller.assert_timers(expected_starts_in, expected_remaining);
 	}
 }
