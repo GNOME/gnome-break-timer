@@ -151,10 +151,12 @@ public abstract class BreakController : Object {
 	 * FinishedReason to the "finished" signal. This way, its BreakView will
 	 * know to present this differently than if the break has actually been
 	 * satisfied.
+	 * @param forget_start true to reset the value returned by get_seconds_since_start
 	 */
-	public void skip() {
+	public void skip(bool forget_start = false) {
 		bool was_active = this.is_active();
 		this.state = State.WAITING;
+		if (forget_start) this.activate_timestamp = null;
 		this.finished(BreakController.FinishedReason.SKIPPED, was_active);
 	}
 }

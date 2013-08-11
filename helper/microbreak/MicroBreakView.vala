@@ -116,7 +116,7 @@ public class MicroBreakView : TimerBreakView {
 	}
 
 	private void notification_action_skip_cb() {
-		this.break_controller.skip();
+		this.break_controller.skip(true);
 	}
 }
 
