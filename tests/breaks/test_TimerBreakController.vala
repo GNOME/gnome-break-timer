@@ -29,6 +29,8 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
 		new test_enable_and_active().add_to(this);
 		new test_force_activate().add_to(this);
 		new test_postpone().add_to(this);
+		new test_serialize().add_to(this);
+		new test_deserialize().add_to(this);
 	}
 
 	public override void setup() {
@@ -66,7 +68,7 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
 
 public class testable_TimerBreakController : TimerBreakController {
 	public testable_TimerBreakController(ActivityMonitor activity_monitor) {
-		base(activity_monitor);
+		base(activity_monitor, 0);
 	}
 
 	public void time_step(int real_seconds, int monotonic_seconds) {
@@ -233,5 +235,17 @@ class test_postpone : Object, SimpleTestCase<test_TimerBreakController> {
 		expected_remaining = test_TimerBreakController.DEFAULT_DURATION;
 		assert(context.break_controller.is_active() == true);
 		context.break_controller.assert_timers(expected_starts_in, expected_remaining);
+	}
+}
+
+class test_serialize : Object, SimpleTestCase<test_TimerBreakController> {
+	public void run(test_TimerBreakController context) {
+		// TODO: Test that break controller is being serialized correctly
+	}
+}
+
+class test_deserialize : Object, SimpleTestCase<test_TimerBreakController> {
+	public void run(test_TimerBreakController context) {
+		// TODO: Test that break controller is being deserialized correctly
 	}
 }

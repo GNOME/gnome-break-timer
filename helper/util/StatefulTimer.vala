@@ -37,6 +37,19 @@ public class StatefulTimer : Object {
 		this.state = State.COUNTING;
 	}
 
+	public string serialize() {
+		return string.joinv(",", {
+			((int)this.state).to_string(),
+			this.lap_start.to_string()
+		});
+	}
+
+	public void deserialize(string data) {
+		string[] data_parts = data.split(",");
+		this.state = (State)int.parse(data_parts[0]);
+		this.lap_start = double.parse(data_parts[1]);
+	}
+
 	public inline bool is_stopped() {
 		return ! this.is_counting();
 	}

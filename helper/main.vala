@@ -15,8 +15,15 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+static HelperApplication application;
+
 public int main(string[] args) {
-	HelperApplication application = new HelperApplication();
+	application = new HelperApplication();
+	Posix.signal(Posix.SIGINT, sigint_cb);
 	int status = application.run(args);
 	return status;
+}
+
+void sigint_cb(int signal_number) {
+	application.quit();
 }

@@ -69,11 +69,33 @@ public abstract class BreakController : Object {
 	/** The break is active and it has progressed in some fashion (for example, remaining time has changed). */
 	public signal void active_changed();
 
-	private int64? activate_timestamp;
+	private int64? activate_timestamp {get; set;}
 	
 	public BreakController() {
 		this.state = State.DISABLED;
 		this.activate_timestamp = null;
+	}
+
+	/* We use our own serialization / deserializaiton interface because we expect to deserialize json data into existing objects */
+
+	public virtual Json.Object serialize() {
+		Json.Object json_root = new Json.Object();
+		json_root.set_int_member("state", (int)this.state);
+		if (this.activate_timestamp == null) {
+			json_root.set_null_member("activate_timestamp");
+		} else {
+			json_root.set_int_member("activate_timestamp", this.activate_timestamp);
+		}
+		return json_root;
+	}
+
+	public virtual void deserialize(ref Json.Object json_root) {
+		this.state = (State)json_root.get_int_member("state");
+		if (json_root.get_null_member("activate_timestamp")) {
+			this.activate_timestamp = null;
+		} else {
+			this.activate_timestamp = json_root.get_int_member("activate_timestamp");
+		}
 	}
 	
 	/**

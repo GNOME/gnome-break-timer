@@ -27,20 +27,21 @@ public abstract class TimerBreakController : BreakController {
 	public int interval {get; set;}
 	public int duration {get; set;}
 	
-	protected Countdown interval_countdown;
-	protected Countdown duration_countdown;
-	protected PausableTimeout countdowns_timeout;
+	protected Countdown interval_countdown {get; set;}
+	protected Countdown duration_countdown {get; set;}
+	protected PausableTimeout countdowns_timeout {get; set;}
 
-	protected int fuzzy_seconds = 0;
+	protected int fuzzy_seconds;
 
 	private StatefulTimer counting_timer = new StatefulTimer();
 	private StatefulTimer delayed_timer = new StatefulTimer();
 
 	private ActivityMonitor activity_monitor;
 	
-	public TimerBreakController(ActivityMonitor activity_monitor) {
+	public TimerBreakController(ActivityMonitor activity_monitor, int fuzzy_seconds = 0) {
 		base();
 		this.activity_monitor = activity_monitor;
+		this.fuzzy_seconds = fuzzy_seconds;
 		
 		this.interval_countdown = new Countdown(this.interval);
 		this.duration_countdown = new Countdown(this.duration);
@@ -69,6 +70,25 @@ public abstract class TimerBreakController : BreakController {
 	public signal void counting(int lap_time, int total_time);
 	/** Fires as long as the break is active but is not counting down. */
 	public signal void delayed(int lap_time, int total_time);
+
+	public override Json.Object serialize() {
+		Json.Object json_root = base.serialize();
+		json_root.set_string_member("interval_countdown", this.interval_countdown.serialize());
+		json_root.set_string_member("duration_countdown", this.duration_countdown.serialize());
+		json_root.set_string_member("countdowns_timeout", this.countdowns_timeout.serialize());
+		json_root.set_string_member("counting_timer", this.counting_timer.serialize());
+		json_root.set_string_member("delayed_timer", this.delayed_timer.serialize());
+		return json_root;
+	}
+
+	public override void deserialize(ref Json.Object json_root) {
+		base.deserialize(ref json_root);
+		this.interval_countdown.deserialize(json_root.get_string_member("interval_countdown"));
+		this.duration_countdown.deserialize(json_root.get_string_member("duration_countdown"));
+		this.countdowns_timeout.deserialize(json_root.get_string_member("countdowns_timeout"));
+		this.counting_timer.deserialize(json_root.get_string_member("counting_timer"));
+		this.delayed_timer.deserialize(json_root.get_string_member("delayed_timer"));
+	}
 	
 	private void enabled_cb() {
 		this.interval_countdown.continue();

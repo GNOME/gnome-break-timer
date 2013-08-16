@@ -23,8 +23,7 @@
  */
 public class MicroBreakController : TimerBreakController {
 	public MicroBreakController(ActivityMonitor activity_monitor) {
-		base(activity_monitor);
-		this.fuzzy_seconds = 0;
+		base(activity_monitor, 0);
 
 		this.delayed.connect(this.delayed_cb);
 	}

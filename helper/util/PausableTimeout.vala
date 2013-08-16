@@ -25,13 +25,26 @@ public class PausableTimeout : Object {
 	public delegate void TimeoutCB(PausableTimeout timeout, int delta_millisecs);
 	
 	private unowned TimeoutCB timeout_cb;
-	private int frequency;
 	private uint source_id;
+	private int frequency;
 	private int64 last_time;
 	
 	public PausableTimeout(TimeoutCB callback, int frequency) {
 		this.timeout_cb = callback;
 		this.frequency = frequency;
+	}
+
+	public string serialize() {
+		return string.joinv(",", {
+			this.frequency.to_string(),
+			this.last_time.to_string()
+		});
+	}
+
+	public void deserialize(string data) {
+		string[] data_parts = data.split(",");
+		this.frequency = int.parse(data_parts[0]);
+		this.last_time = int64.parse(data_parts[1]);
 	}
 	
 	private bool timeout_wrapper() {

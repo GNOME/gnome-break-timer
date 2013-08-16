@@ -39,6 +39,21 @@ public class Countdown : Object {
 		this.base_duration = base_duration;
 		this.reset();
 	}
+
+	public string serialize() {
+		return string.joinv(",", {
+			this.start_time.to_string(),
+			this.stop_time_elapsed.to_string(),
+			this.penalty.to_string()
+		});
+	}
+
+	public void deserialize(string data) {
+		string[] data_parts = data.split(",");
+		this.start_time = int64.parse(data_parts[0]);
+		this.stop_time_elapsed = int.parse(data_parts[1]);
+		this.penalty = int.parse(data_parts[2]);
+	}
 	
 	/**
 	 * Stop the countdown and forget its current position.

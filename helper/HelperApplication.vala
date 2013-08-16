@@ -102,4 +102,10 @@ public class HelperApplication : Gtk.Application {
 			Bus.own_name_on_connection(connection, HELPER_BUS_NAME, BusNameOwnerFlags.REPLACE, null, null);
 		}
 	}
+
+	public override void shutdown() {
+		base.shutdown();
+
+		this.break_manager.dump_state();
+	}
 }
