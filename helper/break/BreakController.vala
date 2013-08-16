@@ -76,8 +76,6 @@ public abstract class BreakController : Object {
 		this.activate_timestamp = null;
 	}
 
-	/* We use our own serialization / deserializaiton interface because we expect to deserialize json data into existing objects */
-
 	public virtual Json.Object serialize() {
 		Json.Object json_root = new Json.Object();
 		json_root.set_int_member("state", (int)this.state);
@@ -89,8 +87,20 @@ public abstract class BreakController : Object {
 		return json_root;
 	}
 
+	// FIXME: we need to suppress the "finished" notification if the break finishes immediately after this,
+	// but only when we deserialize on program start.
 	public virtual void deserialize(ref Json.Object json_root) {
-		this.state = (State)json_root.get_int_member("state");
+		switch ((State)json_root.get_int_member("state")) {
+			case State.WAITING:
+				this.state = State.WAITING;
+				break;
+			case State.ACTIVE:
+				this.activate();
+				break;
+			case State.DISABLED:
+				this.set_enabled(false);
+				break;
+		}
 		if (json_root.get_null_member("activate_timestamp")) {
 			this.activate_timestamp = null;
 		} else {

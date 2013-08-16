@@ -43,6 +43,17 @@ public class RestBreakController : TimerBreakController {
 		this.delayed.connect(this.delayed_cb);
 	}
 
+	public override Json.Object serialize() {
+		Json.Object json_root = base.serialize();
+		json_root.set_string_member("reminder_countdown", this.reminder_countdown.serialize());
+		return json_root;
+	}
+
+	public override void deserialize(ref Json.Object json_root) {
+		base.deserialize(ref json_root);
+		this.reminder_countdown.deserialize(json_root.get_string_member("reminder_countdown"));
+	}
+
 	private void counting_cb(int lap_time, int total_time) {
 		this.reminder_countdown.pause();
 		if (lap_time > 60) {

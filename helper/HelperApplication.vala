@@ -50,12 +50,17 @@ public class HelperApplication : Gtk.Application {
 	private BreakManager break_manager;
 	private UIManager ui_manager;
 
+	private string cache_path;
+
 	public HelperApplication() {
 		Object(application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
-		GLib.Environment.set_application_name(app_name);
+		Environment.set_application_name(app_name);
 		
 		// Keep running for one minute after the last break is disabled
 		this.set_inactivity_timeout(60 * 1000);
+
+		string user_cache_path = Environment.get_user_cache_dir();
+		this.cache_path = Path.build_filename(user_cache_path, "gnome-break-timer");
 	}
 
 	public override void activate() {
@@ -97,6 +102,8 @@ public class HelperApplication : Gtk.Application {
 		this.break_manager = new BreakManager(ui_manager);
 		this.break_manager.load_breaks(activity_monitor);
 
+		this.restore_state();
+
 		var connection = this.get_dbus_connection();
 		if (connection != null) {
 			Bus.own_name_on_connection(connection, HELPER_BUS_NAME, BusNameOwnerFlags.REPLACE, null, null);
@@ -106,6 +113,28 @@ public class HelperApplication : Gtk.Application {
 	public override void shutdown() {
 		base.shutdown();
 
-		this.break_manager.dump_state();
+		this.save_state();
+	}
+
+	private void save_state() {
+		File cache_dir = File.new_for_path(this.cache_path);
+		File state_file = cache_dir.get_child("breaks-state");
+
+		try {
+			OutputStream state_stream = state_file.replace(null, false, FileCreateFlags.NONE);
+			this.break_manager.write_state(state_stream);
+		} catch (Error e) {
+			GLib.warning("Error writing to breaks state file: %s", e.message);
+		}
+	}
+
+	private void restore_state() {
+		File cache_dir = File.new_for_path(this.cache_path);
+		File state_file = cache_dir.get_child("breaks-state");
+
+		if (state_file.query_exists()) {
+			InputStream state_stream = state_file.read();
+			this.break_manager.load_state(state_stream);
+		}
 	}
 }

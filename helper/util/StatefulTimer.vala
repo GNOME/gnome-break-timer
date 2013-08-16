@@ -30,6 +30,7 @@ public class StatefulTimer : Object {
 	public State state {public get; private set;}
 
 	private Timer timer;
+	private double timer_error;
 	private double lap_start;
 
 	public StatefulTimer() {
@@ -40,14 +41,25 @@ public class StatefulTimer : Object {
 	public string serialize() {
 		return string.joinv(",", {
 			((int)this.state).to_string(),
+			this.elapsed().to_string(),
 			this.lap_start.to_string()
 		});
 	}
 
 	public void deserialize(string data) {
 		string[] data_parts = data.split(",");
-		this.state = (State)int.parse(data_parts[0]);
-		this.lap_start = double.parse(data_parts[1]);
+		State old_state = (State)int.parse(data_parts[0]);
+		double old_elapsed = double.parse(data_parts[1]);
+		double old_lap_start = double.parse(data_parts[2]);
+
+		// We need to update the timer (which was not serialized) according to the State variable
+		if (old_state == State.STOPPED) {
+			this.stop();
+		} else if (old_state == State.COUNTING) {
+			this.start();
+		}
+		this.timer_error = this.elapsed() - old_elapsed;
+		this.lap_start = old_lap_start;
 	}
 
 	public inline bool is_stopped() {
@@ -61,6 +73,7 @@ public class StatefulTimer : Object {
 	public void start() {
 		this.timer.start();
 		this.state = State.COUNTING;
+		this.timer_error = 0;
 		this.lap_start = 0;
 	}
 
@@ -75,7 +88,7 @@ public class StatefulTimer : Object {
 	}
 
 	public double elapsed() {
-		return this.timer.elapsed();
+		return this.timer.elapsed() - this.timer_error;
 	}
 
 	public void reset() {
@@ -88,7 +101,7 @@ public class StatefulTimer : Object {
 	 */
 	public void start_lap() {
 		if (this.is_stopped()) this.continue();
-		this.lap_start = this.timer.elapsed();
+		this.lap_start = this.elapsed();
 	}
 
 	/**
@@ -97,7 +110,7 @@ public class StatefulTimer : Object {
 	 * @see start_lap
 	 */
 	public double lap_time() {
-		return this.timer.elapsed() - this.lap_start;
+		return this.elapsed() - this.lap_start;
 	}
 
 	/**

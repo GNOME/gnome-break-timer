@@ -48,10 +48,8 @@ public class BreakManager : Object {
 		}
 	}
 
-	public void dump_state() {
+	public bool write_state(OutputStream output_stream) throws Error {
 		Json.Generator generator = new Json.Generator();
-		generator.pretty = true;
-
 		Json.Node root = new Json.Node(Json.NodeType.OBJECT);
 		Json.Object root_object = new Json.Object();
 		root.set_object(root_object);
@@ -62,9 +60,23 @@ public class BreakManager : Object {
 			root_object.set_object_member(break_type.id, break_json);
 		}
 
-		size_t data_length;
-		string data = generator.to_data(out data_length);
-		GLib.debug("State on exit: %s", data);
+		return generator.to_stream(output_stream);
+	}
+
+	public void load_state(InputStream input_stream) throws Error {
+		Json.Parser parser = new Json.Parser();
+		if (parser.load_from_stream(input_stream)) {
+			Json.Node? root = parser.get_root();
+			if (root != null) {
+				Json.Object root_object = root.get_object();
+				foreach (BreakType break_type in this.all_breaks()) {
+					Json.Object break_json = root_object.get_object_member(break_type.id);
+					if (break_json != null) {
+						break_type.break_controller.deserialize(ref break_json);
+					}
+				}
+			}
+		}
 	}
 	
 	public void load_breaks(ActivityMonitor activity_monitor) {

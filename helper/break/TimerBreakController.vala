@@ -27,9 +27,9 @@ public abstract class TimerBreakController : BreakController {
 	public int interval {get; set;}
 	public int duration {get; set;}
 	
-	protected Countdown interval_countdown {get; set;}
-	protected Countdown duration_countdown {get; set;}
-	protected PausableTimeout countdowns_timeout {get; set;}
+	protected Countdown interval_countdown;
+	protected Countdown duration_countdown;
+	protected PausableTimeout countdowns_timeout;
 
 	protected int fuzzy_seconds;
 
