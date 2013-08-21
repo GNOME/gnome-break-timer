@@ -90,18 +90,9 @@ public abstract class BreakController : Object {
 	// FIXME: we need to suppress the "finished" notification if the break finishes immediately after this,
 	// but only when we deserialize on program start.
 	public virtual void deserialize(ref Json.Object json_root) {
-		switch ((State)json_root.get_int_member("state")) {
-			case State.WAITING:
-				this.set_enabled(true);
-				break;
-			case State.ACTIVE:
-				this.set_enabled(true);
-				this.activate();
-				break;
-			case State.DISABLED:
-				this.set_enabled(false);
-				break;
-		}
+		State serialized_state = (State)json_root.get_int_member("state");
+		if (serialized_state == State.ACTIVE) this.activate();
+
 		if (json_root.get_null_member("activate_timestamp")) {
 			this.activate_timestamp = null;
 		} else {

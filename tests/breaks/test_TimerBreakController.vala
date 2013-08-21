@@ -76,6 +76,7 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
 		this.break_controller = new testable_TimerBreakController(this.activity_monitor);
 		this.break_controller.interval = DEFAULT_INTERVAL;
 		this.break_controller.duration = DEFAULT_DURATION;
+		this.break_controller.set_enabled(true);
 
 		this.break_controller.enabled.connect(() => { this.log_break_message("enabled"); } );
 		this.break_controller.disabled.connect(() => { this.log_break_message("disabled"); } );
@@ -112,6 +113,8 @@ public class testable_TimerBreakController : TimerBreakController {
 
 class test_start_disabled : Object, SimpleTestCase<test_TimerBreakController> {
 	public void run(test_TimerBreakController context) {
+		context.break_controller.set_enabled(false);
+
 		assert(context.break_controller.is_enabled() == false);
 		assert(context.break_controller.is_active() == false);
 		assert(context.break_controller.get_seconds_since_start() == 0);
@@ -120,14 +123,14 @@ class test_start_disabled : Object, SimpleTestCase<test_TimerBreakController> {
 		context.break_controller.activate();
 
 		assert(context.break_controller.is_enabled() == false);
-		assert(context.break_log.size == 0);
+		assert(context.break_log.last() == "disabled");
 	}
 }
 
 class test_enable_and_idle : Object, SimpleTestCase<test_TimerBreakController> {
 	public void run(test_TimerBreakController context) {
-		context.break_controller.set_enabled(true);
-		assert(context.break_log.last() == "enabled");
+		// break_controller is enabled by default (emulating the behaviour of BreakManager with default settings)
+		assert(context.break_controller.is_enabled());
 
 		int expected_starts_in = test_TimerBreakController.DEFAULT_INTERVAL;
 		int expected_remaining = test_TimerBreakController.DEFAULT_DURATION;
@@ -157,8 +160,6 @@ class test_enable_and_idle : Object, SimpleTestCase<test_TimerBreakController> {
 
 class test_enable_and_active : Object, SimpleTestCase<test_TimerBreakController> {
 	public void run(test_TimerBreakController context) {
-		context.break_controller.set_enabled(true);
-
 		int expected_starts_in = test_TimerBreakController.DEFAULT_INTERVAL;
 		int expected_remaining = test_TimerBreakController.DEFAULT_DURATION;
 
@@ -216,8 +217,6 @@ class test_enable_and_active : Object, SimpleTestCase<test_TimerBreakController>
 
 class test_force_activate : Object, SimpleTestCase<test_TimerBreakController> {
 	public void run(test_TimerBreakController context) {
-		context.break_controller.set_enabled(true);
-
 		int expected_remaining = test_TimerBreakController.DEFAULT_DURATION;
 
 		context.break_controller.activate();
@@ -236,8 +235,6 @@ class test_force_activate : Object, SimpleTestCase<test_TimerBreakController> {
 
 class test_postpone : Object, SimpleTestCase<test_TimerBreakController> {
 	public void run(test_TimerBreakController context) {
-		context.break_controller.set_enabled(true);
-
 		int expected_starts_in = test_TimerBreakController.DEFAULT_INTERVAL;
 		int expected_remaining = test_TimerBreakController.DEFAULT_DURATION;
 
@@ -270,7 +267,6 @@ class test_postpone : Object, SimpleTestCase<test_TimerBreakController> {
 
 class test_serialize : Object, SimpleTestCase<test_TimerBreakController> {
 	public void run(test_TimerBreakController context) {
-		context.break_controller.set_enabled(true);
 		var initial_json = context.save_state();
 
 		for (int step = 0; step < 50; step++) {
