@@ -38,13 +38,13 @@ PKG_CHECK_MODULES([CFG_CORE], [
 	gio-2.0 >= 2.30.0
 	gio-unix-2.0 >= 2.30.0
 	gtk+-3.0 >= $GTK_REQUIRED
+	json-glib-1.0 >= 0.16.0
 ])
 
 PKG_CHECK_MODULES([CFG_HELPER], [
 	libcanberra >= 0.28
 	libcanberra-gtk3 >= 0.28
 	libnotify >= 0.4.5
-	json-glib-1.0 >= 0.16.0
 ])
 
 PKG_CHECK_MODULES([CFG_ACTIVITY_MONITOR], [

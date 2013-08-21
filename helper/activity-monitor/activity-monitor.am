@@ -7,6 +7,7 @@ HELPER_ACTIVITY_MONITOR_SOURCES = \
 
 HELPER_ACTIVITY_MONITOR_VALAFLAGS = \
 	--pkg gdk-x11-3.0 \
+	--pkg json-glib-1.0 \
 	--pkg common \
 	--pkg util
 
