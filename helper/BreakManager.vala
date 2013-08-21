@@ -48,33 +48,20 @@ public class BreakManager : Object {
 		}
 	}
 
-	public bool write_state(OutputStream output_stream) throws Error {
-		Json.Generator generator = new Json.Generator();
-		Json.Node root = new Json.Node(Json.NodeType.OBJECT);
-		Json.Object root_object = new Json.Object();
-		root.set_object(root_object);
-		generator.set_root(root);
-
+	public Json.Object serialize() {
+		Json.Object json_root = new Json.Object();
 		foreach (BreakType break_type in this.all_breaks()) {
 			Json.Object break_json = break_type.break_controller.serialize();
-			root_object.set_object_member(break_type.id, break_json);
+			json_root.set_object_member(break_type.id, break_json);
 		}
-
-		return generator.to_stream(output_stream);
+		return json_root;
 	}
 
-	public void load_state(InputStream input_stream) throws Error {
-		Json.Parser parser = new Json.Parser();
-		if (parser.load_from_stream(input_stream)) {
-			Json.Node? root = parser.get_root();
-			if (root != null) {
-				Json.Object root_object = root.get_object();
-				foreach (BreakType break_type in this.all_breaks()) {
-					Json.Object break_json = root_object.get_object_member(break_type.id);
-					if (break_json != null) {
-						break_type.break_controller.deserialize(ref break_json);
-					}
-				}
+	public void deserialize(ref Json.Object json_root) {
+		foreach (BreakType break_type in this.all_breaks()) {
+			Json.Object break_json = json_root.get_object_member(break_type.id);
+			if (break_json != null) {
+				break_type.break_controller.deserialize(ref break_json);
 			}
 		}
 	}

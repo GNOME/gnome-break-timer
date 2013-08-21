@@ -41,18 +41,48 @@ public class Countdown : Object {
 	}
 
 	public string serialize() {
+		int serialized_time_counted = (int)(Util.get_real_time_seconds() - this.start_time);
+		serialized_time_counted = int.max(0, serialized_time_counted);
+
 		return string.joinv(",", {
+			((int)this.state).to_string(),
 			this.start_time.to_string(),
 			this.stop_time_elapsed.to_string(),
-			this.penalty.to_string()
+			this.penalty.to_string(),
+			serialized_time_counted.to_string()
 		});
 	}
 
-	public void deserialize(string data) {
+	public void deserialize(string data, bool persistent = false) {
 		string[] data_parts = data.split(",");
-		this.start_time = int64.parse(data_parts[0]);
-		this.stop_time_elapsed = int.parse(data_parts[1]);
-		this.penalty = int.parse(data_parts[2]);
+
+		State serialized_state = (State)int.parse(data_parts[0]);
+
+		switch (serialized_state) {
+			case State.STOPPED:
+				this.reset();
+				break;
+			case State.PAUSED:
+				this.pause();
+				break;
+			case State.COUNTING:
+				this.start();
+				break;
+		}
+
+		this.stop_time_elapsed = int.parse(data_parts[2]);
+		this.penalty = int.parse(data_parts[3]);
+
+		if (persistent) {
+			// Pretend the countdown has been running since it was serialized
+			this.start_time = int64.parse(data_parts[1]);
+		} else {
+			// Resume where the timer left off
+			if (serialized_state == State.COUNTING) {
+				int serialized_time_counted = int.parse(data_parts[4]);
+				this.advance_time(serialized_time_counted);
+			}
+		}
 	}
 	
 	/**
@@ -104,9 +134,18 @@ public class Countdown : Object {
 	}
 	
 	public void continue_from(int start_offset) {
-		int64 now = Util.get_real_time_seconds();
-		this.start_time = now + start_offset;
-		this.state = State.COUNTING;
+		if (this.state < State.COUNTING) {
+			int64 now = Util.get_real_time_seconds();
+			this.start_time = now + start_offset;
+			this.state = State.COUNTING;
+		}
+	}
+
+	public void cancel_pause() {
+		if (this.state == State.PAUSED) {
+			this.stop_time_elapsed = 0;
+			this.state = State.COUNTING;
+		}
 	}
 
 	public void advance_time(int seconds_off) {

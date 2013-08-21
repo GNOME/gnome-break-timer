@@ -201,8 +201,8 @@ public class TestSuiteWithActivityMonitor : SimpleTestSuite {
 	public ActivityMonitor activity_monitor;
 	public Gee.List<ActivityMonitor.UserActivity?> activity_log;
 
-	public const int START_REAL_TIME = 1000000;
-	public const int START_MONOTONIC_TIME = 5;
+	public const int64 START_REAL_TIME = 100000 * Util.MICROSECONDS_IN_SECONDS;
+	public const int64 START_MONOTONIC_TIME = 50 * Util.MICROSECONDS_IN_SECONDS;
 
 	public override void setup() {
 		base.setup();
@@ -212,13 +212,7 @@ public class TestSuiteWithActivityMonitor : SimpleTestSuite {
 		Util._override_monotonic_time = START_MONOTONIC_TIME;
 
 		this.activity_log = new Gee.ArrayList<ActivityMonitor.UserActivity?>();
-		this.activity_monitor_backend = new testable_ActivityMonitorBackend();
-		this.activity_monitor_backend.idle_seconds = START_MONOTONIC_TIME;
-		this.session_status = new testable_SessionStatus();
-		this.activity_monitor = new ActivityMonitor(session_status, activity_monitor_backend);
-		this.activity_monitor.detected_idle.connect(this.log_activity);
-		this.activity_monitor.detected_activity.connect(this.log_activity);
-		this.activity_monitor.stop();
+		this.refresh_environment();
 	}
 	
 	public override void teardown() {
@@ -227,14 +221,23 @@ public class TestSuiteWithActivityMonitor : SimpleTestSuite {
 		Util._override_monotonic_time = 0;
 	}
 
+	public virtual void refresh_environment() {
+		// We keep _override_real_time as it is, because time never goes backward within a test case
+		Util._override_monotonic_time = START_MONOTONIC_TIME;
+
+		this.activity_log.clear();
+		this.activity_monitor_backend = new testable_ActivityMonitorBackend();
+		this.session_status = new testable_SessionStatus();
+		this.activity_monitor = new ActivityMonitor(session_status, activity_monitor_backend);
+		this.activity_monitor.detected_idle.connect(this.log_activity);
+		this.activity_monitor.detected_activity.connect(this.log_activity);
+		this.activity_monitor.stop();
+	}
+
 	public virtual void time_step(bool is_active, int real_seconds, int monotonic_seconds) {
 		Util._override_real_time += real_seconds * Util.MICROSECONDS_IN_SECONDS;
 		Util._override_monotonic_time += monotonic_seconds * Util.MICROSECONDS_IN_SECONDS;
-		if (is_active) {
-			this.activity_monitor_backend.idle_seconds = 0;
-		} else {
-			this.activity_monitor_backend.idle_seconds += monotonic_seconds;
-		}
+		if (is_active) this.activity_monitor_backend.push_activity();
 		this.activity_monitor.poll_activity();
 	}
 
@@ -246,11 +249,23 @@ public class TestSuiteWithActivityMonitor : SimpleTestSuite {
 
 // We also need special testable implementations of certain classes and interfaces
 
-public class testable_ActivityMonitorBackend : Object, IActivityMonitorBackend {
-	public int idle_seconds = 0;
+public class testable_ActivityMonitorBackend : ActivityMonitorBackend {
+	public int64 last_event_time = 0;
+	public int64 start_time = 0;
 
-	public int get_idle_seconds() {
-		return this.idle_seconds;
+	public testable_ActivityMonitorBackend() {
+		this.start_time = Util.get_monotonic_time_seconds() - 10;
+	}
+
+	public void push_activity() {
+		this.last_event_time = Util.get_monotonic_time_seconds();
+	}
+
+	protected override int time_since_last_event() {
+		int64 now_monotonic = Util.get_monotonic_time_seconds();
+		int64 event_time = this.last_event_time;
+		if (event_time == 0) event_time = this.start_time;
+		return (int) (now_monotonic - event_time);
 	}
 }
 

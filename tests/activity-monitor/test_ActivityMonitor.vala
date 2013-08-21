@@ -30,14 +30,13 @@ class test_simple_idle : Object, SimpleTestCase<test_ActivityMonitor> {
 	public void run(test_ActivityMonitor context) {
 		context.session_status.virt_is_locked = false;
 		context.time_step(false, 0, 0);
-
 		context.time_step(false, 1, 1);
 
 		assert(context.activity_log.size == 2);
 
 		assert(context.activity_log[0].type == ActivityMonitor.ActivityType.NONE);
 		assert(context.activity_log[0].is_active() == false);
-		assert(context.activity_log[0].idle_time > 0);
+		assert(context.activity_log[0].idle_time == 10);
 
 		assert(context.activity_log[1].type == ActivityMonitor.ActivityType.NONE);
 		assert(context.activity_log[1].is_active() == false);
@@ -48,7 +47,7 @@ class test_simple_idle : Object, SimpleTestCase<test_ActivityMonitor> {
 class test_simple_active : Object, SimpleTestCase<test_ActivityMonitor> {
 	public void run(test_ActivityMonitor context) {
 		context.session_status.virt_is_locked = false;
-		context.time_step(true, 0, 0);
+		context.time_step(true, 1, 1);
 
 		context.time_step(true, 1, 1);
 

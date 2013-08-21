@@ -18,6 +18,7 @@
 public class HelperApplication : Gtk.Application {
 	const string app_id = HELPER_BUS_NAME+".Helper";
 	const string app_name = _("GNOME Break Timer");
+	const int DATA_VERSION = 0;
 	
 	/* FIXME: font-size should have units, but we can only do that with GTK 3.8 and later */
 	static const string STYLE_DATA =
@@ -48,6 +49,9 @@ public class HelperApplication : Gtk.Application {
 			""";
 
 	private BreakManager break_manager;
+	private ISessionStatus session_status;
+	private ActivityMonitorBackend activity_monitor_backend;
+	private ActivityMonitor activity_monitor;
 	private UIManager ui_manager;
 
 	private string cache_path;
@@ -88,21 +92,22 @@ public class HelperApplication : Gtk.Application {
 			Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
 		);
 		
-		var session_status = new SessionStatus(this);
+		this.session_status = new SessionStatus(this);
 
-		IActivityMonitorBackend activity_monitor_backend;
 		try {
-			activity_monitor_backend = new X11ActivityMonitorBackend();
+			this.activity_monitor_backend = new X11ActivityMonitorBackend();
 		} catch {
 			GLib.error("Failed to initialize activity monitor backend");
 		}
-		var activity_monitor = new ActivityMonitor(session_status, activity_monitor_backend);
-
+		this.activity_monitor = new ActivityMonitor(session_status, activity_monitor_backend);
+		
 		this.ui_manager = new UIManager(this, session_status, false);
 		this.break_manager = new BreakManager(ui_manager);
 		this.break_manager.load_breaks(activity_monitor);
 
 		this.restore_state();
+
+		this.activity_monitor.start();
 
 		var connection = this.get_dbus_connection();
 		if (connection != null) {
@@ -116,25 +121,60 @@ public class HelperApplication : Gtk.Application {
 		this.save_state();
 	}
 
-	private void save_state() {
+	private File get_state_file() {
 		File cache_dir = File.new_for_path(this.cache_path);
-		File state_file = cache_dir.get_child("breaks-state");
+		try {
+			if (! cache_dir.query_exists()) cache_dir.make_directory_with_parents();
+		} catch (Error e) {
+			GLib.warning("Error creating cache directory: %s", e.message);
+		}
+		string state_file_name = "last-state-%d".printf(DATA_VERSION);
+		return cache_dir.get_child(state_file_name);
+	}
+
+	private void save_state() {
+		File state_file = this.get_state_file();
+
+		Json.Generator generator = new Json.Generator();
+		Json.Node root = new Json.Node(Json.NodeType.OBJECT);
+		Json.Object root_object = new Json.Object();
+		root.set_object(root_object);
+		generator.set_root(root);
+
+		root_object.set_object_member("break_manager", this.break_manager.serialize());
+		root_object.set_object_member("activity_monitor_backend", this.activity_monitor_backend.serialize());
+		root_object.set_object_member("activity_monitor", this.activity_monitor.serialize());
 
 		try {
 			OutputStream state_stream = state_file.replace(null, false, FileCreateFlags.NONE);
-			this.break_manager.write_state(state_stream);
+			generator.to_stream(state_stream);
 		} catch (Error e) {
 			GLib.warning("Error writing to breaks state file: %s", e.message);
 		}
 	}
 
 	private void restore_state() {
-		File cache_dir = File.new_for_path(this.cache_path);
-		File state_file = cache_dir.get_child("breaks-state");
-
+		File state_file = this.get_state_file();
 		if (state_file.query_exists()) {
 			InputStream state_stream = state_file.read();
-			this.break_manager.load_state(state_stream);
+			Json.Parser parser = new Json.Parser();
+			parser.load_from_stream(state_stream);
+
+			Json.Node? root = parser.get_root();
+			if (root != null) {
+				Json.Object root_object = root.get_object();
+
+				Json.Object break_manager_json = root_object.get_object_member("break_manager");
+				this.break_manager.deserialize(ref break_manager_json);
+
+				Json.Object activity_monitor_backend_json = root_object.get_object_member("activity_monitor_backend");
+				this.activity_monitor_backend.deserialize(ref activity_monitor_backend_json);
+
+				Json.Object activity_monitor_json = root_object.get_object_member("activity_monitor");
+				this.activity_monitor.deserialize(ref activity_monitor_json);
+
+				this.activity_monitor.poll_activity();
+			}
 		}
 	}
 }

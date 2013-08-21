@@ -15,10 +15,6 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public interface IActivityMonitorBackend : Object {
-	public abstract int get_idle_seconds();
-}
-
 public class ActivityMonitor : Object {
 	public enum ActivityType {
 		SLEEP,
@@ -34,6 +30,24 @@ public class ActivityMonitor : Object {
 		public int time_since_active;
 		public int time_correction;
 
+		public Json.Object serialize() {
+			Json.Object json_root = new Json.Object();
+			json_root.set_int_member("type", (int)this.type);
+			json_root.set_int_member("idle_time", this.idle_time);
+			json_root.set_int_member("time_since_active", this.time_since_active);
+			json_root.set_int_member("time_correction", this.time_correction);
+			return json_root;
+		}
+
+		public static UserActivity deserialize(ref Json.Object json_root) {
+			return UserActivity() {
+				type = (ActivityType)json_root.get_int_member("type"),
+				idle_time = (int)json_root.get_int_member("idle_time"),
+				time_since_active = (int)json_root.get_int_member("time_since_active"),
+				time_correction = (int)json_root.get_int_member("time_correction")
+			};
+		}
+
 		public bool is_active() {
 			return this.type > ActivityType.NONE;
 		}
@@ -47,9 +61,9 @@ public class ActivityMonitor : Object {
 	private int64 last_active_timestamp;
 
 	private ISessionStatus session_status;
-	private IActivityMonitorBackend backend;
+	private ActivityMonitorBackend backend;
 	
-	public ActivityMonitor(ISessionStatus session_status, IActivityMonitorBackend backend) {
+	public ActivityMonitor(ISessionStatus session_status, ActivityMonitorBackend backend) {
 		this.session_status = session_status;
 		this.backend = backend;
 
@@ -57,6 +71,19 @@ public class ActivityMonitor : Object {
 		session_status.unlocked.connect(this.unlocked_cb);
 		
 		this.last_activity = UserActivity();
+	}
+
+	public Json.Object serialize() {
+		Json.Object json_root = new Json.Object();
+		json_root.set_int_member("last_active_timestamp", this.last_active_timestamp);
+		json_root.set_object_member("last_activity", this.last_activity.serialize());
+		return json_root;
+	}
+
+	public void deserialize(ref Json.Object json_root) {
+		this.last_active_timestamp = json_root.get_int_member("last_active_timestamp");
+		Json.Object? last_activity_json = json_root.get_object_member("last_activity");
+		this.last_activity = UserActivity.deserialize(ref last_activity_json);
 	}
 
 	public void start() {
@@ -70,22 +97,6 @@ public class ActivityMonitor : Object {
 	public void poll_activity() {
 		UserActivity activity = this.collect_activity();
 		this.add_activity(activity);
-	}
-
-	private int64 last_real_time = Util.get_real_time_seconds();
-	private int64 last_monotonic_time = Util.get_monotonic_time_seconds();
-	private int pop_sleep_time() {
-		// Detect if the device has been asleep using the difference between
-		// monotonic time and real time.
-		// TODO: Should we detect when the process is suspended, too?
-		int64 now_real = Util.get_real_time_seconds();
-		int64 now_monotonic = Util.get_monotonic_time_seconds();
-		int real_time_delta = (int) (now_real - this.last_real_time);
-		int monotonic_time_delta = (int) (now_monotonic - this.last_monotonic_time);
-		int sleep_time = (int)(real_time_delta - monotonic_time_delta);
-		this.last_real_time = now_real;
-		this.last_monotonic_time = now_monotonic;
-		return sleep_time;
 	}
 
 	private void poll_activity_cb(PausableTimeout timeout, int delta_millisecs) {
@@ -120,17 +131,16 @@ public class ActivityMonitor : Object {
 	private UserActivity collect_activity() {
 		UserActivity activity;
 
-		int sleep_time = this.pop_sleep_time();
+		int sleep_time = backend.pop_sleep_time();
 		int idle_time = backend.get_idle_seconds();
 		int time_since_active = (int) (Util.get_real_time_seconds() - this.last_active_timestamp);
 
 		// Order is important here: some types of activity (or inactivity)
 		// happen at the same time, and are only reported once.
 
-		if (sleep_time > idle_time + 15) {
+		if (sleep_time > idle_time + 5) {
 			// Detected sleep time exceeds reported idle time by a healthy
-			// margin. We use a magic number to filter out rounding error
-			// converting from microseconds to seconds, among other things.
+			// margin. We use a magic number to filter out strange cases
 			activity = UserActivity() {
 				type = ActivityType.SLEEP,
 				idle_time = 0,
@@ -143,7 +153,7 @@ public class ActivityMonitor : Object {
 				idle_time = idle_time,
 				time_correction = 0
 			};
-		} else if (idle_time <= this.last_activity.idle_time) {
+		} else if (idle_time == 0 || idle_time < this.last_activity.idle_time) {
 			activity = UserActivity() {
 				type = ActivityType.INPUT,
 				idle_time = idle_time,
@@ -168,5 +178,54 @@ public class ActivityMonitor : Object {
 		*/
 		
 		return activity;
+	}
+}
+
+public abstract class ActivityMonitorBackend : Object {
+	private int64 last_real_time = 0;
+	private int64 last_monotonic_time = 0;
+
+	private int? last_idle_time;
+	
+	public virtual Json.Object serialize() {
+		Json.Object json_root = new Json.Object();
+		json_root.set_int_member("last_real_time", this.last_real_time);
+		json_root.set_int_member("last_monotonic_time", this.last_monotonic_time);
+		return json_root;
+	}
+
+	public virtual void deserialize(ref Json.Object json_root) {
+		this.last_real_time = json_root.get_int_member("last_real_time");
+		this.last_monotonic_time = json_root.get_int_member("last_monotonic_time");
+	}
+
+	protected abstract int time_since_last_event();
+
+	public int get_idle_seconds() {
+		return this.time_since_last_event();
+	}
+
+	/** Detect if the device has been asleep using the difference between monotonic time and real time */
+	public int pop_sleep_time() {
+		int sleep_time;
+		int64 now_real = Util.get_real_time_seconds();
+		int64 now_monotonic = Util.get_monotonic_time_seconds();
+		int real_time_delta = (int) (now_real - this.last_real_time);
+		int monotonic_time_delta = (int) (now_monotonic - this.last_monotonic_time).abs();
+		
+		if (this.last_real_time > 0 && this.last_monotonic_time > 0) {
+			if (real_time_delta > monotonic_time_delta) {
+				sleep_time = (int) (real_time_delta - monotonic_time_delta);
+			} else {
+				sleep_time = real_time_delta;
+			}
+		} else {
+			sleep_time = 0;
+		}
+
+		this.last_real_time = now_real;
+		this.last_monotonic_time = now_monotonic;
+
+		return sleep_time;
 	}
 }

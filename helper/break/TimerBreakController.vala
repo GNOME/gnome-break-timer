@@ -35,12 +35,9 @@ public abstract class TimerBreakController : BreakController {
 
 	private StatefulTimer counting_timer = new StatefulTimer();
 	private StatefulTimer delayed_timer = new StatefulTimer();
-
-	private ActivityMonitor activity_monitor;
 	
 	public TimerBreakController(ActivityMonitor activity_monitor, int fuzzy_seconds = 0) {
 		base();
-		this.activity_monitor = activity_monitor;
 		this.fuzzy_seconds = fuzzy_seconds;
 		
 		this.interval_countdown = new Countdown(this.interval);
@@ -56,8 +53,8 @@ public abstract class TimerBreakController : BreakController {
 			if (this.state == State.WAITING) this.unwarn();
 		});
 
-		this.activity_monitor.detected_activity.connect(this.detected_activity_cb);
-		this.activity_monitor.detected_idle.connect(this.detected_idle_cb);
+		activity_monitor.detected_activity.connect(this.detected_activity_cb);
+		activity_monitor.detected_idle.connect(this.detected_idle_cb);
 		
 		this.enabled.connect(this.enabled_cb);
 		this.disabled.connect(this.disabled_cb);
@@ -88,18 +85,19 @@ public abstract class TimerBreakController : BreakController {
 		this.countdowns_timeout.deserialize(json_root.get_string_member("countdowns_timeout"));
 		this.counting_timer.deserialize(json_root.get_string_member("counting_timer"));
 		this.delayed_timer.deserialize(json_root.get_string_member("delayed_timer"));
+
+		this.countdowns_timeout.run_once();
 	}
 	
 	private void enabled_cb() {
 		this.interval_countdown.continue();
-		this.activity_monitor.start();
+		this.duration_countdown.pause();
 		this.countdowns_timeout.start();
 	}
 	
 	private void disabled_cb() {
 		this.interval_countdown.pause();
 		this.duration_countdown.pause();
-		this.activity_monitor.stop();
 		this.countdowns_timeout.stop();
 	}
 	
@@ -165,6 +163,8 @@ public abstract class TimerBreakController : BreakController {
 	}
 
 	private void detected_idle_cb(ActivityMonitor.UserActivity activity) {
+		if (! this.is_enabled()) return;
+
 		if (activity.time_since_active < this.fuzzy_seconds) {
 			this.detected_activity_cb(activity);
 			return;
@@ -200,6 +200,8 @@ public abstract class TimerBreakController : BreakController {
 	}
 
 	private void detected_activity_cb(ActivityMonitor.UserActivity activity) {
+		if (! this.is_enabled()) return;
+
 		int lap_time;
 
 		this.counting_timer.freeze();
@@ -231,9 +233,7 @@ public abstract class TimerBreakController : BreakController {
 		if (this.duration_countdown.is_finished()) {
 			this.duration_countdown.reset();
 			this.finish();
-		}
-
-		if (this.state == State.WAITING) {
+		} else if (this.state == State.WAITING) {
 			if (this.starts_in() == 0) {
 				this.activate();
 			} else if (this.starts_in() <= this.duration) {

@@ -92,9 +92,10 @@ public abstract class BreakController : Object {
 	public virtual void deserialize(ref Json.Object json_root) {
 		switch ((State)json_root.get_int_member("state")) {
 			case State.WAITING:
-				this.state = State.WAITING;
+				this.set_enabled(true);
 				break;
 			case State.ACTIVE:
+				this.set_enabled(true);
 				this.activate();
 				break;
 			case State.DISABLED:
