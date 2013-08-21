@@ -85,8 +85,6 @@ public abstract class TimerBreakController : BreakController {
 		this.countdowns_timeout.deserialize(json_root.get_string_member("countdowns_timeout"));
 		this.counting_timer.deserialize(json_root.get_string_member("counting_timer"));
 		this.delayed_timer.deserialize(json_root.get_string_member("delayed_timer"));
-
-		this.countdowns_timeout.run_once();
 	}
 	
 	private void enabled_cb() {
