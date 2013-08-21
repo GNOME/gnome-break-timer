@@ -311,7 +311,8 @@ class test_serialize : Object, SimpleTestCase<test_TimerBreakController> {
 
 		context.restore_state(ref active_waiting_json);
 		assert(context.break_controller.is_active() == false);
-		context.break_controller.assert_timers(test_TimerBreakController.DEFAULT_INTERVAL - 50, test_TimerBreakController.DEFAULT_DURATION);
+		// The state was saved more than break duration ago, so it is immediately finished.
+		context.break_controller.assert_timers(test_TimerBreakController.DEFAULT_INTERVAL, test_TimerBreakController.DEFAULT_DURATION);
 
 		context.restore_state(ref activated_json);
 		assert(context.break_controller.is_active() == true);

@@ -197,6 +197,7 @@ public abstract class TimerBreakController : BreakController {
 			lap_time,
 			(int)this.counting_timer.elapsed()
 		);
+		this.countdowns_timeout.run_once();
 	}
 
 	private void detected_activity_cb(ActivityMonitor.UserActivity activity) {
@@ -221,6 +222,7 @@ public abstract class TimerBreakController : BreakController {
 			lap_time,
 			(int)this.delayed_timer.elapsed()
 		);
+		this.countdowns_timeout.run_once();
 	}
 
 	/**

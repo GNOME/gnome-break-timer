@@ -150,7 +150,11 @@ public class Countdown : Object {
 
 	public void advance_time(int seconds_off) {
 		int64 now = Util.get_real_time_seconds();
-		this.start_time = now - seconds_off;
+		if (this.state == State.COUNTING) {
+			this.start_time = now - seconds_off;
+		} else {
+			this.stop_time_elapsed += seconds_off;
+		}
 	}
 
 	public void set_penalty(int penalty) {
