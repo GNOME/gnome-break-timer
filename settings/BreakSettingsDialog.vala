@@ -20,6 +20,7 @@ public class BreakSettingsDialog : Gtk.Dialog {
 
 	private BreakConfigurationChooser configuration_chooser;
 	private Gtk.Grid breaks_grid;
+	private Gtk.SizeGroup breaks_group;
 	
 	private static const int ABOUT_BUTTON_RESPONSE = 5;
 	
@@ -61,7 +62,8 @@ public class BreakSettingsDialog : Gtk.Dialog {
 		);
 		settings.bind("selected-breaks", this.configuration_chooser, "selected-break-ids", SettingsBindFlags.DEFAULT);
 
-		this.breaks_grid = new Gtk.Grid();
+		this.breaks_grid = new FixedSizeGrid();
+		this.breaks_group = new Gtk.SizeGroup(Gtk.SizeGroupMode.VERTICAL);
 		content.add(this.breaks_grid);
 		this.breaks_grid.set_orientation(Gtk.Orientation.VERTICAL);
 		
@@ -84,6 +86,9 @@ public class BreakSettingsDialog : Gtk.Dialog {
 	private void break_added_cb(BreakType break_type) {
 		var settings_panel = break_type.settings_panel;
 		breaks_grid.add(settings_panel);
+		this.breaks_group.add_widget(settings_panel);
+		settings_panel.set_valign(Gtk.Align.CENTER);
+		settings_panel.set_vexpand(true);
 		settings_panel.set_margin_top(10);
 		settings_panel.set_margin_bottom(10);
 		this.update_break_configuration();
@@ -95,6 +100,7 @@ public class BreakSettingsDialog : Gtk.Dialog {
 		}
 	}
 }
+
 
 class BreakConfigurationChooser : Gtk.ComboBox {
 	public class Configuration : Object {
@@ -177,3 +183,36 @@ class BreakConfigurationChooser : Gtk.ComboBox {
 	}
 }
 
+
+class FixedSizeGrid : Gtk.Grid {
+	public FixedSizeGrid() {
+		Object();
+	}
+
+	public override void adjust_size_request (Gtk.Orientation orientation, ref int minimum_size, ref int natural_size) {
+		foreach (Gtk.Widget widget in this.get_hidden_children()) {
+			int widget_allocated_size = 0;
+
+			if (orientation == Gtk.Orientation.VERTICAL && this.orientation == Gtk.Orientation.VERTICAL) {
+				widget_allocated_size = widget.get_allocated_height();
+			} else if (orientation == Gtk.Orientation.HORIZONTAL && this.orientation == Gtk.Orientation.HORIZONTAL) {
+				widget_allocated_size = widget.get_allocated_width();
+			}
+
+			minimum_size += widget_allocated_size;
+			natural_size += widget_allocated_size;
+
+			widget.adjust_size_request(orientation, ref minimum_size, ref natural_size);
+		}
+
+		base.adjust_size_request(orientation, ref minimum_size, ref natural_size);
+	}
+
+	private List<weak Gtk.Widget> get_hidden_children() {
+		var hidden_children = new List<weak Gtk.Widget>();
+		foreach (Gtk.Widget widget in this.get_children()) {
+			if (! widget.is_visible()) hidden_children.append(widget);
+		}
+		return hidden_children;
+	}
+}
