@@ -57,7 +57,11 @@ public class HelperApplication : Gtk.Application {
 	private string cache_path;
 
 	public HelperApplication() {
-		Object(application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
+		Object(
+			application_id: app_id,
+			register_session: true,
+			flags: ApplicationFlags.FLAGS_NONE
+		);
 		Environment.set_application_name(app_name);
 		
 		// Keep running for one minute after the last break is disabled
