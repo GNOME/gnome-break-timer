@@ -20,7 +20,6 @@ public class BreakSettingsDialog : Gtk.Dialog {
 
 	private BreakConfigurationChooser configuration_chooser;
 	private Gtk.Grid breaks_grid;
-	private Gtk.SizeGroup breaks_group;
 	
 	private static const int ABOUT_BUTTON_RESPONSE = 5;
 	
@@ -63,7 +62,6 @@ public class BreakSettingsDialog : Gtk.Dialog {
 		settings.bind("selected-breaks", this.configuration_chooser, "selected-break-ids", SettingsBindFlags.DEFAULT);
 
 		this.breaks_grid = new FixedSizeGrid();
-		this.breaks_group = new Gtk.SizeGroup(Gtk.SizeGroupMode.VERTICAL);
 		content.add(this.breaks_grid);
 		this.breaks_grid.set_orientation(Gtk.Orientation.VERTICAL);
 		
@@ -86,7 +84,7 @@ public class BreakSettingsDialog : Gtk.Dialog {
 	private void break_added_cb(BreakType break_type) {
 		var settings_panel = break_type.settings_panel;
 		breaks_grid.add(settings_panel);
-		this.breaks_group.add_widget(settings_panel);
+		settings_panel.realize();
 		settings_panel.set_valign(Gtk.Align.CENTER);
 		settings_panel.set_vexpand(true);
 		settings_panel.set_margin_top(10);
