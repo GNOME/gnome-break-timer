@@ -38,10 +38,12 @@ public class RestBreakType : TimerBreakType {
 }
 
 class RestBreakInfoPanel : BreakInfoPanel {
-	const string DESCRIPTION_FORMAT = _(
-"Take some time away from the computer. Stretch and move around.
+	const string ACTIVE_DESCRIPTION_FORMAT =
+_("Take some time away from the computer. Stretch and move around.
 
-Your break is scheduled to last for %s. I’ll remind you when your time is up.");
+Your break has %s remaining. I’ll remind you it’s over.");
+
+	private TimerBreakStatus? status;
 
 	public RestBreakInfoPanel(RestBreakType break_type) {
 		base(
@@ -49,15 +51,23 @@ Your break is scheduled to last for %s. I’ll remind you when your time is up."
 			_("Break")
 		);
 
-		this.set_heading(_("It’s break time"));
 		break_type.notify["duration"].connect(this.update_description);
+		break_type.timer_status_changed.connect(this.timer_status_changed_cb);
+	}
+
+	private void timer_status_changed_cb(TimerBreakStatus? status) {
+		this.status = status;
 		this.update_description();
 	}
 
 	private void update_description() {
-		var timer_break_type = (TimerBreakType)this.break_type;
-		string break_duration = NaturalTime.instance.get_label_for_seconds(timer_break_type.duration);
-		this.set_description(DESCRIPTION_FORMAT.printf(break_duration));
+		this.set_heading(_("It’s break time"));
+
+		if (this.status != null && this.status.is_active) {
+			string time_remaining_text = NaturalTime.instance.get_countdown_for_seconds_with_start(
+				this.status.time_remaining, this.status.current_duration);
+			this.set_description(ACTIVE_DESCRIPTION_FORMAT.printf(time_remaining_text));
+		}
 	}
 }
 

@@ -38,9 +38,12 @@ public class MicroBreakType : TimerBreakType {
 }
 
 class MicroBreakInfoPanel : BreakInfoPanel {
-	const string DESCRIPTION_FORMAT = _(
-"Take a break from typing and look away from the screen for a short while.
-I'll chime when it's time to start using the computer again.");
+	const string ACTIVE_DESCRIPTION_FORMAT = 
+_("Take a break from typing and look away from the screen for %s.
+
+I'll chime when it’s time to use the computer again.");
+
+	private TimerBreakStatus? status;
 
 	public MicroBreakInfoPanel(MicroBreakType break_type) {
 		base(
@@ -48,8 +51,21 @@ I'll chime when it's time to start using the computer again.");
 			_("Microbreak")
 		);
 
+		break_type.timer_status_changed.connect(this.timer_status_changed_cb);
+	}
+
+	private void timer_status_changed_cb(TimerBreakStatus? status) {
+		this.status = status;
+		this.update_description();
+	}
+
+	private void update_description() {
 		this.set_heading(_("It’s microbreak time"));
-		this.set_description(DESCRIPTION_FORMAT);
+
+		if (this.status != null && this.status.is_active) {
+			string duration_text = NaturalTime.instance.get_label_for_seconds(this.status.current_duration);
+			this.set_description(ACTIVE_DESCRIPTION_FORMAT.printf(duration_text));
+		}
 	}
 }
 
