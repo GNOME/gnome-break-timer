@@ -357,7 +357,7 @@ private class TutorialArrow : Gtk.Widget {
 		this.to_widget = to_widget;
 	}
 
-	public override bool draw (Cairo.Context cr) {
+	public override bool draw(Cairo.Context cr) {
 		int max_width = this.get_allocated_width();
 		int max_height = this.get_allocated_height();
 
@@ -375,18 +375,18 @@ private class TutorialArrow : Gtk.Widget {
 		Gtk.StyleContext style_context = this.get_style_context();
 		Gdk.RGBA color = style_context.get_color(state);
 		Gdk.cairo_set_source_rgba(cr, color);
-		cr.set_line_width(2.0);
+		cr.set_line_width(1.0);
 
 		cr.move_to(from_x, from_y);
 		double curve_x = to_x - from_x;
 		double curve_y = (to_y+8) - from_y;
-		cr.rel_curve_to(curve_x / 2.0, 0, curve_x, curve_y / 3.0, curve_x, curve_y);
+		cr.rel_curve_to(curve_x / 3.0, 0, curve_x, curve_y / 3.0, curve_x, curve_y);
 		cr.stroke();
 
 		cr.move_to(to_x, to_y+8);
-		cr.rel_line_to(-5, 0);
-		cr.rel_line_to(5, -6);
-		cr.rel_line_to(5, 6);
+		cr.rel_line_to(-4, 0);
+		cr.rel_line_to(4, -6);
+		cr.rel_line_to(4, 6);
 		cr.close_path();
 		cr.fill_preserve();
 		cr.stroke();
@@ -394,7 +394,7 @@ private class TutorialArrow : Gtk.Widget {
 		return true;
 	}
 
-	public override void size_allocate (Allocation allocation) {
+	public override void size_allocate(Allocation allocation) {
 		base.size_allocate(allocation);
 	}
 

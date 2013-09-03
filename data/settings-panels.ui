@@ -125,8 +125,8 @@
   <object class="GtkGrid" id="welcome_breaks">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="margin_top">20</property>
-    <property name="margin_bottom">20</property>
+    <property name="margin_top">50</property>
+    <property name="margin_bottom">30</property>
     <property name="row_spacing">16</property>
     <child>
       <object class="GtkLabel" id="settings_label">
@@ -134,7 +134,8 @@
         <property name="can_focus">False</property>
         <property name="halign">center</property>
         <property name="valign">end</property>
-        <property name="xpad">12</property>
+        <property name="margin_top">50</property>
+        <property name="xpad">20</property>
         <property name="label" translatable="yes">You can change the types of breaks and their timings from the settings</property>
         <style>
           <class name="_break-status-hint"/>
@@ -169,8 +170,8 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="valign">center</property>
-        <property name="margin_left">24</property>
-        <property name="margin_right">24</property>
+        <property name="margin_left">85</property>
+        <property name="margin_right">85</property>
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
         <property name="row_spacing">16</property>
@@ -179,6 +180,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="hexpand">True</property>
+            <property name="ypad">4</property>
             <property name="label" translatable="yes">Break Timer lets you take small microbreaks as well as longer breaks.</property>
             <style>
               <class name="_break-status-body"/>
@@ -196,6 +198,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="hexpand">True</property>
+            <property name="ypad">4</property>
             <property name="label" translatable="yes">Microbreaks are a chance to look away from the screen and rest your hands.</property>
             <style>
               <class name="_break-status-body"/>
@@ -213,7 +216,8 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="hexpand">True</property>
-            <property name="label" translatable="yes">Full breaks give you the opportunity to get away from the computer and move around.</property>
+            <property name="ypad">4</property>
+            <property name="label" translatable="yes">Full breaks are time to get away from the computer and move around.</property>
             <style>
               <class name="_break-status-body"/>
             </style>
@@ -254,8 +258,8 @@
   <object class="GtkGrid" id="welcome_ready">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="margin_top">20</property>
-    <property name="margin_bottom">20</property>
+    <property name="margin_top">50</property>
+    <property name="margin_bottom">30</property>
     <property name="row_spacing">16</property>
     <child>
       <object class="GtkButton" id="welcome_ready_ok_button">
@@ -265,6 +269,7 @@
         <property name="receives_default">True</property>
         <property name="halign">center</property>
         <property name="valign">center</property>
+        <property name="margin_top">50</property>
         <property name="hexpand">True</property>
       </object>
       <packing>
@@ -279,8 +284,8 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="valign">center</property>
-        <property name="margin_left">24</property>
-        <property name="margin_right">24</property>
+        <property name="margin_left">85</property>
+        <property name="margin_right">85</property>
         <property name="vexpand">True</property>
         <property name="row_spacing">16</property>
         <child>
@@ -305,7 +310,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">center</property>
-            <property name="xpad">12</property>
+            <property name="xpad">20</property>
             <property name="label" translatable="yes">Break Timer will carry on working in the background, even if you close it.</property>
             <style>
               <class name="_break-status-body"/>
@@ -330,16 +335,16 @@
   <object class="GtkGrid" id="welcome_start">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="margin_top">20</property>
-    <property name="margin_bottom">20</property>
+    <property name="margin_top">50</property>
+    <property name="margin_bottom">30</property>
     <property name="row_spacing">16</property>
     <child>
       <object class="GtkGrid" id="grid7">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="valign">center</property>
-        <property name="margin_left">24</property>
-        <property name="margin_right">24</property>
+        <property name="margin_left">85</property>
+        <property name="margin_right">85</property>
         <property name="vexpand">True</property>
         <property name="row_spacing">16</property>
         <child>
@@ -382,9 +387,9 @@
             <property name="can_focus">False</property>
             <property name="halign">center</property>
             <property name="valign">center</property>
-            <property name="margin_top">40</property>
+            <property name="margin_top">50</property>
             <property name="vexpand">True</property>
-            <property name="xpad">12</property>
+            <property name="xpad">20</property>
             <property name="label" translatable="yes">Just switch me on to get started</property>
             <style>
               <class name="_break-status-hint"/>
