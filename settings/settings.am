@@ -6,6 +6,7 @@ SETTINGS_SOURCES = \
 	BreakType.vala \
 	MainWindow.vala \
 	MicroBreakType.vala \
+	OverlayArrow.vala \
 	RestBreakType.vala \
 	SettingsApplication.vala \
 	TimeChooser.vala \
