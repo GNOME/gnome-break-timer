@@ -74,4 +74,8 @@ public class WindowHeaderBar : HeaderBar { // Gtk.HeaderBar or Gd.HeaderBar
 		event.any.send_event = 1;
 		Gtk.main_do_event (event);
 	}
+
+	public Gtk.Widget? get_visible_close_button() {
+		return this.is_titlebar ? this.close_button : null;
+	}
 }
