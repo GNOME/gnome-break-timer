@@ -83,8 +83,10 @@ public class MainWindow : Gtk.ApplicationWindow {
 
 		this.main_stack = new Stack();
 		content.add(this.main_stack);
-		main_stack.set_margin_left(20);
+		main_stack.set_margin_top(6);
 		main_stack.set_margin_right(20);
+		main_stack.set_margin_left(20);
+		main_stack.set_margin_bottom(6);
 
 		this.status_panel = new StatusPanel(break_manager, builder);
 		this.main_stack.add(this.status_panel);
