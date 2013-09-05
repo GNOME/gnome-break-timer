@@ -25,7 +25,6 @@ public class SettingsApplication : Gtk.Application {
 		}
 
 		._break-info {
-			font-size: 12px;
 		}
 
 		._break-info-heading {
