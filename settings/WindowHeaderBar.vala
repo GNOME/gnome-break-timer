@@ -43,7 +43,7 @@ public class WindowHeaderBar : HeaderBar { // Gtk.HeaderBar or Gd.HeaderBar
 		this.close_button.set_image(
 			new Gtk.Image.from_icon_name("window-close-symbolic", Gtk.IconSize.MENU)
 		);
-		this.close_button.get_style_context().add_class("image-button");
+		this.close_button.get_style_context().add_class("titlebutton");
 		this.close_button.relief = Gtk.ReliefStyle.NONE;
 		this.close_button.valign = Gtk.Align.CENTER;
 		this.close_button.clicked.connect(this.on_close_button_clicked_cb);
