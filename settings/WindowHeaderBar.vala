@@ -33,49 +33,49 @@ public class WindowHeaderBar : HeaderBar { // Gtk.HeaderBar or Gd.HeaderBar
 
 	private bool is_titlebar;
 
-	public WindowHeaderBar(Gtk.Window window) {
+	public WindowHeaderBar (Gtk.Window window) {
 		this.owner_window = window;
 
 		this.close_separator = new Gtk.Separator (Gtk.Orientation.VERTICAL);
 		this.close_separator.valign = Gtk.Align.FILL;
 
-		this.close_button = new Gtk.Button();
-		this.close_button.set_image(
-			new Gtk.Image.from_icon_name("window-close-symbolic", Gtk.IconSize.MENU)
+		this.close_button = new Gtk.Button ();
+		this.close_button.set_image (
+			new Gtk.Image.from_icon_name ("window-close-symbolic", Gtk.IconSize.MENU)
 		);
-		this.close_button.get_style_context().add_class("titlebutton");
+		this.close_button.get_style_context ().add_class ("titlebutton");
 		this.close_button.relief = Gtk.ReliefStyle.NONE;
 		this.close_button.valign = Gtk.Align.CENTER;
-		this.close_button.clicked.connect(this.on_close_button_clicked_cb);
+		this.close_button.clicked.connect (this.on_close_button_clicked_cb);
 
-		this.realize.connect(() => {
-			this.pack_end(this.close_separator);
-			this.pack_end(this.close_button);
+		this.realize.connect ( () => {
+			this.pack_end (this.close_separator);
+			this.pack_end (this.close_button);
 		});
 	}
 
-	public new void set_title(string? title) {
+	public new void set_title (string? title) {
 		if (this.is_titlebar && title == null) {
 			title = this.owner_window.title;
 		}
-		base.set_title(title);
+		base.set_title (title);
 	}
 
-	public void set_is_titlebar(bool is_titlebar) {
+	public void set_is_titlebar (bool is_titlebar) {
 		this.is_titlebar = is_titlebar;
-		this.close_separator.set_visible(is_titlebar);
-		this.close_button.set_visible(is_titlebar);
-		this.set_title(this.title);
+		this.close_separator.set_visible (is_titlebar);
+		this.close_button.set_visible (is_titlebar);
+		this.set_title (this.title);
 	}
 
-	private void on_close_button_clicked_cb() {
+	private void on_close_button_clicked_cb () {
 		var event = new Gdk.Event (Gdk.EventType.DESTROY);
-		event.any.window = this.owner_window.get_window();
+		event.any.window = this.owner_window.get_window ();
 		event.any.send_event = 1;
 		Gtk.main_do_event (event);
 	}
 
-	public Gtk.Widget? get_visible_close_button() {
+	public Gtk.Widget? get_visible_close_button () {
 		return this.is_titlebar ? this.close_button : null;
 	}
 }

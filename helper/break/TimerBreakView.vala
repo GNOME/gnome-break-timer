@@ -17,22 +17,22 @@
 
 public abstract class TimerBreakView : BreakView {
 	protected TimerBreakController timer_break {
-		get {return (TimerBreakController)this.break_controller; }
+		get { return (TimerBreakController)this.break_controller; }
 	}
 	
-	public TimerBreakView(TimerBreakController timer_break, UIManager ui_manager) {
-		base(timer_break, ui_manager);
+	public TimerBreakView (TimerBreakController timer_break, UIManager ui_manager) {
+		base (timer_break, ui_manager);
 	}
 	
-	public override string get_status_message() {
+	public override string get_status_message () {
 		string message;
 		
-		int starts_in = this.timer_break.starts_in();
-		int time_remaining = this.timer_break.get_time_remaining();
-		string state_label = this.timer_break.state.to_string();
+		int starts_in = this.timer_break.starts_in ();
+		int time_remaining = this.timer_break.get_time_remaining ();
+		string state_label = this.timer_break.state.to_string ();
 		
-		message = "%s%s, I:%d, D:%d".printf(
-			this.has_ui_focus() ? ">" : "",
+		message = "%s%s, I:%d, D:%d".printf (
+			this.has_ui_focus () ? ">" : "",
 			state_label,
 			starts_in,
 			time_remaining
@@ -41,7 +41,7 @@ public abstract class TimerBreakView : BreakView {
 		return message;
 	}
 
-	protected int get_lead_in_seconds() {
+	protected int get_lead_in_seconds () {
 		int lead_in = this.timer_break.duration+3;
 		if (lead_in > 40) {
 			lead_in = 40;
@@ -51,4 +51,3 @@ public abstract class TimerBreakView : BreakView {
 		return lead_in;
 	}
 }
-

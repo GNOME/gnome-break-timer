@@ -21,71 +21,70 @@ public class TimerBreakStatusWidget : Gtk.Grid, IScreenOverlayContent {
 	private Gtk.Label timer_label;
 	private Gtk.Label message_label;
 	
-	public TimerBreakStatusWidget(TimerBreakController timer_break) {
-		Object();
+	public TimerBreakStatusWidget (TimerBreakController timer_break) {
+		Object ();
 		this.timer_break = timer_break;
 		
-		this.set_column_spacing(12);
-		this.set_row_spacing(12);
+		this.set_column_spacing (12);
+		this.set_row_spacing (12);
 		
-		this.timer_label = new Gtk.Label(null);
-		this.attach(this.timer_label, 0, 0, 1, 1);
-		Gtk.StyleContext timer_style = this.timer_label.get_style_context();
-		timer_style.add_class("_timer-label");
+		this.timer_label = new Gtk.Label (null);
+		this.attach (this.timer_label, 0, 0, 1, 1);
+		Gtk.StyleContext timer_style = this.timer_label.get_style_context ();
+		timer_style.add_class ("_timer-label");
 		
-		this.message_label = new Gtk.Label(null);
-		this.attach(this.message_label, 0, 1, 1, 1);
-		this.message_label.set_line_wrap(true);
+		this.message_label = new Gtk.Label (null);
+		this.attach (this.message_label, 0, 1, 1, 1);
+		this.message_label.set_line_wrap (true);
 
-		this.show_all();
+		this.show_all ();
 	}
 
-	private void active_changed_cb() {
-		int time_remaining = this.timer_break.get_time_remaining();
-		if (this.timer_break.is_active()) {
-			int start_time = this.timer_break.get_current_duration();
-			string countdown = NaturalTime.instance.get_countdown_for_seconds_with_start(
+	private void active_changed_cb () {
+		int time_remaining = this.timer_break.get_time_remaining ();
+		if (this.timer_break.is_active ()) {
+			int start_time = this.timer_break.get_current_duration ();
+			string countdown = NaturalTime.instance.get_countdown_for_seconds_with_start (
 				time_remaining, start_time);
-			this.timer_label.set_text(countdown);
+			this.timer_label.set_text (countdown);
 		}
 	}
 
-	private void finished_cb(BreakController.FinishedReason reason) {
+	private void finished_cb (BreakController.FinishedReason reason) {
 		if (reason == BreakController.FinishedReason.SATISFIED) {
-			this.timer_label.set_text(_("Thank you"));
+			this.timer_label.set_text (_("Thank you"));
 		}
 	}
 
-	private void update_content() {
+	private void update_content () {
 		// Make sure the content being displayed is up to date. This is
 		// usually called when the widget is about to appear.
-		this.active_changed_cb();
+		this.active_changed_cb ();
 	}
 	
 	/** Set a reassuring message to accompany the break timer */
-	public void set_message(string message) {
-		this.message_label.set_text(message);
+	public void set_message (string message) {
+		this.message_label.set_text (message);
 	}
 
 	/* IScreenOverlayContent interface */
 
-	public void added_to_overlay() {
-		this.timer_break.active_changed.connect(this.active_changed_cb);
-		this.timer_break.finished.connect(this.finished_cb);
-		this.update_content();
+	public void added_to_overlay () {
+		this.timer_break.active_changed.connect (this.active_changed_cb);
+		this.timer_break.finished.connect (this.finished_cb);
+		this.update_content ();
 	}
 
-	public void removed_from_overlay() {
-		this.timer_break.active_changed.disconnect(this.active_changed_cb);
-		this.timer_break.finished.disconnect(this.finished_cb);
+	public void removed_from_overlay () {
+		this.timer_break.active_changed.disconnect (this.active_changed_cb);
+		this.timer_break.finished.disconnect (this.finished_cb);
 	}
 
-	public void before_fade_in() {
-		this.update_content();
+	public void before_fade_in () {
+		this.update_content ();
 	}
 
-	public void before_fade_out() {
-		this.update_content();
+	public void before_fade_out () {
+		this.update_content ();
 	}
 }
-

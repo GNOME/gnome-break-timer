@@ -25,98 +25,97 @@ public class MicroBreakView : TimerBreakView {
 
 	private int delay_time_notified = 0;
 
-	public MicroBreakView(MicroBreakController micro_break, UIManager ui_manager) {
-		base(micro_break, ui_manager);
+	public MicroBreakView (MicroBreakController micro_break, UIManager ui_manager) {
+		base (micro_break, ui_manager);
 		this.focus_priority = FocusPriority.LOW;
 
-		this.focused_and_activated.connect(this.focused_and_activated_cb);
-		this.lost_ui_focus.connect(this.lost_ui_focus_cb);
-		this.micro_break.finished.connect(this.finished_cb);
+		this.focused_and_activated.connect (this.focused_and_activated_cb);
+		this.lost_ui_focus.connect (this.lost_ui_focus_cb);
+		this.micro_break.finished.connect (this.finished_cb);
 	}
 
-	protected new void show_break_notification(Notify.Notification notification) {
-		if (this.notifications_can_do("actions")) {
-			notification.add_action("skip", _("Skip this one"), this.notification_action_skip_cb);
+	protected new void show_break_notification (Notify.Notification notification) {
+		if (this.notifications_can_do ("actions")) {
+			notification.add_action ("skip", _("Skip this one"), this.notification_action_skip_cb);
 		}
-		base.show_break_notification(notification);
+		base.show_break_notification (notification);
 	}
 
-	private void show_start_notification() {
-		var notification = this.build_common_notification(
+	private void show_start_notification () {
+		var notification = this.build_common_notification (
 			_("It’s time for a micro break"),
 			_("Take a break from typing and look away from the screen"),
 			"alarm-symbolic"
 		);
-		notification.set_urgency(Notify.Urgency.NORMAL);
-		notification.set_hint("sound-name", "message");
-		this.show_break_notification(notification);
+		notification.set_urgency (Notify.Urgency.NORMAL);
+		notification.set_hint ("sound-name", "message");
+		this.show_break_notification (notification);
 	}
 
-	private void show_overdue_notification() {
-		int time_since_start = this.micro_break.get_seconds_since_start();
-		string delay_string = NaturalTime.instance.get_simplest_label_for_seconds(
+	private void show_overdue_notification () {
+		int time_since_start = this.micro_break.get_seconds_since_start ();
+		string delay_string = NaturalTime.instance.get_simplest_label_for_seconds (
 			time_since_start);
-		var notification = this.build_common_notification(
+		var notification = this.build_common_notification (
 			_("Overdue micro break"),
-			_("You were due to take a micro break %s ago").printf(delay_string),
+			_("You were due to take a micro break %s ago").printf (delay_string),
 			"alarm-symbolic"
 		);
-		notification.set_urgency(Notify.Urgency.NORMAL);
-		this.show_break_notification(notification);
+		notification.set_urgency (Notify.Urgency.NORMAL);
+		this.show_break_notification (notification);
 	}
 
-	private void show_finished_notification() {
-		var notification = this.build_common_notification(
+	private void show_finished_notification () {
+		var notification = this.build_common_notification (
 			_("Break is over"),
 			_("Your micro break has ended"),
 			"alarm-symbolic"
 		);
-		notification.set_urgency(Notify.Urgency.NORMAL);
-		this.show_lock_notification(notification);
+		notification.set_urgency (Notify.Urgency.NORMAL);
+		this.show_lock_notification (notification);
 
-		this.play_sound_from_id("complete");
+		this.play_sound_from_id ("complete");
 	}
 
-	private void focused_and_activated_cb() {
+	private void focused_and_activated_cb () {
 		this.delay_time_notified = 0;
 
-		var status_widget = new TimerBreakStatusWidget(this.micro_break);
-		status_widget.set_message(_("Take a moment to rest your eyes"));
-		this.set_overlay(status_widget);
+		var status_widget = new TimerBreakStatusWidget (this.micro_break);
+		status_widget.set_message (_("Take a moment to rest your eyes"));
+		this.set_overlay (status_widget);
 
-		if (! this.overlay_is_visible()) {
-			this.show_start_notification();
-			Timeout.add_seconds(this.get_lead_in_seconds(), () => {
-				this.reveal_overlay();
+		if (! this.overlay_is_visible ()) {
+			this.show_start_notification ();
+			Timeout.add_seconds (this.get_lead_in_seconds (), () => {
+				this.reveal_overlay ();
 				return false;
 			});
 		}
 
-		this.micro_break.delayed.connect(this.delayed_cb);
+		this.micro_break.delayed.connect (this.delayed_cb);
 	}
 
-	private void lost_ui_focus_cb() {
-		this.micro_break.delayed.disconnect(this.delayed_cb);
+	private void lost_ui_focus_cb () {
+		this.micro_break.delayed.disconnect (this.delayed_cb);
 	}
 
-	private void finished_cb(BreakController.FinishedReason reason, bool was_active) {
+	private void finished_cb (BreakController.FinishedReason reason, bool was_active) {
 		if (reason == BreakController.FinishedReason.SATISFIED && was_active) {
-			this.show_finished_notification();
+			this.show_finished_notification ();
 		} else {
-			this.hide_notification();
+			this.hide_notification ();
 		}
 	}
 
-	private void delayed_cb(int lap_time, int total_time) {
+	private void delayed_cb (int lap_time, int total_time) {
 		int time_since_notified = total_time - this.delay_time_notified;
 		if (time_since_notified > this.micro_break.interval) {
-			this.show_overdue_notification();
+			this.show_overdue_notification ();
 			this.delay_time_notified = total_time;
 		}
 	}
 
-	private void notification_action_skip_cb() {
-		this.break_controller.skip(true);
+	private void notification_action_skip_cb () {
+		this.break_controller.skip (true);
 	}
 }
-

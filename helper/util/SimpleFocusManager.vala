@@ -16,8 +16,8 @@
  */
 
 public interface IFocusable : Object {
-	public abstract void focus_started();
-	public abstract void focus_stopped();
+	public abstract void focus_started ();
+	public abstract void focus_stopped ();
 }
 
 public enum FocusPriority {
@@ -38,7 +38,7 @@ public class SimpleFocusManager : Object {
 		public IFocusable owner;
 		public FocusPriority priority;
 	
-		public static int priority_compare_func(Request a, Request b) {
+		public static int priority_compare_func (Request a, Request b) {
 			if (a.priority < b.priority) {
 				return -1;
 			} else if (a.priority == b.priority) {
@@ -52,61 +52,60 @@ public class SimpleFocusManager : Object {
 	private SList<Request> focus_requests;
 	private Request? current_focus;
 	
-	public SimpleFocusManager() {
-		this.focus_requests = new SList<Request>();
+	public SimpleFocusManager () {
+		this.focus_requests = new SList<Request> ();
 		this.current_focus = null;
 	}
 	
-	private void set_focus(Request? new_focus) {
+	private void set_focus (Request? new_focus) {
 		Request? old_focus = this.current_focus;
 		
 		if (new_focus != old_focus) {
 			this.current_focus = new_focus;
 			// the order is important so new_focus can gracefully replace old_focus
 			if (new_focus != null) {
-				new_focus.owner.focus_started();
+				new_focus.owner.focus_started ();
 			}
 			if (old_focus != null) {
-				old_focus.owner.focus_stopped();
+				old_focus.owner.focus_stopped ();
 			}
 		}
 	}
 	
-	private void update_focus() {
+	private void update_focus () {
 		Request? new_focus = null;
-		if (this.focus_requests.length() > 0) {
-			new_focus = this.focus_requests.last().data;
+		if (this.focus_requests.length () > 0) {
+			new_focus = this.focus_requests.last ().data;
 		}
-		this.set_focus(new_focus);
+		this.set_focus (new_focus);
 	}
 	
-	private bool focus_requested(IFocusable focusable) {
+	private bool focus_requested (IFocusable focusable) {
 		foreach (Request request in this.focus_requests) {
 			if (request.owner == focusable) return true;
 		}
 		return false;
 	}
 	
-	public void request_focus(IFocusable focusable, FocusPriority priority) {
-		if (! this.focus_requested(focusable)) {
-			Request request = new Request();
+	public void request_focus (IFocusable focusable, FocusPriority priority) {
+		if (! this.focus_requested (focusable)) {
+			Request request = new Request ();
 			request.owner = focusable;
 			request.priority = priority;
 			
-			this.focus_requests.insert_sorted(request, Request.priority_compare_func);
-			this.update_focus();
+			this.focus_requests.insert_sorted (request, Request.priority_compare_func);
+			this.update_focus ();
 		}
 	}
 	
-	public void release_focus(IFocusable focusable) {
+	public void release_focus (IFocusable focusable) {
 		foreach (Request request in this.focus_requests) {
-			if (request.owner == focusable) this.focus_requests.remove(request);
+			if (request.owner == focusable) this.focus_requests.remove (request);
 		}
-		this.update_focus();
+		this.update_focus ();
 	}
 	
-	public bool is_focusing(IFocusable focusable) {
+	public bool is_focusing (IFocusable focusable) {
 		return this.current_focus != null && this.current_focus.owner == focusable;
 	}
 }
-

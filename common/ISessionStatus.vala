@@ -16,11 +16,11 @@
  */
 
 public interface ISessionStatus : Object {
-	public signal void locked();
-	public signal void unlocked();
+	public signal void locked ();
+	public signal void unlocked ();
 
-	public abstract bool is_locked();
-	public abstract void lock_screen();
-	public abstract void blank_screen();
-	public abstract void unblank_screen();
+	public abstract bool is_locked ();
+	public abstract void lock_screen ();
+	public abstract void blank_screen ();
+	public abstract void unblank_screen ();
 }

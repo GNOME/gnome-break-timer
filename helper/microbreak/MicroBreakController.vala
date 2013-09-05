@@ -22,14 +22,13 @@
  * or moves the mouse.
  */
 public class MicroBreakController : TimerBreakController {
-	public MicroBreakController(ActivityMonitor activity_monitor) {
-		base(activity_monitor, 0);
+	public MicroBreakController (ActivityMonitor activity_monitor) {
+		base (activity_monitor, 0);
 
-		this.delayed.connect(this.delayed_cb);
+		this.delayed.connect (this.delayed_cb);
 	}
 	
-	private void delayed_cb(int lap_time, int total_time) {
-		this.duration_countdown.reset();
+	private void delayed_cb (int lap_time, int total_time) {
+		this.duration_countdown.reset ();
 	}
 }
-

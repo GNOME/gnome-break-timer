@@ -18,20 +18,20 @@
 public class MicroBreakType : TimerBreakType {
 	private ActivityMonitor activity_monitor;
 
-	public MicroBreakType(ActivityMonitor activity_monitor) {
-		Settings settings = new Settings("org.gnome.break-timer.microbreak");
-		base("microbreak", settings);
+	public MicroBreakType (ActivityMonitor activity_monitor) {
+		Settings settings = new Settings ("org.gnome.break-timer.microbreak");
+		base ("microbreak", settings);
 		this.activity_monitor = activity_monitor;
 	}
 
-	protected override BreakController get_break_controller() {
-		return new MicroBreakController(
+	protected override BreakController get_break_controller () {
+		return new MicroBreakController (
 			this.activity_monitor
 		);
 	}
 
-	protected override BreakView get_break_view(BreakController controller, UIManager ui_manager) {
-		return new MicroBreakView(
+	protected override BreakView get_break_view (BreakController controller, UIManager ui_manager) {
+		return new MicroBreakView (
 			(MicroBreakController)controller,
 			ui_manager
 		);

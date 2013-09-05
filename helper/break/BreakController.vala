@@ -43,7 +43,7 @@ public abstract class BreakController : Object {
 		ACTIVE,
 		DISABLED
 	}
-	public State state {get; private set;}
+	public State state { get; private set; }
 
 	public enum FinishedReason {
 		DISABLED,
@@ -51,51 +51,51 @@ public abstract class BreakController : Object {
 		SATISFIED
 	}
 	
-	/** The break has been enabled. It will monitor user activity and emit activated() or finished() signals until it is disabled. */
-	public signal void enabled();
+	/** The break has been enabled. It will monitor user activity and emit activated () or finished () signals until it is disabled. */
+	public signal void enabled ();
 	/** The break has been disabled. Its timers have been stopped and it will not do anything until it is enabled again. */
-	public signal void disabled();
+	public signal void disabled ();
 
 	/** The break is going to happen soon */
-	public signal void warned();
+	public signal void warned ();
 	/** The break is no longer going to start soon */ 
-	public signal void unwarned();
+	public signal void unwarned ();
 	
 	/** The break has been activated and is now counting down aggressively until it is satisfied. */
-	public signal void activated();
+	public signal void activated ();
 	/** The break has been satisfied. This can happen at any time, including while the break is waiting or after it has been activiated. */
-	public signal void finished(BreakController.FinishedReason reason, bool was_active);
+	public signal void finished (BreakController.FinishedReason reason, bool was_active);
 
 	/** The break is active and it has progressed in some fashion (for example, remaining time has changed). */
-	public signal void active_changed();
+	public signal void active_changed ();
 
-	private int64? activate_timestamp {get; set;}
+	private int64? activate_timestamp { get; set; }
 	
-	public BreakController() {
+	public BreakController () {
 		this.state = State.DISABLED;
 		this.activate_timestamp = null;
 	}
 
-	public virtual Json.Object serialize() {
-		Json.Object json_root = new Json.Object();
-		json_root.set_int_member("state", (int)this.state);
+	public virtual Json.Object serialize () {
+		Json.Object json_root = new Json.Object ();
+		json_root.set_int_member ("state", (int)this.state);
 		if (this.activate_timestamp == null) {
-			json_root.set_null_member("activate_timestamp");
+			json_root.set_null_member ("activate_timestamp");
 		} else {
-			json_root.set_int_member("activate_timestamp", this.activate_timestamp);
+			json_root.set_int_member ("activate_timestamp", this.activate_timestamp);
 		}
 		return json_root;
 	}
 
-	public virtual void deserialize(ref Json.Object json_root) {
-		State serialized_state = (State)json_root.get_int_member("state");
+	public virtual void deserialize (ref Json.Object json_root) {
+		State serialized_state = (State)json_root.get_int_member ("state");
 		// We won't restore the original state directly. A BreakController
 		// implementation should decide whether to activate at this stage.
 
-		if (json_root.get_null_member("activate_timestamp")) {
+		if (json_root.get_null_member ("activate_timestamp")) {
 			this.activate_timestamp = null;
 		} else {
-			this.activate_timestamp = json_root.get_int_member("activate_timestamp");
+			this.activate_timestamp = json_root.get_int_member ("activate_timestamp");
 		}
 	}
 	
@@ -103,41 +103,41 @@ public abstract class BreakController : Object {
 	 * Set whether the break is enabled or disabled. If it is enabled,
 	 * it will periodically update in the background, and if it is
 	 * disabled it will do nothing (and consume fewer resources).
-	 * This will also emit the enabled() or disabled() signal.
+	 * This will also emit the enabled () or disabled () signal.
 	 * @param enable True to enable the break, false to disable it
 	 */
-	public void set_enabled(bool enable) {
-		if (enable && !this.is_enabled()) {
+	public void set_enabled (bool enable) {
+		if (enable && !this.is_enabled ()) {
 			this.state = State.WAITING;
-			this.enabled();
-		} else if (!enable && this.is_enabled()) {
+			this.enabled ();
+		} else if (!enable && this.is_enabled ()) {
 			bool was_active = this.state == State.ACTIVE;
 			this.state = State.DISABLED;
-			this.finished(BreakController.FinishedReason.DISABLED, was_active);
-			this.disabled();
+			this.finished (BreakController.FinishedReason.DISABLED, was_active);
+			this.disabled ();
 		}
 	}
 	
 	/**
 	 * @return True if the break is enabled and waiting to start automatically
 	 */
-	public bool is_enabled() {
+	public bool is_enabled () {
 		return this.state != State.DISABLED;
 	}
 	
 	/**
 	 * @return True if the break has been activated, is in focus, and expects to be satisfied
 	 */
-	public bool is_active() {
+	public bool is_active () {
 		return this.state == State.ACTIVE;
 	}
 
 	/**
 	 * @return The real time, in seconds, since the break was activated.
 	 */
-	public int get_seconds_since_start() {
+	public int get_seconds_since_start () {
 		if (this.activate_timestamp != null) {
-			return (int) (Util.get_real_time_seconds() - this.activate_timestamp);
+			return (int) (Util.get_real_time_seconds () - this.activate_timestamp);
 		} else {
 			return 0;
 		}
@@ -147,13 +147,13 @@ public abstract class BreakController : Object {
 	 * Start a break. This is usually triggered automatically by the break
 	 * controller itself, but it may be triggered externally as well.
 	 */
-	public void activate() {
+	public void activate () {
 		if (this.state < State.ACTIVE) {
 			if (this.activate_timestamp == null) {
-				this.activate_timestamp = Util.get_real_time_seconds();
+				this.activate_timestamp = Util.get_real_time_seconds ();
 			}
 			this.state = State.ACTIVE;
-			this.activated();
+			this.activated ();
 		}
 	}
 	
@@ -161,11 +161,11 @@ public abstract class BreakController : Object {
 	 * The break's requirements have been satisfied. Start counting from
 	 * the beginning again.
 	 */
-	public void finish() {
-		bool was_active = this.is_active();
+	public void finish () {
+		bool was_active = this.is_active ();
 		this.state = State.WAITING;
 		this.activate_timestamp = null;
-		this.finished(BreakController.FinishedReason.SATISFIED, was_active);
+		this.finished (BreakController.FinishedReason.SATISFIED, was_active);
 	}
 
 	/**
@@ -176,11 +176,10 @@ public abstract class BreakController : Object {
 	 * satisfied.
 	 * @param forget_start true to reset the value returned by get_seconds_since_start
 	 */
-	public void skip(bool forget_start = false) {
-		bool was_active = this.is_active();
+	public void skip (bool forget_start = false) {
+		bool was_active = this.is_active ();
 		this.state = State.WAITING;
 		if (forget_start) this.activate_timestamp = null;
-		this.finished(BreakController.FinishedReason.SKIPPED, was_active);
+		this.finished (BreakController.FinishedReason.SKIPPED, was_active);
 	}
 }
-

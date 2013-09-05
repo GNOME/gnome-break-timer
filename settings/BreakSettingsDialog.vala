@@ -23,78 +23,78 @@ public class BreakSettingsDialog : Gtk.Dialog {
 	
 	private static const int ABOUT_BUTTON_RESPONSE = 5;
 	
-	public BreakSettingsDialog(BreakManager break_manager) {
-		Object();
+	public BreakSettingsDialog (BreakManager break_manager) {
+		Object ();
 		this.break_manager = break_manager;
 
-		Settings settings = new Settings("org.gnome.break-timer");
+		Settings settings = new Settings ("org.gnome.break-timer");
 		
-		this.set_title(_("Choose Your Break Schedule"));
-		this.set_resizable(false);
+		this.set_title ( _("Choose Your Break Schedule"));
+		this.set_resizable (false);
 
-		this.delete_event.connect(this.hide_on_delete);
+		this.delete_event.connect (this.hide_on_delete);
 		
-		this.add_button(Gtk.Stock.CLOSE, Gtk.ResponseType.CLOSE);
-		this.response.connect(this.response_cb);
+		this.add_button (Gtk.Stock.CLOSE, Gtk.ResponseType.CLOSE);
+		this.response.connect (this.response_cb);
 		
-		Gtk.Container content_area = (Gtk.Container)this.get_content_area();
+		Gtk.Container content_area = (Gtk.Container)this.get_content_area ();
 
-		Gtk.Grid content = new Gtk.Grid();
-		content_area.add(content);
-		content.set_orientation(Gtk.Orientation.VERTICAL);
-		content.set_margin_left(10);
-		content.set_margin_right(10);
+		Gtk.Grid content = new Gtk.Grid ();
+		content_area.add (content);
+		content.set_orientation (Gtk.Orientation.VERTICAL);
+		content.set_margin_left (10);
+		content.set_margin_right (10);
 
-		this.configuration_chooser = new BreakConfigurationChooser();
-		content.add(this.configuration_chooser);
-		this.configuration_chooser.add_configuration(
-			{"microbreak", "restbreak"},
+		this.configuration_chooser = new BreakConfigurationChooser ();
+		content.add (this.configuration_chooser);
+		this.configuration_chooser.add_configuration (
+			{ "microbreak", "restbreak" },
 			_("A mix of short breaks and long breaks")
 		);
-		this.configuration_chooser.add_configuration(
-			{"restbreak"},
+		this.configuration_chooser.add_configuration (
+			{ "restbreak" },
 			_("Occasional long breaks")
 		);
-		this.configuration_chooser.add_configuration(
-			{"microbreak"},
+		this.configuration_chooser.add_configuration (
+			{ "microbreak" },
 			_("Frequent short breaks")
 		);
-		settings.bind("selected-breaks", this.configuration_chooser, "selected-break-ids", SettingsBindFlags.DEFAULT);
+		settings.bind ("selected-breaks", this.configuration_chooser, "selected-break-ids", SettingsBindFlags.DEFAULT);
 
-		this.breaks_grid = new FixedSizeGrid();
-		content.add(this.breaks_grid);
-		this.breaks_grid.set_orientation(Gtk.Orientation.VERTICAL);
+		this.breaks_grid = new FixedSizeGrid ();
+		content.add (this.breaks_grid);
+		this.breaks_grid.set_orientation (Gtk.Orientation.VERTICAL);
 		
-		content.show_all();
+		content.show_all ();
 
-		break_manager.break_added.connect(this.break_added_cb);
-		this.configuration_chooser.notify["selected-break-ids"].connect(this.update_break_configuration);
+		break_manager.break_added.connect (this.break_added_cb);
+		this.configuration_chooser.notify["selected-break-ids"].connect (this.update_break_configuration);
 	}
 
-	private void update_break_configuration() {
-		foreach (BreakType break_type in this.break_manager.all_breaks()) {
+	private void update_break_configuration () {
+		foreach (BreakType break_type in this.break_manager.all_breaks ()) {
 			if (break_type.id in this.configuration_chooser.selected_break_ids) {
-				break_type.settings_panel.show();
+				break_type.settings_panel.show ();
 			} else {
-				break_type.settings_panel.hide();
+				break_type.settings_panel.hide ();
 			}
 		}
 	}
 
-	private void break_added_cb(BreakType break_type) {
+	private void break_added_cb (BreakType break_type) {
 		var settings_panel = break_type.settings_panel;
-		breaks_grid.add(settings_panel);
-		settings_panel.realize();
-		settings_panel.set_valign(Gtk.Align.CENTER);
-		settings_panel.set_vexpand(true);
-		settings_panel.set_margin_top(10);
-		settings_panel.set_margin_bottom(10);
-		this.update_break_configuration();
+		breaks_grid.add (settings_panel);
+		settings_panel.realize ();
+		settings_panel.set_valign (Gtk.Align.CENTER);
+		settings_panel.set_vexpand (true);
+		settings_panel.set_margin_top (10);
+		settings_panel.set_margin_bottom (10);
+		this.update_break_configuration ();
 	}
 	
-	private void response_cb(int response_id) {
+	private void response_cb (int response_id) {
 		if (response_id == Gtk.ResponseType.CLOSE) {
-			this.hide();
+			this.hide ();
 		}
 	}
 }
@@ -106,12 +106,12 @@ class BreakConfigurationChooser : Gtk.ComboBox {
 		public string[] break_ids;
 		public string label;
 
-		public Configuration(string[] break_ids, string label) {
+		public Configuration (string[] break_ids, string label) {
 			this.break_ids = break_ids;
 			this.label = label;
 		}
 
-		public bool matches_breaks(string[] test_break_ids) {
+		public bool matches_breaks (string[] test_break_ids) {
 			if (test_break_ids.length == this.break_ids.length) {
 				foreach (string test_break_id in test_break_ids) {
 					if (! (test_break_id in this.break_ids)) return false;
@@ -126,54 +126,54 @@ class BreakConfigurationChooser : Gtk.ComboBox {
 	private Gtk.ListStore list_store;
 	private List<Configuration> configurations;
 
-	public string[] selected_break_ids {public get; public set;}
+	public string[] selected_break_ids { public get; public set; }
 
-	public BreakConfigurationChooser() {
-		Object();
-		this.configurations = new List<Configuration>();
+	public BreakConfigurationChooser () {
+		Object ();
+		this.configurations = new List<Configuration> ();
 
-		this.list_store = new Gtk.ListStore(2, typeof(Configuration), typeof(string));
-		this.set_model(this.list_store);
+		this.list_store = new Gtk.ListStore (2, typeof (Configuration), typeof (string));
+		this.set_model (this.list_store);
 
-		var label_renderer = new Gtk.CellRendererText();
-		this.pack_start(label_renderer, true);
-		this.add_attribute(label_renderer, "text", 1);
+		var label_renderer = new Gtk.CellRendererText ();
+		this.pack_start (label_renderer, true);
+		this.add_attribute (label_renderer, "text", 1);
 
-		this.notify["active"].connect(this.send_selected_break);
-		this.notify["selected-break-ids"].connect(this.receive_selected_break);
+		this.notify["active"].connect (this.send_selected_break);
+		this.notify["selected-break-ids"].connect (this.receive_selected_break);
 	}
 
-	public void add_configuration(string[] break_ids, string label) {
-		var configuration = new Configuration(break_ids, label);
-		this.configurations.append(configuration);
+	public void add_configuration (string[] break_ids, string label) {
+		var configuration = new Configuration (break_ids, label);
+		this.configurations.append (configuration);
 		Gtk.TreeIter iter;
-		this.list_store.append(out iter);
-		this.list_store.set(iter, 0, configuration, 1, configuration.label);
+		this.list_store.append (out iter);
+		this.list_store.set (iter, 0, configuration, 1, configuration.label);
 		configuration.iter = iter;	
 	}
 
-	private void send_selected_break() {
+	private void send_selected_break () {
 		Gtk.TreeIter iter;
-		if (this.get_active_iter(out iter)) {
+		if (this.get_active_iter (out iter)) {
 			Value value;
-			this.list_store.get_value(iter, 0, out value);
+			this.list_store.get_value (iter, 0, out value);
 			Configuration configuration = (Configuration)value;
 			this.selected_break_ids = configuration.break_ids;
 		}
 	}
 
-	private void receive_selected_break() {
-		var configuration = this.get_configuration_for_break_ids(this.selected_break_ids);
+	private void receive_selected_break () {
+		var configuration = this.get_configuration_for_break_ids (this.selected_break_ids);
 		if (configuration != null) {
-			this.set_active_iter(configuration.iter);
+			this.set_active_iter (configuration.iter);
 		} else {
-			this.set_active(-1);
+			this.set_active (-1);
 		}
 	}
 
-	private Configuration? get_configuration_for_break_ids(string[] selected_breaks) {
+	private Configuration? get_configuration_for_break_ids (string[] selected_breaks) {
 		foreach (Configuration configuration in this.configurations) {
-			if (configuration.matches_breaks(selected_breaks)) {
+			if (configuration.matches_breaks (selected_breaks)) {
 				return configuration;
 			}
 		}
@@ -183,33 +183,33 @@ class BreakConfigurationChooser : Gtk.ComboBox {
 
 
 class FixedSizeGrid : Gtk.Grid {
-	public FixedSizeGrid() {
-		Object();
+	public FixedSizeGrid () {
+		Object ();
 	}
 
 	public override void adjust_size_request (Gtk.Orientation orientation, ref int minimum_size, ref int natural_size) {
-		foreach (Gtk.Widget widget in this.get_hidden_children()) {
+		foreach (Gtk.Widget widget in this.get_hidden_children ()) {
 			int widget_allocated_size = 0;
 
 			if (orientation == Gtk.Orientation.VERTICAL && this.orientation == Gtk.Orientation.VERTICAL) {
-				widget_allocated_size = widget.get_allocated_height();
+				widget_allocated_size = widget.get_allocated_height ();
 			} else if (orientation == Gtk.Orientation.HORIZONTAL && this.orientation == Gtk.Orientation.HORIZONTAL) {
-				widget_allocated_size = widget.get_allocated_width();
+				widget_allocated_size = widget.get_allocated_width ();
 			}
 
 			minimum_size += widget_allocated_size;
 			natural_size += widget_allocated_size;
 
-			widget.adjust_size_request(orientation, ref minimum_size, ref natural_size);
+			widget.adjust_size_request (orientation, ref minimum_size, ref natural_size);
 		}
 
-		base.adjust_size_request(orientation, ref minimum_size, ref natural_size);
+		base.adjust_size_request (orientation, ref minimum_size, ref natural_size);
 	}
 
-	private List<weak Gtk.Widget> get_hidden_children() {
-		var hidden_children = new List<weak Gtk.Widget>();
-		foreach (Gtk.Widget widget in this.get_children()) {
-			if (! widget.is_visible()) hidden_children.append(widget);
+	private List<weak Gtk.Widget> get_hidden_children () {
+		var hidden_children = new List<weak Gtk.Widget> ();
+		foreach (Gtk.Widget widget in this.get_children ()) {
+			if (! widget.is_visible ()) hidden_children.append (widget);
 		}
 		return hidden_children;
 	}

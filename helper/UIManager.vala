@@ -32,47 +32,47 @@ public class UIManager : SimpleFocusManager {
 
 		protected FocusPriority focus_priority = FocusPriority.LOW;
 
-		public bool has_ui_focus() {
-			return this.ui_manager.is_focusing(this);
+		public bool has_ui_focus () {
+			return this.ui_manager.is_focusing (this);
 		}
 
-		protected void request_ui_focus() {
-			if (this.has_ui_focus()) {
+		protected void request_ui_focus () {
+			if (this.has_ui_focus ()) {
 				// If we already have focus, UIManager will not call
 				// focus_started again. We need to call it ourselves.
-				this.focus_started();
+				this.focus_started ();
 			} else {
-				this.ui_manager.request_focus(this, this.focus_priority);
+				this.ui_manager.request_focus (this, this.focus_priority);
 			}
 		}
 		
-		protected void release_ui_focus() {
-			this.ui_manager.release_focus(this);
+		protected void release_ui_focus () {
+			this.ui_manager.release_focus (this);
 		}
 
-		protected void play_sound_from_id(string event_id) {
-			if (this.has_ui_focus()) {
-				unowned Canberra.Context canberra = CanberraGtk.context_get();
-				canberra.play(0,
+		protected void play_sound_from_id (string event_id) {
+			if (this.has_ui_focus ()) {
+				unowned Canberra.Context canberra = CanberraGtk.context_get ();
+				canberra.play (0,
 					Canberra.PROP_EVENT_ID, event_id
 				);
 			}
 		}
 
-		protected bool can_lock_screen() {
-			return ! this.ui_manager.application.is_inhibited(Gtk.ApplicationInhibitFlags.IDLE);
+		protected bool can_lock_screen () {
+			return ! this.ui_manager.application.is_inhibited (Gtk.ApplicationInhibitFlags.IDLE);
 		}
 
-		protected void lock_screen() {
-			if (this.has_ui_focus()) {
-				if (! this.ui_manager.session_status.is_locked()) {
-					this.ui_manager.session_status.lock_screen();
+		protected void lock_screen () {
+			if (this.has_ui_focus ()) {
+				if (! this.ui_manager.session_status.is_locked ()) {
+					this.ui_manager.session_status.lock_screen ();
 				}
 			}
 		}
 
-		protected bool notifications_can_do(string capability) {
-			// For whatever reason notify_capabilities.index() isn't matching
+		protected bool notifications_can_do (string capability) {
+			// For whatever reason notify_capabilities.index () isn't matching
 			// our capability strings, so we'll search the list ourselves
 			foreach (string server_capability in this.ui_manager.notify_capabilities) {
 				if (server_capability == capability) return true;
@@ -80,75 +80,75 @@ public class UIManager : SimpleFocusManager {
 			return false;
 		}
 
-		protected void show_notification(Notify.Notification notification) {
-			if (this.has_ui_focus()) {
-				this.ui_manager.show_notification(notification);
+		protected void show_notification (Notify.Notification notification) {
+			if (this.has_ui_focus ()) {
+				this.ui_manager.show_notification (notification);
 				this.notification = notification;
 			}
 		}
 
-		protected void show_lock_notification(Notify.Notification notification) {
-			if (this.has_ui_focus()) {
-				this.ui_manager.show_lock_notification(notification);
+		protected void show_lock_notification (Notify.Notification notification) {
+			if (this.has_ui_focus ()) {
+				this.ui_manager.show_lock_notification (notification);
 				this.notification = notification;
 			}
 		}
 
-		protected void hide_notification() {
-			this.ui_manager.hide_notification(this.notification);
+		protected void hide_notification () {
+			this.ui_manager.hide_notification (this.notification);
 		}
 
-		protected void set_overlay(IScreenOverlayContent overlay_content) {
+		protected void set_overlay (IScreenOverlayContent overlay_content) {
 			if (this.ui_manager.screen_overlay == null) return;
 
 			this.overlay_content = overlay_content;
 
-			if (this.has_ui_focus()) {
-				this.ui_manager.screen_overlay.set_content(this.overlay_content);
+			if (this.has_ui_focus ()) {
+				this.ui_manager.screen_overlay.set_content (this.overlay_content);
 			}
 		}
 
-		protected void reveal_overlay() {
+		protected void reveal_overlay () {
 			if (this.ui_manager.screen_overlay == null) return;
 
-			if (this.has_ui_focus()) {
-				this.ui_manager.screen_overlay.reveal_content(this.overlay_content);
+			if (this.has_ui_focus ()) {
+				this.ui_manager.screen_overlay.reveal_content (this.overlay_content);
 			}
 		}
 
-		protected void shake_overlay() {
+		protected void shake_overlay () {
 			if (this.ui_manager.screen_overlay == null) return;
 
-			if (this.overlay_is_visible()) {
-				this.ui_manager.screen_overlay.request_attention();
+			if (this.overlay_is_visible ()) {
+				this.ui_manager.screen_overlay.request_attention ();
 			}
 		}
 
-		protected bool overlay_is_visible() {
+		protected bool overlay_is_visible () {
 			if (this.ui_manager.screen_overlay == null) {
 				return false;
 			} else {
-				return this.ui_manager.screen_overlay.is_showing_content(this.overlay_content);
+				return this.ui_manager.screen_overlay.is_showing_content (this.overlay_content);
 			}
 		}
 
-		protected void hide_overlay() {
+		protected void hide_overlay () {
 			if (this.ui_manager.screen_overlay == null) return;
 
-			this.ui_manager.screen_overlay.disappear_content(this.overlay_content);
+			this.ui_manager.screen_overlay.disappear_content (this.overlay_content);
 		}
 
 		/* IFocusable interface */
 
-		protected abstract void focus_started();
-		protected abstract void focus_stopped();
+		protected abstract void focus_started ();
+		protected abstract void focus_stopped ();
 	}
 
 	private weak Gtk.Application application;
 	private ISessionStatus session_status;
 	
-	public bool quiet_mode {get; set; default=false;}
-	public int64 quiet_mode_expire_time {get; set;}
+	public bool quiet_mode { get; set; default=false; }
+	public int64 quiet_mode_expire_time { get; set; }
 
 	private PausableTimeout quiet_mode_timeout;
 
@@ -159,53 +159,53 @@ public class UIManager : SimpleFocusManager {
 
 	// The desktop-entry notification hint wants our desktop ID without the
 	// ".desktop" part, so we need to trim it accordingly
-	private static string DESKTOP_ENTRY_BASENAME = Config.HELPER_DESKTOP_ID.slice(
-		0, Config.HELPER_DESKTOP_ID.last_index_of(".desktop")
+	private static string DESKTOP_ENTRY_BASENAME = Config.HELPER_DESKTOP_ID.slice (
+		0, Config.HELPER_DESKTOP_ID.last_index_of (".desktop")
 	);
 	
-	public UIManager(Gtk.Application application, ISessionStatus session_status, bool with_overlay) {
+	public UIManager (Gtk.Application application, ISessionStatus session_status, bool with_overlay) {
 		this.application = application;
 		this.session_status = session_status;
 
 		if (with_overlay) {
-			this.screen_overlay = new ScreenOverlay();
+			this.screen_overlay = new ScreenOverlay ();
 		}
 		
-		Settings settings = new Settings("org.gnome.break-timer");
-		settings.bind("quiet-mode", this, "quiet-mode", SettingsBindFlags.DEFAULT);
-		settings.bind("quiet-mode-expire-time", this, "quiet-mode-expire-time", SettingsBindFlags.DEFAULT);
+		Settings settings = new Settings ("org.gnome.break-timer");
+		settings.bind ("quiet-mode", this, "quiet-mode", SettingsBindFlags.DEFAULT);
+		settings.bind ("quiet-mode-expire-time", this, "quiet-mode-expire-time", SettingsBindFlags.DEFAULT);
 
-		this.quiet_mode_timeout = new PausableTimeout(this.quiet_mode_timeout_cb, 30);
-		this.notify["quiet-mode"].connect((s, p) => {
-			this.update_overlay_format();
+		this.quiet_mode_timeout = new PausableTimeout (this.quiet_mode_timeout_cb, 30);
+		this.notify["quiet-mode"].connect ( (s, p) => {
+			this.update_overlay_format ();
 		});
-		this.update_overlay_format();
+		this.update_overlay_format ();
 
-		this.session_status.unlocked.connect(this.hide_lock_notification_cb);
-		this.notify_capabilities = Notify.get_server_caps();
+		this.session_status.unlocked.connect (this.hide_lock_notification_cb);
+		this.notify_capabilities = Notify.get_server_caps ();
 	}
 
-	private void quiet_mode_timeout_cb(PausableTimeout timeout, int delta_millisecs) {
-		int64 now = Util.get_real_time_seconds();
+	private void quiet_mode_timeout_cb (PausableTimeout timeout, int delta_millisecs) {
+		int64 now = Util.get_real_time_seconds ();
 		if (this.quiet_mode && now > this.quiet_mode_expire_time) {
 			this.quiet_mode = false;
 			this.quiet_mode_expire_time = 0;
-			GLib.debug("Automatically expiring quiet mode");
+			GLib.debug ("Automatically expiring quiet mode");
 		}
 	}
 
-	private void update_overlay_format() {
+	private void update_overlay_format () {
 		if (this.screen_overlay == null) return;
 
 		if (this.quiet_mode) {
-			this.screen_overlay.set_format(ScreenOverlay.Format.SILENT);
-			this.quiet_mode_timeout.start();
-			this.quiet_mode_timeout.run_once();
-			GLib.debug("Quiet mode enabled");
+			this.screen_overlay.set_format (ScreenOverlay.Format.SILENT);
+			this.quiet_mode_timeout.start ();
+			this.quiet_mode_timeout.run_once ();
+			GLib.debug ("Quiet mode enabled");
 		} else {
-			this.screen_overlay.set_format(ScreenOverlay.Format.FULL);
-			this.quiet_mode_timeout.stop();
-			GLib.debug("Quiet mode disabled");
+			this.screen_overlay.set_format (ScreenOverlay.Format.FULL);
+			this.quiet_mode_timeout.stop ();
+			GLib.debug ("Quiet mode disabled");
 		}
 	}
 
@@ -213,15 +213,15 @@ public class UIManager : SimpleFocusManager {
 	 * Show a notification, ensuring that the application is only showing one
 	 * notification at any time.
 	 */
-	protected void show_notification(Notify.Notification notification) {
+	protected void show_notification (Notify.Notification notification) {
 		if (notification != this.notification) {
-			this.hide_notification(this.notification);
+			this.hide_notification (this.notification);
 		}
-		notification.set_hint("desktop-entry", DESKTOP_ENTRY_BASENAME);
+		notification.set_hint ("desktop-entry", DESKTOP_ENTRY_BASENAME);
 		try {
-			notification.show();
+			notification.show ();
 		} catch (Error error) {
-			GLib.warning("Error showing notification: %s", error.message);
+			GLib.warning ("Error showing notification: %s", error.message);
 		}
 		this.notification = notification;
 	}
@@ -231,47 +231,46 @@ public class UIManager : SimpleFocusManager {
 	 * Show a notification that will only appear in the lock screen. The
 	 * notification automatically hides when the screen is unlocked.
 	 */
-	protected void show_lock_notification(Notify.Notification notification) {
-		if (this.session_status.is_locked()) {
+	protected void show_lock_notification (Notify.Notification notification) {
+		if (this.session_status.is_locked ()) {
 			this.lock_notification = notification;
 		} else {
-			notification.set_hint("transient", true);
+			notification.set_hint ("transient", true);
 		}
-		this.show_notification(notification);
+		this.show_notification (notification);
 	}
 
-	private void hide_lock_notification_cb() {
-		this.hide_notification(this.lock_notification, true);
+	private void hide_lock_notification_cb () {
+		this.hide_notification (this.lock_notification, true);
 		this.lock_notification = null;
 	}
 
 	/**
 	 * Close a notification proactively, if it is still open.
 	 */
-	protected void hide_notification(Notify.Notification? notification, bool immediate=true) {
+	protected void hide_notification (Notify.Notification? notification, bool immediate=true) {
 		if (notification != null && this.notification == notification) {
 			try {
 				if (immediate) {
-					this.notification.close();
+					this.notification.close ();
 				} else {
-					this.notification.set_hint("transient", true);
-					this.notification.show();
+					this.notification.set_hint ("transient", true);
+					this.notification.show ();
 				}
 			} catch (Error error) {
 				// We ignore this error, because it's usually just noise
-				// GLib.warning("Error closing notification: %s", error.message);
+				// GLib.warning ("Error closing notification: %s", error.message);
 			}
 		}
 		this.notification = null;
 	}
 
-	public void add_break(BreakView break_view) {
-		this.application.hold();
+	public void add_break (BreakView break_view) {
+		this.application.hold ();
 	}
 
-	public void remove_break(BreakView break_view) {
-		this.release_focus(break_view);
-		this.application.release();
+	public void remove_break (BreakView break_view) {
+		this.release_focus (break_view);
+		this.application.release ();
 	}
 }
-

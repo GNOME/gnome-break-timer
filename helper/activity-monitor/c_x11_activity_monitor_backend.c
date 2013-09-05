@@ -51,14 +51,14 @@ typedef struct {
 	unsigned long last_event_time;
 } XRecordMonitor_priv;
 
-void error_handler(Display * display, XErrorEvent * event);
+void error_handler (Display * display, XErrorEvent * event);
 bool init_xrecord (XRecordMonitor_priv * priv);
 void run_xrecord (XRecordMonitor_priv * priv);
 void stop_xrecord (XRecordMonitor_priv * priv);
 void handle_xrecord_callback (XPointer closure, XRecordInterceptData * data);
 
 void * c_x11_activity_monitor_backend_create_context () {
-	XRecordMonitor_priv * priv = malloc(sizeof(XRecordMonitor_priv));
+	XRecordMonitor_priv * priv = malloc (sizeof (XRecordMonitor_priv));
 	priv->x11_display = NULL;
 	priv->xrecord_datalink = NULL;
 	priv->xrecord_context = 0;
@@ -68,21 +68,21 @@ void * c_x11_activity_monitor_backend_create_context () {
 }
 
 void c_x11_activity_monitor_backend_start (XRecordMonitor_priv * priv) {
-	//XSetErrorHandler(&error_handler);
+	//XSetErrorHandler (&error_handler);
 	
-	//XRecordMonitor_priv * priv = malloc(sizeof(XRecordMonitor_priv));
+	//XRecordMonitor_priv * priv = malloc (sizeof (XRecordMonitor_priv));
 	
 	if (priv->x11_display == NULL) {
-		priv->x11_display = XOpenDisplay(NULL);
-		run_xrecord(priv);
+		priv->x11_display = XOpenDisplay (NULL);
+		run_xrecord (priv);
 	}
 }
 
 void c_x11_activity_monitor_backend_stop (XRecordMonitor_priv * priv) {
-	stop_xrecord(priv);
+	stop_xrecord (priv);
 	
 	if (priv->x11_display != NULL) {
-		XCloseDisplay(priv->x11_display);
+		XCloseDisplay (priv->x11_display);
 		priv->x11_display = NULL;
 	}
 }
@@ -92,10 +92,10 @@ unsigned long c_x11_activity_monitor_backend_get_last_event_time (XRecordMonitor
 }
 
 
-void error_handler(Display * display, XErrorEvent * event) {
+void error_handler (Display * display, XErrorEvent * event) {
 	char text[128];
-	XGetErrorText(display, event->error_code, text, 127);
-	fprintf(stderr, "X11 activity monitor backend: X Error %d, %s\n", event->error_code, text);
+	XGetErrorText (display, event->error_code, text, 127);
+	fprintf (stderr, "X11 activity monitor backend: X Error %d, %s\n", event->error_code, text);
 }
 
 static int xi_event_base = 0;
@@ -106,18 +106,18 @@ bool init_xrecord (XRecordMonitor_priv * priv) {
 	priv->xrecord_datalink = NULL;
 	
 	int major, minor;
-	if (XRecordQueryVersion(priv->x11_display, &major, &minor)) {
+	if (XRecordQueryVersion (priv->x11_display, &major, &minor)) {
 		// Receive from ALL clients, including future clients.
 		XRecordClientSpec client = XRecordAllClients;
 		
 		// Receive KeyPress, KeyRelease, ButtonPress, ButtonRelease and
 		// MotionNotify events.
-		XRecordRange * record_range = XRecordAllocRange();
+		XRecordRange * record_range = XRecordAllocRange ();
 		if (record_range != NULL) {
-			memset(record_range, 0, sizeof(XRecordRange));
+			memset (record_range, 0, sizeof (XRecordRange));
 			
 			int dummy = 0;
-			bool have_xi = XQueryExtension(priv->x11_display, "XInputExtension", &dummy, &xi_event_base, &dummy);
+			bool have_xi = XQueryExtension (priv->x11_display, "XInputExtension", &dummy, &xi_event_base, &dummy);
 			
 			if (have_xi && xi_event_base != 0) {
 				record_range->device_events.first = xi_event_base + XI_DeviceKeyPress;
@@ -129,18 +129,18 @@ bool init_xrecord (XRecordMonitor_priv * priv) {
 		}
 		
 		// And create the XRECORD context.
-		priv->xrecord_context = XRecordCreateContext(priv->x11_display, false, &client,  1, &record_range, 1);
+		priv->xrecord_context = XRecordCreateContext (priv->x11_display, false, &client,  1, &record_range, 1);
 		
-		XFree(record_range);
+		XFree (record_range);
 	}
 	
 	if (priv->xrecord_context != 0) {
-		XSync(priv->x11_display, true);
-		priv->xrecord_datalink = XOpenDisplay(NULL);
+		XSync (priv->x11_display, true);
+		priv->xrecord_datalink = XOpenDisplay (NULL);
 	}
 	
 	if (priv->xrecord_datalink == NULL) {
-		XRecordFreeContext(priv->x11_display, priv->xrecord_context);
+		XRecordFreeContext (priv->x11_display, priv->xrecord_context);
 		priv->xrecord_context = 0;
 		success = false;
 	}
@@ -149,21 +149,21 @@ bool init_xrecord (XRecordMonitor_priv * priv) {
 }
 
 void run_xrecord (XRecordMonitor_priv * priv) {
-	bool xrecord_alive = init_xrecord(priv);
+	bool xrecord_alive = init_xrecord (priv);
 	
 	if (xrecord_alive) {
-		XRecordState * state = malloc(sizeof(XRecordState));
-		XRecordGetContext(priv->xrecord_datalink, priv->xrecord_context, &state);
+		XRecordState * state = malloc (sizeof (XRecordState));
+		XRecordGetContext (priv->xrecord_datalink, priv->xrecord_context, &state);
 		
-		int enabled = XRecordEnableContext(priv->xrecord_datalink, priv->xrecord_context, &handle_xrecord_callback, (XPointer)priv);
+		int enabled = XRecordEnableContext (priv->xrecord_datalink, priv->xrecord_context, &handle_xrecord_callback, (XPointer)priv);
 	}
 }
 
 void stop_xrecord (XRecordMonitor_priv * priv) {
 	if (priv->xrecord_context != 0) {
-		XRecordDisableContext(priv->xrecord_datalink, priv->xrecord_context);
-		XRecordFreeContext(priv->x11_display, priv->xrecord_context);
-		XFlush(priv->xrecord_datalink);
+		XRecordDisableContext (priv->xrecord_datalink, priv->xrecord_context);
+		XRecordFreeContext (priv->x11_display, priv->xrecord_context);
+		XFlush (priv->xrecord_datalink);
 		
 		priv->xrecord_context = 0;
 		priv->xrecord_datalink = NULL;
@@ -172,14 +172,14 @@ void stop_xrecord (XRecordMonitor_priv * priv) {
 
 
 
-void handle_xrecord_core_event(XRecordInterceptData * data, XRecordMonitor_priv * priv) {
+void handle_xrecord_core_event (XRecordInterceptData * data, XRecordMonitor_priv * priv) {
 	/*XEvent *event = (XEvent *)data->data;*/
 	if (data->server_time > priv->last_event_time) {
 		priv->last_event_time = data->server_time;
 	}
 }
 
-void handle_xrecord_xi_event(XRecordInterceptData * data, XRecordMonitor_priv * priv) {
+void handle_xrecord_xi_event (XRecordInterceptData * data, XRecordMonitor_priv * priv) {
 	/*deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;*/
 	if (data->server_time > priv->last_event_time) {
 		priv->last_event_time = data->server_time;
@@ -202,16 +202,16 @@ void handle_xrecord_callback (XPointer closure, XRecordInterceptData * data) {
 			event = (xEvent *)data->data;
 			
 			if (KeyPress <= event->u.u.type && event->u.u.type <= MotionNotify) {
-				handle_xrecord_core_event(data, priv);
+				handle_xrecord_core_event (data, priv);
 			} else if (xi_event_base != 0) {
-				handle_xrecord_xi_event(data, priv);
+				handle_xrecord_xi_event (data, priv);
 			}
 			
 			break;
 	}
 	
 	if (data != NULL) {
-		XRecordFreeData(data);
+		XRecordFreeData (data);
 	}
 }
 

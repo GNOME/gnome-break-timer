@@ -16,24 +16,24 @@
  */
 
 public class MicroBreakType : TimerBreakType {
-	public MicroBreakType() {
-		Settings settings = new Settings("org.gnome.break-timer.microbreak");
-		base("microbreak", settings);
+	public MicroBreakType () {
+		Settings settings = new Settings ("org.gnome.break-timer.microbreak");
+		base ("microbreak", settings);
 
-		this.interval_options = {240, 300, 360, 480, 600};
-		this.duration_options = {15, 30, 45, 60};
+		this.interval_options = { 240, 300, 360, 480, 600 };
+		this.duration_options = { 15, 30, 45, 60 };
 	}
 
-	protected override BreakInfoPanel get_info_panel() {
-		return new MicroBreakInfoPanel(this);
+	protected override BreakInfoPanel get_info_panel () {
+		return new MicroBreakInfoPanel (this);
 	}
 
-	protected override BreakStatusPanel get_status_panel() {
-		return new MicroBreakStatusPanel(this);
+	protected override BreakStatusPanel get_status_panel () {
+		return new MicroBreakStatusPanel (this);
 	}
 	
-	protected override BreakSettingsPanel get_settings_panel() {
-		return new MicroBreakSettingsPanel(this);
+	protected override BreakSettingsPanel get_settings_panel () {
+		return new MicroBreakSettingsPanel (this);
 	}
 }
 
@@ -45,33 +45,33 @@ I'll chime when it’s time to use the computer again.");
 
 	private TimerBreakStatus? status;
 
-	public MicroBreakInfoPanel(MicroBreakType break_type) {
-		base(
+	public MicroBreakInfoPanel (MicroBreakType break_type) {
+		base (
 			break_type,
 			_("Microbreak")
 		);
 
-		break_type.timer_status_changed.connect(this.timer_status_changed_cb);
+		break_type.timer_status_changed.connect (this.timer_status_changed_cb);
 	}
 
-	private void timer_status_changed_cb(TimerBreakStatus? status) {
+	private void timer_status_changed_cb (TimerBreakStatus? status) {
 		this.status = status;
-		this.update_description();
+		this.update_description ();
 	}
 
-	private void update_description() {
-		this.set_heading(_("It’s microbreak time"));
+	private void update_description () {
+		this.set_heading (_("It’s microbreak time"));
 
 		if (this.status != null && this.status.is_active) {
-			string duration_text = NaturalTime.instance.get_label_for_seconds(this.status.current_duration);
-			this.set_description(ACTIVE_DESCRIPTION_FORMAT.printf(duration_text));
+			string duration_text = NaturalTime.instance.get_label_for_seconds (this.status.current_duration);
+			this.set_description (ACTIVE_DESCRIPTION_FORMAT.printf (duration_text));
 		}
 	}
 }
 
 class MicroBreakStatusPanel : TimerBreakStatusPanel {
-	public MicroBreakStatusPanel(MicroBreakType break_type) {
-		base(
+	public MicroBreakStatusPanel (MicroBreakType break_type) {
+		base (
 			break_type,
 			_("Your next microbreak is in"),
 			_("It's time for a microbreak")
@@ -80,12 +80,11 @@ class MicroBreakStatusPanel : TimerBreakStatusPanel {
 }
 
 class MicroBreakSettingsPanel : TimerBreakSettingsPanel {
-	public MicroBreakSettingsPanel(MicroBreakType break_type) {
-		base(
+	public MicroBreakSettingsPanel (MicroBreakType break_type) {
+		base (
 			break_type,
 			_("Microbreak"),
 			_("Pause frequently to relax your eyes")
 		);
 	}
 }
-

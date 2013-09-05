@@ -22,72 +22,71 @@
  * start methods, respectively.
  */
 public class PausableTimeout : Object {
-	public delegate void TimeoutCB(PausableTimeout timeout, int delta_millisecs);
+	public delegate void TimeoutCB (PausableTimeout timeout, int delta_millisecs);
 	
 	private unowned TimeoutCB timeout_cb;
 	private uint source_id;
 	private int frequency;
 	private int64 last_time;
 	
-	public PausableTimeout(TimeoutCB callback, int frequency) {
+	public PausableTimeout (TimeoutCB callback, int frequency) {
 		this.timeout_cb = callback;
 		this.frequency = frequency;
 	}
 
-	public string serialize() {
-		return string.joinv(",", {
-			this.frequency.to_string(),
-			this.last_time.to_string()
+	public string serialize () {
+		return string.joinv (",", {
+			this.frequency.to_string (),
+			this.last_time.to_string ()
 		});
 	}
 
-	public void deserialize(string data) {
-		string[] data_parts = data.split(",");
-		this.frequency = int.parse(data_parts[0]);
-		this.last_time = int64.parse(data_parts[1]);
+	public void deserialize (string data) {
+		string[] data_parts = data.split (",");
+		this.frequency = int.parse (data_parts[0]);
+		this.last_time = int64.parse (data_parts[1]);
 	}
 	
-	private bool timeout_wrapper() {
-		int64 now = Util.get_monotonic_time();
+	private bool timeout_wrapper () {
+		int64 now = Util.get_monotonic_time ();
 		int64 time_delta = now - this.last_time;
 		this.last_time = now;
 		
 		int delta_millisecs = (int) (time_delta / 1000);
-		this.timeout_cb(this, delta_millisecs);
+		this.timeout_cb (this, delta_millisecs);
 		
 		return true;
 	}
 
-	public void run_once() {
-		this.timeout_wrapper();
+	public void run_once () {
+		this.timeout_wrapper ();
 	}
 	
-	public void start() {
-		if (this.is_running()) {
-			Source.remove(this.source_id);
+	public void start () {
+		if (this.is_running ()) {
+			Source.remove (this.source_id);
 		}
 		
-		this.last_time = Util.get_monotonic_time();
+		this.last_time = Util.get_monotonic_time ();
 		
-		this.source_id = Timeout.add_seconds(this.frequency, this.timeout_wrapper);
+		this.source_id = Timeout.add_seconds (this.frequency, this.timeout_wrapper);
 	}
 	
-	public void set_frequency(int frequency) {
+	public void set_frequency (int frequency) {
 		this.frequency = frequency;
-		if (this.is_running()) {
-			this.start();
+		if (this.is_running ()) {
+			this.start ();
 		}
 	}
 	
-	public void stop() {
-		if (this.is_running()) {
-			Source.remove(this.source_id);
+	public void stop () {
+		if (this.is_running ()) {
+			Source.remove (this.source_id);
 			this.source_id = 0;
 		}
 	}
 	
-	public bool is_running() {
+	public bool is_running () {
 		return this.source_id > 0;
 	}
 }
-
