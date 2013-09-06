@@ -173,7 +173,7 @@ public abstract class TimerBreakSettingsPanel : BreakSettingsPanel {
 		details_grid.set_column_spacing (8);
 		details_grid.set_row_spacing (8);
 		
-		var interval_label = new Gtk.Label.with_mnemonic (_("Every"));
+		var interval_label = new Gtk.Label.with_mnemonic ( _("Every"));
 		interval_label.set_halign (Gtk.Align.END);
 		details_grid.attach (interval_label, 0, 1, 1, 1);
 		
@@ -181,7 +181,7 @@ public abstract class TimerBreakSettingsPanel : BreakSettingsPanel {
 		details_grid.attach_next_to (interval_chooser, interval_label, Gtk.PositionType.RIGHT, 1, 1);
 		break_type.settings.bind ("interval-seconds", interval_chooser, "time-seconds", SettingsBindFlags.DEFAULT);
 		
-		var duration_label = new Gtk.Label.with_mnemonic (_("For"));
+		var duration_label = new Gtk.Label.with_mnemonic ( _("For"));
 		duration_label.set_halign (Gtk.Align.END);
 		details_grid.attach (duration_label, 0, 2, 1, 1);
 		

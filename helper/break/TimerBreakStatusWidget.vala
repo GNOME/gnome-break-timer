@@ -52,7 +52,7 @@ public class TimerBreakStatusWidget : Gtk.Grid, IScreenOverlayContent {
 
 	private void finished_cb (BreakController.FinishedReason reason) {
 		if (reason == BreakController.FinishedReason.SATISFIED) {
-			this.timer_label.set_text (_("Thank you"));
+			this.timer_label.set_text ( _("Thank you"));
 		}
 	}
 

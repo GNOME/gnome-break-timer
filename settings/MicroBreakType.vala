@@ -60,7 +60,7 @@ I'll chime when it’s time to use the computer again.");
 	}
 
 	private void update_description () {
-		this.set_heading (_("It’s microbreak time"));
+		this.set_heading ( _("It’s microbreak time"));
 
 		if (this.status != null && this.status.is_active) {
 			string duration_text = NaturalTime.instance.get_label_for_seconds (this.status.current_duration);

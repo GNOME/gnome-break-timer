@@ -39,7 +39,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 		Object (application: application);
 		this.break_manager = break_manager;
 		
-		this.set_title (_("Break Timer"));
+		this.set_title ( _("Break Timer"));
 
 		Gtk.Builder builder = new Gtk.Builder ();
 		try {
@@ -135,7 +135,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 		BreakType? foreground_break = this.break_manager.foreground_break;
 		if (this.welcome_panel.is_active ()) {
 			this.main_stack.set_visible_child (this.welcome_panel);
-			this.header.set_title (_("Welcome Tour"));
+			this.header.set_title ( _("Welcome Tour"));
 		} else if (foreground_break != null) {
 			this.main_stack.set_visible_child (foreground_break.info_panel);
 			this.header.set_title (foreground_break.info_panel.title);

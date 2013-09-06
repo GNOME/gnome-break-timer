@@ -81,7 +81,7 @@ public class MicroBreakView : TimerBreakView {
 		this.delay_time_notified = 0;
 
 		var status_widget = new TimerBreakStatusWidget (this.micro_break);
-		status_widget.set_message (_("Take a moment to rest your eyes"));
+		status_widget.set_message ( _("Take a moment to rest your eyes"));
 		this.set_overlay (status_widget);
 
 		if (! this.overlay_is_visible ()) {

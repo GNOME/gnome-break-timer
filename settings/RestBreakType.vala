@@ -41,7 +41,7 @@ class RestBreakInfoPanel : BreakInfoPanel {
 	const string ACTIVE_DESCRIPTION_FORMAT =
 _("Take some time away from the computer. Stretch and move around.
 
-Your break has %s remaining. I’ll remind you it’s over.");
+Your break has %s remaining. I’ll remind you when it’s over.");
 
 	private TimerBreakStatus? status;
 
