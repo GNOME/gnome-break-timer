@@ -69,6 +69,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 
 		this.master_switch = new Gtk.Switch ();
 		header.pack_start (this.master_switch);
+		master_switch.set_valign (Gtk.Align.CENTER);
 		break_manager.bind_property ("master-enabled", this.master_switch, "active", BindingFlags.BIDIRECTIONAL | BindingFlags.SYNC_CREATE);
 
 		this.settings_button = new Gtk.Button ();
@@ -77,7 +78,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 		// FIXME: This icon is not semantically correct. (Wrong category, especially).
 		settings_button.set_image (new Gtk.Image.from_icon_name (
 			"preferences-system-symbolic",
-			Gtk.IconSize.SMALL_TOOLBAR)
+			Gtk.IconSize.MENU)
 		);
 		settings_button.set_always_show_image (true);
 
