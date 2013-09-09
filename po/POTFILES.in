@@ -1,3 +1,4 @@
+data/gnome-break-timer.appdata.xml.in
 data/gnome-break-timer.desktop.in
 data/gnome-break-timer-autostart.desktop.in
 data/gnome-break-timer-service.desktop.in
