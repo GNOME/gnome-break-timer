@@ -11,6 +11,13 @@
 
   <maintainer>
     <foaf:Person>
+      <foaf:name>Dylan McCall</foaf:name>
+      <foaf:mbox rdf:resource="mailto:dylanmccall@ubuntu.com" />
+    </foaf:Person>
+  </maintainer>
+
+  <maintainer>
+    <foaf:Person>
       <foaf:name>Jasper St. Pierre</foaf:name>
       <foaf:mbox rdf:resource="mailto:jstpierre@mecheye.net" />
       <gnome:userid>jstpierre</gnome:userid>
