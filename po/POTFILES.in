@@ -1,19 +1,19 @@
 data/gnome-break-timer.appdata.xml.in
-data/gnome-break-timer.desktop.in
 data/gnome-break-timer-autostart.desktop.in
+data/gnome-break-timer.desktop.in
 data/gnome-break-timer-service.desktop.in
 data/org.gnome.break-timer.gschema.xml.in
-data/settings-panels.ui
+[type: gettext/glade]data/settings-panels.ui
 common/NaturalTime.vala
 helper/break/BreakView.vala
 helper/break/TimerBreakStatusWidget.vala
+helper/HelperApplication.vala
 helper/microbreak/MicroBreakView.vala
 helper/restbreak/RestBreakView.vala
-helper/HelperApplication.vala
 settings/BreakSettingsDialog.vala
 settings/MainWindow.vala
 settings/MicroBreakType.vala
 settings/RestBreakType.vala
+settings/SettingsApplication.vala
 settings/TimeChooser.vala
 settings/TimerBreakType.vala
-settings/SettingsApplication.vala
