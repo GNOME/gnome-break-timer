@@ -47,7 +47,7 @@ public class TimeChooser : Gtk.ComboBox {
 			string label = NaturalTime.instance.get_label_for_seconds (time);
 			this.add_option (label, time);
 		}
-		//this.other_item = this.add_option ( _("Other…"), OPTION_OTHER);
+		// this.other_item = this.add_option ( _("Other…"), OPTION_OTHER);
 		this.custom_item = null;
 		
 		this.changed.connect (this.on_changed);
@@ -122,131 +122,6 @@ public class TimeChooser : Gtk.ComboBox {
 	}
 	
 	private void start_custom_input () {
-		Gtk.Window? parent_window = (Gtk.Window)this.get_toplevel ();
-		if (! parent_window.is_toplevel ()) {
-			parent_window = null;
-		}
-		TimeEntryDialog dialog = new TimeEntryDialog.with_example (parent_window, this.title, this.time_seconds);
-		dialog.time_entered.connect ( (time) => {
-			bool success = this.set_time (time);
-			if (! success) {
-				this.set_time (this.time_seconds);
-			}
-		});
-		dialog.cancelled.connect ( () => {
-			this.set_time (this.time_seconds);
-		});
-		dialog.present ();
-	}
-}
-
-private class TimeEntryDialog : Gtk.Dialog {
-	private Gtk.Grid content_grid;
-	
-	private Gtk.Widget ok_button;
-	private Gtk.Entry time_entry;
-	
-	private Gtk.ListStore completion_store;
-	
-	public signal void time_entered (int time_seconds);
-	public signal void cancelled ();
-	
-	public TimeEntryDialog (Gtk.Window? parent, string title) {
-		Object ();
-		
-		this.set_title (title);
-		
-		this.set_modal (true);
-		this.set_resizable (false);
-		this.set_destroy_with_parent (true);
-		this.set_transient_for (parent);
-		
-		this.ok_button = this.add_button (Gtk.Stock.OK, Gtk.ResponseType.OK);
-		this.response.connect ( (response_id) => {
-			if (response_id == Gtk.ResponseType.OK) this.submit ();
-		});
-		this.destroy.connect ( () => {
-			this.cancelled ();
-		});
-		
-		Gtk.Container content_area = (Gtk.Container)this.get_content_area ();
-		
-		this.content_grid = new Gtk.Grid ();
-		this.content_grid.margin = 6;
-		this.content_grid.set_row_spacing (4);
-		this.content_grid.set_orientation (Gtk.Orientation.VERTICAL);
-		content_area.add (this.content_grid);
-		
-		Gtk.Label entry_label = new Gtk.Label (title);
-		this.content_grid.add (entry_label);
-		
-		this.time_entry = new Gtk.Entry ();
-		this.time_entry.activate.connect (this.submit);
-		this.time_entry.changed.connect (this.time_entry_changed);
-		this.content_grid.add (this.time_entry);
-		
-		Gtk.EntryCompletion completion = new Gtk.EntryCompletion ();
-		this.completion_store = new Gtk.ListStore (1, typeof (string));
-		completion.set_model (this.completion_store);
-		completion.set_text_column (0);
-		completion.set_inline_completion (true);
-		completion.set_popup_completion (true);
-		completion.set_popup_single_match (false);
-		
-		this.time_entry.set_completion (completion);
-		
-		this.validate_input ();
-		
-		content_area.show_all ();
-	}
-	
-	public TimeEntryDialog.with_example (Gtk.Window? parent, string title, int example_seconds) {
-		this (parent, title);
-		
-		string example = NaturalTime.instance.get_label_for_seconds (example_seconds);
-		
-		Gtk.Label example_label = new Gtk.Label (null);
-		example_label.set_markup ("<small>Example: %s</small>".printf (example));
-		content_grid.add (example_label);
-		
-		example_label.show ();
-	}
-	
-	private void validate_input () {
-		string text = this.time_entry.get_text ();
-		
-		bool valid = NaturalTime.instance.get_seconds_for_input (text) > 0;
-		
-		this.set_response_sensitive (Gtk.ResponseType.OK, valid);
-	}
-	
-	private void time_entry_changed () {
-		string text = this.time_entry.get_text ();
-		string[] completions = NaturalTime.instance.get_completions_for_input (text);
-		
-		// replace completion options without deleting rows
-		// if we delete rows, gtk throws some unhappy error messages
-		Gtk.TreeIter iter;
-		bool iter_valid = this.completion_store.get_iter_first (out iter);
-		if (!iter_valid) this.completion_store.append (out iter);
-		
-		foreach (string completion in completions) {
-			this.completion_store.set (iter, 0, completion, -1);
-			
-			iter_valid = this.completion_store.iter_next (ref iter);
-			if (!iter_valid) this.completion_store.append (out iter);
-		}
-		
-		this.validate_input ();
-	}
-	
-	private void submit () {
-		int time = NaturalTime.instance.get_seconds_for_input (this.time_entry.get_text ());
-		if (time > 0) {
-			this.time_entered (time);
-			this.destroy ();
-		} else {
-			Gdk.beep ();
-		}
+		GLib.warning("Custom time input is not implemented");
 	}
 }

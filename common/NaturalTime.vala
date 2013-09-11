@@ -16,45 +16,20 @@
  */
 
 public class NaturalTime : Object {
+	public delegate string FormatTimeCb (int seconds);
+
 	private struct TimeUnit {
-		public string label_single;
-		public string label_plural;
 		public int seconds;
+		public FormatTimeCb format_time;
 		
-		public Regex re_single;
-		public Regex re_plural;
-		
-		public TimeUnit (string label_single, string label_plural, int seconds) {
-			this.label_single = label_single;
-			this.label_plural = label_plural;
+		public TimeUnit (int seconds, FormatTimeCb format_time) {
 			this.seconds = seconds;
-			
-			try {
-				this.re_single = new Regex (label_single.replace ("%d", "(\\d+)"));
-			} catch (RegexError error) {
-				GLib.warning ("Error compiling regex for TimeUnit: %s", error.message);
-			}
-			
-			try {
-				this.re_plural = new Regex (label_plural.replace ("%d", "(\\d+)"));
-			} catch (RegexError error) {
-				GLib.warning ("Error compiling regex for TimeUnit: %s", error.message);
-			}
+			this.format_time = format_time;
 		}
 		
 		public string format_seconds (int seconds) {
 			int time = seconds / this.seconds;
-			
-			return ngettext (this.label_single.printf (time),
-					this.label_plural.printf (time),
-					time);
-		}
-		
-		public MatchInfo? matches_for_input (string input) {
-			MatchInfo? match_info = null;
-			bool single_matched = this.re_single.match (input, RegexMatchFlags.ANCHORED, out match_info);
-			if (! single_matched) this.re_plural.match (input, RegexMatchFlags.ANCHORED, out match_info);
-			return match_info;
+			return this.format_time(time);
 		}
 	}
 	
@@ -62,9 +37,15 @@ public class NaturalTime : Object {
 	
 	private NaturalTime () {
 		this.units = {
-			TimeUnit (_ ("%d second"), _ ("%d seconds"), 1),
-			TimeUnit (_ ("%d minute"), _ ("%d minutes"), 60),
-			TimeUnit (_ ("%d hour"), _ ("%d hours"), 3600)
+			TimeUnit (1, (time) => {
+				return ngettext ("%d second", "%d seconds", time).printf(time);
+			}),
+			TimeUnit (60, (time) => {
+				return ngettext ("%d minute", "%d minutes", time).printf(time);
+			}),
+			TimeUnit (3600, (time) => {
+				return ngettext ("%d hour", "%d hours", time).printf(time);
+			})
 		};
 	}
 
@@ -76,42 +57,6 @@ public class NaturalTime : Object {
 			}
 			return _instance;
 		}
-	}
-	
-	/**
-	 * Get a list of possible matches for a natural time input such as
-	 * "5 seconds." An input of "50" will return an array with "50" in every
-	 * known time interval: "50 seconds", "50 minutes" and "50 hours."
-	 * @param input a string representing an amount of time.
-	 * @return a list of strings representing the same time in different units.
-	 */
-	public string[] get_completions_for_input (string input) {
-		int time = get_time_for_input (input);
-		if (time < 1) time = 1;
-		
-		return get_completions_for_time (time);
-	}
-	
-	/**
-	 * Get a list of natural representations of the given amount of time,
-	 * one for each known unit. Note that this does not do unit conversion
-	 * for time, so that number is treated exactly as given. For example,
-	 * an input of 50 will return a string representation of 50 seconds, 50
-	 * hours and 50 minutes
-	 * @param input an amount of time.
-	 * @return a list of strings representing the same time in different units.
-	 */
-	public string[] get_completions_for_time (int time) {
-		string[] completions = new string[units.length];
-		
-		for (int i = 0; i < units.length; i++) {
-			TimeUnit unit = units[i];
-			completions[i] = ngettext (unit.label_single.printf (time),
-					unit.label_plural.printf (time),
-					time);
-		}
-		
-		return completions;
 	}
 	
 	/**
@@ -195,59 +140,5 @@ public class NaturalTime : Object {
 		int seconds_softened = soften_seconds_for_countdown (seconds);
 		if (seconds_softened > start) seconds_softened = start;
 		return get_simplest_label_for_seconds (seconds_softened);
-	}
-	
-	private bool get_unit_for_input (string input, out TimeUnit? out_unit, out int out_time) {
-		out_unit = null;
-		out_time = -1;
-		
-		foreach (TimeUnit unit in units) {
-			MatchInfo? match_info = unit.matches_for_input (input);
-			if (match_info != null && match_info.matches ()) {
-				string time_str = match_info.fetch (1);
-				out_time = int.parse (time_str);
-				out_unit = unit;
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	private int get_time_for_input (string input) {
-		Regex time_re;
-		try {
-			// this assumes \\d+ will _only_ match the time
-			time_re = new Regex ("(\\d+)");
-		} catch (RegexError error) {
-			GLib.warning ("Error compiling regex: %s", error.message);
-			return -1;
-		}
-		
-		MatchInfo match_info;
-		if (time_re.match (input, 0, out match_info)) {
-			string time_str = match_info.fetch (1);
-			int time = int.parse (time_str);
-			return time;
-		} else {
-			return -1;
-		}
-	}
-	
-	/**
-	 * Convert an input string representing a time to its corresponding
-	 * number of seconds. The input should be in a format understood by
-	 * NaturalTime, such as a string provided by get_completions_for_time.
-	 * @param input a string representing some amount of time.
-	 * @return int the time, in seconds, corresponding to the input.
-	 */
-	public int get_seconds_for_input (string input) {
-		TimeUnit? unit;
-		int time;
-		if (get_unit_for_input (input, out unit, out time)) {
-			return time * unit.seconds;
-		} else {
-			return -1;
-		}
 	}
 }

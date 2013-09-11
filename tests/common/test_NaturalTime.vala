@@ -23,7 +23,6 @@ public class test_NaturalTime : SimpleTestSuite {
 		new test_get_simplest_label_for_seconds().add_to(this);
 		new test_get_countdown_for_seconds().add_to(this);
 		new test_get_countdown_for_seconds_with_start().add_to(this);
-		new test_get_seconds_for_input().add_to(this);
 	}
 
 	public override void setup() {
@@ -78,17 +77,5 @@ class test_get_countdown_for_seconds_with_start : Object, SimpleTestCase<test_Na
 		assert(label_60 == _("%d seconds".printf(55)));
 		assert(label_55 == _("%d seconds".printf(55)));
 		assert(label_51 == _("%d seconds".printf(55)));
-	}
-}
-
-class test_get_seconds_for_input : Object, SimpleTestCase<test_NaturalTime> {
-	public void run(test_NaturalTime context) {
-		var input_2_hours = _("%d hours".printf(2));
-		var input_1_minute = _("%d minute".printf(1));
-		var input_60_seconds = _("%d seconds".printf(60));
-
-		assert(context.natural_time.get_seconds_for_input(input_2_hours) == 7200);
-		assert(context.natural_time.get_seconds_for_input(input_1_minute) == 60);
-		assert(context.natural_time.get_seconds_for_input(input_60_seconds) == 60);
 	}
 }
