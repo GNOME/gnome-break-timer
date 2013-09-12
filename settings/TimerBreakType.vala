@@ -103,7 +103,7 @@ public abstract class TimerBreakStatusPanel : BreakStatusPanel {
 	private string upcoming_text;
 	private string ongoing_text;
 
-	private Gtk.Image time_icon;
+	private CircleCounter circle_counter;
 	private Gtk.Label status_label;
 	private Gtk.Label time_label;
 
@@ -115,13 +115,9 @@ public abstract class TimerBreakStatusPanel : BreakStatusPanel {
 		this.set_column_spacing (12);
 
 		// FIXME: This is an application icon. It doesn't make sense here.
-		this.time_icon = new Gtk.Image.from_icon_name (
-			"preferences-system-time-symbolic",
-			Gtk.IconSize.DIALOG
-		);
-		this.attach (this.time_icon, 0, 0, 1, 1);
-		this.time_icon.set_pixel_size (90);
-		this.time_icon.get_style_context ().add_class ("_break-status-icon");
+		this.circle_counter = new CircleCounter ();
+		this.attach (this.circle_counter, 0, 0, 1, 1);
+		this.circle_counter.get_style_context ().add_class ("_break-status-icon");
 
 		var labels_grid = new Gtk.Grid ();
 		this.attach (labels_grid, 1, 0, 1, 1);
@@ -146,19 +142,22 @@ public abstract class TimerBreakStatusPanel : BreakStatusPanel {
 
 	private void timer_status_changed_cb (TimerBreakStatus? status) {
 		if (status == null) return;
+
+		TimerBreakType timer_break = (TimerBreakType) this.break_type;
 		
 		if (status.is_active) {
-			// TODO: Instead of this, explain the current break. Implement
-			// the "What should I do?" button from the mockup, seen at
-			// https://raw.github.com/gnome-design-team/gnome-mockups/master/break-timer/wires-notifications.png
 			this.status_label.set_label (this.ongoing_text);
 			string time_text = NaturalTime.instance.get_countdown_for_seconds_with_start (
 				status.time_remaining, status.current_duration);
 			this.time_label.set_label (time_text);
+			this.circle_counter.direction = CircleCounter.Direction.COUNT_DOWN;
+			this.circle_counter.progress = (status.current_duration - status.time_remaining) / (double)status.current_duration;
 		} else {
 			this.status_label.set_label (this.upcoming_text);
 			string time_text = NaturalTime.instance.get_countdown_for_seconds (status.starts_in);
 			this.time_label.set_label (time_text);
+			this.circle_counter.direction = CircleCounter.Direction.COUNT_UP;
+			this.circle_counter.progress = (timer_break.interval - status.starts_in) / (double)timer_break.interval;
 		}
 	}
 }

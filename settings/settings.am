@@ -4,6 +4,7 @@ SETTINGS_SOURCES = \
 	BreakManager.vala \
 	BreakSettingsDialog.vala \
 	BreakType.vala \
+	CircleCounter.vala \
 	MainWindow.vala \
 	MicroBreakType.vala \
 	OverlayArrow.vala \
