@@ -26,6 +26,8 @@ public class CircleCounter : Gtk.Widget {
 	protected const double LINE_WIDTH = 5.0;
 	protected const int DEFAULT_RADIUS = 48;
 
+	private const double SNAP_INCREMENT = (Math.PI * 2) / 60.0;
+
 	public enum Direction {
 		COUNT_DOWN,
 		COUNT_UP
@@ -48,6 +50,8 @@ public class CircleCounter : Gtk.Widget {
 		Object ();
 		this.set_has_window (false);
 
+		this.get_style_context ().add_class ("_circle-counter");
+
 		this.notify["progress"].connect((s, p) => {
 			this.queue_draw ();
 		});
@@ -64,9 +68,7 @@ public class CircleCounter : Gtk.Widget {
 		int radius = int.min(center_x, center_y);
 		double arc_radius = radius - LINE_WIDTH / 2;
 
-		// FIXME: Get some nicer colours from CSS?
-		Gdk.RGBA trough_color = style_context.get_color (state);
-		trough_color.alpha = trough_color.alpha / 5;
+		Gdk.RGBA trough_color = style_context.get_background_color (state);
 		Gdk.RGBA base_color = style_context.get_color (state);
 
 		Gdk.cairo_set_source_rgba (cr, trough_color);
@@ -76,6 +78,8 @@ public class CircleCounter : Gtk.Widget {
 
 		double start_angle = 1.5 * Math.PI;
 		double progress_angle = this.progress * Math.PI * 2.0;
+		progress_angle = (int)(progress_angle / SNAP_INCREMENT) * SNAP_INCREMENT;
+
 		if (this.direction == Direction.COUNT_DOWN) {
 			if (progress_angle > 0) {
 				cr.arc (center_x, center_y, arc_radius, start_angle, start_angle - progress_angle);

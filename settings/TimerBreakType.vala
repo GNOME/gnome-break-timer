@@ -117,7 +117,6 @@ public abstract class TimerBreakStatusPanel : BreakStatusPanel {
 		// FIXME: This is an application icon. It doesn't make sense here.
 		this.circle_counter = new CircleCounter ();
 		this.attach (this.circle_counter, 0, 0, 1, 1);
-		this.circle_counter.get_style_context ().add_class ("_break-status-icon");
 
 		var labels_grid = new Gtk.Grid ();
 		this.attach (labels_grid, 1, 0, 1, 1);
