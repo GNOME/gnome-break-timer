@@ -15,6 +15,13 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// TODO: Share code with gnome-clocks, instead of duplicating effort
+
+/**
+ * Displays a countdown using a circle, reminiscent of a countdown timer.
+ * This widget can either count down or up, and it can switch between either
+ * direction at any time.
+ */
 public class CircleCounter : Gtk.Widget {
 	protected const double LINE_WIDTH = 5.0;
 	protected const int DEFAULT_RADIUS = 48;
@@ -24,7 +31,17 @@ public class CircleCounter : Gtk.Widget {
 		COUNT_UP
 	}
 
+	/**
+	 * The direction of the countdown.
+	 * COUNT_DOWN: a full circle that disappears as progress increases
+	 * COUNT_UP: a circle gradually appears as progress increases
+	 */
 	public Direction direction {get; set;}
+	/**
+	 * A value from 0.0 to 1.0, where 1.0 means the count is finished. The
+	 * circle will be filled by this amount according to the direction
+	 * property.
+	 */
 	public double progress {get; set;}
 
 	public CircleCounter () {
