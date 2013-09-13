@@ -1,0 +1,437 @@
+# Czech translation for gnome-break-timer.
+# Copyright (C) 2013 gnome-break-timer's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-break-timer package.
+#
+# Marek Černocký <marek@manet.cz>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-break-timer master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"break-timer&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-10 23:41+0000\n"
+"PO-Revision-Date: 2013-09-13 07:20+0200\n"
+"Last-Translator: Marek Černocký <marek@manet.cz>\n"
+"Language-Team: Czech <gnome-cs-list@gnome.org>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Gtranslator 2.91.6\n"
+
+#: ../data/gnome-break-timer.appdata.xml.in.h:1
+#: ../data/gnome-break-timer-autostart.desktop.in.h:1
+#: ../data/gnome-break-timer.desktop.in.h:1
+#: ../data/gnome-break-timer-service.desktop.in.h:1
+#: ../settings/MainWindow.vala:42
+msgid "Break Timer"
+msgstr "Hlídání přestávek"
+
+#: ../data/gnome-break-timer.appdata.xml.in.h:2
+msgid "Remember to take regular breaks from using the computer"
+msgstr "Pamatujte na pravidelné přestávky při práci na počítači"
+
+#: ../data/gnome-break-timer.appdata.xml.in.h:3
+msgid ""
+"<p>Break Timer keeps track of how much you are using the computer, and it "
+"reminds you to take regular breaks. It is designed to encourage healthy "
+"behaviour, with a mix of short breaks for your eyes and wrists, as well as "
+"longer breaks to keep your body moving and your mind on task.</p> <p>Break "
+"Timer is simple to set up, so you can pick a break schedule that works for "
+"you and it will carry on working in the background.</p>"
+msgstr ""
+"<p>Hlídání přestávek sleduje, jak moc pracujete na počítači a vyzývá vás, "
+"abyste si dělali pravidelné přestávky. Jeho cílem je přimět vás ke zdravému "
+"chování kombinací krátkých přestávek pro vaše oči a zápěstí a dlouhých "
+"přestávek pro pohyb těla i odpočinutí mysli od úkolu.</p> <p>Hlídání "
+"přestávek se dá snadno nastavit, takže si můžete zvolit plán přestávek, "
+"který vám bude vyhovovat a na pozadí se starat za vás.</p>"
+
+#: ../data/gnome-break-timer-autostart.desktop.in.h:2
+#: ../data/gnome-break-timer-service.desktop.in.h:2
+msgid "Provides a gentle reminder to take regular breaks"
+msgstr "Poskytuje nevtíravé upomínky na pravidelné přestávky"
+
+#: ../data/gnome-break-timer.desktop.in.h:2
+msgid "Choose your preferences for micro breaks and rest breaks"
+msgstr "Nastavte si mikropřestávky a odpočinkové přestávky podle svých potřeb"
+
+#: ../data/gnome-break-timer.desktop.in.h:3
+msgid "break;micro;rest;timer;"
+msgstr "přestávka;pauza;mikro;krátká;přerušení;odpočinek;hlídání;plánování;"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:1
+msgid "True to enable GNOME Break Timer"
+msgstr "Zapnutím povolíte Hlídání přestávek GNOME"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:2
+msgid "The list of breaks that are currently enabled"
+msgstr "Seznam přestávek, které jsou aktuálně povoleny"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:3
+msgid "True to enable quiet mode"
+msgstr "Zapnutím povolíte tichý režim"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:4
+msgid "Hides breaks until quiet-mode-expire-time."
+msgstr "Skryje přestávky na dobu quiet-mode-expire-time."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:5
+msgid "Time to end quiet mode."
+msgstr "Doba do konce tichého režimu."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:6
+msgid "The time to automatically disable quiet mode, in unix time."
+msgstr "Doba do automatického vypnutí tichého režimu, jako unixový čas."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:7
+msgid "Time between breaks"
+msgstr "Doba mezi přestávkami"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:8
+msgid "The time between rest breaks, in seconds."
+msgstr "Doba mezi odpočinkovými přestávkami, v sekundách."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:9
+msgid "Duration of each break"
+msgstr "Délka každé přestávky"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:10
+msgid "The duration of each rest break, in seconds."
+msgstr "Délka trvání každé odpočinkové přestávky, v sekundách."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:11
+msgid "The preferred time between micro breaks, in seconds."
+msgstr "Požadovaná doba mezi mikropřestávkami, v sekundách."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:12
+msgid "The preferred duration of each micro break, in seconds."
+msgstr "Požadovaná délka trvání každé mikropřestávky, v sekundách."
+
+#: ../data/settings-panels.ui.h:1
+msgid "Break Timer isn’t responding"
+msgstr "Hlídání přestávek nereaguje"
+
+#: ../data/settings-panels.ui.h:2
+msgid ""
+"If this continues the next time you log in, please <a href=\"https://bugs."
+"launchpad.net/brainbreak\">open a bug report</a>.\t"
+msgstr ""
+"Jestli se stejná situace bude opakovat i po příštím přihlášení, <a href="
+"\"https://bugs.launchpad.net/brainbreak\">nahlaste chybu</a> prosím."
+
+#: ../data/settings-panels.ui.h:3
+msgid "Break Timer is taking a break"
+msgstr "Hlídání přestávek si dělá přestávku"
+
+#: ../data/settings-panels.ui.h:4
+msgid "Turn me on to get those breaks going"
+msgstr "Zapněte jej prosím, aby přestávky zase běžely"
+
+#: ../data/settings-panels.ui.h:5
+msgid "You can change the types of breaks and their timings from the settings"
+msgstr "V nastavení můžete změnit typ přestávek a jejich načasování"
+
+#: ../data/settings-panels.ui.h:6
+msgid "OK, got it!"
+msgstr "Dobrá, mám to!"
+
+#: ../data/settings-panels.ui.h:7
+msgid "Break Timer lets you take small microbreaks as well as longer breaks."
+msgstr "Hlídání přestávek vás přiměje dávat si krátké i delší přestávky."
+
+#: ../data/settings-panels.ui.h:8
+msgid ""
+"Microbreaks are a chance to look away from the screen and rest your hands."
+msgstr ""
+"Mikropřestávky jsou příležitostí podívat se jinam než na obrazovku a dát "
+"odpočinout svým rukám."
+
+#: ../data/settings-panels.ui.h:9
+msgid "Full breaks are time to get away from the computer and move around."
+msgstr "Plné přestávky jsou časem na to, abyste opustili počítače a prošli se."
+
+#: ../data/settings-panels.ui.h:10
+msgid "Breaks and Microbreaks"
+msgstr "Přestávky a mikropřestávky"
+
+#: ../data/settings-panels.ui.h:11
+msgid "Ready to go"
+msgstr "Jsem připraven jít na to"
+
+#: ../data/settings-panels.ui.h:12
+msgid "You can leave me to it"
+msgstr "Aplikaci můžete opustit"
+
+#: ../data/settings-panels.ui.h:13
+msgid ""
+"Break Timer will carry on working in the background, even if you close it."
+msgstr "Hlídání přestávek zůstane pracovat na pozadí, i když jej zavřete."
+
+#: ../data/settings-panels.ui.h:14
+msgid "Welcome to Break Timer!"
+msgstr "Vítejte v Hlídání přestávek!"
+
+#: ../data/settings-panels.ui.h:15
+msgid "Breaks are good for you. We'll help you to take them."
+msgstr "Přestávky jsou pro vaše dobro. Pomůžeme vám je dodržovat."
+
+#: ../data/settings-panels.ui.h:16
+msgid "Just switch me on to get started"
+msgstr "Abyste začali, stačí zde zapnout"
+
+#: ../common/NaturalTime.vala:65
+#, c-format
+msgid "%d second"
+msgstr "%d sekundu"
+
+#: ../common/NaturalTime.vala:65
+#, c-format
+msgid "%d seconds"
+msgstr "%d sekundy"
+
+#: ../common/NaturalTime.vala:66
+#, c-format
+msgid "%d minute"
+msgstr "%d minutu"
+
+#: ../common/NaturalTime.vala:66
+#, c-format
+msgid "%d minutes"
+msgstr "%d minutu"
+
+#: ../common/NaturalTime.vala:67
+#, c-format
+msgid "%d hour"
+msgstr "%d hodinu"
+
+#: ../common/NaturalTime.vala:67
+#, c-format
+msgid "%d hours"
+msgstr "%d hodiny"
+
+#: ../helper/break/BreakView.vala:73
+msgid "What should I do?"
+msgstr "Co bych měl dělat?"
+
+#: ../helper/break/TimerBreakStatusWidget.vala:55
+msgid "Thank you"
+msgstr "Díky"
+
+#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:155
+msgid "GNOME Break Timer"
+msgstr "Hlídání přestávek GNOME"
+
+#: ../helper/microbreak/MicroBreakView.vala:39
+msgid "Skip this one"
+msgstr "Tuto přeskočit"
+
+#: ../helper/microbreak/MicroBreakView.vala:46
+msgid "It’s time for a micro break"
+msgstr "Je čas na mikropřestávku"
+
+#: ../helper/microbreak/MicroBreakView.vala:47
+msgid "Take a break from typing and look away from the screen"
+msgstr "Udělejte si přestávku od psaní a dívejte se mimo monitor"
+
+#: ../helper/microbreak/MicroBreakView.vala:60
+msgid "Overdue micro break"
+msgstr "Odložená mikropřestávka"
+
+#: ../helper/microbreak/MicroBreakView.vala:61
+#, c-format
+msgid "You were due to take a micro break %s ago"
+msgstr "Je to %s, co jste měli mít mikropřestávku"
+
+#: ../helper/microbreak/MicroBreakView.vala:70
+#: ../helper/restbreak/RestBreakView.vala:104
+msgid "Break is over"
+msgstr "Přestávka skončila"
+
+#: ../helper/microbreak/MicroBreakView.vala:71
+msgid "Your micro break has ended"
+msgstr "Vaše mikropřestávka skončila"
+
+#: ../helper/microbreak/MicroBreakView.vala:84
+msgid "Take a moment to rest your eyes"
+msgstr "Věnujte chvíli odpočinku svých očí"
+
+#: ../helper/restbreak/RestBreakView.vala:26
+msgid "The quieter you become, the more you can hear."
+msgstr "Neumí v pravý čas promluvit, kdo neumí v pravý čas mlčet."
+
+#: ../helper/restbreak/RestBreakView.vala:27
+msgid "Knock on the sky and listen to the sound."
+msgstr ""
+"Nikdy není lidská mysl naladěna radostněji, než když našla svou pravou práci."
+
+#: ../helper/restbreak/RestBreakView.vala:28
+msgid "So little time, so little to do."
+msgstr "Každý člověk má jenom tolik minut, hodin a dní kolik jich využije."
+
+#: ../helper/restbreak/RestBreakView.vala:29
+msgid "Sometimes the questions are complicated and the answers are simple."
+msgstr "Občas je těžké se zeptat a jednoduché odpovědět."
+
+#: ../helper/restbreak/RestBreakView.vala:30
+msgid "You cannot step into the same river twice."
+msgstr "Nevstoupíš dvakrát do stejné řeky."
+
+#: ../helper/restbreak/RestBreakView.vala:31
+msgid "The obstacle is the path."
+msgstr "Každá překážka umožní urazit další kus cesty."
+
+#: ../helper/restbreak/RestBreakView.vala:32
+msgid "No snowflake ever falls in the wrong place."
+msgstr "Žádná sněhová vločky nikdy nespadne na nesprávné místo."
+
+#: ../helper/restbreak/RestBreakView.vala:33
+msgid "The energy of the mind is the essence of life."
+msgstr "Mládí není období života, ale duševní stav."
+
+#: ../helper/restbreak/RestBreakView.vala:51
+msgid "Remind me later"
+msgstr "Upozornit mě později"
+
+#: ../helper/restbreak/RestBreakView.vala:65
+msgid "Time for a break"
+msgstr "Čas na přestávku"
+
+#: ../helper/restbreak/RestBreakView.vala:66
+msgid ""
+"It’s time to take a break. Get away from the computer for a little while!"
+msgstr "Je čas udělat si přestávku. Jděte na chvíli pryč od počítače!"
+
+#: ../helper/restbreak/RestBreakView.vala:80
+msgid "Break interrupted"
+msgstr "Přestávka přerušena"
+
+#: ../helper/restbreak/RestBreakView.vala:81
+#, c-format
+msgid "%s of break remaining"
+msgstr "Do konce přestávky máte %s"
+
+#: ../helper/restbreak/RestBreakView.vala:94
+msgid "Overdue break"
+msgstr "Odložená přestávka"
+
+#: ../helper/restbreak/RestBreakView.vala:95
+#, c-format
+msgid "You were due to take a break %s ago"
+msgstr "Je to %s, co jste měli mít přestávku"
+
+#: ../helper/restbreak/RestBreakView.vala:105
+msgid "Your break time has ended"
+msgstr "Čas vaší přestávky skončil"
+
+#: ../settings/BreakSettingsDialog.vala:32
+msgid "Choose Your Break Schedule"
+msgstr "Zvolte plán svých přestávek"
+
+#: ../settings/BreakSettingsDialog.vala:52
+msgid "A mix of short breaks and long breaks"
+msgstr "Střídat krátké a dlouhé přestávky"
+
+#: ../settings/BreakSettingsDialog.vala:56
+msgid "Occasional long breaks"
+msgstr "Občasné dlouhé přestávky"
+
+#: ../settings/BreakSettingsDialog.vala:60
+msgid "Frequent short breaks"
+msgstr "Časté krátké přestávky"
+
+#: ../settings/MainWindow.vala:139
+msgid "Welcome Tour"
+msgstr "Úvodní průvodce"
+
+#: ../settings/MainWindow.vala:156
+msgid "Computer break reminders for active minds"
+msgstr "Upomínání na počítačové přestávky pro zachování svěží mysli"
+
+#: ../settings/MainWindow.vala:157
+msgid "Copyright © Dylan McCall"
+msgstr "Copyright © Dylan McCall"
+
+#: ../settings/MainWindow.vala:159
+msgid "GNOME Break Timer Website"
+msgstr "Webové stránky Hlídání přestávek GNOME"
+
+#: ../settings/MicroBreakType.vala:51 ../settings/MicroBreakType.vala:86
+msgid "Microbreak"
+msgstr "Mikropřestávka"
+
+#: ../settings/MicroBreakType.vala:63
+msgid "It’s microbreak time"
+msgstr "Je čas mikropřestávky"
+
+#: ../settings/MicroBreakType.vala:76
+msgid "Your next microbreak is in"
+msgstr "Vaše další mikropřestávka je za"
+
+#: ../settings/MicroBreakType.vala:77
+msgid "It's time for a microbreak"
+msgstr "Je čas na mikropřestávku"
+
+#: ../settings/MicroBreakType.vala:87
+msgid "Pause frequently to relax your eyes"
+msgstr "Dělejte si často pauzy, aby si odpočinuly oči"
+
+#: ../settings/MicroBreakType.vala:42
+#, c-format
+msgid "Take a break from typing and look away from the screen for %s."
+msgstr "Udělejte si přestávku v psaní a dívejte se mimo obrazovku na %s."
+
+#: ../settings/RestBreakType.vala:51
+msgid "Break"
+msgstr "Přestávka"
+
+#: ../settings/RestBreakType.vala:64
+msgid "It’s break time"
+msgstr "Je čas přestávky"
+
+#: ../settings/RestBreakType.vala:78
+msgid "Your next full break is in"
+msgstr "Vaše další plná přestávka je za"
+
+#: ../settings/RestBreakType.vala:79
+msgid "It's break time"
+msgstr "Je čas přestávky"
+
+#: ../settings/RestBreakType.vala:88
+msgid "Full break"
+msgstr "Plná přestávka"
+
+#: ../settings/RestBreakType.vala:89
+msgid "And take some longer breaks to stretch your legs"
+msgstr "A dělejte si nějaké delší přestávky, abyste si protáhli nohy"
+
+#: ../settings/RestBreakType.vala:42
+msgid "Take some time away from the computer. Stretch and move around."
+msgstr "Sem tam odejděte od počítače. Protáhněte se a projděte se."
+
+#: ../settings/SettingsApplication.vala:96
+msgid "About"
+msgstr "O aplikaci"
+
+#: ../settings/SettingsApplication.vala:97
+msgid "Quit"
+msgstr "Ukončit"
+
+#: ../settings/TimerBreakType.vala:176
+msgid "Every"
+msgstr "Opakovat za"
+
+#: ../settings/TimerBreakType.vala:180
+#, c-format
+msgid "%s frequency"
+msgstr "%s – četnost"
+
+#: ../settings/TimerBreakType.vala:184
+msgid "For"
+msgstr "Na "
+
+#: ../settings/TimerBreakType.vala:188
+#, c-format
+msgid "%s duration"
+msgstr "%s – délka"
