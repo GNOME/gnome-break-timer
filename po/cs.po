@@ -1,7 +1,6 @@
 # Czech translation for gnome-break-timer.
 # Copyright (C) 2013 gnome-break-timer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-break-timer package.
-#
 # Marek Černocký <marek@manet.cz>, 2013.
 #
 msgid ""
@@ -9,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "break-timer&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-10 23:41+0000\n"
-"PO-Revision-Date: 2013-09-13 07:20+0200\n"
+"POT-Creation-Date: 2013-09-13 05:57+0000\n"
+"PO-Revision-Date: 2013-09-13 07:58+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -181,35 +180,29 @@ msgstr "Přestávky jsou pro vaše dobro. Pomůžeme vám je dodržovat."
 msgid "Just switch me on to get started"
 msgstr "Abyste začali, stačí zde zapnout"
 
-#: ../common/NaturalTime.vala:65
+#: ../common/NaturalTime.vala:41
 #, c-format
 msgid "%d second"
-msgstr "%d sekundu"
+msgid_plural "%d seconds"
+msgstr[0] "%d sekundu"
+msgstr[1] "%d sekundy"
+msgstr[2] "%d sekund"
 
-#: ../common/NaturalTime.vala:65
-#, c-format
-msgid "%d seconds"
-msgstr "%d sekundy"
-
-#: ../common/NaturalTime.vala:66
+#: ../common/NaturalTime.vala:44
 #, c-format
 msgid "%d minute"
-msgstr "%d minutu"
+msgid_plural "%d minutes"
+msgstr[0] "%d minutu"
+msgstr[1] "%d minuty"
+msgstr[2] "%d minut"
 
-#: ../common/NaturalTime.vala:66
-#, c-format
-msgid "%d minutes"
-msgstr "%d minutu"
-
-#: ../common/NaturalTime.vala:67
+#: ../common/NaturalTime.vala:47
 #, c-format
 msgid "%d hour"
-msgstr "%d hodinu"
-
-#: ../common/NaturalTime.vala:67
-#, c-format
-msgid "%d hours"
-msgstr "%d hodiny"
+msgid_plural "%d hours"
+msgstr[0] "%d hodinu"
+msgstr[1] "%d hodiny"
+msgstr[2] "%d hodin"
 
 #: ../helper/break/BreakView.vala:73
 msgid "What should I do?"
@@ -410,28 +403,28 @@ msgstr "A dělejte si nějaké delší přestávky, abyste si protáhli nohy"
 msgid "Take some time away from the computer. Stretch and move around."
 msgstr "Sem tam odejděte od počítače. Protáhněte se a projděte se."
 
-#: ../settings/SettingsApplication.vala:96
+#: ../settings/SettingsApplication.vala:97
 msgid "About"
 msgstr "O aplikaci"
 
-#: ../settings/SettingsApplication.vala:97
+#: ../settings/SettingsApplication.vala:98
 msgid "Quit"
 msgstr "Ukončit"
 
-#: ../settings/TimerBreakType.vala:176
+#: ../settings/TimerBreakType.vala:174
 msgid "Every"
 msgstr "Opakovat za"
 
-#: ../settings/TimerBreakType.vala:180
+#: ../settings/TimerBreakType.vala:178
 #, c-format
 msgid "%s frequency"
 msgstr "%s – četnost"
 
-#: ../settings/TimerBreakType.vala:184
+#: ../settings/TimerBreakType.vala:182
 msgid "For"
 msgstr "Na "
 
-#: ../settings/TimerBreakType.vala:188
+#: ../settings/TimerBreakType.vala:186
 #, c-format
 msgid "%s duration"
 msgstr "%s – délka"
