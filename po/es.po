@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "break-timer&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-13 05:59+0000\n"
-"PO-Revision-Date: 2013-09-13 12:54+0200\n"
+"POT-Creation-Date: 2013-09-13 11:06+0000\n"
+"PO-Revision-Date: 2013-09-16 17:25+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -28,7 +28,7 @@ msgstr ""
 
 #: ../data/gnome-break-timer.appdata.xml.in.h:2
 msgid "Remember to take regular breaks from using the computer"
-msgstr ""
+msgstr "Recuerde descansar regularmente cuando usa el equipo"
 
 #: ../data/gnome-break-timer.appdata.xml.in.h:3
 msgid ""
@@ -43,7 +43,7 @@ msgstr ""
 #: ../data/gnome-break-timer-autostart.desktop.in.h:2
 #: ../data/gnome-break-timer-service.desktop.in.h:2
 msgid "Provides a gentle reminder to take regular breaks"
-msgstr ""
+msgstr "Proporciona un recordatorio amable para hacer descansos regulares"
 
 #: ../data/gnome-break-timer.desktop.in.h:2
 msgid "Choose your preferences for micro breaks and rest breaks"
@@ -59,7 +59,7 @@ msgstr ""
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:2
 msgid "The list of breaks that are currently enabled"
-msgstr ""
+msgstr "La lista de descansos activados actualmente"
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:3
 msgid "True to enable quiet mode"
@@ -83,7 +83,7 @@ msgstr "Tiempo entre descansos"
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:8
 msgid "The time between rest breaks, in seconds."
-msgstr ""
+msgstr "El tiempo entre descansos, en segundos."
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:9
 msgid "Duration of each break"
@@ -95,7 +95,7 @@ msgstr "La duración de cada descanso, en segundos."
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:11
 msgid "The preferred time between micro breaks, in seconds."
-msgstr ""
+msgstr "El tiempo preferido entre microdescansos, en segundos."
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:12
 msgid "The preferred duration of each micro break, in seconds."
@@ -121,7 +121,7 @@ msgstr ""
 
 #: ../data/settings-panels.ui.h:5
 msgid "You can change the types of breaks and their timings from the settings"
-msgstr ""
+msgstr "Puede cambiar los tipos de descansos y su duración en la configuración"
 
 #: ../data/settings-panels.ui.h:6
 msgid "OK, got it!"
@@ -135,10 +135,14 @@ msgstr ""
 msgid ""
 "Microbreaks are a chance to look away from the screen and rest your hands."
 msgstr ""
+"Los microdescansos son una oportunidad para mirar fuera de la pantalla y "
+"descansar las manos"
 
 #: ../data/settings-panels.ui.h:9
 msgid "Full breaks are time to get away from the computer and move around."
 msgstr ""
+"Los descansos completos son el momento de alejarse del equipo y moverse un "
+"poco."
 
 #: ../data/settings-panels.ui.h:10
 msgid "Breaks and Microbreaks"
@@ -163,7 +167,7 @@ msgstr ""
 
 #: ../data/settings-panels.ui.h:15
 msgid "Breaks are good for you. We'll help you to take them."
-msgstr ""
+msgstr "Los descansos son buenos. Vamos a ayudarle a hacerlos."
 
 #: ../data/settings-panels.ui.h:16
 msgid "Just switch me on to get started"
@@ -180,23 +184,23 @@ msgstr[1] "%d segundos"
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d minuto"
+msgstr[1] "%d minutos"
 
 #: ../common/NaturalTime.vala:47
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d hora"
+msgstr[1] "%d horas"
 
 #: ../helper/break/BreakView.vala:73
 msgid "What should I do?"
-msgstr ""
+msgstr "¿Qué debo hacer?"
 
 #: ../helper/break/TimerBreakStatusWidget.vala:55
 msgid "Thank you"
-msgstr ""
+msgstr "Gracias"
 
 #: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:155
 msgid "GNOME Break Timer"
@@ -251,14 +255,15 @@ msgstr ""
 #: ../helper/restbreak/RestBreakView.vala:29
 msgid "Sometimes the questions are complicated and the answers are simple."
 msgstr ""
+"Algunas veces, las preguntas son complicadas y las respuestas son sencillas."
 
 #: ../helper/restbreak/RestBreakView.vala:30
 msgid "You cannot step into the same river twice."
-msgstr ""
+msgstr "No puede ir dos veces al mismo río."
 
 #: ../helper/restbreak/RestBreakView.vala:31
 msgid "The obstacle is the path."
-msgstr ""
+msgstr "El obstáculo es el camino."
 
 #: ../helper/restbreak/RestBreakView.vala:32
 msgid "No snowflake ever falls in the wrong place."
@@ -266,7 +271,7 @@ msgstr ""
 
 #: ../helper/restbreak/RestBreakView.vala:33
 msgid "The energy of the mind is the essence of life."
-msgstr ""
+msgstr "La energía de la mente es la esencia de la vida."
 
 #: ../helper/restbreak/RestBreakView.vala:51
 msgid "Remind me later"
@@ -301,7 +306,7 @@ msgstr ""
 
 #: ../helper/restbreak/RestBreakView.vala:105
 msgid "Your break time has ended"
-msgstr ""
+msgstr "Su descanso ha terminado"
 
 #: ../settings/BreakSettingsDialog.vala:32
 msgid "Choose Your Break Schedule"
@@ -309,15 +314,15 @@ msgstr ""
 
 #: ../settings/BreakSettingsDialog.vala:52
 msgid "A mix of short breaks and long breaks"
-msgstr ""
+msgstr "Una mezcla de descansos cortos y largos"
 
 #: ../settings/BreakSettingsDialog.vala:56
 msgid "Occasional long breaks"
-msgstr ""
+msgstr "Descansos largos ocasionales"
 
 #: ../settings/BreakSettingsDialog.vala:60
 msgid "Frequent short breaks"
-msgstr ""
+msgstr "Descansos cortos frecuentes"
 
 #: ../settings/MainWindow.vala:139
 msgid "Welcome Tour"
@@ -353,7 +358,7 @@ msgstr "Es hora de un microdescanso"
 
 #: ../settings/MicroBreakType.vala:87
 msgid "Pause frequently to relax your eyes"
-msgstr ""
+msgstr "Descanse con frecuencia para relajar sus ojos"
 
 #: ../settings/MicroBreakType.vala:42
 #, c-format
@@ -403,7 +408,7 @@ msgstr "Cada"
 #: ../settings/TimerBreakType.vala:178
 #, c-format
 msgid "%s frequency"
-msgstr ""
+msgstr "frecuencia %s"
 
 #: ../settings/TimerBreakType.vala:182
 msgid "For"
@@ -412,4 +417,4 @@ msgstr "Para"
 #: ../settings/TimerBreakType.vala:186
 #, c-format
 msgid "%s duration"
-msgstr ""
+msgstr "duración %s"
