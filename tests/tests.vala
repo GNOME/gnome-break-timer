@@ -126,6 +126,8 @@ class TestRunner : Object {
 	}
 
 	public virtual void global_setup() {
+		Environment.set_variable ("LANGUAGE", "C", true);
+		
 		try {
 			var tmp_path = DirUtils.make_tmp("gnome-break-timer-test-XXXXXX");
 			tmp_dir = File.new_for_path(tmp_path);
