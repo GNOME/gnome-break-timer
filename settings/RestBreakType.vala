@@ -38,6 +38,7 @@ public class RestBreakType : TimerBreakType {
 }
 
 class RestBreakInfoPanel : BreakInfoPanel {
+	/* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
 	const string ACTIVE_DESCRIPTION_FORMAT =
 _("Take some time away from the computer. Stretch and move around.
 
@@ -75,6 +76,7 @@ class RestBreakStatusPanel : TimerBreakStatusPanel {
 	public RestBreakStatusPanel (RestBreakType break_type) {
 		base (
 			break_type,
+			/* Label that explains a countdown timer, which shows a string such as "30 minutes" */
 			_("Your next full break is in"),
 			_("It's break time")
 		);

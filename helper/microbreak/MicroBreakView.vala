@@ -36,6 +36,7 @@ public class MicroBreakView : TimerBreakView {
 
 	protected new void show_break_notification (Notify.Notification notification) {
 		if (this.notifications_can_do ("actions")) {
+			/* Label for a notification action that will skip the current microbreak */
 			notification.add_action ("skip", _("Skip this one"), this.notification_action_skip_cb);
 		}
 		base.show_break_notification (notification);
@@ -58,6 +59,7 @@ public class MicroBreakView : TimerBreakView {
 			time_since_start);
 		var notification = this.build_common_notification (
 			_("Overdue micro break"),
+			/* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
 			_("You were due to take a micro break %s ago").printf (delay_string),
 			"alarm-symbolic"
 		);

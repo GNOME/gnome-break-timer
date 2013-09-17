@@ -38,6 +38,7 @@ public class MicroBreakType : TimerBreakType {
 }
 
 class MicroBreakInfoPanel : BreakInfoPanel {
+	/* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
 	const string ACTIVE_DESCRIPTION_FORMAT = 
 _("Take a break from typing and look away from the screen for %s.
 
@@ -73,6 +74,7 @@ class MicroBreakStatusPanel : TimerBreakStatusPanel {
 	public MicroBreakStatusPanel (MicroBreakType break_type) {
 		base (
 			break_type,
+			/* Label that explains a countdown timer, which shows a string such as "5 minutes" */
 			_("Your next microbreak is in"),
 			_("It's time for a microbreak")
 		);

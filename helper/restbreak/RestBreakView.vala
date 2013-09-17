@@ -23,6 +23,7 @@ public class RestBreakView : TimerBreakView {
 	}
 
 	private string[] rest_quotes = {
+		/*
 		_("The quieter you become, the more you can hear."),
 		_("Knock on the sky and listen to the sound."),
 		_("So little time, so little to do."),
@@ -31,6 +32,7 @@ public class RestBreakView : TimerBreakView {
 		_("The obstacle is the path."),
 		_("No snowflake ever falls in the wrong place."),
 		_("The energy of the mind is the essence of life.")
+		*/
 	};
 
 	private int64 original_start_time = 0;
@@ -48,6 +50,7 @@ public class RestBreakView : TimerBreakView {
 
 	protected new void show_break_notification (Notify.Notification notification, bool allow_postpone) {
 		if (allow_postpone && this.notifications_can_do ("actions")) {
+			/* Label for a notification action that will delay the current break for a few minutes */
 			notification.add_action ("postpone", _("Remind me later"), this.notification_action_postpone_cb);
 		}
 		base.show_break_notification (notification);
@@ -78,7 +81,8 @@ public class RestBreakView : TimerBreakView {
 			time_remaining, start_time);
 		var notification = this.build_common_notification (
 			_("Break interrupted"),
-			_("%s of break remaining").printf (countdown),
+			/* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
+			_("%s remaining in your break").printf (countdown),
 			"alarm-symbolic"
 		);
 		notification.set_urgency (Notify.Urgency.NORMAL);
@@ -92,6 +96,7 @@ public class RestBreakView : TimerBreakView {
 			time_since_start);
 		var notification = this.build_common_notification (
 			_("Overdue break"),
+			/* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
 			_("You were due to take a break %s ago").printf (delay_string),
 			"alarm-symbolic"
 		);

@@ -23,16 +23,12 @@ public class TimeChooser : Gtk.ComboBox {
 	
 	private const int OPTION_OTHER = -1;
 	
-	private string title;
-	
 	public int time_seconds { get; set; }
 	
 	public signal void time_selected (int time);
 	
-	public TimeChooser (int[] options, string title) {
+	public TimeChooser (int[] options) {
 		Object ();
-		
-		this.title = title;
 		
 		this.list_store = new Gtk.ListStore (3, typeof (string), typeof (string), typeof (int));
 		
