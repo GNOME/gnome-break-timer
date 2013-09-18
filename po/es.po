@@ -6,9 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"break-timer&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-13 11:06+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-17 20:57-0700\n"
 "PO-Revision-Date: 2013-09-16 17:25+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
@@ -194,11 +193,13 @@ msgid_plural "%d hours"
 msgstr[0] "%d hora"
 msgstr[1] "%d horas"
 
-#: ../helper/break/BreakView.vala:73
+#. Label for a notification action that shows information about the current break
+#: ../helper/break/BreakView.vala:74
 msgid "What should I do?"
 msgstr "¿Qué debo hacer?"
 
-#: ../helper/break/TimerBreakStatusWidget.vala:55
+#. Break overlay label when a break has been finished
+#: ../helper/break/TimerBreakStatusWidget.vala:56
 msgid "Thank you"
 msgstr "Gracias"
 
@@ -206,105 +207,83 @@ msgstr "Gracias"
 msgid "GNOME Break Timer"
 msgstr ""
 
-#: ../helper/microbreak/MicroBreakView.vala:39
+#. Label for a notification action that will skip the current microbreak
+#: ../helper/microbreak/MicroBreakView.vala:40
 msgid "Skip this one"
 msgstr ""
 
-#: ../helper/microbreak/MicroBreakView.vala:46
+#: ../helper/microbreak/MicroBreakView.vala:47
 msgid "It’s time for a micro break"
 msgstr "Es hora de un microdescanso"
 
-#: ../helper/microbreak/MicroBreakView.vala:47
+#: ../helper/microbreak/MicroBreakView.vala:48
 msgid "Take a break from typing and look away from the screen"
 msgstr ""
 
-#: ../helper/microbreak/MicroBreakView.vala:60
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../helper/microbreak/MicroBreakView.vala:64
+#, c-format
+msgid "You were due to take a micro break %s ago"
+msgid_plural "You were due to take a micro break %s ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../helper/microbreak/MicroBreakView.vala:70
 msgid "Overdue micro break"
 msgstr ""
 
-#: ../helper/microbreak/MicroBreakView.vala:61
-#, c-format
-msgid "You were due to take a micro break %s ago"
-msgstr ""
-
-#: ../helper/microbreak/MicroBreakView.vala:70
-#: ../helper/restbreak/RestBreakView.vala:104
+#: ../helper/microbreak/MicroBreakView.vala:80
+#: ../helper/restbreak/RestBreakView.vala:125
 msgid "Break is over"
 msgstr "El descanso ha terminado"
 
-#: ../helper/microbreak/MicroBreakView.vala:71
+#: ../helper/microbreak/MicroBreakView.vala:81
 msgid "Your micro break has ended"
 msgstr "Su microdescanso ha terminado"
 
-#: ../helper/microbreak/MicroBreakView.vala:84
+#: ../helper/microbreak/MicroBreakView.vala:94
 msgid "Take a moment to rest your eyes"
 msgstr ""
 
-#: ../helper/restbreak/RestBreakView.vala:26
-msgid "The quieter you become, the more you can hear."
-msgstr ""
-
-#: ../helper/restbreak/RestBreakView.vala:27
-msgid "Knock on the sky and listen to the sound."
-msgstr ""
-
-#: ../helper/restbreak/RestBreakView.vala:28
-msgid "So little time, so little to do."
-msgstr ""
-
-#: ../helper/restbreak/RestBreakView.vala:29
-msgid "Sometimes the questions are complicated and the answers are simple."
-msgstr ""
-"Algunas veces, las preguntas son complicadas y las respuestas son sencillas."
-
-#: ../helper/restbreak/RestBreakView.vala:30
-msgid "You cannot step into the same river twice."
-msgstr "No puede ir dos veces al mismo río."
-
-#: ../helper/restbreak/RestBreakView.vala:31
-msgid "The obstacle is the path."
-msgstr "El obstáculo es el camino."
-
-#: ../helper/restbreak/RestBreakView.vala:32
-msgid "No snowflake ever falls in the wrong place."
-msgstr ""
-
-#: ../helper/restbreak/RestBreakView.vala:33
-msgid "The energy of the mind is the essence of life."
-msgstr "La energía de la mente es la esencia de la vida."
-
-#: ../helper/restbreak/RestBreakView.vala:51
+#. Label for a notification action that will delay the current break for a few minutes
+#: ../helper/restbreak/RestBreakView.vala:54
 msgid "Remind me later"
 msgstr "Recordármelo más tarde"
 
-#: ../helper/restbreak/RestBreakView.vala:65
+#: ../helper/restbreak/RestBreakView.vala:68
 msgid "Time for a break"
 msgstr "Tiempo para un descanso"
 
-#: ../helper/restbreak/RestBreakView.vala:66
+#: ../helper/restbreak/RestBreakView.vala:69
 msgid ""
 "It’s time to take a break. Get away from the computer for a little while!"
 msgstr ""
 
-#: ../helper/restbreak/RestBreakView.vala:80
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../helper/restbreak/RestBreakView.vala:86
+#, c-format
+msgid "There is %s remaining in your break"
+msgid_plural "There are %s remaining in your break"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../helper/restbreak/RestBreakView.vala:92
 msgid "Break interrupted"
 msgstr "Descanso interrumpido"
 
-#: ../helper/restbreak/RestBreakView.vala:81
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../helper/restbreak/RestBreakView.vala:109
 #, c-format
-msgid "%s of break remaining"
-msgstr ""
+msgid "You were due to take a break %s ago"
+msgid_plural "You were due to take a break %s ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: ../helper/restbreak/RestBreakView.vala:94
+#: ../helper/restbreak/RestBreakView.vala:115
 msgid "Overdue break"
 msgstr ""
 
-#: ../helper/restbreak/RestBreakView.vala:95
-#, c-format
-msgid "You were due to take a break %s ago"
-msgstr ""
-
-#: ../helper/restbreak/RestBreakView.vala:105
+#: ../helper/restbreak/RestBreakView.vala:126
 msgid "Your break time has ended"
 msgstr "Su descanso ha terminado"
 
@@ -340,57 +319,74 @@ msgstr "Copyright © Dylan McCall"
 msgid "GNOME Break Timer Website"
 msgstr ""
 
-#: ../settings/MicroBreakType.vala:51 ../settings/MicroBreakType.vala:86
+#: ../settings/MicroBreakType.vala:46 ../settings/MicroBreakType.vala:91
 msgid "Microbreak"
 msgstr "Microdescanso"
 
-#: ../settings/MicroBreakType.vala:63
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../settings/MicroBreakType.vala:65
+#, c-format
+msgid "Take a break from typing and look away from the screen for %s."
+msgid_plural "Take a break from typing and look away from the screen for %s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../settings/MicroBreakType.vala:70
 msgid "It’s microbreak time"
 msgstr "Es hora de un microdescanso"
 
-#: ../settings/MicroBreakType.vala:76
+#: ../settings/MicroBreakType.vala:72
+msgid "I'll chime when it’s time to use the computer again."
+msgstr ""
+
+#. Label that explains a countdown timer, which shows a string such as "5 minutes"
+#: ../settings/MicroBreakType.vala:81
 msgid "Your next microbreak is in"
 msgstr "Su siguiente microdescanso es dentro de"
 
-#: ../settings/MicroBreakType.vala:77
+#: ../settings/MicroBreakType.vala:82
 msgid "It's time for a microbreak"
 msgstr "Es hora de un microdescanso"
 
-#: ../settings/MicroBreakType.vala:87
+#: ../settings/MicroBreakType.vala:92
 msgid "Pause frequently to relax your eyes"
 msgstr "Descanse con frecuencia para relajar sus ojos"
 
-#: ../settings/MicroBreakType.vala:42
-#, c-format
-msgid "Take a break from typing and look away from the screen for %s."
-msgstr ""
-
-#: ../settings/RestBreakType.vala:51
+#: ../settings/RestBreakType.vala:46
 msgid "Break"
 msgstr ""
 
-#: ../settings/RestBreakType.vala:64
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../settings/RestBreakType.vala:66
+#, c-format
+msgid "Your break has %s remaining. I’ll remind you when it’s over."
+msgid_plural "Your break has %s remaining. I’ll remind you when it’s over."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../settings/RestBreakType.vala:71
 msgid "It’s break time"
 msgstr "Es hora de un descanso"
 
-#: ../settings/RestBreakType.vala:78
+#: ../settings/RestBreakType.vala:72
+msgid "Take some time away from the computer. Stretch and move around."
+msgstr ""
+
+#. Label that explains a countdown timer, which shows a string such as "30 minutes"
+#: ../settings/RestBreakType.vala:82
 msgid "Your next full break is in"
 msgstr "Su siguiente descanso completo es dentro de"
 
-#: ../settings/RestBreakType.vala:79
+#: ../settings/RestBreakType.vala:83
 msgid "It's break time"
 msgstr "Es hora de un descanso"
 
-#: ../settings/RestBreakType.vala:88
+#: ../settings/RestBreakType.vala:92
 msgid "Full break"
 msgstr "Descanso completo"
 
-#: ../settings/RestBreakType.vala:89
+#: ../settings/RestBreakType.vala:93
 msgid "And take some longer breaks to stretch your legs"
-msgstr ""
-
-#: ../settings/RestBreakType.vala:42
-msgid "Take some time away from the computer. Stretch and move around."
 msgstr ""
 
 #: ../settings/SettingsApplication.vala:97
@@ -401,20 +397,32 @@ msgstr "Acerca de"
 msgid "Quit"
 msgstr "Salir"
 
-#: ../settings/TimerBreakType.vala:174
+#. Label for the widget to choose how frequently a break occurs. (Choices such as "6 minutes" or "45 minutes")
+#: ../settings/TimerBreakType.vala:175
 msgid "Every"
 msgstr "Cada"
 
-#: ../settings/TimerBreakType.vala:178
-#, c-format
-msgid "%s frequency"
-msgstr "frecuencia %s"
-
-#: ../settings/TimerBreakType.vala:182
+#. Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes")
+#: ../settings/TimerBreakType.vala:184
 msgid "For"
 msgstr "Para"
 
-#: ../settings/TimerBreakType.vala:186
-#, c-format
-msgid "%s duration"
-msgstr "duración %s"
+#~ msgid "Sometimes the questions are complicated and the answers are simple."
+#~ msgstr ""
+#~ "Algunas veces, las preguntas son complicadas y las respuestas son "
+#~ "sencillas."
+
+#~ msgid "You cannot step into the same river twice."
+#~ msgstr "No puede ir dos veces al mismo río."
+
+#~ msgid "The obstacle is the path."
+#~ msgstr "El obstáculo es el camino."
+
+#~ msgid "The energy of the mind is the essence of life."
+#~ msgstr "La energía de la mente es la esencia de la vida."
+
+#~ msgid "%s frequency"
+#~ msgstr "frecuencia %s"
+
+#~ msgid "%s duration"
+#~ msgstr "duración %s"

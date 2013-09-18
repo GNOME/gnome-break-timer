@@ -6,9 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"break-timer&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-17 00:12+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-17 20:57-0700\n"
 "PO-Revision-Date: 2013-09-17 11:00+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -231,26 +230,29 @@ msgstr "Je čas na mikropřestávku"
 msgid "Take a break from typing and look away from the screen"
 msgstr "Udělejte si přestávku od psaní a dívejte se mimo monitor"
 
-#: ../helper/microbreak/MicroBreakView.vala:61
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../helper/microbreak/MicroBreakView.vala:64
+#, fuzzy, c-format
+msgid "You were due to take a micro break %s ago"
+msgid_plural "You were due to take a micro break %s ago"
+msgstr[0] "Je to %s, co jste měli mít mikropřestávku"
+msgstr[1] "Je to %s, co jste měli mít mikropřestávku"
+msgstr[2] "Je to %s, co jste měli mít mikropřestávku"
+
+#: ../helper/microbreak/MicroBreakView.vala:70
 msgid "Overdue micro break"
 msgstr "Odložená mikropřestávka"
 
-#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../helper/microbreak/MicroBreakView.vala:63
-#, c-format
-msgid "You were due to take a micro break %s ago"
-msgstr "Je to %s, co jste měli mít mikropřestávku"
-
-#: ../helper/microbreak/MicroBreakView.vala:72
-#: ../helper/restbreak/RestBreakView.vala:109
+#: ../helper/microbreak/MicroBreakView.vala:80
+#: ../helper/restbreak/RestBreakView.vala:125
 msgid "Break is over"
 msgstr "Přestávka skončila"
 
-#: ../helper/microbreak/MicroBreakView.vala:73
+#: ../helper/microbreak/MicroBreakView.vala:81
 msgid "Your micro break has ended"
 msgstr "Vaše mikropřestávka skončila"
 
-#: ../helper/microbreak/MicroBreakView.vala:86
+#: ../helper/microbreak/MicroBreakView.vala:94
 msgid "Take a moment to rest your eyes"
 msgstr "Věnujte chvíli odpočinku svých očí"
 
@@ -268,27 +270,33 @@ msgid ""
 "It’s time to take a break. Get away from the computer for a little while!"
 msgstr "Je čas udělat si přestávku. Jděte na chvíli pryč od počítače!"
 
-#: ../helper/restbreak/RestBreakView.vala:83
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../helper/restbreak/RestBreakView.vala:86
+#, fuzzy, c-format
+msgid "There is %s remaining in your break"
+msgid_plural "There are %s remaining in your break"
+msgstr[0] "Do konce přestávky máte %s"
+msgstr[1] "Do konce přestávky máte %s"
+msgstr[2] "Do konce přestávky máte %s"
+
+#: ../helper/restbreak/RestBreakView.vala:92
 msgid "Break interrupted"
 msgstr "Přestávka přerušena"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../helper/restbreak/RestBreakView.vala:85
-#, c-format
-msgid "%s remaining in your break"
-msgstr "Do konce přestávky máte %s"
+#: ../helper/restbreak/RestBreakView.vala:109
+#, fuzzy, c-format
+msgid "You were due to take a break %s ago"
+msgid_plural "You were due to take a break %s ago"
+msgstr[0] "Je to %s, co jste měli mít přestávku"
+msgstr[1] "Je to %s, co jste měli mít přestávku"
+msgstr[2] "Je to %s, co jste měli mít přestávku"
 
-#: ../helper/restbreak/RestBreakView.vala:98
+#: ../helper/restbreak/RestBreakView.vala:115
 msgid "Overdue break"
 msgstr "Odložená přestávka"
 
-#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../helper/restbreak/RestBreakView.vala:100
-#, c-format
-msgid "You were due to take a break %s ago"
-msgstr "Je to %s, co jste měli mít přestávku"
-
-#: ../helper/restbreak/RestBreakView.vala:110
+#: ../helper/restbreak/RestBreakView.vala:126
 msgid "Your break time has ended"
 msgstr "Čas vaší přestávky skončil"
 
@@ -324,60 +332,77 @@ msgstr "Copyright © Dylan McCall"
 msgid "GNOME Break Timer Website"
 msgstr "Webové stránky Hlídání přestávek GNOME"
 
-#: ../settings/MicroBreakType.vala:52 ../settings/MicroBreakType.vala:88
+#: ../settings/MicroBreakType.vala:46 ../settings/MicroBreakType.vala:91
 msgid "Microbreak"
 msgstr "Mikropřestávka"
 
-#: ../settings/MicroBreakType.vala:64
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../settings/MicroBreakType.vala:65
+#, fuzzy, c-format
+msgid "Take a break from typing and look away from the screen for %s."
+msgid_plural "Take a break from typing and look away from the screen for %s."
+msgstr[0] "Udělejte si přestávku v psaní a dívejte se mimo obrazovku na %s."
+msgstr[1] "Udělejte si přestávku v psaní a dívejte se mimo obrazovku na %s."
+msgstr[2] "Udělejte si přestávku v psaní a dívejte se mimo obrazovku na %s."
+
+#: ../settings/MicroBreakType.vala:70
 msgid "It’s microbreak time"
 msgstr "Je čas mikropřestávky"
 
+#: ../settings/MicroBreakType.vala:72
+msgid "I'll chime when it’s time to use the computer again."
+msgstr ""
+
 #. Label that explains a countdown timer, which shows a string such as "5 minutes"
-#: ../settings/MicroBreakType.vala:78
+#: ../settings/MicroBreakType.vala:81
 msgid "Your next microbreak is in"
 msgstr "Vaše další mikropřestávka je za"
 
-#: ../settings/MicroBreakType.vala:79
+#: ../settings/MicroBreakType.vala:82
 msgid "It's time for a microbreak"
 msgstr "Je čas na mikropřestávku"
 
-#: ../settings/MicroBreakType.vala:89
+#: ../settings/MicroBreakType.vala:92
 msgid "Pause frequently to relax your eyes"
 msgstr "Dělejte si často pauzy, aby si odpočinuly oči"
 
-#: ../settings/MicroBreakType.vala:43
-#, c-format
-msgid "Take a break from typing and look away from the screen for %s."
-msgstr "Udělejte si přestávku v psaní a dívejte se mimo obrazovku na %s."
-
-#: ../settings/RestBreakType.vala:52
+#: ../settings/RestBreakType.vala:46
 msgid "Break"
 msgstr "Přestávka"
 
-#: ../settings/RestBreakType.vala:65
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../settings/RestBreakType.vala:66
+#, c-format
+msgid "Your break has %s remaining. I’ll remind you when it’s over."
+msgid_plural "Your break has %s remaining. I’ll remind you when it’s over."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: ../settings/RestBreakType.vala:71
 msgid "It’s break time"
 msgstr "Je čas přestávky"
 
+#: ../settings/RestBreakType.vala:72
+msgid "Take some time away from the computer. Stretch and move around."
+msgstr "Sem tam odejděte od počítače. Protáhněte se a projděte se."
+
 #. Label that explains a countdown timer, which shows a string such as "30 minutes"
-#: ../settings/RestBreakType.vala:80
+#: ../settings/RestBreakType.vala:82
 msgid "Your next full break is in"
 msgstr "Vaše další plná přestávka je za"
 
-#: ../settings/RestBreakType.vala:81
+#: ../settings/RestBreakType.vala:83
 msgid "It's break time"
 msgstr "Je čas přestávky"
 
-#: ../settings/RestBreakType.vala:90
+#: ../settings/RestBreakType.vala:92
 msgid "Full break"
 msgstr "Plná přestávka"
 
-#: ../settings/RestBreakType.vala:91
+#: ../settings/RestBreakType.vala:93
 msgid "And take some longer breaks to stretch your legs"
 msgstr "A dělejte si nějaké delší přestávky, abyste si protáhli nohy"
-
-#: ../settings/RestBreakType.vala:43
-msgid "Take some time away from the computer. Stretch and move around."
-msgstr "Sem tam odejděte od počítače. Protáhněte se a projděte se."
 
 #: ../settings/SettingsApplication.vala:97
 msgid "About"

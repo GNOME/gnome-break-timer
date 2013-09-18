@@ -7,9 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"break-timer&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-10 23:41+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-17 20:57-0700\n"
 "PO-Revision-Date: 2013-09-11 21:15+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
@@ -184,44 +183,41 @@ msgstr ""
 msgid "Just switch me on to get started"
 msgstr ""
 
-#: ../common/NaturalTime.vala:65
-#, c-format
+#: ../common/NaturalTime.vala:41
+#, fuzzy, c-format
 msgid "%d second"
-msgstr "%d sekunda"
+msgid_plural "%d seconds"
+msgstr[0] "%d sekunda"
+msgstr[1] "%d sekunda"
+msgstr[2] "%d sekunda"
+msgstr[3] "%d sekunda"
 
-# multiple plural ?
-#: ../common/NaturalTime.vala:65
-#, c-format
-msgid "%d seconds"
-msgstr "%d sekund"
-
-#: ../common/NaturalTime.vala:66
-#, c-format
+#: ../common/NaturalTime.vala:44
+#, fuzzy, c-format
 msgid "%d minute"
-msgstr "%d minuta"
+msgid_plural "%d minutes"
+msgstr[0] "%d minuta"
+msgstr[1] "%d minuta"
+msgstr[2] "%d minuta"
+msgstr[3] "%d minuta"
 
 # multiple plural ?
-#: ../common/NaturalTime.vala:66
-#, c-format
-msgid "%d minutes"
-msgstr "%d minut"
-
-# multiple plural ?
-#: ../common/NaturalTime.vala:67
-#, c-format
+#: ../common/NaturalTime.vala:47
+#, fuzzy, c-format
 msgid "%d hour"
-msgstr "%d ura"
+msgid_plural "%d hours"
+msgstr[0] "%d ura"
+msgstr[1] "%d ura"
+msgstr[2] "%d ura"
+msgstr[3] "%d ura"
 
-#: ../common/NaturalTime.vala:67
-#, c-format
-msgid "%d hours"
-msgstr "%d ur"
-
-#: ../helper/break/BreakView.vala:73
+#. Label for a notification action that shows information about the current break
+#: ../helper/break/BreakView.vala:74
 msgid "What should I do?"
 msgstr "Kaj storiti?"
 
-#: ../helper/break/TimerBreakStatusWidget.vala:55
+#. Break overlay label when a break has been finished
+#: ../helper/break/TimerBreakStatusWidget.vala:56
 msgid "Thank you"
 msgstr "Hvala!"
 
@@ -230,112 +226,96 @@ msgstr "Hvala!"
 msgid "GNOME Break Timer"
 msgstr "Zmogljivost merilca časa"
 
-#: ../helper/microbreak/MicroBreakView.vala:39
+#. Label for a notification action that will skip the current microbreak
+#: ../helper/microbreak/MicroBreakView.vala:40
 #, fuzzy
 msgid "Skip this one"
 msgstr "Preskoči predmet"
 
-#: ../helper/microbreak/MicroBreakView.vala:46
+#: ../helper/microbreak/MicroBreakView.vala:47
 msgid "It’s time for a micro break"
 msgstr ""
 
-#: ../helper/microbreak/MicroBreakView.vala:47
+#: ../helper/microbreak/MicroBreakView.vala:48
 msgid "Take a break from typing and look away from the screen"
 msgstr ""
 
-#: ../helper/microbreak/MicroBreakView.vala:60
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../helper/microbreak/MicroBreakView.vala:64
+#, c-format
+msgid "You were due to take a micro break %s ago"
+msgid_plural "You were due to take a micro break %s ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: ../helper/microbreak/MicroBreakView.vala:70
 #, fuzzy
 msgid "Overdue micro break"
 msgstr "Vsiljen prelom vrstice"
 
-#: ../helper/microbreak/MicroBreakView.vala:61
-#, c-format
-msgid "You were due to take a micro break %s ago"
-msgstr ""
-
-#: ../helper/microbreak/MicroBreakView.vala:70
-#: ../helper/restbreak/RestBreakView.vala:104
+#: ../helper/microbreak/MicroBreakView.vala:80
+#: ../helper/restbreak/RestBreakView.vala:125
 #, fuzzy
 msgid "Break is over"
 msgstr "Ali je omogočen vstavek za nadzor premorov tipkanja"
 
-#: ../helper/microbreak/MicroBreakView.vala:71
+#: ../helper/microbreak/MicroBreakView.vala:81
 msgid "Your micro break has ended"
 msgstr ""
 
-#: ../helper/microbreak/MicroBreakView.vala:84
+#: ../helper/microbreak/MicroBreakView.vala:94
 msgid "Take a moment to rest your eyes"
 msgstr ""
 
-#: ../helper/restbreak/RestBreakView.vala:26
-msgid "The quieter you become, the more you can hear."
-msgstr ""
-
-#: ../helper/restbreak/RestBreakView.vala:27
-msgid "Knock on the sky and listen to the sound."
-msgstr ""
-
-#: ../helper/restbreak/RestBreakView.vala:28
-msgid "So little time, so little to do."
-msgstr ""
-
-#: ../helper/restbreak/RestBreakView.vala:29
-msgid "Sometimes the questions are complicated and the answers are simple."
-msgstr ""
-
-#: ../helper/restbreak/RestBreakView.vala:30
-msgid "You cannot step into the same river twice."
-msgstr ""
-
-#: ../helper/restbreak/RestBreakView.vala:31
-#, fuzzy
-msgid "The obstacle is the path."
-msgstr "Določilo poti datoteke"
-
-#: ../helper/restbreak/RestBreakView.vala:32
-msgid "No snowflake ever falls in the wrong place."
-msgstr ""
-
-#: ../helper/restbreak/RestBreakView.vala:33
-msgid "The energy of the mind is the essence of life."
-msgstr ""
-
-#: ../helper/restbreak/RestBreakView.vala:51
+#. Label for a notification action that will delay the current break for a few minutes
+#: ../helper/restbreak/RestBreakView.vala:54
 #, fuzzy
 msgid "Remind me later"
 msgstr "Poskusite znova kasneje."
 
-#: ../helper/restbreak/RestBreakView.vala:65
+#: ../helper/restbreak/RestBreakView.vala:68
 #, fuzzy
 msgid "Time for a break"
 msgstr "Končaj po določenem času (za razhroščevanje)"
 
-#: ../helper/restbreak/RestBreakView.vala:66
+#: ../helper/restbreak/RestBreakView.vala:69
 msgid ""
 "It’s time to take a break. Get away from the computer for a little while!"
 msgstr ""
 
-#: ../helper/restbreak/RestBreakView.vala:80
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../helper/restbreak/RestBreakView.vala:86
+#, c-format
+msgid "There is %s remaining in your break"
+msgid_plural "There are %s remaining in your break"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: ../helper/restbreak/RestBreakView.vala:92
 #, fuzzy
 msgid "Break interrupted"
 msgstr "Iskanje je prekinjeno"
 
-#: ../helper/restbreak/RestBreakView.vala:81
-#, fuzzy, c-format
-msgid "%s of break remaining"
-msgstr "Preostanek kart: ~a"
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../helper/restbreak/RestBreakView.vala:109
+#, c-format
+msgid "You were due to take a break %s ago"
+msgid_plural "You were due to take a break %s ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: ../helper/restbreak/RestBreakView.vala:94
+#: ../helper/restbreak/RestBreakView.vala:115
 #, fuzzy
 msgid "Overdue break"
 msgstr "Prelom vrstice"
 
-#: ../helper/restbreak/RestBreakView.vala:95
-#, c-format
-msgid "You were due to take a break %s ago"
-msgstr ""
-
-#: ../helper/restbreak/RestBreakView.vala:105
+#: ../helper/restbreak/RestBreakView.vala:126
 msgid "Your break time has ended"
 msgstr ""
 
@@ -377,90 +357,130 @@ msgstr "Avtorske pravice (c) Naba Kumar"
 msgid "GNOME Break Timer Website"
 msgstr "Spletna stran ozadnjega programa GNOME DVB"
 
-#: ../settings/MicroBreakType.vala:51 ../settings/MicroBreakType.vala:86
+#: ../settings/MicroBreakType.vala:46 ../settings/MicroBreakType.vala:91
 msgid "Microbreak"
 msgstr ""
 
-#: ../settings/MicroBreakType.vala:63
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../settings/MicroBreakType.vala:65
+#, c-format
+msgid "Take a break from typing and look away from the screen for %s."
+msgid_plural "Take a break from typing and look away from the screen for %s."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: ../settings/MicroBreakType.vala:70
 #, fuzzy
 msgid "It’s microbreak time"
 msgstr "Avtor/datum-čas"
 
-#: ../settings/MicroBreakType.vala:76
+#: ../settings/MicroBreakType.vala:72
+msgid "I'll chime when it’s time to use the computer again."
+msgstr ""
+
+#. Label that explains a countdown timer, which shows a string such as "5 minutes"
+#: ../settings/MicroBreakType.vala:81
 #, fuzzy
 msgid "Your next microbreak is in"
 msgstr "Naslednje neprebrano sporočilo je v %s"
 
-#: ../settings/MicroBreakType.vala:77
+#: ../settings/MicroBreakType.vala:82
 #, fuzzy
 msgid "It's time for a microbreak"
 msgstr "Končaj po določenem času (za razhroščevanje)"
 
-#: ../settings/MicroBreakType.vala:87
+#: ../settings/MicroBreakType.vala:92
 msgid "Pause frequently to relax your eyes"
 msgstr ""
 
-#: ../settings/MicroBreakType.vala:42
-#, c-format
-msgid "Take a break from typing and look away from the screen for %s."
-msgstr ""
-
-#: ../settings/RestBreakType.vala:51
+#: ../settings/RestBreakType.vala:46
 #, fuzzy
 msgid "Break"
 msgstr "Prelom vrstice"
 
-#: ../settings/RestBreakType.vala:64
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../settings/RestBreakType.vala:66
+#, c-format
+msgid "Your break has %s remaining. I’ll remind you when it’s over."
+msgid_plural "Your break has %s remaining. I’ll remind you when it’s over."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: ../settings/RestBreakType.vala:71
 #, fuzzy
 msgid "It’s break time"
 msgstr "Avtor/datum-čas"
 
-#: ../settings/RestBreakType.vala:78
+#: ../settings/RestBreakType.vala:72
+msgid "Take some time away from the computer. Stretch and move around."
+msgstr ""
+
+#. Label that explains a countdown timer, which shows a string such as "30 minutes"
+#: ../settings/RestBreakType.vala:82
 msgid "Your next full break is in"
 msgstr ""
 
-#: ../settings/RestBreakType.vala:79
+#: ../settings/RestBreakType.vala:83
 #, fuzzy
 msgid "It's break time"
 msgstr "Avtor/datum-čas"
 
-#: ../settings/RestBreakType.vala:88
+#: ../settings/RestBreakType.vala:92
 #, fuzzy
 msgid "Full break"
 msgstr "Prelom vrstice"
 
-#: ../settings/RestBreakType.vala:89
+#: ../settings/RestBreakType.vala:93
 msgid "And take some longer breaks to stretch your legs"
 msgstr ""
 
-#: ../settings/RestBreakType.vala:42
-msgid "Take some time away from the computer. Stretch and move around."
-msgstr ""
-
-#: ../settings/SettingsApplication.vala:96
+#: ../settings/SettingsApplication.vala:97
 msgid "About"
 msgstr "O programu"
 
-#: ../settings/SettingsApplication.vala:97
+#: ../settings/SettingsApplication.vala:98
 msgid "Quit"
 msgstr "Končaj"
 
-#: ../settings/TimerBreakType.vala:176
+#. Label for the widget to choose how frequently a break occurs. (Choices such as "6 minutes" or "45 minutes")
+#: ../settings/TimerBreakType.vala:175
 #, fuzzy
 msgid "Every"
 msgstr "Vsak"
 
-#: ../settings/TimerBreakType.vala:180
-#, fuzzy, c-format
-msgid "%s frequency"
-msgstr "Frekvenca"
-
+#. Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes")
 #: ../settings/TimerBreakType.vala:184
 #, fuzzy
 msgid "For"
 msgstr "za"
 
-#: ../settings/TimerBreakType.vala:188
-#, fuzzy, c-format
-msgid "%s duration"
-msgstr "Trajanje"
+# multiple plural ?
+#~ msgid "%d seconds"
+#~ msgstr "%d sekund"
+
+# multiple plural ?
+#~ msgid "%d minutes"
+#~ msgstr "%d minut"
+
+#~ msgid "%d hours"
+#~ msgstr "%d ur"
+
+#, fuzzy
+#~ msgid "The obstacle is the path."
+#~ msgstr "Določilo poti datoteke"
+
+#, fuzzy
+#~ msgid "%s of break remaining"
+#~ msgstr "Preostanek kart: ~a"
+
+#, fuzzy
+#~ msgid "%s frequency"
+#~ msgstr "Frekvenca"
+
+#, fuzzy
+#~ msgid "%s duration"
+#~ msgstr "Trajanje"
