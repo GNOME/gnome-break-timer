@@ -75,14 +75,22 @@ public class RestBreakView : TimerBreakView {
 	}
 
 	private void show_interrupted_notification () {
+		int countdown_value;
 		int time_remaining = this.rest_break.get_time_remaining ();
 		int start_time = this.rest_break.get_current_duration ();
-		string countdown = NaturalTime.instance.get_countdown_for_seconds_with_start (
-			time_remaining, start_time);
+		string countdown_text = NaturalTime.instance.get_countdown_for_seconds_with_start (
+			time_remaining, start_time, out countdown_value);
+
+		string body_text = ngettext (
+			/* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
+			"There is %s remaining in your break",
+			"There are %s remaining in your break",
+			countdown_value
+		).printf (countdown_text);
+
 		var notification = this.build_common_notification (
 			_("Break interrupted"),
-			/* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
-			_("%s remaining in your break").printf (countdown),
+			body_text,
 			"alarm-symbolic"
 		);
 		notification.set_urgency (Notify.Urgency.NORMAL);
@@ -90,14 +98,22 @@ public class RestBreakView : TimerBreakView {
 	}
 
 	private void show_overdue_notification () {
+		int delay_value;
 		int64 now = Util.get_real_time_seconds ();
 		int time_since_start = (int) (now - this.original_start_time);
-		string delay_string = NaturalTime.instance.get_simplest_label_for_seconds (
-			time_since_start);
+		string delay_text = NaturalTime.instance.get_simplest_label_for_seconds (
+			time_since_start, out delay_value);
+
+		string body_text = ngettext (
+			/* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
+			"You were due to take a break %s ago",
+			"You were due to take a break %s ago",
+			delay_value
+		).printf (delay_text);
+
 		var notification = this.build_common_notification (
 			_("Overdue break"),
-			/* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
-			_("You were due to take a break %s ago").printf (delay_string),
+			body_text,
 			"alarm-symbolic"
 		);
 		notification.set_urgency (Notify.Urgency.NORMAL);

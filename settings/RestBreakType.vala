@@ -38,12 +38,6 @@ public class RestBreakType : TimerBreakType {
 }
 
 class RestBreakInfoPanel : BreakInfoPanel {
-	/* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
-	const string ACTIVE_DESCRIPTION_FORMAT =
-_("Take some time away from the computer. Stretch and move around.
-
-Your break has %s remaining. I’ll remind you when it’s over.");
-
 	private TimerBreakStatus? status;
 
 	public RestBreakInfoPanel (RestBreakType break_type) {
@@ -62,13 +56,21 @@ Your break has %s remaining. I’ll remind you when it’s over.");
 	}
 
 	private void update_description () {
-		this.set_heading ( _("It’s break time"));
+		if (this.status == null) return;
 
-		if (this.status != null && this.status.is_active) {
-			string time_remaining_text = NaturalTime.instance.get_countdown_for_seconds_with_start (
-				this.status.time_remaining, this.status.current_duration);
-			this.set_description (ACTIVE_DESCRIPTION_FORMAT.printf (time_remaining_text));
-		}
+		int time_remaining_value;
+		string time_remaining_text = NaturalTime.instance.get_countdown_for_seconds_with_start (
+			this.status.time_remaining, this.status.current_duration, out time_remaining_value);
+		string detail_text = ngettext (
+			/* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
+			"Your break has %s remaining. I’ll remind you when it’s over.",
+			"Your break has %s remaining. I’ll remind you when it’s over.",
+			time_remaining_value
+		).printf (time_remaining_text);
+
+		this.set_heading ( _("It’s break time"));
+		this.set_description (_("Take some time away from the computer. Stretch and move around."));
+		this.set_detail (detail_text);
 	}
 }
 

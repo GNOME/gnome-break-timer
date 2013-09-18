@@ -54,13 +54,21 @@ public class MicroBreakView : TimerBreakView {
 	}
 
 	private void show_overdue_notification () {
+		int delay_value;
 		int time_since_start = this.micro_break.get_seconds_since_start ();
-		string delay_string = NaturalTime.instance.get_simplest_label_for_seconds (
-			time_since_start);
+		string delay_text = NaturalTime.instance.get_simplest_label_for_seconds (
+			time_since_start, out delay_value);
+
+		string body_text = ngettext (
+			/* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
+			"You were due to take a micro break %s ago",
+			"You were due to take a micro break %s ago",
+			delay_value
+		).printf (delay_text);
+
 		var notification = this.build_common_notification (
 			_("Overdue micro break"),
-			/* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
-			_("You were due to take a micro break %s ago").printf (delay_string),
+			body_text,
 			"alarm-symbolic"
 		);
 		notification.set_urgency (Notify.Urgency.NORMAL);

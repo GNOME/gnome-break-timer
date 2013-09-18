@@ -38,12 +38,6 @@ public class MicroBreakType : TimerBreakType {
 }
 
 class MicroBreakInfoPanel : BreakInfoPanel {
-	/* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
-	const string ACTIVE_DESCRIPTION_FORMAT = 
-_("Take a break from typing and look away from the screen for %s.
-
-I'll chime when it’s time to use the computer again.");
-
 	private TimerBreakStatus? status;
 
 	public MicroBreakInfoPanel (MicroBreakType break_type) {
@@ -61,12 +55,21 @@ I'll chime when it’s time to use the computer again.");
 	}
 
 	private void update_description () {
-		this.set_heading ( _("It’s microbreak time"));
+		if (this.status == null) return;
 
-		if (this.status != null && this.status.is_active) {
-			string duration_text = NaturalTime.instance.get_label_for_seconds (this.status.current_duration);
-			this.set_description (ACTIVE_DESCRIPTION_FORMAT.printf (duration_text));
-		}
+		int time_remaining_value;
+		string time_remaining_text = NaturalTime.instance.get_countdown_for_seconds_with_start (
+			this.status.time_remaining, this.status.current_duration, out time_remaining_value);
+		string description_text = ngettext (
+			/* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
+			"Take a break from typing and look away from the screen for %s.",
+			"Take a break from typing and look away from the screen for %s.",
+			time_remaining_value
+		).printf (time_remaining_text);
+
+		this.set_heading ( _("It’s microbreak time"));
+		this.set_description (description_text);
+		this.set_detail (_("I'll chime when it’s time to use the computer again."));
 	}
 }
 

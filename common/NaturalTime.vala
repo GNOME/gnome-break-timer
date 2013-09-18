@@ -27,9 +27,9 @@ public class NaturalTime : Object {
 			this.format_time = format_time;
 		}
 		
-		public string format_seconds (int seconds) {
-			int time = seconds / this.seconds;
-			return this.format_time(time);
+		public string format_seconds (int seconds, out int output_value) {
+			output_value = seconds / this.seconds;
+			return this.format_time(output_value);
 		}
 	}
 	
@@ -66,9 +66,10 @@ public class NaturalTime : Object {
 	 * So, an input of 60 will return "1 minute", but 61 will return
 	 * "61 seconds".
 	 * @param seconds time in seconds.
+	 * @param output_value set to the numerical value of the output.
 	 * @return a string with a natural and accurate representation of the time.
 	 */
-	public string get_label_for_seconds (int seconds) {
+	public string get_label_for_seconds (int seconds, out int output_value = null) {
 		TimeUnit label_unit = units[0];
 		foreach (TimeUnit unit in units) {
 			if (seconds % unit.seconds == 0) {
@@ -77,7 +78,7 @@ public class NaturalTime : Object {
 				if (seconds == 0) break;
 			}
 		}
-		return label_unit.format_seconds (seconds);
+		return label_unit.format_seconds (seconds, out output_value);
 	}
 	
 	/**
@@ -87,29 +88,17 @@ public class NaturalTime : Object {
 	 * So, an input of 60 will return "1 minute", and 61 will return the
 	 * same.
 	 * @param seconds time in seconds.
+	 * @param output_value set to the numerical value of the output.
 	 * @return a string with a natural and accurate representation of the time.
 	 */
-	public string get_simplest_label_for_seconds (int seconds) {
+	public string get_simplest_label_for_seconds (int seconds, out int output_value = null) {
 		TimeUnit label_unit = units[0];
 		foreach (TimeUnit unit in units) {
 			if (seconds >= unit.seconds) {
 				label_unit = unit;
 			}
 		}
-		return label_unit.format_seconds (seconds);
-	}
-	
-	private int soften_seconds_for_countdown (int seconds) {
-		int interval = 1;
-		if (seconds <= 10) {
-			interval = 1;
-		} else if (seconds <= 60) {
-			interval = 10;
-		} else {
-			interval = 60;
-		}
-		int time_softened = ( (seconds-1) / interval) + 1;
-		return time_softened * interval;
+		return label_unit.format_seconds (seconds, out output_value);
 	}
 	
 	/**
@@ -118,11 +107,12 @@ public class NaturalTime : Object {
 	 * function softens the time by a gradually smaller interval as seconds
 	 * reaches 0.
 	 * @param seconds number of seconds remaining in the countdown.
+	 * @param output_value set to the numerical value of the output.
 	 * @return a string representing the time remaining.
 	 */
-	public string get_countdown_for_seconds (int seconds) {
+	public string get_countdown_for_seconds (int seconds, out int output_value = null) {
 		int seconds_softened = soften_seconds_for_countdown (seconds);
-		return get_simplest_label_for_seconds (seconds_softened);
+		return get_simplest_label_for_seconds (seconds_softened, out output_value);
 	}
 	
 	/**
@@ -134,11 +124,25 @@ public class NaturalTime : Object {
 	 * is shown instead, without being softened.
 	 * @param seconds number of seconds remaining in the countdown.
 	 * @param start countdown start time, in seconds, which will be shown exactly.
+	 * @param output_value set to the numerical value of the output.
 	 * @return a string representing the time remaining.
 	 */
-	public string get_countdown_for_seconds_with_start (int seconds, int start) {
+	public string get_countdown_for_seconds_with_start (int seconds, int start, out int output_value = null) {
 		int seconds_softened = soften_seconds_for_countdown (seconds);
 		if (seconds_softened > start) seconds_softened = start;
-		return get_simplest_label_for_seconds (seconds_softened);
+		return get_simplest_label_for_seconds (seconds_softened, out output_value);
+	}
+
+	private int soften_seconds_for_countdown (int seconds) {
+		int interval = 1;
+		if (seconds <= 10) {
+			interval = 1;
+		} else if (seconds <= 60) {
+			interval = 10;
+		} else {
+			interval = 60;
+		}
+		int time_softened = ( (seconds-1) / interval) + 1;
+		return time_softened * interval;
 	}
 }

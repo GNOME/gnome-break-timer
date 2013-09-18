@@ -54,6 +54,7 @@ public abstract class BreakInfoPanel : Gtk.Grid {
 
 	private Gtk.Label heading_label;
 	private Gtk.Label description_label;
+	private Gtk.Label detail_label;
 
 	public BreakInfoPanel (BreakType break_type, string title) {
 		Object ();
@@ -75,6 +76,9 @@ public abstract class BreakInfoPanel : Gtk.Grid {
 		this.description_label.set_justify (Gtk.Justification.CENTER);
 		this.description_label.set_max_width_chars (60);
 
+		this.detail_label = new Gtk.Label (null);
+		this.add (this.detail_label);
+
 		this.show_all ();
 	}
 
@@ -84,6 +88,10 @@ public abstract class BreakInfoPanel : Gtk.Grid {
 
 	protected void set_description (string description) {
 		this.description_label.set_label (description);
+	}
+
+	protected void set_detail (string detail) {
+		this.detail_label.set_label (detail);
 	}
 }
 
