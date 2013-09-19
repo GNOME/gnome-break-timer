@@ -152,16 +152,21 @@ public class HelperApplication : Gtk.Application {
 			OutputStream state_stream = state_file.replace (null, false, FileCreateFlags.NONE);
 			generator.to_stream (state_stream);
 		} catch (Error e) {
-			GLib.warning ("Error writing to breaks state file: %s", e.message);
+			GLib.warning ("Error writing to state file: %s", e.message);
 		}
 	}
 
 	private void restore_state () {
 		File state_file = this.get_state_file ();
 		if (state_file.query_exists ()) {
-			InputStream state_stream = state_file.read ();
 			Json.Parser parser = new Json.Parser ();
-			parser.load_from_stream (state_stream);
+
+			try {
+				InputStream state_stream = state_file.read ();
+				parser.load_from_stream (state_stream);
+			} catch (Error e) {
+				GLib.warning ("Error reading state file: %s", e.message);
+			}
 
 			Json.Node? root = parser.get_root ();
 			if (root != null) {

@@ -99,7 +99,7 @@ public class BreakManager : Object {
 }
 
 [DBus (name = "org.gnome.BreakTimer")]
-private class BreakHelperServer : Object, IBreakHelper {
+public class BreakHelperServer : Object, IBreakHelper {
 	private weak BreakManager break_manager;
 	
 	public BreakHelperServer (BreakManager break_manager) {

@@ -16,7 +16,7 @@
  */
 
 [DBus (name = "org.gnome.ScreenSaver")]
-interface IScreenSaver : Object {
+public interface IScreenSaver : Object {
     public signal void active_changed (bool active);
 
     public abstract bool get_active () throws IOError;
@@ -90,13 +90,21 @@ public class SessionStatus : ISessionStatus, Object {
 
 	public void blank_screen () {
 		if (this.screensaver != null) {
-			this.screensaver.set_active (true);
+			try {
+				this.screensaver.set_active (true);
+			} catch (IOError error) {
+				GLib.warning ("Error blanking screeen: %s", error.message);
+			}
 		}
 	}
 
 	public void unblank_screen () {
 		if (this.screensaver != null) {
-			this.screensaver.set_active (false);
+			try {
+				this.screensaver.set_active (false);
+			} catch (IOError error) {
+				GLib.warning ("Error unblanking screeen: %s", error.message);
+			}
 		}
 	}
 }

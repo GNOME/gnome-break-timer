@@ -88,7 +88,7 @@ public abstract class BreakController : Object {
 	}
 
 	public virtual void deserialize (ref Json.Object json_root) {
-		State serialized_state = (State)json_root.get_int_member ("state");
+		// State serialized_state = (State)json_root.get_int_member ("state");
 		// We won't restore the original state directly. A BreakController
 		// implementation should decide whether to activate at this stage.
 

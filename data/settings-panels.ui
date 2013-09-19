@@ -207,6 +207,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="hexpand">True</property>
+                <property name="ypad">4</property>
                 <property name="label" translatable="yes">Full breaks are time to get away from the computer and move around.</property>
                 <style>
                   <class name="_break-status-body"/>
