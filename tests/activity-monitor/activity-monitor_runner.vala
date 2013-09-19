@@ -15,8 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public static int main(string[] args) {
-	var runner = new TestRunner(ref args);
-	runner.add(new test_ActivityMonitor());
-	return runner.run();
+public static int main (string[] args) {
+	var runner = new TestRunner (ref args);
+	runner.add (new test_ActivityMonitor ());
+	return runner.run ();
 }
