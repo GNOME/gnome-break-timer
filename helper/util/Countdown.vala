@@ -108,7 +108,9 @@ public class Countdown : Object {
 	/**
 	 * Start counting with the time offset by the given number of seconds.
 	 * Useful if the countdown should have started in the past.
-	 * @param start_offset the number of seconds by which to offset the start time
+	 * @param start_offset the number of seconds to offset the start time,
+	 *                     where a negative value brings the countdown closer
+	 *                     to being finished.
 	 */
 	public void start_from (int start_offset) {
 		this.reset ();
@@ -133,6 +135,14 @@ public class Countdown : Object {
 		}
 	}
 	
+	/**
+	 * If not already counting, start counting with the time offset by the
+	 * given number of seconds. This is like start_from, but it never resets
+	 * the countdown.
+	 * @param start_offset the number of seconds to offset the start time,
+	 *                     where a negative value brings the countdown closer
+	 *                     to being finished.
+	 */
 	public void continue_from (int start_offset) {
 		if (this.state < State.COUNTING) {
 			int64 now = Util.get_real_time_seconds ();
@@ -141,6 +151,11 @@ public class Countdown : Object {
 		}
 	}
 
+	/**
+	 * If the countdown is paused, continue as if that never happened. This
+	 * has the effect of the countdown advancing by the time for which it was
+	 * paused.
+	 */
 	public void cancel_pause () {
 		if (this.state == State.PAUSED) {
 			this.stop_time_elapsed = 0;
@@ -148,6 +163,14 @@ public class Countdown : Object {
 		}
 	}
 
+	/**
+	 * Advance the countdown by the number of seconds, regardless of its
+	 * present state. If the countdown is currently paused, calling continue
+	 * will take into account the given offset.
+	 * @param seconds_off the number of seconds to advance the countdown,
+	 *                    where a positive value brings it closer to being
+	 *                    finished.
+	 */
 	public void advance_time (int seconds_off) {
 		int64 now = Util.get_real_time_seconds ();
 		if (this.state == State.COUNTING) {
@@ -157,34 +180,62 @@ public class Countdown : Object {
 		}
 	}
 
+	/**
+	 * Sets a temporary time penalty. This increases the countdown's duration
+	 * until it is reset.
+	 * @param penalty the number of seconds extra the countdown will last.
+	 */
 	public void set_penalty (int penalty) {
 		this.penalty = penalty;
 	}
 	
-	public void add_penalty (int penalty) {
-		this.penalty += penalty;
-	}
-	
-	public void add_bonus (int bonus) {
-		this.penalty -= bonus;
-	}
-	
+	/**
+	 * @return the current time penalty for the countdown.
+	 * @see set_penalty
+	 */
 	public int get_penalty () {
 		return this.penalty;
 	}
 	
+	/**
+	 * @return true if the countdown is currently counting, or false if it is
+	 *              either stopped or paused.
+	 */
 	public bool is_counting () {
 		return this.state == State.COUNTING;
 	}
 	
+	/**
+	 * Sets the base duration for the countdown. This is how long the
+	 * countdown will last from when it is freshly started.
+	 * 
+	 * The base duration can be changed while the countdown is counting. The
+	 * elapsed time will not change, while the remaining time will increase or
+	 * decrease based on that elapsed time, the new base duration, and the
+	 * current penalty.
+	 * 
+	 * @param base_duration the new base duration for the countdown
+	 */
 	public void set_base_duration (int base_duration) {
 		this.base_duration = base_duration;
 	}
 	
+	/**
+	 * Returns the current duration for the countdown. This is not the same as
+	 * the base duration: it takes into account the penalty, as well. The
+	 * return value will change as the time penalty changes.
+	 * @return the countdown's duration
+	 */
 	public int get_duration () {
 		return int.max (0, this.base_duration + this.penalty);
 	}
 	
+	/**
+	 * Returns the amount of time that the countdown has been counting, if at
+	 * all. If the countdown is paused, this will return the elapsed time from
+	 * the point when it was paused.
+	 * @return the countdown's current elapsed time, or 0
+	 */
 	public int get_time_elapsed () {
 		int time_elapsed = this.stop_time_elapsed;
 		
@@ -196,11 +247,23 @@ public class Countdown : Object {
 		return int.max (0, time_elapsed);
 	}
 	
+	/**
+	 * Returns the time remaining until the countdown will be finished, or 0
+	 * if the countdown is already finished. If the countdown is not counting,
+	 * this will return its current duration.
+	 * @return the time the countdown needs to count until it is finished
+	 */
 	public int get_time_remaining () {
 		int time_remaining = this.get_duration () - this.get_time_elapsed ();
 		return int.max (0, time_remaining);
 	}
 
+	/**
+	 * Returns true if the countdown is finished; if its elapsed time meets or
+	 * exceeds its duration. This is equivalent to checking if the remaining
+	 * time is 0.
+	 * @return true if the countdown is finished.
+	 */
 	public bool is_finished () {
 		return this.get_time_remaining () == 0;
 	}
