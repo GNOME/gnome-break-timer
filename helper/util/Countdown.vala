@@ -199,7 +199,7 @@ public class Countdown : Object {
 	
 	/**
 	 * @return true if the countdown is currently counting, or false if it is
-	 *              either stopped or paused.
+	 *         either stopped or paused.
 	 */
 	public bool is_counting () {
 		return this.state == State.COUNTING;

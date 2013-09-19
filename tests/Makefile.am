@@ -64,6 +64,22 @@ junk_files += \
 	test_breaks_vala.stamp
 
 
+# Unit tests for "util" convenience library in helper
+
+TEST_PROGS += test-helper-util
+
+test_helper_util_SOURCES = \
+	tests.vala \
+	helper-util/helper_util_runner.vala \
+	helper-util/test_Countdown.vala
+
+test_helper_util_LDADD = $(TEST_LIBS)
+
+junk_files += \
+	$(test_helper_util_SOURCES:.vala=.c) \
+	test_helper_util_vala.stamp
+
+
 noinst_PROGRAMS = $(TEST_PROGS)
 
 dist-hook:
