@@ -85,8 +85,6 @@ public class MainWindow : Gtk.ApplicationWindow {
 		this.main_stack = new Stack ();
 		content.add (this.main_stack);
 		main_stack.set_margin_top (6);
-		main_stack.set_margin_right (20);
-		main_stack.set_margin_left (20);
 		main_stack.set_margin_bottom (6);
 
 		this.status_panel = new StatusPanel (break_manager, builder);
@@ -119,6 +117,8 @@ public class MainWindow : Gtk.ApplicationWindow {
 	private void break_added_cb (BreakType break_type) {
 		var info_panel = break_type.info_panel;
 		this.main_stack.add (info_panel);
+		info_panel.set_margin_left (20);
+		info_panel.set_margin_right (20);
 		info_panel.set_halign (Gtk.Align.CENTER);
 		info_panel.set_valign (Gtk.Align.CENTER);
 	}
@@ -179,9 +179,9 @@ private class WelcomePanel : Stack {
 	}
 	private Step current_step;
 
-	private Gtk.Widget start_page;
-	private Gtk.Widget breaks_page;
-	private Gtk.Widget ready_page;
+	private Gtk.Container start_page;
+	private Gtk.Container breaks_page;
+	private Gtk.Container ready_page;
 
 	public WelcomePanel (BreakManager break_manager, Gtk.Builder builder, MainWindow main_window) {
 		Object ();
@@ -209,10 +209,14 @@ private class WelcomePanel : Stack {
 			builder, "welcome_ready", "keeps_running_label", main_window.get_close_button ());
 		this.add (this.ready_page);
 
-		var breaks_ok_button = builder.get_object ("welcome_breaks_ok_button") as Gtk.Button;
+		var breaks_ok_button = new Gtk.Button.with_label (_("OK, got it!"));
+		breaks_ok_button.set_halign (Gtk.Align.CENTER);
+		this.breaks_page.add (breaks_ok_button);
 		breaks_ok_button.clicked.connect (this.on_breaks_confirmed);
 
-		var ready_ok_button = builder.get_object ("welcome_ready_ok_button") as Gtk.Button;
+		var ready_ok_button = new Gtk.Button.with_label (_("Ready to go"));
+		ready_ok_button.set_halign (Gtk.Align.CENTER);
+		this.ready_page.add (ready_ok_button);
 		ready_ok_button.clicked.connect (this.on_ready_confirmed);
 
 		break_manager.notify["master-enabled"].connect (this.on_master_switch_toggled);
@@ -238,15 +242,20 @@ private class WelcomePanel : Stack {
 		}
 	}
 
-	private Gtk.Widget build_page_with_arrow (Gtk.Builder builder, string page_name, string? arrow_source_name, Gtk.Widget? arrow_target) {
-		Gtk.Overlay page_wrapper = new Gtk.Overlay ();
+	private Gtk.Container build_page_with_arrow (Gtk.Builder builder, string page_name, string? arrow_source_name, Gtk.Widget? arrow_target) {
+		Gtk.Grid page_wrapper = new Gtk.Grid ();
+		page_wrapper.set_orientation (Gtk.Orientation.VERTICAL);
+		page_wrapper.set_row_spacing (16);
+		page_wrapper.set_margin_bottom (30);
 
-		page_wrapper.add (builder.get_object (page_name) as Gtk.Widget);
+		Gtk.Overlay page_overlay = new Gtk.Overlay ();
+		page_wrapper.add (page_overlay);
 
+		page_overlay.add (builder.get_object (page_name) as Gtk.Widget);
 		Gtk.Widget arrow_source = builder.get_object (arrow_source_name) as Gtk.Widget;
 		if (arrow_source != null && arrow_target != null) {
 			var arrow = new OverlayArrow (arrow_source, arrow_target);
-			page_wrapper.add_overlay (arrow);
+			page_overlay.add_overlay (arrow);
 		}
 
 		return page_wrapper;
@@ -318,7 +327,9 @@ private class StatusPanel : Stack {
 		var status_panel = break_type.status_panel;
 		this.breaks_list.add (status_panel);
 		status_panel.set_margin_top (18);
+		status_panel.set_margin_right (20);
 		status_panel.set_margin_bottom (18);
+		status_panel.set_margin_left (20);
 	}
 
 	private void status_changed_cb () {
