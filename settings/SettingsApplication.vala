@@ -42,6 +42,10 @@ public class SettingsApplication : Gtk.Application {
 			font-size: small;
 		}
 
+		._break-status-icon {
+			opacity: 0.2;
+		}
+
 		._circle-counter {
 			color: @scrollbar_slider_prelight;
 			background-color: @scrollbar_trough;
