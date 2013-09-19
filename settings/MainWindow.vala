@@ -80,6 +80,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 			"preferences-system-symbolic",
 			Gtk.IconSize.MENU)
 		);
+		settings_button.valign = Gtk.Align.CENTER;
 		settings_button.set_always_show_image (true);
 
 		this.main_stack = new Stack ();
