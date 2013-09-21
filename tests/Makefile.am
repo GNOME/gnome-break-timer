@@ -71,7 +71,8 @@ TEST_PROGS += test-helper-util
 test_helper_util_SOURCES = \
 	tests.vala \
 	helper-util/helper_util_runner.vala \
-	helper-util/test_Countdown.vala
+	helper-util/test_Countdown.vala \
+	helper-util/test_StatefulTimer.vala
 
 test_helper_util_LDADD = $(TEST_LIBS)
 
