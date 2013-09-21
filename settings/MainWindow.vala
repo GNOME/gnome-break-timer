@@ -156,7 +156,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 			"program-name", _("GNOME Break Timer"),
 			"comments", _("Computer break reminders for active minds"),
 			"copyright", _("Copyright © Dylan McCall"),
-			"website", "http://launchpad.net/brainbreak",
+			"website", "https://wiki.gnome.org/GnomeBreakTimer",
 			"website-label", _("GNOME Break Timer Website")
 		);
 	}
