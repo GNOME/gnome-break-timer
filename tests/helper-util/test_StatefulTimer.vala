@@ -95,8 +95,9 @@ public class test_StatefulTimer : TestSuiteWithActivityMonitor {
 			timer.deserialize (data);
 
 			assert (timer.state == StatefulTimer.State.STOPPED);
-			assert (timer.elapsed () == 20.0);
-			assert (timer.lap_time () == 5.0);
+			// Convert time values to ints to deal with floating point errors
+			assert ((int)timer.elapsed () == 20);
+			assert ((int)timer.lap_time () == 5);
 		}
 	}
 }
