@@ -1,5 +1,5 @@
 AC_INIT([gnome-break-timer],
-	[1.0],
+	[1.1],
 	[http://bugs.launchpad.net/brainbreak],
 	[gnome-break-timer],
 	[https://wiki.gnome.org/GnomeBreakTimer])

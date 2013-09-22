@@ -1,3 +1,11 @@
+gnome-break-timer 1.1
+=====================
+
+ * Redesigned "take a break" notifications
+ * New status and settings application
+ * Break timers are saved between sessions
+ * Bug fixes
+
 gnome-break-timer 1.0
 =====================
 
