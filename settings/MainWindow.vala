@@ -152,13 +152,19 @@ public class MainWindow : Gtk.ApplicationWindow {
 	}
 
 	public void show_about_dialog () {
+		const string copyright = "Copyright © 2011-2013 Dylan McCall";
+
 		Gtk.show_about_dialog (this,
 			"program-name", _("GNOME Break Timer"),
 			"logo-icon-name", "gnome-break-timer",
+			"version", Config.VERSION,
 			"comments", _("Computer break reminders for active minds"),
-			"copyright", _("Copyright © Dylan McCall"),
-			"website", "https://wiki.gnome.org/GnomeBreakTimer",
-			"website-label", _("GNOME Break Timer Website")
+			"website", Config.PACKAGE_URL,
+			"website-label", _("GNOME Break Timer Website"),
+			"copyright", copyright,
+			"license-type", Gtk.License.GPL_3_0,
+			"wrap-license", false,
+			"translator-credits", _("translator-credits")
 		);
 	}
 

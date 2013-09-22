@@ -2,7 +2,7 @@ AC_INIT([gnome-break-timer],
 	[1.0],
 	[http://bugs.launchpad.net/brainbreak],
 	[gnome-break-timer],
-	[https://launchpad.net/brainbreak])
+	[https://wiki.gnome.org/GnomeBreakTimer])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.11 no-dist-gzip dist-xz foreign])
 LT_INIT

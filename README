@@ -1,12 +1,11 @@
-GNOME Break Timer
-Copyright 2011, Dylan McCall and GNOME Break Timer contributors.
+Break Timer
+===========
 
------
+A break timer application for GNOME.
 
-GNOME Break Timer keeps track of your computer use and provides a gentle
-reminder to take regular breaks. This is great for anyone concerned about the
-mental or physical issues associated with heavy computer use. GNOME Break
-Timer aims to be effective over a long time, so it is assertive as possible
-without being irritating. It avoids threatening people with negative things
-like permanent usage statistics, but it provides incentives to be healthy
-which fit the moment at hand.
+This helps you to schedule regular breaks. It will remind you to take them
+based on how much you are using the computer. It tries hard to be simple but
+helpful, using notifications to gently indicate when a break has arrived while
+keeping out of the way for activities like games and videos.
+
+<https://wiki.gnome.org/GnomeBreakTimer>
