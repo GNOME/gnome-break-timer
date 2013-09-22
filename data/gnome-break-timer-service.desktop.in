@@ -3,6 +3,7 @@ Type=Application
 _Name=Break Timer
 _Comment=Provides a gentle reminder to take regular breaks
 X-Ubuntu-Gettext-Domain=gnome-break-timer
+Icon=gnome-break-timer
 NoDisplay=true
 Exec=/usr/bin/gnome-break-timer-service
 X-GNOME-UsesNotifications=true

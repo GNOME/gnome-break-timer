@@ -88,6 +88,7 @@ AC_CONFIG_FILES([Makefile
 	helper/activity-monitor/Makefile
 	helper/util/Makefile
 	data/Makefile
+	data/icons/Makefile
 	libgd/Makefile
 	po/Makefile.in
 	tests/Makefile
