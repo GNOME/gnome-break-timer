@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "break-timer&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-18 04:00+0000\n"
-"PO-Revision-Date: 2013-09-20 23:03+0100\n"
+"POT-Creation-Date: 2013-09-22 19:22+0000\n"
+"PO-Revision-Date: 2013-09-22 21:36+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: ../data/gnome-break-timer.appdata.xml.in.h:1
 #: ../data/gnome-break-timer-autostart.desktop.in.h:1
@@ -55,11 +55,11 @@ msgstr ""
 
 #: ../data/gnome-break-timer.desktop.in.h:3
 msgid "break;micro;rest;timer;"
-msgstr ""
+msgstr "odmor;kratek odmor;časomer;počitek;delo;"
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:1
 msgid "True to enable GNOME Break Timer"
-msgstr ""
+msgstr "Izbrana možnost omogoči Časomer odmorov GNOME."
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:2
 msgid "The list of breaks that are currently enabled"
@@ -67,15 +67,15 @@ msgstr "Seznam odmorov, ki so trenutno omogočeni"
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:3
 msgid "True to enable quiet mode"
-msgstr ""
+msgstr "Izbrana možnost omogoči tihi način"
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:4
 msgid "Hides breaks until quiet-mode-expire-time."
-msgstr ""
+msgstr "Skrije opozorila za odmore do končanja tihega načina."
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:5
 msgid "Time to end quiet mode."
-msgstr ""
+msgstr "Čas za končanje tihega načina."
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:6
 msgid "The time to automatically disable quiet mode, in unix time."
@@ -128,48 +128,40 @@ msgid "You can change the types of breaks and their timings from the settings"
 msgstr ""
 
 #: ../data/settings-panels.ui.h:6
-msgid "OK, got it!"
-msgstr "Prav, razumem!"
-
-#: ../data/settings-panels.ui.h:7
 msgid "Break Timer lets you take small microbreaks as well as longer breaks."
 msgstr ""
 
-#: ../data/settings-panels.ui.h:8
+#: ../data/settings-panels.ui.h:7
 msgid ""
 "Microbreaks are a chance to look away from the screen and rest your hands."
 msgstr ""
 
-#: ../data/settings-panels.ui.h:9
+#: ../data/settings-panels.ui.h:8
 msgid "Full breaks are time to get away from the computer and move around."
 msgstr ""
 
-#: ../data/settings-panels.ui.h:10
+#: ../data/settings-panels.ui.h:9
 msgid "Breaks and Microbreaks"
 msgstr "Odmori in kratki odmori"
 
-#: ../data/settings-panels.ui.h:11
-msgid "Ready to go"
-msgstr "Pripravljen na delo"
-
-#: ../data/settings-panels.ui.h:12
+#: ../data/settings-panels.ui.h:10
 msgid "You can leave me to it"
 msgstr ""
 
-#: ../data/settings-panels.ui.h:13
+#: ../data/settings-panels.ui.h:11
 msgid ""
 "Break Timer will carry on working in the background, even if you close it."
 msgstr ""
 
-#: ../data/settings-panels.ui.h:14
+#: ../data/settings-panels.ui.h:12
 msgid "Welcome to Break Timer!"
 msgstr "Dobrodošli v Časomeru odmorov!"
 
-#: ../data/settings-panels.ui.h:15
+#: ../data/settings-panels.ui.h:13
 msgid "Breaks are good for you. We'll help you to take them."
 msgstr ""
 
-#: ../data/settings-panels.ui.h:16
+#: ../data/settings-panels.ui.h:14
 msgid "Just switch me on to get started"
 msgstr ""
 
@@ -211,7 +203,7 @@ msgstr "Kaj storiti?"
 msgid "Thank you"
 msgstr "Hvala!"
 
-#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:155
+#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:156
 msgid "GNOME Break Timer"
 msgstr "Časomer odmorov GNOME"
 
@@ -274,10 +266,10 @@ msgstr "Čas je za odmor. Za kratek čas pojdite stran od računalnika!"
 #, c-format
 msgid "There is %s remaining in your break"
 msgid_plural "There are %s remaining in your break"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Na voljo je še %s za odmor"
+msgstr[1] "Na voljo je še %s za odmor"
+msgstr[2] "Na voljo sta še %s za odmor"
+msgstr[3] "Na voljo so še %s za odmor"
 
 #: ../helper/restbreak/RestBreakView.vala:92
 msgid "Break interrupted"
@@ -317,21 +309,29 @@ msgstr "Občasni kratki odmori"
 msgid "Frequent short breaks"
 msgstr "Pogosti kratki odmori"
 
-#: ../settings/MainWindow.vala:139
+#: ../settings/MainWindow.vala:140
 msgid "Welcome Tour"
 msgstr "Voden ogled"
 
-#: ../settings/MainWindow.vala:156
+#: ../settings/MainWindow.vala:158
 msgid "Computer break reminders for active minds"
 msgstr ""
 
-#: ../settings/MainWindow.vala:157
+#: ../settings/MainWindow.vala:159
 msgid "Copyright © Dylan McCall"
 msgstr "Avtorske pravice © Dylan McCall"
 
-#: ../settings/MainWindow.vala:159
+#: ../settings/MainWindow.vala:161
 msgid "GNOME Break Timer Website"
 msgstr "Spletna stran Časomer odmorov GNOME"
+
+#: ../settings/MainWindow.vala:214
+msgid "OK, got it!"
+msgstr "Prav, razumem!"
+
+#: ../settings/MainWindow.vala:219
+msgid "Ready to go"
+msgstr "Pripravljen na delo"
 
 #: ../settings/MicroBreakType.vala:46 ../settings/MicroBreakType.vala:91
 msgid "Microbreak"
@@ -365,9 +365,8 @@ msgid "It's time for a microbreak"
 msgstr "Čas je za kratek odmor"
 
 #: ../settings/MicroBreakType.vala:92
-#, fuzzy
 msgid "Pause frequently to relax your eyes"
-msgstr "Pogosto počijte, da sprostite svoje oči"
+msgstr "Priporočeni so pogosti premori za sproščanje oči"
 
 #: ../settings/RestBreakType.vala:46
 msgid "Break"
@@ -393,16 +392,14 @@ msgstr ""
 
 #. Label that explains a countdown timer, which shows a string such as "30 minutes"
 #: ../settings/RestBreakType.vala:82
-#, fuzzy
 msgid "Your next full break is in"
-msgstr "Vaš naslednji daljši odmor je v"
+msgstr "Naslednji daljši odmor je čez"
 
 #: ../settings/RestBreakType.vala:83
 msgid "It's break time"
 msgstr "Čas je za odmor"
 
 #: ../settings/RestBreakType.vala:92
-#, fuzzy
 msgid "Full break"
 msgstr "Daljši odmor"
 
@@ -410,11 +407,11 @@ msgstr "Daljši odmor"
 msgid "And take some longer breaks to stretch your legs"
 msgstr "Privoščite si nekaj daljših odmorov, da si pretegnete noge"
 
-#: ../settings/SettingsApplication.vala:97
+#: ../settings/SettingsApplication.vala:101
 msgid "About"
 msgstr "O programu"
 
-#: ../settings/SettingsApplication.vala:98
+#: ../settings/SettingsApplication.vala:102
 msgid "Quit"
 msgstr "Končaj"
 
