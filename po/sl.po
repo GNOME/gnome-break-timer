@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "break-timer&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-27 22:39+0000\n"
-"PO-Revision-Date: 2013-09-29 13:59+0100\n"
+"POT-Creation-Date: 2013-09-29 11:59+0000\n"
+"PO-Revision-Date: 2013-09-29 21:12+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #: ../data/gnome-break-timer.appdata.xml.in.h:1
 #: ../data/gnome-break-timer-autostart.desktop.in.h:1
@@ -43,6 +43,12 @@ msgid ""
 "Timer is simple to set up, so you can pick a break schedule that works for "
 "you and it will carry on working in the background.</p>"
 msgstr ""
+"<p>Časomer odmorov spremlja, koliko časa uporabljate računalnik, in vas "
+"opominja, da si privoščite redne odmore. Načrtovan je tako, da vzpodbuja "
+"zdravo vedenje na delovnem mestu z mešanico kratkih odmorov za vaše oči in zapestja kot tudi "
+"daljših odmorov, ki ohranjajo vaše telo v gibanju in vaše misli pri delu.</"
+"p> <p>Časomer odmorov je enostavno nastaviti, saj lahko izberete razpored "
+"odmorov, ki je primeren za vas, ta pa deluje v ozadju.</p>"
 
 #: ../data/gnome-break-timer-autostart.desktop.in.h:2
 #: ../data/gnome-break-timer-service.desktop.in.h:2
