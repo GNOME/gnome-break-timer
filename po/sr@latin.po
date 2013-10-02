@@ -1,0 +1,441 @@
+# Serbian translation of gnome-break-timer
+# Courtesy of Prevod.org team (http://prevod.org/) -- 2013.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-break-timer package.
+# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-break-timer\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"break-timer&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-29 11:59+0000\n"
+"PO-Revision-Date: 2013-10-02 11:17+0200\n"
+"Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
+"Language-Team: Serbian <gnom@prevod.org>\n"
+"Language: sr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Project-Style: gnome\n"
+
+#: ../data/gnome-break-timer.appdata.xml.in.h:1
+#: ../data/gnome-break-timer-autostart.desktop.in.h:1
+#: ../data/gnome-break-timer.desktop.in.h:1
+#: ../data/gnome-break-timer-service.desktop.in.h:1
+#: ../settings/MainWindow.vala:42
+msgid "Break Timer"
+msgstr "Nadzornik odmora"
+
+#: ../data/gnome-break-timer.appdata.xml.in.h:2
+msgid "Remember to take regular breaks from using the computer"
+msgstr "Ne zaboravite da se s vremena na vreme odmorite od rada na računaru"
+
+#: ../data/gnome-break-timer.appdata.xml.in.h:3
+msgid ""
+"<p>Break Timer keeps track of how much you are using the computer, and it "
+"reminds you to take regular breaks. It is designed to encourage healthy "
+"behaviour, with a mix of short breaks for your eyes and wrists, as well as "
+"longer breaks to keep your body moving and your mind on task.</p> <p>Break "
+"Timer is simple to set up, so you can pick a break schedule that works for "
+"you and it will carry on working in the background.</p>"
+msgstr ""
+"<p>Nadzornik odmora prati vreme koje provodite za računarom, i podseća vas "
+"kada je vreme za redovne odmore. Osmišljen je da ohrabri zdravo ponašanje, sa "
+"mešavinom kraćih odmora za vaše oči i zglobove, kao i dužih odmora kako "
+"biste se malko razmrdali i promislili o tome što radite.</p> <p>Nadzornik "
+"odmora je jednostavan za podešavanje, tako da možete da napravite plan "
+"odmaranja koji vam odgovara, a on će se brinuti o svemu ostalom radeći u "
+"pozadini.</p>"
+
+#: ../data/gnome-break-timer-autostart.desktop.in.h:2
+#: ../data/gnome-break-timer-service.desktop.in.h:2
+msgid "Provides a gentle reminder to take regular breaks"
+msgstr "Obezbeđuje prijatni podsetnik za redovne odmore"
+
+#: ../data/gnome-break-timer.desktop.in.h:2
+msgid "Choose your preferences for micro breaks and rest breaks"
+msgstr "Izaberite vaše postavke za predahe i za odmore"
+
+#: ../data/gnome-break-timer.desktop.in.h:3
+msgid "break;micro;rest;timer;"
+msgstr "prekid;mikro;odmor;odbrojavač;tajmer;"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:1
+msgid "True to enable GNOME Break Timer"
+msgstr "Izabrano za uključivanje Gnomovog nadzornika odmora"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:2
+msgid "The list of breaks that are currently enabled"
+msgstr "Spisak odmora koji su trenutno uključeni"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:3
+msgid "True to enable quiet mode"
+msgstr "Izabrano za uključivanje tihog režima"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:4
+msgid "Hides breaks until quiet-mode-expire-time."
+msgstr "Skriva odmore sve dok ne-istekne-vreme-tihog-režima."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:5
+msgid "Time to end quiet mode."
+msgstr "Vreme za završavanje tihog režima."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:6
+msgid "The time to automatically disable quiet mode, in unix time."
+msgstr "Vreme za samostalno isključivanje tihog režima, u vremenu juniksa."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:7
+msgid "Time between breaks"
+msgstr "Vreme između odmora"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:8
+msgid "The time between rest breaks, in seconds."
+msgstr "Vreme između odmora, u sekundama."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:9
+msgid "Duration of each break"
+msgstr "Trajanje svakog odmora"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:10
+msgid "The duration of each rest break, in seconds."
+msgstr "Trajanje svakog odmora, u sekundama."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:11
+msgid "The preferred time between micro breaks, in seconds."
+msgstr "Željeno vreme između predaha, u sekundama."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:12
+msgid "The preferred duration of each micro break, in seconds."
+msgstr "Željeno trajanje svakog predaha, u sekundama."
+
+#: ../data/settings-panels.ui.h:1
+msgid "Break Timer isn’t responding"
+msgstr "Nadzornik odmora ne odgovara"
+
+#: ../data/settings-panels.ui.h:2
+msgid ""
+"If this continues the next time you log in, please <a href=\"https://bugs."
+"launchpad.net/brainbreak\">open a bug report</a>.\t"
+msgstr ""
+"Ako se ovo nastavi kada se sledeći put prijavite, <a "
+"href=\"https://bugs.launchpad.net/brainbreak\">napravite izveštaj o "
+"grešci</a>."
+
+#: ../data/settings-panels.ui.h:3
+msgid "Break Timer is taking a break"
+msgstr "Nadzornik odmora se odmara"
+
+#: ../data/settings-panels.ui.h:4
+msgid "Turn me on to get those breaks going"
+msgstr "Uključite me da nastavite sa tim odmorima"
+
+#: ../data/settings-panels.ui.h:5
+msgid "You can change the types of breaks and their timings from the settings"
+msgstr "Možete da izmenite vrste odmora i njihovo trajanje u podešavanjima"
+
+#: ../data/settings-panels.ui.h:6
+msgid "Break Timer lets you take small microbreaks as well as longer breaks."
+msgstr "Nadzornik odmora vam daje mogućnost i da predahnete i da se odmorite."
+
+#: ../data/settings-panels.ui.h:7
+msgid ""
+"Microbreaks are a chance to look away from the screen and rest your hands."
+msgstr "Predasi su prilika da skrenete pogled sa ekrana i da odmorite ruke."
+
+#: ../data/settings-panels.ui.h:8
+msgid "Full breaks are time to get away from the computer and move around."
+msgstr "Dugi odmori su prilike da se udaljite od računara i da se prošetate."
+
+#: ../data/settings-panels.ui.h:9
+msgid "Breaks and Microbreaks"
+msgstr "Odmori i predasi"
+
+#: ../data/settings-panels.ui.h:10
+msgid "You can leave me to it"
+msgstr "Možete da me ostavite njemu"
+
+#: ../data/settings-panels.ui.h:11
+msgid ""
+"Break Timer will carry on working in the background, even if you close it."
+msgstr ""
+"Nadzornik odmora će se brinuti o tome radeći u pozadini, čak i kada ga "
+"zatvorite."
+
+#: ../data/settings-panels.ui.h:12
+msgid "Welcome to Break Timer!"
+msgstr "Dobro došli kod Nadzornika odmora!"
+
+#: ../data/settings-panels.ui.h:13
+msgid "Breaks are good for you. We'll help you to take them."
+msgstr "Odmori su dobri za vaše zdravlje. Mi ćemo vam pomoći da ih ostvarite."
+
+#: ../data/settings-panels.ui.h:14
+msgid "Just switch me on to get started"
+msgstr "Jednostavno me uključi da bih počeo"
+
+#: ../common/NaturalTime.vala:41
+#, c-format
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "%d sekunda"
+msgstr[1] "%d sekunde"
+msgstr[2] "%d sekundi"
+msgstr[3] "jedna sekunda"
+
+#: ../common/NaturalTime.vala:44
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d minut"
+msgstr[1] "%d minuta"
+msgstr[2] "%d minuta"
+msgstr[3] "jedan minut"
+
+#: ../common/NaturalTime.vala:47
+#, c-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d sat"
+msgstr[1] "%d sata"
+msgstr[2] "%d sati"
+msgstr[3] "jedan sat"
+
+#. Label for a notification action that shows information about the current break
+#: ../helper/break/BreakView.vala:74
+msgid "What should I do?"
+msgstr "Šta treba da uradim?"
+
+#. Break overlay label when a break has been finished
+#: ../helper/break/TimerBreakStatusWidget.vala:56
+msgid "Thank you"
+msgstr "Hvala vam"
+
+#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:158
+msgid "GNOME Break Timer"
+msgstr "Gnomov nadzornik odmora"
+
+#. Label for a notification action that will skip the current microbreak
+#: ../helper/microbreak/MicroBreakView.vala:40
+msgid "Skip this one"
+msgstr "Ovaj preskoči"
+
+#: ../helper/microbreak/MicroBreakView.vala:47
+msgid "It’s time for a micro break"
+msgstr "Vreme je za predah"
+
+#: ../helper/microbreak/MicroBreakView.vala:48
+msgid "Take a break from typing and look away from the screen"
+msgstr "Odmorite se od kucanja i gledajte van ekrana"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../helper/microbreak/MicroBreakView.vala:64
+#, c-format
+msgid "You were due to take a micro break %s ago"
+msgid_plural "You were due to take a micro break %s ago"
+msgstr[0] "Trebali ste da predahnete pre %s"
+msgstr[1] "Trebali ste da predahnete pre %s"
+msgstr[2] "Trebali ste da predahnete pre %s"
+msgstr[3] "Trebali ste da predahnete pre %s"
+
+#: ../helper/microbreak/MicroBreakView.vala:70
+msgid "Overdue micro break"
+msgstr "Preskoči predah"
+
+#: ../helper/microbreak/MicroBreakView.vala:80
+#: ../helper/restbreak/RestBreakView.vala:125
+msgid "Break is over"
+msgstr "Odmor je završen"
+
+#: ../helper/microbreak/MicroBreakView.vala:81
+msgid "Your micro break has ended"
+msgstr "Vaš predah se završio"
+
+#: ../helper/microbreak/MicroBreakView.vala:94
+msgid "Take a moment to rest your eyes"
+msgstr "Odmorite vaše oči na trenutak"
+
+#. Label for a notification action that will delay the current break for a few minutes
+#: ../helper/restbreak/RestBreakView.vala:54
+msgid "Remind me later"
+msgstr "Podseti me kasnije"
+
+#. FIXME: Should say how long the break is?
+#: ../helper/restbreak/RestBreakView.vala:68
+msgid "Time for a break"
+msgstr "Vreme je za odmor"
+
+#: ../helper/restbreak/RestBreakView.vala:69
+msgid ""
+"It’s time to take a break. Get away from the computer for a little while!"
+msgstr ""
+"Vreme je da se odmorite. Udaljite se malo od računara, pogledajte kroz "
+"prozor!"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../helper/restbreak/RestBreakView.vala:86
+#, c-format
+msgid "There is %s remaining in your break"
+msgid_plural "There are %s remaining in your break"
+msgstr[0] "Ostao vam je još %s odmora"
+msgstr[1] "Ostala su vam još %s odmora"
+msgstr[2] "Ostalo vam je još %s odmora"
+msgstr[3] "Ostalo vam je još %s odmora "
+
+#: ../helper/restbreak/RestBreakView.vala:92
+msgid "Break interrupted"
+msgstr "Odmor je prekinut"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../helper/restbreak/RestBreakView.vala:109
+#, c-format
+msgid "You were due to take a break %s ago"
+msgid_plural "You were due to take a break %s ago"
+msgstr[0] "Trebali ste da se odmorite pre %s"
+msgstr[1] "Trebali ste da se odmorite pre %s"
+msgstr[2] "Trebali ste da se odmorite pre %s"
+msgstr[3] "Trebali ste da se odmorite pre %s"
+
+#: ../helper/restbreak/RestBreakView.vala:115
+msgid "Overdue break"
+msgstr "Preskoči odmor"
+
+#: ../helper/restbreak/RestBreakView.vala:126
+msgid "Your break time has ended"
+msgstr "Vreme vašeg odmora je isteklo"
+
+#: ../settings/BreakSettingsDialog.vala:32
+msgid "Choose Your Break Schedule"
+msgstr "Izaberite vaš plan odmora"
+
+#: ../settings/BreakSettingsDialog.vala:52
+msgid "A mix of short breaks and long breaks"
+msgstr "Mešavina kratkih i dugih odmora"
+
+#: ../settings/BreakSettingsDialog.vala:56
+msgid "Occasional long breaks"
+msgstr "Povremeni dugi odmori"
+
+#: ../settings/BreakSettingsDialog.vala:60
+msgid "Frequent short breaks"
+msgstr "Česti kratki odmori"
+
+#: ../settings/MainWindow.vala:140
+msgid "Welcome Tour"
+msgstr "Dobrodošlica"
+
+#: ../settings/MainWindow.vala:161
+msgid "Computer break reminders for active minds"
+msgstr "Podsetnik na odmor od računara za aktivne umove"
+
+#: ../settings/MainWindow.vala:163
+msgid "GNOME Break Timer Website"
+msgstr "Veb stranica Gnomovog nadzornika odmora"
+
+#: ../settings/MainWindow.vala:167
+msgid "translator-credits"
+msgstr ""
+"  Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
+"\n"
+"http://prevod.org — prevod na srpski jezik"
+
+#: ../settings/MainWindow.vala:220
+msgid "OK, got it!"
+msgstr "U redu, moj je!"
+
+#: ../settings/MainWindow.vala:225
+msgid "Ready to go"
+msgstr "Spremni za polazak"
+
+#: ../settings/MicroBreakType.vala:46 ../settings/MicroBreakType.vala:91
+msgid "Microbreak"
+msgstr "Predah"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../settings/MicroBreakType.vala:65
+#, c-format
+msgid "Take a break from typing and look away from the screen for %s."
+msgid_plural "Take a break from typing and look away from the screen for %s."
+msgstr[0] "Odmorite se od kucanja i gledajte van ekrana %s."
+msgstr[1] "Odmorite se od kucanja i gledajte van ekrana %s."
+msgstr[2] "Odmorite se od kucanja i gledajte van ekrana %s."
+msgstr[3] "Odmorite se od kucanja i gledljjte van ekrana %s."
+
+#: ../settings/MicroBreakType.vala:70
+msgid "It’s microbreak time"
+msgstr "Vreme je za predah"
+
+#: ../settings/MicroBreakType.vala:72
+msgid "I'll chime when it’s time to use the computer again."
+msgstr "Ja ću da zvrcnem kada bude bilo vreme da ponovo koristite računar."
+
+#. Label that explains a countdown timer, which shows a string such as "5 minutes"
+#: ../settings/MicroBreakType.vala:81
+msgid "Your next microbreak is in"
+msgstr "Vaš sledeći predah je za"
+
+#: ../settings/MicroBreakType.vala:82
+msgid "It's time for a microbreak"
+msgstr "Vreme je za predah"
+
+#: ../settings/MicroBreakType.vala:92
+msgid "Pause frequently to relax your eyes"
+msgstr "Zastanite često da odmorite vaše oči"
+
+#: ../settings/RestBreakType.vala:46
+msgid "Break"
+msgstr "Odmor"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../settings/RestBreakType.vala:66
+#, c-format
+msgid "Your break has %s remaining. I’ll remind you when it’s over."
+msgid_plural "Your break has %s remaining. I’ll remind you when it’s over."
+msgstr[0] "Ostao vam je %s odmora. Ja ću vas podsetiti kada bude završen."
+msgstr[1] "Ostala su vam %s odmora. Ja ću vas podsetiti kada bude završen."
+msgstr[2] "Ostaolo vam je %s odmora. Ja ću vas podsetiti kada bude završen."
+msgstr[3] "Ostao vam je %s odmora. Ja ću vas podsetiti kada bude završen."
+
+#: ../settings/RestBreakType.vala:71
+msgid "It’s break time"
+msgstr "Vreme je za odmor"
+
+#: ../settings/RestBreakType.vala:72
+msgid "Take some time away from the computer. Stretch and move around."
+msgstr "Udaljite se neko vreme od računara. Proteglite se i prošetajte se okolo."
+
+#. Label that explains a countdown timer, which shows a string such as "30 minutes"
+#: ../settings/RestBreakType.vala:82
+msgid "Your next full break is in"
+msgstr "Vaš sledeći veliki odmor je za"
+
+#: ../settings/RestBreakType.vala:83
+msgid "It's break time"
+msgstr "Vreme je za odmor"
+
+#: ../settings/RestBreakType.vala:92
+msgid "Full break"
+msgstr "Veliki odmor"
+
+#: ../settings/RestBreakType.vala:93
+msgid "And take some longer breaks to stretch your legs"
+msgstr "I napravite neke poduže odmore da proteglite noge"
+
+#: ../settings/SettingsApplication.vala:101
+msgid "About"
+msgstr "O programu"
+
+#: ../settings/SettingsApplication.vala:102
+msgid "Quit"
+msgstr "Izađi"
+
+#. Label for the widget to choose how frequently a break occurs. (Choices such as "6 minutes" or "45 minutes")
+#: ../settings/TimerBreakType.vala:175
+msgid "Every"
+msgstr "Svakih"
+
+#. Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes")
+#: ../settings/TimerBreakType.vala:184
+msgid "For"
+msgstr "Za"
