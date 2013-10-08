@@ -6,9 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-17 20:57-0700\n"
-"PO-Revision-Date: 2013-09-16 17:25+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"break-timer&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-22 20:48+0000\n"
+"PO-Revision-Date: 2013-10-08 11:17+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -23,7 +24,7 @@ msgstr ""
 #: ../data/gnome-break-timer-service.desktop.in.h:1
 #: ../settings/MainWindow.vala:42
 msgid "Break Timer"
-msgstr ""
+msgstr "Descansos"
 
 #: ../data/gnome-break-timer.appdata.xml.in.h:2
 msgid "Remember to take regular breaks from using the computer"
@@ -102,7 +103,7 @@ msgstr "La duración preferida de cada microdescanso, en segundos."
 
 #: ../data/settings-panels.ui.h:1
 msgid "Break Timer isn’t responding"
-msgstr ""
+msgstr "Descansos no responde"
 
 #: ../data/settings-panels.ui.h:2
 msgid ""
@@ -112,7 +113,7 @@ msgstr ""
 
 #: ../data/settings-panels.ui.h:3
 msgid "Break Timer is taking a break"
-msgstr ""
+msgstr "Descansos se está tomando un descanso"
 
 #: ../data/settings-panels.ui.h:4
 msgid "Turn me on to get those breaks going"
@@ -123,52 +124,45 @@ msgid "You can change the types of breaks and their timings from the settings"
 msgstr "Puede cambiar los tipos de descansos y su duración en la configuración"
 
 #: ../data/settings-panels.ui.h:6
-msgid "OK, got it!"
-msgstr ""
-
-#: ../data/settings-panels.ui.h:7
 msgid "Break Timer lets you take small microbreaks as well as longer breaks."
 msgstr ""
+"Descansos le permite hacer microdescansos, así como descansos más largos."
 
-#: ../data/settings-panels.ui.h:8
+#: ../data/settings-panels.ui.h:7
 msgid ""
 "Microbreaks are a chance to look away from the screen and rest your hands."
 msgstr ""
 "Los microdescansos son una oportunidad para mirar fuera de la pantalla y "
 "descansar las manos"
 
-#: ../data/settings-panels.ui.h:9
+#: ../data/settings-panels.ui.h:8
 msgid "Full breaks are time to get away from the computer and move around."
 msgstr ""
 "Los descansos completos son el momento de alejarse del equipo y moverse un "
 "poco."
 
-#: ../data/settings-panels.ui.h:10
+#: ../data/settings-panels.ui.h:9
 msgid "Breaks and Microbreaks"
 msgstr "Descansos y microdescansos"
 
-#: ../data/settings-panels.ui.h:11
-msgid "Ready to go"
-msgstr ""
-
-#: ../data/settings-panels.ui.h:12
+#: ../data/settings-panels.ui.h:10
 msgid "You can leave me to it"
 msgstr ""
 
-#: ../data/settings-panels.ui.h:13
+#: ../data/settings-panels.ui.h:11
 msgid ""
 "Break Timer will carry on working in the background, even if you close it."
 msgstr ""
 
-#: ../data/settings-panels.ui.h:14
+#: ../data/settings-panels.ui.h:12
 msgid "Welcome to Break Timer!"
-msgstr ""
+msgstr "Bienvenido a Descansos"
 
-#: ../data/settings-panels.ui.h:15
+#: ../data/settings-panels.ui.h:13
 msgid "Breaks are good for you. We'll help you to take them."
 msgstr "Los descansos son buenos. Vamos a ayudarle a hacerlos."
 
-#: ../data/settings-panels.ui.h:16
+#: ../data/settings-panels.ui.h:14
 msgid "Just switch me on to get started"
 msgstr ""
 
@@ -203,14 +197,14 @@ msgstr "¿Qué debo hacer?"
 msgid "Thank you"
 msgstr "Gracias"
 
-#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:155
+#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:158
 msgid "GNOME Break Timer"
-msgstr ""
+msgstr "GNOME Descansos"
 
 #. Label for a notification action that will skip the current microbreak
 #: ../helper/microbreak/MicroBreakView.vala:40
 msgid "Skip this one"
-msgstr ""
+msgstr "Omitir este"
 
 #: ../helper/microbreak/MicroBreakView.vala:47
 msgid "It’s time for a micro break"
@@ -243,7 +237,7 @@ msgstr "Su microdescanso ha terminado"
 
 #: ../helper/microbreak/MicroBreakView.vala:94
 msgid "Take a moment to rest your eyes"
-msgstr ""
+msgstr "Descanse los ojos un momento"
 
 #. Label for a notification action that will delay the current break for a few minutes
 #: ../helper/restbreak/RestBreakView.vala:54
@@ -258,14 +252,15 @@ msgstr "Tiempo para un descanso"
 msgid ""
 "It’s time to take a break. Get away from the computer for a little while!"
 msgstr ""
+"Es el momento de hacer un descanso. Olvídese del ordenador por un momento."
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
 #: ../helper/restbreak/RestBreakView.vala:86
 #, c-format
 msgid "There is %s remaining in your break"
 msgid_plural "There are %s remaining in your break"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Le queda %s de descanso"
+msgstr[1] "Le quedan %s de descanso"
 
 #: ../helper/restbreak/RestBreakView.vala:92
 msgid "Break interrupted"
@@ -303,20 +298,28 @@ msgstr "Descansos largos ocasionales"
 msgid "Frequent short breaks"
 msgstr "Descansos cortos frecuentes"
 
-#: ../settings/MainWindow.vala:139
+#: ../settings/MainWindow.vala:140
 msgid "Welcome Tour"
 msgstr "Tour de bienvenida"
 
-#: ../settings/MainWindow.vala:156
+#: ../settings/MainWindow.vala:161
 msgid "Computer break reminders for active minds"
 msgstr ""
 
-#: ../settings/MainWindow.vala:157
-msgid "Copyright © Dylan McCall"
-msgstr "Copyright © Dylan McCall"
-
-#: ../settings/MainWindow.vala:159
+#: ../settings/MainWindow.vala:163
 msgid "GNOME Break Timer Website"
+msgstr "Página web de GNOME Descansos"
+
+#: ../settings/MainWindow.vala:167
+msgid "translator-credits"
+msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2013"
+
+#: ../settings/MainWindow.vala:220
+msgid "OK, got it!"
+msgstr ""
+
+#: ../settings/MainWindow.vala:225
+msgid "Ready to go"
 msgstr ""
 
 #: ../settings/MicroBreakType.vala:46 ../settings/MicroBreakType.vala:91
@@ -387,13 +390,13 @@ msgstr "Descanso completo"
 
 #: ../settings/RestBreakType.vala:93
 msgid "And take some longer breaks to stretch your legs"
-msgstr ""
+msgstr "Y haga descansos más largos para estirar las piernas"
 
-#: ../settings/SettingsApplication.vala:97
+#: ../settings/SettingsApplication.vala:101
 msgid "About"
 msgstr "Acerca de"
 
-#: ../settings/SettingsApplication.vala:98
+#: ../settings/SettingsApplication.vala:102
 msgid "Quit"
 msgstr "Salir"
 
@@ -406,6 +409,9 @@ msgstr "Cada"
 #: ../settings/TimerBreakType.vala:184
 msgid "For"
 msgstr "Para"
+
+#~ msgid "Copyright © Dylan McCall"
+#~ msgstr "Copyright © Dylan McCall"
 
 #~ msgid "Sometimes the questions are complicated and the answers are simple."
 #~ msgstr ""
