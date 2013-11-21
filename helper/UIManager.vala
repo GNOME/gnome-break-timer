@@ -155,7 +155,7 @@ public class UIManager : SimpleFocusManager {
 	protected ScreenOverlay? screen_overlay;
 	protected Notify.Notification? notification;
 
-	protected unowned List<string> notify_capabilities;
+	protected List<string> notify_capabilities;
 
 	// The desktop-entry notification hint wants our desktop ID without the
 	// ".desktop" part, so we need to trim it accordingly
