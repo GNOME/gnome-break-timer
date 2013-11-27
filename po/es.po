@@ -1,6 +1,7 @@
 # Spanish translation for gnome-break-timer.
 # Copyright (C) 2013 gnome-break-timer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-break-timer package.
+# Milagros Alessandra Infante Montero <maim92@gmail.com>, 2013.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2013.
 #
 msgid ""
@@ -8,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "break-timer&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-10-08 14:49+0000\n"
-"PO-Revision-Date: 2013-10-10 16:56+0200\n"
+"POT-Creation-Date: 2013-11-21 02:46+0000\n"
+"PO-Revision-Date: 2013-11-27 11:49+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -17,6 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../data/gnome-break-timer.appdata.xml.in.h:1
 #: ../data/gnome-break-timer-autostart.desktop.in.h:1
@@ -39,6 +41,13 @@ msgid ""
 "Timer is simple to set up, so you can pick a break schedule that works for "
 "you and it will carry on working in the background.</p>"
 msgstr ""
+"<p>Descansos mantiene el registro de cuánto usa el equipo, y le recuerda "
+"tomar descansos regulares. Está diseñado para incentivar el comportamiento "
+"saludable, con un conjunto de pequeños descansos para sus ojos y muñecas, "
+"así como largos descansos para mantener su cuerpo en movimiento y su mente "
+"concentrada.</p> <p>Descansos es fácil de instalar, así que puede escoger un "
+"horario de descansos que funcione para usted y siga funcionando en segundo "
+"plano.</p>"
 
 #: ../data/gnome-break-timer-autostart.desktop.in.h:2
 #: ../data/gnome-break-timer-service.desktop.in.h:2
@@ -67,15 +76,16 @@ msgstr "Cierto para activar el modo silencioso"
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:4
 msgid "Hides breaks until quiet-mode-expire-time."
-msgstr ""
+msgstr "Esconder descansos hasta la hora de caducidad del modo silencioso."
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:5
 msgid "Time to end quiet mode."
-msgstr ""
+msgstr "Tiempo para finalizar el modo silencioso."
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:6
 msgid "The time to automatically disable quiet mode, in unix time."
 msgstr ""
+"El tiempo para desactivar automáticamente el modo silencioso, en tiempo UNIX."
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:7
 msgid "Time between breaks"
@@ -149,7 +159,7 @@ msgstr "Descansos y microdescansos"
 
 #: ../data/settings-panels.ui.h:10
 msgid "You can leave me to it"
-msgstr ""
+msgstr "Puede dejarme a él"
 
 #: ../data/settings-panels.ui.h:11
 msgid ""
@@ -221,12 +231,12 @@ msgstr "Descansar un momento del teclado y mirar fuera de la pantalla"
 #, c-format
 msgid "You were due to take a micro break %s ago"
 msgid_plural "You were due to take a micro break %s ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tenía que haber hecho un micro descanso hace %s minuto"
+msgstr[1] "Tenía que haber hecho un micro descanso hace %s minutos"
 
 #: ../helper/microbreak/MicroBreakView.vala:70
 msgid "Overdue micro break"
-msgstr ""
+msgstr "Micro descanso atrasado"
 
 #: ../helper/microbreak/MicroBreakView.vala:80
 #: ../helper/restbreak/RestBreakView.vala:125
@@ -274,12 +284,12 @@ msgstr "Descanso interrumpido"
 #, c-format
 msgid "You were due to take a break %s ago"
 msgid_plural "You were due to take a break %s ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tenía que haber hecho un descanso hace %s minuto"
+msgstr[1] "Tenía que haber hecho un descanso hace %s minutos"
 
 #: ../helper/restbreak/RestBreakView.vala:115
 msgid "Overdue break"
-msgstr ""
+msgstr "Descanso atrasado"
 
 #: ../helper/restbreak/RestBreakView.vala:126
 msgid "Your break time has ended"
@@ -315,7 +325,9 @@ msgstr "Página web de GNOME Descansos"
 
 #: ../settings/MainWindow.vala:167
 msgid "translator-credits"
-msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2013"
+msgstr ""
+"Milagros Alessandra Infante Montero <maim92@gmail.com>, 2013\n"
+"Daniel Mustieles <daniel.mustieles@gmail.com>, 2013"
 
 #: ../settings/MainWindow.vala:220
 msgid "OK, got it!"
@@ -334,8 +346,8 @@ msgstr "Microdescanso"
 #, c-format
 msgid "Take a break from typing and look away from the screen for %s."
 msgid_plural "Take a break from typing and look away from the screen for %s."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tome un descanso de escribir y aléjese de la pantalla por %s."
+msgstr[1] "Tome un descanso de escribir y aléjese de la pantalla por %s."
 
 #: ../settings/MicroBreakType.vala:70
 msgid "It’s microbreak time"
@@ -368,8 +380,8 @@ msgstr "Descanso"
 #, c-format
 msgid "Your break has %s remaining. I’ll remind you when it’s over."
 msgid_plural "Your break has %s remaining. I’ll remind you when it’s over."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Su descanso tiene %s restantes. Se lo recordaré cuando acabe."
+msgstr[1] "Su descanso tiene %s restantes. Se lo recordaré cuando acabe."
 
 #: ../settings/RestBreakType.vala:71
 msgid "It’s break time"
