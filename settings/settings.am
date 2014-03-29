@@ -12,7 +12,6 @@ SETTINGS_SOURCES = \
 	SettingsApplication.vala \
 	TimeChooser.vala \
 	TimerBreakType.vala \
-	WindowHeaderBar.vala \
 	$(SETTINGS_BUILT_SOURCES)
 
 SETTINGS_VALAFLAGS = \
@@ -22,13 +21,11 @@ SETTINGS_VALAFLAGS = \
 	--pkg gio-unix-2.0 \
 	--pkg gee-1.0 \
 	--pkg config \
-	--pkg common \
-	--pkg gd-1.0
+	--pkg common
 
 SETTINGS_CFLAGS = $(CFG_CORE_CFLAGS)
 
 SETTINGS_LIBS = $(CFG_CORE_LIBS) \
-	$(top_builddir)/libgd/libgd.la \
 	$(top_builddir)/common/libcommon.la
 
 SETTINGS_DEPENDENCIES = \

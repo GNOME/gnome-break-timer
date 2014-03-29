@@ -28,8 +28,8 @@ AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
 
 GLIB_REQUIRED=2.36.0
-GTK_REQUIRED=3.8.0
-GTK_RECOMMENDED=3.9.4
+GTK_REQUIRED=3.10.0
+GTK_RECOMMENDED=3.10.0
 
 PKG_CHECK_MODULES([CFG_CORE], [
 	glib-2.0 >= $GLIB_REQUIRED
@@ -68,8 +68,6 @@ PKG_CHECK_MODULES(
 	)]
 )
 
-LIBGD_INIT([header-bar stack revealer vapi])
-
 
 
 # Some helpful constants that are available to the application
@@ -89,7 +87,6 @@ AC_CONFIG_FILES([Makefile
 	helper/util/Makefile
 	data/Makefile
 	data/icons/Makefile
-	libgd/Makefile
 	po/Makefile.in
 	tests/Makefile
 ])

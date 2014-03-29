@@ -15,17 +15,11 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if HAS_GTK_3_10
-using Gtk;
-#else
-using Gd;
-#endif
-
 public class MainWindow : Gtk.ApplicationWindow {
 	private BreakManager break_manager;
 
-	private WindowHeaderBar header;
-	private Stack main_stack; // Gtk.Stack or Gd.Stack
+	private Gtk.HeaderBar header;
+	private Gtk.Stack main_stack;
 
 	private Gtk.Button settings_button;
 	private Gtk.Switch master_switch;
@@ -38,7 +32,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 	public MainWindow (SettingsApplication application, BreakManager break_manager) {
 		Object (application: application);
 		this.break_manager = break_manager;
-		
+
 		this.set_title ( _("Break Timer"));
 
 		Gtk.Builder builder = new Gtk.Builder ();
@@ -57,14 +51,9 @@ public class MainWindow : Gtk.ApplicationWindow {
 		content.set_orientation (Gtk.Orientation.VERTICAL);
 		content.set_vexpand (true);
 
-		this.header = new WindowHeaderBar (this);
-		#if HAS_GTK_3_10
+		this.header = new Gtk.HeaderBar ();
 		this.set_titlebar (this.header);
-		this.header.set_is_titlebar (true);
-		#else
-		content.add (this.header);
-		this.set_hide_titlebar_when_maximized (true);
-		#endif
+		this.header.set_show_close_button (true);
 		this.header.set_hexpand (true);
 
 		this.master_switch = new Gtk.Switch ();
@@ -83,16 +72,17 @@ public class MainWindow : Gtk.ApplicationWindow {
 		settings_button.valign = Gtk.Align.CENTER;
 		settings_button.set_always_show_image (true);
 
-		this.main_stack = new Stack ();
+		this.main_stack = new Gtk.Stack ();
 		content.add (this.main_stack);
 		main_stack.set_margin_top (6);
 		main_stack.set_margin_bottom (6);
+		main_stack.set_transition_duration (250);
 
 		this.status_panel = new StatusPanel (break_manager, builder);
-		this.main_stack.add (this.status_panel);
+		this.main_stack.add_named (this.status_panel, "status_panel");
 
 		this.welcome_panel = new WelcomePanel (break_manager, builder, this);
-		this.main_stack.add (this.welcome_panel);
+		this.main_stack.add_named (this.welcome_panel, "welcome_panel");
 		this.welcome_panel.tour_finished.connect (this.on_tour_finished);
 
 		this.header.show_all ();
@@ -112,12 +102,13 @@ public class MainWindow : Gtk.ApplicationWindow {
 	}
 
 	public Gtk.Widget? get_close_button () {
-		return this.header.get_visible_close_button ();
+		// TODO: We need some way to get the close button position from this.header
+		return null;
 	}
 
 	private void break_added_cb (BreakType break_type) {
 		var info_panel = break_type.info_panel;
-		this.main_stack.add (info_panel);
+		this.main_stack.add_named (info_panel, break_type.id);
 		info_panel.set_margin_left (20);
 		info_panel.set_margin_right (20);
 		info_panel.set_halign (Gtk.Align.CENTER);
@@ -126,24 +117,23 @@ public class MainWindow : Gtk.ApplicationWindow {
 
 	private void update_visible_panel () {
 		// Use a transition when switching from the welcome panel
-		// TODO: Once we switch to GtkStack, use set_visible_child_full
+		Gtk.StackTransitionType transition;
 		if (this.main_stack.get_visible_child () == this.welcome_panel) {
-			main_stack.set_transition_type (StackTransitionType.SLIDE_LEFT);
-			main_stack.set_transition_duration (250);
+			transition = Gtk.StackTransitionType.SLIDE_LEFT;
 		} else {
-			main_stack.set_transition_type (StackTransitionType.NONE);
+			transition = Gtk.StackTransitionType.NONE;
 		}
 
 		BreakType? foreground_break = this.break_manager.foreground_break;
 		if (this.welcome_panel.is_active ()) {
-			this.main_stack.set_visible_child (this.welcome_panel);
+			this.main_stack.set_visible_child_full ("welcome_panel", transition);
 			this.header.set_title ( _("Welcome Tour"));
 		} else if (foreground_break != null) {
-			this.main_stack.set_visible_child (foreground_break.info_panel);
+			this.main_stack.set_visible_child_full (foreground_break.id, transition);
 			this.header.set_title (foreground_break.info_panel.title);
 		} else {
-			this.main_stack.set_visible_child (this.status_panel);
-			this.header.set_title (null);
+			this.main_stack.set_visible_child_full ("status_panel", transition);
+			this.header.set_title ( _("Break Timer"));
 		}
 	}
 
@@ -176,7 +166,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 
 /* TODO: It would be nice to move some of this code to a UI file built with
  *       Glade. Especially anything involving long strings. */
-private class WelcomePanel : Stack {
+private class WelcomePanel : Gtk.Stack {
 	private BreakManager break_manager;
 	private MainWindow main_window;
 
@@ -202,7 +192,7 @@ private class WelcomePanel : Stack {
 			this.current_step = Step.WELCOME;
 		}
 
-		this.set_transition_type (StackTransitionType.SLIDE_LEFT);
+		this.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT);
 		this.set_transition_duration (250);
 
 		this.start_page = this.build_page_with_arrow (
@@ -290,7 +280,7 @@ private class WelcomePanel : Stack {
 	}
 }
 
-private class StatusPanel : Stack {
+private class StatusPanel : Gtk.Stack {
 	private BreakManager break_manager;
 
 	private Gtk.Grid breaks_list;

@@ -1,13 +1,12 @@
 SUBDIRS = \
 	data \
 	po \
-	libgd \
 	common \
 	settings \
 	helper \
 	tests
 
-ACLOCAL_AMFLAGS = -I m4 -I libgd
+ACLOCAL_AMFLAGS = -I m4
 
 INTLTOOL_FILES = intltool-extract.in \
                  intltool-merge.in \
