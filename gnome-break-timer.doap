@@ -6,6 +6,7 @@
 
   <name xml:lang="en">GNOME Break Timer</name>
   <shortdesc xml:lang="en">Take a break</shortdesc>
+  <homepage rdf:resource="https://wiki.gnome.org/Apps/GnomeBreakTimer" />
 
   <category rdf:resource="http://api.gnome.org/doap-extensions#desktop" />
 
