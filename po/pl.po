@@ -5,14 +5,15 @@
 # gnomepl@aviary.pl
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Paweł Żołnowski <pawel.zolnowski@gmail.com>, 2014.
+# Piotr Drąg <piotrdrag@gmail.com>, 2014.
 # Aviary.pl <gnomepl@aviary.pl>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-21 15:26+0100\n"
-"PO-Revision-Date: 2014-01-24 15:34+0100\n"
-"Last-Translator: Paweł Żołnowski <pawel.zolnowski@gmail.com>\n"
+"POT-Creation-Date: 2014-08-31 20:20+0200\n"
+"PO-Revision-Date: 2014-08-31 20:21+0200\n"
+"Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +28,7 @@ msgstr ""
 #: ../data/gnome-break-timer-autostart.desktop.in.h:1
 #: ../data/gnome-break-timer.desktop.in.h:1
 #: ../data/gnome-break-timer-service.desktop.in.h:1
-#: ../settings/MainWindow.vala:42
+#: ../settings/MainWindow.vala:36 ../settings/MainWindow.vala:136
 msgid "Break Timer"
 msgstr "Menedżer przerw"
 
@@ -212,7 +213,7 @@ msgstr "Co teraz?"
 msgid "Thank you"
 msgstr "Dziękujemy"
 
-#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:158
+#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:148
 msgid "GNOME Break Timer"
 msgstr "Menedżer przerw GNOME"
 
@@ -304,6 +305,10 @@ msgstr "Przerwa dobiegła końca"
 msgid "Choose Your Break Schedule"
 msgstr "Określenie własnego planu przerw"
 
+#: ../settings/BreakSettingsDialog.vala:37
+msgid "_Close"
+msgstr "Za_mknij"
+
 #: ../settings/BreakSettingsDialog.vala:52
 msgid "A mix of short breaks and long breaks"
 msgstr "Połączenie krótkich i długich przerw"
@@ -316,29 +321,29 @@ msgstr "Sporadyczne długie przerwy"
 msgid "Frequent short breaks"
 msgstr "Częste krótkie przerwy"
 
-#: ../settings/MainWindow.vala:140
+#: ../settings/MainWindow.vala:130
 msgid "Welcome Tour"
 msgstr "Wprowadzenie"
 
-#: ../settings/MainWindow.vala:161
+#: ../settings/MainWindow.vala:151
 msgid "Computer break reminders for active minds"
 msgstr "Przypomnienia o przerwach od komputera dla aktywnych umysłowo"
 
-#: ../settings/MainWindow.vala:163
+#: ../settings/MainWindow.vala:153
 msgid "GNOME Break Timer Website"
 msgstr "Witryna Menedżera przerw GNOME"
 
-#: ../settings/MainWindow.vala:167
+#: ../settings/MainWindow.vala:157
 msgid "translator-credits"
 msgstr ""
 "Paweł Żołnowski <pawel.zolnowski@gmail.com>, 2014\n"
 "Aviary.pl <gnomepl@aviary.pl>, 2014"
 
-#: ../settings/MainWindow.vala:220
+#: ../settings/MainWindow.vala:210
 msgid "OK, got it!"
 msgstr "Zrozumiano!"
 
-#: ../settings/MainWindow.vala:225
+#: ../settings/MainWindow.vala:215
 msgid "Ready to go"
 msgstr "Gotowy"
 
