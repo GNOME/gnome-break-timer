@@ -17,10 +17,6 @@ VALAFLAGS = \
 	--target-glib=2.36.0 \
 	$(addprefix --vapidir ,$(HELPER_LIB_PATHS))
 
-if HAS_GTK_3_10
-VALAFLAGS += -D HAS_GTK_3_10
-endif
-
 # Run all tests in CWD and subdirs
 # Borrowed from libgee
 

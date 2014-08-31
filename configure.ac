@@ -29,7 +29,6 @@ AC_SUBST(LDFLAGS)
 
 GLIB_REQUIRED=2.36.0
 GTK_REQUIRED=3.10.0
-GTK_RECOMMENDED=3.10.0
 
 PKG_CHECK_MODULES([CFG_CORE], [
 	glib-2.0 >= $GLIB_REQUIRED
@@ -62,17 +61,12 @@ PKG_CHECK_MODULES([CFG_ACTIVITY_MONITOR_BACKEND], [
 ])
 
 PKG_CHECK_MODULES(
-	[CFG_GTK], [gtk+-3.0 >= $GTK_RECOMMENDED], [GTK_MIN_VERSION=3.10],
-	[PKG_CHECK_MODULES(
-		[CFG_GTK], [gtk+-3.0 >= $GTK_REQUIRED], [GTK_MIN_VERSION=3.8]
-	)]
+	[CFG_GTK], [gtk+-3.0 >= $GTK_REQUIRED], [GTK_MIN_VERSION=3.10]
 )
 
 
 
 # Some helpful constants that are available to the application
-
-AM_CONDITIONAL([HAS_GTK_3_10], [test $GTK_MIN_VERSION = 3.10])
 
 AC_DEFINE(SETTINGS_DESKTOP_ID, "gnome-break-timer.desktop", [Name of the .desktop file used for the settings application])
 AC_DEFINE(HELPER_DESKTOP_ID, "gnome-break-timer-service.desktop", [Name of the .desktop file used for the helper service])
