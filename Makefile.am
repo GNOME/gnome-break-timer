@@ -12,12 +12,6 @@ INTLTOOL_FILES = intltool-extract.in \
                  intltool-merge.in \
                  intltool-update.in
 
-BrainBreakdocdir = ${prefix}/doc/BrainBreak
-BrainBreakdoc_DATA = \
-	README \
-	COPYING \
-	AUTHORS
-
 EXTRA_DIST = \
 	autogen.sh \
 	config.vapi \
