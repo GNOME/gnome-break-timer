@@ -107,7 +107,6 @@ public class SettingsApplication : Gtk.Application {
 		this.break_manager.load_breaks ();
 	}
 
-	private uint delay_start_timeout_id;
 	private void delayed_start () {
 		// Delay up to 500ms waiting for break_manager to initialize
 		this.break_manager.break_status_available.connect (this.delayed_start_cb);

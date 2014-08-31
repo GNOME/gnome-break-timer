@@ -18,7 +18,6 @@
 public class TimeChooser : Gtk.ComboBox {
 	private Gtk.ListStore list_store;
 	
-	private Gtk.TreeIter other_item;
 	private Gtk.TreeIter? custom_item;
 	
 	private const int OPTION_OTHER = -1;
@@ -43,7 +42,6 @@ public class TimeChooser : Gtk.ComboBox {
 			string label = NaturalTime.instance.get_label_for_seconds (time);
 			this.add_option (label, time);
 		}
-		// this.other_item = this.add_option ( _("Other…"), OPTION_OTHER);
 		this.custom_item = null;
 		
 		this.changed.connect (this.on_changed);

@@ -185,8 +185,6 @@ public abstract class ActivityMonitorBackend : Object {
 	private int64 last_real_time = 0;
 	private int64 last_monotonic_time = 0;
 
-	private int? last_idle_time;
-	
 	public virtual Json.Object serialize () {
 		Json.Object json_root = new Json.Object ();
 		json_root.set_int_member ("last_real_time", this.last_real_time);
