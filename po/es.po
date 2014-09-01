@@ -2,29 +2,29 @@
 # Copyright (C) 2013 gnome-break-timer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-break-timer package.
 # Milagros Alessandra Infante Montero <maim92@gmail.com>, 2013.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2013.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "break-timer&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-11-21 02:46+0000\n"
-"PO-Revision-Date: 2013-11-27 11:49+0100\n"
+"POT-Creation-Date: 2014-08-31 01:27+0000\n"
+"PO-Revision-Date: 2014-09-01 18:11+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
 #: ../data/gnome-break-timer.appdata.xml.in.h:1
 #: ../data/gnome-break-timer-autostart.desktop.in.h:1
 #: ../data/gnome-break-timer.desktop.in.h:1
 #: ../data/gnome-break-timer-service.desktop.in.h:1
-#: ../settings/MainWindow.vala:42
+#: ../settings/MainWindow.vala:36 ../settings/MainWindow.vala:136
 msgid "Break Timer"
 msgstr "Descansos"
 
@@ -209,7 +209,7 @@ msgstr "¿Qué debo hacer?"
 msgid "Thank you"
 msgstr "Gracias"
 
-#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:158
+#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:148
 msgid "GNOME Break Timer"
 msgstr "GNOME Descansos"
 
@@ -299,6 +299,10 @@ msgstr "Su descanso ha terminado"
 msgid "Choose Your Break Schedule"
 msgstr "Elegir su planificación de descansos"
 
+#: ../settings/BreakSettingsDialog.vala:37
+msgid "_Close"
+msgstr "_Cerrar"
+
 #: ../settings/BreakSettingsDialog.vala:52
 msgid "A mix of short breaks and long breaks"
 msgstr "Una mezcla de descansos cortos y largos"
@@ -311,29 +315,29 @@ msgstr "Descansos largos ocasionales"
 msgid "Frequent short breaks"
 msgstr "Descansos cortos frecuentes"
 
-#: ../settings/MainWindow.vala:140
+#: ../settings/MainWindow.vala:130
 msgid "Welcome Tour"
 msgstr "Tour de bienvenida"
 
-#: ../settings/MainWindow.vala:161
+#: ../settings/MainWindow.vala:151
 msgid "Computer break reminders for active minds"
 msgstr "Recordatorios de descansos del equipo para mentes activas"
 
-#: ../settings/MainWindow.vala:163
+#: ../settings/MainWindow.vala:153
 msgid "GNOME Break Timer Website"
 msgstr "Página web de GNOME Descansos"
 
-#: ../settings/MainWindow.vala:167
+#: ../settings/MainWindow.vala:157
 msgid "translator-credits"
 msgstr ""
 "Milagros Alessandra Infante Montero <maim92@gmail.com>, 2013\n"
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2013"
 
-#: ../settings/MainWindow.vala:220
+#: ../settings/MainWindow.vala:210
 msgid "OK, got it!"
 msgstr "Aceptar"
 
-#: ../settings/MainWindow.vala:225
+#: ../settings/MainWindow.vala:215
 msgid "Ready to go"
 msgstr "Listo para empezar"
 
