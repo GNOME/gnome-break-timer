@@ -1,15 +1,15 @@
 # Czech translation for gnome-break-timer.
 # Copyright (C) 2013 gnome-break-timer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-break-timer package.
-# Marek Černocký <marek@manet.cz>, 2013.
+# Marek Černocký <marek@manet.cz>, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "break-timer&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-22 20:48+0000\n"
-"PO-Revision-Date: 2013-09-24 18:41+0200\n"
+"POT-Creation-Date: 2014-08-31 01:27+0000\n"
+"PO-Revision-Date: 2014-09-09 21:23+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -23,7 +23,7 @@ msgstr ""
 #: ../data/gnome-break-timer-autostart.desktop.in.h:1
 #: ../data/gnome-break-timer.desktop.in.h:1
 #: ../data/gnome-break-timer-service.desktop.in.h:1
-#: ../settings/MainWindow.vala:42
+#: ../settings/MainWindow.vala:36 ../settings/MainWindow.vala:136
 msgid "Break Timer"
 msgstr "Hlídání přestávek"
 
@@ -206,7 +206,7 @@ msgstr "Co bych měl dělat?"
 msgid "Thank you"
 msgstr "Díky"
 
-#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:158
+#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:148
 msgid "GNOME Break Timer"
 msgstr "Hlídání přestávek GNOME"
 
@@ -254,6 +254,7 @@ msgstr "Věnujte chvíli odpočinku svých očí"
 msgid "Remind me later"
 msgstr "Upozornit mě později"
 
+#. FIXME: Should say how long the break is?
 #: ../helper/restbreak/RestBreakView.vala:68
 msgid "Time for a break"
 msgstr "Čas na přestávku"
@@ -297,6 +298,10 @@ msgstr "Čas vaší přestávky skončil"
 msgid "Choose Your Break Schedule"
 msgstr "Zvolte plán svých přestávek"
 
+#: ../settings/BreakSettingsDialog.vala:37
+msgid "_Close"
+msgstr "_Zavřít"
+
 #: ../settings/BreakSettingsDialog.vala:52
 msgid "A mix of short breaks and long breaks"
 msgstr "Střídat krátké a dlouhé přestávky"
@@ -309,27 +314,27 @@ msgstr "Občasné dlouhé přestávky"
 msgid "Frequent short breaks"
 msgstr "Časté krátké přestávky"
 
-#: ../settings/MainWindow.vala:140
+#: ../settings/MainWindow.vala:130
 msgid "Welcome Tour"
 msgstr "Úvodní průvodce"
 
-#: ../settings/MainWindow.vala:161
+#: ../settings/MainWindow.vala:151
 msgid "Computer break reminders for active minds"
 msgstr "Upomínání na počítačové přestávky pro zachování svěží mysli"
 
-#: ../settings/MainWindow.vala:163
+#: ../settings/MainWindow.vala:153
 msgid "GNOME Break Timer Website"
 msgstr "Webové stránky Hlídání přestávek GNOME"
 
-#: ../settings/MainWindow.vala:167
+#: ../settings/MainWindow.vala:157
 msgid "translator-credits"
 msgstr "Marek Černocký <marek@manet.cz>"
 
-#: ../settings/MainWindow.vala:220
+#: ../settings/MainWindow.vala:210
 msgid "OK, got it!"
 msgstr "Dobrá, mám to!"
 
-#: ../settings/MainWindow.vala:225
+#: ../settings/MainWindow.vala:215
 msgid "Ready to go"
 msgstr "Jsem připraven jít na to"
 
