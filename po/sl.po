@@ -2,15 +2,15 @@
 # Copyright (C) 2013 gnome-break-timer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-break-timer package.
 #
-# Matej Urbančič <mateju@svn.gnome.org>, 2013.
+# Matej Urbančič <mateju@svn.gnome.org>, 2013-2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "break-timer&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-29 11:59+0000\n"
-"PO-Revision-Date: 2013-09-29 21:12+0100\n"
+"POT-Creation-Date: 2014-09-16 06:08+0000\n"
+"PO-Revision-Date: 2014-09-16 17:36+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -20,13 +20,13 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: ../data/gnome-break-timer.appdata.xml.in.h:1
 #: ../data/gnome-break-timer-autostart.desktop.in.h:1
 #: ../data/gnome-break-timer.desktop.in.h:1
 #: ../data/gnome-break-timer-service.desktop.in.h:1
-#: ../settings/MainWindow.vala:42
+#: ../settings/MainWindow.vala:36 ../settings/MainWindow.vala:136
 msgid "Break Timer"
 msgstr "Časomer odmorov"
 
@@ -45,10 +45,10 @@ msgid ""
 msgstr ""
 "<p>Časomer odmorov spremlja, koliko časa uporabljate računalnik, in vas "
 "opominja, da si privoščite redne odmore. Načrtovan je tako, da vzpodbuja "
-"zdravo vedenje na delovnem mestu z mešanico kratkih odmorov za vaše oči in zapestja kot tudi "
-"daljših odmorov, ki ohranjajo vaše telo v gibanju in vaše misli pri delu.</"
-"p> <p>Časomer odmorov je enostavno nastaviti, saj lahko izberete razpored "
-"odmorov, ki je primeren za vas, ta pa deluje v ozadju.</p>"
+"zdravo vedenje na delovnem mestu z mešanico kratkih odmorov za vaše oči in "
+"zapestja kot tudi daljših odmorov, ki ohranjajo vaše telo v gibanju in vaše "
+"misli pri delu.</p> <p>Časomer odmorov je enostavno nastaviti, saj lahko "
+"izberete razpored odmorov, ki je primeren za vas, ta pa deluje v ozadju.</p>"
 
 #: ../data/gnome-break-timer-autostart.desktop.in.h:2
 #: ../data/gnome-break-timer-service.desktop.in.h:2
@@ -214,7 +214,7 @@ msgstr "Kaj storiti?"
 msgid "Thank you"
 msgstr "Hvala!"
 
-#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:158
+#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:148
 msgid "GNOME Break Timer"
 msgstr "Časomer odmorov GNOME"
 
@@ -309,6 +309,10 @@ msgstr "Vaš odmor je končan"
 msgid "Choose Your Break Schedule"
 msgstr "Izberite svoj razpored odmorov"
 
+#: ../settings/BreakSettingsDialog.vala:37
+msgid "_Close"
+msgstr "_Zapri"
+
 #: ../settings/BreakSettingsDialog.vala:52
 msgid "A mix of short breaks and long breaks"
 msgstr "Mešanica kratkih in daljših odmorov"
@@ -321,27 +325,27 @@ msgstr "Občasni kratki odmori"
 msgid "Frequent short breaks"
 msgstr "Pogosti kratki odmori"
 
-#: ../settings/MainWindow.vala:140
+#: ../settings/MainWindow.vala:130
 msgid "Welcome Tour"
 msgstr "Voden ogled"
 
-#: ../settings/MainWindow.vala:161
+#: ../settings/MainWindow.vala:151
 msgid "Computer break reminders for active minds"
 msgstr "Opomniki za odmor pri računalniku za dejavne glave"
 
-#: ../settings/MainWindow.vala:163
+#: ../settings/MainWindow.vala:153
 msgid "GNOME Break Timer Website"
 msgstr "Spletna stran Časomer odmorov GNOME"
 
-#: ../settings/MainWindow.vala:167
+#: ../settings/MainWindow.vala:157
 msgid "translator-credits"
 msgstr "Martin Srebotnjak"
 
-#: ../settings/MainWindow.vala:220
+#: ../settings/MainWindow.vala:210
 msgid "OK, got it!"
 msgstr "Prav, razumem!"
 
-#: ../settings/MainWindow.vala:225
+#: ../settings/MainWindow.vala:215
 msgid "Ready to go"
 msgstr "Pripravljen na delo"
 
