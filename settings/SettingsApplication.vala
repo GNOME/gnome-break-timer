@@ -47,8 +47,9 @@ public class SettingsApplication : Gtk.Application {
 		}
 
 		._circle-counter {
-			color: @scrollbar_slider_prelight;
-			background-color: @scrollbar_trough;
+			/* borrowed from gnome-clocks/data/css/gnome-clocks.css */
+			color: mix(@theme_fg_color, @theme_bg_color, 0.5);
+			background-color: mix(@theme_fg_color, @theme_bg_color, 0.85);
 		}
 		""";
 
