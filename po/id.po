@@ -1,0 +1,424 @@
+# Indonesian translation for gnome-break-timer.
+# Copyright (C) 2014 gnome-break-timer's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-break-timer package.
+# Andika Triwidada <andika@gmail.com>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-break-timer master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"break-timer&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-10-06 18:11+0000\n"
+"PO-Revision-Date: 2014-10-17 13:34+0700\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
+"Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.6.9\n"
+
+#: ../data/gnome-break-timer.appdata.xml.in.h:1
+#: ../data/gnome-break-timer-autostart.desktop.in.h:1
+#: ../data/gnome-break-timer.desktop.in.h:1
+#: ../data/gnome-break-timer-service.desktop.in.h:1
+#: ../settings/MainWindow.vala:36 ../settings/MainWindow.vala:136
+msgid "Break Timer"
+msgstr "Pewaktu Istirahat"
+
+#: ../data/gnome-break-timer.appdata.xml.in.h:2
+msgid "Remember to take regular breaks from using the computer"
+msgstr "Ingatlah untuk istirahat berkala dari memakai komputer"
+
+#: ../data/gnome-break-timer.appdata.xml.in.h:3
+msgid ""
+"<p>Break Timer keeps track of how much you are using the computer, and it "
+"reminds you to take regular breaks. It is designed to encourage healthy "
+"behaviour, with a mix of short breaks for your eyes and wrists, as well as "
+"longer breaks to keep your body moving and your mind on task.</p> <p>Break "
+"Timer is simple to set up, so you can pick a break schedule that works for "
+"you and it will carry on working in the background.</p>"
+msgstr ""
+"<p>Pewaktu Istirahat mencatat seberapa lama Anda memakai komputer, dan "
+"mengingatkan Anda untuk beristirahat secara teratur. Ini dirancang untuk "
+"menganjurkan perilaku yang sehat, dengan campuran dari istirahat pendek bagi "
+"mata dan pergelangan tangan Anda, maupun istirahat panjang agar tubuh Anda "
+"tetap bergerak dan otak Anda tetap pada tugas.</p><p>Pewaktu Istirahat "
+"sederhana penyiapannya, sehingga Anda dapat memilih jadwal istirahat yang "
+"cocok bagi Anda dan ini akan terus bekerja di latar belakang.</p>"
+
+#: ../data/gnome-break-timer-autostart.desktop.in.h:2
+#: ../data/gnome-break-timer-service.desktop.in.h:2
+msgid "Provides a gentle reminder to take regular breaks"
+msgstr ""
+"Menyediakan suatu pengingat yang lunak untuk beristirahat secara berkala"
+
+#: ../data/gnome-break-timer.desktop.in.h:2
+msgid "Choose your preferences for micro breaks and rest breaks"
+msgstr "Pilih preferensi Anda untuk istirahat mikro dan istirahat singkat"
+
+#: ../data/gnome-break-timer.desktop.in.h:3
+msgid "break;micro;rest;timer;"
+msgstr "istirahat;mikro;pewaktu;"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:1
+msgid "True to enable GNOME Break Timer"
+msgstr "Isi true untuk memfungsikan GNOME Pewaktu Istirahat"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:2
+msgid "The list of breaks that are currently enabled"
+msgstr "Daftar istirahat yang sedang diaktifkan"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:3
+msgid "True to enable quiet mode"
+msgstr "Isi true untuk memfungsikan mode senyap"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:4
+msgid "Hides breaks until quiet-mode-expire-time."
+msgstr "Sembunyikan istirahat sampai quiet-mode-expire-time."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:5
+msgid "Time to end quiet mode."
+msgstr "Saatnya mengakhiri mode senyap."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:6
+msgid "The time to automatically disable quiet mode, in unix time."
+msgstr "Waktu untuk secara otomatis mematikan mode senyap, dalam waktu unix."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:7
+msgid "Time between breaks"
+msgstr "Waktu antar istirahat"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:8
+msgid "The time between rest breaks, in seconds."
+msgstr "Waktu antar istirahat, dalam detik."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:9
+msgid "Duration of each break"
+msgstr "Durasi setiap istirahat"
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:10
+msgid "The duration of each rest break, in seconds."
+msgstr "Durasi setiap istirahat, dalam detik."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:11
+msgid "The preferred time between micro breaks, in seconds."
+msgstr "Selang waktu yang disukai antar istirahat mikro, dalam detik."
+
+#: ../data/org.gnome.break-timer.gschema.xml.in.h:12
+msgid "The preferred duration of each micro break, in seconds."
+msgstr "Durasi dari setiap istirahat mikro, dalam detik."
+
+#: ../data/settings-panels.ui.h:1
+msgid "Break Timer isn’t responding"
+msgstr "Pewaktu Istirahat tak merespon"
+
+#: ../data/settings-panels.ui.h:2
+msgid ""
+"If this continues the next time you log in, please <a href=\"https://bugs."
+"launchpad.net/brainbreak\">open a bug report</a>.\t"
+msgstr ""
+"Bila ini terus terjadi saat berikutnya Anda log masuk, harap <a href="
+"\"https://bugs.launchpad.net/brainbreak\">buka sebuah laporan bug</a>.\t"
+
+#: ../data/settings-panels.ui.h:3
+msgid "Break Timer is taking a break"
+msgstr "Pewaktu Istirahat sedang beristirahat"
+
+#: ../data/settings-panels.ui.h:4
+msgid "Turn me on to get those breaks going"
+msgstr "Nyalakan saya agar waktu-waktu istirahat tersebut terlaksana"
+
+#: ../data/settings-panels.ui.h:5
+msgid "You can change the types of breaks and their timings from the settings"
+msgstr "Anda dapat mengubah tipe istirahat dan waktunya dari pengaturan"
+
+#: ../data/settings-panels.ui.h:6
+msgid "Break Timer lets you take small microbreaks as well as longer breaks."
+msgstr ""
+"Pewaktu Istirahat memungkinkan Anda mengambil istirahat mikro maupun "
+"istirahat yang lebih lama."
+
+#: ../data/settings-panels.ui.h:7
+msgid ""
+"Microbreaks are a chance to look away from the screen and rest your hands."
+msgstr ""
+"Istirahat mikro adalah kesempatan untuk mengalihkan pandangan dari layar dan "
+"mengistirahatkan jari-jari Anda."
+
+#: ../data/settings-panels.ui.h:8
+msgid "Full breaks are time to get away from the computer and move around."
+msgstr ""
+"Istirahat penuh adalah saat untuk menjauh dari komputer dan berkeliling."
+
+#: ../data/settings-panels.ui.h:9
+msgid "Breaks and Microbreaks"
+msgstr "Istirahat dan Istirahat Mikro"
+
+#: ../data/settings-panels.ui.h:10
+msgid "You can leave me to it"
+msgstr "Anda dapat mempercayakan itu padaku"
+
+#: ../data/settings-panels.ui.h:11
+msgid ""
+"Break Timer will carry on working in the background, even if you close it."
+msgstr ""
+"Pewaktu Istirahat akan terus bekerja di latar belakang, bahkan bila Anda "
+"menutupnya."
+
+#: ../data/settings-panels.ui.h:12
+msgid "Welcome to Break Timer!"
+msgstr "Selamat Datang ke Pewaktu Istirahat!"
+
+#: ../data/settings-panels.ui.h:13
+msgid "Breaks are good for you. We'll help you to take them."
+msgstr "Istirahat itu baik untuk Anda. Kami akan membantu Anda memperolehnya."
+
+#: ../data/settings-panels.ui.h:14
+msgid "Just switch me on to get started"
+msgstr "Nyalakan saja saya untuk memulai"
+
+#: ../common/NaturalTime.vala:41
+#, c-format
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "%d detik"
+
+#: ../common/NaturalTime.vala:44
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d menit"
+
+#: ../common/NaturalTime.vala:47
+#, c-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d jam"
+
+#. Label for a notification action that shows information about the current break
+#: ../helper/break/BreakView.vala:74
+msgid "What should I do?"
+msgstr "Apa yang mesti saya lakukan?"
+
+#. Break overlay label when a break has been finished
+#: ../helper/break/TimerBreakStatusWidget.vala:56
+msgid "Thank you"
+msgstr "Terima kasih"
+
+#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:148
+msgid "GNOME Break Timer"
+msgstr "GNOME Pewaktu Istirahat"
+
+#. Label for a notification action that will skip the current microbreak
+#: ../helper/microbreak/MicroBreakView.vala:40
+msgid "Skip this one"
+msgstr "Lewati yang satu ini"
+
+#: ../helper/microbreak/MicroBreakView.vala:47
+msgid "It’s time for a micro break"
+msgstr "Saatnya untuk istirahat mikro"
+
+#: ../helper/microbreak/MicroBreakView.vala:48
+msgid "Take a break from typing and look away from the screen"
+msgstr "Beristirahat dari mengetik dan mengalihkan pandangan dari layar"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../helper/microbreak/MicroBreakView.vala:64
+#, c-format
+msgid "You were due to take a micro break %s ago"
+msgid_plural "You were due to take a micro break %s ago"
+msgstr[0] "Anda terlambat mengambil istirahat mikro %s yang lalu"
+
+#: ../helper/microbreak/MicroBreakView.vala:70
+msgid "Overdue micro break"
+msgstr "Istirahat mikro yang terlambat"
+
+#: ../helper/microbreak/MicroBreakView.vala:80
+#: ../helper/restbreak/RestBreakView.vala:125
+msgid "Break is over"
+msgstr "Waktu istirahat telah usai"
+
+#: ../helper/microbreak/MicroBreakView.vala:81
+msgid "Your micro break has ended"
+msgstr "Istirahat mikro Anda telah berakhir"
+
+#: ../helper/microbreak/MicroBreakView.vala:94
+msgid "Take a moment to rest your eyes"
+msgstr "Sejenak mengistirahatkan mata Anda"
+
+#. Label for a notification action that will delay the current break for a few minutes
+#: ../helper/restbreak/RestBreakView.vala:54
+msgid "Remind me later"
+msgstr "Ingatkan lagi saya nanti"
+
+#. FIXME: Should say how long the break is?
+#: ../helper/restbreak/RestBreakView.vala:68
+msgid "Time for a break"
+msgstr "Saatnya untuk istirahat"
+
+#: ../helper/restbreak/RestBreakView.vala:69
+msgid ""
+"It’s time to take a break. Get away from the computer for a little while!"
+msgstr ""
+"Ini saatnya beristirahat. Pergilah dari komputer untuk sementara waktu!"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../helper/restbreak/RestBreakView.vala:86
+#, c-format
+msgid "There is %s remaining in your break"
+msgid_plural "There are %s remaining in your break"
+msgstr[0] "Tersisa %s dalam istirahat Anda"
+
+#: ../helper/restbreak/RestBreakView.vala:92
+msgid "Break interrupted"
+msgstr "Istirahat terinterupsi"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../helper/restbreak/RestBreakView.vala:109
+#, c-format
+msgid "You were due to take a break %s ago"
+msgid_plural "You were due to take a break %s ago"
+msgstr[0] "Anda terlambat beristirahat %s yang lalu"
+
+#: ../helper/restbreak/RestBreakView.vala:115
+msgid "Overdue break"
+msgstr "Istirahat yang terlambat"
+
+#: ../helper/restbreak/RestBreakView.vala:126
+msgid "Your break time has ended"
+msgstr "Waktu istirahat Anda telah berakhir"
+
+#: ../settings/BreakSettingsDialog.vala:32
+msgid "Choose Your Break Schedule"
+msgstr "Pilih Jadwal Istirahat Anda"
+
+#: ../settings/BreakSettingsDialog.vala:37
+msgid "_Close"
+msgstr "_Tutup"
+
+#: ../settings/BreakSettingsDialog.vala:52
+msgid "A mix of short breaks and long breaks"
+msgstr "Campuran dari istirahat pendek dan panjang"
+
+#: ../settings/BreakSettingsDialog.vala:56
+msgid "Occasional long breaks"
+msgstr "Istirahat lama yang jarang"
+
+#: ../settings/BreakSettingsDialog.vala:60
+msgid "Frequent short breaks"
+msgstr "Istirahat pendek yang sering"
+
+#: ../settings/MainWindow.vala:130
+msgid "Welcome Tour"
+msgstr "Tur Selamat Datang"
+
+#: ../settings/MainWindow.vala:151
+msgid "Computer break reminders for active minds"
+msgstr "Pengingat istirahat dari komputer bagi otak yang aktif"
+
+#: ../settings/MainWindow.vala:153
+msgid "GNOME Break Timer Website"
+msgstr "Situs Web GNOME Pewaktu Istirahat"
+
+#: ../settings/MainWindow.vala:157
+msgid "translator-credits"
+msgstr "Andika Triwidada <andika@gmail.com>, 2014"
+
+#: ../settings/MainWindow.vala:210
+msgid "OK, got it!"
+msgstr "OK, dapat!"
+
+#: ../settings/MainWindow.vala:215
+msgid "Ready to go"
+msgstr "Siap pergi"
+
+#: ../settings/MicroBreakType.vala:46 ../settings/MicroBreakType.vala:91
+msgid "Microbreak"
+msgstr "Istirahat mikro"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../settings/MicroBreakType.vala:65
+#, c-format
+msgid "Take a break from typing and look away from the screen for %s."
+msgid_plural "Take a break from typing and look away from the screen for %s."
+msgstr[0] ""
+"Beristirahatlah dari mengetik dan alihkan pandangan dari layar selama %s."
+
+#: ../settings/MicroBreakType.vala:70
+msgid "It’s microbreak time"
+msgstr "Saatnya istirahat mikro"
+
+#: ../settings/MicroBreakType.vala:72
+msgid "I'll chime when it’s time to use the computer again."
+msgstr ""
+"Saya akan membunyikan bel bila sudah saatnya untuk memakai komputer lagi."
+
+#. Label that explains a countdown timer, which shows a string such as "5 minutes"
+#: ../settings/MicroBreakType.vala:81
+msgid "Your next microbreak is in"
+msgstr "Istirahat mikro selanjutnya dalam"
+
+#: ../settings/MicroBreakType.vala:82
+msgid "It's time for a microbreak"
+msgstr "Saatnya untuk sebuah istirahat mikro"
+
+#: ../settings/MicroBreakType.vala:92
+msgid "Pause frequently to relax your eyes"
+msgstr "Seringlah beristirahat untuk melemaskan mata Anda"
+
+#: ../settings/RestBreakType.vala:46
+msgid "Break"
+msgstr "Istirahat"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: ../settings/RestBreakType.vala:66
+#, c-format
+msgid "Your break has %s remaining. I’ll remind you when it’s over."
+msgid_plural "Your break has %s remaining. I’ll remind you when it’s over."
+msgstr[0] ""
+"Istirahat Anda tersisa %s. Saya akan mengingatkan Anda saat itu selesai."
+
+#: ../settings/RestBreakType.vala:71
+msgid "It’s break time"
+msgstr "Saatnya untuk istirahat"
+
+#: ../settings/RestBreakType.vala:72
+msgid "Take some time away from the computer. Stretch and move around."
+msgstr "Sementara menjauhlah dari komputer. Meregang dan bergeraklah."
+
+#. Label that explains a countdown timer, which shows a string such as "30 minutes"
+#: ../settings/RestBreakType.vala:82
+msgid "Your next full break is in"
+msgstr "Istirahat penuh selanjutnya dalam"
+
+#: ../settings/RestBreakType.vala:83
+msgid "It's break time"
+msgstr "Saatnya untuk istirahat"
+
+#: ../settings/RestBreakType.vala:92
+msgid "Full break"
+msgstr "Istirahat penuh"
+
+#: ../settings/RestBreakType.vala:93
+msgid "And take some longer breaks to stretch your legs"
+msgstr "Dan ambil istirahat yang lebih panjang untuk meregang kaki-kaki Anda"
+
+#: ../settings/SettingsApplication.vala:102
+msgid "About"
+msgstr "Tentang"
+
+#: ../settings/SettingsApplication.vala:103
+msgid "Quit"
+msgstr "Keluar"
+
+#. Label for the widget to choose how frequently a break occurs. (Choices such as "6 minutes" or "45 minutes")
+#: ../settings/TimerBreakType.vala:175
+msgid "Every"
+msgstr "Setiap"
+
+#. Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes")
+#: ../settings/TimerBreakType.vala:184
+msgid "For"
+msgstr "Selama"
