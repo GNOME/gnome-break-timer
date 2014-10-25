@@ -2,14 +2,14 @@
 # Courtesy of Prevod.org team (http://prevod.org/) -- 2013.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-break-timer package.
-# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2013.
+# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2013—2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "break-timer&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-29 11:59+0000\n"
-"PO-Revision-Date: 2013-10-02 11:17+0200\n"
+"POT-Creation-Date: 2014-08-31 01:27+0000\n"
+"PO-Revision-Date: 2014-10-25 10:56+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -24,7 +24,7 @@ msgstr ""
 #: ../data/gnome-break-timer-autostart.desktop.in.h:1
 #: ../data/gnome-break-timer.desktop.in.h:1
 #: ../data/gnome-break-timer-service.desktop.in.h:1
-#: ../settings/MainWindow.vala:42
+#: ../settings/MainWindow.vala:36 ../settings/MainWindow.vala:136
 msgid "Break Timer"
 msgstr "Nadzornik odmora"
 
@@ -119,9 +119,8 @@ msgid ""
 "If this continues the next time you log in, please <a href=\"https://bugs."
 "launchpad.net/brainbreak\">open a bug report</a>.\t"
 msgstr ""
-"Ako se ovo nastavi kada se sledeći put prijavite, <a "
-"href=\"https://bugs.launchpad.net/brainbreak\">napravite izveštaj o "
-"grešci</a>."
+"Ako se ovo nastavi kada se sledeći put prijavite, <a href=\""
+"https://bugs.launchpad.net/brainbreak\">napravite izveštaj o grešci</a>.\t"
 
 #: ../data/settings-panels.ui.h:3
 msgid "Break Timer is taking a break"
@@ -212,7 +211,7 @@ msgstr "Šta treba da uradim?"
 msgid "Thank you"
 msgstr "Hvala vam"
 
-#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:158
+#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:148
 msgid "GNOME Break Timer"
 msgstr "Gnomov nadzornik odmora"
 
@@ -270,8 +269,7 @@ msgstr "Vreme je za odmor"
 msgid ""
 "It’s time to take a break. Get away from the computer for a little while!"
 msgstr ""
-"Vreme je da se odmorite. Udaljite se malo od računara, pogledajte kroz "
-"prozor!"
+"Vreme je da se odmorite. Udaljite se malo od računara, pogledajte kroz prozor!"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
 #: ../helper/restbreak/RestBreakView.vala:86
@@ -309,6 +307,10 @@ msgstr "Vreme vašeg odmora je isteklo"
 msgid "Choose Your Break Schedule"
 msgstr "Izaberite vaš plan odmora"
 
+#: ../settings/BreakSettingsDialog.vala:37
+msgid "_Close"
+msgstr "_Zatvori"
+
 #: ../settings/BreakSettingsDialog.vala:52
 msgid "A mix of short breaks and long breaks"
 msgstr "Mešavina kratkih i dugih odmora"
@@ -321,30 +323,30 @@ msgstr "Povremeni dugi odmori"
 msgid "Frequent short breaks"
 msgstr "Česti kratki odmori"
 
-#: ../settings/MainWindow.vala:140
+#: ../settings/MainWindow.vala:130
 msgid "Welcome Tour"
 msgstr "Dobrodošlica"
 
-#: ../settings/MainWindow.vala:161
+#: ../settings/MainWindow.vala:151
 msgid "Computer break reminders for active minds"
 msgstr "Podsetnik na odmor od računara za aktivne umove"
 
-#: ../settings/MainWindow.vala:163
+#: ../settings/MainWindow.vala:153
 msgid "GNOME Break Timer Website"
 msgstr "Veb stranica Gnomovog nadzornika odmora"
 
-#: ../settings/MainWindow.vala:167
+#: ../settings/MainWindow.vala:157
 msgid "translator-credits"
 msgstr ""
 "  Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "\n"
 "http://prevod.org — prevod na srpski jezik"
 
-#: ../settings/MainWindow.vala:220
+#: ../settings/MainWindow.vala:210
 msgid "OK, got it!"
 msgstr "U redu, moj je!"
 
-#: ../settings/MainWindow.vala:225
+#: ../settings/MainWindow.vala:215
 msgid "Ready to go"
 msgstr "Spremni za polazak"
 
@@ -403,7 +405,8 @@ msgstr "Vreme je za odmor"
 
 #: ../settings/RestBreakType.vala:72
 msgid "Take some time away from the computer. Stretch and move around."
-msgstr "Udaljite se neko vreme od računara. Proteglite se i prošetajte se okolo."
+msgstr ""
+"Udaljite se neko vreme od računara. Proteglite se i prošetajte se okolo."
 
 #. Label that explains a countdown timer, which shows a string such as "30 minutes"
 #: ../settings/RestBreakType.vala:82
