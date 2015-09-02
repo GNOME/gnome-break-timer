@@ -5,14 +5,14 @@
 # gnomepl@aviary.pl
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Paweł Żołnowski <pawel.zolnowski@gmail.com>, 2014.
-# Piotr Drąg <piotrdrag@gmail.com>, 2014.
-# Aviary.pl <gnomepl@aviary.pl>, 2014.
+# Piotr Drąg <piotrdrag@gmail.com>, 2014-2015.
+# Aviary.pl <gnomepl@aviary.pl>, 2014-2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-31 20:20+0200\n"
-"PO-Revision-Date: 2014-08-31 20:21+0200\n"
+"POT-Creation-Date: 2015-09-03 01:40+0200\n"
+"PO-Revision-Date: 2015-09-03 01:42+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -82,7 +82,7 @@ msgstr "Włączenie trybu cichego"
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:4
 msgid "Hides breaks until quiet-mode-expire-time."
-msgstr "Pomijanie przerw aż do \"quiet-mode-expire-time\"."
+msgstr "Pomijanie przerw aż do „quiet-mode-expire-time”."
 
 #: ../data/org.gnome.break-timer.gschema.xml.in.h:5
 msgid "Time to end quiet mode."
@@ -126,7 +126,8 @@ msgid ""
 "launchpad.net/brainbreak\">open a bug report</a>.\t"
 msgstr ""
 "Jeśli się to powtórzy po następnym zalogowaniu, prosimy otworzyć <a href="
-"\"https://bugs.launchpad.net/brainbreak\">zgłoszenie błędu</a>.\t"
+"\"https://bugs.launchpad.net/brainbreak\">zgłoszenie błędu</a> (w języku "
+"angielskim).\t"
 
 #: ../data/settings-panels.ui.h:3
 msgid "Break Timer is taking a break"
@@ -337,7 +338,8 @@ msgstr "Witryna Menedżera przerw GNOME"
 msgid "translator-credits"
 msgstr ""
 "Paweł Żołnowski <pawel.zolnowski@gmail.com>, 2014\n"
-"Aviary.pl <gnomepl@aviary.pl>, 2014"
+"Piotr Drąg <piotrdrag@gmail.com>, 2014-2015\n"
+"Aviary.pl <gnomepl@aviary.pl>, 2014-2015"
 
 #: ../settings/MainWindow.vala:210
 msgid "OK, got it!"
@@ -424,11 +426,11 @@ msgstr "Pełna przerwa"
 msgid "And take some longer breaks to stretch your legs"
 msgstr "Potrzebne są również dłuższe przerwy, aby rozprostować nogi"
 
-#: ../settings/SettingsApplication.vala:101
+#: ../settings/SettingsApplication.vala:102
 msgid "About"
 msgstr "O programie"
 
-#: ../settings/SettingsApplication.vala:102
+#: ../settings/SettingsApplication.vala:103
 msgid "Quit"
 msgstr "Zakończ"
 
