@@ -13,7 +13,7 @@
   <maintainer>
     <foaf:Person>
       <foaf:name>Dylan McCall</foaf:name>
-      <foaf:mbox rdf:resource="mailto:dylanmccall@ubuntu.com" />
+      <foaf:mbox rdf:resource="mailto:dylan@dylanmccall.com" />
     </foaf:Person>
   </maintainer>
 
