@@ -1,6 +1,6 @@
 [default]
 name=Default
-runtime=flatpak:org.gnome.Sdk/x86_64/master
+runtime=flatpak:org.gnome.Platform/x86_64/3.28
 config-opts=
 run-opts=
 prefix=/app

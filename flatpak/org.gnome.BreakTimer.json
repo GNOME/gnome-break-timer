@@ -1,0 +1,51 @@
+{
+    "id" : "org.gnome.BreakTimer",
+    "runtime" : "org.gnome.Platform",
+    "runtime-version" : "3.28",
+    "sdk" : "org.gnome.Sdk",
+    "command" : "gnome-break-timer-settings",
+    "finish-args": [
+        "--share=ipc", "--socket=x11",
+        "--socket=wayland",
+        "--talk-name=org.gnome.Shell",
+        "--filesystem=/usr/share/glib-2.0/schemas:ro",
+        "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:rw",
+        "--talk-name=ca.desrt.dconf", "--env=DCONF_USER_CONFIG_DIR=.config/dconf"
+    ],
+    "build-options" : {
+        "cflags" : "-O2 -g",
+        "cxxflags" : "-O2 -g",
+        "env" : {
+            "V" : "1"
+        }
+    },
+    "modules" : [
+        {
+            "name" : "libgee",
+            "build-options" : {
+                "env" : {
+                    "PKG_CONFIG_GOBJECT_INTROSPECTION_1_0_GIRDIR" : "/app/share/gir-1.0",
+                    "PKG_CONFIG_GOBJECT_INTROSPECTION_1_0_TYPELIBDIR" : "/app/lib/girepository-1.0"
+                }
+            },
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "https://github.com/GNOME/libgee/archive/0.20.1.tar.gz",
+                    "sha256" : "d76d0bf8ae6659dba6018fadf2ccce218ccbc107666925552008806a29702c4b"
+                }
+            ]
+        },
+        {
+            "name" : "gnome-break-timer",
+            "buildsystem" : "meson",
+            "builddir" : true,
+            "sources" : [
+                {
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/dylanmccall/gnome-break-timer.git"
+                }
+            ]
+        }
+    ]
+}
