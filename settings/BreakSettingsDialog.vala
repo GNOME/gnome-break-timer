@@ -15,19 +15,24 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Gtk;
+using GLib;
+
+namespace BreakTimer.Settings {
+
 public class BreakSettingsDialog : Gtk.Dialog {
 	private BreakManager break_manager;
 
 	private BreakConfigurationChooser configuration_chooser;
 	private Gtk.Grid breaks_grid;
 	
-	private static const int ABOUT_BUTTON_RESPONSE = 5;
+	private const int ABOUT_BUTTON_RESPONSE = 5;
 	
 	public BreakSettingsDialog (BreakManager break_manager) {
 		Object ();
 		this.break_manager = break_manager;
 
-		Settings settings = new Settings ("org.gnome.break-timer");
+		GLib.Settings settings = new GLib.Settings ("org.gnome.break-timer");
 		
 		this.set_title ( _("Choose Your Break Schedule"));
 		this.set_resizable (false);
@@ -213,4 +218,6 @@ class FixedSizeGrid : Gtk.Grid {
 		}
 		return hidden_children;
 	}
+}
+
 }

@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer {
+
 public interface ISessionStatus : Object {
 	public signal void locked ();
 	public signal void unlocked ();
@@ -23,4 +25,6 @@ public interface ISessionStatus : Object {
 	public abstract void lock_screen ();
 	public abstract void blank_screen ();
 	public abstract void unblank_screen ();
+}
+
 }

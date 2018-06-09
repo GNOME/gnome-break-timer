@@ -15,6 +15,11 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Gtk;
+using GLib;
+
+namespace BreakTimer.Settings {
+
 public class TimeChooser : Gtk.ComboBox {
 	private Gtk.ListStore list_store;
 	
@@ -118,4 +123,6 @@ public class TimeChooser : Gtk.ComboBox {
 	private void start_custom_input () {
 		GLib.warning("Custom time input is not implemented");
 	}
+}
+
 }

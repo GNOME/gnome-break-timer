@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer {
+
 public class NaturalTime : Object {
 	public delegate string FormatTimeCb (int seconds);
 
@@ -145,4 +147,6 @@ public class NaturalTime : Object {
 		int time_softened = ( (seconds-1) / interval) + 1;
 		return time_softened * interval;
 	}
+}
+
 }

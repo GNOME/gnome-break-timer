@@ -15,6 +15,11 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Gtk;
+using GLib;
+
+namespace BreakTimer.Settings {
+
 /* FIXME: This widget is stealing clicks when it is used in an overlay */
 public class OverlayArrow : Gtk.Widget {
 	private Gtk.Widget from_widget;
@@ -115,4 +120,6 @@ public class OverlayArrow : Gtk.Widget {
 		}
 		this.to_widget.translate_coordinates (this, to_local_x, to_local_y, out to_x, out to_y);
 	}
+}
+
 }

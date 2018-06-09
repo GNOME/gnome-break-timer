@@ -15,6 +15,11 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Gtk;
+using GLib;
+
+namespace BreakTimer.Settings {
+
 public abstract class TimerBreakType : BreakType {
 	public int interval { get; protected set; }
 	public int duration { get; protected set; }
@@ -24,7 +29,7 @@ public abstract class TimerBreakType : BreakType {
 
 	public IBreakHelper_TimerBreak? break_server;
 
-	public TimerBreakType (string name, Settings settings) {
+	public TimerBreakType (string name, GLib.Settings settings) {
 		base (name, settings);
 		settings.bind ("interval-seconds", this, "interval", SettingsBindFlags.GET);
 		settings.bind ("duration-seconds", this, "duration", SettingsBindFlags.GET);
@@ -191,4 +196,6 @@ public abstract class TimerBreakSettingsPanel : BreakSettingsPanel {
 		
 		details_grid.show_all ();
 	}
+}
+
 }

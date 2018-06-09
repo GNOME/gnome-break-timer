@@ -15,9 +15,14 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Gtk;
+using GLib;
+
+namespace BreakTimer.Settings {
+
 public class RestBreakType : TimerBreakType {
 	public RestBreakType () {
-		Settings settings = new Settings ("org.gnome.break-timer.restbreak");
+		GLib.Settings settings = new GLib.Settings ("org.gnome.break-timer.restbreak");
 		base ("restbreak", settings);
 
 		this.interval_options = { 1800, 2400, 3000, 3600 };
@@ -93,4 +98,6 @@ class RestBreakSettingsPanel : TimerBreakSettingsPanel {
 			_("And take some longer breaks to stretch your legs")
 		);
 	}
+}
+
 }

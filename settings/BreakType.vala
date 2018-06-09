@@ -15,6 +15,11 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Gtk;
+using GLib;
+
+namespace BreakTimer.Settings {
+
 public abstract class BreakType : Object {
 	public string id { get; private set; }
 	public BreakStatus? status;
@@ -23,9 +28,9 @@ public abstract class BreakType : Object {
 	public BreakStatusPanel status_panel;
 	public BreakSettingsPanel settings_panel;
 
-	public Settings settings;
+	public GLib.Settings settings;
 	
-	public BreakType (string id, Settings settings) {
+	public BreakType (string id, GLib.Settings settings) {
 		this.id = id;
 		this.settings = settings;
 	}
@@ -163,4 +168,6 @@ public abstract class BreakSettingsPanel : Gtk.Grid {
 	protected void set_details (Gtk.Widget content) {
 		this.details.add (content);
 	}
+}
+
 }

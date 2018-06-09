@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer {
+
 public const string HELPER_BUS_NAME = "org.gnome.BreakTimer";
 public const string HELPER_OBJECT_PATH = "/org/gnome/BreakTimer";
 public const string HELPER_BREAK_OBJECT_BASE_PATH = "/org/gnome/BreakTimer/";
@@ -61,4 +63,6 @@ public struct TimerBreakStatus {
 	int starts_in;
 	int time_remaining;
 	int current_duration;
+}
+
 }

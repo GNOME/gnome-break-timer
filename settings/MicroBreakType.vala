@@ -15,9 +15,14 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Gtk;
+using GLib;
+
+namespace BreakTimer.Settings {
+
 public class MicroBreakType : TimerBreakType {
 	public MicroBreakType () {
-		Settings settings = new Settings ("org.gnome.break-timer.microbreak");
+		GLib.Settings settings = new GLib.Settings ("org.gnome.break-timer.microbreak");
 		base ("microbreak", settings);
 
 		this.interval_options = { 240, 300, 360, 480, 600 };
@@ -92,4 +97,6 @@ class MicroBreakSettingsPanel : TimerBreakSettingsPanel {
 			_("Pause frequently to relax your eyes")
 		);
 	}
+}
+
 }

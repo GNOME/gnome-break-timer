@@ -18,15 +18,20 @@
 // TODO: This intentionally resembles BreakManager from the helper
 // application. Ideally, it should be common code in the future.
 
+using Gee;
+using GLib;
+
+namespace BreakTimer.Settings {
+
 public class BreakManager : Object {
 	private SettingsApplication application;
 
 	private IBreakHelper break_helper;
 
 	private Gee.Map<string, BreakType> breaks;
-	private List<BreakType> breaks_ordered;
+	private GLib.List<BreakType> breaks_ordered;
 
-	private Settings settings;
+	private GLib.Settings settings;
 	public bool master_enabled { get; set; }
 	public string[] selected_break_ids { get; set; }
 	public BreakType? foreground_break { get; private set; }
@@ -34,9 +39,9 @@ public class BreakManager : Object {
 	public BreakManager (SettingsApplication application) {
 		this.application = application;
 		this.breaks = new Gee.HashMap<string, BreakType> ();
-		this.breaks_ordered = new List<BreakType> ();
+		this.breaks_ordered = new GLib.List<BreakType> ();
 
-		this.settings = new Settings ("org.gnome.break-timer");
+		this.settings = new GLib.Settings ("org.gnome.break-timer");
 		this.settings.bind ("enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
 		this.settings.bind ("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);
 
@@ -70,7 +75,7 @@ public class BreakManager : Object {
 		return this.breaks.keys;
 	}
 	
-	public unowned List<BreakType> all_breaks () {
+	public unowned GLib.List<BreakType> all_breaks () {
 		return this.breaks_ordered;
 	}
 
@@ -146,4 +151,6 @@ public class BreakManager : Object {
 			GLib.warning ("Error launching helper application: %s", error.message);
 		}
 	}
+}
+
 }

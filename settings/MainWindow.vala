@@ -15,6 +15,11 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Gtk;
+using GLib;
+
+namespace BreakTimer.Settings {
+
 public class MainWindow : Gtk.ApplicationWindow {
 	private BreakManager break_manager;
 
@@ -354,4 +359,6 @@ private class StatusPanel : Gtk.Stack {
 			this.set_visible_child (this.error_message);
 		}
 	}
+}
+
 }

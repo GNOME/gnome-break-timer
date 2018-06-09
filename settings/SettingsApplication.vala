@@ -15,10 +15,15 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Gtk;
+using GLib;
+
+namespace BreakTimer.Settings {
+
 public class SettingsApplication : Gtk.Application {
 	const string app_id = HELPER_BUS_NAME+".Settings";
 	
-	private static const string STYLE_DATA =
+	private const string STYLE_DATA =
 		"""
 		._settings-title {
 			font-weight:bold;
@@ -98,7 +103,7 @@ public class SettingsApplication : Gtk.Application {
 		this.add_action (quit_action);
 		quit_action.activate.connect (this.quit);
 
-		Menu app_menu = new Menu ();
+		GLib.Menu app_menu = new GLib.Menu ();
 		app_menu.append ( _("About"), "app.about");
 		app_menu.append ( _("Quit"), "app.quit");
 		this.set_app_menu (app_menu);
@@ -124,4 +129,6 @@ public class SettingsApplication : Gtk.Application {
 	private void on_about_activate_cb () {
 		this.main_window.show_about_dialog ();
 	}
+}
+
 }

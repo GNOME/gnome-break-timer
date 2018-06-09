@@ -15,7 +15,10 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// TODO: Share code with gnome-clocks, instead of duplicating effort
+using Gtk;
+using GLib;
+
+namespace BreakTimer.Settings {
 
 /**
  * Displays a countdown using a circle, reminiscent of a countdown timer.
@@ -121,4 +124,6 @@ public class CircleCounter : Gtk.Widget {
 	private int calculate_diameter () {
 		return 2 * DEFAULT_RADIUS;
 	}
+}
+
 }
