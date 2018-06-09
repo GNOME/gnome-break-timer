@@ -3,7 +3,6 @@
 #     $(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(top_srcdir)/data/ --generate-source $<
 
 settings_sources = [
-    build_config,
     'BreakManager.vala',
     'BreakSettingsDialog.vala',
     'BreakType.vala',
@@ -18,12 +17,13 @@ settings_sources = [
 ]
 
 settings_dependencies = [
+    config_lib_dep,
+    common_lib_dep,
     cairo_dep,
     gtk_dep,
     gio_dep,
     gio_unix_dep,
-    # gee_dep,
-    common_dep
+    gee_dep
 ]
 
 settings_lib = static_library(
@@ -32,6 +32,19 @@ settings_lib = static_library(
     dependencies: settings_dependencies
 )
 
-settings_dep = declare_dependency(
-    link_with: settings_lib
+settings_lib_dep = declare_dependency(
+    link_with: settings_lib,
+    dependencies: settings_dependencies,
+    include_directories: include_directories('.')
+)
+
+settings_main_sources = [
+    'main.vala'
+]
+
+executable(
+    'gnome-break-timer-settings',
+    sources : settings_main_sources,
+    dependencies : settings_lib_dep,
+    install: true
 )

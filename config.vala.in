@@ -1,9 +1,0 @@
-namespace Config {
-	public const string GETTEXT_PACKAGE = "@GETTEXT_PACKAGE@";
-	public const string PACKAGE_NAME = "@PACKAGE_NAME@";
-	public const string PACKAGE_VERSION = "@PACKAGE_VERSION@";
-	public const string PACKAGE_URL = "@PACKAGE_URL@";
-	public const string VERSION = "@VERSION@";
-	public const string HELPER_DESKTOP_ID = "@HELPER_DESKTOP_ID@";
-	public const string SETTINGS_DESKTOP_ID = "@SETTINGS_DESKTOP_ID@";
-}

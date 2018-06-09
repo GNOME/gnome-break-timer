@@ -5,6 +5,7 @@ common_sources = [
 ]
 
 common_dependencies = [
+    config_lib_dep,
     gio_dep
 ]
 
@@ -14,7 +15,7 @@ common_lib = static_library(
     dependencies: common_dependencies
 )
 
-common_dep = declare_dependency(
-    link_with: common_lib
+common_lib_dep = declare_dependency(
+    link_with: common_lib,
+    include_directories: include_directories('.')
 )
-
