@@ -1,5 +1,8 @@
 project('gnome-break-timer', 'vala', 'c')
 
+gnome = import('gnome')
+i18n = import('i18n')
+
 valac = meson.get_compiler('vala')
 
 env = environment()
@@ -17,8 +20,11 @@ libcanberra_gtk_dep = dependency('libcanberra-gtk')
 libnotify_dep = dependency('libnotify')
 # posix_dep = dependency('posix')
 
+gettext_package = meson.project_name()
+po_dir = join_paths(meson.source_root(), 'po')
+
 conf = configuration_data()
-conf.set_quoted('GETTEXT_PACKAGE', meson.project_name())
+conf.set_quoted('GETTEXT_PACKAGE', gettext_package)
 conf.set_quoted('PACKAGE_NAME', meson.project_name())
 conf.set_quoted('PACKAGE_VERSION', meson.project_version())
 conf.set_quoted('PACKAGE_URL', 'TODO')
@@ -26,7 +32,7 @@ conf.set_quoted('VERSION', meson.project_version())
 conf.set_quoted('HELPER_DESKTOP_ID', 'TODO')
 conf.set_quoted('SETTINGS_DESKTOP_ID', 'TODO')
 
-add_global_arguments('-DGETTEXT_PACKAGE="gnome-break-timer"', language: 'c')
+add_project_arguments('-DGETTEXT_PACKAGE="' + gettext_package + '"', language: 'c')
 
 configure_file(
     output: 'config.h',
@@ -43,6 +49,10 @@ config_lib_dep = declare_dependency(
     include_directories: include_directories('.')
 )
 
+subdir('po')
 subdir('common')
+subdir('data')
 subdir('settings')
 # subdir('helper')
+
+meson.add_install_script('build-aux/meson/postinstall.py')
