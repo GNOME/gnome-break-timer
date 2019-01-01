@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
-_Name=Break Timer
-_Comment=Provides a gentle reminder to take regular breaks
+Name=Break Timer
+Comment=Provides a gentle reminder to take regular breaks
 X-Ubuntu-Gettext-Domain=gnome-break-timer
 Icon=gnome-break-timer
 NoDisplay=true

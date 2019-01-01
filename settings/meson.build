@@ -39,12 +39,14 @@ settings_lib_dep = declare_dependency(
 )
 
 settings_main_sources = [
-    'main.vala'
+    'main.vala',
+    break_timer_resources
 ]
 
 executable(
     'gnome-break-timer-settings',
     sources : settings_main_sources,
     dependencies : settings_lib_dep,
-    install: true
+    install: true,
+    install_dir: bindir
 )

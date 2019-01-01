@@ -23,6 +23,11 @@ libnotify_dep = dependency('libnotify')
 gettext_package = meson.project_name()
 po_dir = join_paths(meson.source_root(), 'po')
 
+prefix = get_option('prefix')
+bindir = join_paths(prefix, get_option('bindir'))
+libdir = join_paths(prefix, get_option('libdir'))
+datadir = join_paths(prefix, get_option('datadir'))
+
 conf = configuration_data()
 conf.set_quoted('GETTEXT_PACKAGE', gettext_package)
 conf.set_quoted('PACKAGE_NAME', meson.project_name())
