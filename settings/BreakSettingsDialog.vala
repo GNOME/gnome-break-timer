@@ -29,7 +29,7 @@ public class BreakSettingsDialog : Gtk.Dialog {
 	private const int ABOUT_BUTTON_RESPONSE = 5;
 	
 	public BreakSettingsDialog (BreakManager break_manager) {
-		Object ();
+		Object (use_header_bar: 1);
 		this.break_manager = break_manager;
 
 		GLib.Settings settings = new GLib.Settings ("org.gnome.break-timer");
@@ -47,8 +47,10 @@ public class BreakSettingsDialog : Gtk.Dialog {
 		Gtk.Grid content = new Gtk.Grid ();
 		content_area.add (content);
 		content.set_orientation (Gtk.Orientation.VERTICAL);
-		content.set_margin_left (10);
+		content.set_margin_top (10);
 		content.set_margin_right (10);
+		content.set_margin_bottom (10);
+		content.set_margin_left (10);
 
 		this.configuration_chooser = new BreakConfigurationChooser ();
 		content.add (this.configuration_chooser);
