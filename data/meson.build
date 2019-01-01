@@ -1,7 +1,16 @@
 subdir('icons')
 
+desktop_conf = configuration_data()
+desktop_conf.set('bindir', bindir)
+
+desktop_in_file = configure_file(
+    input: 'org.gnome.BreakTimer.desktop.in.in',
+    output: 'org.gnome.BreakTimer.desktop.in',
+    configuration: desktop_conf
+)
+
 i18n.merge_file(
-    input: 'org.gnome.BreakTimer.desktop.in',
+    input: desktop_in_file,
     output: 'org.gnome.BreakTimer.desktop',
     type: 'desktop',
     po_dir: po_dir,
@@ -26,16 +35,6 @@ i18n.merge_file(
 )
 
 gnome.compile_schemas()
-
-service_conf = configuration_data()
-service_conf.set('bindir', bindir)
-
-configure_file(
-    input: 'org.gnome.BreakTimer.service.in',
-    output: 'org.gnome.BreakTimer.service',
-    configuration: service_conf,
-    install_dir: join_paths(datadir, 'dbus-1', 'services')
-)
 
 break_timer_resources = gnome.compile_resources(
     'resources',

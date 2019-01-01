@@ -34,8 +34,11 @@ conf.set_quoted('PACKAGE_NAME', meson.project_name())
 conf.set_quoted('PACKAGE_VERSION', meson.project_version())
 conf.set_quoted('PACKAGE_URL', 'TODO')
 conf.set_quoted('VERSION', meson.project_version())
-conf.set_quoted('HELPER_DESKTOP_ID', 'TODO')
-conf.set_quoted('SETTINGS_DESKTOP_ID', 'TODO')
+conf.set_quoted('SETTINGS_DESKTOP_ID', 'org.gnome.BreakTimer')
+conf.set_quoted('HELPER_DESKTOP_ID', 'org.gnome.BreakTimer.Helper')
+conf.set_quoted('HELPER_BUS_NAME', 'org.gnome.BreakTimer.Helper')
+conf.set_quoted('HELPER_OBJECT_PATH', '/org/gnome/BreakTimer')
+conf.set_quoted('HELPER_BREAK_OBJECT_BASE_PATH', '/org/gnome/BreakTimer/')
 
 add_project_arguments('-DGETTEXT_PACKAGE="' + gettext_package + '"', language: 'c')
 

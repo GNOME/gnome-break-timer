@@ -67,7 +67,7 @@ public class BreakManager : Object {
 
 		this.status_changed ();
 
-		Bus.watch_name (BusType.SESSION, HELPER_BUS_NAME, BusNameWatcherFlags.NONE,
+		Bus.watch_name (BusType.SESSION, Config.HELPER_BUS_NAME, BusNameWatcherFlags.NONE,
 				this.break_helper_appeared, this.break_helper_disappeared);
 	}
 
@@ -118,8 +118,8 @@ public class BreakManager : Object {
 		try {
 			this.break_helper = Bus.get_proxy_sync (
 				BusType.SESSION,
-				HELPER_BUS_NAME,
-				HELPER_OBJECT_PATH,
+				Config.HELPER_BUS_NAME,
+				Config.HELPER_OBJECT_PATH,
 				DBusProxyFlags.DO_NOT_AUTO_START
 			);
 			this.break_status_available ();

@@ -39,7 +39,7 @@ public abstract class TimerBreakType : BreakType {
 
 	public override void initialize () {
 		base.initialize ();
-		Bus.watch_name (BusType.SESSION, HELPER_BUS_NAME, BusNameWatcherFlags.NONE,
+		Bus.watch_name (BusType.SESSION, Config.HELPER_BUS_NAME, BusNameWatcherFlags.NONE,
 				this.breakhelper_appeared, this.breakhelper_disappeared);
 	}
 
@@ -80,8 +80,8 @@ public abstract class TimerBreakType : BreakType {
 		try {
 			this.break_server = Bus.get_proxy_sync (
 				BusType.SESSION,
-				HELPER_BUS_NAME,
-				HELPER_BREAK_OBJECT_BASE_PATH+this.id,
+				Config.HELPER_BUS_NAME,
+				Config.HELPER_BREAK_OBJECT_BASE_PATH+this.id,
 				DBusProxyFlags.DO_NOT_AUTO_START
 			);
 			// We can only poll the break helper application for updates, so

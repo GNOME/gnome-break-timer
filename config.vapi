@@ -7,4 +7,7 @@ namespace Config {
 	public const string VERSION;
 	public const string HELPER_DESKTOP_ID;
 	public const string SETTINGS_DESKTOP_ID;
+	public const string HELPER_BUS_NAME;
+	public const string HELPER_OBJECT_PATH;
+	public const string HELPER_BREAK_OBJECT_BASE_PATH;
 }

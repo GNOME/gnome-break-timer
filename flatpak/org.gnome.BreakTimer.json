@@ -1,16 +1,23 @@
 {
     "id" : "org.gnome.BreakTimer",
     "runtime" : "org.gnome.Platform",
-    "runtime-version" : "master",
+    "runtime-version" : "3.28",
     "sdk" : "org.gnome.Sdk",
     "command" : "gnome-break-timer-settings",
-    "finish-args": [
-        "--share=ipc", "--socket=x11",
+    "finish-args" : [
+        "--share=ipc",
+        "--socket=x11",
         "--socket=wayland",
         "--talk-name=org.gnome.Shell",
         "--filesystem=/usr/share/glib-2.0/schemas:ro",
-        "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:rw",
-        "--talk-name=ca.desrt.dconf", "--env=DCONF_USER_CONFIG_DIR=.config/dconf"
+        "--filesystem=xdg-run/dconf",
+        "--filesystem=~/.config/dconf:rw",
+        "--own-name=org.gnome.BreakTimer",
+        "--talk-name=org.gnome.BreakTimer",
+        "--own-name=org.gnome.BreakTimer.*",
+        "--talk-name=org.gnome.BreakTimer.*",
+        "--talk-name=ca.desrt.dconf",
+        "--env=DCONF_USER_CONFIG_DIR=.config/dconf"
     ],
     "build-options" : {
         "cflags" : "-O2 -g",

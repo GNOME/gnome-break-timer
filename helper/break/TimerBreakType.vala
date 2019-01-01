@@ -38,7 +38,7 @@ public abstract class TimerBreakType : BreakType {
 		try {
 			DBusConnection connection = Bus.get_sync (BusType.SESSION, null);
 			connection.register_object (
-				HELPER_BREAK_OBJECT_BASE_PATH+this.id,
+				Config.HELPER_BREAK_OBJECT_BASE_PATH+this.id,
 				this.break_type_server
 			);
 		} catch (IOError error) {

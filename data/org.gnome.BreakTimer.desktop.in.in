@@ -6,5 +6,5 @@ Keywords=break;micro;rest;timer;
 X-Ubuntu-Gettext-Domain=gnome-break-timer
 Categories=GNOME;GTK;Utility;Settings;
 Icon=org.gnome.BreakTimer
-Exec=gapplication launch org.gnome.BreakTimer
+Exec=@bindir@/gnome-break-timer-settings
 StartupNotify=true

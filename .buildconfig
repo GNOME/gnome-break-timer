@@ -1,10 +1,10 @@
 [default]
 name=Default
-runtime=flatpak:org.gnome.Platform/x86_64/3.28
+runtime=flatpak:org.gnome.Platform/x86_64/3.30
 config-opts=
 run-opts=
 prefix=/app
 app-id=
 postbuild=
 prebuild=
-default=true
+toolchain=default

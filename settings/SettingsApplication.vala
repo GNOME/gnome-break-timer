@@ -21,7 +21,7 @@ using GLib;
 namespace BreakTimer.Settings {
 
 public class SettingsApplication : Gtk.Application {
-	const string app_id = HELPER_BUS_NAME+".Settings";
+	const string app_id = Config.SETTINGS_DESKTOP_ID;
 	
 	private const string STYLE_DATA =
 		"""

@@ -40,7 +40,7 @@ public class BreakManager : Object {
 		try {
 			DBusConnection connection = Bus.get_sync (BusType.SESSION, null);
 			connection.register_object (
-				HELPER_OBJECT_PATH,
+				Config.HELPER_OBJECT_PATH,
 				this.break_helper_server
 			);
 		} catch (IOError error) {

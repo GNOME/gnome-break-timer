@@ -17,10 +17,6 @@
 
 namespace BreakTimer {
 
-public const string HELPER_BUS_NAME = "org.gnome.BreakTimer";
-public const string HELPER_OBJECT_PATH = "/org/gnome/BreakTimer";
-public const string HELPER_BREAK_OBJECT_BASE_PATH = "/org/gnome/BreakTimer/";
-
 [DBus (name = "org.gnome.BreakTimer")]
 public interface IBreakHelper : Object {
 	/** Returns the ID of the break that is currently focused and activated, if any. */

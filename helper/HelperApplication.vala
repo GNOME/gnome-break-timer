@@ -16,7 +16,7 @@
  */
 
 public class HelperApplication : Gtk.Application {
-	const string app_id = HELPER_BUS_NAME+".Helper";
+	const string app_id = Config.HELPER_DESKTOP_ID;
 	const string app_name = _("GNOME Break Timer");
 	const int DATA_VERSION = 0;
 	
@@ -114,7 +114,7 @@ public class HelperApplication : Gtk.Application {
 
 		var connection = this.get_dbus_connection ();
 		if (connection != null) {
-			Bus.own_name_on_connection (connection, HELPER_BUS_NAME, BusNameOwnerFlags.REPLACE, null, null);
+			Bus.own_name_on_connection (connection, Config.HELPER_BUS_NAME, BusNameOwnerFlags.REPLACE, null, null);
 		}
 	}
 
