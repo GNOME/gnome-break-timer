@@ -213,11 +213,13 @@ private class WelcomePanel : Gtk.Stack {
 		this.add (this.ready_page);
 
 		var breaks_ok_button = new Gtk.Button.with_label (_("OK, got it!"));
+		breaks_ok_button.get_style_context ().add_class ("suggested-action");
 		breaks_ok_button.set_halign (Gtk.Align.CENTER);
 		this.breaks_page.add (breaks_ok_button);
 		breaks_ok_button.clicked.connect (this.on_breaks_confirmed);
 
 		var ready_ok_button = new Gtk.Button.with_label (_("Ready to go"));
+		ready_ok_button.get_style_context ().add_class ("suggested-action");
 		ready_ok_button.set_halign (Gtk.Align.CENTER);
 		this.ready_page.add (ready_ok_button);
 		ready_ok_button.clicked.connect (this.on_ready_confirmed);
