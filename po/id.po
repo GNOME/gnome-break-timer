@@ -62,51 +62,51 @@ msgstr "Pilih preferensi Anda untuk istirahat mikro dan istirahat singkat"
 msgid "break;micro;rest;timer;"
 msgstr "istirahat;mikro;pewaktu;"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:1
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:1
 msgid "True to enable GNOME Break Timer"
 msgstr "Isi true untuk memfungsikan GNOME Pewaktu Istirahat"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:2
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:2
 msgid "The list of breaks that are currently enabled"
 msgstr "Daftar istirahat yang sedang diaktifkan"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:3
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:3
 msgid "True to enable quiet mode"
 msgstr "Isi true untuk memfungsikan mode senyap"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:4
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:4
 msgid "Hides breaks until quiet-mode-expire-time."
 msgstr "Sembunyikan istirahat sampai quiet-mode-expire-time."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:5
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:5
 msgid "Time to end quiet mode."
 msgstr "Saatnya mengakhiri mode senyap."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:6
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:6
 msgid "The time to automatically disable quiet mode, in unix time."
 msgstr "Waktu untuk secara otomatis mematikan mode senyap, dalam waktu unix."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:7
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:7
 msgid "Time between breaks"
 msgstr "Waktu antar istirahat"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:8
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:8
 msgid "The time between rest breaks, in seconds."
 msgstr "Waktu antar istirahat, dalam detik."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:9
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:9
 msgid "Duration of each break"
 msgstr "Durasi setiap istirahat"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:10
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:10
 msgid "The duration of each rest break, in seconds."
 msgstr "Durasi setiap istirahat, dalam detik."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:11
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:11
 msgid "The preferred time between micro breaks, in seconds."
 msgstr "Selang waktu yang disukai antar istirahat mikro, dalam detik."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:12
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:12
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "Durasi dari setiap istirahat mikro, dalam detik."
 

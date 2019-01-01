@@ -63,52 +63,52 @@ msgstr "Selecione suas preferências para pausas curtas e pausas de descanso"
 msgid "break;micro;rest;timer;"
 msgstr "pausa;pausas;micro;descanso;temporizador;"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:1
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:1
 msgid "True to enable GNOME Break Timer"
 msgstr "Verdadeiro para ativar o temporizador de pausas do GNOME"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:2
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:2
 msgid "The list of breaks that are currently enabled"
 msgstr "A lista de pausas que estão ativadas atualmente"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:3
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:3
 msgid "True to enable quiet mode"
 msgstr "Verdadeiro para habilitar o modo silencioso"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:4
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:4
 msgid "Hides breaks until quiet-mode-expire-time."
 msgstr "Esconde as pausas até o tempo de expiração do modo silencioso."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:5
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:5
 msgid "Time to end quiet mode."
 msgstr "Tempo para terminar o modo silencioso."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:6
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:6
 msgid "The time to automatically disable quiet mode, in unix time."
 msgstr ""
 "O tempo para desabilitar automaticamente o modo silencioso, em formato unix."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:7
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:7
 msgid "Time between breaks"
 msgstr "Tempo entre pausas"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:8
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:8
 msgid "The time between rest breaks, in seconds."
 msgstr "O tempo entre intervalos de descanso, em segundos."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:9
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:9
 msgid "Duration of each break"
 msgstr "Duração de cada pausa longa"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:10
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:10
 msgid "The duration of each rest break, in seconds."
 msgstr "A duração de cada intervalo de descanso, em segundos."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:11
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:11
 msgid "The preferred time between micro breaks, in seconds."
 msgstr "O tempo preferido entre as pausas curtas, em segundos."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:12
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:12
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "A duração preferida de cada pausa curta, em segundos."
 

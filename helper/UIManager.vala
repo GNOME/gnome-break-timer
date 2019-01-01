@@ -171,7 +171,7 @@ public class UIManager : SimpleFocusManager {
 			this.screen_overlay = new ScreenOverlay ();
 		}
 		
-		Settings settings = new Settings ("org.gnome.break-timer");
+		Settings settings = new Settings ("org.gnome.BreakTimer");
 		settings.bind ("quiet-mode", this, "quiet-mode", SettingsBindFlags.DEFAULT);
 		settings.bind ("quiet-mode-expire-time", this, "quiet-mode-expire-time", SettingsBindFlags.DEFAULT);
 

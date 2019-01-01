@@ -1,12 +1,9 @@
 subdir('icons')
 
-desktop_conf = configuration_data()
-desktop_conf.set('bindir', bindir)
-
 desktop_in_file = configure_file(
     input: 'org.gnome.BreakTimer.desktop.in.in',
     output: 'org.gnome.BreakTimer.desktop.in',
-    configuration: desktop_conf
+    configuration: build_conf
 )
 
 i18n.merge_file(
@@ -18,8 +15,21 @@ i18n.merge_file(
     install_dir: join_paths(datadir, 'applications')
 )
 
+configure_file(
+    input: 'org.gnome.BreakTimer.service.in',
+    output: 'org.gnome.BreakTimer.service',
+    configuration: build_conf,
+    install_dir: join_paths(datadir, 'dbus-1', 'services')
+)
+
+appdata_in_file = configure_file(
+    input: 'org.gnome.BreakTimer.appdata.xml.in.in',
+    output: 'org.gnome.BreakTimer.appdata.xml.in',
+    configuration: build_conf
+)
+
 i18n.merge_file(
-    input: 'org.gnome.BreakTimer.appdata.xml.in',
+    input: appdata_in_file,
     output: 'org.gnome.BreakTimer.appdata.xml',
     po_dir: po_dir,
     install: true,
@@ -27,8 +37,8 @@ i18n.merge_file(
 )
 
 i18n.merge_file(
-    input: 'org.gnome.break-timer.gschema.xml.in',
-    output: 'org.gnome.break-timer.gschema.xml',
+    input: 'org.gnome.BreakTimer.gschema.xml.in',
+    output: 'org.gnome.BreakTimer.gschema.xml',
     po_dir: po_dir,
     install: true,
     install_dir: join_paths(datadir, 'glib-2.0', 'schemas')

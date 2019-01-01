@@ -28,23 +28,24 @@ bindir = join_paths(prefix, get_option('bindir'))
 libdir = join_paths(prefix, get_option('libdir'))
 datadir = join_paths(prefix, get_option('datadir'))
 
-conf = configuration_data()
-conf.set_quoted('GETTEXT_PACKAGE', gettext_package)
-conf.set_quoted('PACKAGE_NAME', meson.project_name())
-conf.set_quoted('PACKAGE_VERSION', meson.project_version())
-conf.set_quoted('PACKAGE_URL', 'TODO')
-conf.set_quoted('VERSION', meson.project_version())
-conf.set_quoted('SETTINGS_DESKTOP_ID', 'org.gnome.BreakTimer')
-conf.set_quoted('HELPER_DESKTOP_ID', 'org.gnome.BreakTimer.Helper')
-conf.set_quoted('HELPER_BUS_NAME', 'org.gnome.BreakTimer.Helper')
-conf.set_quoted('HELPER_OBJECT_PATH', '/org/gnome/BreakTimer')
-conf.set_quoted('HELPER_BREAK_OBJECT_BASE_PATH', '/org/gnome/BreakTimer/')
+build_conf = configuration_data()
+build_conf.set_quoted('BINDIR', gettext_package)
+build_conf.set_quoted('GETTEXT_PACKAGE', gettext_package)
+build_conf.set_quoted('PACKAGE_NAME', meson.project_name())
+build_conf.set_quoted('PACKAGE_VERSION', meson.project_version())
+build_conf.set_quoted('PACKAGE_URL', 'https://wiki.gnome.org/Apps/BreakTimer')
+build_conf.set_quoted('VERSION', meson.project_version())
+build_conf.set_quoted('SETTINGS_DESKTOP_ID', 'org.gnome.BreakTimer')
+build_conf.set_quoted('HELPER_DESKTOP_ID', 'org.gnome.BreakTimer.Helper')
+build_conf.set_quoted('HELPER_BUS_NAME', 'org.gnome.BreakTimer.Helper')
+build_conf.set_quoted('HELPER_OBJECT_PATH', '/org/gnome/BreakTimer')
+build_conf.set_quoted('HELPER_BREAK_OBJECT_BASE_PATH', '/org/gnome/BreakTimer/')
 
 add_project_arguments('-DGETTEXT_PACKAGE="' + gettext_package + '"', language: 'c')
 
 configure_file(
     output: 'config.h',
-    configuration: conf
+    configuration: build_conf
 )
 
 config_lib = valac.find_library(

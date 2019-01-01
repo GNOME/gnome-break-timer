@@ -110,7 +110,7 @@ class TestRunner : Object {
 	private GLib.TestSuite root_suite;
 
 	private File tmp_dir;
-	const string SCHEMA_FILE_NAME = "org.gnome.break-timer.gschema.xml";
+	const string SCHEMA_FILE_NAME = "org.gnome.BreakTimer.gschema.xml";
 
 	public TestRunner (ref unowned string[] args, GLib.TestSuite? root_suite = null) {
 		GLib.Test.init (ref args);

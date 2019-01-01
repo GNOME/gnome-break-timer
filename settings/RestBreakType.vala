@@ -22,7 +22,7 @@ namespace BreakTimer.Settings {
 
 public class RestBreakType : TimerBreakType {
 	public RestBreakType () {
-		GLib.Settings settings = new GLib.Settings ("org.gnome.break-timer.restbreak");
+		GLib.Settings settings = new GLib.Settings ("org.gnome.BreakTimer.restbreak");
 		base ("restbreak", settings);
 
 		this.interval_options = { 1800, 2400, 3000, 3600 };

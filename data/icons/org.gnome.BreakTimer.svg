@@ -18,7 +18,7 @@
    id="svg11300"
    sodipodi:version="0.32"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="gnome-break-timer.svg"
+   sodipodi:docname="org.gnome.BreakTimer.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0"
    style="display:inline;enable-background:new"
@@ -1618,7 +1618,7 @@
   </metadata>
   <g
      id="layer1"
-     inkscape:label="gnome-break-timer"
+     inkscape:label="org.gnome.BreakTimer"
      inkscape:groupmode="layer"
      style="display:inline">
     <g
@@ -1697,7 +1697,7 @@
            y="21.513618"
            x="191.97073"
            id="tspan3023"
-           sodipodi:role="line">gnome-break-timer</tspan></text>
+           sodipodi:role="line">org.gnome.BreakTimer</tspan></text>
     </g>
     <g
        inkscape:groupmode="layer"
@@ -1739,7 +1739,7 @@
          style="display:inline;enable-background:new"
          id="g5544-0"
          transform="matrix(0.19683981,0,0,0.19683981,291.51357,40.876294)"
-         inkscape:export-filename="/home/dylan/Projects/Software/BrainBreak/gnome-break-timer/data/icons/hicolor/48x48/apps/gnome-break-timer.png"
+         inkscape:export-filename="./hicolor/48x48/apps/org.gnome.BreakTimer.png"
          inkscape:export-xdpi="86.199997"
          inkscape:export-ydpi="86.199997">
         <g
@@ -1953,7 +1953,7 @@
          style="display:inline;enable-background:new"
          id="g5544-0-3"
          transform="matrix(0.13466576,0,0,0.13466576,299.5937,119.38128)"
-         inkscape:export-filename="/home/dylan/Projects/Software/BrainBreak/gnome-break-timer/data/icons/hicolor/32x32/apps/gnome-break-timer.png"
+         inkscape:export-filename="./hicolor/32x32/apps/org.gnome.BreakTimer.png"
          inkscape:export-xdpi="84.239998"
          inkscape:export-ydpi="84.239998">
         <g
@@ -2145,7 +2145,7 @@
          id="g6139-2"
          style="display:inline;filter:url(#filter5136-4-2-7-8-6-1);enable-background:new"
          transform="matrix(0.10124726,0,0,0.10124726,299.35139,171.5207)"
-         inkscape:export-filename="/home/dylan/Projects/Software/BrainBreak/gnome-break-timer/data/icons/hicolor/22x22/apps/gnome-break-timer.png"
+         inkscape:export-filename="./hicolor/22x22/apps/org.gnome.BreakTimer.png"
          inkscape:export-xdpi="91.914185"
          inkscape:export-ydpi="91.914185">
         <g
@@ -2322,13 +2322,13 @@
          style="filter:url(#filter5136)"
          transform="matrix(1.1490564,0,0,1.1490564,-21.464142,-29.940969)"
          id="g8487"
-         inkscape:export-filename="/home/dylan/Projects/Software/BrainBreak/gnome-break-timer/data/icons/hicolor/256x256/apps/gnome-break-timer.png"
+         inkscape:export-filename="./hicolor/256x256/apps/org.gnome.BreakTimer.png"
          inkscape:export-xdpi="161.21001"
          inkscape:export-ydpi="161.21001">
         <g
            inkscape:export-ydpi="93.291267"
            inkscape:export-xdpi="93.291267"
-           inkscape:export-filename="/home/dylan/Projects/Software/BrainBreak/gnome-break-timer/data/icons/hicolor/256x256/apps/gnome-break-timer.png"
+           inkscape:export-filename="./hicolor/256x256/apps/org.gnome.BreakTimer.png"
            transform="translate(0,-0.10878491)"
            id="g6384">
           <path
@@ -2355,7 +2355,7 @@
         <path
            inkscape:export-ydpi="93.291267"
            inkscape:export-xdpi="93.291267"
-           inkscape:export-filename="/home/dylan/Projects/Software/BrainBreak/gnome-break-timer/data/icons/hicolor/256x256/apps/gnome-break-timer.png"
+           inkscape:export-filename="./hicolor/256x256/apps/org.gnome.BreakTimer.png"
            sodipodi:nodetypes="ssssscssss"
            inkscape:connector-curvature="0"
            id="rect3760"
@@ -2364,7 +2364,7 @@
         <g
            inkscape:export-ydpi="93.291267"
            inkscape:export-xdpi="93.291267"
-           inkscape:export-filename="/home/dylan/Projects/Software/BrainBreak/gnome-break-timer/data/icons/hicolor/256x256/apps/gnome-break-timer.png"
+           inkscape:export-filename="./hicolor/256x256/apps/org.gnome.BreakTimer.png"
            transform="translate(0,-1.7405586)"
            id="g6304">
           <g
@@ -2551,7 +2551,7 @@
         <path
            inkscape:export-ydpi="93.291267"
            inkscape:export-xdpi="93.291267"
-           inkscape:export-filename="/home/dylan/Projects/Software/BrainBreak/gnome-break-timer/data/icons/hicolor/256x256/apps/gnome-break-timer.png"
+           inkscape:export-filename="./hicolor/256x256/apps/org.gnome.BreakTimer.png"
            transform="matrix(1.8985373,0,0,1.8985373,-911.58683,-1863.6381)"
            d="m 587.76476,1068 c 0,17.5432 -14.22157,31.7648 -31.76476,31.7648 -17.54319,0 -31.76476,-14.2216 -31.76476,-31.7648 0,-17.5432 14.22157,-31.7648 31.76476,-31.7648 17.54319,0 31.76476,14.2216 31.76476,31.7648 z"
            sodipodi:ry="31.764761"
@@ -2564,7 +2564,7 @@
         <path
            inkscape:export-ydpi="93.291267"
            inkscape:export-xdpi="93.291267"
-           inkscape:export-filename="/home/dylan/Projects/Software/BrainBreak/gnome-break-timer/data/icons/hicolor/256x256/apps/gnome-break-timer.png"
+           inkscape:export-filename="./hicolor/256x256/apps/org.gnome.BreakTimer.png"
            transform="matrix(1.8985373,0,0,1.8985373,-911.58683,-1863.6381)"
            d="m 587.30398,1068 c 0,17.2887 -14.01527,31.304 -31.30398,31.304 -17.28871,0 -31.30398,-14.0153 -31.30398,-31.304 0,-17.2887 14.01527,-31.304 31.30398,-31.304 17.28871,0 31.30398,14.0153 31.30398,31.304 z"
            sodipodi:ry="31.303982"
@@ -2577,7 +2577,7 @@
         <g
            inkscape:export-ydpi="93.291267"
            inkscape:export-xdpi="93.291267"
-           inkscape:export-filename="/home/dylan/Projects/Software/BrainBreak/gnome-break-timer/data/icons/hicolor/256x256/apps/gnome-break-timer.png"
+           inkscape:export-filename="./hicolor/256x256/apps/org.gnome.BreakTimer.png"
            inkscape:transform-center-y="-18.250111"
            inkscape:transform-center-x="-13.350112"
            transform="matrix(0.79718156,0.60373964,-0.60373964,0.79718156,124.81553,-52.989069)"
@@ -2615,7 +2615,7 @@
     <g
        id="g7411"
        transform="matrix(0.7954646,0,0,0.7954646,68.227574,47.011212)"
-       inkscape:export-filename="/home/dylan/Projects/Software/BrainBreak/gnome-break-timer/data/icons/hicolor/16x16/apps/gnome-break-timer.png"
+       inkscape:export-filename="./hicolor/16x16/apps/org.gnome.BreakTimer.png"
        inkscape:export-xdpi="91.646812"
        inkscape:export-ydpi="91.646812">
       <g

@@ -41,7 +41,7 @@ public class BreakManager : Object {
 		this.breaks = new Gee.HashMap<string, BreakType> ();
 		this.breaks_ordered = new GLib.List<BreakType> ();
 
-		this.settings = new GLib.Settings ("org.gnome.break-timer");
+		this.settings = new GLib.Settings ("org.gnome.BreakTimer");
 		this.settings.bind ("enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
 		this.settings.bind ("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);
 

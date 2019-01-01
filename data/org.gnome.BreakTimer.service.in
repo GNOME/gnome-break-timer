@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=@SETTINGS_DESKTOP_ID@
+Exec=@BINDIR@/gnome-break-timer-settings --gapplication-service

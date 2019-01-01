@@ -29,7 +29,7 @@ public class BreakManager : Object {
 		this.ui_manager = ui_manager;
 
 		this.breaks = new Gee.HashMap<string, BreakType> ();
-		this.settings = new Settings ("org.gnome.break-timer");
+		this.settings = new Settings ("org.gnome.BreakTimer");
 
 		this.settings.bind ("enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
 		this.settings.bind ("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);

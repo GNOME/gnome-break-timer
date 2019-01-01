@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Break Timer
+Comment=Provides a gentle reminder to take regular breaks
+Icon=org.gnome.BreakTimer
+NoDisplay=true
+Exec=@BINDIR@/gnome-break-timer-service
+X-GNOME-UsesNotifications=true

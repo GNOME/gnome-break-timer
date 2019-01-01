@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Break Timer
+Comment=Provides a gentle reminder to take regular breaks
+Icon=org.gnome.BreakTimer
+NoDisplay=true
+Exec=@BINDIR@/gnome-break-timer-service
+AutostartCondition=GSettings org.gnome.BreakTimer enabled
+X-GNOME-Autostart-Phase=Applications
+X-GNOME-Autostart-Delay=30
+X-GNOME-AutoRestart=true

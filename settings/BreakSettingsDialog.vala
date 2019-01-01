@@ -32,7 +32,7 @@ public class BreakSettingsDialog : Gtk.Dialog {
 		Object (use_header_bar: 1);
 		this.break_manager = break_manager;
 
-		GLib.Settings settings = new GLib.Settings ("org.gnome.break-timer");
+		GLib.Settings settings = new GLib.Settings ("org.gnome.BreakTimer");
 		
 		this.set_title ( _("Choose Your Break Schedule"));
 		this.set_resizable (false);

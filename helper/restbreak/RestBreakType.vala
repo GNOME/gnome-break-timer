@@ -19,7 +19,7 @@ public class RestBreakType : TimerBreakType {
 	private ActivityMonitor activity_monitor;
 
 	public RestBreakType (ActivityMonitor activity_monitor) {
-		Settings settings = new Settings ("org.gnome.break-timer.restbreak");
+		Settings settings = new Settings ("org.gnome.BreakTimer.restbreak");
 		base ("restbreak", settings);
 		this.activity_monitor = activity_monitor;
 	}

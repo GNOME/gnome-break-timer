@@ -42,7 +42,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 
 		Gtk.Builder builder = new Gtk.Builder ();
 		try {
-			builder.add_from_resource ("/org/gnome/break-timer/settings/settings-panels.ui");
+			builder.add_from_resource ("/org/gnome/BreakTimer/settings/settings-panels.ui");
 		} catch (Error e) {
 			GLib.error ("Error loading UI: %s", e.message);
 		}
@@ -151,7 +151,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 
 		Gtk.show_about_dialog (this,
 			"program-name", _("GNOME Break Timer"),
-			"logo-icon-name", "gnome-break-timer",
+			"logo-icon-name", "org.gnome.BreakTimer",
 			"version", Config.VERSION,
 			"comments", _("Computer break reminders for active minds"),
 			"website", Config.PACKAGE_URL,
