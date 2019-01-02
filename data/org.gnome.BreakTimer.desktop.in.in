@@ -5,6 +5,5 @@ Comment=Choose your preferences for micro breaks and rest breaks
 Keywords=break;micro;rest;timer;
 Categories=GNOME;GTK;Utility;Settings;
 Icon=org.gnome.BreakTimer
-Exec=gapplication launch @SETTINGS_DESKTOP_ID@
+Exec=@BINDIR@/gnome-break-timer-settings --gapplication-service
 StartupNotify=true
-DBusActivatable=true

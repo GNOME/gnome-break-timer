@@ -15,13 +15,6 @@ i18n.merge_file(
     install_dir: join_paths(datadir, 'applications')
 )
 
-configure_file(
-    input: 'org.gnome.BreakTimer.service.in',
-    output: 'org.gnome.BreakTimer.service',
-    configuration: build_conf,
-    install_dir: join_paths(datadir, 'dbus-1', 'services')
-)
-
 appdata_in_file = configure_file(
     input: 'org.gnome.BreakTimer.appdata.xml.in.in',
     output: 'org.gnome.BreakTimer.appdata.xml.in',

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [ -n "$1" ]; then
+    SUBCOMMAND=$1
+    shift
+else
+    SUBCOMMAND='settings'
+fi
+
+if [ "${SUBCOMMAND}" = 'helper' ]; then
+    exec @BINDIR@/gnome-break-timer-helper $@
+elif [ "${SUBCOMMAND}" = 'settings' ]; then
+    exec @BINDIR@/gnome-break-timer-settings $@
+else
+    echo "Unknown subcommand '${SUBCOMMAND}'"
+fi
