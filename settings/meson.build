@@ -17,7 +17,6 @@ settings_sources = [
 ]
 
 settings_dependencies = [
-    config_lib_dep,
     common_lib_dep,
     cairo_dep,
     gtk_dep,

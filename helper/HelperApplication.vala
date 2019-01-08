@@ -100,7 +100,7 @@ public class HelperApplication : Gtk.Application {
 		this.session_status = new SessionStatus (this);
 
 		try {
-			this.activity_monitor_backend = new GnomeShellActivityMonitorBackend ();
+			this.activity_monitor_backend = new MutterActivityMonitorBackend ();
 		} catch {
 			GLib.error ("Failed to initialize activity monitor backend");
 		}

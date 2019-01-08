@@ -17,5 +17,6 @@ common_lib = static_library(
 
 common_lib_dep = declare_dependency(
     link_with: common_lib,
+    dependencies: common_dependencies,
     include_directories: include_directories('.')
 )

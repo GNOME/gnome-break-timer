@@ -1,5 +1,11 @@
 helper_sources = [
-    build_config,
+    'activity-monitor/ActivityMonitor.vala',
+    'activity-monitor/MutterActivityMonitorBackend.vala',
+    'util/Countdown.vala',
+    'util/PausableTimeout.vala',
+    'util/SimpleFocusManager.vala',
+    'util/StatefulTimer.vala',
+    'util/Util.vala',
     'break/BreakController.vala',
     'break/BreakType.vala',
     'break/BreakView.vala',
@@ -17,23 +23,20 @@ helper_sources = [
     'HelperApplication.vala',
     'ScreenOverlay.vala',
     'SessionStatus.vala',
-    'UIManager.vala',
-    'main.vala'
+    'UIManager.vala'
 ]
 
 # TODO: Build and link activity_monitor and util subdirs
 
 helper_dependencies = [
+    common_lib_dep,
     gtk_dep,
     gio_dep,
     gio_unix_dep,
     gee_dep,
     json_glib_dep,
-    libcanberra_dep,
-    libcanberra_gtk_dep,
     libnotify_dep,
-    # posix_dep,
-    common_dep
+    m_dep
 ]
 
 helper_lib = static_library(
@@ -42,22 +45,21 @@ helper_lib = static_library(
     dependencies: helper_dependencies
 )
 
-helper_dep = declare_dependency(
-    link_with: helper_lib
+helper_lib_dep = declare_dependency(
+    link_with: helper_lib,
+    dependencies: helper_dependencies,
+    include_directories: include_directories('.')
 )
 
-main_sources = [
-    'helper/main.vala'
-]
-
-main_dependencies = [
-    glib_dep,
-    gobject_dep
+helper_main_sources = [
+    'main.vala',
+    break_timer_resources
 ]
 
 executable(
     'gnome-break-timer-service',
-    sources : main_sources,
-    dependencies : main_dependencies
+    sources : helper_main_sources,
+    dependencies : helper_lib_dep,
+    install: true,
+    install_dir: bindir
 )
-

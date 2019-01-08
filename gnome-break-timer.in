@@ -8,7 +8,7 @@ else
 fi
 
 if [ "${SUBCOMMAND}" = 'helper' ]; then
-    exec @BINDIR@/gnome-break-timer-helper $@
+    exec @BINDIR@/gnome-break-timer-service $@
 elif [ "${SUBCOMMAND}" = 'settings' ]; then
     exec @BINDIR@/gnome-break-timer-settings $@
 else

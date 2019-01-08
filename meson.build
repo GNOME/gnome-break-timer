@@ -4,6 +4,7 @@ gnome = import('gnome')
 i18n = import('i18n')
 
 valac = meson.get_compiler('vala')
+cc = meson.get_compiler('c')
 
 env = environment()
 
@@ -15,10 +16,8 @@ glib_dep = dependency('glib-2.0')
 gobject_dep = dependency('gobject-2.0')
 gtk_dep = dependency('gtk+-3.0')
 json_glib_dep = dependency('json-glib-1.0')
-libcanberra_dep = dependency('libcanberra')
-libcanberra_gtk_dep = dependency('libcanberra-gtk')
 libnotify_dep = dependency('libnotify')
-# posix_dep = dependency('posix')
+m_dep = cc.find_library('m', required : false)
 
 gettext_package = meson.project_name()
 po_dir = join_paths(meson.source_root(), 'po')
@@ -91,6 +90,6 @@ subdir('po')
 subdir('common')
 subdir('data')
 subdir('settings')
-# subdir('helper')
+subdir('helper')
 
 meson.add_install_script('build-aux/meson/postinstall.py')
