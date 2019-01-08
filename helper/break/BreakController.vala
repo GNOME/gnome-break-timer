@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 /**
  * Base class for a break's activity tracking functionality.
  * A break can be started or stopped, and once started it will be activated
@@ -182,4 +184,6 @@ public abstract class BreakController : Object {
 		if (forget_start) this.activate_timestamp = null;
 		this.finished (BreakController.FinishedReason.SKIPPED, was_active);
 	}
+}
+
 }

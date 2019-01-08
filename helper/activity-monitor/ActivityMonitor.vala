@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 public class ActivityMonitor : Object {
 	public enum ActivityType {
 		SLEEP,
@@ -226,4 +228,6 @@ public abstract class ActivityMonitorBackend : Object {
 
 		return sleep_time;
 	}
+}
+
 }

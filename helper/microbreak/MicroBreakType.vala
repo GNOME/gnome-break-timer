@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 public class MicroBreakType : TimerBreakType {
 	private ActivityMonitor activity_monitor;
 
@@ -36,4 +38,6 @@ public class MicroBreakType : TimerBreakType {
 			ui_manager
 		);
 	}
+}
+
 }

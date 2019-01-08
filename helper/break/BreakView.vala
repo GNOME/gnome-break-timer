@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 public abstract class BreakView : UIManager.UIFragment {
 	protected weak BreakController break_controller;
 
@@ -131,4 +133,6 @@ public abstract class BreakView : UIManager.UIFragment {
 		// We don't hide the current notification, because we might have a
 		// "Finished" notification that outlasts the UIFragment
 	}
+}
+
 }

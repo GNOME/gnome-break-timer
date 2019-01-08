@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 public interface IFocusable : Object {
 	public abstract void focus_started ();
 	public abstract void focus_stopped ();
@@ -108,4 +110,6 @@ public class SimpleFocusManager : Object {
 	public bool is_focusing (IFocusable focusable) {
 		return this.current_focus != null && this.current_focus.owner == focusable;
 	}
+}
+
 }

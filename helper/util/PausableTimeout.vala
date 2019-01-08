@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 /**
  * Calls a function continuously with a particular interval, in seconds. An
  * instance of PausableTimout is attached to a particular TimeoutCB function,
@@ -89,4 +91,6 @@ public class PausableTimeout : Object {
 	public bool is_running () {
 		return this.source_id > 0;
 	}
+}
+
 }

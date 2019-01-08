@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 /* TODO: notification when user is away for rest duration */
 /* TODO: replace pause break if appropriate */
 
@@ -128,4 +130,6 @@ public class MicroBreakView : TimerBreakView {
 	private void notification_action_skip_cb () {
 		this.break_controller.skip (true);
 	}
+}
+
 }

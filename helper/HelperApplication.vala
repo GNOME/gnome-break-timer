@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 public class HelperApplication : Gtk.Application {
 	const string app_id = Config.HELPER_DESKTOP_ID;
 	const string app_name = _("GNOME Break Timer");
@@ -98,7 +100,7 @@ public class HelperApplication : Gtk.Application {
 		this.session_status = new SessionStatus (this);
 
 		try {
-			this.activity_monitor_backend = new X11ActivityMonitorBackend ();
+			this.activity_monitor_backend = new GnomeShellActivityMonitorBackend ();
 		} catch {
 			GLib.error ("Failed to initialize activity monitor backend");
 		}
@@ -185,4 +187,6 @@ public class HelperApplication : Gtk.Application {
 			}
 		}
 	}
+}
+
 }

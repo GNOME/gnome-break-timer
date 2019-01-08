@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 /**
  * Central place to manage UI throughout the application. We need this to
  * maintain a simple, modal structure. This uses SimpleFocusManager to make
@@ -51,12 +53,15 @@ public class UIManager : SimpleFocusManager {
 		}
 
 		protected void play_sound_from_id (string event_id) {
+			/* FIXME: Replace this with a modern equivalent? */
+			/*
 			if (this.has_ui_focus ()) {
 				unowned Canberra.Context canberra = CanberraGtk.context_get ();
 				canberra.play (0,
 					Canberra.PROP_EVENT_ID, event_id
 				);
 			}
+			*/
 		}
 
 		protected bool can_lock_screen () {
@@ -273,4 +278,6 @@ public class UIManager : SimpleFocusManager {
 		this.release_focus (break_view);
 		this.application.release ();
 	}
+}
+
 }

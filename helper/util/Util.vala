@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 /**
  * A collection of handy little functions that can't really be categorized,
  * but end up being used throughout this application.
@@ -50,4 +52,6 @@ public class Util {
 	public inline static int64 get_monotonic_time_seconds () {
 		return get_monotonic_time () / MICROSECONDS_IN_SECONDS;
 	}
+}
+
 }

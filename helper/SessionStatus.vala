@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 [DBus (name = "org.gnome.ScreenSaver")]
 public interface IScreenSaver : Object {
     public signal void active_changed (bool active);
@@ -107,4 +109,6 @@ public class SessionStatus : ISessionStatus, Object {
 			}
 		}
 	}
+}
+
 }

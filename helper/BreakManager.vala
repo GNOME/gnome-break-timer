@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 public class BreakManager : Object {
 	private UIManager ui_manager;
 
@@ -141,4 +143,6 @@ public class BreakHelperServer : Object, IBreakHelper {
 		BreakType? break_type = this.break_manager.get_break_type_for_name (break_name);
 		if (break_type != null) break_type.break_controller.activate ();
 	}
+}
+
 }

@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 /**
  * A countdown timer that counts seconds from a start time down to 0. Uses
  * "wall-clock" time instead of monotonic time, so it will count regardless
@@ -267,4 +269,6 @@ public class Countdown : Object {
 	public bool is_finished () {
 		return this.get_time_remaining () == 0;
 	}
+}
+
 }

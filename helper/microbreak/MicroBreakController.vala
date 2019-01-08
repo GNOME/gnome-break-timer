@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 /**
  * A type of timer break that should activate frequently and for short
  * durations. Satisfied when the user is inactive for its entire duration,
@@ -31,4 +33,6 @@ public class MicroBreakController : TimerBreakController {
 	private void delayed_cb (int lap_time, int total_time) {
 		this.duration_countdown.reset ();
 	}
+}
+
 }

@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 public abstract class TimerBreakView : BreakView {
 	protected TimerBreakController timer_break {
 		get { return (TimerBreakController)this.break_controller; }
@@ -50,4 +52,6 @@ public abstract class TimerBreakView : BreakView {
 		}
 		return lead_in;
 	}
+}
+
 }

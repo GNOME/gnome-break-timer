@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 /**
  * A type of timer break designed for longer durations. Satisfied when the user
  * is inactive for its entire duration, but allows the user to interact with
@@ -77,4 +79,6 @@ public class RestBreakController : TimerBreakController {
 			this.reminder_countdown.start ();
 		}
 	}
+}
+
 }

@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 public abstract class TimerBreakType : BreakType {
 	private BreakHelper_TimerBreakServer break_type_server;
 
@@ -71,4 +73,6 @@ private class BreakHelper_TimerBreakServer : Object, IBreakHelper_TimerBreak {
 	public void activate () {
 		this.break_controller.activate ();
 	}
+}
+
 }

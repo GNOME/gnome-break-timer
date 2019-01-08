@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 public class TimerBreakStatusWidget : Gtk.Grid, IScreenOverlayContent {
 	private TimerBreakController timer_break;
 
@@ -88,4 +90,6 @@ public class TimerBreakStatusWidget : Gtk.Grid, IScreenOverlayContent {
 	public void before_fade_out () {
 		this.update_content ();
 	}
+}
+
 }

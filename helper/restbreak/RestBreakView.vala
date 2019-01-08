@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 /* TODO: Use a single persistent notification throughout a given break */
 
 public class RestBreakView : TimerBreakView {
@@ -208,4 +210,6 @@ public class RestBreakView : TimerBreakView {
 	private void notification_action_postpone_cb () {
 		this.rest_break.postpone (60);
 	}
+}
+
 }

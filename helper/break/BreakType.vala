@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 public abstract class BreakType : Object {
 	public string id;
 	public BreakController break_controller;
@@ -34,4 +36,6 @@ public abstract class BreakType : Object {
 
 	protected abstract BreakController get_break_controller ();
 	protected abstract BreakView get_break_view (BreakController controller, UIManager ui_manager);
+}
+
 }

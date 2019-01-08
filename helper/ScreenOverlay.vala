@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 /* FIXME: Do another overlay widget and kill the set_format junk :) */
 
 public interface IScreenOverlayContent : Gtk.Widget {
@@ -253,4 +255,6 @@ public class ScreenOverlay : Gtk.Window {
 			return this.get_visible () && this.custom_content == widget;
 		}
 	}
+}
+
 }

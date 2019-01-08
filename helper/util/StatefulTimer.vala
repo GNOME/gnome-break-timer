@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 /**
  * A simple GTimer lookalike that keeps track of its own state.
  * This is implemented using the GTimer API, internally, so it behaves
@@ -122,4 +124,6 @@ public class StatefulTimer : Object {
 			this.stop ();
 		}
 	}
+}
+
 }

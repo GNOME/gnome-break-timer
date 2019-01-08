@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Helper {
+
 /**
  * A type of break that times user activity. It activates after a particular
  * amount of uninterupted activity, and the break is finished after a
@@ -245,4 +247,6 @@ public abstract class TimerBreakController : BreakController {
 			this.active_changed ();
 		}
 	}
+}
+
 }
