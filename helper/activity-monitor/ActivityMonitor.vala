@@ -28,13 +28,13 @@ public class ActivityMonitor : Object {
 
 	public struct UserActivity {
 		public ActivityType type;
-		public int idle_time;
-		public int time_since_active;
-		public int time_correction;
+		public int64 idle_time;
+		public int64 time_since_active;
+		public int64 time_correction;
 
 		public Json.Object serialize () {
 			Json.Object json_root = new Json.Object ();
-			json_root.set_int_member ("type", (int)this.type);
+			json_root.set_int_member ("type", (int) this.type);
 			json_root.set_int_member ("idle_time", this.idle_time);
 			json_root.set_int_member ("time_since_active", this.time_since_active);
 			json_root.set_int_member ("time_correction", this.time_correction);
@@ -43,10 +43,10 @@ public class ActivityMonitor : Object {
 
 		public static UserActivity deserialize (ref Json.Object json_root) {
 			return UserActivity () {
-				type = (ActivityType)json_root.get_int_member ("type"),
-				idle_time = (int)json_root.get_int_member ("idle_time"),
-				time_since_active = (int)json_root.get_int_member ("time_since_active"),
-				time_correction = (int)json_root.get_int_member ("time_correction")
+				type = (ActivityType) json_root.get_int_member ("type"),
+				idle_time = json_root.get_int_member ("idle_time"),
+				time_since_active = json_root.get_int_member ("time_since_active"),
+				time_correction = json_root.get_int_member ("time_correction")
 			};
 		}
 
@@ -133,9 +133,9 @@ public class ActivityMonitor : Object {
 	private UserActivity collect_activity () {
 		UserActivity activity;
 
-		int sleep_time = backend.pop_sleep_time ();
-		int idle_time = backend.get_idle_seconds ();
-		int time_since_active = (int) (Util.get_real_time_seconds () - this.last_active_timestamp);
+		int64 sleep_time = backend.pop_sleep_time ();
+		int64 idle_time = backend.get_idle_seconds ();
+		int64 time_since_active = (int64) (Util.get_real_time_seconds () - this.last_active_timestamp);
 
 		// Order is important here: some types of activity (or inactivity)
 		// happen at the same time, and are only reported once.
@@ -148,7 +148,7 @@ public class ActivityMonitor : Object {
 				idle_time = 0,
 				time_correction = sleep_time
 			};
-			GLib.debug ("Detected system sleep for %d seconds", sleep_time);
+			GLib.debug ("Detected system sleep for " + int64.FORMAT + " seconds", sleep_time);
 		} else if (this.session_status.is_locked ()) {
 			activity = UserActivity () {
 				type = ActivityType.LOCKED,
@@ -199,23 +199,24 @@ public abstract class ActivityMonitorBackend : Object {
 		this.last_monotonic_time = json_root.get_int_member ("last_monotonic_time");
 	}
 
-	protected abstract int time_since_last_event ();
+	protected abstract uint64 time_since_last_event_ms ();
 
-	public int get_idle_seconds () {
-		return this.time_since_last_event ();
+	public int64 get_idle_seconds () {
+		uint64 idle_ms = this.time_since_last_event_ms ();
+		return (int64) idle_ms / Util.MILLISECONDS_IN_SECONDS;
 	}
 
 	/** Detect if the device has been asleep using the difference between monotonic time and real time */
-	public int pop_sleep_time () {
-		int sleep_time;
+	public int64 pop_sleep_time () {
+		int64 sleep_time;
 		int64 now_real = Util.get_real_time_seconds ();
 		int64 now_monotonic = Util.get_monotonic_time_seconds ();
-		int real_time_delta = (int) (now_real - this.last_real_time);
-		int monotonic_time_delta = (int) (now_monotonic - this.last_monotonic_time).abs ();
+		int64 real_time_delta = (int64) (now_real - this.last_real_time);
+		int64 monotonic_time_delta = (int64) (now_monotonic - this.last_monotonic_time).abs ();
 		
 		if (this.last_real_time > 0 && this.last_monotonic_time > 0) {
 			if (real_time_delta > monotonic_time_delta) {
-				sleep_time = (int) (real_time_delta - monotonic_time_delta);
+				sleep_time = (int64) (real_time_delta - monotonic_time_delta);
 			} else {
 				sleep_time = real_time_delta;
 			}

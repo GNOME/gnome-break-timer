@@ -16,6 +16,8 @@
         "--talk-name=org.gnome.BreakTimer",
         "--own-name=org.gnome.BreakTimer.*",
         "--talk-name=org.gnome.BreakTimer.*",
+        "--talk-name=org.gnome.Mutter.IdleMonitor",
+        "--talk-name=org.freedesktop.Notifications",
         "--talk-name=ca.desrt.dconf",
         "--env=DCONF_USER_CONFIG_DIR=.config/dconf"
     ],

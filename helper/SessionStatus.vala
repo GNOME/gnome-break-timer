@@ -19,12 +19,13 @@ namespace BreakTimer.Helper {
 
 [DBus (name = "org.gnome.ScreenSaver")]
 public interface IScreenSaver : Object {
+    public abstract bool get_active () throws DBusError, IOError;
+    public abstract uint32 get_active_time () throws DBusError, IOError;
+    public abstract void lock () throws DBusError, IOError;
+    public abstract void set_active (bool active) throws DBusError, IOError;
+
     public signal void active_changed (bool active);
 
-    public abstract bool get_active () throws IOError;
-    public abstract uint32 get_active_time () throws IOError;
-    public abstract void lock () throws IOError;
-    public abstract void set_active (bool active) throws IOError;
 }
 
 /**

@@ -171,7 +171,8 @@ public abstract class TimerBreakController : BreakController {
 		}
 
 		if (activity.time_correction > 0) {
-			this.duration_countdown.advance_time (activity.time_correction);
+			// FIXME: Casting int64 to int
+			this.duration_countdown.advance_time ((int) activity.time_correction);
 		}
 
 		if (this.state == State.WAITING) {
@@ -188,9 +189,9 @@ public abstract class TimerBreakController : BreakController {
 		this.delayed_timer.freeze ();
 		if (this.counting_timer.is_stopped ()) {
 			this.counting_timer.start_lap ();
-			lap_time = activity.idle_time;
+			lap_time = (int) activity.idle_time;
 		} else {
-			lap_time = (int)this.counting_timer.lap_time ();
+			lap_time = (int) this.counting_timer.lap_time ();
 		}
 
 		this.counting (

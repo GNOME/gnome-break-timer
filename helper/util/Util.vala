@@ -37,6 +37,10 @@ public class Util {
 		}
 	}
 
+	public inline static int64 get_real_time_ms () {
+		return get_real_time () / MILLISECONDS_IN_SECONDS;
+	}
+
 	public inline static int64 get_real_time_seconds () {
 		return get_real_time () / MICROSECONDS_IN_SECONDS;
 	}
@@ -47,6 +51,10 @@ public class Util {
 		} else {
 			return GLib.get_monotonic_time ();
 		}
+	}
+
+	public inline static int64 get_monotonic_time_ms () {
+		return get_monotonic_time () / MILLISECONDS_IN_SECONDS;
 	}
 
 	public inline static int64 get_monotonic_time_seconds () {

@@ -20,16 +20,16 @@ namespace BreakTimer {
 [DBus (name = "org.gnome.BreakTimer")]
 public interface IBreakHelper : Object {
 	/** Returns the ID of the break that is currently focused and activated, if any. */
-	public abstract string? get_current_active_break () throws IOError;
+	public abstract string? get_current_active_break () throws DBusError, IOError;
 
 	/** Returns a list of breaks that are currently known to the break helper. */
-	public abstract string[] get_break_ids () throws IOError;
+	public abstract string[] get_break_ids () throws DBusError, IOError;
 
 	/** Returns a list of helpful status messages for each break, for debugging. */
-	public abstract string[] get_status_messages () throws IOError;
+	public abstract string[] get_status_messages () throws DBusError, IOError;
 
 	/** Activate the specified break immediately, regardless of the usual activation conditions. */
-	public abstract void activate_break (string break_id) throws IOError;
+	public abstract void activate_break (string break_id) throws DBusError, IOError;
 
 	// TODO: It might make sense to communicate when the active break changes,
 	// using a signal. The only reason we don't at the moment is it adds
@@ -40,10 +40,10 @@ public interface IBreakHelper : Object {
 [DBus (name = "org.gnome.BreakTimer.TimerBreak")]
 public interface IBreakHelper_TimerBreak : Object {
 	/** Get the break's current status, such as time remaining, or time until the break starts */
-	public abstract TimerBreakStatus get_status () throws IOError;
+	public abstract TimerBreakStatus get_status () throws DBusError, IOError;
 
 	/** Activate the break */
-	public abstract void activate () throws IOError;
+	public abstract void activate () throws DBusError, IOError;
 }
 
 public struct BreakStatus {
