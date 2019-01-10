@@ -100,8 +100,8 @@ msgid "Break Timer isn’t responding"
 msgstr "Break Timer svarar ej"
 
 #: ../data/settings-panels.ui.h:2
-msgid "If this continues the next time you log in, please <a href=\"https://bugs.launchpad.net/brainbreak\">open a bug report</a>.\t"
-msgstr "Om det här fortsätter nästa gång du loggar in, <a href=\"https://bugs.launchpad.net/brainbreak\">rapportera då ett programfel</a>.\t"
+msgid "If this continues the next time you log in, please <a href=\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>.\t"
+msgstr "Om det här fortsätter nästa gång du loggar in, <a href=\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">rapportera då ett programfel</a>.\t"
 
 #: ../data/settings-panels.ui.h:3
 msgid "Break Timer is taking a break"

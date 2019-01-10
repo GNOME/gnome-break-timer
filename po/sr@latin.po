@@ -120,7 +120,7 @@ msgid ""
 "launchpad.net/brainbreak\">open a bug report</a>.\t"
 msgstr ""
 "Ako se ovo nastavi kada se sledeći put prijavite, <a href=\""
-"https://bugs.launchpad.net/brainbreak\">napravite izveštaj o grešci</a>.\t"
+"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">napravite izveštaj o grešci</a>.\t"
 
 #: ../data/settings-panels.ui.h:3
 msgid "Break Timer is taking a break"

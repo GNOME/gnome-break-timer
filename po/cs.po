@@ -118,7 +118,7 @@ msgid ""
 "launchpad.net/brainbreak\">open a bug report</a>.\t"
 msgstr ""
 "Jestli se stejná situace bude opakovat i po příštím přihlášení, <a href="
-"\"https://bugs.launchpad.net/brainbreak\">nahlaste chybu</a> prosím."
+"\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">nahlaste chybu</a> prosím."
 
 #: ../data/settings-panels.ui.h:3
 msgid "Break Timer is taking a break"

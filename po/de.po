@@ -123,7 +123,7 @@ msgid ""
 "launchpad.net/brainbreak\">open a bug report</a>.\t"
 msgstr ""
 "Falls dies nach der nächsten Anmeldung immer noch der Fall ist, <a href="
-"\"https://bugs.launchpad.net/brainbreak\">erstellen Sie bitte einen "
+"\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">erstellen Sie bitte einen "
 "Fehlerbericht</a>.\t"
 
 #: ../data/settings-panels.ui.h:3

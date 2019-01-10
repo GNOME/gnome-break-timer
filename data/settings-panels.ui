@@ -51,7 +51,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="hexpand">True</property>
-        <property name="label" translatable="yes">If this continues the next time you log in, please &lt;a href="https://bugs.launchpad.net/brainbreak"&gt;open a bug report&lt;/a&gt;.	</property>
+        <property name="label" translatable="yes">If this continues the next time you log in, please &lt;a href="https://gitlab.gnome.org/GNOME/gnome-break-timer/issues"&gt;open a bug report&lt;/a&gt;.	</property>
         <property name="use_markup">True</property>
         <style>
           <class name="_break-status-body"/>
@@ -399,3 +399,4 @@
     </child>
   </object>
 </interface>
+

@@ -120,7 +120,7 @@ msgid ""
 "launchpad.net/brainbreak\">open a bug report</a>.\t"
 msgstr ""
 "Bila ini terus terjadi saat berikutnya Anda log masuk, harap <a href="
-"\"https://bugs.launchpad.net/brainbreak\">buka sebuah laporan bug</a>.\t"
+"\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">buka sebuah laporan bug</a>.\t"
 
 #: ../data/settings-panels.ui.h:3
 msgid "Break Timer is taking a break"

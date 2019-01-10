@@ -114,7 +114,7 @@ msgid ""
 "launchpad.net/brainbreak\">open a bug report</a>.\t"
 msgstr ""
 "Se isto segue a seguinte vez que inicia sesión, <a "
-"href=\"https://bugs.launchpad.net/brainbreak\">reporte un erro</a>."
+"href=\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">reporte un erro</a>."
 
 #: ../data/settings-panels.ui.h:3
 msgid "Break Timer is taking a break"

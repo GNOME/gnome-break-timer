@@ -121,7 +121,7 @@ msgid ""
 "launchpad.net/brainbreak\">open a bug report</a>.\t"
 msgstr ""
 "Caso o problema continue na próxima vez que iniciar sessão, por favor <a "
-"href=\"https://bugs.launchpad.net/brainbreak\">abra um relatório de erro</a>."
+"href=\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">abra um relatório de erro</a>."
 "\t"
 
 #: ../data/settings-panels.ui.h:3

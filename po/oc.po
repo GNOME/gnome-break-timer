@@ -124,7 +124,7 @@ msgid ""
 "launchpad.net/brainbreak\">open a bug report</a>.\t"
 msgstr ""
 "Se aquò se reprodutz al moment de la connexion que ven, <a href=\""
-"https://bugs.launchpad.net/brainbreak\">establissètz un rapòrt de bogue</a>."
+"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">establissètz un rapòrt de bogue</a>."
 "\t"
 
 #: ../data/settings-panels.ui.h:3

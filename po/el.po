@@ -123,7 +123,7 @@ msgid ""
 "launchpad.net/brainbreak\">open a bug report</a>.\t"
 msgstr ""
 "Αν αυτό συνεχίζεται την επόμενη φορά που θα συνδεθείτε, παρακαλούμε <a href="
-"\"https://bugs.launchpad.net/brainbreak\">ανοίξτε μια αναφορά σφάλματος</a>."
+"\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">ανοίξτε μια αναφορά σφάλματος</a>."
 
 #: ../data/settings-panels.ui.h:3
 msgid "Break Timer is taking a break"
