@@ -36,6 +36,7 @@ helper_dependencies = [
     gee_dep,
     json_glib_dep,
     libnotify_dep,
+    posix_dep,
     m_dep
 ]
 

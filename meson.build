@@ -17,6 +17,8 @@ gobject_dep = dependency('gobject-2.0')
 gtk_dep = dependency('gtk+-3.0')
 json_glib_dep = dependency('json-glib-1.0')
 libnotify_dep = dependency('libnotify')
+
+posix_dep = valac.find_library('posix')
 m_dep = cc.find_library('m', required : false)
 
 gettext_package = meson.project_name()
