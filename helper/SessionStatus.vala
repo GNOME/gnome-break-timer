@@ -33,83 +33,83 @@ public interface IScreenSaver : Object {
  * case we are unable to connect.
  */
 public class SessionStatus : ISessionStatus, Object {
-	private Gtk.Application application;
-	private IScreenSaver? screensaver;
-	private bool screensaver_is_active = false;
+    private Gtk.Application application;
+    private IScreenSaver? screensaver;
+    private bool screensaver_is_active = false;
 
-	public SessionStatus (Gtk.Application application) {
-		this.application = application;
+    public SessionStatus (Gtk.Application application) {
+        this.application = application;
 
-		Bus.watch_name (BusType.SESSION, "org.gnome.ScreenSaver", BusNameWatcherFlags.NONE,
-				this.screensaver_appeared, this.screensaver_disappeared);
-	}
+        Bus.watch_name (BusType.SESSION, "org.gnome.ScreenSaver", BusNameWatcherFlags.NONE,
+                this.screensaver_appeared, this.screensaver_disappeared);
+    }
 
-	private void screensaver_appeared () {
-		try {
-			this.screensaver = Bus.get_proxy_sync (
-				BusType.SESSION,
-				"org.gnome.ScreenSaver",
-				"/org/gnome/ScreenSaver"
-			);
-			this.screensaver.active_changed.connect (this.screensaver_active_changed_cb);
-			this.screensaver_is_active = this.screensaver.get_active ();
-		} catch (IOError error) {
-			this.screensaver = null;
-			GLib.warning ("Error connecting to screensaver service: %s", error.message);
-		}
-	}
-	
-	private void screensaver_disappeared () {
-		this.screensaver.active_changed.disconnect (this.screensaver_active_changed_cb);
-		this.screensaver = null;
-	}
+    private void screensaver_appeared () {
+        try {
+            this.screensaver = Bus.get_proxy_sync (
+                BusType.SESSION,
+                "org.gnome.ScreenSaver",
+                "/org/gnome/ScreenSaver"
+            );
+            this.screensaver.active_changed.connect (this.screensaver_active_changed_cb);
+            this.screensaver_is_active = this.screensaver.get_active ();
+        } catch (IOError error) {
+            this.screensaver = null;
+            GLib.warning ("Error connecting to screensaver service: %s", error.message);
+        }
+    }
+    
+    private void screensaver_disappeared () {
+        this.screensaver.active_changed.disconnect (this.screensaver_active_changed_cb);
+        this.screensaver = null;
+    }
 
-	private void screensaver_active_changed_cb (bool active) {
-		this.screensaver_is_active = active;
-		if (active) {
-			this.locked ();
-		} else {
-			this.unlocked ();
-		}
-	}
+    private void screensaver_active_changed_cb (bool active) {
+        this.screensaver_is_active = active;
+        if (active) {
+            this.locked ();
+        } else {
+            this.unlocked ();
+        }
+    }
 
-	public bool is_locked () {
-		if (this.screensaver != null) {
-			return this.screensaver_is_active;
-		} else {
-			return false;
-		}
-	}
+    public bool is_locked () {
+        if (this.screensaver != null) {
+            return this.screensaver_is_active;
+        } else {
+            return false;
+        }
+    }
 
-	public void lock_screen () {
-		if (this.screensaver != null) {
-			try {
-				this.screensaver.lock ();
-			} catch (IOError error) {
-				GLib.warning ("Error locking screen: %s", error.message);
-			}
-		}
-	}
+    public void lock_screen () {
+        if (this.screensaver != null) {
+            try {
+                this.screensaver.lock ();
+            } catch (IOError error) {
+                GLib.warning ("Error locking screen: %s", error.message);
+            }
+        }
+    }
 
-	public void blank_screen () {
-		if (this.screensaver != null) {
-			try {
-				this.screensaver.set_active (true);
-			} catch (IOError error) {
-				GLib.warning ("Error blanking screeen: %s", error.message);
-			}
-		}
-	}
+    public void blank_screen () {
+        if (this.screensaver != null) {
+            try {
+                this.screensaver.set_active (true);
+            } catch (IOError error) {
+                GLib.warning ("Error blanking screeen: %s", error.message);
+            }
+        }
+    }
 
-	public void unblank_screen () {
-		if (this.screensaver != null) {
-			try {
-				this.screensaver.set_active (false);
-			} catch (IOError error) {
-				GLib.warning ("Error unblanking screeen: %s", error.message);
-			}
-		}
-	}
+    public void unblank_screen () {
+        if (this.screensaver != null) {
+            try {
+                this.screensaver.set_active (false);
+            } catch (IOError error) {
+                GLib.warning ("Error unblanking screeen: %s", error.message);
+            }
+        }
+    }
 }
 
 }

@@ -18,26 +18,26 @@
 namespace BreakTimer.Helper {
 
 public class RestBreakType : TimerBreakType {
-	private ActivityMonitor activity_monitor;
+    private ActivityMonitor activity_monitor;
 
-	public RestBreakType (ActivityMonitor activity_monitor) {
-		Settings settings = new Settings ("org.gnome.BreakTimer.restbreak");
-		base ("restbreak", settings);
-		this.activity_monitor = activity_monitor;
-	}
+    public RestBreakType (ActivityMonitor activity_monitor) {
+        Settings settings = new Settings ("org.gnome.BreakTimer.restbreak");
+        base ("restbreak", settings);
+        this.activity_monitor = activity_monitor;
+    }
 
-	protected override BreakController get_break_controller () {
-		return new RestBreakController (
-			this.activity_monitor
-		);
-	}
+    protected override BreakController get_break_controller () {
+        return new RestBreakController (
+            this.activity_monitor
+        );
+    }
 
-	protected override BreakView get_break_view (BreakController controller, UIManager ui_manager) {
-		return new RestBreakView (
-			(RestBreakController)controller,
-			ui_manager
-		);
-	}
+    protected override BreakView get_break_view (BreakController controller, UIManager ui_manager) {
+        return new RestBreakView (
+            (RestBreakController)controller,
+            ui_manager
+        );
+    }
 }
 
 }

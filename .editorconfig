@@ -1,0 +1,19 @@
+[*.vala, *.c]
+indent_style = spaces
+indent_size = 4
+
+[*.py, *.sh, *.sh.in]
+indent_style = spaces
+indent_size = 4
+
+[*.json]
+indent_style = spaces
+indent_size = 4
+
+[*.xml, *.xml.in, *.xml.in.in, *.doap]
+indent_style = spaces
+indent_size = 2
+
+[meson.build]
+indent_style = spaces
+indent_size = 4

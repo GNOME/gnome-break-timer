@@ -18,9 +18,9 @@
 namespace BreakTimer.Settings {
 
 public int main (string[] args) {
-	SettingsApplication application = new SettingsApplication ();
-	int status = application.run (args);
-	return status;
+    SettingsApplication application = new SettingsApplication ();
+    int status = application.run (args);
+    return status;
 }
 
 }

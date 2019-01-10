@@ -18,61 +18,61 @@
 namespace BreakTimer.Helper {
 
 public abstract class TimerBreakType : BreakType {
-	private BreakHelper_TimerBreakServer break_type_server;
+    private BreakHelper_TimerBreakServer break_type_server;
 
-	public TimerBreakType (string id, Settings settings) {
-		base (id, settings);
-	}
+    public TimerBreakType (string id, Settings settings) {
+        base (id, settings);
+    }
 
-	protected override void initialize (UIManager ui_manager) {
-		base.initialize (ui_manager);
+    protected override void initialize (UIManager ui_manager) {
+        base.initialize (ui_manager);
 
-		var timer_break_controller = (TimerBreakController)this.break_controller;
-		var timer_break_view = (TimerBreakView)this.break_view;
+        var timer_break_controller = (TimerBreakController)this.break_controller;
+        var timer_break_view = (TimerBreakView)this.break_view;
 
-		this.settings.bind ("interval-seconds", timer_break_controller, "interval", SettingsBindFlags.GET);
-		this.settings.bind ("duration-seconds", timer_break_controller, "duration", SettingsBindFlags.GET);
+        this.settings.bind ("interval-seconds", timer_break_controller, "interval", SettingsBindFlags.GET);
+        this.settings.bind ("duration-seconds", timer_break_controller, "duration", SettingsBindFlags.GET);
 
-		this.break_type_server = new BreakHelper_TimerBreakServer (
-			timer_break_controller,
-			timer_break_view
-		);
-		try {
-			DBusConnection connection = Bus.get_sync (BusType.SESSION, null);
-			connection.register_object (
-				Config.HELPER_BREAK_OBJECT_BASE_PATH+this.id,
-				this.break_type_server
-			);
-		} catch (IOError error) {
-			GLib.error ("Error registering break type on the session bus: %s", error.message);
-		}
-	}
+        this.break_type_server = new BreakHelper_TimerBreakServer (
+            timer_break_controller,
+            timer_break_view
+        );
+        try {
+            DBusConnection connection = Bus.get_sync (BusType.SESSION, null);
+            connection.register_object (
+                Config.HELPER_BREAK_OBJECT_BASE_PATH+this.id,
+                this.break_type_server
+            );
+        } catch (IOError error) {
+            GLib.error ("Error registering break type on the session bus: %s", error.message);
+        }
+    }
 }
 
 [DBus (name = "org.gnome.BreakTimer.TimerBreak")]
 private class BreakHelper_TimerBreakServer : Object, IBreakHelper_TimerBreak {
-	private weak TimerBreakController break_controller;
-	private weak TimerBreakView break_view;
-	
-	public BreakHelper_TimerBreakServer (TimerBreakController break_controller, TimerBreakView break_view) {
-		this.break_controller = break_controller;
-		this.break_view = break_view;
-	}
-	
-	public TimerBreakStatus get_status () {
-		return TimerBreakStatus () {
-			is_enabled = this.break_controller.is_enabled (),
-			is_focused = this.break_view.has_ui_focus (),
-			is_active = this.break_controller.is_active (),
-			starts_in = this.break_controller.starts_in (),
-			time_remaining = this.break_controller.get_time_remaining (),
-			current_duration = this.break_controller.get_current_duration ()
-		};
-	}
+    private weak TimerBreakController break_controller;
+    private weak TimerBreakView break_view;
+    
+    public BreakHelper_TimerBreakServer (TimerBreakController break_controller, TimerBreakView break_view) {
+        this.break_controller = break_controller;
+        this.break_view = break_view;
+    }
+    
+    public TimerBreakStatus get_status () {
+        return TimerBreakStatus () {
+            is_enabled = this.break_controller.is_enabled (),
+            is_focused = this.break_view.has_ui_focus (),
+            is_active = this.break_controller.is_active (),
+            starts_in = this.break_controller.starts_in (),
+            time_remaining = this.break_controller.get_time_remaining (),
+            current_duration = this.break_controller.get_current_duration ()
+        };
+    }
 
-	public void activate () {
-		this.break_controller.activate ();
-	}
+    public void activate () {
+        this.break_controller.activate ();
+    }
 }
 
 }

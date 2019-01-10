@@ -18,26 +18,26 @@
 namespace BreakTimer.Helper {
 
 public class MicroBreakType : TimerBreakType {
-	private ActivityMonitor activity_monitor;
+    private ActivityMonitor activity_monitor;
 
-	public MicroBreakType (ActivityMonitor activity_monitor) {
-		Settings settings = new Settings ("org.gnome.BreakTimer.microbreak");
-		base ("microbreak", settings);
-		this.activity_monitor = activity_monitor;
-	}
+    public MicroBreakType (ActivityMonitor activity_monitor) {
+        Settings settings = new Settings ("org.gnome.BreakTimer.microbreak");
+        base ("microbreak", settings);
+        this.activity_monitor = activity_monitor;
+    }
 
-	protected override BreakController get_break_controller () {
-		return new MicroBreakController (
-			this.activity_monitor
-		);
-	}
+    protected override BreakController get_break_controller () {
+        return new MicroBreakController (
+            this.activity_monitor
+        );
+    }
 
-	protected override BreakView get_break_view (BreakController controller, UIManager ui_manager) {
-		return new MicroBreakView (
-			(MicroBreakController)controller,
-			ui_manager
-		);
-	}
+    protected override BreakView get_break_view (BreakController controller, UIManager ui_manager) {
+        return new MicroBreakView (
+            (MicroBreakController)controller,
+            ui_manager
+        );
+    }
 }
 
 }

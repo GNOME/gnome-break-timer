@@ -16,8 +16,8 @@
  */
 
 public static int main (string[] args) {
-	var runner = new TestRunner (ref args);
-	runner.add (new test_Countdown ());
-	runner.add (new test_StatefulTimer ());
-	return runner.run ();
+    var runner = new TestRunner (ref args);
+    runner.add (new test_Countdown ());
+    runner.add (new test_StatefulTimer ());
+    return runner.run ();
 }

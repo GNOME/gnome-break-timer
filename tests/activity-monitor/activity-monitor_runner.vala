@@ -16,7 +16,7 @@
  */
 
 public static int main (string[] args) {
-	var runner = new TestRunner (ref args);
-	runner.add (new test_ActivityMonitor ());
-	return runner.run ();
+    var runner = new TestRunner (ref args);
+    runner.add (new test_ActivityMonitor ());
+    return runner.run ();
 }

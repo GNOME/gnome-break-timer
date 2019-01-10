@@ -79,7 +79,7 @@ config_lib_dep = declare_dependency(
 )
 
 configure_file(
-    input: 'gnome-break-timer.in',
+    input: 'gnome-break-timer.sh.in',
     output: 'gnome-break-timer',
     configuration: build_conf,
     install: true,
