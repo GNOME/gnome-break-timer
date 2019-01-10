@@ -1,16 +1,16 @@
 /*
  * This file is part of GNOME Break Timer.
- * 
+ *
  * GNOME Break Timer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * GNOME Break Timer is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -47,7 +47,7 @@ public class UIManager : SimpleFocusManager {
                 this.ui_manager.request_focus (this, this.focus_priority);
             }
         }
-        
+
         protected void release_ui_focus () {
             this.ui_manager.release_focus (this);
         }
@@ -151,7 +151,7 @@ public class UIManager : SimpleFocusManager {
 
     private weak Gtk.Application application;
     private ISessionStatus session_status;
-    
+
     public bool quiet_mode { get; set; default=false; }
     public int64 quiet_mode_expire_time { get; set; }
 
@@ -167,7 +167,7 @@ public class UIManager : SimpleFocusManager {
     private static string DESKTOP_ENTRY_BASENAME = Config.HELPER_DESKTOP_ID.slice (
         0, Config.HELPER_DESKTOP_ID.last_index_of (".desktop")
     );
-    
+
     public UIManager (Gtk.Application application, ISessionStatus session_status, bool with_overlay) {
         this.application = application;
         this.session_status = session_status;
@@ -175,7 +175,7 @@ public class UIManager : SimpleFocusManager {
         if (with_overlay) {
             this.screen_overlay = new ScreenOverlay ();
         }
-        
+
         Settings settings = new Settings ("org.gnome.BreakTimer");
         settings.bind ("quiet-mode", this, "quiet-mode", SettingsBindFlags.DEFAULT);
         settings.bind ("quiet-mode-expire-time", this, "quiet-mode-expire-time", SettingsBindFlags.DEFAULT);

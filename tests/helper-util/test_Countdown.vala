@@ -1,16 +1,16 @@
 /*
  * This file is part of GNOME Break Timer.
- * 
+ *
  * GNOME Break Timer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * GNOME Break Timer is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -297,15 +297,15 @@ public class test_Countdown : TestSuiteWithActivityMonitor {
             var countdown = new Countdown (30);
 
             var data_0 = countdown.serialize ();
-            
+
             countdown.start ();
             context.time_step (false, 10, 10);
             var data_1 = countdown.serialize ();
-            
+
             countdown.pause ();
             var data_2 = countdown.serialize ();
             context.time_step (false, 10, 10);
-            
+
             this.assert_deserialize (30, data_0, false, 0, 30);
             this.assert_deserialize (30, data_1, true, 10, 20);
             this.assert_deserialize (30, data_2, false, 10, 20);

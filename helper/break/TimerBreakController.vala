@@ -1,16 +1,16 @@
 /*
  * This file is part of GNOME Break Timer.
- * 
+ *
  * GNOME Break Timer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * GNOME Break Timer is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,7 +28,7 @@ namespace BreakTimer.Helper {
 public abstract class TimerBreakController : BreakController {
     public int interval { get; set; }
     public int duration { get; set; }
-    
+
     protected Countdown interval_countdown;
     protected Countdown duration_countdown;
     protected PausableTimeout countdowns_timeout;
@@ -37,11 +37,11 @@ public abstract class TimerBreakController : BreakController {
 
     private StatefulTimer counting_timer = new StatefulTimer ();
     private StatefulTimer delayed_timer = new StatefulTimer ();
-    
+
     public TimerBreakController (ActivityMonitor activity_monitor, int fuzzy_seconds = 0) {
         base ();
         this.fuzzy_seconds = fuzzy_seconds;
-        
+
         this.interval_countdown = new Countdown (this.interval);
         this.duration_countdown = new Countdown (this.duration);
         this.countdowns_timeout = new PausableTimeout (this.update_countdowns, 1);
@@ -57,10 +57,10 @@ public abstract class TimerBreakController : BreakController {
 
         activity_monitor.detected_activity.connect (this.detected_activity_cb);
         activity_monitor.detected_idle.connect (this.detected_idle_cb);
-        
+
         this.enabled.connect (this.enabled_cb);
         this.disabled.connect (this.disabled_cb);
-        
+
         this.activated.connect (this.activated_cb);
         this.finished.connect (this.finished_cb);
     }
@@ -88,26 +88,26 @@ public abstract class TimerBreakController : BreakController {
         this.counting_timer.deserialize (json_root.get_string_member ("counting_timer"));
         this.delayed_timer.deserialize (json_root.get_string_member ("delayed_timer"));
     }
-    
+
     private void enabled_cb () {
         this.interval_countdown.continue ();
         this.duration_countdown.pause ();
         this.countdowns_timeout.start ();
     }
-    
+
     private void disabled_cb () {
         this.interval_countdown.pause ();
         this.duration_countdown.pause ();
         this.countdowns_timeout.stop ();
     }
-    
+
     private void activated_cb () {
         this.interval_countdown.pause ();
         this.duration_countdown.continue ();
         this.counting_timer.reset ();
         this.delayed_timer.reset ();
     }
-    
+
     private void finished_cb (BreakController.FinishedReason reason) {
         if (reason > BreakController.FinishedReason.DISABLED) {
             this.interval_countdown.reset ();
@@ -116,7 +116,7 @@ public abstract class TimerBreakController : BreakController {
             this.delayed_timer.reset ();
         }
     }
-    
+
     bool is_warned;
     private void warn () {
         if (! is_warned) {
@@ -130,14 +130,14 @@ public abstract class TimerBreakController : BreakController {
             this.unwarned ();
         }
     }
-    
+
     /**
      * @return Time until the next scheduled break, in seconds.
      */
     public int starts_in () {
         return this.interval_countdown.get_time_remaining ();
     }
-    
+
     /**
      * @return Idle time remaining until the break is satisfied.
      */
@@ -153,7 +153,7 @@ public abstract class TimerBreakController : BreakController {
         this.skip ();
         this.interval_countdown.continue_from (resume_after - this.interval);
     }
-    
+
     /**
      * @return Total length of the break, taking into account extra time that
      *         may have been added outside of the break's settings.
@@ -213,7 +213,7 @@ public abstract class TimerBreakController : BreakController {
         } else {
             lap_time = (int)this.delayed_timer.lap_time ();
         }
-        
+
         this.duration_countdown.pause ();
         if (this.state == State.WAITING) {
             this.interval_countdown.continue ();

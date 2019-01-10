@@ -1,16 +1,16 @@
 /*
  * This file is part of GNOME Break Timer.
- * 
+ *
  * GNOME Break Timer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * GNOME Break Timer is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -26,7 +26,7 @@ public class BreakManager : Object {
     private Settings settings;
     public bool master_enabled { get; set; }
     public string[] selected_break_ids { get; set; }
-    
+
     public BreakManager (UIManager ui_manager) {
         this.ui_manager = ui_manager;
 
@@ -67,7 +67,7 @@ public class BreakManager : Object {
             }
         }
     }
-    
+
     public void load_breaks (ActivityMonitor activity_monitor) {
         this.add_break (new MicroBreakType (activity_monitor));
         this.add_break (new RestBreakType (activity_monitor));
@@ -78,11 +78,11 @@ public class BreakManager : Object {
     public Gee.Set<string> all_break_ids () {
         return this.breaks.keys;
     }
-    
+
     public Gee.Collection<BreakType> all_breaks () {
         return this.breaks.values;
     }
-    
+
     public BreakType? get_break_type_for_name (string name) {
         return this.breaks.get (name);
     }
@@ -103,7 +103,7 @@ public class BreakManager : Object {
 [DBus (name = "org.gnome.BreakTimer")]
 public class BreakHelperServer : Object, IBreakHelper {
     private weak BreakManager break_manager;
-    
+
     public BreakHelperServer (BreakManager break_manager) {
         this.break_manager = break_manager;
     }
@@ -117,7 +117,7 @@ public class BreakHelperServer : Object, IBreakHelper {
         }
         return null;
     }
-    
+
     public bool is_active () {
         bool active = false;
         foreach (BreakType break_type in this.break_manager.all_breaks ()) {
@@ -129,7 +129,7 @@ public class BreakHelperServer : Object, IBreakHelper {
     public string[] get_break_ids () {
         return this.break_manager.all_break_ids ().to_array ();
     }
-    
+
     public string[] get_status_messages () {
         var messages = new Gee.ArrayList<string> ();
         foreach (BreakType break_type in break_manager.all_breaks ()) {
@@ -138,7 +138,7 @@ public class BreakHelperServer : Object, IBreakHelper {
         }
         return messages.to_array ();
     }
-    
+
     public void activate_break (string break_name) {
         BreakType? break_type = this.break_manager.get_break_type_for_name (break_name);
         if (break_type != null) break_type.break_controller.activate ();

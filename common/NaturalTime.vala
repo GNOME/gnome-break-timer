@@ -1,16 +1,16 @@
 /*
  * This file is part of GNOME Break Timer.
- * 
+ *
  * GNOME Break Timer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * GNOME Break Timer is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -23,20 +23,20 @@ public class NaturalTime : Object {
     private struct TimeUnit {
         public int seconds;
         public FormatTimeCb format_time;
-        
+
         public TimeUnit (int seconds, FormatTimeCb format_time) {
             this.seconds = seconds;
             this.format_time = format_time;
         }
-        
+
         public string format_seconds (int seconds, out int output_value) {
             output_value = seconds / this.seconds;
             return this.format_time(output_value);
         }
     }
-    
+
     private TimeUnit[] units { get; private set; }
-    
+
     private NaturalTime () {
         this.units = {
             TimeUnit (1, (time) => {
@@ -60,7 +60,7 @@ public class NaturalTime : Object {
             return _instance;
         }
     }
-    
+
     /**
      * Get a natural label for the given time in seconds. Converts seconds
      * to a unit that will represent the time as accurately as possible,
@@ -82,7 +82,7 @@ public class NaturalTime : Object {
         }
         return label_unit.format_seconds (seconds, out output_value);
     }
-    
+
     /**
      * Get a natural label for the given time in seconds. Converts seconds
      * to a unit that will represent the time as cleanly as possible,
@@ -102,7 +102,7 @@ public class NaturalTime : Object {
         }
         return label_unit.format_seconds (seconds, out output_value);
     }
-    
+
     /**
      * Get a natural label for the given time in seconds, in an imprecise
      * format intented for a countdown. Precision is unimportant, so this
@@ -116,7 +116,7 @@ public class NaturalTime : Object {
         int seconds_softened = soften_seconds_for_countdown (seconds);
         return get_simplest_label_for_seconds (seconds_softened, out output_value);
     }
-    
+
     /**
      * Get a natural label for the given time in seconds, in an imprecise
      * format intented for a countdown. Precision is unimportant, so this

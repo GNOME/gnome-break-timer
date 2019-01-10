@@ -1,16 +1,16 @@
 /*
  * This file is part of GNOME Break Timer.
- * 
+ *
  * GNOME Break Timer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * GNOME Break Timer is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -30,13 +30,13 @@ public class Countdown : Object {
         COUNTING
     }
     private State state;
-    
+
     private int base_duration;
-    
+
     private int64 start_time;
     private int stop_time_elapsed;
     private int penalty;
-    
+
     public Countdown (int base_duration) {
         this.base_duration = base_duration;
         this.reset ();
@@ -86,7 +86,7 @@ public class Countdown : Object {
             }
         }
     }
-    
+
     /**
      * Stop the countdown and forget its current position.
      * This is the same as calling Countdown.start (), except the countdown
@@ -97,7 +97,7 @@ public class Countdown : Object {
         this.stop_time_elapsed = 0;
         this.state = State.STOPPED;
     }
-    
+
     /**
      * Start counting down from the time set with set_base_duration.
      * This is the same as calling Countdown.stop () followed by
@@ -106,7 +106,7 @@ public class Countdown : Object {
     public void start () {
         this.start_from (0);
     }
-    
+
     /**
      * Start counting with the time offset by the given number of seconds.
      * Useful if the countdown should have started in the past.
@@ -118,7 +118,7 @@ public class Countdown : Object {
         this.reset ();
         this.continue_from (start_offset);
     }
-    
+
     /**
      * Pause the countdown, keeping its current position.
      */
@@ -126,7 +126,7 @@ public class Countdown : Object {
         this.stop_time_elapsed = this.get_time_elapsed ();
         this.state = State.PAUSED;
     }
-    
+
     /**
      * Start the countdown, continuing from the current position if
      * possible.
@@ -136,7 +136,7 @@ public class Countdown : Object {
             this.continue_from (0);
         }
     }
-    
+
     /**
      * If not already counting, start counting with the time offset by the
      * given number of seconds. This is like start_from, but it never resets
@@ -190,7 +190,7 @@ public class Countdown : Object {
     public void set_penalty (int penalty) {
         this.penalty = penalty;
     }
-    
+
     /**
      * @return the current time penalty for the countdown.
      * @see set_penalty
@@ -198,7 +198,7 @@ public class Countdown : Object {
     public int get_penalty () {
         return this.penalty;
     }
-    
+
     /**
      * @return true if the countdown is currently counting, or false if it is
      *         either stopped or paused.
@@ -206,22 +206,22 @@ public class Countdown : Object {
     public bool is_counting () {
         return this.state == State.COUNTING;
     }
-    
+
     /**
      * Sets the base duration for the countdown. This is how long the
      * countdown will last from when it is freshly started.
-     * 
+     *
      * The base duration can be changed while the countdown is counting. The
      * elapsed time will not change, while the remaining time will increase or
      * decrease based on that elapsed time, the new base duration, and the
      * current penalty.
-     * 
+     *
      * @param base_duration the new base duration for the countdown
      */
     public void set_base_duration (int base_duration) {
         this.base_duration = base_duration;
     }
-    
+
     /**
      * Returns the current duration for the countdown. This is not the same as
      * the base duration: it takes into account the penalty, as well. The
@@ -231,7 +231,7 @@ public class Countdown : Object {
     public int get_duration () {
         return int.max (0, this.base_duration + this.penalty);
     }
-    
+
     /**
      * Returns the amount of time that the countdown has been counting, if at
      * all. If the countdown is paused, this will return the elapsed time from
@@ -240,15 +240,15 @@ public class Countdown : Object {
      */
     public int get_time_elapsed () {
         int time_elapsed = this.stop_time_elapsed;
-        
+
         if (this.state == State.COUNTING) {
             int64 now = Util.get_real_time_seconds ();
             time_elapsed += (int) (now - this.start_time);
         }
-        
+
         return int.max (0, time_elapsed);
     }
-    
+
     /**
      * Returns the time remaining until the countdown will be finished, or 0
      * if the countdown is already finished. If the countdown is not counting,

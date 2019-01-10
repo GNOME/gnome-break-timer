@@ -1,16 +1,16 @@
 /*
  * This file is part of GNOME Break Timer.
- * 
+ *
  * GNOME Break Timer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * GNOME Break Timer is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,19 +22,19 @@ public class TimerBreakStatusWidget : Gtk.Grid, IScreenOverlayContent {
 
     private Gtk.Label timer_label;
     private Gtk.Label message_label;
-    
+
     public TimerBreakStatusWidget (TimerBreakController timer_break) {
         Object ();
         this.timer_break = timer_break;
-        
+
         this.set_column_spacing (12);
         this.set_row_spacing (12);
-        
+
         this.timer_label = new Gtk.Label (null);
         this.attach (this.timer_label, 0, 0, 1, 1);
         Gtk.StyleContext timer_style = this.timer_label.get_style_context ();
         timer_style.add_class ("_timer-label");
-        
+
         this.message_label = new Gtk.Label (null);
         this.attach (this.message_label, 0, 1, 1, 1);
         this.message_label.set_line_wrap (true);
@@ -64,7 +64,7 @@ public class TimerBreakStatusWidget : Gtk.Grid, IScreenOverlayContent {
         // usually called when the widget is about to appear.
         this.active_changed_cb ();
     }
-    
+
     /** Set a reassuring message to accompany the break timer */
     public void set_message (string message) {
         this.message_label.set_text (message);

@@ -1,16 +1,16 @@
 /*
  * This file is part of GNOME Break Timer.
- * 
+ *
  * GNOME Break Timer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * GNOME Break Timer is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -40,7 +40,7 @@ public class RestBreakView : TimerBreakView {
     private int64 original_start_time = 0;
     private bool was_skipped = false;
     private bool proceeding_happily = false;
-    
+
     public RestBreakView (RestBreakController rest_break, UIManager ui_manager) {
         base (rest_break, ui_manager);
         this.focus_priority = FocusPriority.HIGH;
@@ -158,7 +158,7 @@ public class RestBreakView : TimerBreakView {
                 return false;
             });
         }
-        
+
         this.rest_break.counting.connect (this.counting_cb);
         this.rest_break.delayed.connect (this.delayed_cb);
         this.rest_break.current_duration_changed.connect (this.current_duration_changed_cb);

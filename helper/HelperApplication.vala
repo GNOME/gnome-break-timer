@@ -1,16 +1,16 @@
 /*
  * This file is part of GNOME Break Timer.
- * 
+ *
  * GNOME Break Timer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * GNOME Break Timer is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,7 +21,7 @@ public class HelperApplication : Gtk.Application {
     const string app_id = Config.HELPER_DESKTOP_ID;
     const string app_name = _("GNOME Break Timer");
     const int DATA_VERSION = 0;
-    
+
     private static const string STYLE_DATA =
         """
         @define-color bg_top rgba(218, 236, 237, 0.80);
@@ -64,7 +64,7 @@ public class HelperApplication : Gtk.Application {
             flags: ApplicationFlags.FLAGS_NONE
         );
         Environment.set_application_name (app_name);
-        
+
         // Keep running for one minute after the last break is disabled
         this.set_inactivity_timeout (60 * 1000);
 
@@ -80,23 +80,23 @@ public class HelperApplication : Gtk.Application {
         base.startup ();
 
         Notify.init (app_name);
-        
+
         /* set up custom gtk style for application */
         Gdk.Screen screen = Gdk.Screen.get_default ();
         Gtk.CssProvider style_provider = new Gtk.CssProvider ();
-        
+
         try {
             style_provider.load_from_data (STYLE_DATA, -1);
         } catch (Error error) {
             GLib.warning ("Error loading style data: %s", error.message);
         }
-        
+
         Gtk.StyleContext.add_provider_for_screen (
             screen,
             style_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         );
-        
+
         this.session_status = new SessionStatus (this);
 
         try {
@@ -105,7 +105,7 @@ public class HelperApplication : Gtk.Application {
             GLib.error ("Failed to initialize activity monitor backend");
         }
         this.activity_monitor = new ActivityMonitor (session_status, activity_monitor_backend);
-        
+
         this.ui_manager = new UIManager (this, session_status, false);
         this.break_manager = new BreakManager (ui_manager);
         this.break_manager.load_breaks (activity_monitor);

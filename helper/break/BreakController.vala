@@ -1,16 +1,16 @@
 /*
  * This file is part of GNOME Break Timer.
- * 
+ *
  * GNOME Break Timer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * GNOME Break Timer is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -52,7 +52,7 @@ public abstract class BreakController : Object {
         SKIPPED,
         SATISFIED
     }
-    
+
     /** The break has been enabled. It will monitor user activity and emit activated () or finished () signals until it is disabled. */
     public signal void enabled ();
     /** The break has been disabled. Its timers have been stopped and it will not do anything until it is enabled again. */
@@ -60,9 +60,9 @@ public abstract class BreakController : Object {
 
     /** The break is going to happen soon */
     public signal void warned ();
-    /** The break is no longer going to start soon */ 
+    /** The break is no longer going to start soon */
     public signal void unwarned ();
-    
+
     /** The break has been activated and is now counting down aggressively until it is satisfied. */
     public signal void activated ();
     /** The break has been satisfied. This can happen at any time, including while the break is waiting or after it has been activiated. */
@@ -72,7 +72,7 @@ public abstract class BreakController : Object {
     public signal void active_changed ();
 
     private int64? activate_timestamp { get; set; }
-    
+
     public BreakController () {
         this.state = State.DISABLED;
         this.activate_timestamp = null;
@@ -100,7 +100,7 @@ public abstract class BreakController : Object {
             this.activate_timestamp = json_root.get_int_member ("activate_timestamp");
         }
     }
-    
+
     /**
      * Set whether the break is enabled or disabled. If it is enabled,
      * it will periodically update in the background, and if it is
@@ -119,14 +119,14 @@ public abstract class BreakController : Object {
             this.disabled ();
         }
     }
-    
+
     /**
      * @return True if the break is enabled and waiting to start automatically
      */
     public bool is_enabled () {
         return this.state != State.DISABLED;
     }
-    
+
     /**
      * @return True if the break has been activated, is in focus, and expects to be satisfied
      */
@@ -144,7 +144,7 @@ public abstract class BreakController : Object {
             return 0;
         }
     }
-    
+
     /**
      * Start a break. This is usually triggered automatically by the break
      * controller itself, but it may be triggered externally as well.
@@ -158,7 +158,7 @@ public abstract class BreakController : Object {
             this.activated ();
         }
     }
-    
+
     /**
      * The break's requirements have been satisfied. Start counting from
      * the beginning again.

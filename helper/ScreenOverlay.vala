@@ -1,16 +1,16 @@
 /*
  * This file is part of GNOME Break Timer.
- * 
+ *
  * GNOME Break Timer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * GNOME Break Timer is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -40,10 +40,10 @@ public class ScreenOverlay : Gtk.Window {
     private uint fade_timeout;
 
     private delegate void FadeCompleteCb ();
-    
+
     public ScreenOverlay () {
         Object (type: Gtk.WindowType.POPUP);
-        
+
         this.format = Format.FULL;
 
         this.wrapper_grid = new Gtk.Grid ();
@@ -51,11 +51,11 @@ public class ScreenOverlay : Gtk.Window {
         this.wrapper_grid.show ();
         this.wrapper_grid.set_halign (Gtk.Align.CENTER);
         this.wrapper_grid.set_valign (Gtk.Align.CENTER);
-        
+
         Gdk.Screen screen = this.get_screen ();
         screen.composited_changed.connect (this.on_screen_composited_changed);
         this.on_screen_composited_changed (screen);
-        
+
         Gtk.StyleContext style = this.get_style_context ();
         style.add_class ("_screen-overlay");
 
@@ -73,7 +73,7 @@ public class ScreenOverlay : Gtk.Window {
         }
         this.set_visual (screen_visual);
     }
-    
+
     private void on_realize () {
         this.apply_format (this.format);
     }
@@ -86,7 +86,7 @@ public class ScreenOverlay : Gtk.Window {
 
         case Format.MINI:
             this.input_shape_combine_region ( (Cairo.Region)null);
-            
+
             this.set_size_request (-1, -1);
             this.resize (1, 1);
 
@@ -97,14 +97,14 @@ public class ScreenOverlay : Gtk.Window {
         case Format.FULL:
             /* empty input region to ignore any input */
             this.input_shape_combine_region (new Cairo.Region ());
-            
+
             Gdk.Screen screen = this.get_screen ();
             int monitor = screen.get_monitor_at_window (this.get_window ());
             Gdk.Rectangle geom;
             screen.get_monitor_geometry (monitor, out geom);
-            
+
             string? session = Environment.get_variable ("DESKTOP_SESSION");
-            
+
             if (session == "gnome-shell") {
                 /* make sure the overlay doesn't cause the top panel to hide */
                 // FIXME: position _properly_ around panel, using _NET_WORKAREA or a maximized toplevel window
@@ -115,11 +115,11 @@ public class ScreenOverlay : Gtk.Window {
             }
 
             this.fade_in ();
-            
+
             break;
         }
     }
-    
+
     public void set_format (Format format) {
         this.format = format;
         if (this.get_realized ()) this.apply_format (format);
@@ -194,14 +194,14 @@ public class ScreenOverlay : Gtk.Window {
         int start_x;
         int start_y;
         this.get_position (out start_x, out start_y);
-        
+
         int shake_count = 0;
         double velocity_x = 1.5;
         double velocity_y = 0;
-        
+
         double move_x = start_x;
         double move_y = start_y;
-        
+
         Timeout.add (15, () => {
             if (shake_count < 42) {
                 if (move_x - start_x > 6 || move_x - start_x < -6) {

@@ -1,16 +1,16 @@
 /*
  * This file is part of GNOME Break Timer.
- * 
+ *
  * GNOME Break Timer is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * GNOME Break Timer is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -57,21 +57,21 @@ public class ActivityMonitor : Object {
 
     public signal void detected_idle (UserActivity activity);
     public signal void detected_activity (UserActivity activity);
-    
+
     private PausableTimeout poll_activity_timeout;
     private UserActivity last_activity;
     private int64 last_active_timestamp;
 
     private ISessionStatus session_status;
     private ActivityMonitorBackend backend;
-    
+
     public ActivityMonitor (ISessionStatus session_status, ActivityMonitorBackend backend) {
         this.session_status = session_status;
         this.backend = backend;
 
         this.poll_activity_timeout = new PausableTimeout (this.poll_activity_cb, 1);
         session_status.unlocked.connect (this.unlocked_cb);
-        
+
         this.last_activity = UserActivity ();
     }
 
@@ -123,7 +123,7 @@ public class ActivityMonitor : Object {
             this.detected_idle (activity);
         }
     }
-    
+
     /**
      * Determines user activity level since the last call to this function.
      * This function is ugly and stateful, so it shouldn't be called from
@@ -178,7 +178,7 @@ public class ActivityMonitor : Object {
             activity.time_correction = activity.idle_time - this.fuzzy_seconds;
         }
         */
-        
+
         return activity;
     }
 }
@@ -213,7 +213,7 @@ public abstract class ActivityMonitorBackend : Object {
         int64 now_monotonic = Util.get_monotonic_time_seconds ();
         int64 real_time_delta = (int64) (now_real - this.last_real_time);
         int64 monotonic_time_delta = (int64) (now_monotonic - this.last_monotonic_time).abs ();
-        
+
         if (this.last_real_time > 0 && this.last_monotonic_time > 0) {
             if (real_time_delta > monotonic_time_delta) {
                 sleep_time = (int64) (real_time_delta - monotonic_time_delta);
