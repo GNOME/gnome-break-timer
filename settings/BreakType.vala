@@ -15,9 +15,6 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Gtk;
-using GLib;
-
 namespace BreakTimer.Settings {
 
 public abstract class BreakType : Object {
@@ -29,7 +26,7 @@ public abstract class BreakType : Object {
     public BreakSettingsPanel settings_panel;
 
     public GLib.Settings settings;
-    
+
     public BreakType (string id, GLib.Settings settings) {
         this.id = id;
         this.settings = settings;
@@ -47,7 +44,7 @@ public abstract class BreakType : Object {
         this.status = status;
         this.status_changed (status);
     }
-    
+
     protected abstract BreakInfoPanel get_info_panel ();
     protected abstract BreakStatusPanel get_status_panel ();
     protected abstract BreakSettingsPanel get_settings_panel ();
@@ -125,19 +122,19 @@ public abstract class BreakSettingsPanel : Gtk.Grid {
         this.header = new Gtk.Grid ();
         this.add (this.header);
         this.header.set_column_spacing (12);
-        
+
         var title_grid = new Gtk.Grid ();
         this.set_header (title_grid);
         title_grid.set_orientation (Gtk.Orientation.VERTICAL);
         title_grid.set_row_spacing (4);
-        
+
         var title_label = new Gtk.Label (title);
         title_grid.add (title_label);
         title_label.get_style_context ().add_class ("_settings-title");
         title_label.set_halign (Gtk.Align.FILL);
         title_label.set_hexpand (true);
         title_label.set_justify (Gtk.Justification.CENTER);
-        
+
         // var description_label = new Gtk.Label ("<small>%s</small>".printf (description));
         // title_grid.add (description_label);
         // description_label.get_style_context ().add_class ("_settings-description");
@@ -164,7 +161,7 @@ public abstract class BreakSettingsPanel : Gtk.Grid {
         content.set_halign (Gtk.Align.END);
         content.set_valign (Gtk.Align.CENTER);
     }
-    
+
     protected void set_details (Gtk.Widget content) {
         this.details.add (content);
     }

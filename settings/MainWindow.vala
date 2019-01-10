@@ -15,9 +15,6 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Gtk;
-using GLib;
-
 namespace BreakTimer.Settings {
 
 public class MainWindow : Gtk.ApplicationWindow {
@@ -50,7 +47,7 @@ public class MainWindow : Gtk.ApplicationWindow {
         this.break_settings_dialog = new BreakSettingsDialog (break_manager);
         this.break_settings_dialog.set_modal (true);
         this.break_settings_dialog.set_transient_for (this);
-        
+
         Gtk.Grid content = new Gtk.Grid ();
         this.add (content);
         content.set_orientation (Gtk.Orientation.VERTICAL);
@@ -92,7 +89,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 
         this.header.show_all ();
         content.show_all ();
-        
+
         break_manager.break_added.connect (this.break_added_cb);
         break_manager.notify["foreground-break"].connect (this.update_visible_panel);
         this.update_visible_panel ();
@@ -308,7 +305,7 @@ private class StatusPanel : Gtk.Stack {
 
         this.breaks_list = this.build_breaks_list (break_manager);
         this.add (this.breaks_list);
-        
+
         this.no_breaks_message = builder.get_object ("status_stopped") as Gtk.Widget;
         this.add (this.no_breaks_message);
 

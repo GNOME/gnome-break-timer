@@ -15,9 +15,6 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Gtk;
-using GLib;
-
 namespace BreakTimer.Settings {
 
 public abstract class TimerBreakType : BreakType {
@@ -148,7 +145,7 @@ public abstract class TimerBreakStatusPanel : BreakStatusPanel {
         if (status == null) return;
 
         TimerBreakType timer_break = (TimerBreakType) this.break_type;
-        
+
         if (status.is_active) {
             this.status_label.set_label (this.ongoing_text);
             string time_text = NaturalTime.instance.get_countdown_for_seconds_with_start (
@@ -169,13 +166,13 @@ public abstract class TimerBreakStatusPanel : BreakStatusPanel {
 public abstract class TimerBreakSettingsPanel : BreakSettingsPanel {
     public TimerBreakSettingsPanel (TimerBreakType break_type, string title, string? description) {
         base (break_type, title, description);
-        
+
         var details_grid = new Gtk.Grid ();
         this.set_details (details_grid);
-        
+
         details_grid.set_column_spacing (8);
         details_grid.set_row_spacing (8);
-        
+
         /* Label for the widget to choose how frequently a break occurs. (Choices such as "6 minutes" or "45 minutes") */
         var interval_label = new Gtk.Label.with_mnemonic ( _("Every"));
         interval_label.set_halign (Gtk.Align.END);
@@ -184,16 +181,16 @@ public abstract class TimerBreakSettingsPanel : BreakSettingsPanel {
         var interval_chooser = new TimeChooser (break_type.interval_options);
         details_grid.attach_next_to (interval_chooser, interval_label, Gtk.PositionType.RIGHT, 1, 1);
         break_type.settings.bind ("interval-seconds", interval_chooser, "time-seconds", SettingsBindFlags.DEFAULT);
-        
+
         /* Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes") */
         var duration_label = new Gtk.Label.with_mnemonic ( _("For"));
         duration_label.set_halign (Gtk.Align.END);
         details_grid.attach (duration_label, 0, 2, 1, 1);
-        
+
         var duration_chooser = new TimeChooser (break_type.duration_options);
         details_grid.attach_next_to (duration_chooser, duration_label, Gtk.PositionType.RIGHT, 1, 1);
         break_type.settings.bind ("duration-seconds", duration_chooser, "time-seconds", SettingsBindFlags.DEFAULT);
-        
+
         details_grid.show_all ();
     }
 }

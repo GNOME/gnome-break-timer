@@ -15,9 +15,6 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Gtk;
-using GLib;
-
 namespace BreakTimer.Settings {
 
 /* FIXME: This widget is stealing clicks when it is used in an overlay */

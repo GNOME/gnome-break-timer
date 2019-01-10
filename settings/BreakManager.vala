@@ -18,9 +18,6 @@
 // TODO: This intentionally resembles BreakManager from the helper
 // application. Ideally, it should be common code in the future.
 
-using Gee;
-using GLib;
-
 namespace BreakTimer.Settings {
 
 public class BreakManager : Object {

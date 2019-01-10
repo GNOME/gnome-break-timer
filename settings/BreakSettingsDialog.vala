@@ -15,9 +15,6 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Gtk;
-using GLib;
-
 namespace BreakTimer.Settings {
 
 public class BreakSettingsDialog : Gtk.Dialog {
@@ -25,23 +22,23 @@ public class BreakSettingsDialog : Gtk.Dialog {
 
     private BreakConfigurationChooser configuration_chooser;
     private Gtk.Grid breaks_grid;
-    
+
     private const int ABOUT_BUTTON_RESPONSE = 5;
-    
+
     public BreakSettingsDialog (BreakManager break_manager) {
         Object (use_header_bar: 1);
         this.break_manager = break_manager;
 
         GLib.Settings settings = new GLib.Settings ("org.gnome.BreakTimer");
-        
+
         this.set_title ( _("Choose Your Break Schedule"));
         this.set_resizable (false);
 
         this.delete_event.connect (this.hide_on_delete);
-        
+
         this.add_button (_("_Close"), Gtk.ResponseType.CLOSE);
         this.response.connect (this.response_cb);
-        
+
         Gtk.Container content_area = (Gtk.Container)this.get_content_area ();
 
         Gtk.Grid content = new Gtk.Grid ();
@@ -71,7 +68,7 @@ public class BreakSettingsDialog : Gtk.Dialog {
         this.breaks_grid = new FixedSizeGrid ();
         content.add (this.breaks_grid);
         this.breaks_grid.set_orientation (Gtk.Orientation.VERTICAL);
-        
+
         content.show_all ();
 
         break_manager.break_added.connect (this.break_added_cb);
@@ -98,7 +95,7 @@ public class BreakSettingsDialog : Gtk.Dialog {
         settings_panel.set_margin_bottom (10);
         this.update_break_configuration ();
     }
-    
+
     private void response_cb (int response_id) {
         if (response_id == Gtk.ResponseType.CLOSE) {
             this.hide ();
@@ -156,7 +153,7 @@ class BreakConfigurationChooser : Gtk.ComboBox {
         Gtk.TreeIter iter;
         this.list_store.append (out iter);
         this.list_store.set (iter, 0, configuration, 1, configuration.label);
-        configuration.iter = iter;	
+        configuration.iter = iter;
     }
 
     private void send_selected_break () {

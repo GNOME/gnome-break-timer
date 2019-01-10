@@ -15,14 +15,11 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Gtk;
-using GLib;
-
 namespace BreakTimer.Settings {
 
 public class SettingsApplication : Gtk.Application {
     const string app_id = Config.SETTINGS_DESKTOP_ID;
-    
+
     private const string STYLE_DATA =
         """
         ._settings-title {
@@ -64,10 +61,10 @@ public class SettingsApplication : Gtk.Application {
     public SettingsApplication () {
         Object (application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
     }
-    
+
     public override void activate () {
         base.activate ();
-        
+
         if (this.break_manager.is_working ()) {
             this.main_window.present ();
         } else {
@@ -76,20 +73,20 @@ public class SettingsApplication : Gtk.Application {
             this.delayed_start ();
         }
     }
-    
+
     public override void startup () {
         base.startup ();
 
         /* set up custom gtk style for application */
         Gdk.Screen screen = Gdk.Screen.get_default ();
         Gtk.CssProvider style_provider = new Gtk.CssProvider ();
-        
+
         try {
             style_provider.load_from_data (STYLE_DATA, -1);
         } catch (Error error) {
             stderr.printf ("Error loading style data: %s\n", error.message);
         }
-        
+
         Gtk.StyleContext.add_provider_for_screen (
                 screen,
                 style_provider,
@@ -107,7 +104,7 @@ public class SettingsApplication : Gtk.Application {
         app_menu.append ( _("About"), "app.about");
         app_menu.append ( _("Quit"), "app.quit");
         this.set_app_menu (app_menu);
-        
+
         this.break_manager = new BreakManager (this);
         this.main_window = new MainWindow (this, this.break_manager);
         this.break_manager.load_breaks ();

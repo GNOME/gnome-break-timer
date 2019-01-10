@@ -15,9 +15,6 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Gtk;
-using GLib;
-
 namespace BreakTimer.Settings {
 
 public class RestBreakType : TimerBreakType {
@@ -32,7 +29,7 @@ public class RestBreakType : TimerBreakType {
     protected override BreakInfoPanel get_info_panel () {
         return new RestBreakInfoPanel (this);
     }
-    
+
     protected override BreakStatusPanel get_status_panel () {
         return new RestBreakStatusPanel (this);
     }

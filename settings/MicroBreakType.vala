@@ -15,9 +15,6 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Gtk;
-using GLib;
-
 namespace BreakTimer.Settings {
 
 public class MicroBreakType : TimerBreakType {
@@ -36,7 +33,7 @@ public class MicroBreakType : TimerBreakType {
     protected override BreakStatusPanel get_status_panel () {
         return new MicroBreakStatusPanel (this);
     }
-    
+
     protected override BreakSettingsPanel get_settings_panel () {
         return new MicroBreakSettingsPanel (this);
     }
