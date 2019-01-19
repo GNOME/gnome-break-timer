@@ -25,6 +25,7 @@ m_dep = cc.find_library('m', required : false)
 
 gettext_package = meson.project_name()
 po_dir = join_paths(meson.source_root(), 'po')
+src_dir = join_paths(meson.source_root(), 'src')
 
 prefix = get_option('prefix')
 bindir = join_paths(prefix, get_option('bindir'))
@@ -54,22 +55,8 @@ build_conf.set_quoted('HELPER_BUS_NAME', helper_bus_name)
 build_conf.set_quoted('HELPER_OBJECT_PATH', helper_object_path)
 build_conf.set_quoted('HELPER_BREAK_OBJECT_BASE_PATH', helper_break_object_base_path)
 
-add_project_arguments('-DGETTEXT_PACKAGE="' + gettext_package + '"', language: 'c')
-
-configure_file(
-    output: 'config.h',
-    configuration: build_conf
-)
-
-config_lib = valac.find_library(
-    'config',
-    dirs: meson.source_root()
-)
-
-config_lib_dep = declare_dependency(
-    dependencies: config_lib,
-    include_directories: include_directories('.')
-)
+add_project_arguments(['-DGETTEXT_PACKAGE="' + gettext_package + '"'], language: 'c')
+add_project_arguments(['--vapidir', src_dir], language: 'vala')
 
 run_script_conf = configuration_data()
 run_script_conf.set('BINDIR', bindir)
@@ -83,9 +70,7 @@ configure_file(
 )
 
 subdir('po')
-subdir('common')
 subdir('data')
-subdir('settings')
-subdir('helper')
+subdir('src')
 
 meson.add_install_script('build-aux/meson/postinstall.py')
