@@ -18,43 +18,6 @@
 namespace BreakTimer.Helper {
 
 public class ActivityMonitor : Object {
-    public enum ActivityType {
-        SLEEP,
-        LOCKED,
-        NONE,
-        INPUT,
-        UNLOCK
-    }
-
-    public struct UserActivity {
-        public ActivityType type;
-        public int64 idle_time;
-        public int64 time_since_active;
-        public int64 time_correction;
-
-        public Json.Object serialize () {
-            Json.Object json_root = new Json.Object ();
-            json_root.set_int_member ("type", (int) this.type);
-            json_root.set_int_member ("idle_time", this.idle_time);
-            json_root.set_int_member ("time_since_active", this.time_since_active);
-            json_root.set_int_member ("time_correction", this.time_correction);
-            return json_root;
-        }
-
-        public static UserActivity deserialize (ref Json.Object json_root) {
-            return UserActivity () {
-                type = (ActivityType) json_root.get_int_member ("type"),
-                idle_time = json_root.get_int_member ("idle_time"),
-                time_since_active = json_root.get_int_member ("time_since_active"),
-                time_correction = json_root.get_int_member ("time_correction")
-            };
-        }
-
-        public bool is_active () {
-            return this.type > ActivityType.NONE;
-        }
-    }
-
     public signal void detected_idle (UserActivity activity);
     public signal void detected_activity (UserActivity activity);
 

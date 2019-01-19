@@ -17,12 +17,11 @@
 
 namespace BreakTimer.Helper {
 
+/**
+ * Provides a simple interface for UIManager to create notifications and
+ * overlays.
+ */
 public abstract class UIFragment : Object, IFocusable {
-    /**
-     * Provides a simple interface for UIManager to create notifications and
-     * overlays.
-     */
-
     protected UIManager ui_manager;
 
     protected Notify.Notification? notification;

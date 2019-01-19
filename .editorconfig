@@ -1,4 +1,4 @@
-[*.vala, *.c]
+[*.vala, *.vapi, *.c]
 indent_style = spaces
 indent_size = 4
 

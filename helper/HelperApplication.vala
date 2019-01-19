@@ -18,7 +18,6 @@
 namespace BreakTimer.Helper {
 
 public class HelperApplication : Gtk.Application {
-    const string app_id = Config.HELPER_DESKTOP_ID;
     const string app_name = _("GNOME Break Timer");
     const int DATA_VERSION = 0;
 
@@ -32,7 +31,7 @@ public class HelperApplication : Gtk.Application {
 
     public HelperApplication () {
         Object (
-            application_id: app_id,
+            application_id: Config.HELPER_APPLICATION_ID,
             register_session: true,
             flags: ApplicationFlags.FLAGS_NONE
         );

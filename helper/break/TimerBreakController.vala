@@ -162,7 +162,7 @@ public abstract class TimerBreakController : BreakController {
         return this.duration_countdown.get_duration ();
     }
 
-    private void detected_idle_cb (ActivityMonitor.UserActivity activity) {
+    private void detected_idle_cb (UserActivity activity) {
         if (! this.is_enabled ()) return;
 
         if (activity.time_since_active < this.fuzzy_seconds) {
@@ -201,7 +201,7 @@ public abstract class TimerBreakController : BreakController {
         this.countdowns_timeout.run_once ();
     }
 
-    private void detected_activity_cb (ActivityMonitor.UserActivity activity) {
+    private void detected_activity_cb (UserActivity activity) {
         if (! this.is_enabled ()) return;
 
         int lap_time;

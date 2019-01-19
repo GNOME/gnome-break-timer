@@ -148,10 +148,10 @@ public class MainWindow : Gtk.ApplicationWindow {
 
         Gtk.show_about_dialog (this,
             "program-name", _("GNOME Break Timer"),
-            "logo-icon-name", "org.gnome.BreakTimer",
-            "version", Config.VERSION,
+            "logo-icon-name", Config.APPLICATION_ICON,
+            "version", Config.PROJECT_VERSION,
             "comments", _("Computer break reminders for active minds"),
-            "website", Config.PACKAGE_URL,
+            "website", Config.APPLICATION_URL,
             "website-label", _("GNOME Break Timer Website"),
             "copyright", copyright,
             "license-type", Gtk.License.GPL_3_0,

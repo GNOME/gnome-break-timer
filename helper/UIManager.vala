@@ -17,14 +17,13 @@
 
 namespace BreakTimer.Helper {
 
+/**
+ * Central place to manage UI throughout the application. We need this to
+ * maintain a simple, modal structure. This uses SimpleFocusManager to make
+ * sure only one break is affecting the UI at a time. This class also tries to
+ * keep UI events nicely spaced so they don't generate excessive noise.
+ */
 public class UIManager : SimpleFocusManager {
-    /**
-     * Central place to manage UI throughout the application. We need this to
-     * maintain a simple, modal structure. This uses SimpleFocusManager to
-     * make sure only one break is affecting the UI at a time. This class also
-     * tries to keep UI events nicely spaced so they don't turn into noise.
-     */
-
     private weak Gtk.Application application;
     private ISessionStatus session_status;
 
@@ -44,6 +43,9 @@ public class UIManager : SimpleFocusManager {
         }
 
         if (this.canberra != null) {
+            this.canberra.change_props(Canberra.PROP_APPLICATION_ID, Config.HELPER_APPLICATION_ID);
+            this.canberra.change_props(Canberra.PROP_APPLICATION_NAME, _("GNOME Break Timer"));
+            this.canberra.change_props(Canberra.PROP_APPLICATION_ICON_NAME, Config.APPLICATION_ICON);
             this.canberra.open();
         }
 
@@ -70,7 +72,7 @@ public class UIManager : SimpleFocusManager {
             this.hide_notification (this.notification);
         }
 
-        notification.set_hint ("desktop-entry", Config.HELPER_DESKTOP_ID);
+        notification.set_hint ("desktop-entry", Config.HELPER_APPLICATION_ID);
 
         try {
             notification.show ();

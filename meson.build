@@ -29,9 +29,10 @@ libdir = join_paths(prefix, get_option('libdir'))
 datadir = join_paths(prefix, get_option('datadir'))
 libexecdir = join_paths(prefix, get_option('libexecdir'))
 
-package_url = 'https://wiki.gnome.org/Apps/BreakTimer'
-settings_desktop_id = 'org.gnome.BreakTimer'
-helper_desktop_id = 'org.gnome.BreakTimer.Helper'
+application_icon = 'org.gnome.BreakTimer'
+application_url = 'https://wiki.gnome.org/Apps/BreakTimer'
+settings_application_id = 'org.gnome.BreakTimer'
+helper_application_id = 'org.gnome.BreakTimer.Helper'
 helper_bus_name = 'org.gnome.BreakTimer.Helper'
 helper_object_path = '/org/gnome/BreakTimer'
 helper_break_object_base_path = '/org/gnome/BreakTimer/'
@@ -39,12 +40,12 @@ helper_break_object_base_path = '/org/gnome/BreakTimer/'
 build_conf = configuration_data()
 build_conf.set('BINDIR', bindir)
 build_conf.set('GETTEXT_PACKAGE', gettext_package)
-build_conf.set('PACKAGE_NAME', meson.project_name())
-build_conf.set('PACKAGE_VERSION', meson.project_version())
-build_conf.set('PACKAGE_URL', package_url)
-build_conf.set('VERSION', meson.project_version())
-build_conf.set('SETTINGS_DESKTOP_ID', settings_desktop_id)
-build_conf.set('HELPER_DESKTOP_ID', helper_desktop_id)
+build_conf.set('PROJECT_NAME', meson.project_name())
+build_conf.set('PROJECT_VERSION', meson.project_version())
+build_conf.set('APPLICATION_ICON', application_icon)
+build_conf.set('APPLICATION_URL', application_url)
+build_conf.set('SETTINGS_APPLICATION_ID', settings_application_id)
+build_conf.set('HELPER_APPLICATION_ID', helper_application_id)
 build_conf.set('HELPER_BUS_NAME', helper_bus_name)
 build_conf.set('HELPER_OBJECT_PATH', helper_object_path)
 build_conf.set('HELPER_BREAK_OBJECT_BASE_PATH', helper_break_object_base_path)
@@ -52,12 +53,12 @@ build_conf.set('HELPER_BREAK_OBJECT_BASE_PATH', helper_break_object_base_path)
 build_conf_quoted = configuration_data()
 build_conf_quoted.set_quoted('BINDIR', bindir)
 build_conf_quoted.set_quoted('GETTEXT_PACKAGE', gettext_package)
-build_conf_quoted.set_quoted('PACKAGE_NAME', meson.project_name())
-build_conf_quoted.set_quoted('PACKAGE_VERSION', meson.project_version())
-build_conf_quoted.set_quoted('PACKAGE_URL', package_url)
-build_conf_quoted.set_quoted('VERSION', meson.project_version())
-build_conf_quoted.set_quoted('SETTINGS_DESKTOP_ID', settings_desktop_id)
-build_conf_quoted.set_quoted('HELPER_DESKTOP_ID', helper_desktop_id)
+build_conf_quoted.set_quoted('PROJECT_NAME', meson.project_name())
+build_conf_quoted.set_quoted('PROJECT_VERSION', meson.project_version())
+build_conf_quoted.set_quoted('APPLICATION_ICON', application_icon)
+build_conf_quoted.set_quoted('APPLICATION_URL', application_url)
+build_conf_quoted.set_quoted('SETTINGS_APPLICATION_ID', settings_application_id)
+build_conf_quoted.set_quoted('HELPER_APPLICATION_ID', helper_application_id)
 build_conf_quoted.set_quoted('HELPER_BUS_NAME', helper_bus_name)
 build_conf_quoted.set_quoted('HELPER_OBJECT_PATH', helper_object_path)
 build_conf_quoted.set_quoted('HELPER_BREAK_OBJECT_BASE_PATH', helper_break_object_base_path)

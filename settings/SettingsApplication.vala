@@ -18,8 +18,6 @@
 namespace BreakTimer.Settings {
 
 public class SettingsApplication : Gtk.Application {
-    const string app_id = Config.SETTINGS_DESKTOP_ID;
-
     private const string STYLE_DATA =
         """
         ._settings-title {
@@ -59,7 +57,10 @@ public class SettingsApplication : Gtk.Application {
     private MainWindow main_window;
 
     public SettingsApplication () {
-        Object (application_id: app_id, flags: ApplicationFlags.FLAGS_NONE);
+        Object (
+            application_id: Config.SETTINGS_APPLICATION_ID,
+            flags: ApplicationFlags.FLAGS_NONE
+        );
     }
 
     public override void activate () {

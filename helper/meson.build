@@ -1,6 +1,7 @@
 helper_sources = [
     'activity-monitor/ActivityMonitor.vala',
     'activity-monitor/MutterActivityMonitorBackend.vala',
+    'activity-monitor/UserActivity.vala',
     'util/Countdown.vala',
     'util/PausableTimeout.vala',
     'util/SimpleFocusManager.vala',

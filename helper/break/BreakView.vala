@@ -88,7 +88,7 @@ public abstract class BreakView : UIFragment {
 
     protected void show_break_info () {
         // TODO: Use dbus activation once we can depend on GLib >= 2.37
-        AppInfo settings_app_info = new DesktopAppInfo (Config.SETTINGS_DESKTOP_ID);
+        AppInfo settings_app_info = new DesktopAppInfo (Config.SETTINGS_APPLICATION_ID);
         AppLaunchContext app_launch_context = new AppLaunchContext ();
         try {
             settings_app_info.launch (null, app_launch_context);

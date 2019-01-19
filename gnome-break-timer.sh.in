@@ -4,7 +4,7 @@ if [ -n "$1" ]; then
     SUBCOMMAND=$1
     shift
 else
-    SUBCOMMAND='settings'
+    SUBCOMMAND='helper'
 fi
 
 if [ "${SUBCOMMAND}" = 'helper' ]; then
