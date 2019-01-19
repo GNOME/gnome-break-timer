@@ -26,7 +26,7 @@ public class RestBreakView : TimerBreakView {
 
     private int64 original_start_time = 0;
     private bool was_skipped = false;
-    private bool proceeding_happily = false;
+    private bool human_is_resting = false;
 
     public RestBreakView (RestBreakController rest_break, UIManager ui_manager) {
         base (rest_break, ui_manager);
@@ -122,7 +122,7 @@ public class RestBreakView : TimerBreakView {
     }
 
     private void focused_and_activated_cb () {
-        this.proceeding_happily = false;
+        this.human_is_resting = false;
 
         if (! this.was_skipped) {
             this.original_start_time = Util.get_real_time_seconds ();
@@ -153,16 +153,16 @@ public class RestBreakView : TimerBreakView {
     }
 
     private void counting_cb (int lap_time, int total_time) {
-        this.proceeding_happily = lap_time > 20;
+        this.human_is_resting = lap_time > 20;
 
-        if (this.proceeding_happily && this.can_lock_screen ()) {
+        if (this.human_is_resting && this.can_lock_screen ()) {
             // TODO: Make a sound slightly before locking?
             this.lock_screen ();
         }
     }
 
     private void delayed_cb (int lap_time, int total_time) {
-        if (this.proceeding_happily) {
+        if (this.human_is_resting) {
             // Show a "Break interrupted" notification if the break has
             // been counting down happily until now
             this.show_interrupted_notification ();
@@ -172,7 +172,7 @@ public class RestBreakView : TimerBreakView {
             this.show_overdue_notification ();
         }
 
-        this.proceeding_happily = false;
+        this.human_is_resting = false;
     }
 
     private void current_duration_changed_cb () {
