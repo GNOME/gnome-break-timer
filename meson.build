@@ -1,4 +1,7 @@
-project('gnome-break-timer', 'vala', 'c')
+project('gnome-break-timer', ['vala', 'c'],
+    version: '1.0-dev',
+    license: 'GPL3+'
+)
 
 gnome = import('gnome')
 i18n = import('i18n')
@@ -28,6 +31,7 @@ bindir = join_paths(prefix, get_option('bindir'))
 libdir = join_paths(prefix, get_option('libdir'))
 datadir = join_paths(prefix, get_option('datadir'))
 libexecdir = join_paths(prefix, get_option('libexecdir'))
+locale_dir = join_paths(prefix, get_option('localedir'))
 
 application_icon = 'org.gnome.BreakTimer'
 application_url = 'https://wiki.gnome.org/Apps/BreakTimer'
@@ -38,36 +42,23 @@ helper_object_path = '/org/gnome/BreakTimer'
 helper_break_object_base_path = '/org/gnome/BreakTimer/'
 
 build_conf = configuration_data()
-build_conf.set('BINDIR', bindir)
-build_conf.set('GETTEXT_PACKAGE', gettext_package)
-build_conf.set('PROJECT_NAME', meson.project_name())
-build_conf.set('PROJECT_VERSION', meson.project_version())
-build_conf.set('APPLICATION_ICON', application_icon)
-build_conf.set('APPLICATION_URL', application_url)
-build_conf.set('SETTINGS_APPLICATION_ID', settings_application_id)
-build_conf.set('HELPER_APPLICATION_ID', helper_application_id)
-build_conf.set('HELPER_BUS_NAME', helper_bus_name)
-build_conf.set('HELPER_OBJECT_PATH', helper_object_path)
-build_conf.set('HELPER_BREAK_OBJECT_BASE_PATH', helper_break_object_base_path)
-
-build_conf_quoted = configuration_data()
-build_conf_quoted.set_quoted('BINDIR', bindir)
-build_conf_quoted.set_quoted('GETTEXT_PACKAGE', gettext_package)
-build_conf_quoted.set_quoted('PROJECT_NAME', meson.project_name())
-build_conf_quoted.set_quoted('PROJECT_VERSION', meson.project_version())
-build_conf_quoted.set_quoted('APPLICATION_ICON', application_icon)
-build_conf_quoted.set_quoted('APPLICATION_URL', application_url)
-build_conf_quoted.set_quoted('SETTINGS_APPLICATION_ID', settings_application_id)
-build_conf_quoted.set_quoted('HELPER_APPLICATION_ID', helper_application_id)
-build_conf_quoted.set_quoted('HELPER_BUS_NAME', helper_bus_name)
-build_conf_quoted.set_quoted('HELPER_OBJECT_PATH', helper_object_path)
-build_conf_quoted.set_quoted('HELPER_BREAK_OBJECT_BASE_PATH', helper_break_object_base_path)
+build_conf.set_quoted('GETTEXT_PACKAGE', gettext_package)
+build_conf.set_quoted('LOCALE_DIR', locale_dir)
+build_conf.set_quoted('PROJECT_NAME', meson.project_name())
+build_conf.set_quoted('PROJECT_VERSION', meson.project_version())
+build_conf.set_quoted('APPLICATION_ICON', application_icon)
+build_conf.set_quoted('APPLICATION_URL', application_url)
+build_conf.set_quoted('SETTINGS_APPLICATION_ID', settings_application_id)
+build_conf.set_quoted('HELPER_APPLICATION_ID', helper_application_id)
+build_conf.set_quoted('HELPER_BUS_NAME', helper_bus_name)
+build_conf.set_quoted('HELPER_OBJECT_PATH', helper_object_path)
+build_conf.set_quoted('HELPER_BREAK_OBJECT_BASE_PATH', helper_break_object_base_path)
 
 add_project_arguments('-DGETTEXT_PACKAGE="' + gettext_package + '"', language: 'c')
 
 configure_file(
     output: 'config.h',
-    configuration: build_conf_quoted
+    configuration: build_conf
 )
 
 config_lib = valac.find_library(
@@ -80,10 +71,13 @@ config_lib_dep = declare_dependency(
     include_directories: include_directories('.')
 )
 
+run_script_conf = configuration_data()
+run_script_conf.set('BINDIR', bindir)
+
 configure_file(
     input: 'gnome-break-timer.sh.in',
     output: 'gnome-break-timer',
-    configuration: build_conf,
+    configuration: run_script_conf,
     install: true,
     install_dir: bindir
 )

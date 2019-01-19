@@ -1,9 +1,13 @@
 subdir('icons')
 
+data_conf = configuration_data()
+data_conf.set('BINDIR', bindir)
+data_conf.set('SETTINGS_APPLICATION_ID', settings_application_id)
+
 desktop_in_file = configure_file(
     input: 'org.gnome.BreakTimer.desktop.in.in',
     output: 'org.gnome.BreakTimer.desktop.in',
-    configuration: build_conf
+    configuration: data_conf
 )
 
 i18n.merge_file(
@@ -18,7 +22,7 @@ i18n.merge_file(
 appdata_in_file = configure_file(
     input: 'org.gnome.BreakTimer.appdata.xml.in.in',
     output: 'org.gnome.BreakTimer.appdata.xml.in',
-    configuration: build_conf
+    configuration: data_conf
 )
 
 i18n.merge_file(

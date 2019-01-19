@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-  <id>@SETTINGS_DESKTOP_ID@.desktop</id>
+  <id>@SETTINGS_APPLICATION_ID@.desktop</id>
   <project_license>GPLv3</project_license>
   <name>Break Timer</name>
   <summary>Remember to take regular breaks from using the computer</summary>
