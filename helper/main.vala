@@ -21,9 +21,9 @@ static HelperApplication application;
 
 public int main (string[] args) {
     application = new HelperApplication ();
-    Posix.signal (Posix.SIGINT, sigint_cb);
-    Posix.signal (Posix.SIGTERM, sigint_cb);
-    Posix.signal (Posix.SIGHUP, sigint_cb);
+    Posix.signal (Posix.Signal.INT, sigint_cb);
+    Posix.signal (Posix.Signal.TERM, sigint_cb);
+    Posix.signal (Posix.Signal.HUP, sigint_cb);
     int status = application.run (args);
     return status;
 }

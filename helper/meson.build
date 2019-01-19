@@ -11,7 +11,6 @@ helper_sources = [
     'break/BreakView.vala',
     'break/TimerBreakController.vala',
     'break/TimerBreakType.vala',
-    'break/TimerBreakStatusWidget.vala',
     'break/TimerBreakView.vala',
     'microbreak/MicroBreakController.vala',
     'microbreak/MicroBreakType.vala',
@@ -21,8 +20,8 @@ helper_sources = [
     'restbreak/RestBreakView.vala',
     'BreakManager.vala',
     'HelperApplication.vala',
-    'ScreenOverlay.vala',
     'SessionStatus.vala',
+    'UIFragment.vala',
     'UIManager.vala'
 ]
 
@@ -36,6 +35,7 @@ helper_dependencies = [
     gee_dep,
     json_glib_dep,
     libnotify_dep,
+    libcanberra_dep,
     posix_dep,
     m_dep
 ]

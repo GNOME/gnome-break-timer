@@ -6,8 +6,6 @@ i18n = import('i18n')
 valac = meson.get_compiler('vala')
 cc = meson.get_compiler('c')
 
-env = environment()
-
 cairo_dep = dependency('cairo')
 gee_dep = dependency('gee-0.8')
 gio_dep = dependency('gio-2.0')
@@ -17,6 +15,7 @@ gobject_dep = dependency('gobject-2.0')
 gtk_dep = dependency('gtk+-3.0')
 json_glib_dep = dependency('json-glib-1.0')
 libnotify_dep = dependency('libnotify')
+libcanberra_dep = dependency('libcanberra')
 
 posix_dep = valac.find_library('posix')
 m_dep = cc.find_library('m', required : false)

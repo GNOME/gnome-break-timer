@@ -108,7 +108,7 @@ public class BreakHelperServer : Object, IBreakHelper {
         this.break_manager = break_manager;
     }
 
-    public string? get_current_active_break () {
+    public string? get_current_active_break () throws GLib.DBusError, GLib.IOError {
         /* Ask  for focused break */
         foreach (BreakType break_type in this.break_manager.all_breaks ()) {
             bool is_active = break_type.break_view.has_ui_focus () &&
@@ -118,7 +118,7 @@ public class BreakHelperServer : Object, IBreakHelper {
         return null;
     }
 
-    public bool is_active () {
+    public bool is_active () throws GLib.DBusError, GLib.IOError {
         bool active = false;
         foreach (BreakType break_type in this.break_manager.all_breaks ()) {
             active = active || break_type.break_controller.is_active ();
@@ -126,11 +126,11 @@ public class BreakHelperServer : Object, IBreakHelper {
         return active;
     }
 
-    public string[] get_break_ids () {
+    public string[] get_break_ids () throws GLib.DBusError, GLib.IOError {
         return this.break_manager.all_break_ids ().to_array ();
     }
 
-    public string[] get_status_messages () {
+    public string[] get_status_messages () throws GLib.DBusError, GLib.IOError {
         var messages = new Gee.ArrayList<string> ();
         foreach (BreakType break_type in break_manager.all_breaks ()) {
             string status_message = break_type.break_view.get_status_message ();
@@ -139,7 +139,7 @@ public class BreakHelperServer : Object, IBreakHelper {
         return messages.to_array ();
     }
 
-    public void activate_break (string break_name) {
+    public void activate_break (string break_name) throws GLib.DBusError, GLib.IOError {
         BreakType? break_type = this.break_manager.get_break_type_for_name (break_name);
         if (break_type != null) break_type.break_controller.activate ();
     }

@@ -17,7 +17,7 @@
 
 namespace BreakTimer.Helper {
 
-public abstract class BreakView : UIManager.UIFragment {
+public abstract class BreakView : UIFragment {
     protected weak BreakController break_controller;
 
     private int64 last_break_notification_time = 0;
@@ -69,8 +69,6 @@ public abstract class BreakView : UIManager.UIFragment {
     }
 
     protected void show_break_notification (Notify.Notification notification) {
-        if (this.overlay_is_visible ()) return;
-
         if (this.notifications_can_do ("actions")) {
             /* Label for a notification action that shows information about the current break */
             notification.add_action ("info", _("What should I do?"), this.notification_action_info_cb);
@@ -128,7 +126,6 @@ public abstract class BreakView : UIManager.UIFragment {
     }
 
     protected override void focus_stopped () {
-        this.hide_overlay ();
         this.lost_ui_focus ();
         // We don't hide the current notification, because we might have a
         // "Finished" notification that outlasts the UIFragment

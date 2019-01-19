@@ -22,33 +22,6 @@ public class HelperApplication : Gtk.Application {
     const string app_name = _("GNOME Break Timer");
     const int DATA_VERSION = 0;
 
-    private static const string STYLE_DATA =
-        """
-        @define-color bg_top rgba(218, 236, 237, 0.80);
-        @define-color bg_middle rgba(226, 237, 236, 0.87);
-        @define-color bg_bottom rgba(179, 209, 183, 0.89);
-
-        GtkWindow._screen-overlay {
-            background-color: @bg_inner;
-            background-image:-gtk-gradient (linear,
-                   center top,
-                   center bottom,
-                   color-stop (0, @bg_top),
-                   color-stop (0.08, @bg_middle),
-                   color-stop (0.92, @bg_middle),
-                   color-stop (1, @bg_bottom));
-            font-size: 18px;
-            color: #999;
-        }
-
-        GtkLabel._timer-label {
-            font-weight: bold;
-            font-size: 36px;
-            color: #333;
-            text-shadow: 1px 1px 5px rgba (0, 0, 0, 0.5);
-        }
-        """;
-
     private BreakManager break_manager;
     private ISessionStatus session_status;
     private ActivityMonitorBackend activity_monitor_backend;
@@ -85,12 +58,6 @@ public class HelperApplication : Gtk.Application {
         Gdk.Screen screen = Gdk.Screen.get_default ();
         Gtk.CssProvider style_provider = new Gtk.CssProvider ();
 
-        try {
-            style_provider.load_from_data (STYLE_DATA, -1);
-        } catch (Error error) {
-            GLib.warning ("Error loading style data: %s", error.message);
-        }
-
         Gtk.StyleContext.add_provider_for_screen (
             screen,
             style_provider,
@@ -106,7 +73,7 @@ public class HelperApplication : Gtk.Application {
         }
         this.activity_monitor = new ActivityMonitor (session_status, activity_monitor_backend);
 
-        this.ui_manager = new UIManager (this, session_status, false);
+        this.ui_manager = new UIManager (this, session_status);
         this.break_manager = new BreakManager (ui_manager);
         this.break_manager.load_breaks (activity_monitor);
 

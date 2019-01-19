@@ -24,19 +24,6 @@ public class RestBreakView : TimerBreakView {
         get { return (RestBreakController)this.break_controller; }
     }
 
-    private string[] rest_quotes = {
-        /*
-        _("The quieter you become, the more you can hear."),
-        _("Knock on the sky and listen to the sound."),
-        _("So little time, so little to do."),
-        _("Sometimes the questions are complicated and the answers are simple."),
-        _("You cannot step into the same river twice."),
-        _("The obstacle is the path."),
-        _("No snowflake ever falls in the wrong place."),
-        _("The energy of the mind is the essence of life.")
-        */
-    };
-
     private int64 original_start_time = 0;
     private bool was_skipped = false;
     private bool proceeding_happily = false;
@@ -137,26 +124,11 @@ public class RestBreakView : TimerBreakView {
     private void focused_and_activated_cb () {
         this.proceeding_happily = false;
 
-        var status_widget = new TimerBreakStatusWidget (this.rest_break);
-        int quote_number = Random.int_range (0, this.rest_quotes.length);
-        string random_quote = this.rest_quotes[quote_number];
-        status_widget.set_message (random_quote);
-        this.set_overlay (status_widget);
-
-        if (! this.overlay_is_visible ()) {
-            // We only show notifications if the break overlay is not visible
-            if (! this.was_skipped) {
-                this.original_start_time = Util.get_real_time_seconds ();
-                this.show_start_notification ();
-            } else {
-                this.show_overdue_notification ();
-            }
-
-            // And we escalate to showing the overlay a little later
-            Timeout.add_seconds (this.get_lead_in_seconds (), () => {
-                this.reveal_overlay ();
-                return false;
-            });
+        if (! this.was_skipped) {
+            this.original_start_time = Util.get_real_time_seconds ();
+            this.show_start_notification ();
+        } else {
+            this.show_overdue_notification ();
         }
 
         this.rest_break.counting.connect (this.counting_cb);
@@ -183,9 +155,9 @@ public class RestBreakView : TimerBreakView {
     private void counting_cb (int lap_time, int total_time) {
         this.proceeding_happily = lap_time > 20;
 
-        if (this.proceeding_happily) {
+        if (this.proceeding_happily && this.can_lock_screen ()) {
             // TODO: Make a sound slightly before locking?
-            if (this.can_lock_screen ()) this.lock_screen ();
+            this.lock_screen ();
         }
     }
 
@@ -204,7 +176,7 @@ public class RestBreakView : TimerBreakView {
     }
 
     private void current_duration_changed_cb () {
-        this.shake_overlay ();
+        // TODO: Do something annoying?
     }
 
     private void notification_action_postpone_cb () {

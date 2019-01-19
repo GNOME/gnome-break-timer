@@ -92,17 +92,7 @@ public class MicroBreakView : TimerBreakView {
     private void focused_and_activated_cb () {
         this.delay_time_notified = 0;
 
-        var status_widget = new TimerBreakStatusWidget (this.micro_break);
-        status_widget.set_message ( _("Take a moment to rest your eyes"));
-        this.set_overlay (status_widget);
-
-        if (! this.overlay_is_visible ()) {
-            this.show_start_notification ();
-            Timeout.add_seconds (this.get_lead_in_seconds (), () => {
-                this.reveal_overlay ();
-                return false;
-            });
-        }
+        this.show_start_notification ();
 
         this.micro_break.delayed.connect (this.delayed_cb);
     }

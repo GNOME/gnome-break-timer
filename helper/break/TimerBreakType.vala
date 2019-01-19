@@ -59,7 +59,7 @@ private class BreakHelper_TimerBreakServer : Object, IBreakHelper_TimerBreak {
         this.break_view = break_view;
     }
 
-    public TimerBreakStatus get_status () {
+    public TimerBreakStatus get_status () throws GLib.DBusError, GLib.IOError {
         return TimerBreakStatus () {
             is_enabled = this.break_controller.is_enabled (),
             is_focused = this.break_view.has_ui_focus (),
@@ -70,7 +70,7 @@ private class BreakHelper_TimerBreakServer : Object, IBreakHelper_TimerBreak {
         };
     }
 
-    public void activate () {
+    public void activate () throws GLib.DBusError, GLib.IOError {
         this.break_controller.activate ();
     }
 }
