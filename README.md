@@ -1,5 +1,4 @@
-Break Timer
-===========
+# Break Timer
 
 A break timer application for GNOME.
 
