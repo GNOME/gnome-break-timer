@@ -70,7 +70,7 @@ public class SettingsApplication : Gtk.Application {
             this.main_window.present ();
         } else {
             // Something may be wrong, but it could just be a delay before the
-            // break helper starts. We'll wait before showing the main window.
+            // break daemon starts. We'll wait before showing the main window.
             this.delayed_start ();
         }
     }

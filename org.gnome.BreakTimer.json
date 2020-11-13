@@ -37,8 +37,8 @@
             "builddir" : true,
             "sources" : [
                 {
-                    "type" : "dir",
-		    "path": "."
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/dylanmccall/gnome-break-timer.git"
                 }
             ]
         }

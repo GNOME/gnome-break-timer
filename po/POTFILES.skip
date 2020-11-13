@@ -1,9 +1,9 @@
 common/NaturalTime.c
-helper/break/BreakView.c
-helper/break/TimerBreakStatusWidget.c
-helper/microbreak/MicroBreakView.c
-helper/restbreak/RestBreakView.c
-helper/HelperApplication.c
+daemon/break/BreakView.c
+daemon/break/TimerBreakStatusWidget.c
+daemon/microbreak/MicroBreakView.c
+daemon/restbreak/RestBreakView.c
+daemon/DaemonApplication.c
 settings/BreakSettingsDialog.c
 settings/MainWindow.c
 settings/MicroBreakType.c

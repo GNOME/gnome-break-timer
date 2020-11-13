@@ -207,68 +207,68 @@ msgstr[0] "%d Stunde"
 msgstr[1] "%d Stunden"
 
 #. Label for a notification action that shows information about the current break
-#: ../helper/break/BreakView.vala:74
+#: ../daemon/break/BreakView.vala:74
 msgid "What should I do?"
 msgstr "Was sollen Sie machen?"
 
 #. Break overlay label when a break has been finished
-#: ../helper/break/TimerBreakStatusWidget.vala:56
+#: ../daemon/break/TimerBreakStatusWidget.vala:56
 msgid "Thank you"
 msgstr "Vielen Dank"
 
-#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:148
+#: ../daemon/DaemonApplication.vala:20 ../settings/MainWindow.vala:148
 msgid "GNOME Break Timer"
 msgstr "GNOME Pausenerinnerung"
 
 #. Label for a notification action that will skip the current microbreak
-#: ../helper/microbreak/MicroBreakView.vala:40
+#: ../daemon/microbreak/MicroBreakView.vala:40
 msgid "Skip this one"
 msgstr "Überspringen"
 
-#: ../helper/microbreak/MicroBreakView.vala:47
+#: ../daemon/microbreak/MicroBreakView.vala:47
 msgid "It’s time for a micro break"
 msgstr "Es ist Zeit für eine Kurzpause"
 
-#: ../helper/microbreak/MicroBreakView.vala:48
+#: ../daemon/microbreak/MicroBreakView.vala:48
 msgid "Take a break from typing and look away from the screen"
 msgstr "Legen Sie eine Pause ein und schauen Sie vom Bildschirm weg"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../helper/microbreak/MicroBreakView.vala:64
+#: ../daemon/microbreak/MicroBreakView.vala:64
 #, c-format
 msgid "You were due to take a micro break %s ago"
 msgid_plural "You were due to take a micro break %s ago"
 msgstr[0] "Ihre Kurzpause war vor %s fällig"
 msgstr[1] "Ihre Kurzpause war vor %s fällig"
 
-#: ../helper/microbreak/MicroBreakView.vala:70
+#: ../daemon/microbreak/MicroBreakView.vala:70
 msgid "Overdue micro break"
 msgstr "Kurzpause überfällig"
 
-#: ../helper/microbreak/MicroBreakView.vala:80
-#: ../helper/restbreak/RestBreakView.vala:125
+#: ../daemon/microbreak/MicroBreakView.vala:80
+#: ../daemon/restbreak/RestBreakView.vala:125
 msgid "Break is over"
 msgstr "Pause ist vorbei"
 
-#: ../helper/microbreak/MicroBreakView.vala:81
+#: ../daemon/microbreak/MicroBreakView.vala:81
 msgid "Your micro break has ended"
 msgstr "Ihre Kurzpause ist zu Ende"
 
-#: ../helper/microbreak/MicroBreakView.vala:94
+#: ../daemon/microbreak/MicroBreakView.vala:94
 msgid "Take a moment to rest your eyes"
 msgstr "Nehmen Sie sich einige Zeit, um Ihre Augen auszuruhen"
 
 #. Label for a notification action that will delay the current break for a few minutes
-#: ../helper/restbreak/RestBreakView.vala:54
+#: ../daemon/restbreak/RestBreakView.vala:54
 msgid "Remind me later"
 msgstr "Später erinnern"
 
 #. FIXME: Should say how long the break is?
-#: ../helper/restbreak/RestBreakView.vala:68
+#: ../daemon/restbreak/RestBreakView.vala:68
 msgid "Time for a break"
 msgstr "Es ist Zeit für eine Pause"
 
-#: ../helper/restbreak/RestBreakView.vala:69
+#: ../daemon/restbreak/RestBreakView.vala:69
 msgid ""
 "It’s time to take a break. Get away from the computer for a little while!"
 msgstr ""
@@ -276,30 +276,30 @@ msgstr ""
 "weg!"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../helper/restbreak/RestBreakView.vala:86
+#: ../daemon/restbreak/RestBreakView.vala:86
 #, c-format
 msgid "There is %s remaining in your break"
 msgid_plural "There are %s remaining in your break"
 msgstr[0] "Es ist noch %s verbleibend in Ihrer Pause"
 msgstr[1] "Es sind noch %s verbleibend in Ihrer Pause"
 
-#: ../helper/restbreak/RestBreakView.vala:92
+#: ../daemon/restbreak/RestBreakView.vala:92
 msgid "Break interrupted"
 msgstr "Pause unterbrochen"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../helper/restbreak/RestBreakView.vala:109
+#: ../daemon/restbreak/RestBreakView.vala:109
 #, c-format
 msgid "You were due to take a break %s ago"
 msgid_plural "You were due to take a break %s ago"
 msgstr[0] "Ihre Pause war vor %s fällig"
 msgstr[1] "Ihre Pause war vor %s fällig"
 
-#: ../helper/restbreak/RestBreakView.vala:115
+#: ../daemon/restbreak/RestBreakView.vala:115
 msgid "Overdue break"
 msgstr "Überfällige Pause"
 
-#: ../helper/restbreak/RestBreakView.vala:126
+#: ../daemon/restbreak/RestBreakView.vala:126
 msgid "Your break time has ended"
 msgstr "Ihre Pausenzeit ist zu Ende"
 

@@ -5,11 +5,11 @@ data/gnome-break-timer-service.desktop.in
 data/org.gnome.BreakTimer.gschema.xml.in
 [type: gettext/glade]data/settings-panels.ui
 common/NaturalTime.vala
-helper/break/BreakView.vala
-helper/break/TimerBreakStatusWidget.vala
-helper/HelperApplication.vala
-helper/microbreak/MicroBreakView.vala
-helper/restbreak/RestBreakView.vala
+daemon/break/BreakView.vala
+daemon/break/TimerBreakStatusWidget.vala
+daemon/DaemonApplication.vala
+daemon/microbreak/MicroBreakView.vala
+daemon/restbreak/RestBreakView.vala
 settings/BreakSettingsDialog.vala
 settings/MainWindow.vala
 settings/MicroBreakType.vala

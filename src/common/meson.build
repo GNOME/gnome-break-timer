@@ -1,5 +1,5 @@
 common_sources = files(
-    'IBreakHelper.vala',
+    'IBreakDaemon.vala',
     'ISessionStatus.vala',
     'NaturalTime.vala'
 )

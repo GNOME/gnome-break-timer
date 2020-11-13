@@ -202,34 +202,34 @@ msgstr[2] "%d сати"
 msgstr[3] "један сат"
 
 #. Label for a notification action that shows information about the current break
-#: ../helper/break/BreakView.vala:74
+#: ../daemon/break/BreakView.vala:74
 msgid "What should I do?"
 msgstr "Шта треба да урадим?"
 
 #. Break overlay label when a break has been finished
-#: ../helper/break/TimerBreakStatusWidget.vala:56
+#: ../daemon/break/TimerBreakStatusWidget.vala:56
 msgid "Thank you"
 msgstr "Хвала вам"
 
-#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:148
+#: ../daemon/DaemonApplication.vala:20 ../settings/MainWindow.vala:148
 msgid "GNOME Break Timer"
 msgstr "Гномов надзорник одмора"
 
 #. Label for a notification action that will skip the current microbreak
-#: ../helper/microbreak/MicroBreakView.vala:40
+#: ../daemon/microbreak/MicroBreakView.vala:40
 msgid "Skip this one"
 msgstr "Овај прескочи"
 
-#: ../helper/microbreak/MicroBreakView.vala:47
+#: ../daemon/microbreak/MicroBreakView.vala:47
 msgid "It’s time for a micro break"
 msgstr "Време је за предах"
 
-#: ../helper/microbreak/MicroBreakView.vala:48
+#: ../daemon/microbreak/MicroBreakView.vala:48
 msgid "Take a break from typing and look away from the screen"
 msgstr "Одморите се од куцања и гледајте ван екрана"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../helper/microbreak/MicroBreakView.vala:64
+#: ../daemon/microbreak/MicroBreakView.vala:64
 #, c-format
 msgid "You were due to take a micro break %s ago"
 msgid_plural "You were due to take a micro break %s ago"
@@ -238,41 +238,41 @@ msgstr[1] "Требали сте да предахнете пре %s"
 msgstr[2] "Требали сте да предахнете пре %s"
 msgstr[3] "Требали сте да предахнете пре %s"
 
-#: ../helper/microbreak/MicroBreakView.vala:70
+#: ../daemon/microbreak/MicroBreakView.vala:70
 msgid "Overdue micro break"
 msgstr "Прескочи предах"
 
-#: ../helper/microbreak/MicroBreakView.vala:80
-#: ../helper/restbreak/RestBreakView.vala:125
+#: ../daemon/microbreak/MicroBreakView.vala:80
+#: ../daemon/restbreak/RestBreakView.vala:125
 msgid "Break is over"
 msgstr "Одмор је завршен"
 
-#: ../helper/microbreak/MicroBreakView.vala:81
+#: ../daemon/microbreak/MicroBreakView.vala:81
 msgid "Your micro break has ended"
 msgstr "Ваш предах се завршио"
 
-#: ../helper/microbreak/MicroBreakView.vala:94
+#: ../daemon/microbreak/MicroBreakView.vala:94
 msgid "Take a moment to rest your eyes"
 msgstr "Одморите ваше очи на тренутак"
 
 #. Label for a notification action that will delay the current break for a few minutes
-#: ../helper/restbreak/RestBreakView.vala:54
+#: ../daemon/restbreak/RestBreakView.vala:54
 msgid "Remind me later"
 msgstr "Подсети ме касније"
 
 #. FIXME: Should say how long the break is?
-#: ../helper/restbreak/RestBreakView.vala:68
+#: ../daemon/restbreak/RestBreakView.vala:68
 msgid "Time for a break"
 msgstr "Време је за одмор"
 
-#: ../helper/restbreak/RestBreakView.vala:69
+#: ../daemon/restbreak/RestBreakView.vala:69
 msgid ""
 "It’s time to take a break. Get away from the computer for a little while!"
 msgstr ""
 "Време је да се одморите. Удаљите се мало од рачунара, погледајте кроз прозор!"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../helper/restbreak/RestBreakView.vala:86
+#: ../daemon/restbreak/RestBreakView.vala:86
 #, c-format
 msgid "There is %s remaining in your break"
 msgid_plural "There are %s remaining in your break"
@@ -281,12 +281,12 @@ msgstr[1] "Остала су вам још %s одмора"
 msgstr[2] "Остало вам је још %s одмора"
 msgstr[3] "Остало вам је још %s одмора "
 
-#: ../helper/restbreak/RestBreakView.vala:92
+#: ../daemon/restbreak/RestBreakView.vala:92
 msgid "Break interrupted"
 msgstr "Одмор је прекинут"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../helper/restbreak/RestBreakView.vala:109
+#: ../daemon/restbreak/RestBreakView.vala:109
 #, c-format
 msgid "You were due to take a break %s ago"
 msgid_plural "You were due to take a break %s ago"
@@ -295,11 +295,11 @@ msgstr[1] "Требали сте да се одморите пре %s"
 msgstr[2] "Требали сте да се одморите пре %s"
 msgstr[3] "Требали сте да се одморите пре %s"
 
-#: ../helper/restbreak/RestBreakView.vala:115
+#: ../daemon/restbreak/RestBreakView.vala:115
 msgid "Overdue break"
 msgstr "Прескочи одмор"
 
-#: ../helper/restbreak/RestBreakView.vala:126
+#: ../daemon/restbreak/RestBreakView.vala:126
 msgid "Your break time has ended"
 msgstr "Време вашег одмора је истекло"
 

@@ -16,7 +16,7 @@ config_lib_dep = declare_dependency(
 
 subdir('common')
 subdir('settings')
-subdir('helper')
+subdir('daemon')
 
 main_dependencies = [
     cairo_dep,
@@ -47,7 +47,7 @@ executable(
 executable(
     'gnome-break-timer-service',
     sources : [
-        helper_sources
+        daemon_sources
     ],
     dependencies : main_dependencies,
     install: true,

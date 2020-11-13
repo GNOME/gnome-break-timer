@@ -19,9 +19,9 @@ if desktop_file_validate.found()
     )
 endif
 
-helper_desktop_file = i18n.merge_file(
-    input: 'org.gnome.BreakTimer.Helper.desktop.in',
-    output: 'org.gnome.BreakTimer.Helper.desktop',
+daemon_desktop_file = i18n.merge_file(
+    input: 'org.gnome.BreakTimer.Daemon.desktop.in',
+    output: 'org.gnome.BreakTimer.Daemon.desktop',
     type: 'desktop',
     po_dir: po_dir,
     install: true,
@@ -32,14 +32,14 @@ if desktop_file_validate.found()
     test(
         'Validate desktop file',
         desktop_file_validate,
-        args: [helper_desktop_file]
+        args: [daemon_desktop_file]
     )
 endif
 
 
-helper_autostart_desktop_file = i18n.merge_file(
-    input: 'org.gnome.BreakTimer.Helper-autostart.desktop.in',
-    output: 'org.gnome.BreakTimer.Helper-autostart.desktop',
+daemon_autostart_desktop_file = i18n.merge_file(
+    input: 'org.gnome.BreakTimer.Daemon-autostart.desktop.in',
+    output: 'org.gnome.BreakTimer.Daemon-autostart.desktop',
     type: 'desktop',
     po_dir: po_dir,
     install: true,
@@ -50,6 +50,6 @@ if desktop_file_validate.found()
     test(
         'Validate desktop file',
         desktop_file_validate,
-        args: [helper_autostart_desktop_file]
+        args: [daemon_autostart_desktop_file]
     )
 endif

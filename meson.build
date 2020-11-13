@@ -37,10 +37,10 @@ locale_dir = join_paths(prefix, get_option('localedir'))
 application_icon = 'org.gnome.BreakTimer'
 application_url = 'https://wiki.gnome.org/Apps/BreakTimer'
 settings_application_id = 'org.gnome.BreakTimer.Settings'
-helper_application_id = 'org.gnome.BreakTimer.Helper'
-helper_bus_name = 'org.gnome.BreakTimer.Helper'
-helper_object_path = '/org/gnome/BreakTimer'
-helper_break_object_base_path = '/org/gnome/BreakTimer/'
+daemon_application_id = 'org.gnome.BreakTimer.Daemon'
+daemon_bus_name = 'org.gnome.BreakTimer.Daemon'
+daemon_object_path = '/org/gnome/BreakTimer'
+daemon_break_object_base_path = '/org/gnome/BreakTimer/'
 
 build_conf = configuration_data()
 build_conf.set_quoted('GETTEXT_PACKAGE', gettext_package)
@@ -51,11 +51,11 @@ build_conf.set_quoted('APPLICATION_ICON', application_icon)
 build_conf.set_quoted('APPLICATION_URL', application_url)
 build_conf.set_quoted('SETTINGS_APPLICATION_ID', settings_application_id)
 build_conf.set_quoted('SETTINGS_DESKTOP_FILE_ID', settings_application_id + '.desktop')
-build_conf.set_quoted('HELPER_APPLICATION_ID', helper_application_id)
-build_conf.set_quoted('HELPER_DESKTOP_FILE_ID', helper_application_id + '.desktop')
-build_conf.set_quoted('HELPER_BUS_NAME', helper_bus_name)
-build_conf.set_quoted('HELPER_OBJECT_PATH', helper_object_path)
-build_conf.set_quoted('HELPER_BREAK_OBJECT_BASE_PATH', helper_break_object_base_path)
+build_conf.set_quoted('DAEMON_APPLICATION_ID', daemon_application_id)
+build_conf.set_quoted('DAEMON_DESKTOP_FILE_ID', daemon_application_id + '.desktop')
+build_conf.set_quoted('DAEMON_BUS_NAME', daemon_bus_name)
+build_conf.set_quoted('DAEMON_OBJECT_PATH', daemon_object_path)
+build_conf.set_quoted('DAEMON_BREAK_OBJECT_BASE_PATH', daemon_break_object_base_path)
 
 add_project_arguments(['-DGETTEXT_PACKAGE="' + gettext_package + '"'], language: 'c')
 add_project_arguments(['--vapidir', src_dir], language: 'vala')

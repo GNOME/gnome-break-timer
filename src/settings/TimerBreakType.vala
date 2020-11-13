@@ -24,7 +24,7 @@ public abstract class TimerBreakType : BreakType {
     public int[] interval_options;
     public int[] duration_options;
 
-    public IBreakHelper_TimerBreak? break_server;
+    public IBreakDaemon_TimerBreak? break_server;
 
     protected TimerBreakType (string name, GLib.Settings settings) {
         base (name, settings);
@@ -36,8 +36,8 @@ public abstract class TimerBreakType : BreakType {
 
     public override void initialize () {
         base.initialize ();
-        Bus.watch_name (BusType.SESSION, Config.HELPER_BUS_NAME, BusNameWatcherFlags.NONE,
-                this.breakhelper_appeared, this.breakhelper_disappeared);
+        Bus.watch_name (BusType.SESSION, Config.DAEMON_BUS_NAME, BusNameWatcherFlags.NONE,
+                this.breakdaemon_appeared, this.breakdaemon_disappeared);
     }
 
     protected new void update_status (TimerBreakStatus? status) {
@@ -65,9 +65,13 @@ public abstract class TimerBreakType : BreakType {
             try {
                 return this.break_server.get_status ();
             } catch (IOError error) {
-                GLib.warning ("Error connecting to break helper service: %s", error.message);
+                GLib.warning ("Error connecting to break daemon service: %s", error.message);
                 return null;
             } catch (GLib.DBusError error) {
+                // FIXME: This fails if we call this before the helper has
+                //        initialized. We should either add a dbus service
+                //        definition or look closer before printing a scary
+                //        error message.
                 GLib.warning ("Error getting break status: %s", error.message);
                 return null;
             }
@@ -76,25 +80,25 @@ public abstract class TimerBreakType : BreakType {
         }
     }
 
-    private void breakhelper_appeared () {
+    private void breakdaemon_appeared () {
         try {
             this.break_server = Bus.get_proxy_sync (
                 BusType.SESSION,
-                Config.HELPER_BUS_NAME,
-                Config.HELPER_BREAK_OBJECT_BASE_PATH+this.id,
+                Config.DAEMON_BUS_NAME,
+                Config.DAEMON_BREAK_OBJECT_BASE_PATH+this.id,
                 DBusProxyFlags.DO_NOT_AUTO_START
             );
-            // We can only poll the break helper application for updates, so
+            // We can only poll the break daemon application for updates, so
             // for responsiveness we update at a faster than normal rate.
             this.update_timeout_id = Timeout.add (500, this.update_status_cb);
             this.update_status_cb ();
         } catch (IOError error) {
             this.break_server = null;
-            GLib.warning ("Error connecting to break helper service: %s", error.message);
+            GLib.warning ("Error connecting to break daemon service: %s", error.message);
         }
     }
 
-    private void breakhelper_disappeared () {
+    private void breakdaemon_disappeared () {
         if (this.update_timeout_id > 0) {
             Source.remove (this.update_timeout_id);
             this.update_timeout_id = 0;

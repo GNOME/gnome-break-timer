@@ -15,7 +15,7 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// TODO: This intentionally resembles BreakManager from the helper
+// TODO: This intentionally resembles BreakManager from the daemon
 // application. Ideally, it should be common code in the future.
 
 namespace BreakTimer.Settings {
@@ -23,7 +23,7 @@ namespace BreakTimer.Settings {
 public class BreakManager : Object {
     private SettingsApplication application;
 
-    private IBreakHelper break_helper;
+    private IBreakDaemon break_daemon;
 
     private Gee.Map<string, BreakType> breaks;
     private GLib.List<BreakType> breaks_ordered;
@@ -43,7 +43,7 @@ public class BreakManager : Object {
         this.settings.bind ("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);
 
         // We choose not too send a signal when master_enabled changes because
-        // we might be starting the break helper at the same time, so the
+        // we might be starting the break daemon at the same time, so the
         // value of is_working () could fluctuate unpleasantly.
         //this.notify["master-enabled"].connect ( () => { this.status_changed (); });
         this.notify["master-enabled"].connect ( () => {
@@ -64,8 +64,8 @@ public class BreakManager : Object {
 
         this.status_changed ();
 
-        Bus.watch_name (BusType.SESSION, Config.HELPER_BUS_NAME, BusNameWatcherFlags.NONE,
-                this.break_helper_appeared, this.break_helper_disappeared);
+        Bus.watch_name (BusType.SESSION, Config.DAEMON_BUS_NAME, BusNameWatcherFlags.NONE,
+                this.break_daemon_appeared, this.break_daemon_disappeared);
     }
 
     public Gee.Set<string> all_break_ids () {
@@ -77,10 +77,10 @@ public class BreakManager : Object {
     }
 
     /**
-     * @returns true if the break helper is working correctly.
+     * @returns true if the break daemon is working correctly.
      */
     public bool is_working () {
-        return (this.master_enabled == false || this.breaks.size == 0 || this.break_helper != null);
+        return (this.master_enabled == false || this.breaks.size == 0 || this.break_daemon != null);
     }
 
     public BreakType? get_break_type_for_name (string name) {
@@ -111,43 +111,43 @@ public class BreakManager : Object {
         this.status_changed ();
     }
 
-    private void break_helper_appeared () {
+    private void break_daemon_appeared () {
         try {
-            this.break_helper = Bus.get_proxy_sync (
+            this.break_daemon = Bus.get_proxy_sync (
                 BusType.SESSION,
-                Config.HELPER_BUS_NAME,
-                Config.HELPER_OBJECT_PATH,
+                Config.DAEMON_BUS_NAME,
+                Config.DAEMON_OBJECT_PATH,
                 DBusProxyFlags.DO_NOT_AUTO_START
             );
             this.break_status_available ();
         } catch (IOError error) {
-            this.break_helper = null;
-            GLib.warning ("Error connecting to break helper service: %s", error.message);
+            this.break_daemon = null;
+            GLib.warning ("Error connecting to break daemon service: %s", error.message);
         }
     }
 
-    private void break_helper_disappeared () {
-        if (this.break_helper == null && this.master_enabled) {
-            // Try to start break_helper automatically if it should be
+    private void break_daemon_disappeared () {
+        if (this.break_daemon == null && this.master_enabled) {
+            // Try to start break_daemon automatically if it should be
             // running. Only do this once, if it was not running previously.
             this.launch_break_timer_service ();
         }
 
-        this.break_helper = null;
+        this.break_daemon = null;
 
         this.status_changed ();
     }
 
     private void launch_break_timer_service () {
-        stdout.printf ("Trying to launch: %s\n", Config.HELPER_DESKTOP_FILE_ID);
-        AppInfo helper_app_info = new DesktopAppInfo (Config.HELPER_DESKTOP_FILE_ID);
-        stdout.printf ("helper_app_info: %s\n", helper_app_info.get_name());
-        stdout.printf ("helper_app_info: %s\n", helper_app_info.get_commandline());
+        stdout.printf ("Trying to launch: %s\n", Config.DAEMON_DESKTOP_FILE_ID);
+        AppInfo daemon_app_info = new DesktopAppInfo (Config.DAEMON_DESKTOP_FILE_ID);
+        stdout.printf ("daemon_app_info: %s\n", daemon_app_info.get_name());
+        stdout.printf ("daemon_app_info: %s\n", daemon_app_info.get_commandline());
         AppLaunchContext app_launch_context = new AppLaunchContext ();
         try {
-            helper_app_info.launch (null, app_launch_context);
+            daemon_app_info.launch (null, app_launch_context);
         } catch (Error error) {
-            GLib.warning ("Error launching helper application: %s", error.message);
+            GLib.warning ("Error launching daemon application: %s", error.message);
         }
     }
 }

@@ -202,98 +202,98 @@ msgstr[0] "%d óra"
 msgstr[1] "%d óra"
 
 #. Label for a notification action that shows information about the current break
-#: ../helper/break/BreakView.vala:74
+#: ../daemon/break/BreakView.vala:74
 msgid "What should I do?"
 msgstr "Mit tegyek?"
 
 #. Break overlay label when a break has been finished
-#: ../helper/break/TimerBreakStatusWidget.vala:56
+#: ../daemon/break/TimerBreakStatusWidget.vala:56
 msgid "Thank you"
 msgstr "Köszönöm"
 
-#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:148
+#: ../daemon/DaemonApplication.vala:20 ../settings/MainWindow.vala:148
 msgid "GNOME Break Timer"
 msgstr "GNOME Szünet ellenőrző"
 
 #. Label for a notification action that will skip the current microbreak
-#: ../helper/microbreak/MicroBreakView.vala:40
+#: ../daemon/microbreak/MicroBreakView.vala:40
 msgid "Skip this one"
 msgstr "Ennek kihagyása"
 
-#: ../helper/microbreak/MicroBreakView.vala:47
+#: ../daemon/microbreak/MicroBreakView.vala:47
 msgid "It’s time for a micro break"
 msgstr "Itt az idő egy kis szünetre"
 
-#: ../helper/microbreak/MicroBreakView.vala:48
+#: ../daemon/microbreak/MicroBreakView.vala:48
 msgid "Take a break from typing and look away from the screen"
 msgstr "Tartson gépelési szünetet és nézzen máshova a képernyőtől"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../helper/microbreak/MicroBreakView.vala:64
+#: ../daemon/microbreak/MicroBreakView.vala:64
 #, c-format
 msgid "You were due to take a micro break %s ago"
 msgid_plural "You were due to take a micro break %s ago"
 msgstr[0] "Egy kis szünet tartott ennyi ideje: %s"
 msgstr[1] "Egy kis szünet tartott ennyi ideje: %s"
 
-#: ../helper/microbreak/MicroBreakView.vala:70
+#: ../daemon/microbreak/MicroBreakView.vala:70
 msgid "Overdue micro break"
 msgstr "A kis szünet lejárt"
 
-#: ../helper/microbreak/MicroBreakView.vala:80
-#: ../helper/restbreak/RestBreakView.vala:125
+#: ../daemon/microbreak/MicroBreakView.vala:80
+#: ../daemon/restbreak/RestBreakView.vala:125
 msgid "Break is over"
 msgstr "A szünetnek vége"
 
-#: ../helper/microbreak/MicroBreakView.vala:81
+#: ../daemon/microbreak/MicroBreakView.vala:81
 msgid "Your micro break has ended"
 msgstr "A kis szünet befejeződött"
 
-#: ../helper/microbreak/MicroBreakView.vala:94
+#: ../daemon/microbreak/MicroBreakView.vala:94
 msgid "Take a moment to rest your eyes"
 msgstr "Álljon meg egy pillanatra, hogy pihentesse a szemét"
 
 #. Label for a notification action that will delay the current break for a few minutes
-#: ../helper/restbreak/RestBreakView.vala:54
+#: ../daemon/restbreak/RestBreakView.vala:54
 msgid "Remind me later"
 msgstr "Emlékeztessen később"
 
 #. FIXME: Should say how long the break is?
-#: ../helper/restbreak/RestBreakView.vala:68
+#: ../daemon/restbreak/RestBreakView.vala:68
 msgid "Time for a break"
 msgstr "Ideje szünetet tartani"
 
-#: ../helper/restbreak/RestBreakView.vala:69
+#: ../daemon/restbreak/RestBreakView.vala:69
 msgid ""
 "It’s time to take a break. Get away from the computer for a little while!"
 msgstr ""
 "Itt az idő, hogy szünetet tartson. Hagyja el a számítógépét egy kis időre!"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../helper/restbreak/RestBreakView.vala:86
+#: ../daemon/restbreak/RestBreakView.vala:86
 #, c-format
 msgid "There is %s remaining in your break"
 msgid_plural "There are %s remaining in your break"
 msgstr[0] "Még %s van hátra a szünetből"
 msgstr[1] "Még %s van hátra a szünetből"
 
-#: ../helper/restbreak/RestBreakView.vala:92
+#: ../daemon/restbreak/RestBreakView.vala:92
 msgid "Break interrupted"
 msgstr "Szünet megszakítva"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../helper/restbreak/RestBreakView.vala:109
+#: ../daemon/restbreak/RestBreakView.vala:109
 #, c-format
 msgid "You were due to take a break %s ago"
 msgid_plural "You were due to take a break %s ago"
 msgstr[0] "Szünet tartott ennyi ideje: %s"
 msgstr[1] "Szünet tartott ennyi ideje: %s"
 
-#: ../helper/restbreak/RestBreakView.vala:115
+#: ../daemon/restbreak/RestBreakView.vala:115
 msgid "Overdue break"
 msgstr "A szünet lejárt"
 
-#: ../helper/restbreak/RestBreakView.vala:126
+#: ../daemon/restbreak/RestBreakView.vala:126
 msgid "Your break time has ended"
 msgstr "A szünet ideje befejeződött"
 
