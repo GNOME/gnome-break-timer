@@ -17,7 +17,7 @@
     </p>
   </description>
 
-  <url type="homepage">https://wiki.gnome.org/GnomeBreakTimer</url>
+  <url type="homepage">https://wiki.gnome.org/Apps/BreakTimer</url>
 
   <launchable type="desktop-id">org.gnome.BreakTimer.Settings.desktop</launchable>
 </component>

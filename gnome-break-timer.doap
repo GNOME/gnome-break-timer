@@ -6,7 +6,7 @@
 
   <name xml:lang="en">GNOME Break Timer</name>
   <shortdesc xml:lang="en">Take a break</shortdesc>
-  <homepage rdf:resource="https://wiki.gnome.org/Apps/GnomeBreakTimer" />
+  <homepage rdf:resource="https://wiki.gnome.org/Apps/BreakTimer" />
 
   <maintainer>
     <foaf:Person>
