@@ -101,10 +101,7 @@ public class SettingsApplication : Gtk.Application {
         this.add_action (quit_action);
         quit_action.activate.connect (this.quit);
 
-        GLib.Menu app_menu = new GLib.Menu ();
-        app_menu.append ( _("About"), "app.about");
-        app_menu.append ( _("Quit"), "app.quit");
-        this.set_app_menu (app_menu);
+        this.set_accels_for_action ("app.quit", {"<Primary>q"});
 
         this.break_manager = new BreakManager (this);
         this.main_window = new MainWindow (this, this.break_manager);

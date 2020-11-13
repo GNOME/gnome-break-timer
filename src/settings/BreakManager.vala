@@ -140,7 +140,10 @@ public class BreakManager : Object {
 
     private void launch_break_timer_service () {
         // TODO: Use dbus activation once we can depend on GLib >= 2.37
-        AppInfo helper_app_info = new DesktopAppInfo (Config.HELPER_APPLICATION_ID);
+        stdout.printf ("Trying to launch: %s\n", Config.HELPER_DESKTOP_FILE_ID);
+        AppInfo helper_app_info = new DesktopAppInfo (Config.HELPER_DESKTOP_FILE_ID);
+        stdout.printf ("helper_app_info: %s\n", helper_app_info.get_name());
+        stdout.printf ("helper_app_info: %s\n", helper_app_info.get_commandline());
         AppLaunchContext app_launch_context = new AppLaunchContext ();
         try {
             helper_app_info.launch (null, app_launch_context);

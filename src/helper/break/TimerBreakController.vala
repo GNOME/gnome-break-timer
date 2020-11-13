@@ -38,7 +38,7 @@ public abstract class TimerBreakController : BreakController {
     private StatefulTimer counting_timer = new StatefulTimer ();
     private StatefulTimer delayed_timer = new StatefulTimer ();
 
-    public TimerBreakController (ActivityMonitor activity_monitor, int fuzzy_seconds = 0) {
+    protected TimerBreakController (ActivityMonitor activity_monitor, int fuzzy_seconds = 0) {
         base ();
         this.fuzzy_seconds = fuzzy_seconds;
 

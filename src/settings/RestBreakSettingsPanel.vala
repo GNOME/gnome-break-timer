@@ -15,27 +15,14 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Helper {
+namespace BreakTimer.Settings {
 
-public class RestBreakType : TimerBreakType {
-    private ActivityMonitor activity_monitor;
-
-    public RestBreakType (ActivityMonitor activity_monitor) {
-        GLib.Settings settings = new GLib.Settings ("org.gnome.BreakTimer.restbreak");
-        base ("restbreak", settings);
-        this.activity_monitor = activity_monitor;
-    }
-
-    protected override BreakController get_break_controller () {
-        return new RestBreakController (
-            this.activity_monitor
-        );
-    }
-
-    protected override BreakView get_break_view (BreakController controller, UIManager ui_manager) {
-        return new RestBreakView (
-            (RestBreakController)controller,
-            ui_manager
+class RestBreakSettingsPanel : TimerBreakSettingsPanel {
+    public RestBreakSettingsPanel (RestBreakType break_type) {
+        base (
+            break_type,
+            _("Full break"),
+            _("And take some longer breaks to stretch your legs")
         );
     }
 }

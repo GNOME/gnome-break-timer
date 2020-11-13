@@ -65,11 +65,7 @@ public class HelperApplication : Gtk.Application {
 
         this.session_status = new SessionStatus (this);
 
-        try {
-            this.activity_monitor_backend = new MutterActivityMonitorBackend ();
-        } catch {
-            GLib.error ("Failed to initialize activity monitor backend");
-        }
+        this.activity_monitor_backend = new MutterActivityMonitorBackend ();
         this.activity_monitor = new ActivityMonitor (session_status, activity_monitor_backend);
 
         this.ui_manager = new UIManager (this, session_status);

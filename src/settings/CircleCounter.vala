@@ -68,13 +68,17 @@ public class CircleCounter : Gtk.Widget {
         int radius = int.min(center_x, center_y);
         double arc_radius = radius - LINE_WIDTH / 2;
 
-        Gdk.RGBA trough_color = style_context.get_background_color (state);
-        Gdk.RGBA base_color = style_context.get_color (state);
+        Gdk.RGBA foreground_color = style_context.get_color (state);
 
-        Gdk.cairo_set_source_rgba (cr, trough_color);
+        cr.set_operator (Cairo.Operator.MULTIPLY);
+
+        Gdk.cairo_set_source_rgba (cr, foreground_color);
         cr.arc (center_x, center_y, arc_radius, 0, Math.PI * 2.0);
         cr.set_line_width (LINE_WIDTH);
+        cr.push_group ();
         cr.stroke ();
+        cr.pop_group_to_source ();
+        cr.paint_with_alpha (0.3);
 
         double start_angle = 1.5 * Math.PI;
         double progress_angle = this.progress * Math.PI * 2.0;
@@ -94,7 +98,7 @@ public class CircleCounter : Gtk.Widget {
             // No progress: Draw nothing (arc will gradually appear)
         }
 
-        Gdk.cairo_set_source_rgba (cr, base_color);
+        Gdk.cairo_set_source_rgba (cr, foreground_color);
         cr.set_line_width (LINE_WIDTH);
         cr.set_line_cap  (Cairo.LineCap.ROUND);
         cr.stroke ();

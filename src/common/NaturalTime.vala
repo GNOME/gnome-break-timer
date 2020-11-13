@@ -22,7 +22,7 @@ public class NaturalTime : Object {
 
     private struct TimeUnit {
         public int seconds;
-        public FormatTimeCb format_time;
+        public unowned FormatTimeCb format_time;
 
         public TimeUnit (int seconds, FormatTimeCb format_time) {
             this.seconds = seconds;
@@ -35,7 +35,7 @@ public class NaturalTime : Object {
         }
     }
 
-    private TimeUnit[] units { get; private set; }
+    private TimeUnit[] units;
 
     private NaturalTime () {
         this.units = {

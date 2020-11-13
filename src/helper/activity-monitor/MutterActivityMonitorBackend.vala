@@ -69,6 +69,9 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend {
         } catch (IOError error) {
             this.mutter_idle_monitor = null;
             GLib.warning ("Error connecting to mutter idle monitor service: %s", error.message);
+        } catch (GLib.DBusError error) {
+            this.mutter_idle_monitor = null;
+            GLib.warning ("Error adding mutter idle watch: %s", error.message);
         }
     }
 
@@ -81,7 +84,13 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend {
         if (id == this.idle_watch_id) {
             this.user_is_active = false;
             this.update_last_idle_time();
-            this.user_active_watch_id = this.mutter_idle_monitor.add_user_active_watch ();
+            try {
+                this.user_active_watch_id = this.mutter_idle_monitor.add_user_active_watch ();
+            } catch (IOError error) {
+                GLib.warning ("Error connecting to mutter idle monitor service: %s", error.message);
+            } catch (GLib.DBusError error) {
+                GLib.warning ("Error adding mutter user active watch: %s", error.message);
+            }
         } else if (id == this.user_active_watch_id) {
             this.user_is_active = true;
             this.user_active_watch_id = 0;
@@ -89,7 +98,13 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend {
     }
 
     private void update_last_idle_time() {
-        this.last_idle_time_ms = this.mutter_idle_monitor.get_idletime ();
+        try {
+            this.last_idle_time_ms = this.mutter_idle_monitor.get_idletime ();
+        } catch (IOError error) {
+            GLib.warning ("Error connecting to mutter idle monitor service: %s", error.message);
+        } catch (GLib.DBusError error) {
+            GLib.warning ("Error getting mutter idletime: %s", error.message);
+        }
         this.last_idle_time_update_time_ms = Util.get_monotonic_time_ms ();
     }
 

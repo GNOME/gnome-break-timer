@@ -22,7 +22,7 @@ public abstract class BreakView : UIFragment {
 
     private int64 last_break_notification_time = 0;
 
-    public BreakView (BreakController break_controller, UIManager ui_manager) {
+    protected BreakView (BreakController break_controller, UIManager ui_manager) {
         this.ui_manager = ui_manager;
         this.break_controller = break_controller;
 

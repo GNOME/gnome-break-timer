@@ -45,9 +45,9 @@ public class BreakSettingsDialog : Gtk.Dialog {
         content_area.add (content);
         content.set_orientation (Gtk.Orientation.VERTICAL);
         content.set_margin_top (10);
-        content.set_margin_right (10);
+        content.set_margin_start (10);
         content.set_margin_bottom (10);
-        content.set_margin_left (10);
+        content.set_margin_end (10);
 
         this.configuration_chooser = new BreakConfigurationChooser ();
         content.add (this.configuration_chooser);

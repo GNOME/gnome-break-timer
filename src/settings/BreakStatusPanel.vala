@@ -17,25 +17,15 @@
 
 namespace BreakTimer.Settings {
 
-public class RestBreakType : TimerBreakType {
-    public RestBreakType () {
-        GLib.Settings settings = new GLib.Settings ("org.gnome.BreakTimer.restbreak");
-        base ("restbreak", settings);
+public abstract class BreakStatusPanel : Gtk.Grid {
+    public BreakType break_type { public get; private set; }
+    public bool is_enabled { get; set; default=false; }
 
-        this.interval_options = { 1800, 2400, 3000, 3600 };
-        this.duration_options = { 240, 300, 360, 480, 600 };
-    }
+    protected BreakStatusPanel (BreakType break_type) {
+        Object ();
+        this.break_type = break_type;
 
-    protected override BreakInfoPanel get_info_panel () {
-        return new RestBreakInfoPanel (this);
-    }
-
-    protected override BreakStatusPanel get_status_panel () {
-        return new RestBreakStatusPanel (this);
-    }
-
-    protected override BreakSettingsPanel get_settings_panel () {
-        return new RestBreakSettingsPanel (this);
+        this.get_style_context ().add_class ("_break-status");
     }
 }
 

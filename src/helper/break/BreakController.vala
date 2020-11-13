@@ -71,9 +71,9 @@ public abstract class BreakController : Object {
     /** The break is active and it has progressed in some fashion (for example, remaining time has changed). */
     public signal void active_changed ();
 
-    private int64? activate_timestamp { get; set; }
+    private Value? activate_timestamp;
 
-    public BreakController () {
+    protected BreakController () {
         this.state = State.DISABLED;
         this.activate_timestamp = null;
     }
@@ -84,7 +84,7 @@ public abstract class BreakController : Object {
         if (this.activate_timestamp == null) {
             json_root.set_null_member ("activate_timestamp");
         } else {
-            json_root.set_int_member ("activate_timestamp", this.activate_timestamp);
+            json_root.set_int_member ("activate_timestamp", (int64) this.activate_timestamp);
         }
         return json_root;
     }
@@ -139,7 +139,7 @@ public abstract class BreakController : Object {
      */
     public int get_seconds_since_start () {
         if (this.activate_timestamp != null) {
-            return (int) (Util.get_real_time_seconds () - this.activate_timestamp);
+            return (int) (Util.get_real_time_seconds () - (int64) this.activate_timestamp);
         } else {
             return 0;
         }
@@ -152,7 +152,7 @@ public abstract class BreakController : Object {
     public void activate () {
         if (this.state < State.ACTIVE) {
             if (this.activate_timestamp == null) {
-                this.activate_timestamp = Util.get_real_time_seconds ();
+                this.activate_timestamp = (int64) Util.get_real_time_seconds ();
             }
             this.state = State.ACTIVE;
             this.activated ();

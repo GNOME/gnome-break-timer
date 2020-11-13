@@ -1,9 +1,9 @@
 {
     "id" : "org.gnome.BreakTimer",
     "runtime" : "org.gnome.Platform",
-    "runtime-version" : "3.28",
+    "runtime-version" : "3.36",
     "sdk" : "org.gnome.Sdk",
-    "command" : "gnome-break-timer",
+    "command" : "gnome-break-timer-settings",
     "finish-args" : [
         "--share=ipc",
         "--socket=x11",
@@ -32,29 +32,13 @@
     },
     "modules" : [
         {
-            "name" : "libgee",
-            "build-options" : {
-                "env" : {
-                    "PKG_CONFIG_GOBJECT_INTROSPECTION_1_0_GIRDIR" : "/app/share/gir-1.0",
-                    "PKG_CONFIG_GOBJECT_INTROSPECTION_1_0_TYPELIBDIR" : "/app/lib/girepository-1.0"
-                }
-            },
-            "sources" : [
-                {
-                    "type" : "archive",
-                    "url" : "https://github.com/GNOME/libgee/archive/0.20.1.tar.gz",
-                    "sha256" : "d76d0bf8ae6659dba6018fadf2ccce218ccbc107666925552008806a29702c4b"
-                }
-            ]
-        },
-        {
             "name" : "gnome-break-timer",
             "buildsystem" : "meson",
             "builddir" : true,
             "sources" : [
                 {
-                    "type" : "git",
-                    "url" : "https://gitlab.gnome.org/dylanmccall/gnome-break-timer.git"
+                    "type" : "dir",
+		    "path": "."
                 }
             ]
         }

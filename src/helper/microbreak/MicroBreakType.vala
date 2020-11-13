@@ -21,7 +21,7 @@ public class MicroBreakType : TimerBreakType {
     private ActivityMonitor activity_monitor;
 
     public MicroBreakType (ActivityMonitor activity_monitor) {
-        Settings settings = new Settings ("org.gnome.BreakTimer.microbreak");
+        GLib.Settings settings = new GLib.Settings ("org.gnome.BreakTimer.microbreak");
         base ("microbreak", settings);
         this.activity_monitor = activity_monitor;
     }

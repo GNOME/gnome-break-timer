@@ -20,11 +20,14 @@ namespace BreakTimer.Settings {
 public class MainWindow : Gtk.ApplicationWindow {
     private BreakManager break_manager;
 
+    private GLib.Menu app_menu;
+
     private Gtk.HeaderBar header;
     private Gtk.Stack main_stack;
 
     private Gtk.Button settings_button;
     private Gtk.Switch master_switch;
+    private Gtk.MenuButton menu_button;
 
     private BreakSettingsDialog break_settings_dialog;
 
@@ -44,6 +47,10 @@ public class MainWindow : Gtk.ApplicationWindow {
             GLib.error ("Error loading UI: %s", e.message);
         }
 
+        this.app_menu = new GLib.Menu ();
+        this.app_menu.append ( _("About"), "app.about");
+        this.app_menu.append ( _("Quit"), "app.quit");
+
         this.break_settings_dialog = new BreakSettingsDialog (break_manager);
         this.break_settings_dialog.set_modal (true);
         this.break_settings_dialog.set_transient_for (this);
@@ -59,12 +66,16 @@ public class MainWindow : Gtk.ApplicationWindow {
         this.header.set_hexpand (true);
 
         this.master_switch = new Gtk.Switch ();
-        header.pack_start (this.master_switch);
         master_switch.set_valign (Gtk.Align.CENTER);
         break_manager.bind_property ("master-enabled", this.master_switch, "active", BindingFlags.BIDIRECTIONAL | BindingFlags.SYNC_CREATE);
+        header.pack_start (this.master_switch);
+
+        this.menu_button = new Gtk.MenuButton ();
+        this.menu_button.set_direction (Gtk.ArrowType.NONE);
+        this.menu_button.set_menu_model (this.app_menu);
+        header.pack_end (this.menu_button);
 
         this.settings_button = new Gtk.Button ();
-        header.pack_end (this.settings_button);
         settings_button.clicked.connect (this.settings_clicked_cb);
         // FIXME: This icon is not semantically correct. (Wrong category, especially).
         settings_button.set_image (new Gtk.Image.from_icon_name (
@@ -73,6 +84,7 @@ public class MainWindow : Gtk.ApplicationWindow {
         );
         settings_button.valign = Gtk.Align.CENTER;
         settings_button.set_always_show_image (true);
+        header.pack_end (this.settings_button);
 
         this.main_stack = new Gtk.Stack ();
         content.add (this.main_stack);
@@ -111,8 +123,8 @@ public class MainWindow : Gtk.ApplicationWindow {
     private void break_added_cb (BreakType break_type) {
         var info_panel = break_type.info_panel;
         this.main_stack.add_named (info_panel, break_type.id);
-        info_panel.set_margin_left (20);
-        info_panel.set_margin_right (20);
+        info_panel.set_margin_start (20);
+        info_panel.set_margin_end (20);
         info_panel.set_halign (Gtk.Align.CENTER);
         info_panel.set_valign (Gtk.Align.CENTER);
     }
@@ -297,9 +309,9 @@ private class StatusPanel : Gtk.Stack {
         this.break_manager = break_manager;
 
         this.set_margin_top (20);
-        this.set_margin_right (20);
+        this.set_margin_end (20);
         this.set_margin_bottom (20);
-        this.set_margin_left (20);
+        this.set_margin_start (20);
         this.set_hexpand (true);
         this.set_vexpand (true);
 
@@ -329,9 +341,9 @@ private class StatusPanel : Gtk.Stack {
         var status_panel = break_type.status_panel;
         this.breaks_list.add (status_panel);
         status_panel.set_margin_top (18);
-        status_panel.set_margin_right (20);
+        status_panel.set_margin_end (20);
         status_panel.set_margin_bottom (18);
-        status_panel.set_margin_left (20);
+        status_panel.set_margin_start (20);
     }
 
     private void status_changed_cb () {

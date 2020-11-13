@@ -1,22 +1,22 @@
-common_sources = [
+common_sources = files(
     'IBreakHelper.vala',
     'ISessionStatus.vala',
     'NaturalTime.vala'
-]
+)
 
 common_dependencies = [
-    config_lib_dep,
-    gio_dep
+    gio_dep,
+    config_lib_dep
 ]
 
 common_lib = static_library(
     'common',
     sources: common_sources,
-    dependencies: common_dependencies
+    dependencies: common_dependencies,
+    include_directories: include_directories('.')
 )
 
 common_lib_dep = declare_dependency(
     link_with: common_lib,
-    dependencies: common_dependencies,
     include_directories: include_directories('.')
 )

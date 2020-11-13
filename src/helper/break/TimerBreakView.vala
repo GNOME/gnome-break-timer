@@ -22,7 +22,7 @@ public abstract class TimerBreakView : BreakView {
         get { return (TimerBreakController)this.break_controller; }
     }
 
-    public TimerBreakView (TimerBreakController timer_break, UIManager ui_manager) {
+    protected TimerBreakView (TimerBreakController timer_break, UIManager ui_manager) {
         base (timer_break, ui_manager);
     }
 

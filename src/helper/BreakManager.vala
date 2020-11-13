@@ -23,7 +23,7 @@ public class BreakManager : Object {
     private Gee.Map<string, BreakType> breaks;
     private BreakHelperServer break_helper_server;
 
-    private Settings settings;
+    private GLib.Settings settings;
     public bool master_enabled { get; set; }
     public string[] selected_break_ids { get; set; }
 
@@ -31,10 +31,10 @@ public class BreakManager : Object {
         this.ui_manager = ui_manager;
 
         this.breaks = new Gee.HashMap<string, BreakType> ();
-        this.settings = new Settings ("org.gnome.BreakTimer");
+        this.settings = new GLib.Settings ("org.gnome.BreakTimer");
 
-        this.settings.bind ("enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
-        this.settings.bind ("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);
+        this.settings.bind ("enabled", this, "master-enabled", GLib.SettingsBindFlags.DEFAULT);
+        this.settings.bind ("selected-breaks", this, "selected-break-ids", GLib.SettingsBindFlags.DEFAULT);
         this.notify["master-enabled"].connect (this.update_enabled_breaks);
         this.notify["selected-break-ids"].connect (this.update_enabled_breaks);
 

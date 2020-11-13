@@ -20,7 +20,7 @@ namespace BreakTimer.Helper {
 public abstract class TimerBreakType : BreakType {
     private BreakHelper_TimerBreakServer break_type_server;
 
-    public TimerBreakType (string id, Settings settings) {
+    protected TimerBreakType (string id, GLib.Settings settings) {
         base (id, settings);
     }
 
@@ -30,8 +30,8 @@ public abstract class TimerBreakType : BreakType {
         var timer_break_controller = (TimerBreakController)this.break_controller;
         var timer_break_view = (TimerBreakView)this.break_view;
 
-        this.settings.bind ("interval-seconds", timer_break_controller, "interval", SettingsBindFlags.GET);
-        this.settings.bind ("duration-seconds", timer_break_controller, "duration", SettingsBindFlags.GET);
+        this.settings.bind ("interval-seconds", timer_break_controller, "interval", GLib.SettingsBindFlags.GET);
+        this.settings.bind ("duration-seconds", timer_break_controller, "duration", GLib.SettingsBindFlags.GET);
 
         this.break_type_server = new BreakHelper_TimerBreakServer (
             timer_break_controller,

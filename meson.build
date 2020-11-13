@@ -36,7 +36,7 @@ locale_dir = join_paths(prefix, get_option('localedir'))
 
 application_icon = 'org.gnome.BreakTimer'
 application_url = 'https://wiki.gnome.org/Apps/BreakTimer'
-settings_application_id = 'org.gnome.BreakTimer'
+settings_application_id = 'org.gnome.BreakTimer.Settings'
 helper_application_id = 'org.gnome.BreakTimer.Helper'
 helper_bus_name = 'org.gnome.BreakTimer.Helper'
 helper_object_path = '/org/gnome/BreakTimer'
@@ -50,7 +50,9 @@ build_conf.set_quoted('PROJECT_VERSION', meson.project_version())
 build_conf.set_quoted('APPLICATION_ICON', application_icon)
 build_conf.set_quoted('APPLICATION_URL', application_url)
 build_conf.set_quoted('SETTINGS_APPLICATION_ID', settings_application_id)
+build_conf.set_quoted('SETTINGS_DESKTOP_FILE_ID', settings_application_id + '.desktop')
 build_conf.set_quoted('HELPER_APPLICATION_ID', helper_application_id)
+build_conf.set_quoted('HELPER_DESKTOP_FILE_ID', helper_application_id + '.desktop')
 build_conf.set_quoted('HELPER_BUS_NAME', helper_bus_name)
 build_conf.set_quoted('HELPER_OBJECT_PATH', helper_object_path)
 build_conf.set_quoted('HELPER_BREAK_OBJECT_BASE_PATH', helper_break_object_base_path)
@@ -60,14 +62,6 @@ add_project_arguments(['--vapidir', src_dir], language: 'vala')
 
 run_script_conf = configuration_data()
 run_script_conf.set('BINDIR', bindir)
-
-configure_file(
-    input: 'gnome-break-timer.sh.in',
-    output: 'gnome-break-timer',
-    configuration: run_script_conf,
-    install: true,
-    install_dir: bindir
-)
 
 subdir('po')
 subdir('data')

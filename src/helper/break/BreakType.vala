@@ -22,9 +22,9 @@ public abstract class BreakType : Object {
     public BreakController break_controller;
     public BreakView break_view;
 
-    protected Settings settings;
+    protected GLib.Settings settings;
 
-    public BreakType (string id, Settings settings) {
+    protected BreakType (string id, GLib.Settings settings) {
         this.id = id;
         this.settings = settings;
     }

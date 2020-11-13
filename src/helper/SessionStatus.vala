@@ -56,6 +56,8 @@ public class SessionStatus : ISessionStatus, Object {
         } catch (IOError error) {
             this.screensaver = null;
             GLib.warning ("Error connecting to screensaver service: %s", error.message);
+        } catch (GLib.DBusError error) {
+            GLib.warning ("Error getting screensaver active status: %s", error.message);
         }
     }
 
@@ -85,7 +87,9 @@ public class SessionStatus : ISessionStatus, Object {
         if (this.screensaver != null) {
             try {
                 this.screensaver.lock ();
-            } catch (IOError error) {
+            } catch (GLib.IOError error) {
+                GLib.warning ("Error connecting to screensaver service: %s", error.message);
+            } catch (GLib.DBusError error) {
                 GLib.warning ("Error locking screen: %s", error.message);
             }
         }
@@ -95,7 +99,9 @@ public class SessionStatus : ISessionStatus, Object {
         if (this.screensaver != null) {
             try {
                 this.screensaver.set_active (true);
-            } catch (IOError error) {
+            } catch (GLib.IOError error) {
+                GLib.warning ("Error connecting to screensaver service: %s", error.message);
+            } catch (GLib.DBusError error) {
                 GLib.warning ("Error blanking screeen: %s", error.message);
             }
         }
@@ -105,7 +111,9 @@ public class SessionStatus : ISessionStatus, Object {
         if (this.screensaver != null) {
             try {
                 this.screensaver.set_active (false);
-            } catch (IOError error) {
+            } catch (GLib.IOError error) {
+                GLib.warning ("Error connecting to screensaver service: %s", error.message);
+            } catch (GLib.DBusError error) {
                 GLib.warning ("Error unblanking screeen: %s", error.message);
             }
         }
