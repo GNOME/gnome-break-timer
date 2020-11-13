@@ -8,12 +8,10 @@
   <shortdesc xml:lang="en">Take a break</shortdesc>
   <homepage rdf:resource="https://wiki.gnome.org/Apps/GnomeBreakTimer" />
 
-  <!-- <category rdf:resource="http://api.gnome.org/doap-extensions#desktop" /> -->
-
   <maintainer>
     <foaf:Person>
       <foaf:name>Dylan McCall</foaf:name>
-      <foaf:mbox rdf:resource="mailto:dylanmccall@ubuntu.com" />
+      <foaf:mbox rdf:resource="mailto:dylan@dylanmccall.ca" />
     </foaf:Person>
   </maintainer>
 

@@ -65,51 +65,51 @@ msgstr ""
 msgid "break;micro;rest;timer;"
 msgstr "pause;courte;longue;repos;minuteur;programmateur;"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:1
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:1
 msgid "True to enable GNOME Break Timer"
 msgstr "True (vrai) pour activer le Minuteur de pauses GNOME"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:2
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:2
 msgid "The list of breaks that are currently enabled"
 msgstr "Liste des pauses actuellement activées"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:3
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:3
 msgid "True to enable quiet mode"
 msgstr "True (vrai) pour activer le mode silencieux"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:4
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:4
 msgid "Hides breaks until quiet-mode-expire-time."
 msgstr "Masque les pauses jusqu'à l'expiration du temps passé en mode silencieux (valeur de la clé quiet-mode-expire-time)."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:5
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:5
 msgid "Time to end quiet mode."
 msgstr "Temps d'expiration du mode silencieux."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:6
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:6
 msgid "The time to automatically disable quiet mode, in unix time."
 msgstr "Temps d'expiration du mode silencieux, en temps unix."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:7
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:7
 msgid "Time between breaks"
 msgstr "Temps entre les pauses"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:8
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:8
 msgid "The time between rest breaks, in seconds."
 msgstr "Temps entre les pauses, en secondes."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:9
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:9
 msgid "Duration of each break"
 msgstr "Durée des pauses"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:10
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:10
 msgid "The duration of each rest break, in seconds."
 msgstr "Durée de chaque pause longue, en secondes."
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:11
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:11
 msgid "The preferred time between micro breaks, in seconds."
 msgstr "Temps souhaité entre les courtes pauses, en secondes"
 
-#: ../data/org.gnome.break-timer.gschema.xml.in.h:12
+#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:12
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "Durée préférée des pauses courtes, en secondes."
 
@@ -207,99 +207,99 @@ msgstr[0] "%d heure"
 msgstr[1] "%d heures"
 
 #. Label for a notification action that shows information about the current break
-#: ../helper/break/BreakView.vala:74
+#: ../daemon/break/BreakView.vala:74
 msgid "What should I do?"
 msgstr "Que dois-je faire ?"
 
 #. Break overlay label when a break has been finished
-#: ../helper/break/TimerBreakStatusWidget.vala:56
+#: ../daemon/break/TimerBreakStatusWidget.vala:56
 msgid "Thank you"
 msgstr "Merci"
 
-#: ../helper/HelperApplication.vala:20 ../settings/MainWindow.vala:148
+#: ../daemon/DaemonApplication.vala:20 ../settings/MainWindow.vala:148
 msgid "GNOME Break Timer"
 msgstr "Minuteur de pauses GNOME"
 
 #. Label for a notification action that will skip the current microbreak
-#: ../helper/microbreak/MicroBreakView.vala:40
+#: ../daemon/microbreak/MicroBreakView.vala:40
 msgid "Skip this one"
 msgstr "Passer celle-ci"
 
-#: ../helper/microbreak/MicroBreakView.vala:47
+#: ../daemon/microbreak/MicroBreakView.vala:47
 msgid "It’s time for a micro break"
 msgstr "C'est le moment de faire une courte pause"
 
-#: ../helper/microbreak/MicroBreakView.vala:48
+#: ../daemon/microbreak/MicroBreakView.vala:48
 msgid "Take a break from typing and look away from the screen"
 msgstr ""
 "Faites une pause dans la saisie au clavier et regardez ailleurs que l'écran."
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../helper/microbreak/MicroBreakView.vala:64
+#: ../daemon/microbreak/MicroBreakView.vala:64
 #, c-format
 msgid "You were due to take a micro break %s ago"
 msgid_plural "You were due to take a micro break %s ago"
 msgstr[0] "Vous deviez faire une pause courte il y a %s"
 msgstr[1] "Vous deviez faire une pause courte il y a %s"
 
-#: ../helper/microbreak/MicroBreakView.vala:70
+#: ../daemon/microbreak/MicroBreakView.vala:70
 msgid "Overdue micro break"
 msgstr "Pause courte dépassée"
 
-#: ../helper/microbreak/MicroBreakView.vala:80
-#: ../helper/restbreak/RestBreakView.vala:125
+#: ../daemon/microbreak/MicroBreakView.vala:80
+#: ../daemon/restbreak/RestBreakView.vala:125
 msgid "Break is over"
 msgstr "La pause est terminée"
 
-#: ../helper/microbreak/MicroBreakView.vala:81
+#: ../daemon/microbreak/MicroBreakView.vala:81
 msgid "Your micro break has ended"
 msgstr "Votre pause courte est terminée"
 
-#: ../helper/microbreak/MicroBreakView.vala:94
+#: ../daemon/microbreak/MicroBreakView.vala:94
 msgid "Take a moment to rest your eyes"
 msgstr "Prenez un moment pour vous reposer les yeux"
 
 #. Label for a notification action that will delay the current break for a few minutes
-#: ../helper/restbreak/RestBreakView.vala:54
+#: ../daemon/restbreak/RestBreakView.vala:54
 msgid "Remind me later"
 msgstr "Rappeler-le moi plus tard"
 
 #. FIXME: Should say how long the break is?
-#: ../helper/restbreak/RestBreakView.vala:68
+#: ../daemon/restbreak/RestBreakView.vala:68
 msgid "Time for a break"
 msgstr "Temps pour une pause"
 
-#: ../helper/restbreak/RestBreakView.vala:69
+#: ../daemon/restbreak/RestBreakView.vala:69
 msgid ""
 "It’s time to take a break. Get away from the computer for a little while!"
 msgstr ""
 "Il est temps de faire une pause. Quitter l'ordinateur pour un petit moment !"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../helper/restbreak/RestBreakView.vala:86
+#: ../daemon/restbreak/RestBreakView.vala:86
 #, c-format
 msgid "There is %s remaining in your break"
 msgid_plural "There are %s remaining in your break"
 msgstr[0] "Il reste %s de pause"
 msgstr[1] "Il reste %s de pause"
 
-#: ../helper/restbreak/RestBreakView.vala:92
+#: ../daemon/restbreak/RestBreakView.vala:92
 msgid "Break interrupted"
 msgstr "Pause interrompue"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../helper/restbreak/RestBreakView.vala:109
+#: ../daemon/restbreak/RestBreakView.vala:109
 #, c-format
 msgid "You were due to take a break %s ago"
 msgid_plural "You were due to take a break %s ago"
 msgstr[0] "Vous deviez faire une pause il y a %s"
 msgstr[1] "Vous deviez faire une pause il y a %s"
 
-#: ../helper/restbreak/RestBreakView.vala:115
+#: ../daemon/restbreak/RestBreakView.vala:115
 msgid "Overdue break"
 msgstr "Pause dépassée"
 
-#: ../helper/restbreak/RestBreakView.vala:126
+#: ../daemon/restbreak/RestBreakView.vala:126
 msgid "Your break time has ended"
 msgstr "Votre temps de pause est terminé"
 

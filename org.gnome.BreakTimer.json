@@ -1,0 +1,46 @@
+{
+    "id" : "org.gnome.BreakTimer",
+    "runtime" : "org.gnome.Platform",
+    "runtime-version" : "3.36",
+    "sdk" : "org.gnome.Sdk",
+    "command" : "gnome-break-timer-settings",
+    "finish-args" : [
+        "--share=ipc",
+        "--socket=x11",
+        "--socket=wayland",
+        "--socket=pulseaudio",
+        "--talk-name=org.gnome.Shell",
+        "--filesystem=/usr/share/glib-2.0/schemas:ro",
+        "--filesystem=xdg-run/dconf",
+        "--filesystem=~/.config/dconf:rw",
+        "--own-name=org.gnome.BreakTimer",
+        "--talk-name=org.gnome.BreakTimer",
+        "--own-name=org.gnome.BreakTimer.*",
+        "--talk-name=org.gnome.BreakTimer.*",
+        "--talk-name=org.gnome.Mutter.IdleMonitor",
+        "--talk-name=org.gnome.ScreenSaver",
+        "--talk-name=org.freedesktop.Notifications",
+        "--talk-name=ca.desrt.dconf",
+        "--env=DCONF_USER_CONFIG_DIR=.config/dconf"
+    ],
+    "build-options" : {
+        "cflags" : "-O2 -g",
+        "cxxflags" : "-O2 -g",
+        "env" : {
+            "V" : "1"
+        }
+    },
+    "modules" : [
+        {
+            "name" : "gnome-break-timer",
+            "buildsystem" : "meson",
+            "builddir" : true,
+            "sources" : [
+                {
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/dylanmccall/gnome-break-timer.git"
+                }
+            ]
+        }
+    ]
+}
