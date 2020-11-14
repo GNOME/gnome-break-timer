@@ -45,7 +45,7 @@ executable(
 )
 
 executable(
-    'gnome-break-timer-service',
+    'gnome-break-timer-daemon',
     sources : [
         daemon_sources
     ],

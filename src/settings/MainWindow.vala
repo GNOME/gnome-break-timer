@@ -39,6 +39,7 @@ public class MainWindow : Gtk.ApplicationWindow {
         this.break_manager = break_manager;
 
         this.set_title ( _("Break Timer"));
+        this.set_default_size (850, 400);
 
         Gtk.Builder builder = new Gtk.Builder ();
         try {

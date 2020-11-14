@@ -5,7 +5,6 @@ metainfo_file = i18n.merge_file(
     output: 'org.gnome.BreakTimer.metainfo.xml',
     type: 'xml',
     po_dir: po_dir,
-    configuration: build_conf,
     install: true,
     install_dir: metainfo_dir
 )

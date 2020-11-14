@@ -8,8 +8,8 @@ configure_file(
 )
 
 configure_file(
-    input: 'org.gnome.BreakTimer.Daemon.service.in',
-    output: 'org.gnome.BreakTimer.Daemon.service',
+    input: 'org.gnome.BreakTimer.service.in',
+    output: 'org.gnome.BreakTimer.service',
     configuration: build_conf,
     install_dir: dbus_session_bus_services_dir
 )

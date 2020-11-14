@@ -33,30 +33,72 @@ public class BreakManager : Object {
     public string[] selected_break_ids { get; set; }
     public BreakType? foreground_break { get; private set; }
 
+    IBackgroundPortal? background_portal = null;
+
     public BreakManager (SettingsApplication application) {
         this.application = application;
         this.breaks = new Gee.HashMap<string, BreakType> ();
         this.breaks_ordered = new GLib.List<BreakType> ();
 
+        if (this.get_is_in_flatpak ()) {
+            try {
+                this.background_portal = Bus.get_proxy_sync (
+                    BusType.SESSION,
+                    "org.freedesktop.portal.Desktop",
+                    "/org/freedesktop/portal/desktop"
+                );
+            } catch (GLib.IOError error) {
+                GLib.warning ("Error connecting to xdg desktop portal: %s", error.message);
+            }
+        }
+
         this.settings = new GLib.Settings ("org.gnome.BreakTimer");
         this.settings.bind ("enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
         this.settings.bind ("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);
 
-        // We choose not too send a signal when master_enabled changes because
+        // We choose not to send a signal when master_enabled changes because
         // we might be starting the break daemon at the same time, so the
         // value of is_working () could fluctuate unpleasantly.
         //this.notify["master-enabled"].connect ( () => { this.status_changed (); });
-        this.notify["master-enabled"].connect ( () => {
-            // Launch the break timer service if the break manager is enabled
-            // TODO: this is redundant, because gnome-session autostarts the
-            // service. However, it is unclear if we should rely on it.
-            if (this.master_enabled) this.launch_break_timer_service ();
-        });
+        this.notify["master-enabled"].connect ( this.on_master_enabled_changed );
     }
 
     public signal void break_status_available ();
     public signal void break_added (BreakType break_type);
     public signal void status_changed ();
+
+    private void on_master_enabled_changed () {
+        // Launch the break timer service if the break manager is enabled
+        if (this.master_enabled) {
+            this.launch_break_timer_service ();
+        }
+
+        if (this.background_portal != null) {
+            HashTable<string, Variant> options = new HashTable<string, Variant> (str_hash, str_equal);
+            GLib.Variant commandline_variant = new GLib.Variant.strv ({"gnome-break-timer-daemon"});
+            options.insert ("autostart", this.master_enabled);
+            options.insert ("commandline", commandline_variant);
+            // RequestBackground creates a desktop file with the same name as
+            // the flatpak, which happens to be the dbus name of the daemon
+            // (although it is not the dbus name of the settings application).
+            options.insert ("dbus-activatable", true);
+
+            try {
+                // We don't have a nice way to generate a window handle, but the
+                // background portal isn't using it at the moment.
+                this.background_portal.request_background("", options);
+            } catch (IOError error) {
+                GLib.warning ("Error connecting to xdg desktop portal: %s", error.message);
+            } catch (GLib.DBusError error) {
+                GLib.warning ("Error enabling autostart: %s", error.message);
+            }
+        }
+    }
+
+    private bool get_is_in_flatpak () {
+        string flatpak_info_path = GLib.Path.build_filename (GLib.Environment.get_user_runtime_dir (), "flatpak-info");
+        return GLib.FileUtils.test (flatpak_info_path, GLib.FileTest.EXISTS);
+    }
 
     public void load_breaks () {
         this.add_break (new MicroBreakType ());
@@ -139,10 +181,7 @@ public class BreakManager : Object {
     }
 
     private void launch_break_timer_service () {
-        stdout.printf ("Trying to launch: %s\n", Config.DAEMON_DESKTOP_FILE_ID);
         AppInfo daemon_app_info = new DesktopAppInfo (Config.DAEMON_DESKTOP_FILE_ID);
-        stdout.printf ("daemon_app_info: %s\n", daemon_app_info.get_name());
-        stdout.printf ("daemon_app_info: %s\n", daemon_app_info.get_commandline());
         AppLaunchContext app_launch_context = new AppLaunchContext ();
         try {
             daemon_app_info.launch (null, app_launch_context);

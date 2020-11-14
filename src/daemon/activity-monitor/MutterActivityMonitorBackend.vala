@@ -17,17 +17,6 @@
 
 namespace BreakTimer.Daemon {
 
-[DBus (name = "org.gnome.Mutter.IdleMonitor")]
-public interface IMutterIdleMonitor : Object {
-    public abstract uint32 add_idle_watch(uint64 interval_ms) throws GLib.DBusError, GLib.IOError;
-    public abstract uint32 add_user_active_watch() throws GLib.DBusError, GLib.IOError;
-    public abstract uint64 get_idletime() throws GLib.DBusError, GLib.IOError;
-    public abstract void remove_watch(uint32 id) throws GLib.DBusError, GLib.IOError;
-    public abstract void reset_idletime() throws GLib.DBusError, GLib.IOError;
-
-    public signal void watch_fired (uint32 id);
-}
-
 public class MutterActivityMonitorBackend : ActivityMonitorBackend {
     private IMutterIdleMonitor? mutter_idle_monitor;
     private uint32 idle_watch_id;

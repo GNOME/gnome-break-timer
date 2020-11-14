@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=org.gnome.BreakTimer.Daemon
-Exec=gnome-break-timer-service

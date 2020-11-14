@@ -33,12 +33,13 @@ libdir = join_paths(prefix, get_option('libdir'))
 datadir = join_paths(prefix, get_option('datadir'))
 libexecdir = join_paths(prefix, get_option('libexecdir'))
 locale_dir = join_paths(prefix, get_option('localedir'))
+sysconf_dir = get_option('sysconfdir')
 
 application_icon = 'org.gnome.BreakTimer'
 application_url = 'https://wiki.gnome.org/Apps/BreakTimer'
 settings_application_id = 'org.gnome.BreakTimer.Settings'
-daemon_application_id = 'org.gnome.BreakTimer.Daemon'
-daemon_bus_name = 'org.gnome.BreakTimer.Daemon'
+daemon_application_id = 'org.gnome.BreakTimer'
+daemon_bus_name = 'org.gnome.BreakTimer'
 daemon_object_path = '/org/gnome/BreakTimer'
 daemon_break_object_base_path = '/org/gnome/BreakTimer/'
 
