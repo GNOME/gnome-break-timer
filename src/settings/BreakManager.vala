@@ -41,6 +41,8 @@ public class BreakManager : Object {
         this.breaks_ordered = new GLib.List<BreakType> ();
 
         if (this.get_is_in_flatpak ()) {
+            // TODO: Does this work outside of a flatpak? We could remove the
+            // extra file we install in data/autostart, which would be nice.
             try {
                 this.background_portal = Bus.get_proxy_sync (
                     BusType.SESSION,
@@ -85,7 +87,9 @@ public class BreakManager : Object {
 
             try {
                 // We don't have a nice way to generate a window handle, but the
-                // background portal isn't using it at the moment.
+                // background portal can probably do without.
+                // TODO: Handle response, and display an error if the result
+                //       includes `autostart == false || background == false`.
                 this.background_portal.request_background("", options);
             } catch (IOError error) {
                 GLib.warning ("Error connecting to xdg desktop portal: %s", error.message);

@@ -27,7 +27,7 @@ public class UIManager : SimpleFocusManager {
     private weak Gtk.Application application;
     private ISessionStatus session_status;
 
-    private Canberra.Context? canberra;
+    private GSound.Context? gsound;
 
     private Notify.Notification? notification;
     private Notify.Notification? lock_notification;
@@ -38,15 +38,12 @@ public class UIManager : SimpleFocusManager {
         this.application = application;
         this.session_status = session_status;
 
-        if (Canberra.Context.create (out this.canberra) != 0) {
-            this.canberra = null;
-        }
-
-        if (this.canberra != null) {
-            this.canberra.change_props(Canberra.PROP_APPLICATION_ID, Config.DAEMON_APPLICATION_ID);
-            this.canberra.change_props(Canberra.PROP_APPLICATION_NAME, _("GNOME Break Timer"));
-            this.canberra.change_props(Canberra.PROP_APPLICATION_ICON_NAME, Config.APPLICATION_ICON);
-            this.canberra.open();
+        try {
+            this.gsound = new GSound.Context ();
+            this.gsound.init ();
+        } catch (GLib.Error error) {
+            GLib.warning ("Error initializing gsound: %s", error.message);
+            this.gsound = null;
         }
 
         this.session_status.unlocked.connect (this.hide_lock_notification_cb);
@@ -76,7 +73,7 @@ public class UIManager : SimpleFocusManager {
 
         try {
             notification.show ();
-        } catch (Error error) {
+        } catch (GLib.Error error) {
             GLib.warning ("Error showing notification: %s", error.message);
         }
 
@@ -96,7 +93,7 @@ public class UIManager : SimpleFocusManager {
                     this.notification.set_hint ("transient", true);
                     this.notification.show ();
                 }
-            } catch (Error error) {
+            } catch (GLib.Error error) {
                 // We ignore this error, because it's usually just noise
                 // GLib.warning ("Error closing notification: %s", error.message);
             }
@@ -120,10 +117,12 @@ public class UIManager : SimpleFocusManager {
     }
 
     public void play_sound_from_id (string event_id) {
-        if (this.canberra != null) {
-            canberra.play (0,
-                Canberra.PROP_EVENT_ID, event_id
-            );
+        if (this.gsound != null) {
+            try {
+                this.gsound.play_simple (null, "event.id", event_id);
+            } catch (GLib.Error error) {
+                GLib.warning ("Error playing sound: %s", error.message);
+            }
         }
     }
 

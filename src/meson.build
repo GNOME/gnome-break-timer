@@ -18,7 +18,7 @@ subdir('common')
 subdir('settings')
 subdir('daemon')
 
-main_dependencies = [
+common_dependencies = [
     cairo_dep,
     config_lib_dep,
     gee_dep,
@@ -26,7 +26,7 @@ main_dependencies = [
     gio_unix_dep,
     gtk_dep,
     json_glib_dep,
-    libcanberra_dep,
+    gsound_dep,
     libnotify_dep,
     m_dep,
     posix_dep,
@@ -39,7 +39,7 @@ executable(
     sources : [
         settings_sources
     ],
-    dependencies : main_dependencies,
+    dependencies : common_dependencies,
     install: true,
     install_dir: bindir
 )
@@ -49,7 +49,7 @@ executable(
     sources : [
         daemon_sources
     ],
-    dependencies : main_dependencies,
+    dependencies : common_dependencies,
     install: true,
     install_dir: bindir
 )
