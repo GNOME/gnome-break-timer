@@ -16,10 +16,12 @@
  */
 
 using BreakTimer.Common;
+using BreakTimer.Settings.Break;
+using BreakTimer.Settings.Widgets;
 
-namespace BreakTimer.Settings {
+namespace BreakTimer.Settings.TimerBreak {
 
-public abstract class TimerBreakStatusPanel : BreakStatusPanel {
+public abstract class TimerBreakStatusWidget : BreakStatusWidget {
     private string upcoming_text;
     private string ongoing_text;
 
@@ -27,8 +29,9 @@ public abstract class TimerBreakStatusPanel : BreakStatusPanel {
     private Gtk.Label status_label;
     private Gtk.Label time_label;
 
-    protected TimerBreakStatusPanel (TimerBreakType break_type, string upcoming_text, string ongoing_text) {
+    protected TimerBreakStatusWidget (TimerBreakType break_type, string upcoming_text, string ongoing_text) {
         base (break_type);
+
         this.upcoming_text = upcoming_text;
         this.ongoing_text = ongoing_text;
 

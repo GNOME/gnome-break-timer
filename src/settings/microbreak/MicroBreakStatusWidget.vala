@@ -15,10 +15,12 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Settings {
+using BreakTimer.Settings.TimerBreak;
 
-class MicroBreakStatusPanel : TimerBreakStatusPanel {
-    public MicroBreakStatusPanel (MicroBreakType break_type) {
+namespace BreakTimer.Settings.MicroBreak {
+
+class MicroBreakStatusWidget : TimerBreakStatusWidget {
+    public MicroBreakStatusWidget (MicroBreakType break_type) {
         base (
             break_type,
             /* Label that explains a countdown timer, which shows a string such as "5 minutes" */

@@ -15,7 +15,7 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Settings {
+namespace BreakTimer.Settings.Widgets {
 
 class BreakConfigurationChooser : Gtk.ComboBox {
     public class Configuration : GLib.Object {

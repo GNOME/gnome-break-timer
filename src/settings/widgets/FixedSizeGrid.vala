@@ -15,7 +15,7 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Settings {
+namespace BreakTimer.Settings.Widgets {
 
 class FixedSizeGrid : Gtk.Grid {
     public override void adjust_size_request (Gtk.Orientation orientation, ref int minimum_size, ref int natural_size) {

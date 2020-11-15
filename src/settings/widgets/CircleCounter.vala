@@ -15,7 +15,7 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Settings {
+namespace BreakTimer.Settings.Widgets {
 
 /**
  * Displays a countdown using a circle, reminiscent of a countdown timer.

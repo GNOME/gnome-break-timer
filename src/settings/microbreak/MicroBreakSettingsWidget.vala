@@ -15,27 +15,17 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Settings {
+using BreakTimer.Settings.TimerBreak;
 
-public class RestBreakType : TimerBreakType {
-    public RestBreakType () {
-        GLib.Settings settings = new GLib.Settings ("org.gnome.BreakTimer.restbreak");
-        base ("restbreak", settings);
+namespace BreakTimer.Settings.MicroBreak {
 
-        this.interval_options = { 1800, 2400, 3000, 3600 };
-        this.duration_options = { 240, 300, 360, 480, 600 };
-    }
-
-    protected override BreakInfoPanel get_info_panel () {
-        return new RestBreakInfoPanel (this);
-    }
-
-    protected override BreakStatusPanel get_status_panel () {
-        return new RestBreakStatusPanel (this);
-    }
-
-    protected override BreakSettingsPanel get_settings_panel () {
-        return new RestBreakSettingsPanel (this);
+class MicroBreakSettingsWidget : TimerBreakSettingsWidget {
+    public MicroBreakSettingsWidget (MicroBreakType break_type) {
+        base (
+            break_type,
+            _("Microbreak"),
+            _("Pause frequently to relax your eyes")
+        );
     }
 }
 

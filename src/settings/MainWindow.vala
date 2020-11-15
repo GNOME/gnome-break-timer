@@ -15,6 +15,9 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using BreakTimer.Settings.Break;
+using BreakTimer.Settings.Panels;
+
 namespace BreakTimer.Settings {
 
 public class MainWindow : Gtk.ApplicationWindow {
@@ -123,12 +126,12 @@ public class MainWindow : Gtk.ApplicationWindow {
     }
 
     private void break_added_cb (BreakType break_type) {
-        var info_panel = break_type.info_panel;
-        this.main_stack.add_named (info_panel, break_type.id);
-        info_panel.set_margin_start (20);
-        info_panel.set_margin_end (20);
-        info_panel.set_halign (Gtk.Align.CENTER);
-        info_panel.set_valign (Gtk.Align.CENTER);
+        var info_widget = break_type.info_widget;
+        this.main_stack.add_named (info_widget, break_type.id);
+        info_widget.set_margin_start (20);
+        info_widget.set_margin_end (20);
+        info_widget.set_halign (Gtk.Align.CENTER);
+        info_widget.set_valign (Gtk.Align.CENTER);
     }
 
     private void update_visible_panel () {
@@ -146,7 +149,7 @@ public class MainWindow : Gtk.ApplicationWindow {
             this.header.set_title ( _("Welcome Tour"));
         } else if (foreground_break != null) {
             this.main_stack.set_visible_child_full (foreground_break.id, transition);
-            this.header.set_title (foreground_break.info_panel.title);
+            this.header.set_title (foreground_break.info_widget.title);
         } else {
             this.main_stack.set_visible_child_full ("status_panel", transition);
             this.header.set_title ( _("Break Timer"));

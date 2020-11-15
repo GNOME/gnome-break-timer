@@ -15,7 +15,10 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Settings {
+using BreakTimer.Settings.Break;
+using BreakTimer.Settings.TimerBreak;
+
+namespace BreakTimer.Settings.MicroBreak {
 
 public class MicroBreakType : TimerBreakType {
     public MicroBreakType () {
@@ -26,16 +29,16 @@ public class MicroBreakType : TimerBreakType {
         this.duration_options = { 15, 30, 45, 60 };
     }
 
-    protected override BreakInfoPanel get_info_panel () {
-        return new MicroBreakInfoPanel (this);
+    protected override BreakInfoWidget get_info_widget () {
+        return new MicroBreakInfoWidget (this);
     }
 
-    protected override BreakStatusPanel get_status_panel () {
-        return new MicroBreakStatusPanel (this);
+    protected override BreakStatusWidget get_status_widget () {
+        return new MicroBreakStatusWidget (this);
     }
 
-    protected override BreakSettingsPanel get_settings_panel () {
-        return new MicroBreakSettingsPanel (this);
+    protected override BreakSettingsWidget get_settings_widget () {
+        return new MicroBreakSettingsWidget (this);
     }
 }
 

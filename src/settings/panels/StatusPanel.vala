@@ -15,7 +15,9 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Settings {
+using BreakTimer.Settings.Break;
+
+namespace BreakTimer.Settings.Panels {
 
 private class StatusPanel : Gtk.Stack {
     private BreakManager break_manager;
@@ -59,12 +61,12 @@ private class StatusPanel : Gtk.Stack {
     }
 
     private void break_added_cb (BreakType break_type) {
-        var status_panel = break_type.status_panel;
-        this.breaks_list.add (status_panel);
-        status_panel.set_margin_top (18);
-        status_panel.set_margin_end (20);
-        status_panel.set_margin_bottom (18);
-        status_panel.set_margin_start (20);
+        var status_widget = break_type.status_widget;
+        this.breaks_list.add (status_widget);
+        status_widget.set_margin_top (18);
+        status_widget.set_margin_end (20);
+        status_widget.set_margin_bottom (18);
+        status_widget.set_margin_start (20);
     }
 
     private void status_changed_cb () {
@@ -75,10 +77,10 @@ private class StatusPanel : Gtk.Stack {
             var status = break_type.status;
             if (status != null) {
                 if (status.is_enabled) {
-                    break_type.status_panel.show ();
+                    break_type.status_widget.show ();
                     any_breaks_enabled = true;
                 } else {
-                    break_type.status_panel.hide ();
+                    break_type.status_widget.hide ();
                 }
             }
         }

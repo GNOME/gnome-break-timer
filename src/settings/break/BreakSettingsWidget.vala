@@ -15,13 +15,13 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Settings {
+namespace BreakTimer.Settings.Break {
 
-public abstract class BreakSettingsPanel : Gtk.Grid {
+public abstract class BreakSettingsWidget : Gtk.Grid {
     private Gtk.Grid header;
     private Gtk.Grid details;
 
-    protected BreakSettingsPanel (BreakType break_type, string title, string? description) {
+    protected BreakSettingsWidget (BreakType break_type, string title, string? description) {
         GLib.Object ();
 
         this.set_orientation (Gtk.Orientation.VERTICAL);

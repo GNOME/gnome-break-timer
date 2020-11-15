@@ -15,14 +15,17 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Settings {
+using BreakTimer.Settings.TimerBreak;
 
-class MicroBreakSettingsPanel : TimerBreakSettingsPanel {
-    public MicroBreakSettingsPanel (MicroBreakType break_type) {
+namespace BreakTimer.Settings.RestBreak {
+
+class RestBreakStatusWidget : TimerBreakStatusWidget {
+    public RestBreakStatusWidget (RestBreakType break_type) {
         base (
             break_type,
-            _("Microbreak"),
-            _("Pause frequently to relax your eyes")
+            /* Label that explains a countdown timer, which shows a string such as "30 minutes" */
+            _("Your next full break is in"),
+            _("It's break time")
         );
     }
 }

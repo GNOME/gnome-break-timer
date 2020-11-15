@@ -15,9 +15,9 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Settings {
+namespace BreakTimer.Settings.Break {
 
-public abstract class BreakInfoPanel : Gtk.Grid {
+public abstract class BreakInfoWidget : Gtk.Grid {
     public BreakType break_type { public get; private set; }
     public string title { public get; private set; }
 
@@ -25,7 +25,7 @@ public abstract class BreakInfoPanel : Gtk.Grid {
     private Gtk.Label description_label;
     private Gtk.Label detail_label;
 
-    protected BreakInfoPanel (BreakType break_type, string title) {
+    protected BreakInfoWidget (BreakType break_type, string title) {
         GLib.Object ();
 
         this.break_type = break_type;

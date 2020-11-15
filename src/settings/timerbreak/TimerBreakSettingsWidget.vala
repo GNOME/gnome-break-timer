@@ -15,10 +15,13 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Settings {
+using BreakTimer.Settings.Break;
+using BreakTimer.Settings.Widgets;
 
-public abstract class TimerBreakSettingsPanel : BreakSettingsPanel {
-    protected TimerBreakSettingsPanel (TimerBreakType break_type, string title, string? description) {
+namespace BreakTimer.Settings.TimerBreak {
+
+public abstract class TimerBreakSettingsWidget : BreakSettingsWidget {
+    protected TimerBreakSettingsWidget (TimerBreakType break_type, string title, string? description) {
         base (break_type, title, description);
 
         var details_grid = new Gtk.Grid ();

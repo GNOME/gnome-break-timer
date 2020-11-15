@@ -17,7 +17,7 @@
 
 using BreakTimer.Common;
 
-namespace BreakTimer.Settings {
+namespace BreakTimer.Settings.Widgets {
 
 public class TimeChooser : Gtk.ComboBox {
     private Gtk.ListStore list_store;

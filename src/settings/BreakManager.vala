@@ -19,6 +19,9 @@
 // application. Ideally, it should be common code in the future.
 
 using BreakTimer.Common;
+using BreakTimer.Settings.Break;
+using BreakTimer.Settings.MicroBreak;
+using BreakTimer.Settings.RestBreak;
 
 namespace BreakTimer.Settings {
 

@@ -15,6 +15,9 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using BreakTimer.Settings.Break;
+using BreakTimer.Settings.Widgets;
+
 namespace BreakTimer.Settings {
 
 public class BreakSettingsDialog : Gtk.Dialog {
@@ -79,21 +82,21 @@ public class BreakSettingsDialog : Gtk.Dialog {
     private void update_break_configuration () {
         foreach (BreakType break_type in this.break_manager.all_breaks ()) {
             if (break_type.id in this.configuration_chooser.selected_break_ids) {
-                break_type.settings_panel.show ();
+                break_type.settings_widget.show ();
             } else {
-                break_type.settings_panel.hide ();
+                break_type.settings_widget.hide ();
             }
         }
     }
 
     private void break_added_cb (BreakType break_type) {
-        var settings_panel = break_type.settings_panel;
-        breaks_grid.add (settings_panel);
-        settings_panel.realize ();
-        settings_panel.set_valign (Gtk.Align.CENTER);
-        settings_panel.set_vexpand (true);
-        settings_panel.set_margin_top (10);
-        settings_panel.set_margin_bottom (10);
+        var settings_widget = break_type.settings_widget;
+        breaks_grid.add (settings_widget);
+        settings_widget.realize ();
+        settings_widget.set_valign (Gtk.Align.CENTER);
+        settings_widget.set_vexpand (true);
+        settings_widget.set_margin_top (10);
+        settings_widget.set_margin_bottom (10);
         this.update_break_configuration ();
     }
 

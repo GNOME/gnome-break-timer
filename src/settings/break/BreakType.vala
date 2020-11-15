@@ -17,15 +17,15 @@
 
 using BreakTimer.Common;
 
-namespace BreakTimer.Settings {
+namespace BreakTimer.Settings.Break {
 
 public abstract class BreakType : GLib.Object {
     public string id { get; private set; }
     public BreakStatus? status;
 
-    public BreakInfoPanel info_panel;
-    public BreakStatusPanel status_panel;
-    public BreakSettingsPanel settings_panel;
+    public BreakInfoWidget info_widget;
+    public BreakStatusWidget status_widget;
+    public BreakSettingsWidget settings_widget;
 
     public GLib.Settings settings;
 
@@ -37,9 +37,9 @@ public abstract class BreakType : GLib.Object {
     public signal void status_changed (BreakStatus? status);
 
     public virtual void initialize () {
-        this.info_panel = this.get_info_panel ();
-        this.status_panel = this.get_status_panel ();
-        this.settings_panel = this.get_settings_panel ();
+        this.info_widget = this.get_info_widget ();
+        this.status_widget = this.get_status_widget ();
+        this.settings_widget = this.get_settings_widget ();
     }
 
     protected void update_status (BreakStatus? status) {
@@ -47,9 +47,9 @@ public abstract class BreakType : GLib.Object {
         this.status_changed (status);
     }
 
-    protected abstract BreakInfoPanel get_info_panel ();
-    protected abstract BreakStatusPanel get_status_panel ();
-    protected abstract BreakSettingsPanel get_settings_panel ();
+    protected abstract BreakInfoWidget get_info_widget ();
+    protected abstract BreakStatusWidget get_status_widget ();
+    protected abstract BreakSettingsWidget get_settings_widget ();
 }
 
 }

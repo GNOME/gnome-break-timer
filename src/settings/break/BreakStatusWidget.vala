@@ -15,15 +15,18 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Settings {
+namespace BreakTimer.Settings.Break {
 
-class RestBreakSettingsPanel : TimerBreakSettingsPanel {
-    public RestBreakSettingsPanel (RestBreakType break_type) {
-        base (
-            break_type,
-            _("Full break"),
-            _("And take some longer breaks to stretch your legs")
-        );
+public abstract class BreakStatusWidget : Gtk.Grid {
+    public BreakType break_type { public get; private set; }
+    public bool is_enabled { get; set; default=false; }
+
+    protected BreakStatusWidget (BreakType break_type) {
+        GLib.Object ();
+
+        this.break_type = break_type;
+
+        this.get_style_context ().add_class ("_break-status");
     }
 }
 

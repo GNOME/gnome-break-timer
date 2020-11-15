@@ -15,7 +15,9 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Settings {
+using BreakTimer.Settings.Widgets;
+
+namespace BreakTimer.Settings.Panels {
 
 /* TODO: It would be nice to move some of this code to a UI file built with
  *       Glade. Especially anything involving long strings. */

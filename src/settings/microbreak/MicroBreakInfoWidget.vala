@@ -16,19 +16,19 @@
  */
 
 using BreakTimer.Common;
+using BreakTimer.Settings.Break;
 
-namespace BreakTimer.Settings {
+namespace BreakTimer.Settings.MicroBreak {
 
-class RestBreakInfoPanel : BreakInfoPanel {
+class MicroBreakInfoWidget : BreakInfoWidget {
     private TimerBreakStatus? status;
 
-    public RestBreakInfoPanel (RestBreakType break_type) {
+    public MicroBreakInfoWidget (MicroBreakType break_type) {
         base (
             break_type,
-            _("Break")
+            _("Microbreak")
         );
 
-        break_type.notify["duration"].connect (this.update_description);
         break_type.timer_status_changed.connect (this.timer_status_changed_cb);
     }
 
@@ -43,16 +43,16 @@ class RestBreakInfoPanel : BreakInfoPanel {
         int time_remaining_value;
         string time_remaining_text = NaturalTime.instance.get_countdown_for_seconds_with_start (
             this.status.time_remaining, this.status.current_duration, out time_remaining_value);
-        string detail_text = ngettext (
+        string description_text = ngettext (
             /* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
-            "Your break has %s remaining. I’ll remind you when it’s over.",
-            "Your break has %s remaining. I’ll remind you when it’s over.",
+            "Take a break from typing and look away from the screen for %s.",
+            "Take a break from typing and look away from the screen for %s.",
             time_remaining_value
         ).printf (time_remaining_text);
 
-        this.set_heading ( _("It’s break time"));
-        this.set_description (_("Take some time away from the computer. Stretch and move around."));
-        this.set_detail (detail_text);
+        this.set_heading ( _("It’s microbreak time"));
+        this.set_description (description_text);
+        this.set_detail (_("I'll chime when it’s time to use the computer again."));
     }
 }
 

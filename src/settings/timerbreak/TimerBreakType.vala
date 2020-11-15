@@ -16,8 +16,9 @@
  */
 
 using BreakTimer.Common;
+using BreakTimer.Settings.Break;
 
-namespace BreakTimer.Settings {
+namespace BreakTimer.Settings.TimerBreak {
 
 public abstract class TimerBreakType : BreakType {
     public int interval { get; protected set; }
@@ -38,6 +39,7 @@ public abstract class TimerBreakType : BreakType {
 
     public override void initialize () {
         base.initialize ();
+
         GLib.Bus.watch_name (
             GLib.BusType.SESSION,
             Config.DAEMON_APPLICATION_ID,
