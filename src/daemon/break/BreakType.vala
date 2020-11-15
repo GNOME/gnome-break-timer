@@ -17,7 +17,7 @@
 
 namespace BreakTimer.Daemon {
 
-public abstract class BreakType : Object {
+public abstract class BreakType : GLib.Object {
     public string id;
     public BreakController break_controller;
     public BreakView break_view;

@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using BreakTimer.Common;
+
 namespace BreakTimer.Settings {
 
 class RestBreakInfoPanel : BreakInfoPanel {

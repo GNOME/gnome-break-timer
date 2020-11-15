@@ -22,7 +22,8 @@ public abstract class BreakStatusPanel : Gtk.Grid {
     public bool is_enabled { get; set; default=false; }
 
     protected BreakStatusPanel (BreakType break_type) {
-        Object ();
+        GLib.Object ();
+
         this.break_type = break_type;
 
         this.get_style_context ().add_class ("_break-status");

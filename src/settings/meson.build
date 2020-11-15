@@ -3,6 +3,8 @@
 #     $(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(top_srcdir)/data/ --generate-source $<
 
 settings_sources = files(
+    'Application.vala',
+    'BreakConfigurationChooser.vala',
     'BreakInfoPanel.vala',
     'BreakManager.vala',
     'BreakSettingsDialog.vala',
@@ -10,6 +12,7 @@ settings_sources = files(
     'BreakStatusPanel.vala',
     'BreakType.vala',
     'CircleCounter.vala',
+    'FixedSizeGrid.vala',
     'main.vala',
     'MainWindow.vala',
     'MicroBreakInfoPanel.vala',
@@ -21,9 +24,10 @@ settings_sources = files(
     'RestBreakSettingsPanel.vala',
     'RestBreakStatusPanel.vala',
     'RestBreakType.vala',
-    'SettingsApplication.vala',
+    'StatusPanel.vala',
     'TimeChooser.vala',
     'TimerBreakSettingsPanel.vala',
     'TimerBreakStatusPanel.vala',
-    'TimerBreakType.vala'
+    'TimerBreakType.vala',
+    'WelcomePanel.vala'
 )

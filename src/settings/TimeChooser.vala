@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using BreakTimer.Common;
+
 namespace BreakTimer.Settings {
 
 public class TimeChooser : Gtk.ComboBox {
@@ -29,7 +31,7 @@ public class TimeChooser : Gtk.ComboBox {
     public signal void time_selected (int time);
 
     public TimeChooser (int[] options) {
-        Object ();
+        GLib.Object ();
 
         this.list_store = new Gtk.ListStore (3, typeof (string), typeof (string), typeof (int));
 

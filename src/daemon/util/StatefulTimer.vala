@@ -24,19 +24,19 @@ namespace BreakTimer.Daemon {
  *  - a state property to keep track of whether the timer is stopped.
  *  - a "lap" feature (start_lap, lap_time) to measure smaller time intervals
  */
-public class StatefulTimer : Object {
+public class StatefulTimer : GLib.Object {
     public enum State {
         STOPPED,
         COUNTING
     }
     public State state { public get; private set; }
 
-    private Timer timer;
+    private GLib.Timer timer;
     private double timer_error;
     private double lap_start;
 
     public StatefulTimer () {
-        this.timer = new Timer ();
+        this.timer = new GLib.Timer ();
         this.state = State.COUNTING;
     }
 

@@ -87,12 +87,12 @@ public abstract class BreakView : UIFragment {
     }
 
     protected void show_break_info () {
-        AppInfo settings_app_info = new DesktopAppInfo (Config.SETTINGS_APPLICATION_ID);
-        AppLaunchContext app_launch_context = new AppLaunchContext ();
+        GLib.AppInfo settings_app_info = new GLib.DesktopAppInfo (Config.SETTINGS_APPLICATION_ID);
+        GLib.AppLaunchContext app_launch_context = new GLib.AppLaunchContext ();
         try {
             settings_app_info.launch (null, app_launch_context);
-        } catch (Error error) {
-            stderr.printf ("Error launching settings application: %s\n", error.message);
+        } catch (GLib.Error error) {
+            GLib.warning ("Error launching settings application: %s", error.message);
         }
     }
 

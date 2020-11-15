@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using BreakTimer.Common;
+
 namespace BreakTimer.Daemon {
 
 public class MutterActivityMonitorBackend : ActivityMonitorBackend {
@@ -30,10 +32,10 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend {
 
     public MutterActivityMonitorBackend () {
         this.user_is_active = false;
-        Bus.watch_name (
-            BusType.SESSION,
+        GLib.Bus.watch_name (
+            GLib.BusType.SESSION,
             "org.gnome.Mutter.IdleMonitor",
-            BusNameWatcherFlags.NONE,
+            GLib.BusNameWatcherFlags.NONE,
             this.mutter_idle_monitor_appeared,
             this.mutter_idle_monitor_disappeared
         );
@@ -47,15 +49,15 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend {
 
     private void mutter_idle_monitor_appeared () {
         try {
-            this.mutter_idle_monitor = Bus.get_proxy_sync (
-                BusType.SESSION,
+            this.mutter_idle_monitor = GLib.Bus.get_proxy_sync (
+                GLib.BusType.SESSION,
                 "org.gnome.Mutter.IdleMonitor",
                 "/org/gnome/Mutter/IdleMonitor/Core"
             );
             this.mutter_idle_monitor.watch_fired.connect (this.mutter_idle_monitor_watch_fired_cb);
             this.idle_watch_id = this.mutter_idle_monitor.add_idle_watch (IDLE_WATCH_INTERVAL_MS);
             this.update_last_idle_time();
-        } catch (IOError error) {
+        } catch (GLib.IOError error) {
             this.mutter_idle_monitor = null;
             GLib.warning ("Error connecting to mutter idle monitor service: %s", error.message);
         } catch (GLib.DBusError error) {
@@ -75,7 +77,7 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend {
             this.update_last_idle_time();
             try {
                 this.user_active_watch_id = this.mutter_idle_monitor.add_user_active_watch ();
-            } catch (IOError error) {
+            } catch (GLib.IOError error) {
                 GLib.warning ("Error connecting to mutter idle monitor service: %s", error.message);
             } catch (GLib.DBusError error) {
                 GLib.warning ("Error adding mutter user active watch: %s", error.message);
@@ -89,7 +91,7 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend {
     private void update_last_idle_time() {
         try {
             this.last_idle_time_ms = this.mutter_idle_monitor.get_idletime ();
-        } catch (IOError error) {
+        } catch (GLib.IOError error) {
             GLib.warning ("Error connecting to mutter idle monitor service: %s", error.message);
         } catch (GLib.DBusError error) {
             GLib.warning ("Error getting mutter idletime: %s", error.message);

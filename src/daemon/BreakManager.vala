@@ -17,11 +17,11 @@
 
 namespace BreakTimer.Daemon {
 
-public class BreakManager : Object {
+public class BreakManager : GLib.Object {
     private UIManager ui_manager;
 
     private Gee.Map<string, BreakType> breaks;
-    private BreakDaemonServer break_daemon_server;
+    private BreakManagerDBusObject dbus_object;
 
     private GLib.Settings settings;
     public bool master_enabled { get; set; }
@@ -38,14 +38,17 @@ public class BreakManager : Object {
         this.notify["master-enabled"].connect (this.update_enabled_breaks);
         this.notify["selected-break-ids"].connect (this.update_enabled_breaks);
 
-        this.break_daemon_server = new BreakDaemonServer (this);
+        this.dbus_object = new BreakManagerDBusObject (this);
         try {
-            DBusConnection connection = Bus.get_sync (BusType.SESSION, null);
+            GLib.DBusConnection connection = GLib.Bus.get_sync (
+                GLib.BusType.SESSION,
+                null
+            );
             connection.register_object (
                 Config.DAEMON_OBJECT_PATH,
-                this.break_daemon_server
+                this.dbus_object
             );
-        } catch (IOError error) {
+        } catch (GLib.IOError error) {
             GLib.error ("Error registering daemon on the session bus: %s", error.message);
         }
     }
@@ -97,51 +100,6 @@ public class BreakManager : Object {
             bool is_enabled = this.master_enabled && break_type.id in this.selected_break_ids;
             break_type.break_controller.set_enabled (is_enabled);
         }
-    }
-}
-
-[DBus (name = "org.gnome.BreakTimer")]
-public class BreakDaemonServer : Object, IBreakDaemon {
-    private weak BreakManager break_manager;
-
-    public BreakDaemonServer (BreakManager break_manager) {
-        this.break_manager = break_manager;
-    }
-
-    public string? get_current_active_break () throws GLib.DBusError, GLib.IOError {
-        /* Ask  for focused break */
-        foreach (BreakType break_type in this.break_manager.all_breaks ()) {
-            bool is_active = break_type.break_view.has_ui_focus () &&
-                break_type.break_controller.is_active ();
-            if (is_active) return break_type.id;
-        }
-        return null;
-    }
-
-    public bool is_active () throws GLib.DBusError, GLib.IOError {
-        bool active = false;
-        foreach (BreakType break_type in this.break_manager.all_breaks ()) {
-            active = active || break_type.break_controller.is_active ();
-        }
-        return active;
-    }
-
-    public string[] get_break_ids () throws GLib.DBusError, GLib.IOError {
-        return this.break_manager.all_break_ids ().to_array ();
-    }
-
-    public string[] get_status_messages () throws GLib.DBusError, GLib.IOError {
-        var messages = new Gee.ArrayList<string> ();
-        foreach (BreakType break_type in break_manager.all_breaks ()) {
-            string status_message = break_type.break_view.get_status_message ();
-            messages.add ("%s:\t%s".printf (break_type.id, status_message));
-        }
-        return messages.to_array ();
-    }
-
-    public void activate_break (string break_name) throws GLib.DBusError, GLib.IOError {
-        BreakType? break_type = this.break_manager.get_break_type_for_name (break_name);
-        if (break_type != null) break_type.break_controller.activate ();
     }
 }
 

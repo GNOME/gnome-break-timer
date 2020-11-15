@@ -18,12 +18,14 @@
 // TODO: This intentionally resembles BreakManager from the daemon
 // application. Ideally, it should be common code in the future.
 
+using BreakTimer.Common;
+
 namespace BreakTimer.Settings {
 
-public class BreakManager : Object {
-    private SettingsApplication application;
+public class BreakManager : GLib.Object {
+    private Application application;
 
-    private IBreakDaemon break_daemon;
+    private IBreakTimer break_daemon;
 
     private Gee.Map<string, BreakType> breaks;
     private GLib.List<BreakType> breaks_ordered;
@@ -35,7 +37,7 @@ public class BreakManager : Object {
 
     IBackgroundPortal? background_portal = null;
 
-    public BreakManager (SettingsApplication application) {
+    public BreakManager (Application application) {
         this.application = application;
         this.breaks = new Gee.HashMap<string, BreakType> ();
         this.breaks_ordered = new GLib.List<BreakType> ();
@@ -44,8 +46,8 @@ public class BreakManager : Object {
             // TODO: Does this work outside of a flatpak? We could remove the
             // extra file we install in data/autostart, which would be nice.
             try {
-                this.background_portal = Bus.get_proxy_sync (
-                    BusType.SESSION,
+                this.background_portal = GLib.Bus.get_proxy_sync (
+                    GLib.BusType.SESSION,
                     "org.freedesktop.portal.Desktop",
                     "/org/freedesktop/portal/desktop"
                 );
@@ -76,10 +78,10 @@ public class BreakManager : Object {
         }
 
         if (this.background_portal != null) {
-            HashTable<string, Variant> options = new HashTable<string, Variant> (str_hash, str_equal);
-            GLib.Variant commandline_variant = new GLib.Variant.strv ({"gnome-break-timer-daemon"});
+            var options = new HashTable<string, GLib.Variant> (str_hash, str_equal);
+            var commandline = new GLib.Variant.strv ({"gnome-break-timer-daemon"});
             options.insert ("autostart", this.master_enabled);
-            options.insert ("commandline", commandline_variant);
+            options.insert ("commandline", commandline);
             // RequestBackground creates a desktop file with the same name as
             // the flatpak, which happens to be the dbus name of the daemon
             // (although it is not the dbus name of the settings application).
@@ -91,7 +93,7 @@ public class BreakManager : Object {
                 // TODO: Handle response, and display an error if the result
                 //       includes `autostart == false || background == false`.
                 this.background_portal.request_background("", options);
-            } catch (IOError error) {
+            } catch (GLib.IOError error) {
                 GLib.warning ("Error connecting to xdg desktop portal: %s", error.message);
             } catch (GLib.DBusError error) {
                 GLib.warning ("Error enabling autostart: %s", error.message);
@@ -100,7 +102,10 @@ public class BreakManager : Object {
     }
 
     private bool get_is_in_flatpak () {
-        string flatpak_info_path = GLib.Path.build_filename (GLib.Environment.get_user_runtime_dir (), "flatpak-info");
+        string flatpak_info_path = GLib.Path.build_filename (
+            GLib.Environment.get_user_runtime_dir (),
+            "flatpak-info"
+        );
         return GLib.FileUtils.test (flatpak_info_path, GLib.FileTest.EXISTS);
     }
 
@@ -110,8 +115,13 @@ public class BreakManager : Object {
 
         this.status_changed ();
 
-        Bus.watch_name (BusType.SESSION, Config.DAEMON_BUS_NAME, BusNameWatcherFlags.NONE,
-                this.break_daemon_appeared, this.break_daemon_disappeared);
+        GLib.Bus.watch_name (
+            GLib.BusType.SESSION,
+            Config.DAEMON_APPLICATION_ID,
+            GLib.BusNameWatcherFlags.NONE,
+            this.break_daemon_appeared,
+            this.break_daemon_disappeared
+        );
     }
 
     public Gee.Set<string> all_break_ids () {
@@ -159,14 +169,14 @@ public class BreakManager : Object {
 
     private void break_daemon_appeared () {
         try {
-            this.break_daemon = Bus.get_proxy_sync (
-                BusType.SESSION,
-                Config.DAEMON_BUS_NAME,
+            this.break_daemon = GLib.Bus.get_proxy_sync (
+                GLib.BusType.SESSION,
+                Config.DAEMON_APPLICATION_ID,
                 Config.DAEMON_OBJECT_PATH,
-                DBusProxyFlags.DO_NOT_AUTO_START
+                GLib.DBusProxyFlags.DO_NOT_AUTO_START
             );
             this.break_status_available ();
-        } catch (IOError error) {
+        } catch (GLib.IOError error) {
             this.break_daemon = null;
             GLib.warning ("Error connecting to break daemon service: %s", error.message);
         }
@@ -185,11 +195,11 @@ public class BreakManager : Object {
     }
 
     private void launch_break_timer_service () {
-        AppInfo daemon_app_info = new DesktopAppInfo (Config.DAEMON_DESKTOP_FILE_ID);
-        AppLaunchContext app_launch_context = new AppLaunchContext ();
+        GLib.AppInfo daemon_app_info = new GLib.DesktopAppInfo (Config.DAEMON_DESKTOP_FILE_ID);
+        GLib.AppLaunchContext app_launch_context = new GLib.AppLaunchContext ();
         try {
             daemon_app_info.launch (null, app_launch_context);
-        } catch (Error error) {
+        } catch (GLib.Error error) {
             GLib.warning ("Error launching daemon application: %s", error.message);
         }
     }

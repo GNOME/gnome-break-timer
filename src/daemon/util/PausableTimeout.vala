@@ -23,7 +23,7 @@ namespace BreakTimer.Daemon {
  * so it is trivial to stop and start the timeout by calling the stop and
  * start methods, respectively.
  */
-public class PausableTimeout : Object {
+public class PausableTimeout : GLib.Object {
     public delegate void TimeoutCB (PausableTimeout timeout, int delta_millisecs);
 
     private unowned TimeoutCB timeout_cb;
@@ -66,12 +66,12 @@ public class PausableTimeout : Object {
 
     public void start () {
         if (this.is_running ()) {
-            Source.remove (this.source_id);
+            GLib.Source.remove (this.source_id);
         }
 
         this.last_time = TimeUnit.get_monotonic_time ();
 
-        this.source_id = Timeout.add_seconds (this.frequency, this.timeout_wrapper);
+        this.source_id = GLib.Timeout.add_seconds (this.frequency, this.timeout_wrapper);
     }
 
     public void set_frequency (int frequency) {
@@ -83,7 +83,7 @@ public class PausableTimeout : Object {
 
     public void stop () {
         if (this.is_running ()) {
-            Source.remove (this.source_id);
+            GLib.Source.remove (this.source_id);
             this.source_id = 0;
         }
     }

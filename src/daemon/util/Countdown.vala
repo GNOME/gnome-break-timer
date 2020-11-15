@@ -23,7 +23,7 @@ namespace BreakTimer.Daemon {
  * of system state. The countdown can be paused, and its duration can be
  * adjusted at any time using penalty and bonus time.
  */
-public class Countdown : Object {
+public class Countdown : GLib.Object {
     private enum State {
         STOPPED,
         PAUSED,

@@ -15,50 +15,26 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer {
+namespace BreakTimer.Common {
 
 [DBus (name = "org.gnome.BreakTimer")]
-public interface IBreakDaemon : Object {
+public interface IBreakTimer : GLib.Object {
     /** Returns the ID of the break that is currently focused and activated, if any. */
-    public abstract string? get_current_active_break () throws DBusError, IOError;
+    public abstract string? get_current_active_break () throws GLib.DBusError, GLib.IOError;
 
     /** Returns a list of breaks that are currently known to the break daemon. */
-    public abstract string[] get_break_ids () throws DBusError, IOError;
+    public abstract string[] get_break_ids () throws GLib.DBusError, GLib.IOError;
 
     /** Returns a list of helpful status messages for each break, for debugging. */
-    public abstract string[] get_status_messages () throws DBusError, IOError;
+    public abstract string[] get_status_messages () throws GLib.DBusError, GLib.IOError;
 
     /** Activate the specified break immediately, regardless of the usual activation conditions. */
-    public abstract void activate_break (string break_id) throws DBusError, IOError;
+    public abstract void activate_break (string break_id) throws GLib.DBusError, GLib.IOError;
 
     // TODO: It might make sense to communicate when the active break changes,
     // using a signal. The only reason we don't at the moment is it adds
     // complexity in the break daemon, and the settings app already polls the
     // dbus service regularly for updates.
-}
-
-[DBus (name = "org.gnome.BreakTimer.TimerBreak")]
-public interface IBreakDaemon_TimerBreak : Object {
-    /** Get the break's current status, such as time remaining, or time until the break starts */
-    public abstract TimerBreakStatus get_status () throws DBusError, IOError;
-
-    /** Activate the break */
-    public abstract void activate () throws DBusError, IOError;
-}
-
-public struct BreakStatus {
-    bool is_enabled;
-    bool is_focused;
-    bool is_active;
-}
-
-public struct TimerBreakStatus {
-    bool is_enabled;
-    bool is_focused;
-    bool is_active;
-    int starts_in;
-    int time_remaining;
-    int current_duration;
 }
 
 }

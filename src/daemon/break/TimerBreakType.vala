@@ -18,7 +18,7 @@
 namespace BreakTimer.Daemon {
 
 public abstract class TimerBreakType : BreakType {
-    private BreakDaemon_TimerBreakServer break_type_server;
+    private TimerBreakDBusObject dbus_object;
 
     protected TimerBreakType (string id, GLib.Settings settings) {
         base (id, settings);
@@ -33,45 +33,19 @@ public abstract class TimerBreakType : BreakType {
         this.settings.bind ("interval-seconds", timer_break_controller, "interval", GLib.SettingsBindFlags.GET);
         this.settings.bind ("duration-seconds", timer_break_controller, "duration", GLib.SettingsBindFlags.GET);
 
-        this.break_type_server = new BreakDaemon_TimerBreakServer (
+        this.dbus_object = new TimerBreakDBusObject (
             timer_break_controller,
             timer_break_view
         );
         try {
-            DBusConnection connection = Bus.get_sync (BusType.SESSION, null);
+            GLib.DBusConnection connection = GLib.Bus.get_sync (GLib.BusType.SESSION, null);
             connection.register_object (
                 Config.DAEMON_BREAK_OBJECT_BASE_PATH+this.id,
-                this.break_type_server
+                this.dbus_object
             );
-        } catch (IOError error) {
+        } catch (GLib.IOError error) {
             GLib.error ("Error registering break type on the session bus: %s", error.message);
         }
-    }
-}
-
-[DBus (name = "org.gnome.BreakTimer.TimerBreak")]
-private class BreakDaemon_TimerBreakServer : Object, IBreakDaemon_TimerBreak {
-    private weak TimerBreakController break_controller;
-    private weak TimerBreakView break_view;
-
-    public BreakDaemon_TimerBreakServer (TimerBreakController break_controller, TimerBreakView break_view) {
-        this.break_controller = break_controller;
-        this.break_view = break_view;
-    }
-
-    public TimerBreakStatus get_status () throws GLib.DBusError, GLib.IOError {
-        return TimerBreakStatus () {
-            is_enabled = this.break_controller.is_enabled (),
-            is_focused = this.break_view.has_ui_focus (),
-            is_active = this.break_controller.is_active (),
-            starts_in = this.break_controller.starts_in (),
-            time_remaining = this.break_controller.get_time_remaining (),
-            current_duration = this.break_controller.get_current_duration ()
-        };
-    }
-
-    public void activate () throws GLib.DBusError, GLib.IOError {
-        this.break_controller.activate ();
     }
 }
 

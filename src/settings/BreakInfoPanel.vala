@@ -26,7 +26,8 @@ public abstract class BreakInfoPanel : Gtk.Grid {
     private Gtk.Label detail_label;
 
     protected BreakInfoPanel (BreakType break_type, string title) {
-        Object ();
+        GLib.Object ();
+
         this.break_type = break_type;
         this.title = title;
 

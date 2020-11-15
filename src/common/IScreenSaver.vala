@@ -15,21 +15,16 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Daemon {
+namespace BreakTimer.Common {
 
-static Application application;
+[DBus (name = "org.gnome.ScreenSaver")]
+public interface IScreenSaver : GLib.Object {
+    public abstract bool get_active () throws GLib.DBusError, GLib.IOError;
+    public abstract uint32 get_active_time () throws GLib.DBusError, GLib.IOError;
+    public abstract void lock () throws GLib.DBusError, GLib.IOError;
+    public abstract void set_active (bool active) throws GLib.DBusError, GLib.IOError;
 
-public int main (string[] args) {
-    application = new Application ();
-    Posix.signal (Posix.Signal.INT, sigint_cb);
-    Posix.signal (Posix.Signal.TERM, sigint_cb);
-    Posix.signal (Posix.Signal.HUP, sigint_cb);
-    int status = application.run (args);
-    return status;
-}
-
-void sigint_cb (int signal_number) {
-    application.quit ();
+    public signal void active_changed (bool active);
 }
 
 }

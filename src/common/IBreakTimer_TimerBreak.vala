@@ -15,21 +15,30 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Daemon {
+namespace BreakTimer.Common {
 
-static Application application;
+[DBus (name = "org.gnome.BreakTimer.TimerBreak")]
+public interface IBreakTimer_TimerBreak : GLib.Object {
+    /** Get the break's current status, such as time remaining, or time until the break starts */
+    public abstract TimerBreakStatus get_status () throws GLib.DBusError, GLib.IOError;
 
-public int main (string[] args) {
-    application = new Application ();
-    Posix.signal (Posix.Signal.INT, sigint_cb);
-    Posix.signal (Posix.Signal.TERM, sigint_cb);
-    Posix.signal (Posix.Signal.HUP, sigint_cb);
-    int status = application.run (args);
-    return status;
+    /** Activate the break */
+    public abstract void activate () throws GLib.DBusError, GLib.IOError;
 }
 
-void sigint_cb (int signal_number) {
-    application.quit ();
+public struct BreakStatus {
+    bool is_enabled;
+    bool is_focused;
+    bool is_active;
+}
+
+public struct TimerBreakStatus {
+    bool is_enabled;
+    bool is_focused;
+    bool is_active;
+    int starts_in;
+    int time_remaining;
+    int current_duration;
 }
 
 }

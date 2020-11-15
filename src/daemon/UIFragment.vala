@@ -21,7 +21,7 @@ namespace BreakTimer.Daemon {
  * Provides a simple interface for UIManager to create notifications and
  * overlays.
  */
-public abstract class UIFragment : Object, IFocusable {
+public abstract class UIFragment : GLib.Object, IFocusable {
     protected UIManager ui_manager;
 
     protected Notify.Notification? notification;

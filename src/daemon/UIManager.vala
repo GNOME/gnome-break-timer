@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using BreakTimer.Common;
+
 namespace BreakTimer.Daemon {
 
 /**
@@ -32,7 +34,7 @@ public class UIManager : SimpleFocusManager {
     private Notify.Notification? notification;
     private Notify.Notification? lock_notification;
 
-    private List<string> notify_capabilities;
+    private GLib.List<string> notify_capabilities;
 
     public UIManager (Gtk.Application application, ISessionStatus session_status) {
         this.application = application;

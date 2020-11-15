@@ -47,7 +47,8 @@ public class CircleCounter : Gtk.Widget {
     public double progress {get; set;}
 
     public CircleCounter () {
-        Object ();
+        GLib.Object ();
+
         this.set_has_window (false);
 
         this.get_style_context ().add_class ("_circle-counter");

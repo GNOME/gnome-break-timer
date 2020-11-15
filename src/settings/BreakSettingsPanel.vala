@@ -22,7 +22,7 @@ public abstract class BreakSettingsPanel : Gtk.Grid {
     private Gtk.Grid details;
 
     protected BreakSettingsPanel (BreakType break_type, string title, string? description) {
-        Object ();
+        GLib.Object ();
 
         this.set_orientation (Gtk.Orientation.VERTICAL);
         this.set_row_spacing (10);

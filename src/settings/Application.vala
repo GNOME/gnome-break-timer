@@ -17,7 +17,7 @@
 
 namespace BreakTimer.Settings {
 
-public class SettingsApplication : Gtk.Application {
+public class Application : Gtk.Application {
     private const string STYLE_DATA =
         """
         ._settings-title {
@@ -56,10 +56,10 @@ public class SettingsApplication : Gtk.Application {
     private BreakManager break_manager;
     private MainWindow main_window;
 
-    public SettingsApplication () {
-        Object (
+    public Application () {
+        GLib.Object (
             application_id: Config.SETTINGS_APPLICATION_ID,
-            flags: ApplicationFlags.FLAGS_NONE
+            flags: GLib.ApplicationFlags.FLAGS_NONE
         );
     }
 
@@ -84,20 +84,21 @@ public class SettingsApplication : Gtk.Application {
 
         try {
             style_provider.load_from_data (STYLE_DATA, -1);
-        } catch (Error error) {
-            stderr.printf ("Error loading style data: %s\n", error.message);
+        } catch (GLib.Error error) {
+            GLib.warning ("Error loading style data: %s", error.message);
         }
 
         Gtk.StyleContext.add_provider_for_screen (
-                screen,
-                style_provider,
-                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+            screen,
+            style_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        );
 
-        SimpleAction about_action = new SimpleAction ("about", null);
+        GLib.SimpleAction about_action = new GLib.SimpleAction ("about", null);
         this.add_action (about_action);
         about_action.activate.connect (this.on_about_activate_cb);
 
-        SimpleAction quit_action = new SimpleAction ("quit", null);
+        GLib.SimpleAction quit_action = new GLib.SimpleAction ("quit", null);
         this.add_action (quit_action);
         quit_action.activate.connect (this.quit);
 
@@ -111,7 +112,7 @@ public class SettingsApplication : Gtk.Application {
     private void delayed_start () {
         // Delay up to 500ms waiting for break_manager to initialize
         this.break_manager.break_status_available.connect (this.delayed_start_cb);
-        Timeout.add (500, () => { delayed_start_cb (); return false; });
+        GLib.Timeout.add (500, () => { delayed_start_cb (); return false; });
     }
 
     private void delayed_start_cb () {

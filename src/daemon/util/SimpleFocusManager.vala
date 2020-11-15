@@ -17,7 +17,7 @@
 
 namespace BreakTimer.Daemon {
 
-public interface IFocusable : Object {
+public interface IFocusable : GLib.Object {
     public abstract void focus_started ();
     public abstract void focus_stopped ();
 }
@@ -35,8 +35,8 @@ public enum FocusPriority {
  * priority will be given focus. Focus can change at any time as other objects
  * request or release focus.
  */
-public class SimpleFocusManager : Object {
-    private class Request : Object {
+public class SimpleFocusManager : GLib.Object {
+    private class Request : GLib.Object {
         public IFocusable owner;
         public FocusPriority priority;
 
@@ -51,11 +51,11 @@ public class SimpleFocusManager : Object {
         }
     }
 
-    private SList<Request> focus_requests;
+    private GLib.SList<Request> focus_requests;
     private Request? current_focus;
 
     public SimpleFocusManager () {
-        this.focus_requests = new SList<Request> ();
+        this.focus_requests = new GLib.SList<Request> ();
         this.current_focus = null;
     }
 

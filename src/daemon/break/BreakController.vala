@@ -26,7 +26,7 @@ namespace BreakTimer.Daemon {
  * This class provides mechanisms for tracking and directly setting the
  * break's state, which can be either WAITING, ACTIVE, or DISABLED.
  */
-public abstract class BreakController : Object {
+public abstract class BreakController : GLib.Object {
     /**
      * ''WAITING'':  The break has not started yet. For example, it may be
      *               monitoring user activity in the background, waiting

@@ -15,10 +15,10 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer {
+namespace BreakTimer.Common {
 
 [DBus (name = "org.gnome.Mutter.IdleMonitor")]
-public interface IMutterIdleMonitor : Object {
+public interface IMutterIdleMonitor : GLib.Object {
     public abstract uint32 add_idle_watch(uint64 interval_ms) throws GLib.DBusError, GLib.IOError;
     public abstract uint32 add_user_active_watch() throws GLib.DBusError, GLib.IOError;
     public abstract uint64 get_idletime() throws GLib.DBusError, GLib.IOError;

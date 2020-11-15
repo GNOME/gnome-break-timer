@@ -15,9 +15,11 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using BreakTimer.Common;
+
 namespace BreakTimer.Settings {
 
-public abstract class BreakType : Object {
+public abstract class BreakType : GLib.Object {
     public string id { get; private set; }
     public BreakStatus? status;
 

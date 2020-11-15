@@ -15,24 +15,15 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using BreakTimer.Common;
+
 namespace BreakTimer.Daemon {
-
-[DBus (name = "org.gnome.ScreenSaver")]
-public interface IScreenSaver : Object {
-    public abstract bool get_active () throws DBusError, IOError;
-    public abstract uint32 get_active_time () throws DBusError, IOError;
-    public abstract void lock () throws DBusError, IOError;
-    public abstract void set_active (bool active) throws DBusError, IOError;
-
-    public signal void active_changed (bool active);
-
-}
 
 /**
  * Abstraction of GNOME Screensaver's dbus interface with gentle defaults in
  * case we are unable to connect.
  */
-public class SessionStatus : ISessionStatus, Object {
+public class SessionStatus : GLib.Object, ISessionStatus {
     private Gtk.Application application;
     private IScreenSaver? screensaver;
     private bool screensaver_is_active = false;
@@ -40,20 +31,25 @@ public class SessionStatus : ISessionStatus, Object {
     public SessionStatus (Gtk.Application application) {
         this.application = application;
 
-        Bus.watch_name (BusType.SESSION, "org.gnome.ScreenSaver", BusNameWatcherFlags.NONE,
-                this.screensaver_appeared, this.screensaver_disappeared);
+        GLib.Bus.watch_name (
+            GLib.BusType.SESSION,
+            "org.gnome.ScreenSaver",
+            GLib.BusNameWatcherFlags.NONE,
+            this.screensaver_appeared,
+            this.screensaver_disappeared
+        );
     }
 
     private void screensaver_appeared () {
         try {
-            this.screensaver = Bus.get_proxy_sync (
-                BusType.SESSION,
+            this.screensaver = GLib.Bus.get_proxy_sync (
+                GLib.BusType.SESSION,
                 "org.gnome.ScreenSaver",
                 "/org/gnome/ScreenSaver"
             );
             this.screensaver.active_changed.connect (this.screensaver_active_changed_cb);
             this.screensaver_is_active = this.screensaver.get_active ();
-        } catch (IOError error) {
+        } catch (GLib.IOError error) {
             this.screensaver = null;
             GLib.warning ("Error connecting to screensaver service: %s", error.message);
         } catch (GLib.DBusError error) {

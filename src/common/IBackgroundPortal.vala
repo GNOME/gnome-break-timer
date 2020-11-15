@@ -15,10 +15,10 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer {
+namespace BreakTimer.Common {
 
 [DBus (name = "org.freedesktop.portal.Background")]
-public interface IBackgroundPortal : Object {
+public interface IBackgroundPortal : GLib.Object {
     public abstract GLib.ObjectPath request_background(string parent_window, GLib.HashTable<string, Variant> options) throws GLib.DBusError, GLib.IOError;
 }
 

@@ -15,9 +15,9 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer {
+namespace BreakTimer.Common {
 
-public interface ISessionStatus : Object {
+public interface ISessionStatus : GLib.Object {
     public signal void locked ();
     public signal void unlocked ();
 

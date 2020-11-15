@@ -23,7 +23,7 @@ public int main (string[] args) {
     Intl.bind_textdomain_codeset (Config.GETTEXT_PACKAGE, "UTF-8");
     Intl.textdomain (Config.GETTEXT_PACKAGE);
 
-    SettingsApplication application = new SettingsApplication ();
+    Application application = new Application ();
     int status = application.run (args);
     return status;
 }

@@ -15,9 +15,9 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer {
+namespace BreakTimer.Common {
 
-public class NaturalTime : Object {
+public class NaturalTime : GLib.Object {
     public delegate string FormatTimeCb (int seconds);
 
     private struct TimeUnit {

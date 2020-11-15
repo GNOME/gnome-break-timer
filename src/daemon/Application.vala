@@ -15,11 +15,16 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using BreakTimer.Common;
+
 namespace BreakTimer.Daemon {
 
-public class DaemonApplication : Gtk.Application {
+public class Application : Gtk.Application {
     const string app_name = _("GNOME Break Timer");
     const int DATA_VERSION = 0;
+
+    // Keep running for one minute after the last break is disabled
+    private const int ACTIVITY_TIMEOUT_MS = 60000;
 
     private BreakManager break_manager;
     private ISessionStatus session_status;
@@ -29,18 +34,17 @@ public class DaemonApplication : Gtk.Application {
 
     private string cache_path;
 
-    public DaemonApplication () {
-        Object (
+    public Application () {
+        GLib.Object (
             application_id: Config.DAEMON_APPLICATION_ID,
-            register_session: true,
-            flags: ApplicationFlags.FLAGS_NONE
+            flags: ApplicationFlags.FLAGS_NONE,
+            inactivity_timeout: ACTIVITY_TIMEOUT_MS,
+            register_session: true
         );
-        Environment.set_application_name (app_name);
 
-        // Keep running for one minute after the last break is disabled
-        this.set_inactivity_timeout (60 * 1000);
+        GLib.Environment.set_application_name (app_name);
 
-        string user_cache_path = Environment.get_user_cache_dir ();
+        string user_cache_path = GLib.Environment.get_user_cache_dir ();
         this.cache_path = Path.build_filename (user_cache_path, "gnome-break-timer");
     }
 
@@ -75,11 +79,6 @@ public class DaemonApplication : Gtk.Application {
         this.restore_state ();
 
         this.activity_monitor.start ();
-
-        var connection = this.get_dbus_connection ();
-        if (connection != null) {
-            Bus.own_name_on_connection (connection, Config.DAEMON_BUS_NAME, BusNameOwnerFlags.REPLACE, null, null);
-        }
     }
 
     public override void shutdown () {
@@ -88,11 +87,11 @@ public class DaemonApplication : Gtk.Application {
         this.save_state ();
     }
 
-    private File get_state_file () {
-        File cache_dir = File.new_for_path (this.cache_path);
+    private GLib.File get_state_file () {
+        GLib.File cache_dir = GLib.File.new_for_path (this.cache_path);
         try {
             if (! cache_dir.query_exists ()) cache_dir.make_directory_with_parents ();
-        } catch (Error e) {
+        } catch (GLib.Error e) {
             GLib.warning ("Error creating cache directory: %s", e.message);
         }
         string state_file_name = "last-state-%d".printf (DATA_VERSION);
@@ -100,7 +99,7 @@ public class DaemonApplication : Gtk.Application {
     }
 
     private void save_state () {
-        File state_file = this.get_state_file ();
+        GLib.File state_file = this.get_state_file ();
 
         Json.Generator generator = new Json.Generator ();
         Json.Node root = new Json.Node (Json.NodeType.OBJECT);
@@ -113,22 +112,22 @@ public class DaemonApplication : Gtk.Application {
         root_object.set_object_member ("activity_monitor", this.activity_monitor.serialize ());
 
         try {
-            OutputStream state_stream = state_file.replace (null, false, FileCreateFlags.NONE);
+            OutputStream state_stream = state_file.replace (null, false, GLib.FileCreateFlags.NONE);
             generator.to_stream (state_stream);
-        } catch (Error e) {
+        } catch (GLib.Error e) {
             GLib.warning ("Error writing to state file: %s", e.message);
         }
     }
 
     private void restore_state () {
-        File state_file = this.get_state_file ();
+        GLib.File state_file = this.get_state_file ();
         if (state_file.query_exists ()) {
             Json.Parser parser = new Json.Parser ();
 
             try {
                 InputStream state_stream = state_file.read ();
                 parser.load_from_stream (state_stream);
-            } catch (Error e) {
+            } catch (GLib.Error e) {
                 GLib.warning ("Error reading state file: %s", e.message);
             }
 

@@ -26,7 +26,8 @@ public class BreakSettingsDialog : Gtk.Dialog {
     private const int ABOUT_BUTTON_RESPONSE = 5;
 
     public BreakSettingsDialog (BreakManager break_manager) {
-        Object (use_header_bar: 1);
+        GLib.Object (use_header_bar: 1);
+
         this.break_manager = break_manager;
 
         GLib.Settings settings = new GLib.Settings ("org.gnome.BreakTimer");
@@ -100,122 +101,6 @@ public class BreakSettingsDialog : Gtk.Dialog {
         if (response_id == Gtk.ResponseType.CLOSE) {
             this.hide ();
         }
-    }
-}
-
-
-class BreakConfigurationChooser : Gtk.ComboBox {
-    public class Configuration : Object {
-        public Gtk.TreeIter iter;
-        public string[] break_ids;
-        public string label;
-
-        public Configuration (string[] break_ids, string label) {
-            this.break_ids = break_ids;
-            this.label = label;
-        }
-
-        public bool matches_breaks (string[] test_break_ids) {
-            if (test_break_ids.length == this.break_ids.length) {
-                foreach (string test_break_id in test_break_ids) {
-                    if (! (test_break_id in this.break_ids)) return false;
-                }
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-
-    private Gtk.ListStore list_store;
-    private List<Configuration> configurations;
-
-    public string[] selected_break_ids { public get; public set; }
-
-    public BreakConfigurationChooser () {
-        Object ();
-        this.configurations = new List<Configuration> ();
-
-        this.list_store = new Gtk.ListStore (2, typeof (Configuration), typeof (string));
-        this.set_model (this.list_store);
-
-        var label_renderer = new Gtk.CellRendererText ();
-        this.pack_start (label_renderer, true);
-        this.add_attribute (label_renderer, "text", 1);
-
-        this.notify["active"].connect (this.send_selected_break);
-        this.notify["selected-break-ids"].connect (this.receive_selected_break);
-    }
-
-    public void add_configuration (string[] break_ids, string label) {
-        var configuration = new Configuration (break_ids, label);
-        this.configurations.append (configuration);
-        Gtk.TreeIter iter;
-        this.list_store.append (out iter);
-        this.list_store.set (iter, 0, configuration, 1, configuration.label);
-        configuration.iter = iter;
-    }
-
-    private void send_selected_break () {
-        Gtk.TreeIter iter;
-        if (this.get_active_iter (out iter)) {
-            Value value;
-            this.list_store.get_value (iter, 0, out value);
-            Configuration configuration = (Configuration)value;
-            this.selected_break_ids = configuration.break_ids;
-        }
-    }
-
-    private void receive_selected_break () {
-        var configuration = this.get_configuration_for_break_ids (this.selected_break_ids);
-        if (configuration != null) {
-            this.set_active_iter (configuration.iter);
-        } else {
-            this.set_active (-1);
-        }
-    }
-
-    private Configuration? get_configuration_for_break_ids (string[] selected_breaks) {
-        foreach (Configuration configuration in this.configurations) {
-            if (configuration.matches_breaks (selected_breaks)) {
-                return configuration;
-            }
-        }
-        return null;
-    }
-}
-
-
-class FixedSizeGrid : Gtk.Grid {
-    public FixedSizeGrid () {
-        Object ();
-    }
-
-    public override void adjust_size_request (Gtk.Orientation orientation, ref int minimum_size, ref int natural_size) {
-        foreach (Gtk.Widget widget in this.get_hidden_children ()) {
-            int widget_allocated_size = 0;
-
-            if (orientation == Gtk.Orientation.VERTICAL && this.orientation == Gtk.Orientation.VERTICAL) {
-                widget_allocated_size = widget.get_allocated_height ();
-            } else if (orientation == Gtk.Orientation.HORIZONTAL && this.orientation == Gtk.Orientation.HORIZONTAL) {
-                widget_allocated_size = widget.get_allocated_width ();
-            }
-
-            minimum_size += widget_allocated_size;
-            natural_size += widget_allocated_size;
-
-            widget.adjust_size_request (orientation, ref minimum_size, ref natural_size);
-        }
-
-        base.adjust_size_request (orientation, ref minimum_size, ref natural_size);
-    }
-
-    private List<weak Gtk.Widget> get_hidden_children () {
-        var hidden_children = new List<weak Gtk.Widget> ();
-        foreach (Gtk.Widget widget in this.get_children ()) {
-            if (! widget.is_visible ()) hidden_children.append (widget);
-        }
-        return hidden_children;
     }
 }
 

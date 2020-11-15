@@ -23,7 +23,8 @@ public class OverlayArrow : Gtk.Widget {
     private Gtk.Widget to_widget;
 
     public OverlayArrow (Gtk.Widget from_widget, Gtk.Widget to_widget) {
-        Object ();
+        GLib.Object ();
+
         this.set_has_window (false);
 
         this.set_halign (Gtk.Align.FILL);
