@@ -43,7 +43,7 @@ public class Countdown : Object {
     }
 
     public string serialize () {
-        int serialized_time_counted = (int) (Util.get_real_time_seconds () - this.start_time);
+        int serialized_time_counted = (int) (TimeUnit.get_real_time_seconds () - this.start_time);
         serialized_time_counted = int.max (0, serialized_time_counted);
 
         return string.joinv (",", {
@@ -147,7 +147,7 @@ public class Countdown : Object {
      */
     public void continue_from (int start_offset) {
         if (this.state < State.COUNTING) {
-            int64 now = Util.get_real_time_seconds ();
+            int64 now = TimeUnit.get_real_time_seconds ();
             this.start_time = now + start_offset;
             this.state = State.COUNTING;
         }
@@ -174,7 +174,7 @@ public class Countdown : Object {
      *                    finished.
      */
     public void advance_time (int seconds_off) {
-        int64 now = Util.get_real_time_seconds ();
+        int64 now = TimeUnit.get_real_time_seconds ();
         if (this.state == State.COUNTING) {
             this.start_time = now - seconds_off;
         } else {
@@ -242,7 +242,7 @@ public class Countdown : Object {
         int time_elapsed = this.stop_time_elapsed;
 
         if (this.state == State.COUNTING) {
-            int64 now = Util.get_real_time_seconds ();
+            int64 now = TimeUnit.get_real_time_seconds ();
             time_elapsed += (int) (now - this.start_time);
         }
 

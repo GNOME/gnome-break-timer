@@ -50,7 +50,7 @@ public class PausableTimeout : Object {
     }
 
     private bool timeout_wrapper () {
-        int64 now = Util.get_monotonic_time ();
+        int64 now = TimeUnit.get_monotonic_time ();
         int64 time_delta = now - this.last_time;
         this.last_time = now;
 
@@ -69,7 +69,7 @@ public class PausableTimeout : Object {
             Source.remove (this.source_id);
         }
 
-        this.last_time = Util.get_monotonic_time ();
+        this.last_time = TimeUnit.get_monotonic_time ();
 
         this.source_id = Timeout.add_seconds (this.frequency, this.timeout_wrapper);
     }

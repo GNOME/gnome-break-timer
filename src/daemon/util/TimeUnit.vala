@@ -17,11 +17,7 @@
 
 namespace BreakTimer.Daemon {
 
-/**
- * A collection of handy little functions that can't really be categorized,
- * but end up being used throughout this application.
- */
-public class Util {
+public class TimeUnit {
     public const int MILLISECONDS_IN_SECONDS = 1000;
     public const int MICROSECONDS_IN_SECONDS = 1000 * 1000;
 

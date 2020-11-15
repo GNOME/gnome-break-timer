@@ -88,7 +88,7 @@ public class RestBreakView : TimerBreakView {
 
     private void show_overdue_notification () {
         int delay_value;
-        int64 now = Util.get_real_time_seconds ();
+        int64 now = TimeUnit.get_real_time_seconds ();
         int time_since_start = (int) (now - this.original_start_time);
         string delay_text = NaturalTime.instance.get_simplest_label_for_seconds (
             time_since_start, out delay_value);
@@ -125,7 +125,7 @@ public class RestBreakView : TimerBreakView {
         this.human_is_resting = false;
 
         if (! this.was_skipped) {
-            this.original_start_time = Util.get_real_time_seconds ();
+            this.original_start_time = TimeUnit.get_real_time_seconds ();
             this.show_start_notification ();
         } else {
             this.show_overdue_notification ();

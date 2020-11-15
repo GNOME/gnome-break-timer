@@ -80,7 +80,7 @@ public class ActivityMonitor : Object {
     private void add_activity (UserActivity activity) {
         this.last_activity = activity;
         if (activity.is_active ()) {
-            this.last_active_timestamp = Util.get_real_time_seconds ();
+            this.last_active_timestamp = TimeUnit.get_real_time_seconds ();
             this.detected_activity (activity);
         } else {
             this.detected_idle (activity);
@@ -98,7 +98,7 @@ public class ActivityMonitor : Object {
 
         int64 sleep_time = backend.pop_sleep_time ();
         int64 idle_time = backend.get_idle_seconds ();
-        int64 time_since_active = (int64) (Util.get_real_time_seconds () - this.last_active_timestamp);
+        int64 time_since_active = (int64) (TimeUnit.get_real_time_seconds () - this.last_active_timestamp);
 
         // Order is important here: some types of activity (or inactivity)
         // happen at the same time, and are only reported once.
@@ -166,14 +166,14 @@ public abstract class ActivityMonitorBackend : Object {
 
     public int64 get_idle_seconds () {
         uint64 idle_ms = this.time_since_last_event_ms ();
-        return (int64) idle_ms / Util.MILLISECONDS_IN_SECONDS;
+        return (int64) idle_ms / TimeUnit.MILLISECONDS_IN_SECONDS;
     }
 
     /** Detect if the device has been asleep using the difference between monotonic time and real time */
     public int64 pop_sleep_time () {
         int64 sleep_time;
-        int64 now_real = Util.get_real_time_seconds ();
-        int64 now_monotonic = Util.get_monotonic_time_seconds ();
+        int64 now_real = TimeUnit.get_real_time_seconds ();
+        int64 now_monotonic = TimeUnit.get_monotonic_time_seconds ();
         int64 real_time_delta = (int64) (now_real - this.last_real_time);
         int64 monotonic_time_delta = (int64) (now_monotonic - this.last_monotonic_time).abs ();
 

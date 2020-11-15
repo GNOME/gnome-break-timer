@@ -24,5 +24,5 @@ daemon_sources = files(
     'util/PausableTimeout.vala',
     'util/SimpleFocusManager.vala',
     'util/StatefulTimer.vala',
-    'util/Util.vala'
+    'util/TimeUnit.vala'
 )

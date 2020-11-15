@@ -74,11 +74,11 @@ public abstract class BreakView : UIFragment {
             notification.add_action ("info", _("What should I do?"), this.notification_action_info_cb);
         }
         this.show_notification (notification);
-        this.last_break_notification_time = Util.get_real_time_seconds ();
+        this.last_break_notification_time = TimeUnit.get_real_time_seconds ();
     }
 
     protected int seconds_since_last_break_notification () {
-        int64 now = Util.get_real_time_seconds ();
+        int64 now = TimeUnit.get_real_time_seconds ();
         if (this.last_break_notification_time > 0) {
             return (int) (now - this.last_break_notification_time);
         } else {

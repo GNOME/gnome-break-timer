@@ -139,7 +139,7 @@ public abstract class BreakController : Object {
      */
     public int get_seconds_since_start () {
         if (this.activate_timestamp != null) {
-            return (int) (Util.get_real_time_seconds () - (int64) this.activate_timestamp);
+            return (int) (TimeUnit.get_real_time_seconds () - (int64) this.activate_timestamp);
         } else {
             return 0;
         }
@@ -152,7 +152,7 @@ public abstract class BreakController : Object {
     public void activate () {
         if (this.state < State.ACTIVE) {
             if (this.activate_timestamp == null) {
-                this.activate_timestamp = (int64) Util.get_real_time_seconds ();
+                this.activate_timestamp = (int64) TimeUnit.get_real_time_seconds ();
             }
             this.state = State.ACTIVE;
             this.activated ();

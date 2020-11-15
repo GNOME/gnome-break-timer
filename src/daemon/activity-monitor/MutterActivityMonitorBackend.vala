@@ -94,14 +94,14 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend {
         } catch (GLib.DBusError error) {
             GLib.warning ("Error getting mutter idletime: %s", error.message);
         }
-        this.last_idle_time_update_time_ms = Util.get_monotonic_time_ms ();
+        this.last_idle_time_update_time_ms = TimeUnit.get_monotonic_time_ms ();
     }
 
     protected override uint64 time_since_last_event_ms () {
         if (this.user_is_active) {
             return 0;
         } else {
-            int64 now = Util.get_monotonic_time_ms ();
+            int64 now = TimeUnit.get_monotonic_time_ms ();
             int64 time_since = now - this.last_idle_time_update_time_ms;
             uint64 idle_time_ms = this.last_idle_time_ms + time_since;
             return idle_time_ms;
