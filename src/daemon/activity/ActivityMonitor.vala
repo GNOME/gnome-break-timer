@@ -16,8 +16,9 @@
  */
 
 using BreakTimer.Common;
+using BreakTimer.Daemon.Util;
 
-namespace BreakTimer.Daemon {
+namespace BreakTimer.Daemon.Activity {
 
 public class ActivityMonitor : GLib.Object {
     public signal void detected_idle (UserActivity activity);

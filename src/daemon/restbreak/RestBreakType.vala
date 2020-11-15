@@ -15,7 +15,11 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Daemon {
+using BreakTimer.Daemon.Activity;
+using BreakTimer.Daemon.Break;
+using BreakTimer.Daemon.TimerBreak;
+
+namespace BreakTimer.Daemon.RestBreak {
 
 public class RestBreakType : TimerBreakType {
     private ActivityMonitor activity_monitor;

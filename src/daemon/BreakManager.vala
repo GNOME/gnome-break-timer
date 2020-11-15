@@ -15,6 +15,11 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using BreakTimer.Daemon.Activity;
+using BreakTimer.Daemon.Break;
+using BreakTimer.Daemon.MicroBreak;
+using BreakTimer.Daemon.RestBreak;
+
 namespace BreakTimer.Daemon {
 
 public class BreakManager : GLib.Object {

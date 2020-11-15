@@ -15,7 +15,7 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Daemon {
+namespace BreakTimer.Daemon.Activity {
 
 public enum ActivityType {
     SLEEP,

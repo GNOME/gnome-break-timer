@@ -15,7 +15,10 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Daemon {
+using BreakTimer.Daemon.Activity;
+using BreakTimer.Daemon.TimerBreak;
+
+namespace BreakTimer.Daemon.MicroBreak {
 
 /**
  * A type of timer break that should activate frequently and for short

@@ -15,7 +15,7 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Daemon {
+namespace BreakTimer.Daemon.Util {
 
 /**
  * A countdown timer that counts seconds from a start time down to 0. Uses

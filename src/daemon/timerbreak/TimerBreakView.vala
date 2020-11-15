@@ -15,7 +15,9 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Daemon {
+using BreakTimer.Daemon.Break;
+
+namespace BreakTimer.Daemon.TimerBreak {
 
 public abstract class TimerBreakView : BreakView {
     protected TimerBreakController timer_break {

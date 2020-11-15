@@ -17,7 +17,7 @@
 
 using BreakTimer.Common;
 
-namespace BreakTimer.Daemon {
+namespace BreakTimer.Daemon.TimerBreak {
 
 [DBus (name = "org.gnome.BreakTimer.TimerBreak")]
 private class TimerBreakDBusObject : GLib.Object, IBreakTimer_TimerBreak {

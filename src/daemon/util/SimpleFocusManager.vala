@@ -15,7 +15,7 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Daemon {
+namespace BreakTimer.Daemon.Util {
 
 public interface IFocusable : GLib.Object {
     public abstract void focus_started ();

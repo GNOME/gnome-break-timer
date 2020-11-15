@@ -16,8 +16,9 @@
  */
 
 using BreakTimer.Common;
+using BreakTimer.Daemon.Util;
 
-namespace BreakTimer.Daemon {
+namespace BreakTimer.Daemon.Activity {
 
 public class MutterActivityMonitorBackend : ActivityMonitorBackend {
     private IMutterIdleMonitor? mutter_idle_monitor;

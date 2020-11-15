@@ -15,7 +15,9 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Daemon {
+using BreakTimer.Daemon.Util;
+
+namespace BreakTimer.Daemon.Break {
 
 public abstract class BreakView : UIFragment {
     protected weak BreakController break_controller;

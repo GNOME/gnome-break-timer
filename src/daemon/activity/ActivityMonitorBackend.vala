@@ -16,8 +16,9 @@
  */
 
 using BreakTimer.Common;
+using BreakTimer.Daemon.Util;
 
-namespace BreakTimer.Daemon {
+namespace BreakTimer.Daemon.Activity {
 
 public abstract class ActivityMonitorBackend : GLib.Object {
     private int64 last_real_time = 0;

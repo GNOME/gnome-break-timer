@@ -16,8 +16,11 @@
  */
 
 using BreakTimer.Common;
+using BreakTimer.Daemon.Break;
+using BreakTimer.Daemon.TimerBreak;
+using BreakTimer.Daemon.Util;
 
-namespace BreakTimer.Daemon {
+namespace BreakTimer.Daemon.RestBreak {
 
 /* TODO: Use a single persistent notification throughout a given break */
 

@@ -15,7 +15,7 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BreakTimer.Daemon {
+namespace BreakTimer.Daemon.Util {
 
 public class TimeUnit {
     public const int MILLISECONDS_IN_SECONDS = 1000;

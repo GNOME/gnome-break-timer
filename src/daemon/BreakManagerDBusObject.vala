@@ -16,6 +16,7 @@
  */
 
 using BreakTimer.Common;
+using BreakTimer.Daemon.Break;
 
 namespace BreakTimer.Daemon {
 
