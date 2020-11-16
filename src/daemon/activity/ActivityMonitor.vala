@@ -114,25 +114,28 @@ public class ActivityMonitor : GLib.Object {
                 idle_time = 0,
                 time_correction = sleep_time
             };
-            GLib.debug ("Detected system sleep for " + int64.FORMAT + " seconds", sleep_time);
+            GLib.debug ("Detected system sleep (time_correction: " + int64.FORMAT + " seconds)", sleep_time);
         } else if (this.session_status.is_locked ()) {
             activity = UserActivity () {
                 type = ActivityType.LOCKED,
                 idle_time = idle_time,
                 time_correction = 0
             };
+            GLib.debug ("Detected session locked (idle_time: " + int64.FORMAT + " seconds)", idle_time);
         } else if (idle_time == 0 || idle_time < this.last_activity.idle_time) {
             activity = UserActivity () {
                 type = ActivityType.INPUT,
                 idle_time = idle_time,
                 time_correction = 0
             };
+            GLib.debug ("Detected user input (idle_time: " + int64.FORMAT + " seconds)", idle_time);
         } else {
             activity = UserActivity () {
                 type = ActivityType.NONE,
                 idle_time = idle_time,
                 time_correction = 0
             };
+            GLib.debug ("Detected no activity (idle_time: " + int64.FORMAT + " seconds)", idle_time);
         }
 
         activity.time_since_active = time_since_active;
