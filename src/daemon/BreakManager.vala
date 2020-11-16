@@ -22,40 +22,65 @@ using BreakTimer.Daemon.RestBreak;
 
 namespace BreakTimer.Daemon {
 
-public class BreakManager : GLib.Object {
-    private UIManager ui_manager;
-
-    private Gee.Map<string, BreakType> breaks;
-    private BreakManagerDBusObject dbus_object;
-
+public class BreakManager : GLib.Object, GLib.Initable {
     private GLib.Settings settings;
+    private GLib.HashTable<string, BreakType> breaks;
     public bool master_enabled { get; set; }
     public string[] selected_break_ids { get; set; }
 
-    public BreakManager (UIManager ui_manager) {
-        this.ui_manager = ui_manager;
-
-        this.breaks = new Gee.HashMap<string, BreakType> ();
+    public BreakManager (UIManager ui_manager, ActivityMonitor activity_monitor) {
         this.settings = new GLib.Settings ("org.gnome.BreakTimer");
+
+        this.breaks = new GLib.HashTable<string, BreakType> (str_hash, str_equal);
+        this.breaks.set(
+            "microbreak",
+            new MicroBreakType (activity_monitor, ui_manager)
+        );
+        this.breaks.set(
+            "restbreak",
+            new RestBreakType (activity_monitor, ui_manager)
+        );
 
         this.settings.bind ("enabled", this, "master-enabled", GLib.SettingsBindFlags.DEFAULT);
         this.settings.bind ("selected-breaks", this, "selected-break-ids", GLib.SettingsBindFlags.DEFAULT);
+
         this.notify["master-enabled"].connect (this.update_enabled_breaks);
         this.notify["selected-break-ids"].connect (this.update_enabled_breaks);
+        this.update_enabled_breaks ();
+    }
 
-        this.dbus_object = new BreakManagerDBusObject (this);
+    public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
+        GLib.DBusConnection connection;
+
         try {
-            GLib.DBusConnection connection = GLib.Bus.get_sync (
+            connection = GLib.Bus.get_sync (
                 GLib.BusType.SESSION,
                 null
             );
+        } catch (GLib.IOError error) {
+            GLib.warning ("Error connecting to the session bus: %s", error.message);
+            throw error;
+        }
+
+        try {
             connection.register_object (
                 Config.DAEMON_OBJECT_PATH,
-                this.dbus_object
+                new BreakManagerDBusObject (this)
             );
         } catch (GLib.IOError error) {
-            GLib.error ("Error registering daemon on the session bus: %s", error.message);
+            GLib.warning ("Error registering daemon on the session bus: %s", error.message);
+            throw error;
         }
+
+        foreach (BreakType break_type in this.all_breaks ()) {
+            try {
+                break_type.init (cancellable);
+            } catch (GLib.Error error) {
+                GLib.warning ("Error initializing break type %s: %s", break_type.id, error.message);
+            }
+        }
+
+        return true;
     }
 
     public Json.Object serialize () {
@@ -76,31 +101,16 @@ public class BreakManager : GLib.Object {
         }
     }
 
-    public void load_breaks (ActivityMonitor activity_monitor) {
-        this.add_break (new MicroBreakType (activity_monitor, this.ui_manager));
-        this.add_break (new RestBreakType (activity_monitor, this.ui_manager));
-        this.update_enabled_breaks ();
+    public GLib.List<unowned string> all_break_ids () {
+        return this.breaks.get_keys ();
     }
 
-    public Gee.Set<string> all_break_ids () {
-        return this.breaks.keys;
-    }
-
-    public Gee.Collection<BreakType> all_breaks () {
-        return this.breaks.values;
+    public GLib.List<unowned BreakType> all_breaks () {
+        return this.breaks.get_values ();
     }
 
     public BreakType? get_break_type_for_name (string name) {
-        return this.breaks.get (name);
-    }
-
-    private void add_break (BreakType break_type) {
-        this.breaks.set (break_type.id, break_type);
-        try {
-            break_type.init (null);
-        } catch (GLib.Error error) {
-            GLib.warning ("Error initializing break type %s: %s", break_type.id, error.message);
-        }
+        return this.breaks.lookup (name);
     }
 
     private void update_enabled_breaks () {

@@ -30,7 +30,6 @@ public class SessionStatus : GLib.Object, ISessionStatus {
 
     public SessionStatus (Gtk.Application application) {
         this.application = application;
-
         GLib.Bus.watch_name (
             GLib.BusType.SESSION,
             "org.gnome.ScreenSaver",

@@ -74,8 +74,18 @@ public class Application : Gtk.Application {
         this.activity_monitor = new ActivityMonitor (session_status, activity_monitor_backend);
 
         this.ui_manager = new UIManager (this, session_status);
-        this.break_manager = new BreakManager (ui_manager);
-        this.break_manager.load_breaks (activity_monitor);
+        try {
+            this.ui_manager.init ();
+        } catch (GLib.Error error) {
+            GLib.error("Error initializing ui: %s", error.message);
+        }
+
+        this.break_manager = new BreakManager (ui_manager, activity_monitor);
+        try {
+            this.break_manager.init ();
+        } catch (GLib.Error error) {
+            GLib.error("Error initializing ui: %s", error.message);
+        }
 
         this.restore_state ();
 

@@ -25,22 +25,29 @@ public abstract class TimerBreakType : BreakType {
     }
 
     public override bool init (GLib.Cancellable? cancellable) throws GLib.Error {
-        var timer_break_controller = (TimerBreakController) this.break_controller;
-        var timer_break_view = (TimerBreakView) this.break_view;
-
-        var dbus_object = new TimerBreakDBusObject (
-            timer_break_controller,
-            timer_break_view
-        );
+        GLib.DBusConnection connection;
 
         try {
-            GLib.DBusConnection connection = GLib.Bus.get_sync (GLib.BusType.SESSION, null);
-            connection.register_object (
-                Config.DAEMON_BREAK_OBJECT_BASE_PATH+this.id,
-                dbus_object
+            connection = GLib.Bus.get_sync (
+                GLib.BusType.SESSION,
+                null
             );
         } catch (GLib.IOError error) {
-            GLib.error ("Error registering break type on the session bus: %s", error.message);
+            GLib.warning ("Error connecting to the session bus: %s", error.message);
+            throw error;
+        }
+
+        try {
+            connection.register_object (
+                Config.DAEMON_BREAK_OBJECT_BASE_PATH+this.id,
+                new TimerBreakDBusObject (
+                    (TimerBreakController) this.break_controller,
+                    (TimerBreakView) this.break_view
+                )
+            );
+        } catch (GLib.IOError error) {
+            GLib.warning ("Error registering break type on the session bus: %s", error.message);
+            throw error;
         }
 
         return base.init (cancellable);

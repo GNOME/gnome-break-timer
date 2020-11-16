@@ -47,16 +47,20 @@ public class BreakManagerDBusObject : GLib.Object, IBreakTimer {
     }
 
     public string[] get_break_ids () throws GLib.DBusError, GLib.IOError {
-        return this.break_manager.all_break_ids ().to_array ();
+        var break_ids = new GLib.Array<string> ();
+        foreach (unowned string break_id in this.break_manager.all_break_ids ()) {
+            break_ids.append_val (break_id);
+        }
+        return break_ids.steal ();
     }
 
     public string[] get_status_messages () throws GLib.DBusError, GLib.IOError {
-        var messages = new Gee.ArrayList<string> ();
+        var messages = new GLib.Array<string> ();
         foreach (BreakType break_type in break_manager.all_breaks ()) {
             string status_message = break_type.break_view.get_status_message ();
-            messages.add ("%s:\t%s".printf (break_type.id, status_message));
+            messages.append_val ("%s:\t%s".printf (break_type.id, status_message));
         }
-        return messages.to_array ();
+        return messages.steal ();
     }
 
     public void activate_break (string break_name) throws GLib.DBusError, GLib.IOError {

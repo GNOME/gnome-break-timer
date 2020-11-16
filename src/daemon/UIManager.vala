@@ -27,7 +27,7 @@ namespace BreakTimer.Daemon {
  * sure only one break is affecting the UI at a time. This class also tries to
  * keep UI events nicely spaced so they don't generate excessive noise.
  */
-public class UIManager : SimpleFocusManager {
+public class UIManager : SimpleFocusManager, GLib.Initable {
     private weak Gtk.Application application;
     private ISessionStatus session_status;
 
@@ -42,16 +42,19 @@ public class UIManager : SimpleFocusManager {
         this.application = application;
         this.session_status = session_status;
 
+        this.session_status.unlocked.connect (this.hide_lock_notification_cb);
+        this.notify_capabilities = Notify.get_server_caps ();
+    }
+
+    public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
         try {
             this.gsound = new GSound.Context ();
-            this.gsound.init ();
+            this.gsound.init (cancellable);
         } catch (GLib.Error error) {
             GLib.warning ("Error initializing gsound: %s", error.message);
             this.gsound = null;
         }
-
-        this.session_status.unlocked.connect (this.hide_lock_notification_cb);
-        this.notify_capabilities = Notify.get_server_caps ();
+        return true;
     }
 
     public bool notifications_can_do (string capability) {
