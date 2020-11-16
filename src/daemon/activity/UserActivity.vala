@@ -17,14 +17,6 @@
 
 namespace BreakTimer.Daemon.Activity {
 
-public enum ActivityType {
-    SLEEP,
-    LOCKED,
-    NONE,
-    INPUT,
-    UNLOCK
-}
-
 public struct UserActivity {
     public ActivityType type;
     public int64 idle_time;
@@ -51,6 +43,46 @@ public struct UserActivity {
 
     public bool is_active () {
         return this.type > ActivityType.NONE;
+    }
+
+    public string to_string () {
+        const string format =
+            "%s (" +
+            "idle_time: %" + int64.FORMAT + ", " +
+            "time_since_active %" + int64.FORMAT + ", " +
+            "time_correction: %" + int64.FORMAT +
+            ")";
+        return format.printf (
+            this.type.to_string (),
+            this.idle_time,
+            this.time_since_active,
+            this.time_correction
+        );
+    }
+}
+
+public enum ActivityType {
+    SLEEP,
+    LOCKED,
+    NONE,
+    INPUT,
+    UNLOCK;
+
+    public string to_string() {
+        switch (this) {
+            case SLEEP:
+                return "Sleep";
+            case LOCKED:
+                return "Locked";
+            case NONE:
+                return "None";
+            case INPUT:
+                return "Input";
+            case UNLOCK:
+                return "Unlock";
+            default:
+                assert_not_reached();
+        }
     }
 }
 
