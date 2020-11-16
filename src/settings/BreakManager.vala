@@ -147,7 +147,11 @@ public class BreakManager : GLib.Object {
     }
 
     private void add_break (BreakType break_type) {
-        break_type.initialize ();
+        try {
+            break_type.init (null);
+        } catch (GLib.Error error) {
+            GLib.warning ("Error initializing break type %s: %s", break_type.id, error.message);
+        }
         this.breaks.set (break_type.id, break_type);
         this.breaks_ordered.append (break_type);
         break_type.status_changed.connect (this.break_status_changed);

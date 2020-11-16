@@ -58,6 +58,8 @@ public class CircleCounter : Gtk.Widget {
         });
     }
 
+    // TODO: Animate between states <3
+
     public override bool draw (Cairo.Context cr) {
         Gtk.StyleContext style_context = this.get_style_context ();
         Gtk.StateFlags state = this.get_state_flags ();

@@ -20,34 +20,30 @@ using BreakTimer.Daemon.Break;
 namespace BreakTimer.Daemon.TimerBreak {
 
 public abstract class TimerBreakType : BreakType {
-    private TimerBreakDBusObject dbus_object;
-
-    protected TimerBreakType (string id, GLib.Settings settings) {
-        base (id, settings);
+    protected TimerBreakType (string id, BreakController break_controller, BreakView break_view) {
+        base (id, break_controller, break_view);
     }
 
-    protected override void initialize (UIManager ui_manager) {
-        base.initialize (ui_manager);
+    public override bool init (GLib.Cancellable? cancellable) throws GLib.Error {
+        var timer_break_controller = (TimerBreakController) this.break_controller;
+        var timer_break_view = (TimerBreakView) this.break_view;
 
-        var timer_break_controller = (TimerBreakController)this.break_controller;
-        var timer_break_view = (TimerBreakView)this.break_view;
-
-        this.settings.bind ("interval-seconds", timer_break_controller, "interval", GLib.SettingsBindFlags.GET);
-        this.settings.bind ("duration-seconds", timer_break_controller, "duration", GLib.SettingsBindFlags.GET);
-
-        this.dbus_object = new TimerBreakDBusObject (
+        var dbus_object = new TimerBreakDBusObject (
             timer_break_controller,
             timer_break_view
         );
+
         try {
             GLib.DBusConnection connection = GLib.Bus.get_sync (GLib.BusType.SESSION, null);
             connection.register_object (
                 Config.DAEMON_BREAK_OBJECT_BASE_PATH+this.id,
-                this.dbus_object
+                dbus_object
             );
         } catch (GLib.IOError error) {
             GLib.error ("Error registering break type on the session bus: %s", error.message);
         }
+
+        return base.init (cancellable);
     }
 }
 

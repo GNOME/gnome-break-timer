@@ -17,25 +17,20 @@
 
 namespace BreakTimer.Daemon.Break {
 
-public abstract class BreakType : GLib.Object {
-    public string id;
-    public BreakController break_controller;
-    public BreakView break_view;
+public abstract class BreakType : GLib.Object, GLib.Initable {
+    public string id {get; private set; }
+    public BreakController break_controller { get; private set; }
+    public BreakView break_view { get; private set; }
 
-    protected GLib.Settings settings;
-
-    protected BreakType (string id, GLib.Settings settings) {
+    protected BreakType (string id, BreakController break_controller, BreakView break_view) {
         this.id = id;
-        this.settings = settings;
+        this.break_controller = break_controller;
+        this.break_view = break_view;
     }
 
-    public virtual void initialize (UIManager ui_manager) {
-        this.break_controller = this.get_break_controller ();
-        this.break_view = this.get_break_view (this.break_controller, ui_manager);
+    public virtual bool init (GLib.Cancellable? cancellable) throws GLib.Error {
+        return true;
     }
-
-    protected abstract BreakController get_break_controller ();
-    protected abstract BreakView get_break_view (BreakController controller, UIManager ui_manager);
 }
 
 }

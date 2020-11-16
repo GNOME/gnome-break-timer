@@ -29,15 +29,15 @@ public class MicroBreakType : TimerBreakType {
         this.duration_options = { 15, 30, 45, 60 };
     }
 
-    protected override BreakInfoWidget get_info_widget () {
+    protected override BreakInfoWidget create_info_widget () {
         return new MicroBreakInfoWidget (this);
     }
 
-    protected override BreakStatusWidget get_status_widget () {
+    protected override BreakStatusWidget create_status_widget () {
         return new MicroBreakStatusWidget (this);
     }
 
-    protected override BreakSettingsWidget get_settings_widget () {
+    protected override BreakSettingsWidget create_settings_widget () {
         return new MicroBreakSettingsWidget (this);
     }
 }

@@ -22,25 +22,15 @@ using BreakTimer.Daemon.TimerBreak;
 namespace BreakTimer.Daemon.RestBreak {
 
 public class RestBreakType : TimerBreakType {
-    private ActivityMonitor activity_monitor;
+    public RestBreakType (ActivityMonitor activity_monitor, UIManager ui_manager) {
+        var break_controller = new RestBreakController (activity_monitor);
+        var break_view = new RestBreakView (break_controller, ui_manager);
 
-    public RestBreakType (ActivityMonitor activity_monitor) {
-        GLib.Settings settings = new GLib.Settings ("org.gnome.BreakTimer.restbreak");
-        base ("restbreak", settings);
-        this.activity_monitor = activity_monitor;
-    }
+        var settings = new GLib.Settings ("org.gnome.BreakTimer.restbreak");
+        settings.bind ("interval-seconds", break_controller, "interval", GLib.SettingsBindFlags.GET);
+        settings.bind ("duration-seconds", break_controller, "duration", GLib.SettingsBindFlags.GET);
 
-    protected override BreakController get_break_controller () {
-        return new RestBreakController (
-            this.activity_monitor
-        );
-    }
-
-    protected override BreakView get_break_view (BreakController controller, UIManager ui_manager) {
-        return new RestBreakView (
-            (RestBreakController)controller,
-            ui_manager
-        );
+        base ("restbreak", break_controller, break_view);
     }
 }
 

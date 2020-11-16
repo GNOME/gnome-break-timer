@@ -77,9 +77,8 @@ public class BreakManager : GLib.Object {
     }
 
     public void load_breaks (ActivityMonitor activity_monitor) {
-        this.add_break (new MicroBreakType (activity_monitor));
-        this.add_break (new RestBreakType (activity_monitor));
-
+        this.add_break (new MicroBreakType (activity_monitor, this.ui_manager));
+        this.add_break (new RestBreakType (activity_monitor, this.ui_manager));
         this.update_enabled_breaks ();
     }
 
@@ -97,7 +96,11 @@ public class BreakManager : GLib.Object {
 
     private void add_break (BreakType break_type) {
         this.breaks.set (break_type.id, break_type);
-        break_type.initialize (this.ui_manager);
+        try {
+            break_type.init (null);
+        } catch (GLib.Error error) {
+            GLib.warning ("Error initializing break type %s: %s", break_type.id, error.message);
+        }
     }
 
     private void update_enabled_breaks () {

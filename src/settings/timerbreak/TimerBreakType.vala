@@ -37,9 +37,7 @@ public abstract class TimerBreakType : BreakType {
 
     public signal void timer_status_changed (TimerBreakStatus? status);
 
-    public override void initialize () {
-        base.initialize ();
-
+    public override bool init (GLib.Cancellable? cancellable) throws GLib.Error {
         GLib.Bus.watch_name (
             GLib.BusType.SESSION,
             Config.DAEMON_APPLICATION_ID,
@@ -47,6 +45,7 @@ public abstract class TimerBreakType : BreakType {
             this.breakdaemon_appeared,
             this.breakdaemon_disappeared
         );
+        return base.init (cancellable);
     }
 
     protected new void update_status (TimerBreakStatus? status) {

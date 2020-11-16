@@ -110,7 +110,7 @@ public class Application : Gtk.Application {
     }
 
     private void delayed_start () {
-        // Delay up to 500ms waiting for break_manager to initialize
+        // Wait 500ms for break_manager to appear
         this.break_manager.break_status_available.connect (this.delayed_start_cb);
         GLib.Timeout.add (500, () => { delayed_start_cb (); return false; });
     }

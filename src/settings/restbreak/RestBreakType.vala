@@ -29,15 +29,15 @@ public class RestBreakType : TimerBreakType {
         this.duration_options = { 240, 300, 360, 480, 600 };
     }
 
-    protected override BreakInfoWidget get_info_widget () {
+    protected override BreakInfoWidget create_info_widget () {
         return new RestBreakInfoWidget (this);
     }
 
-    protected override BreakStatusWidget get_status_widget () {
+    protected override BreakStatusWidget create_status_widget () {
         return new RestBreakStatusWidget (this);
     }
 
-    protected override BreakSettingsWidget get_settings_widget () {
+    protected override BreakSettingsWidget create_settings_widget () {
         return new RestBreakSettingsWidget (this);
     }
 }

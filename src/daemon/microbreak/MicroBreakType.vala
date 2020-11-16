@@ -22,25 +22,15 @@ using BreakTimer.Daemon.TimerBreak;
 namespace BreakTimer.Daemon.MicroBreak {
 
 public class MicroBreakType : TimerBreakType {
-    private ActivityMonitor activity_monitor;
+    public MicroBreakType (ActivityMonitor activity_monitor, UIManager ui_manager) {
+        var break_controller = new MicroBreakController (activity_monitor);
+        var break_view = new MicroBreakView (break_controller, ui_manager);
 
-    public MicroBreakType (ActivityMonitor activity_monitor) {
-        GLib.Settings settings = new GLib.Settings ("org.gnome.BreakTimer.microbreak");
-        base ("microbreak", settings);
-        this.activity_monitor = activity_monitor;
-    }
+        var settings = new GLib.Settings ("org.gnome.BreakTimer.microbreak");
+        settings.bind ("interval-seconds", break_controller, "interval", GLib.SettingsBindFlags.GET);
+        settings.bind ("duration-seconds", break_controller, "duration", GLib.SettingsBindFlags.GET);
 
-    protected override BreakController get_break_controller () {
-        return new MicroBreakController (
-            this.activity_monitor
-        );
-    }
-
-    protected override BreakView get_break_view (BreakController controller, UIManager ui_manager) {
-        return new MicroBreakView (
-            (MicroBreakController)controller,
-            ui_manager
-        );
+        base ("microbreak", break_controller, break_view);
     }
 }
 

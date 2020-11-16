@@ -29,7 +29,6 @@ namespace BreakTimer.Daemon.MicroBreak {
 public class MicroBreakController : TimerBreakController {
     public MicroBreakController (ActivityMonitor activity_monitor) {
         base (activity_monitor, 0);
-
         this.delayed.connect (this.delayed_cb);
     }
 
