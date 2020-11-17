@@ -24,6 +24,11 @@ public abstract class BreakView : UIFragment {
 
     private int64 last_break_notification_time = 0;
 
+    /** The break is active and has been given UI focus. This is the point where we start caring about it. */
+    public signal void focused_and_activated ();
+    /** The break has lost UI focus. We don't need to display anything at this point. */
+    public signal void lost_ui_focus ();
+
     protected BreakView (BreakController break_controller, UIManager ui_manager) {
         this.ui_manager = ui_manager;
         this.break_controller = break_controller;
@@ -36,11 +41,6 @@ public abstract class BreakView : UIFragment {
         break_controller.activated.connect ( () => { this.request_ui_focus (); });
         break_controller.finished.connect_after ( () => { this.release_ui_focus (); });
     }
-
-    /** The break is active and has been given UI focus. This is the point where we start caring about it. */
-    public signal void focused_and_activated ();
-    /** The break has lost UI focus. We don't need to display anything at this point. */
-    public signal void lost_ui_focus ();
 
     public abstract string get_status_message ();
 

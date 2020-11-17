@@ -32,14 +32,8 @@ public class BreakManager : GLib.Object, GLib.Initable {
         this.settings = new GLib.Settings ("org.gnome.BreakTimer");
 
         this.breaks = new GLib.HashTable<string, BreakType> (str_hash, str_equal);
-        this.breaks.set(
-            "microbreak",
-            new MicroBreakType (activity_monitor, ui_manager)
-        );
-        this.breaks.set(
-            "restbreak",
-            new RestBreakType (activity_monitor, ui_manager)
-        );
+        this.breaks.set("microbreak", new MicroBreakType (activity_monitor, ui_manager));
+        this.breaks.set("restbreak", new RestBreakType (activity_monitor, ui_manager));
 
         this.settings.bind ("enabled", this, "master-enabled", GLib.SettingsBindFlags.DEFAULT);
         this.settings.bind ("selected-breaks", this, "selected-break-ids", GLib.SettingsBindFlags.DEFAULT);
@@ -73,11 +67,7 @@ public class BreakManager : GLib.Object, GLib.Initable {
         }
 
         foreach (BreakType break_type in this.all_breaks ()) {
-            try {
-                break_type.init (cancellable);
-            } catch (GLib.Error error) {
-                GLib.warning ("Error initializing break type %s: %s", break_type.id, error.message);
-            }
+            break_type.init (cancellable);
         }
 
         return true;

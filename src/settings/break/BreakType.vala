@@ -29,12 +29,12 @@ public abstract class BreakType : GLib.Object, GLib.Initable {
 
     public GLib.Settings settings;
 
+    public signal void status_changed (BreakStatus? status);
+
     protected BreakType (string id, GLib.Settings settings) {
         this.id = id;
         this.settings = settings;
     }
-
-    public signal void status_changed (BreakStatus? status);
 
     public virtual bool init (GLib.Cancellable? cancellable) throws GLib.Error {
         this.info_widget = this.create_info_widget ();

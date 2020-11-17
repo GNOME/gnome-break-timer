@@ -19,7 +19,7 @@ using BreakTimer.Settings.Break;
 
 namespace BreakTimer.Settings.Panels {
 
-private class StatusPanel : Gtk.Stack {
+private class StatusPanel : Gtk.Stack, GLib.Initable {
     private BreakManager break_manager;
 
     private Gtk.Grid breaks_list;
@@ -47,8 +47,20 @@ private class StatusPanel : Gtk.Stack {
         this.error_message = builder.get_object ("status_error") as Gtk.Widget;
         this.add (this.error_message);
 
-        break_manager.break_added.connect (this.break_added_cb);
         break_manager.status_changed.connect (this.status_changed_cb);
+    }
+
+    public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
+        foreach (BreakType break_type in this.break_manager.all_breaks ()) {
+            var status_widget = break_type.status_widget;
+            this.breaks_list.add (status_widget);
+            status_widget.set_margin_top (18);
+            status_widget.set_margin_end (20);
+            status_widget.set_margin_bottom (18);
+            status_widget.set_margin_start (20);
+        }
+
+        return true;
     }
 
     private Gtk.Grid build_breaks_list (BreakManager break_manager) {
@@ -58,15 +70,6 @@ private class StatusPanel : Gtk.Stack {
         breaks_list.set_valign (Gtk.Align.CENTER);
 
         return breaks_list;
-    }
-
-    private void break_added_cb (BreakType break_type) {
-        var status_widget = break_type.status_widget;
-        this.breaks_list.add (status_widget);
-        status_widget.set_margin_top (18);
-        status_widget.set_margin_end (20);
-        status_widget.set_margin_bottom (18);
-        status_widget.set_margin_start (20);
     }
 
     private void status_changed_cb () {

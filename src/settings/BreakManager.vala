@@ -30,8 +30,7 @@ public class BreakManager : GLib.Object {
 
     private IBreakTimer break_daemon;
 
-    private Gee.Map<string, BreakType> breaks;
-    private GLib.List<BreakType> breaks_ordered;
+    private GLib.List<BreakType> breaks;
 
     private GLib.Settings settings;
     public bool master_enabled { get; set; }
@@ -40,11 +39,25 @@ public class BreakManager : GLib.Object {
 
     IBackgroundPortal? background_portal = null;
 
+    public signal void break_status_available ();
+    public signal void status_changed ();
+
     public BreakManager (Application application) {
         this.application = application;
-        this.breaks = new Gee.HashMap<string, BreakType> ();
-        this.breaks_ordered = new GLib.List<BreakType> ();
 
+        this.settings = new GLib.Settings ("org.gnome.BreakTimer");
+
+        this.breaks = new GLib.List<BreakType> ();
+        this.breaks.append(new MicroBreakType ());
+        this.breaks.append(new RestBreakType ());
+
+        this.settings.bind ("enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
+        this.settings.bind ("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);
+
+        this.notify["master-enabled"].connect ( this.on_master_enabled_changed );
+    }
+
+    public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
         if (this.get_is_in_flatpak ()) {
             // TODO: Does this work outside of a flatpak? We could remove the
             // extra file we install in data/autostart, which would be nice.
@@ -56,23 +69,25 @@ public class BreakManager : GLib.Object {
                 );
             } catch (GLib.IOError error) {
                 GLib.warning ("Error connecting to xdg desktop portal: %s", error.message);
+                throw error;
             }
         }
 
-        this.settings = new GLib.Settings ("org.gnome.BreakTimer");
-        this.settings.bind ("enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
-        this.settings.bind ("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);
+        GLib.Bus.watch_name (
+            GLib.BusType.SESSION,
+            Config.DAEMON_APPLICATION_ID,
+            GLib.BusNameWatcherFlags.NONE,
+            this.break_daemon_appeared,
+            this.break_daemon_disappeared
+        );
 
-        // We choose not to send a signal when master_enabled changes because
-        // we might be starting the break daemon at the same time, so the
-        // value of is_working () could fluctuate unpleasantly.
-        //this.notify["master-enabled"].connect ( () => { this.status_changed (); });
-        this.notify["master-enabled"].connect ( this.on_master_enabled_changed );
+        foreach (BreakType break_type in this.all_breaks ()) {
+            break_type.status_changed.connect (this.break_status_changed);
+            break_type.init (cancellable);
+        }
+
+        return true;
     }
-
-    public signal void break_status_available ();
-    public signal void break_added (BreakType break_type);
-    public signal void status_changed ();
 
     private void on_master_enabled_changed () {
         // Launch the break timer service if the break manager is enabled
@@ -112,50 +127,15 @@ public class BreakManager : GLib.Object {
         return GLib.FileUtils.test (flatpak_info_path, GLib.FileTest.EXISTS);
     }
 
-    public void load_breaks () {
-        this.add_break (new MicroBreakType ());
-        this.add_break (new RestBreakType ());
-
-        this.status_changed ();
-
-        GLib.Bus.watch_name (
-            GLib.BusType.SESSION,
-            Config.DAEMON_APPLICATION_ID,
-            GLib.BusNameWatcherFlags.NONE,
-            this.break_daemon_appeared,
-            this.break_daemon_disappeared
-        );
-    }
-
-    public Gee.Set<string> all_break_ids () {
-        return this.breaks.keys;
-    }
-
     public unowned GLib.List<BreakType> all_breaks () {
-        return this.breaks_ordered;
+        return this.breaks;
     }
 
     /**
      * @returns true if the break daemon is working correctly.
      */
     public bool is_working () {
-        return (this.master_enabled == false || this.breaks.size == 0 || this.break_daemon != null);
-    }
-
-    public BreakType? get_break_type_for_name (string name) {
-        return this.breaks.get (name);
-    }
-
-    private void add_break (BreakType break_type) {
-        try {
-            break_type.init (null);
-        } catch (GLib.Error error) {
-            GLib.warning ("Error initializing break type %s: %s", break_type.id, error.message);
-        }
-        this.breaks.set (break_type.id, break_type);
-        this.breaks_ordered.append (break_type);
-        break_type.status_changed.connect (this.break_status_changed);
-        this.break_added (break_type);
+        return (this.master_enabled == false || this.break_daemon != null);
     }
 
     private void break_status_changed (BreakType break_type, BreakStatus? break_status) {

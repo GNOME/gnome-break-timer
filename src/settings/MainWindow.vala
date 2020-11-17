@@ -20,7 +20,7 @@ using BreakTimer.Settings.Panels;
 
 namespace BreakTimer.Settings {
 
-public class MainWindow : Gtk.ApplicationWindow {
+public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
     private BreakManager break_manager;
 
     private GLib.Menu app_menu;
@@ -107,9 +107,24 @@ public class MainWindow : Gtk.ApplicationWindow {
         this.header.show_all ();
         content.show_all ();
 
-        break_manager.break_added.connect (this.break_added_cb);
         break_manager.notify["foreground-break"].connect (this.update_visible_panel);
         this.update_visible_panel ();
+    }
+
+    public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
+        foreach (BreakType break_type in this.break_manager.all_breaks ()) {
+            var info_widget = break_type.info_widget;
+            this.main_stack.add_named (info_widget, break_type.id);
+            info_widget.set_margin_start (20);
+            info_widget.set_margin_end (20);
+            info_widget.set_halign (Gtk.Align.CENTER);
+            info_widget.set_valign (Gtk.Align.CENTER);
+        }
+
+        this.break_settings_dialog.init (cancellable);
+        this.status_panel.init (cancellable);
+
+        return true;
     }
 
     public Gtk.Widget get_master_switch () {
@@ -123,15 +138,6 @@ public class MainWindow : Gtk.ApplicationWindow {
     public Gtk.Widget? get_close_button () {
         // TODO: We need some way to get the close button position from this.header
         return null;
-    }
-
-    private void break_added_cb (BreakType break_type) {
-        var info_widget = break_type.info_widget;
-        this.main_stack.add_named (info_widget, break_type.id);
-        info_widget.set_margin_start (20);
-        info_widget.set_margin_end (20);
-        info_widget.set_halign (Gtk.Align.CENTER);
-        info_widget.set_valign (Gtk.Align.CENTER);
     }
 
     private void update_visible_panel () {

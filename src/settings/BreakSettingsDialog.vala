@@ -75,8 +75,22 @@ public class BreakSettingsDialog : Gtk.Dialog {
 
         content.show_all ();
 
-        break_manager.break_added.connect (this.break_added_cb);
         this.configuration_chooser.notify["selected-break-ids"].connect (this.update_break_configuration);
+    }
+
+    public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
+        foreach (BreakType break_type in this.break_manager.all_breaks ()) {
+            var settings_widget = break_type.settings_widget;
+            this.breaks_grid.add (settings_widget);
+            settings_widget.realize ();
+            settings_widget.set_valign (Gtk.Align.CENTER);
+            settings_widget.set_vexpand (true);
+            settings_widget.set_margin_top (10);
+            settings_widget.set_margin_bottom (10);
+            this.update_break_configuration ();
+        }
+
+        return true;
     }
 
     private void update_break_configuration () {
@@ -89,16 +103,6 @@ public class BreakSettingsDialog : Gtk.Dialog {
         }
     }
 
-    private void break_added_cb (BreakType break_type) {
-        var settings_widget = break_type.settings_widget;
-        breaks_grid.add (settings_widget);
-        settings_widget.realize ();
-        settings_widget.set_valign (Gtk.Align.CENTER);
-        settings_widget.set_vexpand (true);
-        settings_widget.set_margin_top (10);
-        settings_widget.set_margin_bottom (10);
-        this.update_break_configuration ();
-    }
 
     private void response_cb (int response_id) {
         if (response_id == Gtk.ResponseType.CLOSE) {

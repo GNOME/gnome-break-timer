@@ -21,7 +21,6 @@ subdir('daemon')
 common_dependencies = [
     cairo_dep,
     config_lib_dep,
-    gee_dep,
     gio_dep,
     gio_unix_dep,
     gtk_dep,

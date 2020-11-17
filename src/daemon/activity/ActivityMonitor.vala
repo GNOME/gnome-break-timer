@@ -21,15 +21,15 @@ using BreakTimer.Daemon.Util;
 namespace BreakTimer.Daemon.Activity {
 
 public class ActivityMonitor : GLib.Object {
-    public signal void detected_idle (UserActivity activity);
-    public signal void detected_activity (UserActivity activity);
-
     private PausableTimeout poll_activity_timeout;
     private UserActivity last_activity;
     private int64 last_active_timestamp;
 
     private ISessionStatus session_status;
     private ActivityMonitorBackend backend;
+
+    public signal void detected_idle (UserActivity activity);
+    public signal void detected_activity (UserActivity activity);
 
     public ActivityMonitor (ISessionStatus session_status, ActivityMonitorBackend backend) {
         this.session_status = session_status;

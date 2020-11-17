@@ -77,14 +77,14 @@ public class Application : Gtk.Application {
         try {
             this.ui_manager.init ();
         } catch (GLib.Error error) {
-            GLib.error("Error initializing ui: %s", error.message);
+            GLib.error("Error initializing ui_manager: %s", error.message);
         }
 
         this.break_manager = new BreakManager (ui_manager, activity_monitor);
         try {
-            this.break_manager.init ();
+            this.break_manager.init (null);
         } catch (GLib.Error error) {
-            GLib.error("Error initializing ui: %s", error.message);
+            GLib.error("Error initializing break_manager: %s", error.message);
         }
 
         this.restore_state ();

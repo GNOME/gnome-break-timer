@@ -36,6 +36,8 @@ private class WelcomePanel : Gtk.Stack {
     private Gtk.Container breaks_page;
     private Gtk.Container ready_page;
 
+    public signal void tour_finished ();
+
     public WelcomePanel (BreakManager break_manager, Gtk.Builder builder, MainWindow main_window) {
         GLib.Object ();
 
@@ -77,8 +79,6 @@ private class WelcomePanel : Gtk.Stack {
 
         break_manager.notify["master-enabled"].connect (this.on_master_switch_toggled);
     }
-
-    public signal void tour_finished ();
 
     public bool is_active () {
         return this.current_step < Step.READY;

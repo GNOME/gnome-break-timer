@@ -105,8 +105,18 @@ public class Application : Gtk.Application {
         this.set_accels_for_action ("app.quit", {"<Primary>q"});
 
         this.break_manager = new BreakManager (this);
+        try {
+            this.break_manager.init (null);
+        } catch (GLib.Error error) {
+            GLib.error("Error initializing break_manager: %s", error.message);
+        }
+
         this.main_window = new MainWindow (this, this.break_manager);
-        this.break_manager.load_breaks ();
+        try {
+            this.main_window.init (null);
+        } catch (GLib.Error error) {
+            GLib.error("Error initializing main_window: %s", error.message);
+        }
     }
 
     private void delayed_start () {

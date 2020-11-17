@@ -42,6 +42,11 @@ public abstract class TimerBreakController : BreakController {
     private StatefulTimer counting_timer = new StatefulTimer ();
     private StatefulTimer delayed_timer = new StatefulTimer ();
 
+    /** Fires continually, as long as the break is active and counting down. */
+    public signal void counting (int lap_time, int total_time);
+    /** Fires as long as the break is active but is not counting down. */
+    public signal void delayed (int lap_time, int total_time);
+
     protected TimerBreakController (ActivityMonitor activity_monitor, int fuzzy_seconds = 0) {
         base ();
         this.fuzzy_seconds = fuzzy_seconds;
@@ -68,11 +73,6 @@ public abstract class TimerBreakController : BreakController {
         this.activated.connect (this.activated_cb);
         this.finished.connect (this.finished_cb);
     }
-
-    /** Fires continually, as long as the break is active and counting down. */
-    public signal void counting (int lap_time, int total_time);
-    /** Fires as long as the break is active but is not counting down. */
-    public signal void delayed (int lap_time, int total_time);
 
     public override Json.Object serialize () {
         Json.Object json_root = base.serialize ();

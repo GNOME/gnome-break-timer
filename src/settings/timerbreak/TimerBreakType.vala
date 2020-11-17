@@ -29,13 +29,13 @@ public abstract class TimerBreakType : BreakType {
 
     public IBreakTimer_TimerBreak? break_server;
 
+    public signal void timer_status_changed (TimerBreakStatus? status);
+
     protected TimerBreakType (string name, GLib.Settings settings) {
         base (name, settings);
         settings.bind ("interval-seconds", this, "interval", SettingsBindFlags.GET);
         settings.bind ("duration-seconds", this, "duration", SettingsBindFlags.GET);
     }
-
-    public signal void timer_status_changed (TimerBreakStatus? status);
 
     public override bool init (GLib.Cancellable? cancellable) throws GLib.Error {
         GLib.Bus.watch_name (
