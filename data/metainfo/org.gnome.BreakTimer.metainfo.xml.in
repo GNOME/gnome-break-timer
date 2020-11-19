@@ -18,6 +18,23 @@
   </description>
 
   <url type="homepage">https://wiki.gnome.org/Apps/BreakTimer</url>
+  <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-break-timer/issues</url>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Easily turn on break timers</caption>
+      <image>https://gitlab.gnome.org/GNOME/gnome-break-timer/raw/master/data/metainfo/gnome-break-timer-2-0-welcome.png</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>Check on their status at any time</caption>
+      <image>https://gitlab.gnome.org/GNOME/gnome-break-timer/raw/master/data/metainfo/gnome-break-timer-2-0-status.png</image>
+    </screenshot>
+  </screenshots>
 
   <launchable type="desktop-id">org.gnome.BreakTimer.Settings.desktop</launchable>
+
+  <content_rating type="oars-1.1" />
+
+  <releases>
+  </releases>
 </component>
