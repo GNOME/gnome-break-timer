@@ -15,13 +15,18 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using BreakTimer.Daemon.Activity;
+using BreakTimer.Daemon.TimerBreak;
+
+namespace BreakTimer.Tests.Daemon.TimerBreak {
+
 public class test_TimerBreakController : TestSuiteWithActivityMonitor {
     public const int DEFAULT_INTERVAL = 360;
     public const int DEFAULT_DURATION = 30;
 
     public testable_TimerBreakController break_controller;
-    public Gee.List<string> break_log;
-    public Gee.List<string> break_timestep_log;
+    public GLib.List<string> break_log;
+    public GLib.List<string> break_timestep_log;
 
     public test_TimerBreakController () {
         new test_start_disabled ().add_to (this);
@@ -33,15 +38,15 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
     }
 
     public override void setup () {
-        this.break_log = new Gee.ArrayList<string> ();
-        this.break_timestep_log = new Gee.ArrayList<string> ();
+        this.break_log = new GLib.List<string> ();
+        this.break_timestep_log = new GLib.List<string> ();
 
         base.setup ();
     }
 
     private void log_break_message (string message) {
-        this.break_log.add (message);
-        this.break_timestep_log.add (message);
+        this.break_log.append (message);
+        this.break_timestep_log.append (message);
     }
 
     public Json.Object save_state () {
@@ -70,8 +75,8 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
     public override void refresh_environment () {
         base.refresh_environment ();
 
-        this.break_log.clear ();
-        this.break_timestep_log.clear ();
+        this.break_log = new GLib.List<string> ();
+        this.break_timestep_log = new GLib.List<string> ();
 
         this.break_controller = new testable_TimerBreakController (this.activity_monitor);
         this.break_controller.interval = DEFAULT_INTERVAL;
@@ -90,7 +95,7 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
     }
 
     public override void time_step (bool is_active, int real_seconds, int monotonic_seconds) {
-        this.break_timestep_log.clear ();
+        this.break_timestep_log = new GLib.List<string> ();
         base.time_step (is_active, real_seconds, monotonic_seconds);
         this.break_controller.time_step (real_seconds, monotonic_seconds);
     }
@@ -122,7 +127,7 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
             context.break_controller.activate ();
 
             assert (context.break_controller.is_enabled () == false);
-            assert (context.break_log.last () == "disabled");
+            assert (context.break_log.last ().data == "disabled");
         }
     }
 
@@ -140,9 +145,9 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
 
             for (int step = 0; step <= test_TimerBreakController.DEFAULT_DURATION; step++) {
                 context.time_step (false, 1, 1);
-                assert (context.break_timestep_log[0] == "counting");
+                assert (context.break_timestep_log.nth_data (0) == "counting");
                 if (step == test_TimerBreakController.DEFAULT_DURATION) {
-                    assert (context.break_timestep_log[1] == "finished");
+                    assert (context.break_timestep_log.nth_data (1) == "finished");
                 }
             }
             expected_starts_in = test_TimerBreakController.DEFAULT_INTERVAL;
@@ -151,7 +156,7 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
 
             for (int step = 0; step < test_TimerBreakController.DEFAULT_INTERVAL; step++) {
                 context.time_step (false, 1, 1);
-                assert (context.break_timestep_log[0] == "counting");
+                assert (context.break_timestep_log.nth_data (0) == "counting");
             }
             context.break_controller.assert_timers (expected_starts_in, expected_remaining);
         }
@@ -165,7 +170,7 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
             var active_time_1 = 20;
             for (int step = 0; step < active_time_1; step++) {
                 context.time_step (true, 1, 1);
-                assert (context.break_timestep_log[0] == "delayed");
+                assert (context.break_timestep_log.nth_data (0) == "delayed");
             }
             expected_starts_in -= active_time_1;
             context.break_controller.assert_timers (expected_starts_in, expected_remaining);
@@ -173,7 +178,7 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
             var idle_time_1 = 10;
             for (int step = 0; step <= idle_time_1; step++) {
                 context.time_step (false, 1, 1);
-                assert (context.break_timestep_log[0] == "counting");
+                assert (context.break_timestep_log.nth_data (0) == "counting");
             }
             expected_starts_in -= 1;
             expected_remaining -= idle_time_1;
@@ -183,11 +188,11 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
             var warn_step = active_time_2 - test_TimerBreakController.DEFAULT_DURATION - 1;
             for (int step = 0; step < active_time_2; step++) {
                 context.time_step (true, 1, 1);
-                assert (context.break_timestep_log[0] == "delayed");
+                assert (context.break_timestep_log.nth_data (0) == "delayed");
                 if (step == warn_step) {
-                    assert (context.break_timestep_log[1] == "warned");
+                    assert (context.break_timestep_log.nth_data (1) == "warned");
                 } else if (step == active_time_2-1) {
-                    assert (context.break_timestep_log[1] == "activated");
+                    assert (context.break_timestep_log.nth_data (1) == "activated");
                 }
             }
             expected_starts_in = 0;
@@ -196,16 +201,16 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
 
             for (int step = 0; step < 5; step++) {
                 context.time_step (false, 1, 1);
-                assert (context.break_timestep_log[0] == "counting");
+                assert (context.break_timestep_log.nth_data (0) == "counting");
             }
             expected_remaining -= 5;
             context.break_controller.assert_timers (expected_starts_in, expected_remaining);
 
             for (int step = 0; step < expected_remaining; step++) {
                 context.time_step (false, 1, 1);
-                assert (context.break_timestep_log[0] == "counting");
+                assert (context.break_timestep_log.nth_data (0) == "counting");
                 if (step == expected_remaining-1) {
-                    assert (context.break_timestep_log[1] == "finished");
+                    assert (context.break_timestep_log.nth_data (1) == "finished");
                 }
             }
             expected_starts_in = test_TimerBreakController.DEFAULT_INTERVAL;
@@ -219,7 +224,7 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
             int expected_remaining = test_TimerBreakController.DEFAULT_DURATION;
 
             context.break_controller.activate ();
-            assert (context.break_log.last () == "activated");
+            assert (context.break_log.last ().data == "activated");
 
             assert (context.break_controller.get_seconds_since_start () == 0);
             context.break_controller.assert_timers (null, expected_remaining);
@@ -254,7 +259,7 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
             for (int step = 0; step < expected_starts_in; step++) {
                 context.time_step (true, 1, 1);
                 if (step == expected_starts_in-1) {
-                    assert (context.break_timestep_log[1] == "activated");
+                    assert (context.break_timestep_log.nth_data (1) == "activated");
                 }
             }
             expected_starts_in = 0;
@@ -317,4 +322,6 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
             context.break_controller.assert_timers (0, test_TimerBreakController.DEFAULT_DURATION-20);
         }
     }
+}
+
 }

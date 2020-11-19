@@ -1,8 +1,4 @@
-# TODO: BUILD IN DATA FILES
-# $(top_srcdir)/settings/resources.c: $(top_srcdir)/data/gnome-break-timer.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir=$(top_srcdir)/data/ $(top_srcdir)/data/gnome-break-timer.gresource.xml)
-#     $(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(top_srcdir)/data/ --generate-source $<
-
-settings_sources = files(
+settings_lib_sources = files(
     'Application.vala',
     'break/BreakInfoWidget.vala',
     'break/BreakSettingsWidget.vala',
@@ -10,7 +6,6 @@ settings_sources = files(
     'break/BreakType.vala',
     'BreakManager.vala',
     'BreakSettingsDialog.vala',
-    'main.vala',
     'MainWindow.vala',
     'microbreak/MicroBreakInfoWidget.vala',
     'microbreak/MicroBreakSettingsWidget.vala',
@@ -30,4 +25,48 @@ settings_sources = files(
     'widgets/FixedSizeGrid.vala',
     'widgets/OverlayArrow.vala',
     'widgets/TimeChooser.vala'
+)
+
+settings_lib_dependencies = [
+    cairo_dep,
+    config_lib_dep,
+    gio_dep,
+    gio_unix_dep,
+    gtk_dep,
+    json_glib_dep,
+    gsound_dep,
+    libnotify_dep,
+    m_dep,
+    posix_dep,
+    common_lib_dep
+]
+
+settings_lib = static_library(
+    'settings',
+    sources: settings_lib_sources,
+    dependencies: settings_lib_dependencies,
+    include_directories: include_directories('.')
+)
+
+settings_lib_dep = declare_dependency(
+    link_with: settings_lib,
+    dependencies: settings_lib_dependencies,
+    include_directories: include_directories('.')
+)
+
+settings_exe_sources = files(
+    'main.vala'
+)
+
+executable(
+    'gnome-break-timer-settings',
+    sources : [
+        settings_exe_sources
+    ],
+    dependencies : [
+        settings_lib_dep,
+        break_timer_resources_dep
+    ],
+    install: true,
+    install_dir: bindir
 )

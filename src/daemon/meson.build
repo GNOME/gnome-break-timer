@@ -1,4 +1,4 @@
-daemon_sources = files(
+daemon_lib_sources = files(
     'activity/ActivityMonitorBackend.vala',
     'activity/ActivityMonitor.vala',
     'activity/MutterActivityMonitorBackend.vala',
@@ -9,7 +9,6 @@ daemon_sources = files(
     'break/BreakView.vala',
     'BreakManagerDBusObject.vala',
     'BreakManager.vala',
-    'main.vala',
     'microbreak/MicroBreakController.vala',
     'microbreak/MicroBreakType.vala',
     'microbreak/MicroBreakView.vala',
@@ -28,4 +27,48 @@ daemon_sources = files(
     'util/SimpleFocusManager.vala',
     'util/StatefulTimer.vala',
     'util/TimeUnit.vala'
+)
+
+daemon_lib_dependencies = [
+    cairo_dep,
+    config_lib_dep,
+    gio_dep,
+    gio_unix_dep,
+    gtk_dep,
+    json_glib_dep,
+    gsound_dep,
+    libnotify_dep,
+    m_dep,
+    posix_dep,
+    common_lib_dep
+]
+
+daemon_lib = static_library(
+    'daemon',
+    sources: daemon_lib_sources,
+    dependencies: daemon_lib_dependencies,
+    include_directories: include_directories('.')
+)
+
+daemon_lib_dep = declare_dependency(
+    link_with: daemon_lib,
+    dependencies: daemon_lib_dependencies,
+    include_directories: include_directories('.')
+)
+
+daemon_exe_sources = files(
+    'main.vala'
+)
+
+executable(
+    'gnome-break-timer-daemon',
+    sources : [
+        daemon_exe_sources
+    ],
+    dependencies : [
+        daemon_lib_dep,
+        break_timer_resources_dep
+    ],
+    install: true,
+    install_dir: bindir
 )

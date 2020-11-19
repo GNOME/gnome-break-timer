@@ -65,5 +65,6 @@ run_script_conf.set('BINDIR', bindir)
 subdir('po')
 subdir('data')
 subdir('src')
+subdir('tests')
 
 meson.add_install_script('build-aux/meson/postinstall.py')

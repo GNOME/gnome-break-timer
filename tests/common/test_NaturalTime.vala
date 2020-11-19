@@ -15,6 +15,10 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using BreakTimer.Common;
+
+namespace BreakTimer.Tests.Common {
+
 public class test_NaturalTime : SimpleTestSuite {
     public NaturalTime natural_time;
 
@@ -109,4 +113,6 @@ public class test_NaturalTime : SimpleTestSuite {
             assert (value_51 == 55);
         }
     }
+}
+
 }

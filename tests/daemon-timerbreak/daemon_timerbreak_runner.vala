@@ -15,8 +15,12 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Tests.Daemon.TimerBreak {
+
 public static int main (string[] args) {
     var runner = new TestRunner (ref args);
     runner.add (new test_TimerBreakController ());
     return runner.run ();
+}
+
 }

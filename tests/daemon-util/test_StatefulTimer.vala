@@ -15,6 +15,10 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using BreakTimer.Daemon.Util;
+
+namespace BreakTimer.Tests.Daemon.Util {
+
 public class test_StatefulTimer : TestSuiteWithActivityMonitor {
     /* We won't be able to test the timer mechanics in much detail because,
      * internally, it uses GTimer and the (real) system clock. Still, we can
@@ -101,4 +105,6 @@ public class test_StatefulTimer : TestSuiteWithActivityMonitor {
             // assert ((int)timer.lap_time () == 5);
         }
     }
+}
+
 }

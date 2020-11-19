@@ -18,7 +18,13 @@
 // GLib's TestSuite and TestCase are compact classes, so we wrap them in real GLib.Objects for convenience
 // This base code is partly borrowed from libgee's test suite, at https://git.gnome.org/browse/libgee
 
-public abstract class SimpleTestSuite : Object {
+using BreakTimer.Common;
+using BreakTimer.Daemon.Activity;
+using BreakTimer.Daemon.Util;
+
+namespace BreakTimer.Tests {
+
+public abstract class SimpleTestSuite : GLib.Object {
     private GLib.TestSuite g_test_suite;
     private Adaptor[] adaptors = new Adaptor[0];
 
@@ -63,7 +69,7 @@ public abstract class SimpleTestSuite : Object {
         }
     }
 
-    public SimpleTestSuite () {
+    protected SimpleTestSuite () {
         var name = this.get_name ();
         this.g_test_suite = new GLib.TestSuite (name);
     }
@@ -93,7 +99,7 @@ public abstract class SimpleTestSuite : Object {
     }
 }
 
-public interface SimpleTestCase<T> : Object {
+public interface SimpleTestCase<T> : GLib.Object {
     public abstract void run (T context);
 
     public void add_to (SimpleTestSuite test_suite) {
@@ -106,10 +112,10 @@ public interface SimpleTestCase<T> : Object {
 }
 
 
-class TestRunner : Object {
+public class TestRunner : GLib.Object {
     private GLib.TestSuite root_suite;
 
-    private File tmp_dir;
+    private GLib.File tmp_dir;
     const string SCHEMA_FILE_NAME = "org.gnome.BreakTimer.gschema.xml";
 
     public TestRunner (ref unowned string[] args, GLib.TestSuite? root_suite = null) {
@@ -126,47 +132,13 @@ class TestRunner : Object {
     }
 
     public virtual void global_setup () {
-        Environment.set_variable ("LANGUAGE", "C", true);
+        GLib.Environment.set_variable ("LANGUAGE", "C", true);
 
         try {
-            var tmp_path = DirUtils.make_tmp ("gnome-break-timer-test-XXXXXX");
-            tmp_dir = File.new_for_path (tmp_path);
+            var tmp_path = GLib.DirUtils.make_tmp ("gnome-break-timer-test-XXXXXX");
+            tmp_dir = GLib.File.new_for_path (tmp_path);
         } catch (Error e) {
             GLib.warning ("Error creating temporary directory for test files: %s".printf (e.message));
-        }
-
-        string target_data_path = Path.build_filename (tmp_dir.get_path (), "share");
-        string target_schema_path = Path.build_filename (tmp_dir.get_path (), "share", "glib-2.0", "schemas");
-
-        Environment.set_variable ("GSETTINGS_BACKEND", "memory", true);
-
-        var original_data_dirs = Environment.get_variable ("XDG_DATA_DIRS");
-        Environment.set_variable ("XDG_DATA_DIRS", "%s:%s".printf (target_data_path, original_data_dirs), true);
-
-        File source_schema_file = File.new_for_path (
-            Path.build_filename (get_top_builddir (), "data", SCHEMA_FILE_NAME)
-        );
-
-        File target_schema_dir = File.new_for_path (target_schema_path);
-        try {
-            target_schema_dir.make_directory_with_parents ();
-        } catch (Error e) {
-            GLib.warning ("Error creating directory for schema files: %s", e.message);
-        }
-
-        File target_schema_file = File.new_for_path (
-            Path.build_filename (target_schema_dir.get_path (), SCHEMA_FILE_NAME)
-        );
-
-        try {
-            source_schema_file.copy (target_schema_file, FileCopyFlags.OVERWRITE);
-        } catch (Error e) {
-            GLib.warning ("Error copying schema file: %s", e.message);
-        }
-
-        int compile_schemas_result = Posix.system ("glib-compile-schemas %s".printf (target_schema_path));
-        if (compile_schemas_result != 0) {
-            GLib.warning ("Could not compile schemas in %s", target_schema_path);
         }
     }
 
@@ -186,12 +158,6 @@ class TestRunner : Object {
         this.global_teardown ();
         return 0;
     }
-
-    private static string get_top_builddir () {
-        var builddir = Environment.get_variable ("top_builddir");
-        if (builddir == null) builddir = "..";
-        return builddir;
-    }
 }
 
 
@@ -201,33 +167,33 @@ public class TestSuiteWithActivityMonitor : SimpleTestSuite {
     public testable_ActivityMonitorBackend activity_monitor_backend;
     public testable_SessionStatus session_status;
     public ActivityMonitor activity_monitor;
-    public Gee.List<ActivityMonitor.UserActivity?> activity_log;
+    public GLib.List<UserActivity?> activity_log;
 
-    public const int64 START_REAL_TIME = 100000 * Util.MICROSECONDS_IN_SECONDS;
-    public const int64 START_MONOTONIC_TIME = 50 * Util.MICROSECONDS_IN_SECONDS;
+    public const int64 START_REAL_TIME = 100000 * TimeUnit.MICROSECONDS_IN_SECONDS;
+    public const int64 START_MONOTONIC_TIME = 50 * TimeUnit.MICROSECONDS_IN_SECONDS;
 
     public override void setup () {
         base.setup ();
 
-        Util._do_override_time = true;
-        Util._override_real_time = START_REAL_TIME;
-        Util._override_monotonic_time = START_MONOTONIC_TIME;
+        TimeUnit._do_override_time = true;
+        TimeUnit._override_real_time = START_REAL_TIME;
+        TimeUnit._override_monotonic_time = START_MONOTONIC_TIME;
 
-        this.activity_log = new Gee.ArrayList<ActivityMonitor.UserActivity?> ();
+        this.activity_log = new GLib.List<UserActivity?> ();
         this.refresh_environment ();
     }
 
     public override void teardown () {
-        Util._do_override_time = false;
-        Util._override_real_time = 0;
-        Util._override_monotonic_time = 0;
+        TimeUnit._do_override_time = false;
+        TimeUnit._override_real_time = 0;
+        TimeUnit._override_monotonic_time = 0;
     }
 
     public virtual void refresh_environment () {
         // We keep _override_real_time as it is, because time never goes backward within a test case
-        Util._override_monotonic_time = START_MONOTONIC_TIME;
+        TimeUnit._override_monotonic_time = START_MONOTONIC_TIME;
 
-        this.activity_log.clear ();
+        this.activity_log = new GLib.List<UserActivity?> ();
         this.activity_monitor_backend = new testable_ActivityMonitorBackend ();
         this.session_status = new testable_SessionStatus ();
         this.activity_monitor = new ActivityMonitor (session_status, activity_monitor_backend);
@@ -237,14 +203,14 @@ public class TestSuiteWithActivityMonitor : SimpleTestSuite {
     }
 
     public virtual void time_step (bool is_active, int real_seconds, int monotonic_seconds) {
-        Util._override_real_time += real_seconds * Util.MICROSECONDS_IN_SECONDS;
-        Util._override_monotonic_time += monotonic_seconds * Util.MICROSECONDS_IN_SECONDS;
+        TimeUnit._override_real_time += real_seconds * TimeUnit.MICROSECONDS_IN_SECONDS;
+        TimeUnit._override_monotonic_time += monotonic_seconds * TimeUnit.MICROSECONDS_IN_SECONDS;
         if (is_active) this.activity_monitor_backend.push_activity ();
         this.activity_monitor.poll_activity ();
     }
 
-    private void log_activity (ActivityMonitor.UserActivity activity) {
-        this.activity_log.add (activity);
+    private void log_activity (UserActivity activity) {
+        this.activity_log.append (activity);
     }
 }
 
@@ -252,26 +218,26 @@ public class TestSuiteWithActivityMonitor : SimpleTestSuite {
 // We also need special testable implementations of certain classes and interfaces
 
 public class testable_ActivityMonitorBackend : ActivityMonitorBackend {
-    public int64 last_event_time = 0;
-    public int64 start_time = 0;
+    private int64 start_time_ms = 0;
+    private int64 last_event_time_ms = 0;
 
     public testable_ActivityMonitorBackend () {
-        this.start_time = Util.get_monotonic_time_seconds () - 10;
+        this.start_time_ms = TimeUnit.get_monotonic_time_ms () - 10000;
     }
 
     public void push_activity () {
-        this.last_event_time = Util.get_monotonic_time_seconds ();
+        this.last_event_time_ms = TimeUnit.get_monotonic_time_ms ();
     }
 
-    protected override int time_since_last_event () {
-        int64 now_monotonic = Util.get_monotonic_time_seconds ();
-        int64 event_time = this.last_event_time;
-        if (event_time == 0) event_time = this.start_time;
-        return (int) (now_monotonic - event_time);
+    protected override uint64 time_since_last_event_ms () {
+        int64 now_monotonic_ms = TimeUnit.get_monotonic_time_ms ();
+        int64 event_time_ms = this.last_event_time_ms;
+        if (event_time_ms == 0) event_time_ms = this.start_time_ms;
+        return now_monotonic_ms - event_time_ms;
     }
 }
 
-public class testable_SessionStatus : Object, ISessionStatus {
+public class testable_SessionStatus : GLib.Object, ISessionStatus {
     public bool virt_is_locked = false;
 
     public void do_lock () {
@@ -295,4 +261,6 @@ public class testable_SessionStatus : Object, ISessionStatus {
     public void blank_screen () {}
 
     public void unblank_screen () {}
+}
+
 }

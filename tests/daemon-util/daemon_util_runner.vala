@@ -15,9 +15,13 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace BreakTimer.Tests.Daemon.Util {
+
 public static int main (string[] args) {
     var runner = new TestRunner (ref args);
     runner.add (new test_Countdown ());
     runner.add (new test_StatefulTimer ());
     return runner.run ();
+}
+
 }

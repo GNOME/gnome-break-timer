@@ -1,4 +1,4 @@
-common_sources = files(
+common_lib_sources = files(
     'IBreakTimer_TimerBreak.vala',
     'IBreakTimer.vala',
     'IFreedesktopApplication.vala',
@@ -10,15 +10,15 @@ common_sources = files(
     'NaturalTime.vala'
 )
 
-common_dependencies = [
+common_lib_dependencies = [
     gio_dep,
     config_lib_dep
 ]
 
 common_lib = static_library(
     'common',
-    sources: common_sources,
-    dependencies: common_dependencies,
+    sources: common_lib_sources,
+    dependencies: common_lib_dependencies,
     include_directories: include_directories('.')
 )
 

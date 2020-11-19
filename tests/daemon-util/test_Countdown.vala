@@ -15,6 +15,10 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using BreakTimer.Daemon.Util;
+
+namespace BreakTimer.Tests.Daemon.Util {
+
 public class test_Countdown : TestSuiteWithActivityMonitor {
     public test_Countdown () {
         new test_construct ().add_to (this);
@@ -320,4 +324,6 @@ public class test_Countdown : TestSuiteWithActivityMonitor {
             assert (countdown.get_time_remaining () == time_remaining);
         }
     }
+}
+
 }
