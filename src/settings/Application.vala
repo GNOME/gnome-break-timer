@@ -135,7 +135,7 @@ public class Application : Gtk.Application {
             this.initial_focus = false;
             GLib.Timeout.add (500, () => {
                 this.break_manager.refresh_permissions ();
-                return false;
+                return GLib.Source.REMOVE;
             });
         } else if (focused && this.break_manager.permissions_error != NONE) {
             // Refresh permissions on focus if there was an error, and, for
@@ -149,7 +149,10 @@ public class Application : Gtk.Application {
     private void delayed_start () {
         // Wait 500ms for break_manager to appear
         this.break_manager.break_status_available.connect (this.delayed_start_cb);
-        GLib.Timeout.add (500, () => { delayed_start_cb (); return false; });
+        GLib.Timeout.add (500, () => {
+            delayed_start_cb ();
+            return GLib.Source.REMOVE;
+        });
     }
 
     private void delayed_start_cb () {

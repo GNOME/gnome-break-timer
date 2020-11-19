@@ -69,7 +69,7 @@ public abstract class TimerBreakType : BreakType {
     private bool update_status_cb () {
         TimerBreakStatus? status = this.get_status ();
         this.update_status (status);
-        return true;
+        return GLib.Source.CONTINUE;
     }
 
     private TimerBreakStatus? get_status () {

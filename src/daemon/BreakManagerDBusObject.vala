@@ -28,14 +28,13 @@ public class BreakManagerDBusObject : GLib.Object, IBreakTimer {
         this.break_manager = break_manager;
     }
 
-    public string? get_current_active_break () throws GLib.DBusError, GLib.IOError {
-        /* Ask  for focused break */
+    public string[] get_current_active_break () throws GLib.DBusError, GLib.IOError {
         foreach (BreakType break_type in this.break_manager.all_breaks ()) {
             bool is_active = break_type.break_view.has_ui_focus () &&
                 break_type.break_controller.is_active ();
-            if (is_active) return break_type.id;
+            if (is_active) return {break_type.id};
         }
-        return null;
+        return {};
     }
 
     public bool is_active () throws GLib.DBusError, GLib.IOError {

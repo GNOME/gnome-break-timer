@@ -79,7 +79,13 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
 
         private void on_response (int response_id) {
             if (response_id == RESPONSE_OPEN_SETTINGS) {
-                this.main_window.launch_application_settings ();
+                GLib.Idle.add_full (
+                    GLib.Priority.HIGH_IDLE,
+                    () => {
+                        this.main_window.launch_application_settings ();
+                        return GLib.Source.REMOVE;
+                    }
+                );
             } else if (response_id == Gtk.ResponseType.CLOSE) {
                 this.close_message_bar ();
             }
@@ -286,28 +292,32 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
         // This feels kind of dirty and it would be nice if there was a better
         // way.
         // TODO: Can we pre-select org.gnome.BreakTimer?
-        // TODO: This should be asynchronous
+        // TODO: Vala doesn't provide an easy way to do async dbus method calls,
+        //       so we'll spawn a simple thread for this.
 
-        GLib.Variant[] parameters = {
-            new GLib.Variant ("(sav)", "applications")
-        };
-        GLib.HashTable<string, Variant> platform_data = new GLib.HashTable<string, Variant> (str_hash, str_equal);
+        new GLib.Thread<bool> (null, () => {
+            GLib.Variant[] parameters = {
+                new GLib.Variant ("(sav)", "applications")
+            };
+            GLib.HashTable<string, Variant> platform_data = new GLib.HashTable<string, Variant> (str_hash, str_equal);
 
-        try {
-            IFreedesktopApplication control_center_application = this.dbus_connection.get_proxy_sync (
-                "org.gnome.ControlCenter",
-                "/org/gnome/ControlCenter",
-                GLib.DBusProxyFlags.DO_NOT_AUTO_START,
-                null
-            );
-            control_center_application.activate_action ("launch-panel", parameters, platform_data);
-        } catch (GLib.IOError error) {
-            GLib.warning ("Error connecting to org.gnome.ControlCenter: %s", error.message);
-            return false;
-        } catch (GLib.DBusError error) {
-            GLib.warning ("Error launching org.gnome.ControlCenter: %s", error.message);
-            return false;
-        }
+            try {
+                IFreedesktopApplication control_center_application = this.dbus_connection.get_proxy_sync (
+                    "org.gnome.ControlCenter",
+                    "/org/gnome/ControlCenter",
+                    GLib.DBusProxyFlags.DO_NOT_AUTO_START,
+                    null
+                );
+                control_center_application.activate_action ("launch-panel", parameters, platform_data);
+            } catch (GLib.IOError error) {
+                GLib.warning ("Error connecting to org.gnome.ControlCenter: %s", error.message);
+                return false;
+            } catch (GLib.DBusError error) {
+                GLib.warning ("Error launching org.gnome.ControlCenter: %s", error.message);
+                return false;
+            }
+            return true;
+        });
 
         return true;
     }

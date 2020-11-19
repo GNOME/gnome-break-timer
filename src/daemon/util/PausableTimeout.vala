@@ -57,7 +57,7 @@ public class PausableTimeout : GLib.Object {
         int delta_millisecs = (int) (time_delta / 1000);
         this.timeout_cb (this, delta_millisecs);
 
-        return true;
+        return GLib.Source.CONTINUE;
     }
 
     public void run_once () {

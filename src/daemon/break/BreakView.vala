@@ -89,7 +89,7 @@ public abstract class BreakView : UIFragment {
     }
 
     protected void show_break_info () {
-        GLib.AppInfo settings_app_info = new GLib.DesktopAppInfo (Config.SETTINGS_APPLICATION_ID);
+        GLib.AppInfo settings_app_info = new GLib.DesktopAppInfo (Config.SETTINGS_DESKTOP_FILE_ID);
         GLib.AppLaunchContext app_launch_context = new GLib.AppLaunchContext ();
         try {
             settings_app_info.launch (null, app_launch_context);
@@ -103,7 +103,13 @@ public abstract class BreakView : UIFragment {
     }
 
     private void notification_action_info_cb () {
-        this.show_break_info ();
+        GLib.Idle.add_full (
+            GLib.Priority.HIGH_IDLE,
+            () => {
+                this.show_break_info ();
+                return false;
+            }
+        );
     }
 
     private void notification_closed_cb () {

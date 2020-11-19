@@ -20,7 +20,7 @@ namespace BreakTimer.Common {
 [DBus (name = "org.gnome.BreakTimer")]
 public interface IBreakTimer : GLib.Object {
     /** Returns the ID of the break that is currently focused and activated, if any. */
-    public abstract string? get_current_active_break () throws GLib.DBusError, GLib.IOError;
+    public abstract string[] get_current_active_break () throws GLib.DBusError, GLib.IOError;
 
     /** Returns a list of breaks that are currently known to the break daemon. */
     public abstract string[] get_break_ids () throws GLib.DBusError, GLib.IOError;

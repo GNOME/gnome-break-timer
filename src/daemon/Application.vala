@@ -45,8 +45,12 @@ public class Application : Gtk.Application {
 
         GLib.Environment.set_application_name (app_name);
 
-        string user_cache_path = GLib.Environment.get_user_cache_dir ();
-        this.cache_path = Path.build_filename (user_cache_path, "gnome-break-timer");
+        this.cache_path = GLib.Path.build_filename (
+            GLib.Environment.get_user_cache_dir (),
+            "gnome-break-timer"
+        );
+
+        this.query_end.connect (this.on_query_end_cb);
     }
 
     public override void activate () {
@@ -114,14 +118,28 @@ public class Application : Gtk.Application {
         this.save_state ();
     }
 
+    public void on_query_end_cb () {
+        uint inhibit_cookie = this.inhibit (null, Gtk.ApplicationInhibitFlags.LOGOUT, _("Saving state"));
+        GLib.Idle.add_full (
+            GLib.Priority.HIGH_IDLE,
+            () => {
+                this.save_state ();
+                this.uninhibit (inhibit_cookie);
+                return GLib.Source.REMOVE;
+            }
+        );
+    }
+
     private GLib.File get_state_file () {
         GLib.File cache_dir = GLib.File.new_for_path (this.cache_path);
         try {
-            if (! cache_dir.query_exists ()) cache_dir.make_directory_with_parents ();
+            if (! cache_dir.query_exists ()) {
+                cache_dir.make_directory_with_parents ();
+            }
         } catch (GLib.Error e) {
             GLib.warning ("Error creating cache directory: %s", e.message);
         }
-        string state_file_name = "last-state-%d".printf (DATA_VERSION);
+        string state_file_name = "last-state-%d.json".printf (DATA_VERSION);
         return cache_dir.get_child (state_file_name);
     }
 

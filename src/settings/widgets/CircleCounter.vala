@@ -85,7 +85,8 @@ public class CircleCounter : Gtk.Widget {
 
         double start_angle = 1.5 * Math.PI;
         double progress_angle = this.progress * Math.PI * 2.0;
-        progress_angle = (int)(progress_angle / SNAP_INCREMENT) * SNAP_INCREMENT;
+        int snap_count = (int) (progress_angle / SNAP_INCREMENT);
+        progress_angle = snap_count * SNAP_INCREMENT;
 
         if (this.direction == Direction.COUNT_DOWN) {
             if (progress_angle > 0) {
