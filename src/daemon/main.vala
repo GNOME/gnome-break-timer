@@ -28,7 +28,7 @@ public int main (string[] args) {
     return status;
 }
 
-void sigint_cb (int signal_number) {
+static void sigint_cb (int signal_number) {
     application.quit ();
 }
 

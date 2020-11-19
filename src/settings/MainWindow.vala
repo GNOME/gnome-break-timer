@@ -286,6 +286,7 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
         // This feels kind of dirty and it would be nice if there was a better
         // way.
         // TODO: Can we pre-select org.gnome.BreakTimer?
+        // TODO: This should be asynchronous
 
         GLib.Variant[] parameters = {
             new GLib.Variant ("(sav)", "applications")
@@ -299,7 +300,7 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
                 GLib.DBusProxyFlags.DO_NOT_AUTO_START,
                 null
             );
-            control_center_application.activate_action("launch-panel", parameters, platform_data);
+            control_center_application.activate_action ("launch-panel", parameters, platform_data);
         } catch (GLib.IOError error) {
             GLib.warning ("Error connecting to org.gnome.ControlCenter: %s", error.message);
             return false;
