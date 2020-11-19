@@ -37,12 +37,22 @@ public class BreakManager : GLib.Object {
     public string[] selected_break_ids { get; set; }
     public BreakType? foreground_break { get; private set; }
 
+    public PermissionsError permissions_error { get; private set; }
+
     private GLib.DBusConnection dbus_connection;
 
     private IPortalBackground? background_portal = null;
+    private IPortalRequest? background_request = null;
+    private GLib.ObjectPath? background_request_path = null;
 
     public signal void break_status_available ();
     public signal void status_changed ();
+
+    public enum PermissionsError {
+        NONE,
+        AUTOSTART_NOT_ALLOWED,
+        BACKGROUND_NOT_ALLOWED
+    }
 
     public BreakManager (Application application) {
         this.application = application;
@@ -52,6 +62,8 @@ public class BreakManager : GLib.Object {
         this.breaks = new GLib.List<BreakType> ();
         this.breaks.append(new MicroBreakType ());
         this.breaks.append(new RestBreakType ());
+
+        this.permissions_error = PermissionsError.NONE;
 
         this.settings.bind ("enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
         this.settings.bind ("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);
@@ -95,28 +107,98 @@ public class BreakManager : GLib.Object {
             this.launch_break_timer_service ();
         }
 
-        if (this.background_portal != null) {
-            var options = new HashTable<string, GLib.Variant> (str_hash, str_equal);
-            var commandline = new GLib.Variant.strv ({"gnome-break-timer-daemon"});
-            options.insert ("autostart", this.master_enabled);
-            options.insert ("commandline", commandline);
-            // RequestBackground creates a desktop file with the same name as
-            // the flatpak, which happens to be the dbus name of the daemon
-            // (although it is not the dbus name of the settings application).
-            options.insert ("dbus-activatable", true);
+        this.request_background (this.master_enabled);
+    }
 
-            try {
-                // We don't have a nice way to generate a window handle, but the
-                // background portal can probably do without.
-                // TODO: Handle response, and display an error if the result
-                //       includes `autostart == false || background == false`.
-                this.background_portal.request_background("", options);
-            } catch (GLib.IOError error) {
-                GLib.warning ("Error connecting to xdg desktop portal: %s", error.message);
-            } catch (GLib.DBusError error) {
-                GLib.warning ("Error enabling autostart: %s", error.message);
-            }
+    public void refresh_permissions () {
+        if (this.master_enabled) {
+            this.request_background (this.master_enabled);
         }
+    }
+
+    private bool request_background (bool autostart) {
+        if (this.background_portal == null) {
+            this.permissions_error = NONE;
+            return false;
+        }
+
+        string sender_name = this.dbus_connection.unique_name.replace(".", "_")[1:];
+        string handle_token = "org_gnome_breaktimer%d".printf(
+            GLib.Random.int_range(0, int.MAX)
+        );
+
+        var options = new HashTable<string, GLib.Variant> (str_hash, str_equal);
+        var commandline = new GLib.Variant.strv ({"gnome-break-timer-daemon"});
+        options.insert ("handle_token", handle_token);
+        options.insert ("autostart", autostart);
+        options.insert ("commandline", commandline);
+        // RequestBackground creates a desktop file with the same name as
+        // the flatpak, which happens to be the dbus name of the daemon
+        // (although it is not the dbus name of the settings application).
+        options.insert ("dbus-activatable", true);
+
+        GLib.ObjectPath request_path = null;
+        GLib.ObjectPath expected_request_path = new GLib.ObjectPath(
+            "/org/freedesktop/portal/desktop/request/%s/%s".printf(
+                sender_name,
+                handle_token
+            )
+        );
+
+        this.watch_background_request (expected_request_path);
+
+        try {
+            // We don't have a nice way to generate a window handle, but the
+            // background portal can probably do without.
+            // TODO: Handle response, and display an error if the result
+            //       includes `autostart == false || background == false`.
+            request_path = this.background_portal.request_background("", options);
+        } catch (GLib.IOError error) {
+            GLib.warning ("Error connecting to desktop portal: %s", error.message);
+            return false;
+        } catch (GLib.DBusError error) {
+            GLib.warning ("Error enabling autostart: %s", error.message);
+            return false;
+        }
+
+        this.watch_background_request (request_path);
+
+        return true;
+    }
+
+    private bool watch_background_request (GLib.ObjectPath request_path) {
+        if (request_path == this.background_request_path) {
+            return true;
+        }
+
+        try {
+            this.background_request = this.dbus_connection.get_proxy_sync (
+                "org.freedesktop.portal.Desktop",
+                request_path
+            );
+            this.background_request_path = request_path;
+            this.background_request.response.connect (this.on_background_request_response);
+        } catch (GLib.IOError error) {
+            GLib.warning ("Error connecting to desktop portal: %s", error.message);
+            return false;
+        }
+
+        return true;
+    }
+
+    private void on_background_request_response (uint32 response, GLib.HashTable<string, Variant> results) {
+        bool background_allowed = (bool) results.get ("background");
+        bool autostart_allowed = (bool) results.get ("autostart");
+
+        if (this.master_enabled && ! autostart_allowed) {
+            this.permissions_error = AUTOSTART_NOT_ALLOWED;
+        } else if (this.master_enabled && ! background_allowed) {
+            this.permissions_error = BACKGROUND_NOT_ALLOWED;
+        } else {
+            this.permissions_error = NONE;
+        }
+
+        this.background_request = null;
     }
 
     private bool get_is_in_flatpak () {

@@ -1,9 +1,11 @@
 common_sources = files(
     'IBreakTimer_TimerBreak.vala',
     'IBreakTimer.vala',
+    'IFreedesktopApplication.vala',
     'IGnomeScreenSaver.vala',
     'IMutterIdleMonitor.vala',
     'IPortalBackground.vala',
+    'IPortalRequest.vala',
     'ISessionStatus.vala',
     'NaturalTime.vala'
 )

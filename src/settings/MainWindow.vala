@@ -15,6 +15,7 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using BreakTimer.Common;
 using BreakTimer.Settings.Break;
 using BreakTimer.Settings.Panels;
 
@@ -25,10 +26,13 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
 
     private GLib.DBusConnection dbus_connection;
 
+    private GLib.HashTable<string, MessageBar> message_bars;
+
     private GLib.Menu app_menu;
 
     private Gtk.HeaderBar header;
     private Gtk.Stack main_stack;
+    private Gtk.Box messages_box;
 
     private Gtk.Button settings_button;
     private Gtk.Switch master_switch;
@@ -39,10 +43,59 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
     private WelcomePanel welcome_panel;
     private StatusPanel status_panel;
 
+    private class MessageBar : Gtk.InfoBar {
+        protected weak MainWindow main_window;
+
+        public signal void close_message_bar ();
+
+        protected MessageBar (MainWindow main_window) {
+            GLib.Object ();
+
+            this.main_window = main_window;
+        }
+    }
+
+    private class PermissionsErrorMessageBar : MessageBar {
+        private BreakManager.PermissionsError error_type;
+
+        public static int RESPONSE_OPEN_SETTINGS = 1;
+
+        public PermissionsErrorMessageBar (MainWindow main_window, BreakManager.PermissionsError error_type) {
+            base (main_window);
+
+            this.error_type = error_type;
+
+            this.add_button (_("Open Settings"), RESPONSE_OPEN_SETTINGS);
+
+            Gtk.Container content_area = this.get_content_area ();
+            Gtk.Label label = new Gtk.Label (_("Break Timer needs permission to start automatically and run in the background"));
+            content_area.add (label);
+
+            content_area.show_all ();
+
+            this.response.connect (this.on_response);
+            this.close.connect (this.on_close);
+        }
+
+        private void on_response (int response_id) {
+            if (response_id == RESPONSE_OPEN_SETTINGS) {
+                this.main_window.launch_application_settings ();
+            } else if (response_id == Gtk.ResponseType.CLOSE) {
+                this.close_message_bar ();
+            }
+        }
+
+        private void on_close () {
+            this.close_message_bar ();
+        }
+    }
+
     public MainWindow (Application application, BreakManager break_manager) {
         GLib.Object (application: application);
 
         this.break_manager = break_manager;
+
+        this.message_bars = new GLib.HashTable<string, MessageBar> (str_hash, str_equal);
 
         this.set_title ( _("Break Timer"));
         this.set_default_size (850, 400);
@@ -62,7 +115,7 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
         this.break_settings_dialog.set_modal (true);
         this.break_settings_dialog.set_transient_for (this);
 
-        Gtk.Grid content = new Gtk.Grid ();
+        Gtk.Box content = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
         this.add (content);
         content.set_orientation (Gtk.Orientation.VERTICAL);
         content.set_vexpand (true);
@@ -93,8 +146,11 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
         settings_button.set_always_show_image (true);
         header.pack_end (this.settings_button);
 
+        this.messages_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+        content.pack_end (this.messages_box);
+
         this.main_stack = new Gtk.Stack ();
-        content.add (this.main_stack);
+        content.pack_end (this.main_stack);
         main_stack.set_margin_top (6);
         main_stack.set_margin_bottom (6);
         main_stack.set_transition_duration (250);
@@ -109,6 +165,7 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
         this.header.show_all ();
         content.show_all ();
 
+        break_manager.notify["permissions-error"].connect (this.on_break_manager_permissions_error_change);
         break_manager.notify["foreground-break"].connect (this.update_visible_panel);
         this.update_visible_panel ();
     }
@@ -129,6 +186,38 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
         this.status_panel.init (cancellable);
 
         return true;
+    }
+
+    private void on_break_manager_permissions_error_change () {
+        BreakManager.PermissionsError error_type = this.break_manager.permissions_error;
+        if (error_type == AUTOSTART_NOT_ALLOWED || error_type == BACKGROUND_NOT_ALLOWED) {
+            MessageBar message_bar = new PermissionsErrorMessageBar (this, error_type);
+            this.show_message_bar ("permissions-error", message_bar);
+        } else {
+            this.hide_message_bar ("permissions-error");
+        }
+    }
+
+    private void show_message_bar (string message_id, MessageBar message_bar) {
+        if (this.message_bars.contains (message_id)) {
+            return;
+        }
+
+        this.message_bars.set (message_id, message_bar);
+
+        this.messages_box.pack_end (message_bar);
+        message_bar.show ();
+        message_bar.close_message_bar.connect (() => {
+            this.hide_message_bar(message_id);
+        });
+    }
+
+    private void hide_message_bar (string message_id) {
+        MessageBar? message_bar = this.message_bars.get (message_id);
+        if (message_bar != null) {
+            this.messages_box.remove (message_bar);
+            this.message_bars.remove (message_id);
+        }
     }
 
     public Gtk.Widget get_master_switch () {
@@ -190,6 +279,36 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
     private void settings_clicked_cb () {
         this.break_settings_dialog.show ();
         this.welcome_panel.settings_button_clicked ();
+    }
+
+    private bool launch_application_settings () {
+        // Try to launch GNOME Settings pointing at the Applications panel.
+        // This feels kind of dirty and it would be nice if there was a better
+        // way.
+        // TODO: Can we pre-select org.gnome.BreakTimer?
+
+        GLib.Variant[] parameters = {
+            new GLib.Variant ("(sav)", "applications")
+        };
+        GLib.HashTable<string, Variant> platform_data = new GLib.HashTable<string, Variant> (str_hash, str_equal);
+
+        try {
+            IFreedesktopApplication control_center_application = this.dbus_connection.get_proxy_sync (
+                "org.gnome.ControlCenter",
+                "/org/gnome/ControlCenter",
+                GLib.DBusProxyFlags.DO_NOT_AUTO_START,
+                null
+            );
+            control_center_application.activate_action("launch-panel", parameters, platform_data);
+        } catch (GLib.IOError error) {
+            GLib.warning ("Error connecting to org.gnome.ControlCenter: %s", error.message);
+            return false;
+        } catch (GLib.DBusError error) {
+            GLib.warning ("Error launching org.gnome.ControlCenter: %s", error.message);
+            return false;
+        }
+
+        return true;
     }
 }
 

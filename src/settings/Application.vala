@@ -55,6 +55,7 @@ public class Application : Gtk.Application {
 
     private BreakManager break_manager;
     private MainWindow main_window;
+    private bool initial_focus = true;
 
     public Application () {
         GLib.Object (
@@ -117,6 +118,32 @@ public class Application : Gtk.Application {
         } catch (GLib.Error error) {
             GLib.error("Error initializing main_window: %s", error.message);
         }
+
+        this.main_window.window_state_event.connect (this.on_main_window_window_state_event);
+    }
+
+    private bool on_main_window_window_state_event (Gdk.EventWindowState event) {
+        bool focused = (
+            Gdk.WindowState.FOCUSED in event.changed_mask &&
+            Gdk.WindowState.FOCUSED in event.new_window_state
+        );
+
+        if (focused && this.initial_focus && this.break_manager.master_enabled) {
+            // We should always refresh permissions at startup if enabled. Wait
+            // for a moment after the main window is focused before doing this,
+            // because it may trigger a system dialog.
+            this.initial_focus = false;
+            GLib.Timeout.add (500, () => {
+                this.break_manager.refresh_permissions ();
+                return false;
+            });
+        } else if (focused && this.break_manager.permissions_error != NONE) {
+            // Refresh permissions on focus if there was an error, and, for
+            // example, we are returning from GNOME Settings
+            this.break_manager.refresh_permissions ();
+        }
+
+        return false;
     }
 
     private void delayed_start () {
