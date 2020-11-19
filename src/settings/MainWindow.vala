@@ -263,12 +263,12 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
         const string copyright = "Copyright © 2011-2013 Dylan McCall";
 
         Gtk.show_about_dialog (this,
-            "program-name", _("GNOME Break Timer"),
+            "program-name", _("Break Timer"),
             "logo-icon-name", Config.APPLICATION_ICON,
             "version", Config.PROJECT_VERSION,
-            "comments", _("Computer break reminders for active minds"),
+            "comments", _("Computer break reminders for GNOME"),
             "website", Config.APPLICATION_URL,
-            "website-label", _("GNOME Break Timer Website"),
+            "website-label", _("Break Timer Website"),
             "copyright", copyright,
             "license-type", Gtk.License.GPL_3_0,
             "wrap-license", false,

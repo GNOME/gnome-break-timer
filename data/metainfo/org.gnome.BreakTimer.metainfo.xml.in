@@ -3,7 +3,7 @@
   <id>org.gnome.BreakTimer</id>
 
   <name>Break Timer</name>
-  <summary>Remember to take regular breaks from using the computer</summary>
+  <summary>Computer break reminders for GNOME</summary>
 
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
@@ -25,7 +25,7 @@
       <caption>Easily turn on break timers</caption>
       <image>https://gitlab.gnome.org/GNOME/gnome-break-timer/raw/master/data/metainfo/gnome-break-timer-2-0-welcome.png</image>
     </screenshot>
-    <screenshot type="default">
+    <screenshot>
       <caption>Check on their status at any time</caption>
       <image>https://gitlab.gnome.org/GNOME/gnome-break-timer/raw/master/data/metainfo/gnome-break-timer-2-0-status.png</image>
     </screenshot>

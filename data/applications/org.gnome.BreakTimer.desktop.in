@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Break Timer
-Comment=Provides a gentle reminder to take regular breaks
+Comment=Computer break reminders for GNOME
 Icon=org.gnome.BreakTimer
 NoDisplay=true
 Exec=gnome-break-timer-daemon

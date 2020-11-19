@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Break Timer
-Comment=Choose your preferences for micro breaks and rest breaks
+Comment=Computer break reminders for GNOME
 Keywords=break;micro;rest;timer;
 Categories=GNOME;GTK;Utility;Settings;
 Icon=org.gnome.BreakTimer
