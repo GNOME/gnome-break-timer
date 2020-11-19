@@ -20,9 +20,13 @@ using BreakTimer.Daemon.Util;
 
 namespace BreakTimer.Daemon.Activity {
 
-public abstract class ActivityMonitorBackend : GLib.Object {
+public abstract class ActivityMonitorBackend : GLib.Object, GLib.Initable {
     private int64 last_real_time = 0;
     private int64 last_monotonic_time = 0;
+
+    public virtual bool init (GLib.Cancellable? cancellable) throws GLib.Error {
+        return true;
+    }
 
     public virtual Json.Object serialize () {
         Json.Object json_root = new Json.Object ();

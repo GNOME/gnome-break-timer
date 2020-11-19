@@ -20,35 +20,22 @@ using BreakTimer.Daemon.Break;
 namespace BreakTimer.Daemon.TimerBreak {
 
 public abstract class TimerBreakType : BreakType {
+    private GLib.DBusConnection dbus_connection;
+
     protected TimerBreakType (string id, BreakController break_controller, BreakView break_view) {
         base (id, break_controller, break_view);
     }
 
     public override bool init (GLib.Cancellable? cancellable) throws GLib.Error {
-        GLib.DBusConnection connection;
+        this.dbus_connection = GLib.Bus.get_sync (GLib.BusType.SESSION, cancellable);
 
-        try {
-            connection = GLib.Bus.get_sync (
-                GLib.BusType.SESSION,
-                null
-            );
-        } catch (GLib.IOError error) {
-            GLib.warning ("Error connecting to the session bus: %s", error.message);
-            throw error;
-        }
-
-        try {
-            connection.register_object (
-                Config.DAEMON_BREAK_OBJECT_BASE_PATH+this.id,
-                new TimerBreakDBusObject (
-                    (TimerBreakController) this.break_controller,
-                    (TimerBreakView) this.break_view
-                )
-            );
-        } catch (GLib.IOError error) {
-            GLib.warning ("Error registering break type on the session bus: %s", error.message);
-            throw error;
-        }
+        this.dbus_connection.register_object (
+            Config.DAEMON_BREAK_OBJECT_BASE_PATH+this.id,
+            new TimerBreakDBusObject (
+                (TimerBreakController) this.break_controller,
+                (TimerBreakView) this.break_view
+            )
+        );
 
         return base.init (cancellable);
     }

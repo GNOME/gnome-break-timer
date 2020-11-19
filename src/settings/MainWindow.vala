@@ -23,6 +23,8 @@ namespace BreakTimer.Settings {
 public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
     private BreakManager break_manager;
 
+    private GLib.DBusConnection dbus_connection;
+
     private GLib.Menu app_menu;
 
     private Gtk.HeaderBar header;
@@ -112,6 +114,8 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
     }
 
     public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
+        this.dbus_connection = GLib.Bus.get_sync (GLib.BusType.SESSION, cancellable);
+
         foreach (BreakType break_type in this.break_manager.all_breaks ()) {
             var info_widget = break_type.info_widget;
             this.main_stack.add_named (info_widget, break_type.id);

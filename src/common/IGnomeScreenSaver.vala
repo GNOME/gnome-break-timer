@@ -17,9 +17,14 @@
 
 namespace BreakTimer.Common {
 
-[DBus (name = "org.freedesktop.portal.Background")]
-public interface IBackgroundPortal : GLib.Object {
-    public abstract GLib.ObjectPath request_background(string parent_window, GLib.HashTable<string, Variant> options) throws GLib.DBusError, GLib.IOError;
+[DBus (name = "org.gnome.ScreenSaver")]
+public interface IGnomeScreenSaver : GLib.Object {
+    public signal void active_changed (bool active);
+
+    public abstract bool get_active () throws GLib.DBusError, GLib.IOError;
+    public abstract uint32 get_active_time () throws GLib.DBusError, GLib.IOError;
+    public abstract void lock () throws GLib.DBusError, GLib.IOError;
+    public abstract void set_active (bool active) throws GLib.DBusError, GLib.IOError;
 }
 
 }

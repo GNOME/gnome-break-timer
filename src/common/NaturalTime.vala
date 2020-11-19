@@ -31,7 +31,7 @@ public class NaturalTime : GLib.Object {
 
         public string format_seconds (int seconds, out int output_value) {
             output_value = seconds / this.seconds;
-            return this.format_time(output_value);
+            return this.format_time (output_value);
         }
     }
 

@@ -20,7 +20,9 @@ using BreakTimer.Daemon.Util;
 
 namespace BreakTimer.Daemon.Activity {
 
-public class MutterActivityMonitorBackend : ActivityMonitorBackend {
+public class MutterActivityMonitorBackend : ActivityMonitorBackend, GLib.Initable {
+    private GLib.DBusConnection dbus_connection;
+
     private IMutterIdleMonitor? mutter_idle_monitor;
     private uint32 idle_watch_id;
     private uint32 user_active_watch_id;
@@ -33,19 +35,24 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend {
 
     public MutterActivityMonitorBackend () {
         this.user_is_active = false;
-        GLib.Bus.watch_name (
-            GLib.BusType.SESSION,
-            "org.gnome.Mutter.IdleMonitor",
-            GLib.BusNameWatcherFlags.NONE,
-            this.mutter_idle_monitor_appeared,
-            this.mutter_idle_monitor_disappeared
-        );
     }
 
     ~MutterActivityMonitorBackend() {
         if (this.mutter_idle_monitor != null && this.idle_watch_id > 0) {
             this.mutter_idle_monitor.remove_watch (this.idle_watch_id);
         }
+    }
+
+    public override bool init (GLib.Cancellable? cancellable) throws GLib.Error {
+        this.dbus_connection = GLib.Bus.get_sync (GLib.BusType.SESSION, cancellable);
+        GLib.Bus.watch_name_on_connection (
+            this.dbus_connection,
+            "org.gnome.Mutter.IdleMonitor",
+            GLib.BusNameWatcherFlags.NONE,
+            this.mutter_idle_monitor_appeared,
+            this.mutter_idle_monitor_disappeared
+        );
+        return true;
     }
 
     private void mutter_idle_monitor_appeared () {

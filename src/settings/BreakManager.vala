@@ -37,7 +37,9 @@ public class BreakManager : GLib.Object {
     public string[] selected_break_ids { get; set; }
     public BreakType? foreground_break { get; private set; }
 
-    IBackgroundPortal? background_portal = null;
+    private GLib.DBusConnection dbus_connection;
+
+    private IPortalBackground? background_portal = null;
 
     public signal void break_status_available ();
     public signal void status_changed ();
@@ -58,23 +60,21 @@ public class BreakManager : GLib.Object {
     }
 
     public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
+        this.dbus_connection = GLib.Bus.get_sync (GLib.BusType.SESSION, cancellable);
+
         if (this.get_is_in_flatpak ()) {
             // TODO: Does this work outside of a flatpak? We could remove the
             // extra file we install in data/autostart, which would be nice.
-            try {
-                this.background_portal = GLib.Bus.get_proxy_sync (
-                    GLib.BusType.SESSION,
-                    "org.freedesktop.portal.Desktop",
-                    "/org/freedesktop/portal/desktop"
-                );
-            } catch (GLib.IOError error) {
-                GLib.warning ("Error connecting to xdg desktop portal: %s", error.message);
-                throw error;
-            }
+            this.background_portal = this.dbus_connection.get_proxy_sync (
+                "org.freedesktop.portal.Desktop",
+                "/org/freedesktop/portal/desktop",
+                GLib.DBusProxyFlags.NONE,
+                cancellable
+            );
         }
 
-        GLib.Bus.watch_name (
-            GLib.BusType.SESSION,
+        GLib.Bus.watch_name_on_connection (
+            this.dbus_connection,
             Config.DAEMON_APPLICATION_ID,
             GLib.BusNameWatcherFlags.NONE,
             this.break_daemon_appeared,
@@ -156,8 +156,7 @@ public class BreakManager : GLib.Object {
 
     private void break_daemon_appeared () {
         try {
-            this.break_daemon = GLib.Bus.get_proxy_sync (
-                GLib.BusType.SESSION,
+            this.break_daemon = this.dbus_connection.get_proxy_sync (
                 Config.DAEMON_APPLICATION_ID,
                 Config.DAEMON_OBJECT_PATH,
                 GLib.DBusProxyFlags.DO_NOT_AUTO_START

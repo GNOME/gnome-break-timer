@@ -28,7 +28,7 @@ public class Application : Gtk.Application {
     private const int ACTIVITY_TIMEOUT_MS = 60000;
 
     private BreakManager break_manager;
-    private ISessionStatus session_status;
+    private SessionStatus session_status;
     private ActivityMonitorBackend activity_monitor_backend;
     private ActivityMonitor activity_monitor;
     private UIManager ui_manager;
@@ -69,22 +69,38 @@ public class Application : Gtk.Application {
         );
 
         this.session_status = new SessionStatus (this);
+        try {
+            this.session_status.init (null);
+        } catch (GLib.Error error) {
+            GLib.error ("Error initializing session_status: %s", error.message);
+        }
 
         this.activity_monitor_backend = new MutterActivityMonitorBackend ();
+        try {
+            this.activity_monitor_backend.init (null);
+        } catch (GLib.Error error) {
+            GLib.error ("Error initializing activity_monitor_backend: %s", error.message);
+        }
+
         this.activity_monitor = new ActivityMonitor (session_status, activity_monitor_backend);
+        try {
+            this.activity_monitor.init (null);
+        } catch (GLib.Error error) {
+            GLib.error ("Error initializing activity_monitor: %s", error.message);
+        }
 
         this.ui_manager = new UIManager (this, session_status);
         try {
-            this.ui_manager.init ();
+            this.ui_manager.init (null);
         } catch (GLib.Error error) {
-            GLib.error("Error initializing ui_manager: %s", error.message);
+            GLib.error ("Error initializing ui_manager: %s", error.message);
         }
 
         this.break_manager = new BreakManager (ui_manager, activity_monitor);
         try {
             this.break_manager.init (null);
         } catch (GLib.Error error) {
-            GLib.error("Error initializing break_manager: %s", error.message);
+            GLib.error ("Error initializing break_manager: %s", error.message);
         }
 
         this.restore_state ();

@@ -23,10 +23,12 @@ using BreakTimer.Daemon.RestBreak;
 namespace BreakTimer.Daemon {
 
 public class BreakManager : GLib.Object, GLib.Initable {
-    private GLib.Settings settings;
-    private GLib.HashTable<string, BreakType> breaks;
     public bool master_enabled { get; set; }
     public string[] selected_break_ids { get; set; }
+
+    private GLib.DBusConnection dbus_connection;
+    private GLib.Settings settings;
+    private GLib.HashTable<string, BreakType> breaks;
 
     public BreakManager (UIManager ui_manager, ActivityMonitor activity_monitor) {
         this.settings = new GLib.Settings ("org.gnome.BreakTimer");
@@ -44,27 +46,12 @@ public class BreakManager : GLib.Object, GLib.Initable {
     }
 
     public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
-        GLib.DBusConnection connection;
+        this.dbus_connection = GLib.Bus.get_sync(GLib.BusType.SESSION, cancellable);
 
-        try {
-            connection = GLib.Bus.get_sync (
-                GLib.BusType.SESSION,
-                null
-            );
-        } catch (GLib.IOError error) {
-            GLib.warning ("Error connecting to the session bus: %s", error.message);
-            throw error;
-        }
-
-        try {
-            connection.register_object (
-                Config.DAEMON_OBJECT_PATH,
-                new BreakManagerDBusObject (this)
-            );
-        } catch (GLib.IOError error) {
-            GLib.warning ("Error registering daemon on the session bus: %s", error.message);
-            throw error;
-        }
+        this.dbus_connection.register_object (
+            Config.DAEMON_OBJECT_PATH,
+            new BreakManagerDBusObject (this)
+        );
 
         foreach (BreakType break_type in this.all_breaks ()) {
             break_type.init (cancellable);

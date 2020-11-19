@@ -23,26 +23,33 @@ namespace BreakTimer.Daemon {
  * Abstraction of GNOME Screensaver's dbus interface with gentle defaults in
  * case we are unable to connect.
  */
-public class SessionStatus : GLib.Object, ISessionStatus {
+public class SessionStatus : GLib.Object, ISessionStatus, GLib.Initable {
     private Gtk.Application application;
-    private IScreenSaver? screensaver;
+    private GLib.DBusConnection dbus_connection;
+    private IGnomeScreenSaver? screensaver;
     private bool screensaver_is_active = false;
 
     public SessionStatus (Gtk.Application application) {
         this.application = application;
-        GLib.Bus.watch_name (
-            GLib.BusType.SESSION,
+    }
+
+    public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
+        this.dbus_connection = GLib.Bus.get_sync (GLib.BusType.SESSION, cancellable);
+
+        GLib.Bus.watch_name_on_connection (
+            this.dbus_connection,
             "org.gnome.ScreenSaver",
             GLib.BusNameWatcherFlags.NONE,
             this.screensaver_appeared,
             this.screensaver_disappeared
         );
+
+        return true;
     }
 
     private void screensaver_appeared () {
         try {
-            this.screensaver = GLib.Bus.get_proxy_sync (
-                GLib.BusType.SESSION,
+            this.screensaver = this.dbus_connection.get_proxy_sync (
                 "org.gnome.ScreenSaver",
                 "/org/gnome/ScreenSaver"
             );

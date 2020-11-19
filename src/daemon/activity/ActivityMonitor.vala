@@ -20,7 +20,7 @@ using BreakTimer.Daemon.Util;
 
 namespace BreakTimer.Daemon.Activity {
 
-public class ActivityMonitor : GLib.Object {
+public class ActivityMonitor : GLib.Object, GLib.Initable {
     private PausableTimeout poll_activity_timeout;
     private UserActivity last_activity;
     private int64 last_active_timestamp;
@@ -39,6 +39,10 @@ public class ActivityMonitor : GLib.Object {
         session_status.unlocked.connect (this.unlocked_cb);
 
         this.last_activity = UserActivity ();
+    }
+
+    public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
+        return true;
     }
 
     public Json.Object serialize () {

@@ -27,7 +27,8 @@ public abstract class TimerBreakType : BreakType {
     public int[] interval_options;
     public int[] duration_options;
 
-    public IBreakTimer_TimerBreak? break_server;
+    private GLib.DBusConnection dbus_connection;
+    private IBreakTimer_TimerBreak? break_server;
 
     public signal void timer_status_changed (TimerBreakStatus? status);
 
@@ -38,13 +39,16 @@ public abstract class TimerBreakType : BreakType {
     }
 
     public override bool init (GLib.Cancellable? cancellable) throws GLib.Error {
-        GLib.Bus.watch_name (
-            GLib.BusType.SESSION,
+        this.dbus_connection = GLib.Bus.get_sync (GLib.BusType.SESSION, cancellable);
+
+        GLib.Bus.watch_name_on_connection (
+            this.dbus_connection,
             Config.DAEMON_APPLICATION_ID,
             GLib.BusNameWatcherFlags.NONE,
             this.breakdaemon_appeared,
             this.breakdaemon_disappeared
         );
+
         return base.init (cancellable);
     }
 
@@ -90,8 +94,7 @@ public abstract class TimerBreakType : BreakType {
 
     private void breakdaemon_appeared () {
         try {
-            this.break_server = GLib.Bus.get_proxy_sync (
-                GLib.BusType.SESSION,
+            this.break_server = this.dbus_connection.get_proxy_sync (
                 Config.DAEMON_APPLICATION_ID,
                 Config.DAEMON_BREAK_OBJECT_BASE_PATH+this.id,
                 GLib.DBusProxyFlags.DO_NOT_AUTO_START
