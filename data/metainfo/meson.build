@@ -15,6 +15,6 @@ if appstream_util.found()
     test(
         'Validate org.gnome.BreakTimer.metainfo.xml',
         appstream_util,
-        args: ['validate', metainfo_file]
+        args: ['validate', '--nonet', metainfo_file]
     )
 endif
