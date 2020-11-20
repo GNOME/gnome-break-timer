@@ -4,14 +4,19 @@
          xmlns:gnome="http://api.gnome.org/doap-extensions#"
          xmlns="http://usefulinc.com/ns/doap#">
 
-  <name xml:lang="en">GNOME Break Timer</name>
-  <shortdesc xml:lang="en">Take a break</shortdesc>
+  <name xml:lang="en">Break Timer</name>
+  <shortdesc xml:lang="en">Computer break reminders for GNOME</shortdesc>
   <homepage rdf:resource="https://wiki.gnome.org/Apps/BreakTimer" />
+  <bug-database rdf:resource="https://gitlab.gnome.org/GNOME/gnome-break-timer/issues" />
+
+  <category rdf:resource="http://api.gnome.org/doap-extensions#apps" />
+  <programming-language>Vala</programming-language>
 
   <maintainer>
     <foaf:Person>
       <foaf:name>Dylan McCall</foaf:name>
       <foaf:mbox rdf:resource="mailto:dylan@dylanmccall.ca" />
+      <gnome:userid>dylanmccall</gnome:userid>
     </foaf:Person>
   </maintainer>
 
