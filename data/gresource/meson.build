@@ -1,7 +1,7 @@
 break_timer_resources = gnome.compile_resources(
     'resources',
     'org.gnome.BreakTimer.gresource.xml',
-    source_dir : '.',
+    source_dir : meson.source_root(),
     c_name : 'gnome_break_timer_resources'
 )
 

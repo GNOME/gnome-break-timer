@@ -108,8 +108,8 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
 
         Gtk.Builder builder = new Gtk.Builder ();
         try {
-            builder.add_from_resource ("/org/gnome/BreakTimer/settings/settings-panels.ui");
-        } catch (Error e) {
+            builder.add_from_resource ("/org/gnome/BreakTimer/settings/ui/settings-panels.ui");
+        } catch (GLib.Error e) {
             GLib.error ("Error loading UI: %s", e.message);
         }
 
