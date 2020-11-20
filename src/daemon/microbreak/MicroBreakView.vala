@@ -110,7 +110,7 @@ public class MicroBreakView : TimerBreakView {
         if (reason == BreakController.FinishedReason.SATISFIED && was_active) {
             this.show_finished_notification ();
         } else {
-            this.hide_notification ();
+            this.hide_notification (IMMEDIATE);
         }
     }
 

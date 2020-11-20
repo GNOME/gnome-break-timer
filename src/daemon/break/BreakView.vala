@@ -33,13 +33,25 @@ public abstract class BreakView : UIFragment {
         this.ui_manager = ui_manager;
         this.break_controller = break_controller;
 
-        break_controller.enabled.connect ( () => { this.ui_manager.add_break (this); });
-        break_controller.disabled.connect ( () => { this.ui_manager.remove_break (this); });
+        break_controller.enabled.connect ( () => {
+            this.ui_manager.add_break (this);
+        });
+        break_controller.disabled.connect ( () => {
+            this.ui_manager.remove_break (this);
+        });
 
-        break_controller.warned.connect ( () => { this.request_ui_focus (); });
-        break_controller.unwarned.connect ( () => { this.release_ui_focus (); });
-        break_controller.activated.connect ( () => { this.request_ui_focus (); });
-        break_controller.finished.connect_after ( () => { this.release_ui_focus (); });
+        break_controller.warned.connect ( () => {
+            this.request_ui_focus ();
+        });
+        break_controller.unwarned.connect ( () => {
+            this.release_ui_focus ();
+        });
+        break_controller.activated.connect ( () => {
+            this.request_ui_focus ();
+        });
+        break_controller.finished.connect_after ( () => {
+            this.release_ui_focus ();
+        });
     }
 
     public abstract string get_status_message ();

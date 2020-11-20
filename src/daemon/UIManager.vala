@@ -38,6 +38,11 @@ public class UIManager : SimpleFocusManager, GLib.Initable {
 
     private GLib.List<string> notify_capabilities;
 
+    public enum HideNotificationMethod {
+        IMMEDIATE,
+        DELAYED
+    }
+
     public UIManager (Gtk.Application application, ISessionStatus session_status) {
         this.application = application;
         this.session_status = session_status;
@@ -73,7 +78,7 @@ public class UIManager : SimpleFocusManager, GLib.Initable {
          */
 
         if (notification != this.notification) {
-            this.hide_notification (this.notification);
+            this.hide_notification (this.notification, IMMEDIATE);
         }
 
         notification.set_hint ("desktop-entry", Config.DAEMON_APPLICATION_ID);
@@ -87,22 +92,21 @@ public class UIManager : SimpleFocusManager, GLib.Initable {
         this.notification = notification;
     }
 
-    public void hide_notification (Notify.Notification? notification, bool immediate=true) {
+    public void hide_notification (Notify.Notification? notification, HideNotificationMethod method=IMMEDIATE) {
         /**
          * Close a notification proactively, if it is still open.
          */
 
         if (notification != null && this.notification == notification) {
             try {
-                if (immediate) {
+                if (method == IMMEDIATE) {
                     this.notification.close ();
                 } else {
                     this.notification.set_hint ("transient", true);
                     this.notification.show ();
                 }
             } catch (GLib.Error error) {
-                // We ignore this error, because it's usually just noise
-                // GLib.warning ("Error closing notification: %s", error.message);
+                GLib.debug ("Error closing notification: %s", error.message);
             }
         }
         this.notification = null;
@@ -153,7 +157,7 @@ public class UIManager : SimpleFocusManager, GLib.Initable {
     }
 
     private void hide_lock_notification_cb () {
-        this.hide_notification (this.lock_notification, true);
+        this.hide_notification (this.lock_notification, IMMEDIATE);
         this.lock_notification = null;
     }
 }

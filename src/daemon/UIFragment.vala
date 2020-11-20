@@ -82,8 +82,8 @@ public abstract class UIFragment : GLib.Object, IFocusable {
         }
     }
 
-    protected void hide_notification () {
-        this.ui_manager.hide_notification (this.notification);
+    protected void hide_notification (UIManager.HideNotificationMethod method=IMMEDIATE) {
+        this.ui_manager.hide_notification (this.notification, method);
     }
 
     /* IFocusable interface */

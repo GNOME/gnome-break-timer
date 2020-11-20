@@ -153,7 +153,7 @@ public class RestBreakView : TimerBreakView {
         if (was_active && reason == BreakController.FinishedReason.SATISFIED) {
             this.show_finished_notification ();
         } else {
-            this.hide_notification ();
+            this.hide_notification (IMMEDIATE);
         }
     }
 
