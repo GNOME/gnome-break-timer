@@ -74,6 +74,7 @@ public abstract class BreakView : UIFragment {
         if (this.notifications_can_do ("actions")) {
             /* Label for a notification action that shows information about the current break */
             notification.add_action ("info", _("What should I do?"), this.notification_action_info_cb);
+            notification.add_action ("default", notification.summary, this.notification_action_info_cb);
         }
         this.show_notification (notification);
         this.last_break_notification_time = TimeUnit.get_real_time_seconds ();
