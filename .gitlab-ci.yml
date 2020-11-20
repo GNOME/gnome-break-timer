@@ -6,6 +6,7 @@ variables:
 
 flatpak:
     extends: ['.flatpak']
+    image: registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:3.38
     variables:
         APP_ID: "org.gnome.BreakTimer"
         MANIFEST_PATH: "build-aux/flatpak/org.gnome.BreakTimer.json"
