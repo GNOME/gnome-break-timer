@@ -13,7 +13,7 @@ settings_desktop_file = i18n.merge_file(
 
 if desktop_file_validate.found()
     test(
-        'Validate desktop file',
+        'Validate org.gnome.BreakTimer.Settings.desktop',
         desktop_file_validate,
         args: [settings_desktop_file]
     )
@@ -30,7 +30,7 @@ daemon_desktop_file = i18n.merge_file(
 
 if desktop_file_validate.found()
     test(
-        'Validate desktop file',
+        'Validate org.gnome.BreakTimer.desktop',
         desktop_file_validate,
         args: [daemon_desktop_file]
     )

@@ -13,7 +13,7 @@ appstream_util = find_program('appstream-util', required: false)
 
 if appstream_util.found()
     test(
-        'Validate metainfo file',
+        'Validate org.gnome.BreakTimer.metainfo.xml',
         appstream_util,
         args: ['validate', metainfo_file]
     )
