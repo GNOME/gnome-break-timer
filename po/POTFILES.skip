@@ -1,14 +1,1 @@
-common/NaturalTime.c
-daemon/break/BreakView.c
-daemon/break/TimerBreakStatusWidget.c
-daemon/microbreak/MicroBreakView.c
-daemon/restbreak/RestBreakView.c
-daemon/DaemonApplication.c
-settings/BreakSettingsDialog.c
-settings/MainWindow.c
-settings/MicroBreakType.c
-settings/RestBreakType.c
-settings/TimeChooser.c
-settings/TimerBreakType.c
-settings/SettingsApplication.c
 tests

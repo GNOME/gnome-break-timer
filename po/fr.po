@@ -6,9 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"break-timer&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-09-20 06:23+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-19 18:18-0800\n"
 "PO-Revision-Date: 2015-09-20 20:20+0200\n"
 "Last-Translator: Julien Hardelin <jhardlin@orange.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -19,340 +18,281 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: ../data/gnome-break-timer.appdata.xml.in.h:1
-#: ../data/gnome-break-timer-autostart.desktop.in.h:1
-#: ../data/gnome-break-timer.desktop.in.h:1
-#: ../data/gnome-break-timer-service.desktop.in.h:1
-#: ../settings/MainWindow.vala:36 ../settings/MainWindow.vala:136
+#: data/applications/org.gnome.BreakTimer.desktop.in:4
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in:4
+#: data/autostart/org.gnome.BreakTimer.desktop.in:4
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in:5
+#: src/settings/MainWindow.vala:107 src/settings/MainWindow.vala:261
+#: src/settings/MainWindow.vala:273
 msgid "Break Timer"
 msgstr "Minuteur de pauses"
 
-#: ../data/gnome-break-timer.appdata.xml.in.h:2
-msgid "Remember to take regular breaks from using the computer"
-msgstr ""
-"Rappelez-vous de faire des pauses régulières lors de l'utilisation d'un "
-"ordinateur"
+#: data/applications/org.gnome.BreakTimer.desktop.in:5
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in:5
+#: data/autostart/org.gnome.BreakTimer.desktop.in:5
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in:6
+#: src/settings/MainWindow.vala:276
+#, fuzzy
+msgid "Computer break reminders for GNOME"
+msgstr "Rappels de pauses d'ordinateur pour les cerveaux actifs"
 
-#: ../data/gnome-break-timer.appdata.xml.in.h:3
-msgid ""
-"<p>Break Timer keeps track of how much you are using the computer, and it "
-"reminds you to take regular breaks. It is designed to encourage healthy "
-"behaviour, with a mix of short breaks for your eyes and wrists, as well as "
-"longer breaks to keep your body moving and your mind on task.</p> <p>Break "
-"Timer is simple to set up, so you can pick a break schedule that works for "
-"you and it will carry on working in the background.</p>"
-msgstr ""
-"<p>Le Minuteur de pauses garde la trace du temps passé sur l'ordinateur et vous rappelle de "
-"faire des pauses régulières. Il est conçu pour encourager un comportement "
-"sain, avec un mélange de courtes pauses pour vos yeux et vos poignets et de "
-"pauses plus longues pour vous dégourdir les jambes et concentrer votre "
-"esprit sur votre tâche.</p> <p>Le Minuteur de pauses est simple à paramétrer et vous pouvez "
-"établir un programme de pauses qui vous convienne. Il continuera à "
-"fonctionner en arrière-plan.</p>"
-
-#: ../data/gnome-break-timer-autostart.desktop.in.h:2
-#: ../data/gnome-break-timer-service.desktop.in.h:2
-msgid "Provides a gentle reminder to take regular breaks"
-msgstr ""
-"Fournit un rappel discret de faire des pauses régulières"
-
-#: ../data/gnome-break-timer.desktop.in.h:2
-msgid "Choose your preferences for micro breaks and rest breaks"
-msgstr ""
-"Choisissez vos préférences pour les pauses courtes et les pauses longues"
-
-#: ../data/gnome-break-timer.desktop.in.h:3
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in:6
 msgid "break;micro;rest;timer;"
 msgstr "pause;courte;longue;repos;minuteur;programmateur;"
 
-#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:1
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:4
 msgid "True to enable GNOME Break Timer"
 msgstr "True (vrai) pour activer le Minuteur de pauses GNOME"
 
-#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:2
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:9
 msgid "The list of breaks that are currently enabled"
 msgstr "Liste des pauses actuellement activées"
 
-#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:3
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:14
 msgid "True to enable quiet mode"
 msgstr "True (vrai) pour activer le mode silencieux"
 
-#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:4
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:15
 msgid "Hides breaks until quiet-mode-expire-time."
-msgstr "Masque les pauses jusqu'à l'expiration du temps passé en mode silencieux (valeur de la clé quiet-mode-expire-time)."
+msgstr ""
+"Masque les pauses jusqu'à l'expiration du temps passé en mode silencieux "
+"(valeur de la clé quiet-mode-expire-time)."
 
-#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:5
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:20
 msgid "Time to end quiet mode."
 msgstr "Temps d'expiration du mode silencieux."
 
-#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:6
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:21
 msgid "The time to automatically disable quiet mode, in unix time."
 msgstr "Temps d'expiration du mode silencieux, en temps unix."
 
-#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:7
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:31
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:45
 msgid "Time between breaks"
 msgstr "Temps entre les pauses"
 
-#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:8
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:32
 msgid "The time between rest breaks, in seconds."
 msgstr "Temps entre les pauses, en secondes."
 
-#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:9
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:37
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:52
 msgid "Duration of each break"
 msgstr "Durée des pauses"
 
-#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:10
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:38
 msgid "The duration of each rest break, in seconds."
 msgstr "Durée de chaque pause longue, en secondes."
 
-#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:11
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:46
 msgid "The preferred time between micro breaks, in seconds."
 msgstr "Temps souhaité entre les courtes pauses, en secondes"
 
-#: ../data/org.gnome.BreakTimer.gschema.xml.in.h:12
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:53
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "Durée préférée des pauses courtes, en secondes."
 
-#: ../data/settings-panels.ui.h:1
-msgid "Break Timer isn’t responding"
-msgstr "Le Minuteur de pauses ne répond pas"
-
-#: ../data/settings-panels.ui.h:2
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in:12
+#, fuzzy
 msgid ""
-"If this continues the next time you log in, please <a href=\"https://bugs."
-"launchpad.net/brainbreak\">open a bug report</a>.\t"
+"Break Timer keeps track of how much you are using the computer, and it "
+"reminds you to take regular breaks. It is designed to encourage healthy "
+"behaviour, with a mix of short breaks for your eyes and wrists, as well as "
+"longer breaks to keep your body moving and your mind on task."
 msgstr ""
-"Si cela se reproduit lors de la prochaine connexion, <a href=\"https://bugs."
-"launchpad.net/brainbreak\">établissez un rapport de bogue</a>.\t"
+"<p>Le Minuteur de pauses garde la trace du temps passé sur l'ordinateur et "
+"vous rappelle de faire des pauses régulières. Il est conçu pour encourager "
+"un comportement sain, avec un mélange de courtes pauses pour vos yeux et vos "
+"poignets et de pauses plus longues pour vous dégourdir les jambes et "
+"concentrer votre esprit sur votre tâche.</p> <p>Le Minuteur de pauses est "
+"simple à paramétrer et vous pouvez établir un programme de pauses qui vous "
+"convienne. Il continuera à fonctionner en arrière-plan.</p>"
 
-#: ../data/settings-panels.ui.h:3
-msgid "Break Timer is taking a break"
-msgstr "Le Minuteur de pauses fait une pause"
-
-#: ../data/settings-panels.ui.h:4
-msgid "Turn me on to get those breaks going"
-msgstr "Autorisez-moi à lancer ces pauses"
-
-#: ../data/settings-panels.ui.h:5
-msgid "You can change the types of breaks and their timings from the settings"
-msgstr ""
-"Vous pouvez modifier le type de pauses et leur programmation dans la "
-"configuration"
-
-#: ../data/settings-panels.ui.h:6
-msgid "Break Timer lets you take small microbreaks as well as longer breaks."
-msgstr ""
-"Le Minuteur de pauses vous permet de faire aussi bien des pauses courtes que des pauses "
-"longues."
-
-#: ../data/settings-panels.ui.h:7
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in:15
 msgid ""
-"Microbreaks are a chance to look away from the screen and rest your hands."
+"Break Timer is easy to set up, so you can pick a break schedule that works "
+"for you and it will carry on working in the background."
 msgstr ""
-"Les pauses courtes sont l'occasion de quitter l'écran et de reposer vos "
-"mains."
 
-#: ../data/settings-panels.ui.h:8
-msgid "Full breaks are time to get away from the computer and move around."
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in:25
+msgid "Easily turn on break timers"
 msgstr ""
-"Les pauses longues sont l'occasion de quitter l'ordinateur et d'aller faire "
-"un tour."
 
-#: ../data/settings-panels.ui.h:9
-msgid "Breaks and Microbreaks"
-msgstr "Pauses longues et courtes"
-
-#: ../data/settings-panels.ui.h:10
-msgid "You can leave me to it"
-msgstr "Vous pouvez me laisser"
-
-#: ../data/settings-panels.ui.h:11
-msgid ""
-"Break Timer will carry on working in the background, even if you close it."
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in:29
+msgid "Check on their status at any time"
 msgstr ""
-"Le Minuteur de pauses continuera à fonctionner en arrière-plan même si vous le fermez."
 
-#: ../data/settings-panels.ui.h:12
-msgid "Welcome to Break Timer!"
-msgstr "Bienvenue dans le Minuteur de pauses !"
-
-#: ../data/settings-panels.ui.h:13
-msgid "Breaks are good for you. We'll help you to take them."
-msgstr ""
-"Faire une pause est bon pour vous. Nous allons vous aider à en prendre."
-
-#: ../data/settings-panels.ui.h:14
-msgid "Just switch me on to get started"
-msgstr "Activez-moi pour démarrer"
-
-#: ../common/NaturalTime.vala:41
+#: src/common/NaturalTime.vala:43
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "%d seconde"
 msgstr[1] "%d secondes"
 
-#: ../common/NaturalTime.vala:44
+#: src/common/NaturalTime.vala:46
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d minute"
 msgstr[1] "%d minutes"
 
-#: ../common/NaturalTime.vala:47
+#: src/common/NaturalTime.vala:49
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] "%d heure"
 msgstr[1] "%d heures"
 
-#. Label for a notification action that shows information about the current break
-#: ../daemon/break/BreakView.vala:74
-msgid "What should I do?"
-msgstr "Que dois-je faire ?"
-
-#. Break overlay label when a break has been finished
-#: ../daemon/break/TimerBreakStatusWidget.vala:56
-msgid "Thank you"
-msgstr "Merci"
-
-#: ../daemon/DaemonApplication.vala:20 ../settings/MainWindow.vala:148
+#: src/daemon/Application.vala:24
 msgid "GNOME Break Timer"
 msgstr "Minuteur de pauses GNOME"
 
+#: src/daemon/Application.vala:122
+msgid "Saving state"
+msgstr ""
+
+#. Label for a notification action that shows information about the current break
+#: src/daemon/break/BreakView.vala:76
+msgid "What should I do?"
+msgstr "Que dois-je faire ?"
+
 #. Label for a notification action that will skip the current microbreak
-#: ../daemon/microbreak/MicroBreakView.vala:40
+#: src/daemon/microbreak/MicroBreakView.vala:47
 msgid "Skip this one"
 msgstr "Passer celle-ci"
 
-#: ../daemon/microbreak/MicroBreakView.vala:47
+#: src/daemon/microbreak/MicroBreakView.vala:54
 msgid "It’s time for a micro break"
 msgstr "C'est le moment de faire une courte pause"
 
-#: ../daemon/microbreak/MicroBreakView.vala:48
+#: src/daemon/microbreak/MicroBreakView.vala:55
 msgid "Take a break from typing and look away from the screen"
 msgstr ""
 "Faites une pause dans la saisie au clavier et regardez ailleurs que l'écran."
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../daemon/microbreak/MicroBreakView.vala:64
+#: src/daemon/microbreak/MicroBreakView.vala:71
 #, c-format
 msgid "You were due to take a micro break %s ago"
 msgid_plural "You were due to take a micro break %s ago"
 msgstr[0] "Vous deviez faire une pause courte il y a %s"
 msgstr[1] "Vous deviez faire une pause courte il y a %s"
 
-#: ../daemon/microbreak/MicroBreakView.vala:70
+#: src/daemon/microbreak/MicroBreakView.vala:77
 msgid "Overdue micro break"
 msgstr "Pause courte dépassée"
 
-#: ../daemon/microbreak/MicroBreakView.vala:80
-#: ../daemon/restbreak/RestBreakView.vala:125
+#: src/daemon/microbreak/MicroBreakView.vala:87
+#: src/daemon/restbreak/RestBreakView.vala:119
 msgid "Break is over"
 msgstr "La pause est terminée"
 
-#: ../daemon/microbreak/MicroBreakView.vala:81
+#: src/daemon/microbreak/MicroBreakView.vala:88
 msgid "Your micro break has ended"
 msgstr "Votre pause courte est terminée"
 
-#: ../daemon/microbreak/MicroBreakView.vala:94
-msgid "Take a moment to rest your eyes"
-msgstr "Prenez un moment pour vous reposer les yeux"
-
 #. Label for a notification action that will delay the current break for a few minutes
-#: ../daemon/restbreak/RestBreakView.vala:54
+#: src/daemon/restbreak/RestBreakView.vala:48
 msgid "Remind me later"
 msgstr "Rappeler-le moi plus tard"
 
 #. FIXME: Should say how long the break is?
-#: ../daemon/restbreak/RestBreakView.vala:68
+#: src/daemon/restbreak/RestBreakView.vala:62
 msgid "Time for a break"
 msgstr "Temps pour une pause"
 
-#: ../daemon/restbreak/RestBreakView.vala:69
+#: src/daemon/restbreak/RestBreakView.vala:63
 msgid ""
 "It’s time to take a break. Get away from the computer for a little while!"
 msgstr ""
 "Il est temps de faire une pause. Quitter l'ordinateur pour un petit moment !"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../daemon/restbreak/RestBreakView.vala:86
+#: src/daemon/restbreak/RestBreakView.vala:80
 #, c-format
 msgid "There is %s remaining in your break"
 msgid_plural "There are %s remaining in your break"
 msgstr[0] "Il reste %s de pause"
 msgstr[1] "Il reste %s de pause"
 
-#: ../daemon/restbreak/RestBreakView.vala:92
+#: src/daemon/restbreak/RestBreakView.vala:86
 msgid "Break interrupted"
 msgstr "Pause interrompue"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../daemon/restbreak/RestBreakView.vala:109
+#: src/daemon/restbreak/RestBreakView.vala:103
 #, c-format
 msgid "You were due to take a break %s ago"
 msgid_plural "You were due to take a break %s ago"
 msgstr[0] "Vous deviez faire une pause il y a %s"
 msgstr[1] "Vous deviez faire une pause il y a %s"
 
-#: ../daemon/restbreak/RestBreakView.vala:115
+#: src/daemon/restbreak/RestBreakView.vala:109
 msgid "Overdue break"
 msgstr "Pause dépassée"
 
-#: ../daemon/restbreak/RestBreakView.vala:126
+#: src/daemon/restbreak/RestBreakView.vala:120
 msgid "Your break time has ended"
 msgstr "Votre temps de pause est terminé"
 
-#: ../settings/BreakSettingsDialog.vala:32
+#: src/settings/BreakSettingsDialog.vala:38
 msgid "Choose Your Break Schedule"
 msgstr "Choisissez le programme de pause"
 
-#: ../settings/BreakSettingsDialog.vala:37
+#: src/settings/BreakSettingsDialog.vala:43
 msgid "_Close"
 msgstr "_Fermer"
 
-#: ../settings/BreakSettingsDialog.vala:52
+#: src/settings/BreakSettingsDialog.vala:60
 msgid "A mix of short breaks and long breaks"
 msgstr "Un mélange de pauses courtes et de pauses longues"
 
-#: ../settings/BreakSettingsDialog.vala:56
+#: src/settings/BreakSettingsDialog.vala:64
 msgid "Occasional long breaks"
 msgstr "Pauses longues occasionnelles"
 
-#: ../settings/BreakSettingsDialog.vala:60
+#: src/settings/BreakSettingsDialog.vala:68
 msgid "Frequent short breaks"
 msgstr "Pauses courtes fréquentes"
 
-#: ../settings/MainWindow.vala:130
+#. Label for a button that opens GNOME Settings to change permissions
+#: src/settings/MainWindow.vala:69
+msgid "Open Settings"
+msgstr ""
+
+#: src/settings/MainWindow.vala:72
+msgid ""
+"Break Timer needs permission to start automatically and run in the background"
+msgstr ""
+
+#: src/settings/MainWindow.vala:118
+msgid "About"
+msgstr "À propos"
+
+#: src/settings/MainWindow.vala:119
+msgid "Quit"
+msgstr "Quitter"
+
+#: src/settings/MainWindow.vala:255
 msgid "Welcome Tour"
 msgstr "Visite guidée"
 
-#: ../settings/MainWindow.vala:151
-msgid "Computer break reminders for active minds"
-msgstr "Rappels de pauses d'ordinateur pour les cerveaux actifs"
-
-#: ../settings/MainWindow.vala:153
-msgid "GNOME Break Timer Website"
+#: src/settings/MainWindow.vala:278
+#, fuzzy
+msgid "Break Timer Website"
 msgstr "Site Web du Minuteur de pauses GNOME"
 
-#: ../settings/MainWindow.vala:157
+#: src/settings/MainWindow.vala:282
 msgid "translator-credits"
 msgstr "Julien Hardelin <jhardlin@orange.fr>, 2015"
 
-#: ../settings/MainWindow.vala:210
-msgid "OK, got it!"
-msgstr "D'accord, c'est fait !"
-
-#: ../settings/MainWindow.vala:215
-msgid "Ready to go"
-msgstr "Prêt"
-
-#: ../settings/MicroBreakType.vala:46 ../settings/MicroBreakType.vala:91
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:29
+#: src/settings/microbreak/MicroBreakSettingsWidget.vala:26
 msgid "Microbreak"
 msgstr "Pause courte"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../settings/MicroBreakType.vala:65
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:48
 #, c-format
 msgid "Take a break from typing and look away from the screen for %s."
 msgid_plural "Take a break from typing and look away from the screen for %s."
@@ -363,80 +303,168 @@ msgstr[1] ""
 "Faites une pause dans la saisie au clavier et regardez ailleurs que l'écran "
 "pendant %s."
 
-#: ../settings/MicroBreakType.vala:70
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:53
 msgid "It’s microbreak time"
 msgstr "C'est le moment d'une pause courte"
 
-#: ../settings/MicroBreakType.vala:72
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:55
 msgid "I'll chime when it’s time to use the computer again."
 msgstr "Je carillonnerai quand il sera temps de se remettre à l'ordinateur."
 
-#. Label that explains a countdown timer, which shows a string such as "5 minutes"
-#: ../settings/MicroBreakType.vala:81
-msgid "Your next microbreak is in"
-msgstr "La prochaine pause courte est dans"
-
-#: ../settings/MicroBreakType.vala:82
-msgid "It's time for a microbreak"
-msgstr "C'est le moment de faire une pause courte"
-
-#: ../settings/MicroBreakType.vala:92
+#: src/settings/microbreak/MicroBreakSettingsWidget.vala:27
 msgid "Pause frequently to relax your eyes"
 msgstr "Faites de nombreuses pauses pour vous reposer les yeux"
 
-#: ../settings/RestBreakType.vala:46
+#. Label that explains a countdown timer, which shows a string such as "5 minutes"
+#: src/settings/microbreak/MicroBreakStatusWidget.vala:27
+msgid "Your next microbreak is in"
+msgstr "La prochaine pause courte est dans"
+
+#: src/settings/microbreak/MicroBreakStatusWidget.vala:28
+msgid "It's time for a microbreak"
+msgstr "C'est le moment de faire une pause courte"
+
+#: src/settings/panels/WelcomePanel.vala:68
+msgid "OK, got it!"
+msgstr "D'accord, c'est fait !"
+
+#: src/settings/panels/WelcomePanel.vala:74
+msgid "Ready to go"
+msgstr "Prêt"
+
+#: src/settings/restbreak/RestBreakInfoWidget.vala:29
 msgid "Break"
 msgstr "Pause"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: ../settings/RestBreakType.vala:66
+#: src/settings/restbreak/RestBreakInfoWidget.vala:49
 #, c-format
 msgid "Your break has %s remaining. I’ll remind you when it’s over."
 msgid_plural "Your break has %s remaining. I’ll remind you when it’s over."
-msgstr[0] ""
-"Il reste %s de pause. Je vous préviendrai quand elle sera finie."
-msgstr[1] ""
-"Il reste %s de pause. Je vous préviendrai quand elle sera finie."
+msgstr[0] "Il reste %s de pause. Je vous préviendrai quand elle sera finie."
+msgstr[1] "Il reste %s de pause. Je vous préviendrai quand elle sera finie."
 
-#: ../settings/RestBreakType.vala:71
+#: src/settings/restbreak/RestBreakInfoWidget.vala:54
 msgid "It’s break time"
 msgstr "C'est le temps d'une pause"
 
-#: ../settings/RestBreakType.vala:72
+#: src/settings/restbreak/RestBreakInfoWidget.vala:55
 msgid "Take some time away from the computer. Stretch and move around."
 msgstr "Passez un moment loin de l'ordinateur. Étirez-vous et faites un tour."
 
 #. Label that explains a countdown timer, which shows a string such as "30 minutes"
-#: ../settings/RestBreakType.vala:82
+#: src/settings/restbreak/RestBreakStatusWidget.vala:27
 msgid "Your next full break is in"
 msgstr "La prochaine pause longue est dans"
 
-#: ../settings/RestBreakType.vala:83
+#: src/settings/restbreak/RestBreakStatusWidget.vala:28
 msgid "It's break time"
 msgstr "C'est le temps d'une pause"
 
-#: ../settings/RestBreakType.vala:92
-msgid "Full break"
-msgstr "Pause longue"
-
-#: ../settings/RestBreakType.vala:93
-msgid "And take some longer breaks to stretch your legs"
-msgstr "Et prenez un moment pour vous dégourdir les jambes"
-
-#: ../settings/SettingsApplication.vala:102
-msgid "About"
-msgstr "À propos"
-
-#: ../settings/SettingsApplication.vala:103
-msgid "Quit"
-msgstr "Quitter"
-
 #. Label for the widget to choose how frequently a break occurs. (Choices such as "6 minutes" or "45 minutes")
-#: ../settings/TimerBreakType.vala:175
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:34
 msgid "Every"
 msgstr "Chaque"
 
 #. Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes")
-#: ../settings/TimerBreakType.vala:184
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:43
 msgid "For"
 msgstr "Pendant"
+
+#: ui/settings-panels.ui:37
+msgid "Break Timer isn’t responding"
+msgstr "Le Minuteur de pauses ne répond pas"
+
+#: ui/settings-panels.ui:54
+#, fuzzy
+msgid ""
+"If this continues the next time you log in, please <a href=\"https://gitlab."
+"gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>.\t"
+msgstr ""
+"Si cela se reproduit lors de la prochaine connexion, <a href=\"https://bugs."
+"launchpad.net/brainbreak\">établissez un rapport de bogue</a>.\t"
+
+#: ui/settings-panels.ui:101
+msgid "Break Timer is taking a break"
+msgstr "Le Minuteur de pauses fait une pause"
+
+#: ui/settings-panels.ui:118
+msgid "Turn me on to get those breaks going"
+msgstr "Autorisez-moi à lancer ces pauses"
+
+#: ui/settings-panels.ui:149
+msgid "You can change the types of breaks and their timings from the settings"
+msgstr ""
+"Vous pouvez modifier le type de pauses et leur programmation dans la "
+"configuration"
+
+#: ui/settings-panels.ui:175
+msgid "Break Timer lets you take small microbreaks as well as longer breaks."
+msgstr ""
+"Le Minuteur de pauses vous permet de faire aussi bien des pauses courtes que "
+"des pauses longues."
+
+#: ui/settings-panels.ui:193
+msgid ""
+"Microbreaks are a chance to look away from the screen and rest your hands."
+msgstr ""
+"Les pauses courtes sont l'occasion de quitter l'écran et de reposer vos "
+"mains."
+
+#: ui/settings-panels.ui:211
+msgid "Full breaks are time to get away from the computer and move around."
+msgstr ""
+"Les pauses longues sont l'occasion de quitter l'ordinateur et d'aller faire "
+"un tour."
+
+#: ui/settings-panels.ui:228
+msgid "Breaks and Microbreaks"
+msgstr "Pauses longues et courtes"
+
+#: ui/settings-panels.ui:274
+msgid "You can leave me to it"
+msgstr "Vous pouvez me laisser"
+
+#: ui/settings-panels.ui:292
+msgid ""
+"Break Timer will carry on working in the background, even if you close it."
+msgstr ""
+"Le Minuteur de pauses continuera à fonctionner en arrière-plan même si vous "
+"le fermez."
+
+#: ui/settings-panels.ui:340
+msgid "Welcome to Break Timer!"
+msgstr "Bienvenue dans le Minuteur de pauses !"
+
+#: ui/settings-panels.ui:357
+msgid "Breaks are good for you. We'll help you to take them."
+msgstr ""
+"Faire une pause est bon pour vous. Nous allons vous aider à en prendre."
+
+#: ui/settings-panels.ui:378
+msgid "Just switch me on to get started"
+msgstr "Activez-moi pour démarrer"
+
+#~ msgid "Remember to take regular breaks from using the computer"
+#~ msgstr ""
+#~ "Rappelez-vous de faire des pauses régulières lors de l'utilisation d'un "
+#~ "ordinateur"
+
+#~ msgid "Provides a gentle reminder to take regular breaks"
+#~ msgstr "Fournit un rappel discret de faire des pauses régulières"
+
+#~ msgid "Choose your preferences for micro breaks and rest breaks"
+#~ msgstr ""
+#~ "Choisissez vos préférences pour les pauses courtes et les pauses longues"
+
+#~ msgid "Thank you"
+#~ msgstr "Merci"
+
+#~ msgid "Take a moment to rest your eyes"
+#~ msgstr "Prenez un moment pour vous reposer les yeux"
+
+#~ msgid "Full break"
+#~ msgstr "Pause longue"
+
+#~ msgid "And take some longer breaks to stretch your legs"
+#~ msgstr "Et prenez un moment pour vous dégourdir les jambes"

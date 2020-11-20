@@ -65,6 +65,7 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
 
             this.error_type = error_type;
 
+            /* Label for a button that opens GNOME Settings to change permissions */
             this.add_button (_("Open Settings"), RESPONSE_OPEN_SETTINGS);
 
             Gtk.Container content_area = this.get_content_area ();
