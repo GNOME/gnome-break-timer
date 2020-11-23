@@ -15,6 +15,8 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using BreakTimer.Common;
+
 namespace BreakTimer.Settings.Widgets {
 
 /**
@@ -26,14 +28,14 @@ public class CircleCounter : Gtk.Widget {
     protected const double LINE_WIDTH = 5.0;
     protected const int DEFAULT_RADIUS = 48;
 
-    /* 10 seconds in microseconds */
-    private const int64 FULL_ANIM_TIME = (int64) (10000000 / (Math.PI * 2));
+    /* 500 ms in microseconds */
+    private const int64 MAX_ANIM_DURATION = 500 * TimeUnit.MICROSECONDS_IN_MILLISECONDS;
 
     /* 10 ms in microseconds */
-    private const int64 MIN_ANIM_DURATION = 10000;
+    private const int64 MIN_ANIM_DURATION = 10 * TimeUnit.MICROSECONDS_IN_MILLISECONDS;
 
-    /* 500 ms in microseconds */
-    private const int64 MAX_ANIM_DURATION = 500000;
+    /* 10 seconds per rotation in microseconds */
+    private const int64 FULL_ANIM_SPEED = (int64) ((10 * TimeUnit.MICROSECONDS_IN_SECONDS) / (Math.PI * 2));
 
     private const double SNAP_INCREMENT = (Math.PI * 2) / 60.0;
     private const double BASE_ANGLE = 1.5 * Math.PI;
@@ -90,8 +92,8 @@ public class CircleCounter : Gtk.Widget {
 
         // Animate at a consistent speed regardless of the distance covered.
         double change = (progress_angle - this.draw_angle).abs ();
-        int64 duration = int64.min(
-            (int64) (change * FULL_ANIM_TIME),
+        int64 duration = int64.min (
+            (int64) (change * FULL_ANIM_SPEED),
             MAX_ANIM_DURATION
         );
 

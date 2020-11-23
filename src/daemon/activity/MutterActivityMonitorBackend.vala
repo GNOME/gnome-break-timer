@@ -31,7 +31,7 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend, GLib.Initabl
     private int64 last_idle_time_update_time_ms;
     private bool user_is_active;
 
-    private static uint64 IDLE_WATCH_INTERVAL_MS = 1000;
+    private const uint IDLE_WATCH_INTERVAL_MS = 1 * TimeUnit.MILLISECONDS_IN_SECONDS;
 
     public MutterActivityMonitorBackend () {
         this.user_is_active = false;

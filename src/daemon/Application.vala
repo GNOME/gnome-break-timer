@@ -25,7 +25,7 @@ public class Application : Gtk.Application {
     const int DATA_VERSION = 0;
 
     // Keep running for one minute after the last break is disabled
-    private const int ACTIVITY_TIMEOUT_MS = 60000;
+    private const int ACTIVITY_TIMEOUT_MS = 60 * TimeUnit.MILLISECONDS_IN_SECONDS;
 
     private BreakManager break_manager;
     private SessionStatus session_status;

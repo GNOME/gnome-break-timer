@@ -20,6 +20,7 @@ namespace BreakTimer.Common {
 public abstract class TimeUnit {
     public const int MILLISECONDS_IN_SECONDS = 1000;
     public const int MICROSECONDS_IN_SECONDS = 1000 * 1000;
+    public const int MICROSECONDS_IN_MILLISECONDS = 1000;
 
     public static bool _do_override_time = false;
     public static int64 _override_real_time = 0;
