@@ -79,7 +79,7 @@
             "sources" : [
                 {
                     "type" : "git",
-                    "url" : "https://gitlab.gnome.org/dylanmccall/gnome-break-timer.git"
+                    "url" : "https://gitlab.gnome.org/gnome/gnome-break-timer.git"
                 }
             ]
         }
