@@ -42,7 +42,8 @@ class MicroBreakInfoWidget : BreakInfoWidget {
 
         int time_remaining_value;
         string time_remaining_text = NaturalTime.instance.get_countdown_for_seconds_with_start (
-            this.status.time_remaining, this.status.current_duration, out time_remaining_value);
+            this.status.time_remaining, this.status.current_duration, out time_remaining_value
+        );
         string description_text = ngettext (
             /* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
             "Take a break from typing and look away from the screen for %s.",

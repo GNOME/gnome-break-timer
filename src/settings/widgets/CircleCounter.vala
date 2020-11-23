@@ -38,7 +38,7 @@ public class CircleCounter : Gtk.Widget {
     private const int64 FULL_ANIM_SPEED = (int64) ((10 * TimeUnit.MICROSECONDS_IN_SECONDS) / (Math.PI * 2));
 
     private const double SNAP_INCREMENT = (Math.PI * 2) / 60.0;
-    private const double BASE_ANGLE = 1.5 * Math.PI;
+    private const double ANGLE_OFFSET = 1.5 * Math.PI;
 
     public enum Direction {
         COUNT_DOWN,
@@ -60,9 +60,8 @@ public class CircleCounter : Gtk.Widget {
     public double progress {set; get;}
     public double draw_angle {set; get;}
 
+    private PropertyTransition draw_angle_transition;
     private bool first_frame = true;
-
-    private PropertyTransition progress_transition;
 
     public CircleCounter () {
         GLib.Object ();
@@ -71,21 +70,30 @@ public class CircleCounter : Gtk.Widget {
 
         this.get_style_context ().add_class ("_circle-counter");
 
-        this.progress_transition = new PropertyTransition (
+        this.draw_angle_transition = new PropertyTransition (
             this, "draw-angle", PropertyTransition.calculate_value_double
         );
 
         this.map.connect (this.on_map_cb);
         this.draw.connect (this.on_draw_cb);
+        this.notify["direction"].connect (this.on_direction_notify_cb);
         this.notify["progress"].connect (this.on_progress_notify_cb);
         this.notify["draw-angle"].connect (this.on_draw_angle_notify_cb);
     }
 
+    private void on_direction_notify_cb () {
+        // Skip the next frame if we change direction. This is an ugly hack to
+        // avoid cases where the circle skips from full (but with COUNT_UP) to
+        // empty (but with COUNT_DOWN).
+        this.first_frame = true;
+    }
+
     private void on_progress_notify_cb () {
-        double progress_angle = this.get_progress_angle ();
+        double progress = this.progress.abs ().clamp (0.0, 1.0);
+        double progress_angle = this.calculate_draw_angle (progress);
 
         if (this.first_frame) {
-            this.progress_transition.skip (progress_angle);
+            this.draw_angle_transition.skip (progress_angle);
             this.first_frame = false;
             return;
         }
@@ -98,21 +106,20 @@ public class CircleCounter : Gtk.Widget {
         );
 
         if (duration < MIN_ANIM_DURATION) {
-            this.progress_transition.skip (progress_angle);
+            this.draw_angle_transition.skip (progress_angle);
         } else {
-            this.progress_transition.start (progress_angle, EASE_OUT_CUBIC, duration);
+            this.draw_angle_transition.start (progress_angle, EASE_OUT_CUBIC, duration);
         }
     }
 
     private void on_draw_angle_notify_cb () {
         // TODO: Only redraw if the value has changed enough to be visible.
         //       This will need a value set from the draw function.
-        GLib.info ("Draw angle %s", this.draw_angle.to_string ());
         this.queue_draw ();
     }
 
-    private double get_progress_angle () {
-        double result = (this.progress * Math.PI * 2.0) % (Math.PI * 2.0);
+    private double calculate_draw_angle (double progress) {
+        double result = progress * Math.PI * 2.0;
         int snap_count = (int) (result / SNAP_INCREMENT);
         return (double) snap_count * SNAP_INCREMENT;
     }
@@ -146,14 +153,14 @@ public class CircleCounter : Gtk.Widget {
 
         if (this.direction == Direction.COUNT_DOWN) {
             if (this.draw_angle > 0) {
-                cr.arc (center_x, center_y, arc_radius, BASE_ANGLE, BASE_ANGLE - this.draw_angle);
+                cr.arc (center_x, center_y, arc_radius, ANGLE_OFFSET, ANGLE_OFFSET - this.draw_angle);
             } else {
                 // No progress: Draw a full circle (to be gradually emptied)
-                cr.arc (center_x, center_y, arc_radius, BASE_ANGLE, BASE_ANGLE + Math.PI * 2.0);
+                cr.arc (center_x, center_y, arc_radius, ANGLE_OFFSET, ANGLE_OFFSET + Math.PI * 2.0);
             }
         } else {
             if (this.draw_angle > 0) {
-                cr.arc_negative (center_x, center_y, arc_radius, BASE_ANGLE, BASE_ANGLE - this.draw_angle);
+                cr.arc_negative (center_x, center_y, arc_radius, ANGLE_OFFSET, ANGLE_OFFSET - this.draw_angle);
             }
             // No progress: Draw nothing (arc will gradually appear)
         }
