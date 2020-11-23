@@ -15,7 +15,7 @@
  * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using BreakTimer.Daemon.Util;
+using BreakTimer.Common;
 
 namespace BreakTimer.Daemon.Break {
 

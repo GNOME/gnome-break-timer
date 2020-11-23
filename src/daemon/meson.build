@@ -25,8 +25,7 @@ daemon_lib_sources = files(
     'util/Countdown.vala',
     'util/PausableTimeout.vala',
     'util/SimpleFocusManager.vala',
-    'util/StatefulTimer.vala',
-    'util/TimeUnit.vala'
+    'util/StatefulTimer.vala'
 )
 
 daemon_lib_dependencies = [

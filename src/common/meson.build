@@ -7,7 +7,8 @@ common_lib_sources = files(
     'IPortalBackground.vala',
     'IPortalRequest.vala',
     'ISessionStatus.vala',
-    'NaturalTime.vala'
+    'NaturalTime.vala',
+    'TimeUnit.vala'
 )
 
 common_lib_dependencies = [
