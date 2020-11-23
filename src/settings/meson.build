@@ -24,7 +24,8 @@ settings_lib_sources = files(
     'widgets/CircleCounter.vala',
     'widgets/FixedSizeGrid.vala',
     'widgets/OverlayArrow.vala',
-    'widgets/TimeChooser.vala'
+    'widgets/TimeChooser.vala',
+    'widgets/Transition.vala'
 )
 
 settings_lib_dependencies = [
