@@ -20,11 +20,11 @@ namespace BreakTimer.Common {
 public class NaturalTime : GLib.Object {
     public delegate string FormatTimeCb (int seconds);
 
-    private struct TimeUnit {
+    private struct TimeFormat {
         public int seconds;
         public unowned FormatTimeCb format_time;
 
-        public TimeUnit (int seconds, FormatTimeCb format_time) {
+        public TimeFormat (int seconds, FormatTimeCb format_time) {
             this.seconds = seconds;
             this.format_time = format_time;
         }
@@ -35,17 +35,17 @@ public class NaturalTime : GLib.Object {
         }
     }
 
-    private TimeUnit[] units;
+    private TimeFormat[] units;
 
     private NaturalTime () {
         this.units = {
-            TimeUnit (1, (time) => {
+            TimeFormat (1, (time) => {
                 return ngettext ("%d second", "%d seconds", time).printf(time);
             }),
-            TimeUnit (60, (time) => {
+            TimeFormat (60, (time) => {
                 return ngettext ("%d minute", "%d minutes", time).printf(time);
             }),
-            TimeUnit (3600, (time) => {
+            TimeFormat (3600, (time) => {
                 return ngettext ("%d hour", "%d hours", time).printf(time);
             })
         };
@@ -72,8 +72,8 @@ public class NaturalTime : GLib.Object {
      * @return a string with a natural and accurate representation of the time.
      */
     public string get_label_for_seconds (int seconds, out int output_value = null) {
-        TimeUnit label_unit = units[0];
-        foreach (TimeUnit unit in units) {
+        TimeFormat label_unit = units[0];
+        foreach (TimeFormat unit in units) {
             if (seconds % unit.seconds == 0) {
                 label_unit = unit;
                 // assumes smallest unit is first in the list
@@ -94,8 +94,8 @@ public class NaturalTime : GLib.Object {
      * @return a string with a natural and accurate representation of the time.
      */
     public string get_simplest_label_for_seconds (int seconds, out int output_value = null) {
-        TimeUnit label_unit = units[0];
-        foreach (TimeUnit unit in units) {
+        TimeFormat label_unit = units[0];
+        foreach (TimeFormat unit in units) {
             if (seconds >= unit.seconds) {
                 label_unit = unit;
             }
