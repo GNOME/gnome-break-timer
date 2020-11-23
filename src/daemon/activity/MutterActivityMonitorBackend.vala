@@ -75,6 +75,7 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend, GLib.Initabl
     }
 
     private void mutter_idle_monitor_disappeared () {
+        GLib.warning ("Mutter idle monitor disappeared")
         this.mutter_idle_monitor = null;
         this.idle_watch_id = 0;
     }
