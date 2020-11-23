@@ -48,8 +48,9 @@ public class BreakManager : GLib.Object {
     public signal void break_status_available ();
     public signal void status_changed ();
 
+    [Flags]
     public enum PermissionsError {
-        NONE,
+        NONE = 0,
         AUTOSTART_NOT_ALLOWED,
         BACKGROUND_NOT_ALLOWED
     }
@@ -190,13 +191,17 @@ public class BreakManager : GLib.Object {
         bool background_allowed = (bool) results.get ("background");
         bool autostart_allowed = (bool) results.get ("autostart");
 
+        PermissionsError new_permissions_error = NONE;
+
         if (this.master_enabled && ! autostart_allowed) {
-            this.permissions_error = AUTOSTART_NOT_ALLOWED;
-        } else if (this.master_enabled && ! background_allowed) {
-            this.permissions_error = BACKGROUND_NOT_ALLOWED;
-        } else {
-            this.permissions_error = NONE;
+            new_permissions_error |= AUTOSTART_NOT_ALLOWED;
         }
+
+        if (this.master_enabled && ! background_allowed) {
+            new_permissions_error |= BACKGROUND_NOT_ALLOWED;
+        }
+
+        this.permissions_error = new_permissions_error;
 
         this.background_request = null;
     }

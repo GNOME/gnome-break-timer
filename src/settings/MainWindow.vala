@@ -196,9 +196,10 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
     }
 
     private void on_break_manager_permissions_error_change () {
-        BreakManager.PermissionsError error_type = this.break_manager.permissions_error;
-        if (error_type == AUTOSTART_NOT_ALLOWED || error_type == BACKGROUND_NOT_ALLOWED) {
-            MessageBar message_bar = new PermissionsErrorMessageBar (this, error_type);
+        if (this.break_manager.permissions_error != NONE) {
+            MessageBar message_bar = new PermissionsErrorMessageBar (
+                this, this.break_manager.permissions_error
+            );
             this.show_message_bar ("permissions-error", message_bar);
         } else {
             this.hide_message_bar ("permissions-error");
