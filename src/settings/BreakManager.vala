@@ -1,22 +1,25 @@
-/*
- * This file is part of GNOME Break Timer.
+/* BreakManager.vala
  *
- * GNOME Break Timer is free software: you can redistribute it and/or modify
+ * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ *
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GNOME Break Timer is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-// TODO: This intentionally resembles BreakManager from the daemon
-// application. Ideally, it should be common code in the future.
+// TODO: This intentionally resembles BreakManager from the daemon application.
+// Ideally, it should be common code in the future.
 
 using BreakTimer.Common;
 using BreakTimer.Settings.Break;
@@ -61,15 +64,15 @@ public class BreakManager : GLib.Object {
         this.settings = new GLib.Settings ("org.gnome.BreakTimer");
 
         this.breaks = new GLib.List<BreakType> ();
-        this.breaks.append(new MicroBreakType ());
-        this.breaks.append(new RestBreakType ());
+        this.breaks.append (new MicroBreakType ());
+        this.breaks.append (new RestBreakType ());
 
         this.permissions_error = PermissionsError.NONE;
 
         this.settings.bind ("enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
         this.settings.bind ("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);
 
-        this.notify["master-enabled"].connect ( this.on_master_enabled_changed );
+        this.notify["master-enabled"].connect (this.on_master_enabled_changed);
     }
 
     public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
@@ -123,9 +126,9 @@ public class BreakManager : GLib.Object {
             return false;
         }
 
-        string sender_name = this.dbus_connection.unique_name.replace(".", "_")[1:];
-        string handle_token = "org_gnome_breaktimer%d".printf(
-            GLib.Random.int_range(0, int.MAX)
+        string sender_name = this.dbus_connection.unique_name.replace (".", "_")[1:];
+        string handle_token = "org_gnome_breaktimer%d".printf (
+            GLib.Random.int_range (0, int.MAX)
         );
 
         var options = new HashTable<string, GLib.Variant> (str_hash, str_equal);
@@ -139,8 +142,8 @@ public class BreakManager : GLib.Object {
         options.insert ("dbus-activatable", true);
 
         GLib.ObjectPath request_path = null;
-        GLib.ObjectPath expected_request_path = new GLib.ObjectPath(
-            "/org/freedesktop/portal/desktop/request/%s/%s".printf(
+        GLib.ObjectPath expected_request_path = new GLib.ObjectPath (
+            "/org/freedesktop/portal/desktop/request/%s/%s".printf (
                 sender_name,
                 handle_token
             )
@@ -153,7 +156,7 @@ public class BreakManager : GLib.Object {
             // background portal can probably do without.
             // TODO: Handle response, and display an error if the result
             //       includes `autostart == false || background == false`.
-            request_path = this.background_portal.request_background("", options);
+            request_path = this.background_portal.request_background ("", options);
         } catch (GLib.IOError error) {
             GLib.warning ("Error connecting to desktop portal: %s", error.message);
             return false;

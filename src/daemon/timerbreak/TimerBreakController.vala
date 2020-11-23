@@ -1,18 +1,21 @@
-/*
- * This file is part of GNOME Break Timer.
+/* TimerBreakController.vala
  *
- * GNOME Break Timer is free software: you can redistribute it and/or modify
+ * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ *
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GNOME Break Timer is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 using BreakTimer.Daemon.Activity;
@@ -55,10 +58,10 @@ public abstract class TimerBreakController : BreakController {
         this.duration_countdown = new Countdown (this.duration);
         this.countdowns_timeout = new PausableTimeout (this.update_countdowns, 1);
 
-        this.notify["interval"].connect ( (s, p) => {
+        this.notify["interval"].connect ((s, p) => {
             this.interval_countdown.set_base_duration (this.interval);
         });
-        this.notify["duration"].connect ( (s, p) => {
+        this.notify["duration"].connect ((s, p) => {
             this.duration_countdown.set_base_duration (this.duration);
             // Unwarn (for now) in case the new duration is shorter than the old one
             if (this.state == State.WAITING) this.unwarn ();
@@ -200,7 +203,7 @@ public abstract class TimerBreakController : BreakController {
 
         this.counting (
             lap_time,
-            (int)this.counting_timer.elapsed ()
+            (int) this.counting_timer.elapsed ()
         );
         this.countdowns_timeout.run_once ();
     }
@@ -215,7 +218,7 @@ public abstract class TimerBreakController : BreakController {
             this.delayed_timer.start_lap ();
             lap_time = 0;
         } else {
-            lap_time = (int)this.delayed_timer.lap_time ();
+            lap_time = (int) this.delayed_timer.lap_time ();
         }
 
         this.duration_countdown.pause ();
@@ -225,7 +228,7 @@ public abstract class TimerBreakController : BreakController {
 
         this.delayed (
             lap_time,
-            (int)this.delayed_timer.elapsed ()
+            (int) this.delayed_timer.elapsed ()
         );
         this.countdowns_timeout.run_once ();
     }

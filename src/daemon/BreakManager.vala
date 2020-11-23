@@ -1,18 +1,21 @@
-/*
- * This file is part of GNOME Break Timer.
+/* BreakManager.vala
  *
- * GNOME Break Timer is free software: you can redistribute it and/or modify
+ * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ *
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GNOME Break Timer is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 using BreakTimer.Daemon.Activity;
@@ -34,8 +37,8 @@ public class BreakManager : GLib.Object, GLib.Initable {
         this.settings = new GLib.Settings ("org.gnome.BreakTimer");
 
         this.breaks = new GLib.HashTable<string, BreakType> (str_hash, str_equal);
-        this.breaks.set("microbreak", new MicroBreakType (activity_monitor, ui_manager));
-        this.breaks.set("restbreak", new RestBreakType (activity_monitor, ui_manager));
+        this.breaks.set ("microbreak", new MicroBreakType (activity_monitor, ui_manager));
+        this.breaks.set ("restbreak", new RestBreakType (activity_monitor, ui_manager));
 
         this.settings.bind ("enabled", this, "master-enabled", GLib.SettingsBindFlags.DEFAULT);
         this.settings.bind ("selected-breaks", this, "selected-break-ids", GLib.SettingsBindFlags.DEFAULT);
@@ -46,7 +49,7 @@ public class BreakManager : GLib.Object, GLib.Initable {
     }
 
     public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
-        this.dbus_connection = GLib.Bus.get_sync(GLib.BusType.SESSION, cancellable);
+        this.dbus_connection = GLib.Bus.get_sync (GLib.BusType.SESSION, cancellable);
 
         this.dbus_connection.register_object (
             Config.DAEMON_OBJECT_PATH,

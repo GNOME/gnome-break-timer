@@ -1,18 +1,21 @@
-/*
- * This file is part of GNOME Break Timer.
+/* NaturalTime.vala
  *
- * GNOME Break Timer is free software: you can redistribute it and/or modify
+ * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ *
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GNOME Break Timer is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 namespace BreakTimer.Common {
@@ -40,13 +43,13 @@ public class NaturalTime : GLib.Object {
     private NaturalTime () {
         this.units = {
             TimeFormat (1, (time) => {
-                return ngettext ("%d second", "%d seconds", time).printf(time);
+                return ngettext ("%d second", "%d seconds", time).printf (time);
             }),
             TimeFormat (60, (time) => {
-                return ngettext ("%d minute", "%d minutes", time).printf(time);
+                return ngettext ("%d minute", "%d minutes", time).printf (time);
             }),
             TimeFormat (3600, (time) => {
-                return ngettext ("%d hour", "%d hours", time).printf(time);
+                return ngettext ("%d hour", "%d hours", time).printf (time);
             })
         };
     }
@@ -144,7 +147,7 @@ public class NaturalTime : GLib.Object {
         } else {
             interval = 60;
         }
-        int time_softened = ( (seconds-1) / interval) + 1;
+        int time_softened = ((seconds-1) / interval) + 1;
         return time_softened * interval;
     }
 }

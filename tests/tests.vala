@@ -1,18 +1,21 @@
-/*
- * This file is part of GNOME Break Timer.
+/* tests.vala
  *
- * GNOME Break Timer is free software: you can redistribute it and/or modify
+ * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ *
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GNOME Break Timer is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 // GLib's TestSuite and TestCase are compact classes, so we wrap them in real GLib.Objects for convenience
@@ -34,7 +37,7 @@ public abstract class SimpleTestSuite : GLib.Object {
 
         public Adaptor (SimpleTestSuite test_suite, owned SimpleTestCase<SimpleTestSuite> test) {
             this.test_suite = test_suite;
-            this.test = (owned)test;
+            this.test = (owned) test;
         }
 
         private string get_short_name () {
@@ -62,9 +65,9 @@ public abstract class SimpleTestSuite : GLib.Object {
         public GLib.TestCase get_g_test_case () {
             return new GLib.TestCase (
                 this.get_short_name (),
-                (TestFixtureFunc)this.setup,
-                (TestFixtureFunc)this.run,
-                (TestFixtureFunc)this.teardown
+                (TestFixtureFunc) this.setup,
+                (TestFixtureFunc) this.run,
+                (TestFixtureFunc) this.teardown
             );
         }
     }
@@ -87,7 +90,7 @@ public abstract class SimpleTestSuite : GLib.Object {
     }
 
     public void add_test (owned SimpleTestCase test) {
-        var adaptor = new Adaptor (this, (owned)test);
+        var adaptor = new Adaptor (this, (owned) test);
         this.adaptors += adaptor;
         this.g_test_suite.add (adaptor.get_g_test_case ());
     }

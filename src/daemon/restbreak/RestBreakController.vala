@@ -1,18 +1,21 @@
-/*
- * This file is part of GNOME Break Timer.
+/* RestBreakController.vala
  *
- * GNOME Break Timer is free software: you can redistribute it and/or modify
+ * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ *
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GNOME Break Timer is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 using BreakTimer.Daemon.Activity;
@@ -38,10 +41,10 @@ public class RestBreakController : TimerBreakController {
         // Countdown for an extra reminder that a break is ongoing, if the
         // user is ignoring it
         this.reminder_countdown = new Countdown (this.interval / 4);
-        this.notify["interval"].connect ( (s, p) => {
+        this.notify["interval"].connect ((s, p) => {
             this.reminder_countdown.set_base_duration (this.interval / 4);
         });
-        this.activated.connect ( () => {
+        this.activated.connect (() => {
             this.reminder_countdown.reset ();
         });
 

@@ -1,18 +1,21 @@
-/*
- * This file is part of GNOME Break Timer.
+/* BreakController.vala
  *
- * GNOME Break Timer is free software: you can redistribute it and/or modify
+ * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ *
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GNOME Break Timer is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 using BreakTimer.Common;
@@ -82,7 +85,7 @@ public abstract class BreakController : GLib.Object {
 
     public virtual Json.Object serialize () {
         Json.Object json_root = new Json.Object ();
-        json_root.set_int_member ("state", (int)this.state);
+        json_root.set_int_member ("state", (int) this.state);
         if (this.activate_timestamp == null) {
             json_root.set_null_member ("activate_timestamp");
         } else {
@@ -92,7 +95,7 @@ public abstract class BreakController : GLib.Object {
     }
 
     public virtual void deserialize (ref Json.Object json_root) {
-        // State serialized_state = (State)json_root.get_int_member ("state");
+        // State serialized_state = (State) json_root.get_int_member ("state");
         // We won't restore the original state directly. A BreakController
         // implementation should decide whether to activate at this stage.
 

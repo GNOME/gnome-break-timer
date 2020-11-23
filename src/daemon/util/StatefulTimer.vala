@@ -1,18 +1,21 @@
-/*
- * This file is part of GNOME Break Timer.
+/* StatefulTimer.vala
  *
- * GNOME Break Timer is free software: you can redistribute it and/or modify
+ * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ *
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GNOME Break Timer is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 namespace BreakTimer.Daemon.Util {
@@ -42,7 +45,7 @@ public class StatefulTimer : GLib.Object {
 
     public string serialize () {
         return string.joinv (",", {
-            ( (int)this.state).to_string (),
+            ((int) this.state).to_string (),
             this.elapsed ().to_string (),
             this.lap_start.to_string ()
         });
@@ -50,7 +53,7 @@ public class StatefulTimer : GLib.Object {
 
     public void deserialize (string data) {
         string[] data_parts = data.split (",");
-        State old_state = (State)int.parse (data_parts[0]);
+        State old_state = (State) int.parse (data_parts[0]);
         double old_elapsed = double.parse (data_parts[1]);
         double old_lap_start = double.parse (data_parts[2]);
 

@@ -1,18 +1,21 @@
-/*
- * This file is part of GNOME Break Timer.
+/* CircleCounter.vala
  *
- * GNOME Break Timer is free software: you can redistribute it and/or modify
+ * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ *
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GNOME Break Timer is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 using BreakTimer.Common;
@@ -136,7 +139,7 @@ public class CircleCounter : Gtk.Widget {
 
         int center_x = allocation.width / 2;
         int center_y = allocation.height / 2;
-        int radius = int.min(center_x, center_y);
+        int radius = int.min (center_x, center_y);
         double arc_radius = radius - LINE_WIDTH / 2;
 
         Gdk.RGBA foreground_color = style_context.get_color (state);

@@ -1,18 +1,21 @@
-/*
- * This file is part of GNOME Break Timer.
+/* Application.vala
  *
- * GNOME Break Timer is free software: you can redistribute it and/or modify
+ * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ *
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GNOME Break Timer is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 namespace BreakTimer.Settings {
@@ -109,14 +112,14 @@ public class Application : Gtk.Application {
         try {
             this.break_manager.init (null);
         } catch (GLib.Error error) {
-            GLib.error("Error initializing break_manager: %s", error.message);
+            GLib.error ("Error initializing break_manager: %s", error.message);
         }
 
         this.main_window = new MainWindow (this, this.break_manager);
         try {
             this.main_window.init (null);
         } catch (GLib.Error error) {
-            GLib.error("Error initializing main_window: %s", error.message);
+            GLib.error ("Error initializing main_window: %s", error.message);
         }
 
         this.main_window.window_state_event.connect (this.on_main_window_window_state_event);

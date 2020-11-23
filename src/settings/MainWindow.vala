@@ -1,18 +1,21 @@
-/*
- * This file is part of GNOME Break Timer.
+/* MainWindow.vala
  *
- * GNOME Break Timer is free software: you can redistribute it and/or modify
+ * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ *
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GNOME Break Timer is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 using BreakTimer.Common;
@@ -104,7 +107,7 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
 
         this.message_bars = new GLib.HashTable<string, MessageBar> (str_hash, str_equal);
 
-        this.set_title ( _("Break Timer"));
+        this.set_title (_("Break Timer"));
         this.set_default_size (850, 400);
 
         Gtk.Builder builder = new Gtk.Builder ();
@@ -115,8 +118,8 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
         }
 
         this.app_menu = new GLib.Menu ();
-        this.app_menu.append ( _("About"), "app.about");
-        this.app_menu.append ( _("Quit"), "app.quit");
+        this.app_menu.append (_("About"), "app.about");
+        this.app_menu.append (_("Quit"), "app.quit");
 
         this.break_settings_dialog = new BreakSettingsDialog (break_manager);
         this.break_settings_dialog.set_modal (true);
@@ -216,7 +219,7 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
         this.messages_box.pack_end (message_bar);
         message_bar.show ();
         message_bar.close_message_bar.connect (() => {
-            this.hide_message_bar(message_id);
+            this.hide_message_bar (message_id);
         });
     }
 
@@ -253,13 +256,13 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
         BreakType? foreground_break = this.break_manager.foreground_break;
         if (this.welcome_panel.is_active ()) {
             this.main_stack.set_visible_child_full ("welcome_panel", transition);
-            this.header.set_title ( _("Welcome Tour"));
+            this.header.set_title (_("Welcome Tour"));
         } else if (foreground_break != null) {
             this.main_stack.set_visible_child_full (foreground_break.id, transition);
             this.header.set_title (foreground_break.info_widget.title);
         } else {
             this.main_stack.set_visible_child_full ("status_panel", transition);
-            this.header.set_title ( _("Break Timer"));
+            this.header.set_title (_("Break Timer"));
         }
     }
 

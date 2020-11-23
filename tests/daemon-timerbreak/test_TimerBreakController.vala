@@ -1,18 +1,21 @@
-/*
- * This file is part of GNOME Break Timer.
+/* test_TimerBreakController.vala
  *
- * GNOME Break Timer is free software: you can redistribute it and/or modify
+ * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ *
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * GNOME Break Timer is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GNOME Break Timer.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 using BreakTimer.Daemon.Activity;
@@ -83,15 +86,15 @@ public class test_TimerBreakController : TestSuiteWithActivityMonitor {
         this.break_controller.duration = DEFAULT_DURATION;
         this.break_controller.set_enabled (true);
 
-        this.break_controller.enabled.connect ( () => { this.log_break_message ("enabled"); } );
-        this.break_controller.disabled.connect ( () => { this.log_break_message ("disabled"); } );
-        this.break_controller.warned.connect ( () => { this.log_break_message ("warned"); } );
-        this.break_controller.unwarned.connect ( () => { this.log_break_message ("unwarned"); } );
-        this.break_controller.activated.connect ( () => { this.log_break_message ("activated"); } );
-        this.break_controller.finished.connect ( () => { this.log_break_message ("finished"); } );
+        this.break_controller.enabled.connect (() => { this.log_break_message ("enabled"); } );
+        this.break_controller.disabled.connect (() => { this.log_break_message ("disabled"); } );
+        this.break_controller.warned.connect (() => { this.log_break_message ("warned"); } );
+        this.break_controller.unwarned.connect (() => { this.log_break_message ("unwarned"); } );
+        this.break_controller.activated.connect (() => { this.log_break_message ("activated"); } );
+        this.break_controller.finished.connect (() => { this.log_break_message ("finished"); } );
 
-        this.break_controller.counting.connect ( () => { this.log_break_message ("counting"); } );
-        this.break_controller.delayed.connect ( () => { this.log_break_message ("delayed"); } );
+        this.break_controller.counting.connect (() => { this.log_break_message ("counting"); } );
+        this.break_controller.delayed.connect (() => { this.log_break_message ("delayed"); } );
     }
 
     public override void time_step (bool is_active, int real_seconds, int monotonic_seconds) {
