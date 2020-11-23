@@ -1,12 +1,18 @@
+gnome-break-timer 1.2
+=====================
+
+* Bumped minimum GTK version
+* Minor fixes for settings dialog
+
 gnome-break-timer 1.1
 =====================
 
- * Redesigned "take a break" notifications
- * New status and settings application
- * Break timers are saved between sessions
- * Bug fixes
+* Redesigned "take a break" notifications
+* New status and settings application
+* Break timers are saved between sessions
+* Bug fixes
 
 gnome-break-timer 1.0
 =====================
 
- * First release
+* First release
