@@ -270,23 +270,6 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
         this.update_visible_panel ();
     }
 
-    public void show_about_dialog () {
-        const string copyright = "Copyright © 2011-2013 Dylan McCall";
-
-        Gtk.show_about_dialog (this,
-            "program-name", _("Break Timer"),
-            "logo-icon-name", Config.APPLICATION_ICON,
-            "version", Config.PROJECT_VERSION,
-            "comments", _("Computer break reminders for GNOME"),
-            "website", Config.APPLICATION_URL,
-            "website-label", _("Break Timer Website"),
-            "copyright", copyright,
-            "license-type", Gtk.License.GPL_3_0,
-            "wrap-license", false,
-            "translator-credits", _("translator-credits")
-        );
-    }
-
     private void settings_clicked_cb () {
         this.break_settings_dialog.show ();
         this.welcome_panel.settings_button_clicked ();

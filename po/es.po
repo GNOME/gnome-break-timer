@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-23 16:09-0800\n"
+"POT-Creation-Date: 2020-11-24 14:24-0800\n"
 "PO-Revision-Date: 2014-09-01 18:11+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
@@ -19,80 +19,80 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#: data/applications/org.gnome.BreakTimer.desktop.in:4
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in:4
-#: data/autostart/org.gnome.BreakTimer.desktop.in:4
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in:5
-#: src/settings/MainWindow.vala:110 src/settings/MainWindow.vala:265
-#: src/settings/MainWindow.vala:277
+#: data/applications/org.gnome.BreakTimer.desktop.in.in:4
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
+#: data/autostart/org.gnome.BreakTimer.desktop.in.in:4
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
+#: src/settings/Application.vala:189 src/settings/MainWindow.vala:110
+#: src/settings/MainWindow.vala:265
 msgid "Break Timer"
 msgstr "Descansos"
 
-#: data/applications/org.gnome.BreakTimer.desktop.in:5
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in:5
-#: data/autostart/org.gnome.BreakTimer.desktop.in:5
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in:6
-#: src/settings/MainWindow.vala:280
+#: data/applications/org.gnome.BreakTimer.desktop.in.in:5
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
+#: data/autostart/org.gnome.BreakTimer.desktop.in.in:5
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:6
+#: src/settings/Application.vala:192
 #, fuzzy
 msgid "Computer break reminders for GNOME"
 msgstr "Recordatorios de descansos del equipo para mentes activas"
 
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in:6
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
 msgid "break;micro;rest;timer;"
 msgstr "micro;descanso;pausa;temporizador;"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:4
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:4
 msgid "True to enable GNOME Break Timer"
 msgstr "Cierto para activar GNOME Descansos"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:9
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:9
 msgid "The list of breaks that are currently enabled"
 msgstr "La lista de descansos activados actualmente"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:14
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:14
 msgid "True to enable quiet mode"
 msgstr "Cierto para activar el modo silencioso"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:15
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:15
 msgid "Hides breaks until quiet-mode-expire-time."
 msgstr "Esconder descansos hasta la hora de caducidad del modo silencioso."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:20
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:20
 msgid "Time to end quiet mode."
 msgstr "Tiempo para finalizar el modo silencioso."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:21
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:21
 msgid "The time to automatically disable quiet mode, in unix time."
 msgstr ""
 "El tiempo para desactivar automáticamente el modo silencioso, en tiempo UNIX."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:31
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:45
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:31
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:45
 msgid "Time between breaks"
 msgstr "Tiempo entre descansos"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:32
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:32
 msgid "The time between rest breaks, in seconds."
 msgstr "El tiempo entre descansos, en segundos."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:37
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:52
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:37
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
 msgid "Duration of each break"
 msgstr "Duración de cada descanso"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:38
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:38
 msgid "The duration of each rest break, in seconds."
 msgstr "La duración de cada descanso, en segundos."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:46
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:46
 msgid "The preferred time between micro breaks, in seconds."
 msgstr "El tiempo preferido entre microdescansos, en segundos."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in:53
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:53
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "La duración preferida de cada microdescanso, en segundos."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in:12
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
 #, fuzzy
 msgid ""
 "Break Timer keeps track of how much you are using the computer, and it "
@@ -108,17 +108,17 @@ msgstr ""
 "horario de descansos que funcione para usted y siga funcionando en segundo "
 "plano.</p>"
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in:15
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:15
 msgid ""
 "Break Timer is easy to set up, so you can pick a break schedule that works "
 "for you and it will carry on working in the background."
 msgstr ""
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in:25
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:25
 msgid "Easily turn on break timers"
 msgstr ""
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in:29
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:29
 msgid "Check on their status at any time"
 msgstr ""
 
@@ -152,7 +152,7 @@ msgid "Saving state"
 msgstr ""
 
 #. Label for a notification action that shows information about the current break
-#: src/daemon/break/BreakView.vala:91
+#: src/daemon/break/BreakView.vala:92
 msgid "What should I do?"
 msgstr "¿Qué debo hacer?"
 
@@ -170,23 +170,23 @@ msgid "Take a break from typing and look away from the screen"
 msgstr "Descansar un momento del teclado y mirar fuera de la pantalla"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/microbreak/MicroBreakView.vala:76
+#: src/daemon/microbreak/MicroBreakView.vala:75
 #, c-format
 msgid "You were due to take a micro break %s ago"
 msgid_plural "You were due to take a micro break %s ago"
 msgstr[0] "Tenía que haber hecho un micro descanso hace %s minuto"
 msgstr[1] "Tenía que haber hecho un micro descanso hace %s minutos"
 
-#: src/daemon/microbreak/MicroBreakView.vala:82
+#: src/daemon/microbreak/MicroBreakView.vala:81
 msgid "Overdue micro break"
 msgstr "Micro descanso atrasado"
 
-#: src/daemon/microbreak/MicroBreakView.vala:92
-#: src/daemon/restbreak/RestBreakView.vala:124
+#: src/daemon/microbreak/MicroBreakView.vala:90
+#: src/daemon/restbreak/RestBreakView.vala:121
 msgid "Break is over"
 msgstr "El descanso ha terminado"
 
-#: src/daemon/microbreak/MicroBreakView.vala:93
+#: src/daemon/microbreak/MicroBreakView.vala:91
 msgid "Your micro break has ended"
 msgstr "Su microdescanso ha terminado"
 
@@ -207,32 +207,47 @@ msgstr ""
 "Es el momento de hacer un descanso. Olvídese del ordenador por un momento."
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/restbreak/RestBreakView.vala:85
+#: src/daemon/restbreak/RestBreakView.vala:84
 #, c-format
 msgid "There is %s remaining in your break"
 msgid_plural "There are %s remaining in your break"
 msgstr[0] "Le queda %s de descanso"
 msgstr[1] "Le quedan %s de descanso"
 
-#: src/daemon/restbreak/RestBreakView.vala:91
+#: src/daemon/restbreak/RestBreakView.vala:90
 msgid "Break interrupted"
 msgstr "Descanso interrumpido"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/restbreak/RestBreakView.vala:108
+#: src/daemon/restbreak/RestBreakView.vala:106
 #, c-format
 msgid "You were due to take a break %s ago"
 msgid_plural "You were due to take a break %s ago"
 msgstr[0] "Tenía que haber hecho un descanso hace %s minuto"
 msgstr[1] "Tenía que haber hecho un descanso hace %s minutos"
 
-#: src/daemon/restbreak/RestBreakView.vala:114
+#: src/daemon/restbreak/RestBreakView.vala:112
 msgid "Overdue break"
 msgstr "Descanso atrasado"
 
-#: src/daemon/restbreak/RestBreakView.vala:125
+#: src/daemon/restbreak/RestBreakView.vala:122
 msgid "Your break time has ended"
 msgstr "Su descanso ha terminado"
+
+#: src/settings/Application.vala:194
+#, fuzzy
+msgid "Break Timer Website"
+msgstr "Página web de GNOME Descansos"
+
+#: src/settings/Application.vala:195
+msgid "Copyright © 2011-2020 Break Timer Authors"
+msgstr ""
+
+#: src/settings/Application.vala:197
+msgid "translator-credits"
+msgstr ""
+"Milagros Alessandra Infante Montero <maim92@gmail.com>, 2013\n"
+"Daniel Mustieles <daniel.mustieles@gmail.com>, 2013"
 
 #: src/settings/BreakSettingsDialog.vala:41
 msgid "Choose Your Break Schedule"
@@ -271,17 +286,6 @@ msgstr "Salir"
 #: src/settings/MainWindow.vala:259
 msgid "Welcome Tour"
 msgstr "Tour de bienvenida"
-
-#: src/settings/MainWindow.vala:282
-#, fuzzy
-msgid "Break Timer Website"
-msgstr "Página web de GNOME Descansos"
-
-#: src/settings/MainWindow.vala:286
-msgid "translator-credits"
-msgstr ""
-"Milagros Alessandra Infante Montero <maim92@gmail.com>, 2013\n"
-"Daniel Mustieles <daniel.mustieles@gmail.com>, 2013"
 
 #: src/settings/microbreak/MicroBreakInfoWidget.vala:32
 #: src/settings/microbreak/MicroBreakSettingsWidget.vala:29

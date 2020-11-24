@@ -170,7 +170,33 @@ public class Application : Gtk.Application {
     }
 
     private void on_about_activate_cb () {
-        this.main_window.show_about_dialog ();
+        this.show_about_dialog ();
+    }
+
+    private void show_about_dialog () {
+        Gtk.AboutDialog dialog = new Gtk.AboutDialog ();
+        dialog.set_destroy_with_parent (true);
+        dialog.set_transient_for (this.get_active_window ());
+        dialog.set_modal (true);
+
+        dialog.authors = {
+            "Dylan McCall <dylan@dylanmccall.ca>",
+            "Jasper St. Pierre <jstpierre@mecheye.net>"
+        };
+        dialog.artists = {
+            "Allan Day <aday@gnome.org>"
+        };
+        dialog.program_name = _("Break Timer");
+        dialog.logo_icon_name = Config.APPLICATION_ID;
+        dialog.version = Config.PROJECT_VERSION;
+        dialog.comments = _("Computer break reminders for GNOME");
+        dialog.website = Config.APPLICATION_URL;
+        dialog.website_label = _("Break Timer Website");
+        dialog.copyright = _("Copyright © 2011-2020 Break Timer Authors");
+        dialog.license_type = Gtk.License.GPL_3_0;
+        dialog.translator_credits = _("translator-credits");
+
+        dialog.present ();
     }
 }
 
