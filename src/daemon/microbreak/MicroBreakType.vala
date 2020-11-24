@@ -29,7 +29,7 @@ public class MicroBreakType : TimerBreakType {
         var break_controller = new MicroBreakController (activity_monitor);
         var break_view = new MicroBreakView (break_controller, ui_manager);
 
-        var settings = new GLib.Settings ("org.gnome.BreakTimer.microbreak");
+        var settings = new GLib.Settings (Config.APPLICATION_ID + ".microbreak");
         settings.bind ("interval-seconds", break_controller, "interval", GLib.SettingsBindFlags.GET);
         settings.bind ("duration-seconds", break_controller, "duration", GLib.SettingsBindFlags.GET);
 

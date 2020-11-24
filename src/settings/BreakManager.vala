@@ -61,7 +61,7 @@ public class BreakManager : GLib.Object {
     public BreakManager (Application application) {
         this.application = application;
 
-        this.settings = new GLib.Settings ("org.gnome.BreakTimer");
+        this.settings = new GLib.Settings (Config.APPLICATION_ID);
 
         this.breaks = new GLib.List<BreakType> ();
         this.breaks.append (new MicroBreakType ());
@@ -271,7 +271,7 @@ public class BreakManager : GLib.Object {
     }
 
     private void launch_break_timer_service () {
-        GLib.AppInfo daemon_app_info = new GLib.DesktopAppInfo (Config.DAEMON_DESKTOP_FILE_ID);
+        GLib.AppInfo daemon_app_info = new GLib.DesktopAppInfo (Config.DAEMON_APPLICATION_ID + ".desktop");
         GLib.AppLaunchContext app_launch_context = new GLib.AppLaunchContext ();
         try {
             daemon_app_info.launch (null, app_launch_context);

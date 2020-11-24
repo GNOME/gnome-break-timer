@@ -8,8 +8,8 @@ flatpak:
     extends: ['.flatpak']
     image: registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:3.38
     variables:
-        APP_ID: "org.gnome.BreakTimer"
-        MANIFEST_PATH: "build-aux/flatpak/org.gnome.BreakTimer.json"
+        APP_ID: "org.gnome.BreakTimer.Devel"
+        MANIFEST_PATH: "build-aux/flatpak/org.gnome.BreakTimer.Devel.json"
         RUNTIME_REPO: "https://sdk.gnome.org/gnome.flatpakrepo"
         FLATPAK_MODULE: "gnome-break-timer"
         MESON_ARGS: "-Dtests=all"

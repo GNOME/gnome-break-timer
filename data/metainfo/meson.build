@@ -1,15 +1,19 @@
 metainfo_dir = join_paths(datadir, 'metainfo')
 
+appstream_util = find_program('appstream-util', required: false)
+
 metainfo_file = i18n.merge_file(
-    input: 'org.gnome.BreakTimer.metainfo.xml.in',
-    output: 'org.gnome.BreakTimer.metainfo.xml',
+    input: configure_file(
+        input: 'org.gnome.BreakTimer.metainfo.xml.in.in',
+        output: 'org.gnome.BreakTimer.metainfo.xml.in',
+        configuration: build_conf,
+    ),
+    output: application_id + '.metainfo.xml',
     type: 'xml',
     po_dir: po_dir,
     install: true,
     install_dir: metainfo_dir
 )
-
-appstream_util = find_program('appstream-util', required: false)
 
 if appstream_util.found()
     test(

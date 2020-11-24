@@ -1,9 +1,11 @@
 {
-    "id" : "org.gnome.BreakTimer",
+    "id" : "org.gnome.BreakTimer.Devel",
     "runtime" : "org.gnome.Platform",
-    "runtime-version" : "3.38",
+    "runtime-version" : "master",
     "sdk" : "org.gnome.Sdk",
     "command" : "gnome-break-timer-settings",
+    "tags": ["devel", "development", "nightly"],
+    "desktop-file-name-suffix": " ☢️",
     "finish-args" : [
         "--share=ipc",
         "--socket=x11",
@@ -88,6 +90,9 @@
             "buildsystem" : "meson",
             "builddir" : true,
             "run-tests" : true,
+            "config-opts" : [
+                "-Dprofile=development"
+            ],
             "sources" : [
                 {
                     "type" : "git",

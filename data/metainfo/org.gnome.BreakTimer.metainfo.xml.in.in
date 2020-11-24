@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>org.gnome.BreakTimer</id>
+  <id>@APPLICATION_ID@</id>
 
   <name>Break Timer</name>
   <summary>Computer break reminders for GNOME</summary>
@@ -31,11 +31,12 @@
     </screenshot>
   </screenshots>
 
-  <launchable type="desktop-id">org.gnome.BreakTimer.Settings.desktop</launchable>
+  <launchable type="desktop-id">@SETTINGS_APPLICATION_ID@.desktop</launchable>
 
   <content_rating type="oars-1.1" />
 
   <releases>
+    <release version="2.0" date="2020-11-18" />
     <release version="1.2" date="2014-03-28" />
     <release version="1.1" date="2013-09-22" />
     <release version="1.0" date="2013-09-22" />

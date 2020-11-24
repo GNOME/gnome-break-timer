@@ -1,5 +1,5 @@
 <schemalist>
-  <schema id="org.gnome.BreakTimer" path="/org/gnome/BreakTimer/">
+  <schema id="@APPLICATION_ID@" path="/org/gnome/BreakTimer/">
     <key name="enabled" type="b">
       <summary>True to enable GNOME Break Timer</summary>
       <default>false</default>
@@ -22,11 +22,11 @@
       <default>0</default>
     </key>
 
-    <child schema="org.gnome.BreakTimer.restbreak" name="restbreak"/>
-    <child schema="org.gnome.BreakTimer.microbreak" name="microbreak"/>
+    <child schema="@APPLICATION_ID@.restbreak" name="restbreak"/>
+    <child schema="@APPLICATION_ID@.microbreak" name="microbreak"/>
   </schema>
 
-  <schema id="org.gnome.BreakTimer.restbreak" path="/org/gnome/BreakTimer/restbreak/">
+  <schema id="@APPLICATION_ID@.restbreak" path="/org/gnome/BreakTimer/restbreak/">
     <key name="interval-seconds" type="i">
       <summary>Time between breaks</summary>
       <description>The time between rest breaks, in seconds.</description>
@@ -40,7 +40,7 @@
     </key>
   </schema>
 
-  <schema id="org.gnome.BreakTimer.microbreak" path="/org/gnome/BreakTimer/microbreak/">
+  <schema id="@APPLICATION_ID@.microbreak" path="/org/gnome/BreakTimer/microbreak/">
     <key name="interval-seconds" type="i">
       <summary>Time between breaks</summary>
       <description>The preferred time between micro breaks, in seconds.</description>

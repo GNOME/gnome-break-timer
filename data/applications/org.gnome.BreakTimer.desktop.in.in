@@ -2,7 +2,7 @@
 Type=Application
 Name=Break Timer
 Comment=Computer break reminders for GNOME
-Icon=org.gnome.BreakTimer
+Icon=@APPLICATION_ID@
 NoDisplay=true
 Exec=gnome-break-timer-daemon
 DBusActivatable=true

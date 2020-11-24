@@ -25,7 +25,7 @@ namespace BreakTimer.Settings.MicroBreak {
 
 public class MicroBreakType : TimerBreakType {
     public MicroBreakType () {
-        GLib.Settings settings = new GLib.Settings ("org.gnome.BreakTimer.microbreak");
+        GLib.Settings settings = new GLib.Settings (Config.APPLICATION_ID + ".microbreak");
         base ("microbreak", settings);
 
         this.interval_options = { 240, 300, 360, 480, 600 };

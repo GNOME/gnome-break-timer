@@ -3,8 +3,12 @@ applications_dir = join_paths(datadir, 'applications')
 desktop_file_validate = find_program('desktop-file-validate', required: false)
 
 settings_desktop_file = i18n.merge_file(
-    input: 'org.gnome.BreakTimer.Settings.desktop.in',
-    output: 'org.gnome.BreakTimer.Settings.desktop',
+    input: configure_file(
+        input: 'org.gnome.BreakTimer.Settings.desktop.in.in',
+        output: 'org.gnome.BreakTimer.Settings.desktop.in',
+        configuration: build_conf,
+    ),
+    output: settings_application_id + '.desktop',
     type: 'desktop',
     po_dir: po_dir,
     install: true,
@@ -20,8 +24,12 @@ if desktop_file_validate.found()
 endif
 
 daemon_desktop_file = i18n.merge_file(
-    input: 'org.gnome.BreakTimer.desktop.in',
-    output: 'org.gnome.BreakTimer.desktop',
+    input: configure_file(
+        input: 'org.gnome.BreakTimer.desktop.in.in',
+        output: 'org.gnome.BreakTimer.desktop.in',
+        configuration: build_conf,
+    ),
+    output: daemon_application_id + '.desktop',
     type: 'desktop',
     po_dir: po_dir,
     install: true,

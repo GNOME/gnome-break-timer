@@ -99,7 +99,7 @@ public abstract class TimerBreakType : BreakType {
         try {
             this.break_server = this.dbus_connection.get_proxy_sync (
                 Config.DAEMON_APPLICATION_ID,
-                Config.DAEMON_BREAK_OBJECT_BASE_PATH+this.id,
+                Config.DAEMON_OBJECT_PATH + "/" + this.id,
                 GLib.DBusProxyFlags.DO_NOT_AUTO_START
             );
             // We can only poll the break daemon application for updates, so

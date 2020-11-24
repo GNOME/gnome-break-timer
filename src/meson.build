@@ -1,6 +1,6 @@
 config_file = configure_file(
     output: 'config.h',
-    configuration: build_conf
+    configuration: build_conf_quoted
 )
 
 config_lib = valac.find_library(

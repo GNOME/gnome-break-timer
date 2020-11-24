@@ -33,7 +33,7 @@ public abstract class TimerBreakType : BreakType {
         this.dbus_connection = GLib.Bus.get_sync (GLib.BusType.SESSION, cancellable);
 
         this.dbus_connection.register_object (
-            Config.DAEMON_BREAK_OBJECT_BASE_PATH+this.id,
+            Config.DAEMON_OBJECT_PATH + "/" + this.id,
             new TimerBreakDBusObject (
                 (TimerBreakController) this.break_controller,
                 (TimerBreakView) this.break_view

@@ -34,7 +34,7 @@ public class BreakManager : GLib.Object, GLib.Initable {
     private GLib.HashTable<string, BreakType> breaks;
 
     public BreakManager (UIManager ui_manager, ActivityMonitor activity_monitor) {
-        this.settings = new GLib.Settings ("org.gnome.BreakTimer");
+        this.settings = new GLib.Settings (Config.APPLICATION_ID);
 
         this.breaks = new GLib.HashTable<string, BreakType> (str_hash, str_equal);
         this.breaks.set ("microbreak", new MicroBreakType (activity_monitor, ui_manager));

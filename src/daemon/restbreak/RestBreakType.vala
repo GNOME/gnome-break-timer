@@ -29,7 +29,7 @@ public class RestBreakType : TimerBreakType {
         var break_controller = new RestBreakController (activity_monitor);
         var break_view = new RestBreakView (break_controller, ui_manager);
 
-        var settings = new GLib.Settings ("org.gnome.BreakTimer.restbreak");
+        var settings = new GLib.Settings (Config.APPLICATION_ID + ".restbreak");
         settings.bind ("interval-seconds", break_controller, "interval", GLib.SettingsBindFlags.GET);
         settings.bind ("duration-seconds", break_controller, "duration", GLib.SettingsBindFlags.GET);
 

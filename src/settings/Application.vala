@@ -122,6 +122,10 @@ public class Application : Gtk.Application {
             GLib.error ("Error initializing main_window: %s", error.message);
         }
 
+        if (Config.BUILD_PROFILE == "development") {
+            this.main_window.get_style_context ().add_class ("devel");
+        }
+
         this.main_window.window_state_event.connect (this.on_main_window_window_state_event);
     }
 
