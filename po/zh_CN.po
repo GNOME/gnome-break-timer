@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 14:24-0800\n"
+"POT-Creation-Date: 2020-11-24 14:43-0800\n"
 "PO-Revision-Date: 2013-10-11 23:32+0800\n"
 "Last-Translator: tuhaihe <1132321739qq@gmail.com>\n"
 "Language-Team: Chinese (China)\n"
@@ -18,25 +18,25 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 1.5.4\n"
 
+#: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/applications/org.gnome.BreakTimer.desktop.in.in:4
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
-#: data/autostart/org.gnome.BreakTimer.desktop.in.in:4
+#: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
 #: src/settings/Application.vala:189 src/settings/MainWindow.vala:110
 #: src/settings/MainWindow.vala:265
 msgid "Break Timer"
 msgstr "休息定时器"
 
+#: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/applications/org.gnome.BreakTimer.desktop.in.in:5
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
-#: data/autostart/org.gnome.BreakTimer.desktop.in.in:5
+#: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:6
 #: src/settings/Application.vala:192
 #, fuzzy
 msgid "Computer break reminders for GNOME"
 msgstr "为活跃思维而做的电脑休息提醒器"
 
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
+#: data/applications/org.gnome.BreakTimer.desktop.in.in:6
 msgid "break;micro;rest;timer;"
 msgstr "break;micro;rest;timer;微休;休息;定时器;"
 

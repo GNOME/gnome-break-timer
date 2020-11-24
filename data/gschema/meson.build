@@ -1,5 +1,3 @@
-glib_compile_schemas = find_program('glib-compile-schemas', required: false)
-
 gschema_file = i18n.merge_file(
     input: configure_file(
         input: 'org.gnome.BreakTimer.gschema.xml.in.in',
@@ -13,11 +11,3 @@ gschema_file = i18n.merge_file(
 )
 
 gnome.compile_schemas()
-
-if glib_compile_schemas.found()
-    test(
-        'Validate org.gnome.BreakTimer.gschema.xml',
-        glib_compile_schemas,
-        args: ['--dry-run', join_paths(datadir, 'glib-2.0', 'schemas')]
-    )
-endif

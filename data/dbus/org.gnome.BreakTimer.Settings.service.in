@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=@SETTINGS_APPLICATION_ID@
-Exec=gnome-break-timer-settings

@@ -52,8 +52,8 @@ elif build_profile == 'development'
     endif
 endif
 
-daemon_application_id = application_id
-settings_application_id = application_id + '.Settings'
+daemon_application_id = application_id + '.Daemon'
+settings_application_id = application_id
 
 application_url = 'https://wiki.gnome.org/Apps/BreakTimer'
 daemon_object_path = '/org/gnome/BreakTimer'

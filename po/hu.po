@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 14:24-0800\n"
+"POT-Creation-Date: 2020-11-24 14:43-0800\n"
 "PO-Revision-Date: 2014-12-22 08:56+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <gnome-hu-list@gnome.org>\n"
@@ -18,25 +18,25 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 1.2\n"
 
+#: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/applications/org.gnome.BreakTimer.desktop.in.in:4
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
-#: data/autostart/org.gnome.BreakTimer.desktop.in.in:4
+#: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
 #: src/settings/Application.vala:189 src/settings/MainWindow.vala:110
 #: src/settings/MainWindow.vala:265
 msgid "Break Timer"
 msgstr "Szünet ellenőrző"
 
+#: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/applications/org.gnome.BreakTimer.desktop.in.in:5
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
-#: data/autostart/org.gnome.BreakTimer.desktop.in.in:5
+#: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:6
 #: src/settings/Application.vala:192
 #, fuzzy
 msgid "Computer break reminders for GNOME"
 msgstr "Számítógépes szünet emlékeztető az aktív gondolkodáshoz"
 
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
+#: data/applications/org.gnome.BreakTimer.desktop.in.in:6
 msgid "break;micro;rest;timer;"
 msgstr "szünet;kicsi;pihenés;időzítő;"
 

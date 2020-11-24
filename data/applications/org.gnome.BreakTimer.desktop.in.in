@@ -2,8 +2,9 @@
 Type=Application
 Name=Break Timer
 Comment=Computer break reminders for GNOME
+Keywords=break;micro;rest;timer;
+Categories=GNOME;GTK;Utility;Settings;
 Icon=@APPLICATION_ID@
-NoDisplay=true
-Exec=gnome-break-timer-daemon
+Exec=gnome-break-timer-settings
+StartupNotify=true
 DBusActivatable=true
-X-GNOME-UsesNotifications=true
