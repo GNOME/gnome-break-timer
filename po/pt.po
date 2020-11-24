@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-19 18:18-0800\n"
+"POT-Creation-Date: 2020-11-23 16:09-0800\n"
 "PO-Revision-Date: 2015-09-19 08:55+0100\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Português <palbuquerque73@gmail.com>\n"
@@ -23,8 +23,8 @@ msgstr ""
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in:4
 #: data/autostart/org.gnome.BreakTimer.desktop.in:4
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in:5
-#: src/settings/MainWindow.vala:107 src/settings/MainWindow.vala:261
-#: src/settings/MainWindow.vala:273
+#: src/settings/MainWindow.vala:110 src/settings/MainWindow.vala:265
+#: src/settings/MainWindow.vala:277
 msgid "Break Timer"
 msgstr "Temporizador de pausas"
 
@@ -32,7 +32,7 @@ msgstr "Temporizador de pausas"
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in:5
 #: data/autostart/org.gnome.BreakTimer.desktop.in:5
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in:6
-#: src/settings/MainWindow.vala:276
+#: src/settings/MainWindow.vala:280
 #, fuzzy
 msgid "Computer break reminders for GNOME"
 msgstr "Lembrete para mentes ativas descansarem afastando-se do computador"
@@ -122,249 +122,245 @@ msgstr ""
 msgid "Check on their status at any time"
 msgstr ""
 
-#: src/common/NaturalTime.vala:43
+#: src/common/NaturalTime.vala:46
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "%d segundo"
 msgstr[1] "%d segundos"
 
-#: src/common/NaturalTime.vala:46
+#: src/common/NaturalTime.vala:49
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d minuto"
 msgstr[1] "%d minutos"
 
-#: src/common/NaturalTime.vala:49
+#: src/common/NaturalTime.vala:52
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] "%d hora"
 msgstr[1] "%d horas"
 
-#: src/daemon/Application.vala:24
+#: src/daemon/Application.vala:27
 msgid "GNOME Break Timer"
 msgstr "Temporizador de pausas do GNOME"
 
-#: src/daemon/Application.vala:122
+#: src/daemon/Application.vala:125
 msgid "Saving state"
 msgstr ""
 
 #. Label for a notification action that shows information about the current break
-#: src/daemon/break/BreakView.vala:76
+#: src/daemon/break/BreakView.vala:91
 msgid "What should I do?"
 msgstr "O que devo fazer?"
 
 #. Label for a notification action that will skip the current microbreak
-#: src/daemon/microbreak/MicroBreakView.vala:47
+#: src/daemon/microbreak/MicroBreakView.vala:52
 msgid "Skip this one"
 msgstr "Ignorar esta"
 
-#: src/daemon/microbreak/MicroBreakView.vala:54
+#: src/daemon/microbreak/MicroBreakView.vala:59
 msgid "It’s time for a micro break"
 msgstr "É hora de uma pausa curta"
 
-#: src/daemon/microbreak/MicroBreakView.vala:55
+#: src/daemon/microbreak/MicroBreakView.vala:60
 msgid "Take a break from typing and look away from the screen"
 msgstr "Faça uma pausa: pare de escrever e desvie o olhar do ecrã"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/microbreak/MicroBreakView.vala:71
+#: src/daemon/microbreak/MicroBreakView.vala:76
 #, c-format
 msgid "You were due to take a micro break %s ago"
 msgid_plural "You were due to take a micro break %s ago"
 msgstr[0] "Deveria ter feito uma pausa curta há %s atrás"
 msgstr[1] "Deveria ter feito uma pausa curta há %s atrás"
 
-#: src/daemon/microbreak/MicroBreakView.vala:77
+#: src/daemon/microbreak/MicroBreakView.vala:82
 msgid "Overdue micro break"
 msgstr "Pausa curta atrasada"
 
-#: src/daemon/microbreak/MicroBreakView.vala:87
-#: src/daemon/restbreak/RestBreakView.vala:119
+#: src/daemon/microbreak/MicroBreakView.vala:92
+#: src/daemon/restbreak/RestBreakView.vala:124
 msgid "Break is over"
 msgstr "A pausa terminou"
 
-#: src/daemon/microbreak/MicroBreakView.vala:88
+#: src/daemon/microbreak/MicroBreakView.vala:93
 msgid "Your micro break has ended"
 msgstr "A sua pausa curta terminou"
 
 #. Label for a notification action that will delay the current break for a few minutes
-#: src/daemon/restbreak/RestBreakView.vala:48
+#: src/daemon/restbreak/RestBreakView.vala:53
 msgid "Remind me later"
 msgstr "Lembre-me mais tarde"
 
 #. FIXME: Should say how long the break is?
-#: src/daemon/restbreak/RestBreakView.vala:62
+#: src/daemon/restbreak/RestBreakView.vala:67
 msgid "Time for a break"
 msgstr "Hora de um descanso"
 
-#: src/daemon/restbreak/RestBreakView.vala:63
+#: src/daemon/restbreak/RestBreakView.vala:68
 msgid ""
 "It’s time to take a break. Get away from the computer for a little while!"
 msgstr "É hora de fazer uma pausa. Saia do computador por algum tempo!"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/restbreak/RestBreakView.vala:80
+#: src/daemon/restbreak/RestBreakView.vala:85
 #, c-format
 msgid "There is %s remaining in your break"
 msgid_plural "There are %s remaining in your break"
 msgstr[0] "Resta-lhe %s de pausa"
 msgstr[1] "Restam-lhe %s de pausa"
 
-#: src/daemon/restbreak/RestBreakView.vala:86
+#: src/daemon/restbreak/RestBreakView.vala:91
 msgid "Break interrupted"
 msgstr "Pausa interrompida"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/restbreak/RestBreakView.vala:103
+#: src/daemon/restbreak/RestBreakView.vala:108
 #, c-format
 msgid "You were due to take a break %s ago"
 msgid_plural "You were due to take a break %s ago"
 msgstr[0] "Deveria ter feito uma pausa há %s atrás"
 msgstr[1] "Deveria ter feito uma pausa há %s atrás"
 
-#: src/daemon/restbreak/RestBreakView.vala:109
+#: src/daemon/restbreak/RestBreakView.vala:114
 msgid "Overdue break"
 msgstr "Pausa atrasada"
 
-#: src/daemon/restbreak/RestBreakView.vala:120
+#: src/daemon/restbreak/RestBreakView.vala:125
 msgid "Your break time has ended"
 msgstr "O seu tempo de descanso acabou"
 
-#: src/settings/BreakSettingsDialog.vala:38
+#: src/settings/BreakSettingsDialog.vala:41
 msgid "Choose Your Break Schedule"
 msgstr "Escolha o seu horário de pausas"
 
-#: src/settings/BreakSettingsDialog.vala:43
-msgid "_Close"
-msgstr "_Fechar"
-
-#: src/settings/BreakSettingsDialog.vala:60
+#: src/settings/BreakSettingsDialog.vala:63
 msgid "A mix of short breaks and long breaks"
 msgstr "Uma mistura de pausas curtas e longas"
 
-#: src/settings/BreakSettingsDialog.vala:64
+#: src/settings/BreakSettingsDialog.vala:67
 msgid "Occasional long breaks"
 msgstr "Pausas longas ocasionais"
 
-#: src/settings/BreakSettingsDialog.vala:68
+#: src/settings/BreakSettingsDialog.vala:71
 msgid "Frequent short breaks"
 msgstr "Pausas curtas frequentes"
 
 #. Label for a button that opens GNOME Settings to change permissions
-#: src/settings/MainWindow.vala:69
+#: src/settings/MainWindow.vala:72
 msgid "Open Settings"
 msgstr ""
 
-#: src/settings/MainWindow.vala:72
+#: src/settings/MainWindow.vala:75
 msgid ""
 "Break Timer needs permission to start automatically and run in the background"
 msgstr ""
 
-#: src/settings/MainWindow.vala:118
+#: src/settings/MainWindow.vala:121
 msgid "About"
 msgstr "Sobre"
 
-#: src/settings/MainWindow.vala:119
+#: src/settings/MainWindow.vala:122
 msgid "Quit"
 msgstr "Sair"
 
-#: src/settings/MainWindow.vala:255
+#: src/settings/MainWindow.vala:259
 msgid "Welcome Tour"
 msgstr "Roteiro de boas-vindas"
 
-#: src/settings/MainWindow.vala:278
+#: src/settings/MainWindow.vala:282
 #, fuzzy
 msgid "Break Timer Website"
 msgstr "Página web do Temporizador de pausas do GNOME"
 
-#: src/settings/MainWindow.vala:282
+#: src/settings/MainWindow.vala:286
 msgid "translator-credits"
 msgstr ""
 "Tiago Santos, 2014.\n"
 "Pedro Albuquerque <palbuquerque73@gmail.com, 2015."
 
-#: src/settings/microbreak/MicroBreakInfoWidget.vala:29
-#: src/settings/microbreak/MicroBreakSettingsWidget.vala:26
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:32
+#: src/settings/microbreak/MicroBreakSettingsWidget.vala:29
 msgid "Microbreak"
 msgstr "Pausa curta"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/settings/microbreak/MicroBreakInfoWidget.vala:48
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:52
 #, c-format
 msgid "Take a break from typing and look away from the screen for %s."
 msgid_plural "Take a break from typing and look away from the screen for %s."
 msgstr[0] "Pare de escrever e desvie o olhar do ecrã por %s."
 msgstr[1] "Pare de escrever e desvie o olhar do ecrã por %s."
 
-#: src/settings/microbreak/MicroBreakInfoWidget.vala:53
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:57
 msgid "It’s microbreak time"
 msgstr "É hora de uma pausa curta"
 
-#: src/settings/microbreak/MicroBreakInfoWidget.vala:55
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:59
 msgid "I'll chime when it’s time to use the computer again."
 msgstr "Avisá-lo-ei quando for a hora de usar o computador novamente."
 
-#: src/settings/microbreak/MicroBreakSettingsWidget.vala:27
+#: src/settings/microbreak/MicroBreakSettingsWidget.vala:30
 msgid "Pause frequently to relax your eyes"
 msgstr "Pause frequentemente para relaxar os seus olhos"
 
 #. Label that explains a countdown timer, which shows a string such as "5 minutes"
-#: src/settings/microbreak/MicroBreakStatusWidget.vala:27
+#: src/settings/microbreak/MicroBreakStatusWidget.vala:30
 msgid "Your next microbreak is in"
 msgstr "A sua próxima pausa curta é em"
 
-#: src/settings/microbreak/MicroBreakStatusWidget.vala:28
+#: src/settings/microbreak/MicroBreakStatusWidget.vala:31
 msgid "It's time for a microbreak"
 msgstr "É hora de uma pausa curta"
 
-#: src/settings/panels/WelcomePanel.vala:68
+#: src/settings/panels/WelcomePanel.vala:71
 msgid "OK, got it!"
 msgstr "Já percebi!"
 
-#: src/settings/panels/WelcomePanel.vala:74
+#: src/settings/panels/WelcomePanel.vala:77
 msgid "Ready to go"
 msgstr "Pronto para começar"
 
-#: src/settings/restbreak/RestBreakInfoWidget.vala:29
+#: src/settings/restbreak/RestBreakInfoWidget.vala:32
 msgid "Break"
 msgstr "Pausa"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/settings/restbreak/RestBreakInfoWidget.vala:49
+#: src/settings/restbreak/RestBreakInfoWidget.vala:52
 #, c-format
 msgid "Your break has %s remaining. I’ll remind you when it’s over."
 msgid_plural "Your break has %s remaining. I’ll remind you when it’s over."
 msgstr[0] "Resta-lhe %s de pausa. Vou lembrar-lhe quando terminar."
 msgstr[1] "Restam-lhe %s de pausa. Vou lembrar-lhe quando terminar."
 
-#: src/settings/restbreak/RestBreakInfoWidget.vala:54
+#: src/settings/restbreak/RestBreakInfoWidget.vala:57
 msgid "It’s break time"
 msgstr "É tempo de uma pausa"
 
-#: src/settings/restbreak/RestBreakInfoWidget.vala:55
+#: src/settings/restbreak/RestBreakInfoWidget.vala:58
 msgid "Take some time away from the computer. Stretch and move around."
 msgstr ""
 "Afaste-se do computador por algum tempo. Espreguice-se e ande um pouco."
 
 #. Label that explains a countdown timer, which shows a string such as "30 minutes"
-#: src/settings/restbreak/RestBreakStatusWidget.vala:27
+#: src/settings/restbreak/RestBreakStatusWidget.vala:30
 msgid "Your next full break is in"
 msgstr "A sua próxima pausa completa é em"
 
-#: src/settings/restbreak/RestBreakStatusWidget.vala:28
+#: src/settings/restbreak/RestBreakStatusWidget.vala:31
 msgid "It's break time"
 msgstr "É hora de uma pausa"
 
 #. Label for the widget to choose how frequently a break occurs. (Choices such as "6 minutes" or "45 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:34
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:37
 msgid "Every"
 msgstr "A cada"
 
 #. Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:43
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:46
 msgid "For"
 msgstr "Por"
 
@@ -437,6 +433,9 @@ msgstr "Pausas são boas para si. Esta aplicação ajuda-o a fazê-las."
 #: ui/settings-panels.ui:378
 msgid "Just switch me on to get started"
 msgstr "Para começar, basta iniciá-la"
+
+#~ msgid "_Close"
+#~ msgstr "_Fechar"
 
 #~ msgid "Remember to take regular breaks from using the computer"
 #~ msgstr "Lembre-se de fazer pausas regulares quando utilizar o computador"

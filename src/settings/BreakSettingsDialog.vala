@@ -39,11 +39,11 @@ public class BreakSettingsDialog : Gtk.Dialog {
         GLib.Settings settings = new GLib.Settings ("org.gnome.BreakTimer");
 
         this.set_title (_("Choose Your Break Schedule"));
+        this.set_deletable (true);
         this.set_resizable (false);
 
         this.delete_event.connect (this.hide_on_delete);
 
-        this.add_button (_("_Close"), Gtk.ResponseType.CLOSE);
         this.response.connect (this.response_cb);
 
         Gtk.Container content_area = (Gtk.Container)this.get_content_area ();

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-19 18:18-0800\n"
+"POT-Creation-Date: 2020-11-23 16:09-0800\n"
 "PO-Revision-Date: 2015-10-05 22:02+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
@@ -24,8 +24,8 @@ msgstr ""
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in:4
 #: data/autostart/org.gnome.BreakTimer.desktop.in:4
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in:5
-#: src/settings/MainWindow.vala:107 src/settings/MainWindow.vala:261
-#: src/settings/MainWindow.vala:273
+#: src/settings/MainWindow.vala:110 src/settings/MainWindow.vala:265
+#: src/settings/MainWindow.vala:277
 msgid "Break Timer"
 msgstr "Pertraukų laikmatis"
 
@@ -33,7 +33,7 @@ msgstr "Pertraukų laikmatis"
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in:5
 #: data/autostart/org.gnome.BreakTimer.desktop.in:5
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in:6
-#: src/settings/MainWindow.vala:276
+#: src/settings/MainWindow.vala:280
 #, fuzzy
 msgid "Computer break reminders for GNOME"
 msgstr "Kompiuterinių pertraukų priminimai aktyviems protams"
@@ -122,7 +122,7 @@ msgstr ""
 msgid "Check on their status at any time"
 msgstr ""
 
-#: src/common/NaturalTime.vala:43
+#: src/common/NaturalTime.vala:46
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
@@ -130,7 +130,7 @@ msgstr[0] "%d sekundė"
 msgstr[1] "%d sekundės"
 msgstr[2] "%d sekundžių"
 
-#: src/common/NaturalTime.vala:46
+#: src/common/NaturalTime.vala:49
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
@@ -138,7 +138,7 @@ msgstr[0] "%d minutė"
 msgstr[1] "%d minutės"
 msgstr[2] "%d minučių"
 
-#: src/common/NaturalTime.vala:49
+#: src/common/NaturalTime.vala:52
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -146,34 +146,34 @@ msgstr[0] "%d valanda"
 msgstr[1] "%d valandos"
 msgstr[2] "%d valandų"
 
-#: src/daemon/Application.vala:24
+#: src/daemon/Application.vala:27
 msgid "GNOME Break Timer"
 msgstr "GNOME pertraukų laikmatis"
 
-#: src/daemon/Application.vala:122
+#: src/daemon/Application.vala:125
 msgid "Saving state"
 msgstr ""
 
 #. Label for a notification action that shows information about the current break
-#: src/daemon/break/BreakView.vala:76
+#: src/daemon/break/BreakView.vala:91
 msgid "What should I do?"
 msgstr "Ką turėčiau daryti?"
 
 #. Label for a notification action that will skip the current microbreak
-#: src/daemon/microbreak/MicroBreakView.vala:47
+#: src/daemon/microbreak/MicroBreakView.vala:52
 msgid "Skip this one"
 msgstr "Praleisti"
 
-#: src/daemon/microbreak/MicroBreakView.vala:54
+#: src/daemon/microbreak/MicroBreakView.vala:59
 msgid "It’s time for a micro break"
 msgstr "Laikas mikropertraukai"
 
-#: src/daemon/microbreak/MicroBreakView.vala:55
+#: src/daemon/microbreak/MicroBreakView.vala:60
 msgid "Take a break from typing and look away from the screen"
 msgstr "Pailsėkite nuo rašymo klaviatūra ir nusigręžkite nuo ekrano"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/microbreak/MicroBreakView.vala:71
+#: src/daemon/microbreak/MicroBreakView.vala:76
 #, c-format
 msgid "You were due to take a micro break %s ago"
 msgid_plural "You were due to take a micro break %s ago"
@@ -181,36 +181,36 @@ msgstr[0] "Nuo to laiko, kai turėjote padaryti mikropertrauką, praėjo %s"
 msgstr[1] "Nuo to laiko, kai turėjote padaryti mikropertrauką, praėjo %s"
 msgstr[2] "Nuo to laiko, kai turėjote padaryti mikropertrauką, praėjo %s"
 
-#: src/daemon/microbreak/MicroBreakView.vala:77
+#: src/daemon/microbreak/MicroBreakView.vala:82
 msgid "Overdue micro break"
 msgstr "Pavėluota mikropertrauka"
 
-#: src/daemon/microbreak/MicroBreakView.vala:87
-#: src/daemon/restbreak/RestBreakView.vala:119
+#: src/daemon/microbreak/MicroBreakView.vala:92
+#: src/daemon/restbreak/RestBreakView.vala:124
 msgid "Break is over"
 msgstr "Pertrauka baigta"
 
-#: src/daemon/microbreak/MicroBreakView.vala:88
+#: src/daemon/microbreak/MicroBreakView.vala:93
 msgid "Your micro break has ended"
 msgstr "Jūsų mikropertrauka pasibaigė"
 
 #. Label for a notification action that will delay the current break for a few minutes
-#: src/daemon/restbreak/RestBreakView.vala:48
+#: src/daemon/restbreak/RestBreakView.vala:53
 msgid "Remind me later"
 msgstr "Priminti vėliau"
 
 #. FIXME: Should say how long the break is?
-#: src/daemon/restbreak/RestBreakView.vala:62
+#: src/daemon/restbreak/RestBreakView.vala:67
 msgid "Time for a break"
 msgstr "Laikas pertraukai"
 
-#: src/daemon/restbreak/RestBreakView.vala:63
+#: src/daemon/restbreak/RestBreakView.vala:68
 msgid ""
 "It’s time to take a break. Get away from the computer for a little while!"
 msgstr "Laikas padaryti pertrauką. Trumpam atsitraukite nuo kompiuterio!"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/restbreak/RestBreakView.vala:80
+#: src/daemon/restbreak/RestBreakView.vala:85
 #, c-format
 msgid "There is %s remaining in your break"
 msgid_plural "There are %s remaining in your break"
@@ -218,12 +218,12 @@ msgstr[0] "Jūsų pertraukai liko %s"
 msgstr[1] "Jūsų pertraukai liko %s"
 msgstr[2] "Jūsų pertraukai liko %s"
 
-#: src/daemon/restbreak/RestBreakView.vala:86
+#: src/daemon/restbreak/RestBreakView.vala:91
 msgid "Break interrupted"
 msgstr "Pertrauka nutraukta"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/restbreak/RestBreakView.vala:103
+#: src/daemon/restbreak/RestBreakView.vala:108
 #, c-format
 msgid "You were due to take a break %s ago"
 msgid_plural "You were due to take a break %s ago"
@@ -231,74 +231,70 @@ msgstr[0] "Nuo to laiko, kai turėjote padaryti pertrauką, praėjo %s"
 msgstr[1] "Nuo to laiko, kai turėjote padaryti pertrauką, praėjo %s"
 msgstr[2] "Nuo to laiko, kai turėjote padaryti pertrauką, praėjo %s"
 
-#: src/daemon/restbreak/RestBreakView.vala:109
+#: src/daemon/restbreak/RestBreakView.vala:114
 msgid "Overdue break"
 msgstr "Pavėluota pertrauka"
 
-#: src/daemon/restbreak/RestBreakView.vala:120
+#: src/daemon/restbreak/RestBreakView.vala:125
 msgid "Your break time has ended"
 msgstr "Jūsų pertraukos laikas pasibaigė"
 
-#: src/settings/BreakSettingsDialog.vala:38
+#: src/settings/BreakSettingsDialog.vala:41
 msgid "Choose Your Break Schedule"
 msgstr "Pasirinkite pertraukų tvarkaraštį"
 
-#: src/settings/BreakSettingsDialog.vala:43
-msgid "_Close"
-msgstr "_Užverti"
-
-#: src/settings/BreakSettingsDialog.vala:60
+#: src/settings/BreakSettingsDialog.vala:63
 msgid "A mix of short breaks and long breaks"
 msgstr "Trumpų ir ilgų pertraukų mišinys"
 
-#: src/settings/BreakSettingsDialog.vala:64
+#: src/settings/BreakSettingsDialog.vala:67
 msgid "Occasional long breaks"
 msgstr "Retos ilgos pertraukos"
 
-#: src/settings/BreakSettingsDialog.vala:68
+#: src/settings/BreakSettingsDialog.vala:71
 msgid "Frequent short breaks"
 msgstr "Dažnos trumpos pertraukos"
 
 #. Label for a button that opens GNOME Settings to change permissions
-#: src/settings/MainWindow.vala:69
+#: src/settings/MainWindow.vala:72
 msgid "Open Settings"
 msgstr ""
 
-#: src/settings/MainWindow.vala:72
+#: src/settings/MainWindow.vala:75
 msgid ""
 "Break Timer needs permission to start automatically and run in the background"
 msgstr ""
 
-#: src/settings/MainWindow.vala:118
+#: src/settings/MainWindow.vala:121
 msgid "About"
 msgstr "Apie"
 
-#: src/settings/MainWindow.vala:119
+#: src/settings/MainWindow.vala:122
 msgid "Quit"
 msgstr "Išeiti"
 
-#: src/settings/MainWindow.vala:255
+#: src/settings/MainWindow.vala:259
 msgid "Welcome Tour"
 msgstr "Pristatymo Turas"
 
-#: src/settings/MainWindow.vala:278
+#: src/settings/MainWindow.vala:282
 #, fuzzy
 msgid "Break Timer Website"
 msgstr "GNOME pertraukų laikmačio svetainė"
 
-#: src/settings/MainWindow.vala:282
+#: src/settings/MainWindow.vala:286
 msgid "translator-credits"
 msgstr ""
 "Išvertė:\n"
 "Moo"
 
-#: src/settings/microbreak/MicroBreakInfoWidget.vala:29
-#: src/settings/microbreak/MicroBreakSettingsWidget.vala:26
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:32
+#: src/settings/microbreak/MicroBreakSettingsWidget.vala:29
 msgid "Microbreak"
 msgstr "Mikropertrauka"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/settings/microbreak/MicroBreakInfoWidget.vala:48
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:52
 #, c-format
 msgid "Take a break from typing and look away from the screen for %s."
 msgid_plural "Take a break from typing and look away from the screen for %s."
@@ -312,41 +308,41 @@ msgstr[2] ""
 "Pailsėkite nuo teksto rinkimo ir nusigręžkite nuo kompiuterio, kol nepraeis "
 "%s."
 
-#: src/settings/microbreak/MicroBreakInfoWidget.vala:53
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:57
 msgid "It’s microbreak time"
 msgstr "Mikropertraukos laikas"
 
-#: src/settings/microbreak/MicroBreakInfoWidget.vala:55
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:59
 msgid "I'll chime when it’s time to use the computer again."
 msgstr "Aš suskambėsiu, kai ateis laikas vėl naudotis kompiuteriu."
 
-#: src/settings/microbreak/MicroBreakSettingsWidget.vala:27
+#: src/settings/microbreak/MicroBreakSettingsWidget.vala:30
 msgid "Pause frequently to relax your eyes"
 msgstr "Dažnai stabtelėkite, kad leistumėte akims atsipalaiduoti"
 
 #. Label that explains a countdown timer, which shows a string such as "5 minutes"
-#: src/settings/microbreak/MicroBreakStatusWidget.vala:27
+#: src/settings/microbreak/MicroBreakStatusWidget.vala:30
 msgid "Your next microbreak is in"
 msgstr "Iki jūsų kitos mikropertraukos liko"
 
-#: src/settings/microbreak/MicroBreakStatusWidget.vala:28
+#: src/settings/microbreak/MicroBreakStatusWidget.vala:31
 msgid "It's time for a microbreak"
 msgstr "Laikas mikropertraukai"
 
-#: src/settings/panels/WelcomePanel.vala:68
+#: src/settings/panels/WelcomePanel.vala:71
 msgid "OK, got it!"
 msgstr "Gerai, supratau!"
 
-#: src/settings/panels/WelcomePanel.vala:74
+#: src/settings/panels/WelcomePanel.vala:77
 msgid "Ready to go"
 msgstr "Galime pradėti"
 
-#: src/settings/restbreak/RestBreakInfoWidget.vala:29
+#: src/settings/restbreak/RestBreakInfoWidget.vala:32
 msgid "Break"
 msgstr "Pertrauka"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/settings/restbreak/RestBreakInfoWidget.vala:49
+#: src/settings/restbreak/RestBreakInfoWidget.vala:52
 #, c-format
 msgid "Your break has %s remaining. I’ll remind you when it’s over."
 msgid_plural "Your break has %s remaining. I’ll remind you when it’s over."
@@ -354,30 +350,30 @@ msgstr[0] "Jūsų pertraukai liko %s. Aš priminsiu, kai ji pasibaigs."
 msgstr[1] "Jūsų pertraukai liko %s. Aš priminsiu, kai ji pasibaigs."
 msgstr[2] "Jūsų pertraukai liko %s. Aš priminsiu, kai ji pasibaigs."
 
-#: src/settings/restbreak/RestBreakInfoWidget.vala:54
+#: src/settings/restbreak/RestBreakInfoWidget.vala:57
 msgid "It’s break time"
 msgstr "Pertraukos laikas"
 
-#: src/settings/restbreak/RestBreakInfoWidget.vala:55
+#: src/settings/restbreak/RestBreakInfoWidget.vala:58
 msgid "Take some time away from the computer. Stretch and move around."
 msgstr "Skirkite laiko poilsiui nuo kompiuterio. Išsitieskite ir pajudėkite."
 
 #. Label that explains a countdown timer, which shows a string such as "30 minutes"
-#: src/settings/restbreak/RestBreakStatusWidget.vala:27
+#: src/settings/restbreak/RestBreakStatusWidget.vala:30
 msgid "Your next full break is in"
 msgstr "Iki jūsų kitos pilnos pertraukos liko"
 
-#: src/settings/restbreak/RestBreakStatusWidget.vala:28
+#: src/settings/restbreak/RestBreakStatusWidget.vala:31
 msgid "It's break time"
 msgstr "Pertraukos laikas"
 
 #. Label for the widget to choose how frequently a break occurs. (Choices such as "6 minutes" or "45 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:34
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:37
 msgid "Every"
 msgstr "Kas"
 
 #. Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:43
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:46
 msgid "For"
 msgstr "Trukmė"
 
@@ -450,6 +446,9 @@ msgstr "Pertraukos yra jums naudingos. Mes jums padėsime jas daryti."
 #: ui/settings-panels.ui:378
 msgid "Just switch me on to get started"
 msgstr "Tiesiog įjunkite mane, kad pradėtumėte"
+
+#~ msgid "_Close"
+#~ msgstr "_Užverti"
 
 #~ msgid "Remember to take regular breaks from using the computer"
 #~ msgstr "Prisiminkite darytis reguliarias naudojimosi kompiuteriu pertraukas"
