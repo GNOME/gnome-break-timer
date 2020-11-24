@@ -70,8 +70,9 @@ public abstract class BreakView : UIFragment {
      * @see show_break_notification
      * @see hide_notification
      */
-    protected Notify.Notification build_common_notification (string summary, string? body, string? icon) {
+    protected Notify.Notification build_common_notification (string summary, string? body) {
         Notify.Notification notification;
+        const string icon = Config.APPLICATION_ID;
         if (this.notification != null) {
             notification = this.notification;
             notification.clear_actions ();
@@ -105,7 +106,7 @@ public abstract class BreakView : UIFragment {
     }
 
     protected void show_break_info () {
-        GLib.AppInfo settings_app_info = new GLib.DesktopAppInfo (Config.SETTINGS_DESKTOP_FILE_ID);
+        GLib.AppInfo settings_app_info = new GLib.DesktopAppInfo (Config.SETTINGS_APPLICATION_ID + ".desktop");
         GLib.AppLaunchContext app_launch_context = new GLib.AppLaunchContext ();
         try {
             settings_app_info.launch (null, app_launch_context);

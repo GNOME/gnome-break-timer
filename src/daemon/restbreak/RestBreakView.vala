@@ -65,8 +65,7 @@ public class RestBreakView : TimerBreakView {
         // FIXME: Should say how long the break is?
         var notification = this.build_common_notification (
             _("Time for a break"),
-            _("It’s time to take a break. Get away from the computer for a little while!"),
-            "alarm-symbolic"
+            _("It’s time to take a break. Get away from the computer for a little while!")
         );
         notification.set_urgency (Notify.Urgency.NORMAL);
         notification.set_hint ("sound-name", "message");
@@ -89,8 +88,7 @@ public class RestBreakView : TimerBreakView {
 
         var notification = this.build_common_notification (
             _("Break interrupted"),
-            body_text,
-            "alarm-symbolic"
+            body_text
         );
         notification.set_urgency (Notify.Urgency.NORMAL);
         this.show_break_notification (notification, false);
@@ -112,8 +110,7 @@ public class RestBreakView : TimerBreakView {
 
         var notification = this.build_common_notification (
             _("Overdue break"),
-            body_text,
-            "alarm-symbolic"
+            body_text
         );
         notification.set_urgency (Notify.Urgency.NORMAL);
         this.show_break_notification (notification, false);
@@ -122,8 +119,7 @@ public class RestBreakView : TimerBreakView {
     private void show_finished_notification () {
         var notification = this.build_common_notification (
             _("Break is over"),
-            _("Your break time has ended"),
-            "alarm-symbolic"
+            _("Your break time has ended")
         );
         notification.set_urgency (Notify.Urgency.NORMAL);
         this.show_lock_notification (notification);

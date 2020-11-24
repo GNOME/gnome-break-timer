@@ -57,8 +57,7 @@ public class MicroBreakView : TimerBreakView {
     private void show_start_notification () {
         var notification = this.build_common_notification (
             _("It’s time for a micro break"),
-            _("Take a break from typing and look away from the screen"),
-            "alarm-symbolic"
+            _("Take a break from typing and look away from the screen")
         );
         notification.set_urgency (Notify.Urgency.NORMAL);
         notification.set_hint ("sound-name", "message");
@@ -80,8 +79,7 @@ public class MicroBreakView : TimerBreakView {
 
         var notification = this.build_common_notification (
             _("Overdue micro break"),
-            body_text,
-            "alarm-symbolic"
+            body_text
         );
         notification.set_urgency (Notify.Urgency.NORMAL);
         this.show_break_notification (notification);
@@ -90,8 +88,7 @@ public class MicroBreakView : TimerBreakView {
     private void show_finished_notification () {
         var notification = this.build_common_notification (
             _("Break is over"),
-            _("Your micro break has ended"),
-            "alarm-symbolic"
+            _("Your micro break has ended")
         );
         notification.set_urgency (Notify.Urgency.NORMAL);
         this.show_lock_notification (notification);
