@@ -33,7 +33,6 @@ daemon_lib_dependencies = [
     config_lib_dep,
     gio_dep,
     gio_unix_dep,
-    gnome_desktop_dep,
     gsound_dep,
     gtk_dep,
     json_glib_dep,

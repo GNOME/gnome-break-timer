@@ -24,7 +24,9 @@ using BreakTimer.Daemon.Util;
 namespace BreakTimer.Daemon.Activity {
 
 public class MutterActivityMonitorBackend : ActivityMonitorBackend, GLib.Initable {
-    private Gnome.IdleMonitor? gnome_idle_monitor;
+    private GLib.DBusConnection dbus_connection;
+
+    private IMutterIdleMonitor? mutter_idle_monitor;
     private uint32 idle_watch_id;
     private uint32 user_active_watch_id;
 
@@ -41,27 +43,66 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend, GLib.Initabl
     }
 
     ~MutterActivityMonitorBackend () {
-        if (this.gnome_idle_monitor != null && this.idle_watch_id > 0) {
-            this.gnome_idle_monitor.remove_watch (this.idle_watch_id);
+        if (this.mutter_idle_monitor != null && this.idle_watch_id > 0) {
+            this.mutter_idle_monitor.remove_watch (this.idle_watch_id);
         }
     }
 
-    public override bool init (GLib.Cancellable? cancellable) throws GLib.Error {
-        this.gnome_idle_monitor = new Gnome.IdleMonitor ();
-        this.gnome_idle_monitor.init (cancellable);
-        this.idle_watch_id = this.gnome_idle_monitor.add_idle_watch (
-            IDLE_WATCH_INTERVAL_MS, this.idle_watch_cb
+    public override bool init (GLib.Cancellable? cancellable) throws GLib.Error {        this.dbus_connection = GLib.Bus.get_sync (GLib.BusType.SESSION, cancellable);
+        GLib.Bus.watch_name_on_connection (
+            this.dbus_connection,
+            "org.gnome.Mutter.IdleMonitor",
+            GLib.BusNameWatcherFlags.NONE,
+            this.mutter_idle_monitor_appeared,
+            this.mutter_idle_monitor_disappeared
         );
         return true;
+    }
+
+    private void mutter_idle_monitor_appeared () {
+        try {
+            this.mutter_idle_monitor = GLib.Bus.get_proxy_sync (
+                GLib.BusType.SESSION,
+                "org.gnome.Mutter.IdleMonitor",
+                "/org/gnome/Mutter/IdleMonitor/Core"
+            );
+            this.mutter_idle_monitor.watch_fired.connect (this.mutter_idle_monitor_watch_fired_cb);
+            this.idle_watch_id = this.mutter_idle_monitor.add_idle_watch (IDLE_WATCH_INTERVAL_MS);
+            this.update_idle_time ();
+        } catch (GLib.IOError error) {
+            this.mutter_idle_monitor = null;
+            GLib.warning ("Error connecting to mutter idle monitor service: %s", error.message);
+        } catch (GLib.DBusError error) {
+            this.mutter_idle_monitor = null;
+            GLib.warning ("Error adding mutter idle watch: %s", error.message);
+        }
+    }
+
+    private void mutter_idle_monitor_disappeared () {
+        GLib.warning ("Mutter idle monitor disappeared");
+        this.mutter_idle_monitor = null;
+        this.idle_watch_id = 0;
+    }
+
+    private void mutter_idle_monitor_watch_fired_cb (uint32 id) {
+        if (id == this.idle_watch_id) {
+            this.idle_watch_cb ();
+        } else if (id == this.user_active_watch_id) {
+            this.user_active_watch_cb ();
+        }
     }
 
     private void idle_watch_cb () {
         this.update_idle_time ();
         this.user_is_active = false;
         this.stop_active_idle_poll ();
-        this.user_active_watch_id = this.gnome_idle_monitor.add_user_active_watch (
-            this.user_active_watch_cb
-        );
+        try {
+            this.user_active_watch_id = this.mutter_idle_monitor.add_user_active_watch ();
+        } catch (GLib.IOError error) {
+            GLib.warning ("Error connecting to mutter idle monitor service: %s", error.message);
+        } catch (GLib.DBusError error) {
+            GLib.warning ("Error adding mutter user active watch: %s", error.message);
+        }
     }
 
     private void user_active_watch_cb () {
@@ -97,7 +138,13 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend, GLib.Initabl
     }
 
     private void update_idle_time () {
-        this.last_idle_time_ms = this.gnome_idle_monitor.get_idletime ();
+        try {
+            this.last_idle_time_ms = this.mutter_idle_monitor.get_idletime ();
+        } catch (GLib.IOError error) {
+            GLib.warning ("Error connecting to mutter idle monitor service: %s", error.message);
+        } catch (GLib.DBusError error) {
+            GLib.warning ("Error getting mutter idletime: %s", error.message);
+        }
         this.last_idle_time_update_time_ms = TimeUnit.get_monotonic_time_ms ();
         this.user_is_active = (this.last_idle_time_ms < IDLE_WATCH_INTERVAL_MS);
     }

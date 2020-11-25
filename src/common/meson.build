@@ -3,6 +3,7 @@ common_lib_sources = files(
     'IBreakTimer.vala',
     'IFreedesktopApplication.vala',
     'IGnomeScreenSaver.vala',
+    'IMutterIdleMonitor.vala',
     'IPortalBackground.vala',
     'IPortalRequest.vala',
     'ISessionStatus.vala',
