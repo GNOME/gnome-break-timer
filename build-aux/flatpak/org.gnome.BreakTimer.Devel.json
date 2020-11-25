@@ -21,8 +21,7 @@
         "cflags" : "-O2 -g",
         "cxxflags" : "-O2 -g",
         "env" : {
-            "V" : "1",
-            "LANG" : "fr_FR"
+            "V" : "1"
         }
     },
     "modules" : [
