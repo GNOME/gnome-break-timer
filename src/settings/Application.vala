@@ -48,12 +48,6 @@ public class Application : Gtk.Application {
         ._break-status-icon {
             opacity: 0.2;
         }
-
-        ._circle-counter {
-            /* borrowed from gnome-clocks/data/css/gnome-clocks.css */
-            color: mix(@theme_fg_color, @theme_bg_color, 0.5);
-            background-color: mix(@theme_fg_color, @theme_bg_color, 0.85);
-        }
         """;
 
     private BreakManager break_manager;
