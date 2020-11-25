@@ -1,3 +1,13 @@
+gnome-break-timer 2.0
+=====================
+
+* Support running as a Flatpak application
+* Replace xrecord with MutterIdleMonitor
+* Remove the app menu from the settings dialog
+* Add a new application icon
+* Animate the timer circles in the settings dialog
+* Improve error handling
+
 gnome-break-timer 1.2
 =====================
 
