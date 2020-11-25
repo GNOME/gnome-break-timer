@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 14:43-0800\n"
+"POT-Creation-Date: 2020-11-24 19:16-0800\n"
 "PO-Revision-Date: 2015-10-05 22:02+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.7\n"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
-#: data/applications/org.gnome.BreakTimer.desktop.in.in:4
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
 #: src/settings/Application.vala:189 src/settings/MainWindow.vala:110
@@ -30,7 +30,7 @@ msgid "Break Timer"
 msgstr "Pertraukų laikmatis"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:5
-#: data/applications/org.gnome.BreakTimer.desktop.in.in:5
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:6
 #: src/settings/Application.vala:192
@@ -38,7 +38,7 @@ msgstr "Pertraukų laikmatis"
 msgid "Computer break reminders for GNOME"
 msgstr "Kompiuterinių pertraukų priminimai aktyviems protams"
 
-#: data/applications/org.gnome.BreakTimer.desktop.in.in:6
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
 msgid "break;micro;rest;timer;"
 msgstr "pertrauka;mikro;poilsis;laikmatis;"
 

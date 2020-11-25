@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 14:43-0800\n"
+"POT-Creation-Date: 2020-11-24 19:16-0800\n"
 "PO-Revision-Date: 2015-01-30 08:32+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Launchpad-Export-Date: 2015-02-15 06:20+0000\n"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
-#: data/applications/org.gnome.BreakTimer.desktop.in.in:4
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
 #: src/settings/Application.vala:189 src/settings/MainWindow.vala:110
@@ -30,7 +30,7 @@ msgid "Break Timer"
 msgstr "Mjerač pauze"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:5
-#: data/applications/org.gnome.BreakTimer.desktop.in.in:5
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:6
 #: src/settings/Application.vala:192
@@ -38,7 +38,7 @@ msgstr "Mjerač pauze"
 msgid "Computer break reminders for GNOME"
 msgstr "Kompjterski podsjetnik pauza za aktivne misli"
 
-#: data/applications/org.gnome.BreakTimer.desktop.in.in:6
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
 msgid "break;micro;rest;timer;"
 msgstr "pauza;malo;odmor;mjerač;"
 

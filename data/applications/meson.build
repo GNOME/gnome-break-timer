@@ -4,8 +4,8 @@ desktop_file_validate = find_program('desktop-file-validate', required: false)
 
 settings_desktop_file = i18n.merge_file(
     input: configure_file(
-        input: 'org.gnome.BreakTimer.desktop.in.in',
-        output: 'org.gnome.BreakTimer.desktop.in',
+        input: 'org.gnome.BreakTimer.Settings.desktop.in.in',
+        output: 'org.gnome.BreakTimer.Settings.desktop.in',
         configuration: build_conf,
     ),
     output: settings_application_id + '.desktop',
@@ -17,7 +17,7 @@ settings_desktop_file = i18n.merge_file(
 
 if desktop_file_validate.found()
     test(
-        'Validate org.gnome.BreakTimer.desktop',
+        'Validate org.gnome.BreakTimer.Settings.desktop',
         desktop_file_validate,
         args: [settings_desktop_file]
     )

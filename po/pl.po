@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 14:43-0800\n"
+"POT-Creation-Date: 2020-11-24 19:16-0800\n"
 "PO-Revision-Date: 2016-08-20 13:51+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
-#: data/applications/org.gnome.BreakTimer.desktop.in.in:4
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
 #: src/settings/Application.vala:189 src/settings/MainWindow.vala:110
@@ -30,7 +30,7 @@ msgid "Break Timer"
 msgstr "Menedżer przerw"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:5
-#: data/applications/org.gnome.BreakTimer.desktop.in.in:5
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:6
 #: src/settings/Application.vala:192
@@ -38,7 +38,7 @@ msgstr "Menedżer przerw"
 msgid "Computer break reminders for GNOME"
 msgstr "Przypomnienia o przerwach od komputera dla aktywnych umysłowo"
 
-#: data/applications/org.gnome.BreakTimer.desktop.in.in:6
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
 msgid "break;micro;rest;timer;"
 msgstr ""
 "break;micro;rest;timer;przerwa;odpoczynek;licznik;przypomnienia;zdrowie;"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 14:43-0800\n"
+"POT-Creation-Date: 2020-11-24 19:16-0800\n"
 "PO-Revision-Date: 2014-09-01 18:11+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.6\n"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
-#: data/applications/org.gnome.BreakTimer.desktop.in.in:4
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
 #: src/settings/Application.vala:189 src/settings/MainWindow.vala:110
@@ -29,7 +29,7 @@ msgid "Break Timer"
 msgstr "Descansos"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:5
-#: data/applications/org.gnome.BreakTimer.desktop.in.in:5
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:6
 #: src/settings/Application.vala:192
@@ -37,7 +37,7 @@ msgstr "Descansos"
 msgid "Computer break reminders for GNOME"
 msgstr "Recordatorios de descansos del equipo para mentes activas"
 
-#: data/applications/org.gnome.BreakTimer.desktop.in.in:6
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
 msgid "break;micro;rest;timer;"
 msgstr "micro;descanso;pausa;temporizador;"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 14:43-0800\n"
+"POT-Creation-Date: 2020-11-24 19:16-0800\n"
 "PO-Revision-Date: 2014-10-25 10:56+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Project-Style: gnome\n"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
-#: data/applications/org.gnome.BreakTimer.desktop.in.in:4
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
 #: src/settings/Application.vala:189 src/settings/MainWindow.vala:110
@@ -29,7 +29,7 @@ msgid "Break Timer"
 msgstr "Nadzornik odmora"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:5
-#: data/applications/org.gnome.BreakTimer.desktop.in.in:5
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:6
 #: src/settings/Application.vala:192
@@ -37,7 +37,7 @@ msgstr "Nadzornik odmora"
 msgid "Computer break reminders for GNOME"
 msgstr "Podsetnik na odmor od računara za aktivne umove"
 
-#: data/applications/org.gnome.BreakTimer.desktop.in.in:6
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
 msgid "break;micro;rest;timer;"
 msgstr "prekid;mikro;odmor;odbrojavač;tajmer;"
 

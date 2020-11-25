@@ -1,5 +1,5 @@
 data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in
-data/applications/org.gnome.BreakTimer.desktop.in.in
+data/applications/org.gnome.BreakTimer.Settings.desktop.in.in
 data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in
 data/gschema/org.gnome.BreakTimer.gschema.xml.in.in
 data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in
