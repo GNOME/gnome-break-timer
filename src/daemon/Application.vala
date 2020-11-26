@@ -30,6 +30,9 @@ public class Application : Gtk.Application {
     // Keep running for one minute after the last break is disabled
     private const int ACTIVITY_TIMEOUT_MS = 60 * TimeUnit.MILLISECONDS_IN_SECONDS;
 
+    // Consider saved state valid if it was created in the last 10 seconds
+    private const int SAVE_STATE_INTERVAL = 10 * TimeUnit.MILLISECONDS_IN_SECONDS;
+
     private BreakManager break_manager;
     private SessionStatus session_status;
     private ActivityMonitorBackend activity_monitor_backend;
@@ -37,6 +40,7 @@ public class Application : Gtk.Application {
     private UIManager ui_manager;
 
     private string cache_path;
+    private int64 state_saved_time_ms;
 
     public Application () {
         GLib.Object (
@@ -52,6 +56,7 @@ public class Application : Gtk.Application {
             GLib.Environment.get_user_cache_dir (),
             "gnome-break-timer"
         );
+        this.state_saved_time_ms = 0;
 
         this.query_end.connect (this.on_query_end_cb);
     }
@@ -147,6 +152,14 @@ public class Application : Gtk.Application {
     }
 
     private void save_state () {
+        int64 now = TimeUnit.get_monotonic_time_ms ();
+
+        if (now - this.state_saved_time_ms < SAVE_STATE_INTERVAL) {
+            return;
+        } else {
+            this.state_saved_time_ms = now;
+        }
+
         GLib.File state_file = this.get_state_file ();
 
         Json.Generator generator = new Json.Generator ();
@@ -160,7 +173,7 @@ public class Application : Gtk.Application {
         root_object.set_object_member ("activity_monitor", this.activity_monitor.serialize ());
 
         try {
-            OutputStream state_stream = state_file.replace (null, false, GLib.FileCreateFlags.NONE);
+            GLib.OutputStream state_stream = state_file.replace (null, false, GLib.FileCreateFlags.NONE);
             generator.to_stream (state_stream);
         } catch (GLib.Error e) {
             GLib.warning ("Error writing to state file: %s", e.message);
