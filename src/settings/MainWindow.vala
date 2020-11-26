@@ -147,9 +147,8 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
 
         this.settings_button = new Gtk.Button ();
         settings_button.clicked.connect (this.settings_clicked_cb);
-        // FIXME: This icon is not semantically correct. (Wrong category, especially).
         settings_button.set_image (new Gtk.Image.from_icon_name (
-            "preferences-system-symbolic",
+            "alarm-symbolic",
             Gtk.IconSize.MENU)
         );
         settings_button.valign = Gtk.Align.CENTER;
