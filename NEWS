@@ -1,7 +1,7 @@
 gnome-break-timer 2.0.2
 =======================
 
-* Fix circle counter colours with themes other than Adwaita
+* Fix timer circle colours with themes other than Adwaita
 * Change Flatpak manifest to use socket=fallback-x11
 
 gnome-break-timer 2.0.1
