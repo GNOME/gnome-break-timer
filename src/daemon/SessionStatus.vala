@@ -27,14 +27,9 @@ namespace BreakTimer.Daemon {
  * case we are unable to connect.
  */
 public class SessionStatus : GLib.Object, ISessionStatus, GLib.Initable {
-    private Gtk.Application application;
     private GLib.DBusConnection dbus_connection;
     private IGnomeScreenSaver? screensaver;
     private bool screensaver_is_active = false;
-
-    public SessionStatus (Gtk.Application application) {
-        this.application = application;
-    }
 
     public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
         this.dbus_connection = GLib.Bus.get_sync (GLib.BusType.SESSION, cancellable);

@@ -29,8 +29,6 @@ using BreakTimer.Settings.RestBreak;
 namespace BreakTimer.Settings {
 
 public class BreakManager : GLib.Object {
-    private Application application;
-
     private IBreakTimer break_daemon;
 
     private GLib.List<BreakType> breaks;
@@ -58,9 +56,7 @@ public class BreakManager : GLib.Object {
         BACKGROUND_NOT_ALLOWED
     }
 
-    public BreakManager (Application application) {
-        this.application = application;
-
+    public BreakManager () {
         this.settings = new GLib.Settings (Config.APPLICATION_ID);
 
         this.breaks = new GLib.List<BreakType> ();

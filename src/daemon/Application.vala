@@ -80,7 +80,7 @@ public class Application : Gtk.Application {
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         );
 
-        this.session_status = new SessionStatus (this);
+        this.session_status = new SessionStatus ();
         try {
             this.session_status.init (null);
         } catch (GLib.Error error) {

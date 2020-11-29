@@ -102,7 +102,7 @@ public class Application : Gtk.Application {
 
         this.set_accels_for_action ("app.quit", {"<Primary>q"});
 
-        this.break_manager = new BreakManager (this);
+        this.break_manager = new BreakManager ();
         try {
             this.break_manager.init (null);
         } catch (GLib.Error error) {
