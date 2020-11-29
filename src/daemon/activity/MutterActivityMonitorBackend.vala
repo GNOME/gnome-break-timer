@@ -48,7 +48,8 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend, GLib.Initabl
         }
     }
 
-    public override bool init (GLib.Cancellable? cancellable) throws GLib.Error {        this.dbus_connection = GLib.Bus.get_sync (GLib.BusType.SESSION, cancellable);
+    public override bool init (GLib.Cancellable? cancellable) throws GLib.Error {
+        this.dbus_connection = GLib.Bus.get_sync (GLib.BusType.SESSION, cancellable);
         GLib.Bus.watch_name_on_connection (
             this.dbus_connection,
             "org.gnome.Mutter.IdleMonitor",
@@ -68,7 +69,7 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend, GLib.Initabl
             );
             this.mutter_idle_monitor.watch_fired.connect (this.mutter_idle_monitor_watch_fired_cb);
             this.idle_watch_id = this.mutter_idle_monitor.add_idle_watch (IDLE_WATCH_INTERVAL_MS);
-            this.update_idle_time ();
+            this.set_user_is_active (false);
         } catch (GLib.IOError error) {
             this.mutter_idle_monitor = null;
             GLib.warning ("Error connecting to mutter idle monitor service: %s", error.message);
@@ -92,25 +93,6 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend, GLib.Initabl
         }
     }
 
-    private void idle_watch_cb () {
-        this.update_idle_time ();
-        this.user_is_active = false;
-        this.stop_active_idle_poll ();
-        try {
-            this.user_active_watch_id = this.mutter_idle_monitor.add_user_active_watch ();
-        } catch (GLib.IOError error) {
-            GLib.warning ("Error connecting to mutter idle monitor service: %s", error.message);
-        } catch (GLib.DBusError error) {
-            GLib.warning ("Error adding mutter user active watch: %s", error.message);
-        }
-    }
-
-    private void user_active_watch_cb () {
-        this.user_active_watch_id = 0;
-        this.update_idle_time ();
-        this.start_active_idle_poll ();
-    }
-
     private void start_active_idle_poll () {
         // In some cases, such as applications triggering fake events to
         // suppress the screensaver, the active watch fires but idle time
@@ -132,21 +114,48 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend, GLib.Initabl
         }
     }
 
+    private void idle_watch_cb () {
+        this.poll_activity ();
+        this.set_user_is_active (false);
+        this.stop_active_idle_poll ();
+    }
+
+    private void user_active_watch_cb () {
+        this.user_active_watch_id = 0;
+        this.poll_activity ();
+        this.set_user_is_active (true);
+    }
+
     private bool active_idle_poll_cb () {
-        this.update_idle_time ();
+        this.poll_activity ();
+        this.set_user_is_active (this.last_idle_time_ms < IDLE_WATCH_INTERVAL_MS);
         return GLib.Source.CONTINUE;
     }
 
-    private void update_idle_time () {
+    private void poll_activity () {
         try {
             this.last_idle_time_ms = this.mutter_idle_monitor.get_idletime ();
+            this.last_idle_time_update_time_ms = TimeUnit.get_monotonic_time_ms ();
         } catch (GLib.IOError error) {
             GLib.warning ("Error connecting to mutter idle monitor service: %s", error.message);
         } catch (GLib.DBusError error) {
             GLib.warning ("Error getting mutter idletime: %s", error.message);
         }
-        this.last_idle_time_update_time_ms = TimeUnit.get_monotonic_time_ms ();
-        this.user_is_active = (this.last_idle_time_ms < IDLE_WATCH_INTERVAL_MS);
+    }
+
+    private void set_user_is_active (bool active) {
+        if (active) {
+            this.start_active_idle_poll ();
+        } else {
+            try {
+                this.user_active_watch_id = this.mutter_idle_monitor.add_user_active_watch ();
+            } catch (GLib.IOError error) {
+                GLib.warning ("Error connecting to mutter idle monitor service: %s", error.message);
+            } catch (GLib.DBusError error) {
+                GLib.warning ("Error adding mutter user active watch: %s", error.message);
+            }
+        }
+        this.user_is_active = active;
     }
 
     protected override uint64 time_since_last_event_ms () {
@@ -155,8 +164,7 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend, GLib.Initabl
         } else {
             int64 now = TimeUnit.get_monotonic_time_ms ();
             int64 time_since = now - this.last_idle_time_update_time_ms;
-            uint64 idle_time_ms = this.last_idle_time_ms + time_since;
-            return idle_time_ms;
+            return time_since + this.last_idle_time_ms;
         }
     }
 }
