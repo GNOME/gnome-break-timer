@@ -17,3 +17,22 @@ config_lib_dep = declare_dependency(
 subdir('common')
 subdir('settings')
 subdir('daemon')
+
+main_exe_sources = files(
+    'Application.vala',
+    'main.vala'
+)
+
+executable(
+    'gnome-break-timer',
+    sources : [
+        main_exe_sources
+    ],
+    dependencies : [
+        daemon_lib_dep,
+        settings_lib_dep,
+        break_timer_resources_dep
+    ],
+    install: true,
+    install_dir: bindir
+)

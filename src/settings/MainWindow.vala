@@ -100,7 +100,7 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
         }
     }
 
-    public MainWindow (Application application, BreakManager break_manager) {
+    public MainWindow (Gtk.Application application, BreakManager break_manager) {
         GLib.Object (application: application);
 
         this.break_manager = break_manager;

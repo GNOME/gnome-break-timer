@@ -3,7 +3,7 @@ daemon_lib_sources = files(
     'activity/ActivityMonitor.vala',
     'activity/MutterActivityMonitorBackend.vala',
     'activity/UserActivity.vala',
-    'Application.vala',
+    'ApplicationContext.vala',
     'break/BreakController.vala',
     'break/BreakType.vala',
     'break/BreakView.vala',
@@ -55,19 +55,3 @@ daemon_lib_dep = declare_dependency(
     include_directories: include_directories('.')
 )
 
-daemon_exe_sources = files(
-    'main.vala'
-)
-
-executable(
-    'gnome-break-timer-daemon',
-    sources : [
-        daemon_exe_sources
-    ],
-    dependencies : [
-        daemon_lib_dep,
-        break_timer_resources_dep
-    ],
-    install: true,
-    install_dir: bindir
-)

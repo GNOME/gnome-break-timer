@@ -23,12 +23,12 @@ using BreakTimer.Daemon.Activity;
 
 namespace BreakTimer.Daemon {
 
-public class Application : Gtk.Application {
-    const string app_name = _("GNOME Break Timer");
+public class ApplicationContext : GLib.Object {
+    public const string APP_NAME = _("GNOME Break Timer");
+
     const int DATA_VERSION = 0;
 
-    // Keep running for one minute after the last break is disabled
-    private const int ACTIVITY_TIMEOUT_MS = 60 * TimeUnit.MILLISECONDS_IN_SECONDS;
+    private Gtk.Application application;
 
     // Consider saved state valid if it was created in the last 10 seconds
     private const int SAVE_STATE_INTERVAL = 10 * TimeUnit.MILLISECONDS_IN_SECONDS;
@@ -42,15 +42,8 @@ public class Application : Gtk.Application {
     private string cache_path;
     private int64 state_saved_time_ms;
 
-    public Application () {
-        GLib.Object (
-            application_id: Config.DAEMON_APPLICATION_ID,
-            flags: ApplicationFlags.FLAGS_NONE,
-            inactivity_timeout: ACTIVITY_TIMEOUT_MS,
-            register_session: true
-        );
-
-        GLib.Environment.set_application_name (app_name);
+    public ApplicationContext (Gtk.Application application) {
+        this.application = application;
 
         this.cache_path = GLib.Path.build_filename (
             GLib.Environment.get_user_cache_dir (),
@@ -58,27 +51,14 @@ public class Application : Gtk.Application {
         );
         this.state_saved_time_ms = 0;
 
-        this.query_end.connect (this.on_query_end_cb);
+        application.query_end.connect (this.on_query_end_cb);
     }
 
-    public override void activate () {
-        base.activate ();
+    public void activate () {
     }
 
-    public override void startup () {
-        base.startup ();
-
-        Notify.init (app_name);
-
-        /* set up custom gtk style for application */
-        Gdk.Screen screen = Gdk.Screen.get_default ();
-        Gtk.CssProvider style_provider = new Gtk.CssProvider ();
-
-        Gtk.StyleContext.add_provider_for_screen (
-            screen,
-            style_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        );
+    public void startup () {
+        Notify.init (APP_NAME);
 
         this.session_status = new SessionStatus ();
         try {
@@ -101,7 +81,7 @@ public class Application : Gtk.Application {
             GLib.error ("Error initializing activity_monitor: %s", error.message);
         }
 
-        this.ui_manager = new UIManager (this, session_status);
+        this.ui_manager = new UIManager (this.application, session_status);
         try {
             this.ui_manager.init (null);
         } catch (GLib.Error error) {
@@ -120,19 +100,17 @@ public class Application : Gtk.Application {
         this.activity_monitor.start ();
     }
 
-    public override void shutdown () {
-        base.shutdown ();
-
+    public void shutdown () {
         this.save_state ();
     }
 
     public void on_query_end_cb () {
-        uint inhibit_cookie = this.inhibit (null, Gtk.ApplicationInhibitFlags.LOGOUT, _("Saving state"));
+        uint inhibit_cookie = this.application.inhibit (null, Gtk.ApplicationInhibitFlags.LOGOUT, _("Saving state"));
         GLib.Idle.add_full (
             GLib.Priority.HIGH_IDLE,
             () => {
                 this.save_state ();
-                this.uninhibit (inhibit_cookie);
+                this.application.uninhibit (inhibit_cookie);
                 return GLib.Source.REMOVE;
             }
         );

@@ -1,5 +1,5 @@
 settings_lib_sources = files(
-    'Application.vala',
+    'ApplicationContext.vala',
     'break/BreakInfoWidget.vala',
     'break/BreakSettingsWidget.vala',
     'break/BreakStatusWidget.vala',
@@ -55,19 +55,3 @@ settings_lib_dep = declare_dependency(
     include_directories: include_directories('.')
 )
 
-settings_exe_sources = files(
-    'main.vala'
-)
-
-executable(
-    'gnome-break-timer-settings',
-    sources : [
-        settings_exe_sources
-    ],
-    dependencies : [
-        settings_lib_dep,
-        break_timer_resources_dep
-    ],
-    install: true,
-    install_dir: bindir
-)

@@ -20,50 +20,17 @@
 
 namespace BreakTimer.Settings {
 
-public class Application : Gtk.Application {
-    private const string STYLE_DATA =
-        """
-        ._settings-title {
-            font-weight:bold;
-        }
-
-        ._break-info {
-        }
-
-        ._break-info-heading {
-            font-size: xx-large;
-        }
-
-        ._break-status-heading {
-            font-size: larger;
-        }
-
-        ._break-status-body {
-        }
-
-        ._break-status-hint {
-            font-size: small;
-        }
-
-        ._break-status-icon {
-            opacity: 0.2;
-        }
-        """;
-
+public class ApplicationContext : GLib.Object {
+    private Gtk.Application application;
     private BreakManager break_manager;
     private MainWindow main_window;
     private bool initial_focus = true;
 
-    public Application () {
-        GLib.Object (
-            application_id: Config.SETTINGS_APPLICATION_ID,
-            flags: GLib.ApplicationFlags.FLAGS_NONE
-        );
+    public ApplicationContext (Gtk.Application application) {
+        this.application = application;
     }
 
-    public override void activate () {
-        base.activate ();
-
+    public void activate () {
         if (this.break_manager.is_working ()) {
             this.main_window.present ();
         } else {
@@ -73,35 +40,7 @@ public class Application : Gtk.Application {
         }
     }
 
-    public override void startup () {
-        base.startup ();
-
-        /* set up custom gtk style for application */
-        Gdk.Screen screen = Gdk.Screen.get_default ();
-        Gtk.CssProvider style_provider = new Gtk.CssProvider ();
-
-        try {
-            style_provider.load_from_data (STYLE_DATA, -1);
-        } catch (GLib.Error error) {
-            GLib.warning ("Error loading style data: %s", error.message);
-        }
-
-        Gtk.StyleContext.add_provider_for_screen (
-            screen,
-            style_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        );
-
-        GLib.SimpleAction about_action = new GLib.SimpleAction ("about", null);
-        this.add_action (about_action);
-        about_action.activate.connect (this.on_about_activate_cb);
-
-        GLib.SimpleAction quit_action = new GLib.SimpleAction ("quit", null);
-        this.add_action (quit_action);
-        quit_action.activate.connect (this.quit);
-
-        this.set_accels_for_action ("app.quit", {"<Primary>q"});
-
+    public void startup () {
         this.break_manager = new BreakManager ();
         try {
             this.break_manager.init (null);
@@ -109,7 +48,7 @@ public class Application : Gtk.Application {
             GLib.error ("Error initializing break_manager: %s", error.message);
         }
 
-        this.main_window = new MainWindow (this, this.break_manager);
+        this.main_window = new MainWindow (this.application, this.break_manager);
         try {
             this.main_window.init (null);
         } catch (GLib.Error error) {
@@ -121,6 +60,9 @@ public class Application : Gtk.Application {
         }
 
         this.main_window.window_state_event.connect (this.on_main_window_window_state_event);
+    }
+
+    public void shutdown () {
     }
 
     private bool on_main_window_window_state_event (Gdk.EventWindowState event) {
@@ -161,36 +103,6 @@ public class Application : Gtk.Application {
         if (! this.main_window.is_visible ()) {
             this.main_window.present ();
         }
-    }
-
-    private void on_about_activate_cb () {
-        this.show_about_dialog ();
-    }
-
-    private void show_about_dialog () {
-        Gtk.AboutDialog dialog = new Gtk.AboutDialog ();
-        dialog.set_destroy_with_parent (true);
-        dialog.set_transient_for (this.get_active_window ());
-        dialog.set_modal (true);
-
-        dialog.authors = {
-            "Dylan McCall <dylan@dylanmccall.ca>",
-            "Jasper St. Pierre <jstpierre@mecheye.net>"
-        };
-        dialog.artists = {
-            "Allan Day <aday@gnome.org>"
-        };
-        dialog.program_name = _("Break Timer");
-        dialog.logo_icon_name = Config.APPLICATION_ID;
-        dialog.version = Config.PROJECT_VERSION;
-        dialog.comments = _("Computer break reminders for GNOME");
-        dialog.website = Config.APPLICATION_URL;
-        dialog.website_label = _("Break Timer Website");
-        dialog.copyright = _("Copyright © 2011-2020 Break Timer Authors");
-        dialog.license_type = Gtk.License.GPL_3_0;
-        dialog.translator_credits = _("translator-credits");
-
-        dialog.present ();
     }
 }
 
