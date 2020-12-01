@@ -53,7 +53,7 @@ public class BreakManagerDBusObject : GLib.Object, IBreakTimer {
         foreach (unowned string break_id in this.break_manager.all_break_ids ()) {
             break_ids.append_val (break_id);
         }
-        return break_ids.steal ();
+        return break_ids.data;
     }
 
     public string[] get_status_messages () throws GLib.DBusError, GLib.IOError {
@@ -62,7 +62,7 @@ public class BreakManagerDBusObject : GLib.Object, IBreakTimer {
             string status_message = break_type.break_view.get_status_message ();
             messages.append_val ("%s:\t%s".printf (break_type.id, status_message));
         }
-        return messages.steal ();
+        return messages.data;
     }
 
     public void activate_break (string break_name) throws GLib.DBusError, GLib.IOError {
