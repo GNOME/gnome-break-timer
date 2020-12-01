@@ -122,7 +122,8 @@ public class BreakManager : GLib.Object {
             return false;
         }
 
-        string sender_name = this.dbus_connection.unique_name.replace (".", "_")[1:];
+        string sender_name = this.dbus_connection.unique_name.replace (".", "_");
+        sender_name = sender_name[1:sender_name.length];
         string handle_token = "org_gnome_breaktimer%d".printf (
             GLib.Random.int_range (0, int.MAX)
         );
