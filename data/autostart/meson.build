@@ -12,7 +12,7 @@ daemon_autostart_desktop_file = i18n.merge_file(
     type: 'desktop',
     po_dir: po_dir,
     install: true,
-    install_dir: applications_dir
+    install_dir: autostart_dir
 )
 
 if desktop_file_validate.found()
