@@ -1,19 +1,10 @@
-[*.vala, *.vapi, *.c]
+[*]
 indent_style = spaces
 indent_size = 4
-
-[*.py, *.sh, *.sh.in]
-indent_style = spaces
-indent_size = 4
-
-[*.json]
-indent_style = spaces
-indent_size = 4
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
 
 [*.xml, *.xml.in, *.xml.in.in, *.doap]
 indent_style = spaces
 indent_size = 2
-
-[meson.build]
-indent_style = spaces
-indent_size = 4
