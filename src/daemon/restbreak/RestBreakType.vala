@@ -32,6 +32,7 @@ public class RestBreakType : TimerBreakType {
         var settings = new GLib.Settings (Config.APPLICATION_ID + ".restbreak");
         settings.bind ("interval-seconds", break_controller, "interval", GLib.SettingsBindFlags.GET);
         settings.bind ("duration-seconds", break_controller, "duration", GLib.SettingsBindFlags.GET);
+        settings.bind ("lock-screen", break_controller, "lock-screen-enabled", GLib.SettingsBindFlags.GET);
 
         base ("restbreak", break_controller, break_view);
     }

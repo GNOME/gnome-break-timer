@@ -38,6 +38,12 @@
       <description>The duration of each rest break, in seconds.</description>
       <default>360</default>
     </key>
+
+    <key name="lock-screen" type="b">
+      <summary>Lock screen during breaks</summary>
+      <description>True to lock the screen during rest breaks.</description>
+      <default>false</default>
+    </key>
   </schema>
 
   <schema id="@APPLICATION_ID@.microbreak" path="/org/gnome/BreakTimer/microbreak/">

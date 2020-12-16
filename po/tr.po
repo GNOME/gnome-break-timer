@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 19:16-0800\n"
+"POT-Creation-Date: 2021-11-11 16:56-0800\n"
 "PO-Revision-Date: 2016-03-19 13:49+0200\n"
 "Last-Translator: Gökhan Gurbetoğlu <ggurbet@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
@@ -21,8 +21,8 @@ msgstr ""
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
-#: src/settings/Application.vala:189 src/settings/MainWindow.vala:110
-#: src/settings/MainWindow.vala:265
+#: src/settings/Application.vala:183 src/settings/MainWindow.vala:110
+#: src/settings/MainWindow.vala:264
 msgid "Break Timer"
 msgstr "Mola Zamanlayıcı"
 
@@ -30,7 +30,7 @@ msgstr "Mola Zamanlayıcı"
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:6
-#: src/settings/Application.vala:192
+#: src/settings/Application.vala:186
 #, fuzzy
 msgid "Computer break reminders for GNOME"
 msgstr "Etkin zihinler için bilgisayar mola hatırlatıcısı"
@@ -64,7 +64,7 @@ msgid "The time to automatically disable quiet mode, in unix time."
 msgstr "Otomatik olarak sessiz kipin kapanacağı zaman, unix zamanı olarak."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:31
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:45
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:51
 msgid "Time between breaks"
 msgstr "Molalar arası zaman"
 
@@ -73,7 +73,7 @@ msgid "The time between rest breaks, in seconds."
 msgstr "Dinlenme molaları arasındaki zaman, saniye olarak."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:37
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:58
 msgid "Duration of each break"
 msgstr "Her molanın uzunluğu"
 
@@ -81,11 +81,19 @@ msgstr "Her molanın uzunluğu"
 msgid "The duration of each rest break, in seconds."
 msgstr "Dinlenme molası uzunluğu, saniye olarak."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:46
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
+msgid "Lock screen during breaks"
+msgstr ""
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:44
+msgid "True to lock the screen during rest breaks."
+msgstr ""
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
 msgid "The preferred time between micro breaks, in seconds."
 msgstr "Küçük molalar arasında tercih edilen süre, saniye olarak."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:53
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:59
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "Her küçük molanın tercih edilen uzunluğu, saniye olarak."
 
@@ -140,7 +148,7 @@ msgstr[0] "%d saat"
 msgid "GNOME Break Timer"
 msgstr "GNOME Mola Zamanlayıcı"
 
-#: src/daemon/Application.vala:125
+#: src/daemon/Application.vala:130
 msgid "Saving state"
 msgstr ""
 
@@ -223,16 +231,16 @@ msgstr "Süresi geçmiş mola"
 msgid "Your break time has ended"
 msgstr "Mola vaktin bitti"
 
-#: src/settings/Application.vala:194
+#: src/settings/Application.vala:188
 #, fuzzy
 msgid "Break Timer Website"
 msgstr "GNOME Mola Zamanlayıcı Web Sayfası"
 
-#: src/settings/Application.vala:195
+#: src/settings/Application.vala:189
 msgid "Copyright © 2011-2020 Break Timer Authors"
 msgstr ""
 
-#: src/settings/Application.vala:197
+#: src/settings/Application.vala:191
 msgid "translator-credits"
 msgstr "İşbaran Akçayır <isbaran@gmail.com>"
 
@@ -270,7 +278,7 @@ msgstr "Hakkında"
 msgid "Quit"
 msgstr "Çık"
 
-#: src/settings/MainWindow.vala:259
+#: src/settings/MainWindow.vala:258
 msgid "Welcome Tour"
 msgstr "Hoşgeldin Turu"
 
@@ -334,6 +342,18 @@ msgstr "Mola vakti"
 msgid "Take some time away from the computer. Stretch and move around."
 msgstr "Biraz bilgisayardan uzaklaş. Esne ve etrafta dolaş."
 
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:29
+msgid "Full break"
+msgstr "Tam mola"
+
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:30
+msgid "And take some longer breaks to stretch your legs"
+msgstr "Ve bacaklarını esnetmek için biraz daha uzun ara ver"
+
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:33
+msgid "Lock the screen during breaks"
+msgstr ""
+
 #. Label that explains a countdown timer, which shows a string such as "30 minutes"
 #: src/settings/restbreak/RestBreakStatusWidget.vala:30
 msgid "Your next full break is in"
@@ -344,12 +364,12 @@ msgid "It's break time"
 msgstr "Mola vakti"
 
 #. Label for the widget to choose how frequently a break occurs. (Choices such as "6 minutes" or "45 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:37
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:38
 msgid "Every"
 msgstr "Her"
 
 #. Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:46
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:47
 msgid "For"
 msgstr "Süre"
 
@@ -436,9 +456,3 @@ msgstr "Başlamak için beni aç yeter"
 
 #~ msgid "Take a moment to rest your eyes"
 #~ msgstr "Gözlerinizi dinlendirmek için biraz zaman ayırın"
-
-#~ msgid "Full break"
-#~ msgstr "Tam mola"
-
-#~ msgid "And take some longer breaks to stretch your legs"
-#~ msgstr "Ve bacaklarını esnetmek için biraz daha uzun ara ver"

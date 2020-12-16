@@ -72,6 +72,9 @@ public class BreakSettingsDialog : Gtk.Dialog {
         );
         settings.bind ("selected-breaks", this.configuration_chooser, "selected-break-ids", SettingsBindFlags.DEFAULT);
 
+        // TODO: Create a stack with a child for each configuration. Switch
+        //       between these instead of showing / hiding widgets.
+
         this.breaks_grid = new FixedSizeGrid ();
         content.add (this.breaks_grid);
         this.breaks_grid.set_orientation (Gtk.Orientation.VERTICAL);
@@ -87,6 +90,7 @@ public class BreakSettingsDialog : Gtk.Dialog {
             this.breaks_grid.add (settings_widget);
             settings_widget.realize ();
             settings_widget.set_valign (Gtk.Align.CENTER);
+            settings_widget.set_halign (Gtk.Align.FILL);
             settings_widget.set_vexpand (true);
             settings_widget.set_margin_top (10);
             settings_widget.set_margin_bottom (10);
