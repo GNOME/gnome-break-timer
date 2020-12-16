@@ -1,3 +1,16 @@
+gnome-break-timer master
+========================
+
+gnome-break-timer 2.0.3
+=======================
+
+* Change icon for the break settings button
+* Fix an issue where breaks never stop when the session is inhibited
+* Fix incorrect autostart file location
+* Set a minimum GLib version to support the gnome-3-34 Snap extension
+* Change Flatpak manifest to use socket=fallback-x11
+* Work around metainfo being processed incorrectly in some cases
+
 gnome-break-timer 2.0.2
 =======================
 
