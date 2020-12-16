@@ -31,7 +31,7 @@
     </screenshot>
   </screenshots>
 
-  <launchable type="desktop-id">@SETTINGS_APPLICATION_ID@.desktop</launchable>
+  <launchable type="desktop-id">@DAEMON_APPLICATION_ID@.desktop</launchable>
 
   <content_rating type="oars-1.1" />
 
