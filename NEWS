@@ -1,6 +1,8 @@
 gnome-break-timer master
 ========================
 
+* Add break interval and duration choices for the 20-20-20 rule (#6)
+
 gnome-break-timer 2.0.3
 =======================
 
