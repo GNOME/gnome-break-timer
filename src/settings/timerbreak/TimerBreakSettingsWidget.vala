@@ -1,6 +1,6 @@
 /* TimerBreakSettingsWidget.vala
  *
- * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ * Copyright 2020-2021 Dylan McCall <dylan@dylanmccall.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ public abstract class TimerBreakSettingsWidget : BreakSettingsWidget {
         details_grid.attach_next_to (duration_chooser, duration_label, Gtk.PositionType.RIGHT, 1, 1);
         break_type.settings.bind ("duration-seconds", duration_chooser, "time-seconds", SettingsBindFlags.DEFAULT);
 
-        details_grid.show_all ();
+        details_grid.show ();
     }
 }
 

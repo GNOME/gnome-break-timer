@@ -1,6 +1,6 @@
 /* MainWindow.vala
  *
- * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ * Copyright 2020-2021 Dylan McCall <dylan@dylanmccall.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ using BreakTimer.Settings.Panels;
 
 namespace BreakTimer.Settings {
 
-public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
+public class MainWindow : Adw.ApplicationWindow, GLib.Initable {
     private BreakManager break_manager;
 
     private GLib.DBusConnection dbus_connection;
@@ -33,7 +33,7 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
 
     private GLib.Menu app_menu;
 
-    private Gtk.HeaderBar header;
+    private Adw.HeaderBar header;
     private Gtk.Stack main_stack;
     private Gtk.Box messages_box;
 
@@ -46,13 +46,19 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
     private WelcomePanel welcome_panel;
     private StatusPanel status_panel;
 
-    private class MessageBar : Gtk.InfoBar {
+    private class MessageBar : Gtk.Box {
         protected weak MainWindow main_window;
 
         public signal void close_message_bar ();
 
+        protected Gtk.InfoBar info_bar;
+
         protected MessageBar (MainWindow main_window) {
-            GLib.Object ();
+            GLib.Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
+
+            this.info_bar = new Gtk.InfoBar ();
+            this.append (info_bar);
+            this.info_bar.show ();
 
             this.main_window = main_window;
         }
@@ -69,16 +75,13 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
             this.error_type = error_type;
 
             /* Label for a button that opens GNOME Settings to change permissions */
-            this.add_button (_("Open Settings"), RESPONSE_OPEN_SETTINGS);
+            this.info_bar.add_button (_("Open Settings"), RESPONSE_OPEN_SETTINGS);
 
-            Gtk.Container content_area = this.get_content_area ();
             Gtk.Label label = new Gtk.Label (_("Break Timer needs permission to start automatically and run in the background"));
-            content_area.add (label);
+            this.info_bar.add_child (label);
 
-            content_area.show_all ();
-
-            this.response.connect (this.on_response);
-            this.close.connect (this.on_close);
+            this.info_bar.response.connect (this.on_response);
+            this.info_bar.close.connect (this.on_close);
         }
 
         private void on_response (int response_id) {
@@ -126,14 +129,15 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
         this.break_settings_dialog.set_transient_for (this);
 
         Gtk.Box content = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-        this.add (content);
+        this.set_content (content);
         content.set_orientation (Gtk.Orientation.VERTICAL);
         content.set_vexpand (true);
 
-        this.header = new Gtk.HeaderBar ();
-        this.set_titlebar (this.header);
-        this.header.set_show_close_button (true);
-        this.header.set_hexpand (true);
+        this.header = new Adw.HeaderBar ();
+        content.append (this.header);
+        // this.set_titlebar (this.header);
+        // this.header.set_show_title_buttons (true);
+        // this.header.set_hexpand (true);
 
         this.master_switch = new Gtk.Switch ();
         master_switch.set_valign (Gtk.Align.CENTER);
@@ -147,19 +151,20 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
 
         this.settings_button = new Gtk.Button ();
         settings_button.clicked.connect (this.settings_clicked_cb);
-        settings_button.set_image (new Gtk.Image.from_icon_name (
-            "alarm-symbolic",
-            Gtk.IconSize.MENU)
+        // FIXME: Verify, especially IconSize
+        settings_button.set_child (
+            new Gtk.Image.from_icon_name ("alarm-symbolic")
         );
         settings_button.valign = Gtk.Align.CENTER;
-        settings_button.set_always_show_image (true);
+        // FIXME: Verify
+        // settings_button.set_always_show_image (true);
         header.pack_end (this.settings_button);
 
         this.messages_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-        content.pack_end (this.messages_box);
+        content.append (this.messages_box);
 
         this.main_stack = new Gtk.Stack ();
-        content.pack_end (this.main_stack);
+        content.append (this.main_stack);
         main_stack.set_margin_top (6);
         main_stack.set_margin_bottom (6);
         main_stack.set_transition_duration (250);
@@ -171,8 +176,8 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
         this.main_stack.add_named (this.welcome_panel, "welcome_panel");
         this.welcome_panel.tour_finished.connect (this.on_tour_finished);
 
-        this.header.show_all ();
-        content.show_all ();
+        this.header.show ();
+        content.show ();
 
         break_manager.notify["permissions-error"].connect (this.on_break_manager_permissions_error_change);
         break_manager.notify["foreground-break"].connect (this.update_visible_panel);
@@ -187,8 +192,8 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
             this.main_stack.add_named (info_widget, break_type.id);
             info_widget.set_margin_start (20);
             info_widget.set_margin_end (20);
-            info_widget.set_halign (Gtk.Align.CENTER);
-            info_widget.set_valign (Gtk.Align.CENTER);
+            info_widget.set_halign (Gtk.Align.FILL);
+            info_widget.set_valign (Gtk.Align.FILL);
         }
 
         this.break_settings_dialog.init (cancellable);
@@ -215,7 +220,7 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
 
         this.message_bars.set (message_id, message_bar);
 
-        this.messages_box.pack_end (message_bar);
+        this.messages_box.append (message_bar);
         message_bar.show ();
         message_bar.close_message_bar.connect (() => {
             this.hide_message_bar (message_id);
@@ -255,13 +260,13 @@ public class MainWindow : Gtk.ApplicationWindow, GLib.Initable {
         BreakType? foreground_break = this.break_manager.foreground_break;
         if (this.welcome_panel.is_active ()) {
             this.main_stack.set_visible_child_full ("welcome_panel", transition);
-            this.header.set_title (_("Welcome Tour"));
+            this.set_title (_("Welcome Tour"));
         } else if (foreground_break != null) {
             this.main_stack.set_visible_child_full (foreground_break.id, transition);
-            this.header.set_title (foreground_break.info_widget.title);
+            this.set_title (foreground_break.info_widget.title);
         } else {
             this.main_stack.set_visible_child_full ("status_panel", transition);
-            this.header.set_title (_("Break Timer"));
+            this.set_title (_("Break Timer"));
         }
     }
 

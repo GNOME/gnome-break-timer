@@ -15,8 +15,9 @@ gio_unix_dep = dependency('gio-unix-2.0')
 glib_dep = dependency('glib-2.0')
 gobject_dep = dependency('gobject-2.0')
 gsound_dep = dependency('gsound')
-gtk_dep = dependency('gtk+-3.0')
+gtk_dep = dependency('gtk4')
 json_glib_dep = dependency('json-glib-1.0')
+libadwaita_dep = dependency('libadwaita-1')
 libcanberra_dep = dependency('libcanberra')
 libnotify_dep = dependency('libnotify')
 
@@ -44,7 +45,7 @@ elif build_profile == 'development'
     application_id = 'org.gnome.BreakTimer.Devel'
     git = find_program('git', required : false)
     if git.found()
-        git_commit = run_command('git', 'describe', '--match=""', '--always', '--dirty').stdout().strip()
+        git_commit = run_command('git', 'describe', '--match=""', '--always', '--dirty', check: true).stdout().strip()
         version_suffix = '-@0@'.format(git_commit)
     else
         version_suffix = '-devel'

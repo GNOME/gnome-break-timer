@@ -1,6 +1,6 @@
 /* UIManager.vala
  *
- * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ * Copyright 2020-2021 Dylan McCall <dylan@dylanmccall.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -141,7 +141,9 @@ public class UIManager : SimpleFocusManager, GLib.Initable {
     }
 
     public bool can_lock_screen () {
-        return ! this.application.is_inhibited (Gtk.ApplicationInhibitFlags.IDLE);
+        // FIXME: CHECK FOR THIS SOMEHOW
+        return true;
+        // return ! this.application.is_inhibited (Gtk.ApplicationInhibitFlags.IDLE);
     }
 
     public void lock_screen () {

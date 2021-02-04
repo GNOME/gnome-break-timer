@@ -1,6 +1,6 @@
 /* Application.vala
  *
- * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ * Copyright 2020-2021 Dylan McCall <dylan@dylanmccall.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -71,11 +71,11 @@ public class Application : Gtk.Application {
         Notify.init (app_name);
 
         /* set up custom gtk style for application */
-        Gdk.Screen screen = Gdk.Screen.get_default ();
         Gtk.CssProvider style_provider = new Gtk.CssProvider ();
 
-        Gtk.StyleContext.add_provider_for_screen (
-            screen,
+        // FIXME:
+        Gtk.StyleContext.add_provider_for_display (
+            Gdk.Display.get_default (),
             style_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         );

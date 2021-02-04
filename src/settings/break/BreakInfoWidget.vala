@@ -1,6 +1,6 @@
 /* BreakInfoWidget.vala
  *
- * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ * Copyright 2020-2021 Dylan McCall <dylan@dylanmccall.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 namespace BreakTimer.Settings.Break {
 
-public abstract class BreakInfoWidget : Gtk.Grid {
+public abstract class BreakInfoWidget : Gtk.Box {
     public BreakType break_type { public get; private set; }
     public string title { public get; private set; }
 
@@ -36,23 +36,22 @@ public abstract class BreakInfoWidget : Gtk.Grid {
 
         this.set_orientation (Gtk.Orientation.VERTICAL);
         this.set_hexpand (true);
-        this.set_row_spacing (24);
+        this.set_spacing (24);
         this.get_style_context ().add_class ("_break-info");
 
         this.heading_label = new Gtk.Label (null);
-        this.add (this.heading_label);
+        this.append (this.heading_label);
         this.heading_label.get_style_context ().add_class ("_break-info-heading");
 
         this.description_label = new Gtk.Label (null);
-        this.add (this.description_label);
-        this.description_label.set_line_wrap (true);
+        this.append (this.description_label);
         this.description_label.set_justify (Gtk.Justification.CENTER);
         this.description_label.set_max_width_chars (60);
 
         this.detail_label = new Gtk.Label (null);
-        this.add (this.detail_label);
+        this.append (this.detail_label);
 
-        this.show_all ();
+        this.show ();
     }
 
     protected void set_heading (string heading) {

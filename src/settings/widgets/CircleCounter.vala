@@ -1,6 +1,6 @@
 /* CircleCounter.vala
  *
- * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ * Copyright 2020-2021 Dylan McCall <dylan@dylanmccall.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,16 +69,11 @@ public class CircleCounter : Gtk.Widget {
     public CircleCounter () {
         GLib.Object ();
 
-        this.set_has_window (false);
-
-        this.get_style_context ().add_class ("_circle-counter");
-
         this.draw_angle_transition = new PropertyTransition (
             this, "draw-angle", PropertyTransition.calculate_value_double
         );
 
         this.map.connect (this.on_map_cb);
-        this.draw.connect (this.on_draw_cb);
         this.notify["direction"].connect (this.on_direction_notify_cb);
         this.notify["progress"].connect (this.on_progress_notify_cb);
         this.notify["draw-angle"].connect (this.on_draw_angle_notify_cb);
@@ -131,16 +126,16 @@ public class CircleCounter : Gtk.Widget {
         this.first_frame = true;
     }
 
-    private bool on_draw_cb (Cairo.Context cr) {
-        Gtk.StyleContext style_context = this.get_style_context ();
-        Gtk.StateFlags state = this.get_state_flags ();
-        Gtk.Allocation allocation;
-        this.get_allocation (out allocation);
+    public override void snapshot (Gtk.Snapshot snapshot) {
+        Graphene.Rect bounds;
+        this.compute_bounds (this, out bounds);
 
-        Gdk.RGBA foreground_color = style_context.get_color (state);
+        Cairo.Context cr = snapshot.append_cairo (bounds);
 
-        int center_x = allocation.width / 2;
-        int center_y = allocation.height / 2;
+        Gdk.RGBA foreground_color = this.get_color ();
+
+        int center_x = (int) bounds.get_width () / 2;
+        int center_y = (int) bounds.get_height () / 2;
         int radius = int.min (center_x, center_y);
         double arc_radius = radius - LINE_WIDTH / 2;
 
@@ -174,24 +169,16 @@ public class CircleCounter : Gtk.Widget {
         cr.stroke ();
         cr.pop_group_to_source ();
         cr.paint_with_alpha (0.7);
-
-        return true;
     }
 
-    public override void get_preferred_width (out int minimum_width, out int natural_width) {
+    public override void measure (Gtk.Orientation orientation, int for_size, out int minimum, out int natural, out int minimum_baseline, out int natural_baseline) {
         var diameter = calculate_diameter ();
-        minimum_width = diameter;
-        natural_width = diameter;
-    }
 
-    public override void get_preferred_height (out int minimum_height, out int natural_height) {
-        var diameter = calculate_diameter ();
-        minimum_height = diameter;
-        natural_height = diameter;
-    }
-
-    public override void size_allocate (Gtk.Allocation allocation) {
-        base.size_allocate (allocation);
+        // This widget has a square aspect ratio, so we aren't concerned about orientation
+        minimum = diameter;
+        natural = diameter;
+        minimum_baseline = -1;
+        natural_baseline = -1;
     }
 
     private int calculate_diameter () {
