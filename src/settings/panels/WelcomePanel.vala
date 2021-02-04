@@ -1,6 +1,6 @@
 /* WelcomePanel.vala
  *
- * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ * Copyright 2020-2021 Dylan McCall <dylan@dylanmccall.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ namespace BreakTimer.Settings.Panels {
 
 /* TODO: It would be nice to move some of this code to a UI file built with
  *       Glade. Especially anything involving long strings. */
-private class WelcomePanel : Gtk.Stack {
+private class WelcomePanel : Gtk.Box {
     private BreakManager break_manager;
     private MainWindow main_window;
 
@@ -35,17 +35,23 @@ private class WelcomePanel : Gtk.Stack {
     }
     private Step current_step;
 
-    private Gtk.Container start_page;
-    private Gtk.Container breaks_page;
-    private Gtk.Container ready_page;
+    private Gtk.Stack stack;
+
+    private Gtk.Box start_page;
+    private Gtk.Box breaks_page;
+    private Gtk.Box ready_page;
 
     public signal void tour_finished ();
 
     public WelcomePanel (BreakManager break_manager, Gtk.Builder builder, MainWindow main_window) {
-        GLib.Object ();
+        GLib.Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
 
         this.break_manager = break_manager;
         this.main_window = main_window;
+
+        this.stack = new Gtk.Stack ();
+        this.append (this.stack);
+        this.stack.show ();
 
         if (this.break_manager.master_enabled) {
             this.current_step = Step.READY;
@@ -53,31 +59,31 @@ private class WelcomePanel : Gtk.Stack {
             this.current_step = Step.WELCOME;
         }
 
-        this.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT);
-        this.set_transition_duration (250);
+        this.stack.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT);
+        this.stack.set_transition_duration (250);
 
         this.start_page = this.build_page_with_arrow (
             builder, "welcome_start", "switch_on_label", main_window.get_master_switch ());
-        this.add (this.start_page);
+        this.stack.add_child (this.start_page);
 
         this.breaks_page = this.build_page_with_arrow (
             builder, "welcome_breaks", "settings_label", main_window.get_settings_button ());
-        this.add (this.breaks_page);
+        this.stack.add_child (this.breaks_page);
 
         this.ready_page = this.build_page_with_arrow (
             builder, "welcome_ready", "keeps_running_label", main_window.get_close_button ());
-        this.add (this.ready_page);
+        this.stack.add_child (this.ready_page);
 
         var breaks_ok_button = new Gtk.Button.with_label (_("OK, got it!"));
         breaks_ok_button.get_style_context ().add_class ("suggested-action");
         breaks_ok_button.set_halign (Gtk.Align.CENTER);
-        this.breaks_page.add (breaks_ok_button);
+        this.breaks_page.append (breaks_ok_button);
         breaks_ok_button.clicked.connect (this.on_breaks_confirmed);
 
         var ready_ok_button = new Gtk.Button.with_label (_("Ready to go"));
         ready_ok_button.get_style_context ().add_class ("suggested-action");
         ready_ok_button.set_halign (Gtk.Align.CENTER);
-        this.ready_page.add (ready_ok_button);
+        this.ready_page.append (ready_ok_button);
         ready_ok_button.clicked.connect (this.on_ready_confirmed);
 
         break_manager.notify["master-enabled"].connect (this.on_master_switch_toggled);
@@ -101,16 +107,14 @@ private class WelcomePanel : Gtk.Stack {
         }
     }
 
-    private Gtk.Container build_page_with_arrow (Gtk.Builder builder, string page_name, string? arrow_source_name, Gtk.Widget? arrow_target) {
-        Gtk.Grid page_wrapper = new Gtk.Grid ();
-        page_wrapper.set_orientation (Gtk.Orientation.VERTICAL);
-        page_wrapper.set_row_spacing (16);
+    private Gtk.Box build_page_with_arrow (Gtk.Builder builder, string page_name, string? arrow_source_name, Gtk.Widget? arrow_target) {
+        Gtk.Box page_wrapper = new Gtk.Box (Gtk.Orientation.VERTICAL, 16);
         page_wrapper.set_margin_bottom (30);
 
         Gtk.Overlay page_overlay = new Gtk.Overlay ();
-        page_wrapper.add (page_overlay);
+        page_wrapper.append (page_overlay);
 
-        page_overlay.add (builder.get_object (page_name) as Gtk.Widget);
+        page_overlay.set_child (builder.get_object (page_name) as Gtk.Widget);
         Gtk.Widget arrow_source = builder.get_object (arrow_source_name) as Gtk.Widget;
         if (arrow_source != null && arrow_target != null) {
             var arrow = new OverlayArrow (arrow_source, arrow_target);
@@ -132,11 +136,11 @@ private class WelcomePanel : Gtk.Stack {
         if (next_step > this.current_step) this.current_step = next_step;
 
         if (this.current_step == Step.WELCOME) {
-            this.set_visible_child (this.start_page);
+            this.stack.set_visible_child (this.start_page);
         } else if (this.current_step == Step.BREAKS) {
-            this.set_visible_child (this.breaks_page);
+            this.stack.set_visible_child (this.breaks_page);
         } else {
-            this.set_visible_child (this.ready_page);
+            this.stack.set_visible_child (this.ready_page);
         }
     }
 }

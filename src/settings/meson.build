@@ -22,7 +22,6 @@ settings_lib_sources = files(
     'timerbreak/TimerBreakType.vala',
     'widgets/BreakConfigurationChooser.vala',
     'widgets/CircleCounter.vala',
-    'widgets/FixedSizeGrid.vala',
     'widgets/OverlayArrow.vala',
     'widgets/TimeChooser.vala',
     'widgets/Transition.vala'
@@ -36,6 +35,7 @@ settings_lib_dependencies = [
     gtk_dep,
     json_glib_dep,
     gsound_dep,
+    libadwaita_dep,
     libnotify_dep,
     m_dep,
     posix_dep,

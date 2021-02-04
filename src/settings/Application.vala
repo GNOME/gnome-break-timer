@@ -1,6 +1,6 @@
 /* Application.vala
  *
- * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ * Copyright 2020-2021 Dylan McCall <dylan@dylanmccall.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 namespace BreakTimer.Settings {
 
-public class Application : Gtk.Application {
+public class Application : Adw.Application {
     private const string STYLE_DATA =
         """
         ._settings-title {
@@ -77,17 +77,17 @@ public class Application : Gtk.Application {
         base.startup ();
 
         /* set up custom gtk style for application */
-        Gdk.Screen screen = Gdk.Screen.get_default ();
         Gtk.CssProvider style_provider = new Gtk.CssProvider ();
 
-        try {
-            style_provider.load_from_data (STYLE_DATA, -1);
-        } catch (GLib.Error error) {
-            GLib.warning ("Error loading style data: %s", error.message);
-        }
+        // FIXME
+        // try {
+        //     style_provider.load_from_data (STYLE_DATA, -1);
+        // } catch (GLib.Error error) {
+        //     GLib.warning ("Error loading style data: %s", error.message);
+        // }
 
-        Gtk.StyleContext.add_provider_for_screen (
-            screen,
+        Gtk.StyleContext.add_provider_for_display (
+            Gdk.Display.get_default (),
             style_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         );
@@ -117,17 +117,19 @@ public class Application : Gtk.Application {
         }
 
         if (Config.BUILD_PROFILE == "development") {
-            this.main_window.get_style_context ().add_class ("devel");
+            this.main_window.add_css_class ("devel");
         }
 
-        this.main_window.window_state_event.connect (this.on_main_window_window_state_event);
+        this.main_window.get_surface ().event.connect (this.on_main_window_event);
     }
 
-    private bool on_main_window_window_state_event (Gdk.EventWindowState event) {
-        bool focused = (
-            Gdk.WindowState.FOCUSED in event.changed_mask &&
-            Gdk.WindowState.FOCUSED in event.new_window_state
-        );
+    private bool on_main_window_event (Gdk.Event event) {
+        if (event.get_event_type () != Gdk.EventType.FOCUS_CHANGE) {
+            return false;
+        }
+
+        Gdk.FocusEvent focus_event = (Gdk.FocusEvent) event;
+        bool focused = focus_event.get_in ();
 
         if (focused && this.initial_focus && this.break_manager.master_enabled) {
             // We should always refresh permissions at startup if enabled. Wait

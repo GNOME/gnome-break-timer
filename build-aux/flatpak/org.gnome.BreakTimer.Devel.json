@@ -35,7 +35,7 @@
         },
         {
             "name" : "gsound",
-            "buildsystem": "meson",
+            "buildsystem" : "meson",
             "sources" : [
                 {
                     "type" : "git",

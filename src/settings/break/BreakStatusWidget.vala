@@ -28,8 +28,6 @@ public abstract class BreakStatusWidget : Gtk.Grid {
         GLib.Object ();
 
         this.break_type = break_type;
-
-        this.get_style_context ().add_class ("_break-status");
     }
 }
 

@@ -1,6 +1,6 @@
 /* StatusPanel.vala
  *
- * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ * Copyright 2020-2021 Dylan McCall <dylan@dylanmccall.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,15 +22,16 @@ using BreakTimer.Settings.Break;
 
 namespace BreakTimer.Settings.Panels {
 
-private class StatusPanel : Gtk.Stack, GLib.Initable {
+private class StatusPanel : Gtk.Box, GLib.Initable {
     private BreakManager break_manager;
 
-    private Gtk.Grid breaks_list;
+    private Gtk.Stack stack;
+    private Gtk.Box breaks_list;
     private Gtk.Widget no_breaks_message;
     private Gtk.Widget error_message;
 
     public StatusPanel (BreakManager break_manager, Gtk.Builder builder) {
-        GLib.Object ();
+        GLib.Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
 
         this.break_manager = break_manager;
 
@@ -41,14 +42,17 @@ private class StatusPanel : Gtk.Stack, GLib.Initable {
         this.set_hexpand (true);
         this.set_vexpand (true);
 
+        this.stack = new Gtk.Stack ();
+        this.append (this.stack);
+
         this.breaks_list = this.build_breaks_list (break_manager);
-        this.add (this.breaks_list);
+        this.stack.add_child (this.breaks_list);
 
         this.no_breaks_message = builder.get_object ("status_stopped") as Gtk.Widget;
-        this.add (this.no_breaks_message);
+        this.stack.add_child (this.no_breaks_message);
 
         this.error_message = builder.get_object ("status_error") as Gtk.Widget;
-        this.add (this.error_message);
+        this.stack.add_child (this.error_message);
 
         break_manager.status_changed.connect (this.status_changed_cb);
     }
@@ -56,7 +60,7 @@ private class StatusPanel : Gtk.Stack, GLib.Initable {
     public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
         foreach (BreakType break_type in this.break_manager.all_breaks ()) {
             var status_widget = break_type.status_widget;
-            this.breaks_list.add (status_widget);
+            this.breaks_list.append (status_widget);
             status_widget.set_margin_top (18);
             status_widget.set_margin_end (20);
             status_widget.set_margin_bottom (18);
@@ -66,9 +70,8 @@ private class StatusPanel : Gtk.Stack, GLib.Initable {
         return true;
     }
 
-    private Gtk.Grid build_breaks_list (BreakManager break_manager) {
-        var breaks_list = new Gtk.Grid ();
-        breaks_list.set_orientation (Gtk.Orientation.VERTICAL);
+    private Gtk.Box build_breaks_list (BreakManager break_manager) {
+        var breaks_list = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
         breaks_list.set_halign (Gtk.Align.CENTER);
         breaks_list.set_valign (Gtk.Align.CENTER);
 
@@ -92,11 +95,11 @@ private class StatusPanel : Gtk.Stack, GLib.Initable {
         }
 
         if (any_breaks_enabled) {
-            this.set_visible_child (this.breaks_list);
+            this.stack.set_visible_child (this.breaks_list);
         } else if (this.break_manager.is_working ()) {
-            this.set_visible_child (this.no_breaks_message);
+            this.stack.set_visible_child (this.no_breaks_message);
         } else {
-            this.set_visible_child (this.error_message);
+            this.stack.set_visible_child (this.error_message);
         }
     }
 }
