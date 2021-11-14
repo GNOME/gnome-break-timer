@@ -1,6 +1,9 @@
 gnome-break-timer master
 ========================
 
+gnome-break-timer 2.1.0
+========================
+
 * Add break interval and duration choices for the 20-20-20 rule (#6)
 * Add an option to disable screen locking
 
