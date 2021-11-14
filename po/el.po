@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 19:16-0800\n"
+"POT-Creation-Date: 2021-11-11 16:56-0800\n"
 "PO-Revision-Date: 2016-03-16 17:30+0200\n"
 "Last-Translator: Yannis Koutsoukos <giankoyt@gmail.com>\n"
 "Language-Team: www.gnome.gr\n"
@@ -22,8 +22,8 @@ msgstr ""
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
-#: src/settings/Application.vala:189 src/settings/MainWindow.vala:110
-#: src/settings/MainWindow.vala:265
+#: src/settings/Application.vala:183 src/settings/MainWindow.vala:110
+#: src/settings/MainWindow.vala:264
 msgid "Break Timer"
 msgstr "Χρονομετρητής διαλείμματος"
 
@@ -31,7 +31,7 @@ msgstr "Χρονομετρητής διαλείμματος"
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:6
-#: src/settings/Application.vala:192
+#: src/settings/Application.vala:186
 #, fuzzy
 msgid "Computer break reminders for GNOME"
 msgstr "Υπενθυμίσεις διακοπής υπολογιστή για ενεργά μυαλά"
@@ -67,7 +67,7 @@ msgstr ""
 "χρόνο Γιούνιξ."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:31
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:45
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:51
 msgid "Time between breaks"
 msgstr "Χρόνος μεταξύ των διαλειμμάτων"
 
@@ -76,7 +76,7 @@ msgid "The time between rest breaks, in seconds."
 msgstr "Ο χρόνος μεταξύ των διαλειμμάτων ανάπαυσης, σε δευτερόλεπτα."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:37
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:58
 msgid "Duration of each break"
 msgstr "Διάρκεια κάθε διαλείμματος"
 
@@ -84,11 +84,19 @@ msgstr "Διάρκεια κάθε διαλείμματος"
 msgid "The duration of each rest break, in seconds."
 msgstr "Η διάρκεια της κάθε διαλείμματος ανάπαυσης, σε δευτερόλεπτα."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:46
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
+msgid "Lock screen during breaks"
+msgstr ""
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:44
+msgid "True to lock the screen during rest breaks."
+msgstr ""
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
 msgid "The preferred time between micro breaks, in seconds."
 msgstr "Ο προτιμώμενος χρόνος μεταξύ μικρών διαλειμμάτων, σε δευτερόλεπτα."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:53
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:59
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "Η προτιμώμενη διάρκεια κάθε μικρού διαλείμματος, σε δευτερόλεπτα."
 
@@ -148,7 +156,7 @@ msgstr[1] "%d ώρες"
 msgid "GNOME Break Timer"
 msgstr "Χρονομετρητής διαλειμμάτων GNOME"
 
-#: src/daemon/Application.vala:125
+#: src/daemon/Application.vala:130
 msgid "Saving state"
 msgstr ""
 
@@ -236,16 +244,16 @@ msgstr "Καθυστερημένο διάλειμμα"
 msgid "Your break time has ended"
 msgstr "Ο χρόνος διαλείμματός σας τελείωσε"
 
-#: src/settings/Application.vala:194
+#: src/settings/Application.vala:188
 #, fuzzy
 msgid "Break Timer Website"
 msgstr "Ιστότοπος χρονομετρητή διαλειμμάτων GNOME"
 
-#: src/settings/Application.vala:195
+#: src/settings/Application.vala:189
 msgid "Copyright © 2011-2020 Break Timer Authors"
 msgstr ""
 
-#: src/settings/Application.vala:197
+#: src/settings/Application.vala:191
 msgid "translator-credits"
 msgstr ""
 "Ελληνική μεταφραστική ομάδα του GNOME\n"
@@ -286,7 +294,7 @@ msgstr "Περί"
 msgid "Quit"
 msgstr "Έξοδος"
 
-#: src/settings/MainWindow.vala:259
+#: src/settings/MainWindow.vala:258
 msgid "Welcome Tour"
 msgstr "Περιήγηση καλωσορίσματος"
 
@@ -359,6 +367,18 @@ msgid "Take some time away from the computer. Stretch and move around."
 msgstr ""
 "Πάρτε λίγο χρόνο μακριά από τον υπολογιστή. Τεντωθείτε και μετακινηθείτε."
 
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:29
+msgid "Full break"
+msgstr "Πλήρες διάλειμμα"
+
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:30
+msgid "And take some longer breaks to stretch your legs"
+msgstr "Και πάρτε κάποια μεγαλύτερα διαλείμματα για να τεντώσετε τα πόδια σας"
+
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:33
+msgid "Lock the screen during breaks"
+msgstr ""
+
 #. Label that explains a countdown timer, which shows a string such as "30 minutes"
 #: src/settings/restbreak/RestBreakStatusWidget.vala:30
 msgid "Your next full break is in"
@@ -369,12 +389,12 @@ msgid "It's break time"
 msgstr "Είναι ώρα για διάλειμμα"
 
 #. Label for the widget to choose how frequently a break occurs. (Choices such as "6 minutes" or "45 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:37
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:38
 msgid "Every"
 msgstr "Κάθε"
 
 #. Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:46
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:47
 msgid "For"
 msgstr "Για"
 
@@ -471,10 +491,3 @@ msgstr "Απλά ενεργοποιήστε με για να ξεκινήσετ�
 
 #~ msgid "Take a moment to rest your eyes"
 #~ msgstr "Ξεκουράστε λίγο τα μάτια σας"
-
-#~ msgid "Full break"
-#~ msgstr "Πλήρες διάλειμμα"
-
-#~ msgid "And take some longer breaks to stretch your legs"
-#~ msgstr ""
-#~ "Και πάρτε κάποια μεγαλύτερα διαλείμματα για να τεντώσετε τα πόδια σας"

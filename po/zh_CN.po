@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-24 19:16-0800\n"
+"POT-Creation-Date: 2021-11-11 16:56-0800\n"
 "PO-Revision-Date: 2013-10-11 23:32+0800\n"
 "Last-Translator: tuhaihe <1132321739qq@gmail.com>\n"
 "Language-Team: Chinese (China)\n"
@@ -22,8 +22,8 @@ msgstr ""
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
-#: src/settings/Application.vala:189 src/settings/MainWindow.vala:110
-#: src/settings/MainWindow.vala:265
+#: src/settings/Application.vala:183 src/settings/MainWindow.vala:110
+#: src/settings/MainWindow.vala:264
 msgid "Break Timer"
 msgstr "休息定时器"
 
@@ -31,7 +31,7 @@ msgstr "休息定时器"
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:6
-#: src/settings/Application.vala:192
+#: src/settings/Application.vala:186
 #, fuzzy
 msgid "Computer break reminders for GNOME"
 msgstr "为活跃思维而做的电脑休息提醒器"
@@ -65,7 +65,7 @@ msgid "The time to automatically disable quiet mode, in unix time."
 msgstr "自动禁用静默模式的时间(UNIX 时间)。"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:31
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:45
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:51
 msgid "Time between breaks"
 msgstr "休息间隔时间"
 
@@ -74,7 +74,7 @@ msgid "The time between rest breaks, in seconds."
 msgstr "休息间隔时间(秒)。"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:37
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:58
 msgid "Duration of each break"
 msgstr "每次休息持续时间"
 
@@ -82,11 +82,19 @@ msgstr "每次休息持续时间"
 msgid "The duration of each rest break, in seconds."
 msgstr "每次休息持续时间(秒)。"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:46
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
+msgid "Lock screen during breaks"
+msgstr ""
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:44
+msgid "True to lock the screen during rest breaks."
+msgstr ""
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
 msgid "The preferred time between micro breaks, in seconds."
 msgstr "微休间隔时间(秒)。"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:53
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:59
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "微休持续时间(秒)。"
 
@@ -138,7 +146,7 @@ msgstr[0] "%d 小时"
 msgid "GNOME Break Timer"
 msgstr "GNOME 休息定时器"
 
-#: src/daemon/Application.vala:125
+#: src/daemon/Application.vala:130
 msgid "Saving state"
 msgstr ""
 
@@ -221,16 +229,16 @@ msgstr "已逾期的休息"
 msgid "Your break time has ended"
 msgstr "您的休息时间已结束"
 
-#: src/settings/Application.vala:194
+#: src/settings/Application.vala:188
 #, fuzzy
 msgid "Break Timer Website"
 msgstr "GNOME 休息定时器网站"
 
-#: src/settings/Application.vala:195
+#: src/settings/Application.vala:189
 msgid "Copyright © 2011-2020 Break Timer Authors"
 msgstr ""
 
-#: src/settings/Application.vala:197
+#: src/settings/Application.vala:191
 msgid "translator-credits"
 msgstr ""
 "甘露 <rhythm.gan@gmail.com>, 2013\n"
@@ -270,7 +278,7 @@ msgstr "关于"
 msgid "Quit"
 msgstr "退出"
 
-#: src/settings/MainWindow.vala:259
+#: src/settings/MainWindow.vala:258
 msgid "Welcome Tour"
 msgstr "欢迎之旅"
 
@@ -334,6 +342,18 @@ msgstr "休息时间到"
 msgid "Take some time away from the computer. Stretch and move around."
 msgstr "离开电脑。伸伸懒腰，走动走动。"
 
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:29
+msgid "Full break"
+msgstr "全休"
+
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:30
+msgid "And take some longer breaks to stretch your legs"
+msgstr "休息稍长时间来伸伸腿脚"
+
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:33
+msgid "Lock the screen during breaks"
+msgstr ""
+
 #. Label that explains a countdown timer, which shows a string such as "30 minutes"
 #: src/settings/restbreak/RestBreakStatusWidget.vala:30
 msgid "Your next full break is in"
@@ -344,12 +364,12 @@ msgid "It's break time"
 msgstr "休息时间到"
 
 #. Label for the widget to choose how frequently a break occurs. (Choices such as "6 minutes" or "45 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:37
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:38
 msgid "Every"
 msgstr "每隔"
 
 #. Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:46
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:47
 msgid "For"
 msgstr "："
 
@@ -430,12 +450,6 @@ msgstr "启动我即可开始"
 
 #~ msgid "Take a moment to rest your eyes"
 #~ msgstr "花点时间放松下眼睛"
-
-#~ msgid "Full break"
-#~ msgstr "全休"
-
-#~ msgid "And take some longer breaks to stretch your legs"
-#~ msgstr "休息稍长时间来伸伸腿脚"
 
 #~ msgid "The quieter you become, the more you can hear."
 #~ msgstr "心越静聆听越广"

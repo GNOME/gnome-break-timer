@@ -19,6 +19,7 @@ src/settings/microbreak/MicroBreakStatusWidget.vala
 src/settings/panels/WelcomePanel.vala
 src/settings/restbreak/RestBreakInfoWidget.vala
 src/settings/restbreak/RestBreakInfoWidget.vala
+src/settings/restbreak/RestBreakSettingsWidget.vala
 src/settings/restbreak/RestBreakStatusWidget.vala
 src/settings/timerbreak/TimerBreakSettingsWidget.vala
 ui/settings-panels.ui

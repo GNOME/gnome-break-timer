@@ -22,7 +22,7 @@ namespace BreakTimer.Settings.Break {
 
 public abstract class BreakSettingsWidget : Gtk.Grid {
     private Gtk.Grid header;
-    private Gtk.Grid details;
+    private Gtk.Box details;
 
     protected BreakSettingsWidget (BreakType break_type, string title, string? description) {
         GLib.Object ();
@@ -34,36 +34,23 @@ public abstract class BreakSettingsWidget : Gtk.Grid {
         this.add (this.header);
         this.header.set_column_spacing (12);
 
-        var title_grid = new Gtk.Grid ();
-        this.set_header (title_grid);
-        title_grid.set_orientation (Gtk.Orientation.VERTICAL);
-        title_grid.set_row_spacing (4);
-
         var title_label = new Gtk.Label (title);
-        title_grid.add (title_label);
+        this.set_header_title (title_label);
         title_label.get_style_context ().add_class ("_settings-title");
-        title_label.set_halign (Gtk.Align.FILL);
+        title_label.set_halign (Gtk.Align.CENTER);
         title_label.set_hexpand (true);
-        title_label.set_justify (Gtk.Justification.CENTER);
+        // title_label.set_justify (Gtk.Justification.CENTER);
 
-        // var description_label = new Gtk.Label ("<small>%s</small>".printf (description));
-        // title_grid.add (description_label);
-        // description_label.get_style_context ().add_class ("_settings-description");
-        // description_label.set_use_markup (true);
-        // description_label.set_halign (Gtk.Align.FILL);
-        // description_label.set_hexpand (true);
-        // description_label.set_justify (Gtk.Justification.CENTER);
-
-        this.details = new Gtk.Grid ();
+        this.details = new Gtk.Box (Gtk.Orientation.VERTICAL, 10);
         this.add (this.details);
         this.details.set_margin_start (12);
-        this.details.set_halign (Gtk.Align.CENTER);
+        this.details.set_halign (Gtk.Align.FILL);
         this.details.set_hexpand (true);
 
         this.show_all ();
     }
 
-    protected void set_header (Gtk.Widget content) {
+    protected void set_header_title (Gtk.Widget content) {
         this.header.attach (content, 0, 0, 1, 1);
     }
 
@@ -73,7 +60,7 @@ public abstract class BreakSettingsWidget : Gtk.Grid {
         content.set_valign (Gtk.Align.CENTER);
     }
 
-    protected void set_details (Gtk.Widget content) {
+    protected void set_details_widget (Gtk.Widget content) {
         this.details.add (content);
     }
 }

@@ -31,6 +31,8 @@ namespace BreakTimer.Daemon.RestBreak {
  * finished using the computer, and then it will start to count down again.
  */
 public class RestBreakController : TimerBreakController {
+    public bool lock_screen_enabled { get; set; }
+
     private Countdown reminder_countdown;
 
     public signal void current_duration_changed ();

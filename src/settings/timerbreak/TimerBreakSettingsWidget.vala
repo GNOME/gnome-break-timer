@@ -28,8 +28,9 @@ public abstract class TimerBreakSettingsWidget : BreakSettingsWidget {
         base (break_type, title, description);
 
         var details_grid = new Gtk.Grid ();
-        this.set_details (details_grid);
+        this.set_details_widget (details_grid);
 
+        details_grid.set_halign (Gtk.Align.CENTER);
         details_grid.set_column_spacing (8);
         details_grid.set_row_spacing (8);
 
