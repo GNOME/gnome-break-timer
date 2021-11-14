@@ -36,13 +36,68 @@
   <content_rating type="oars-1.1" />
 
   <releases>
-    <release version="2.1.0" date="2021-11-13" />
-    <release version="2.0.3" date="2020-12-16" />
-    <release version="2.0.2" date="2020-11-25" />
-    <release version="2.0.1" date="2020-11-24" />
-    <release version="2.0" date="2020-11-24" />
-    <release version="1.2" date="2014-03-28" />
-    <release version="1.1" date="2013-09-22" />
-    <release version="1.0" date="2013-09-22" />
+    <release version="2.1.0" date="2021-11-13">
+        <ul>
+            <li>Add break interval and duration choices for the 20-20-20 rule (#6)</li>
+            <li>Add an option to disable screen locking (#15)</li>
+        </ul>
+    </release>
+
+    <release version="2.0.3" date="2020-12-16">
+        <ul>
+            <li>Change icon for the break settings button</li>
+            <li>Fix an issue where breaks never stop when the session is inhibited</li>
+            <li>Fix incorrect autostart file location</li>
+            <li>Set a minimum GLib version to support the gnome-3-34 Snap extension</li>
+            <li>Change Flatpak manifest to use socket=fallback-x11</li>
+            <li>Work around metainfo being processed incorrectly in some cases</li>
+        </ul>
+    </release>
+
+    <release version="2.0.2" date="2020-11-25">
+        <ul>
+            <li>Fix timer circle colours with themes other than Adwaita</li>
+            <li>Change Flatpak manifest to use socket=fallback-x11</li>
+        </ul>
+    </release>
+
+    <release version="2.0.1" date="2020-11-24">
+        <ul>
+            <li>Fix a bug where the idle monitor would be in an incorrect state at login</li>
+        </ul>
+    </release>
+
+    <release version="2.0" date="2020-11-24">
+        <ul>
+            <li>Support running as a Flatpak application</li>
+            <li>Replace xrecord with MutterIdleMonitor</li>
+            <li>Remove the app menu from the settings dialog</li>
+            <li>Add a new application icon</li>
+            <li>Animate the timer circles in the settings dialog</li>
+            <li>Improve error handling</li>
+        </ul>
+    </release>
+
+    <release version="1.2" date="2014-03-28">
+        <ul>
+            <li>Bumped minimum GTK version</li>
+            <li>Minor fixes for settings dialog</li>
+        </ul>
+    </release>
+
+    <release version="1.1" date="2013-09-22">
+        <ul>
+            <li>Redesigned "take a break" notifications</li>
+            <li>New status and settings application</li>
+            <li>Break timers are saved between sessions</li>
+            <li>Bug fixes</li>
+        </ul>
+    </release>
+
+    <release version="1.0" date="2013-09-22">
+        <ul>
+            <li>First release</li>
+        </ul>
+    </release>
   </releases>
 </component>
