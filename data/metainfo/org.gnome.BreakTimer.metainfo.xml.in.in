@@ -1,13 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <component type="desktop-application">
   <id>@APPLICATION_ID@</id>
-
   <name>Break Timer</name>
   <summary>Computer break reminders for GNOME</summary>
-
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
-
   <description>
     <p>
       Break Timer keeps track of how much you are using the computer, and it reminds you to take regular breaks. It is designed to encourage healthy behaviour, with a mix of short breaks for your eyes and wrists, as well as longer breaks to keep your body moving and your mind on task.
@@ -16,88 +13,73 @@
       Break Timer is easy to set up, so you can pick a break schedule that works for you and it will carry on working in the background.
     </p>
   </description>
-
+  <launchable type="desktop-id">@DAEMON_APPLICATION_ID@.desktop</launchable>
   <url type="homepage">https://wiki.gnome.org/Apps/BreakTimer</url>
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-break-timer/issues</url>
-
   <screenshots>
     <screenshot type="default">
       <caption>Easily turn on break timers</caption>
-      <image>https://gitlab.gnome.org/GNOME/gnome-break-timer/raw/master/data/metainfo/gnome-break-timer-2-0-welcome.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gnome-break-timer/raw/master/data/metainfo/gnome-break-timer-2-0-welcome.png</image>
     </screenshot>
     <screenshot>
       <caption>Check on their status at any time</caption>
-      <image>https://gitlab.gnome.org/GNOME/gnome-break-timer/raw/master/data/metainfo/gnome-break-timer-2-0-status.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gnome-break-timer/raw/master/data/metainfo/gnome-break-timer-2-0-status.png</image>
     </screenshot>
   </screenshots>
-
-  <launchable type="desktop-id">@DAEMON_APPLICATION_ID@.desktop</launchable>
-
-  <content_rating type="oars-1.1" />
-
   <releases>
-    <release version="2.1.0" date="2021-11-13">
+    <release type="stable" version="2.1.0" date="2021-11-13T00:00:00Z">
+      <description>
         <ul>
-            <li>Add break interval and duration choices for the 20-20-20 rule (#6)</li>
-            <li>Add an option to disable screen locking (#15)</li>
+          <li>Add break interval and duration choices for the 20-20-20 rule (#6)</li>
+          <li>Add an option to disable screen locking (#15)</li>
         </ul>
+      </description>
     </release>
-
-    <release version="2.0.3" date="2020-12-16">
+    <release type="stable" version="2.0.3" date="2020-12-16T00:00:00Z">
+      <description>
         <ul>
-            <li>Change icon for the break settings button</li>
-            <li>Fix an issue where breaks never stop when the session is inhibited</li>
-            <li>Fix incorrect autostart file location</li>
-            <li>Set a minimum GLib version to support the gnome-3-34 Snap extension</li>
-            <li>Change Flatpak manifest to use socket=fallback-x11</li>
-            <li>Work around metainfo being processed incorrectly in some cases</li>
+          <li>Change icon for the break settings button</li>
+          <li>Fix an issue where breaks never stop when the session is inhibited</li>
+          <li>Fix incorrect autostart file location</li>
+          <li>Set a minimum GLib version to support the gnome-3-34 Snap extension</li>
+          <li>Change Flatpak manifest to use socket=fallback-x11</li>
+          <li>Work around metainfo being processed incorrectly in some cases</li>
         </ul>
+      </description>
     </release>
-
-    <release version="2.0.2" date="2020-11-25">
+    <release type="stable" version="2.0.2" date="2020-11-25T00:00:00Z">
+      <description>
         <ul>
-            <li>Fix timer circle colours with themes other than Adwaita</li>
-            <li>Change Flatpak manifest to use socket=fallback-x11</li>
+          <li>Fix timer circle colours with themes other than Adwaita</li>
+          <li>Change Flatpak manifest to use socket=fallback-x11</li>
         </ul>
+      </description>
     </release>
-
-    <release version="2.0.1" date="2020-11-24">
-        <ul>
-            <li>Fix a bug where the idle monitor would be in an incorrect state at login</li>
-        </ul>
+    <release type="stable" version="2.0.1" date="2020-11-24T00:00:00Z">
+      <description>
+        <p>Fix a bug where the idle monitor would be in an incorrect state at login</p>
+      </description>
     </release>
-
-    <release version="2.0" date="2020-11-24">
+    <release type="stable" version="2.0" date="2020-11-24T00:00:00Z">
+      <description>
         <ul>
-            <li>Support running as a Flatpak application</li>
-            <li>Replace xrecord with MutterIdleMonitor</li>
-            <li>Remove the app menu from the settings dialog</li>
-            <li>Add a new application icon</li>
-            <li>Animate the timer circles in the settings dialog</li>
-            <li>Improve error handling</li>
+          <li>Support running as a Flatpak application</li>
+          <li>Replace xrecord with MutterIdleMonitor</li>
+          <li>Remove the app menu from the settings dialog</li>
+          <li>Add a new application icon</li>
+          <li>Animate the timer circles in the settings dialog</li>
+          <li>Improve error handling</li>
         </ul>
+      </description>
     </release>
-
-    <release version="1.2" date="2014-03-28">
+    <release type="stable" version="1.2" date="2014-03-28T00:00:00Z">
+      <description>
         <ul>
-            <li>Bumped minimum GTK version</li>
-            <li>Minor fixes for settings dialog</li>
+          <li>Bumped minimum GTK version</li>
+          <li>Minor fixes for settings dialog</li>
         </ul>
-    </release>
-
-    <release version="1.1" date="2013-09-22">
-        <ul>
-            <li>Redesigned "take a break" notifications</li>
-            <li>New status and settings application</li>
-            <li>Break timers are saved between sessions</li>
-            <li>Bug fixes</li>
-        </ul>
-    </release>
-
-    <release version="1.0" date="2013-09-22">
-        <ul>
-            <li>First release</li>
-        </ul>
+      </description>
     </release>
   </releases>
+  <content_rating type="oars-1.1"/>
 </component>
