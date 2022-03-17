@@ -1,16 +1,17 @@
 # Polish translation for gnome-break-timer.
-# Copyright © 2014-2016 the gnome-break-timer authors.
+# Copyright © 2014-2022 the gnome-break-timer authors.
 # This file is distributed under the same license as the gnome-break-timer package.
 # Paweł Żołnowski <pawel.zolnowski@gmail.com>, 2014.
-# Piotr Drąg <piotrdrag@gmail.com>, 2014-2016.
-# Aviary.pl <community-poland@mozilla.org>, 2014-2016.
+# Piotr Drąg <piotrdrag@gmail.com>, 2014-2022.
+# Aviary.pl <community-poland@mozilla.org>, 2014-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-11 16:56-0800\n"
-"PO-Revision-Date: 2016-08-20 13:51+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/"
+"issues\n"
+"POT-Creation-Date: 2022-03-17 11:05+0000\n"
+"PO-Revision-Date: 2022-03-17 13:25+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -23,7 +24,7 @@ msgstr ""
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:4
 #: src/settings/Application.vala:183 src/settings/MainWindow.vala:110
 #: src/settings/MainWindow.vala:264
 msgid "Break Timer"
@@ -32,16 +33,22 @@ msgstr "Menedżer przerw"
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:6
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
 #: src/settings/Application.vala:186
-#, fuzzy
 msgid "Computer break reminders for GNOME"
-msgstr "Przypomnienia o przerwach od komputera dla aktywnych umysłowo"
+msgstr "Przypomnienia o przerwach od komputera dla środowiska GNOME"
+
+#: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:6
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:8
+#: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:6
+msgid "@APPLICATION_ID@"
+msgstr "@APPLICATION_ID@"
 
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
 msgid "break;micro;rest;timer;"
 msgstr ""
-"break;micro;rest;timer;przerwa;odpoczynek;licznik;przypomnienia;zdrowie;"
+"break;micro;rest;timer;przerwa;miniprzerwa;odpoczynek;licznik;przypomnienia;"
+"zdrowie;"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:4
 msgid "True to enable GNOME Break Timer"
@@ -65,7 +72,7 @@ msgstr "Czas zakończenia trybu cichego."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:21
 msgid "The time to automatically disable quiet mode, in unix time."
-msgstr "Czas automatycznego wyłączenia trybu cichego (w czasie uniksowym)."
+msgstr "Czas automatycznego wyłączenia trybu cichego (w czasie uniksowym)."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:31
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:51
@@ -74,7 +81,7 @@ msgstr "Czas między przerwami"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:32
 msgid "The time between rest breaks, in seconds."
-msgstr "Czas między długimi przerwami (w sekundach)."
+msgstr "Czas między długimi przerwami (w sekundach)."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:37
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:58
@@ -83,53 +90,52 @@ msgstr "Długość każdej z przerw"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:38
 msgid "The duration of each rest break, in seconds."
-msgstr "Długość każdej z długich przerw (w sekundach)."
+msgstr "Długość każdej z długich przerw (w sekundach)."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
 msgid "Lock screen during breaks"
-msgstr ""
+msgstr "Blokowanie ekranu podczas przerw"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:44
 msgid "True to lock the screen during rest breaks."
-msgstr ""
+msgstr "Blokowanie ekranu podczas długich przerw."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
 msgid "The preferred time between micro breaks, in seconds."
-msgstr "Preferowany czas między miniprzerwami (w sekundach)."
+msgstr "Preferowany czas między miniprzerwami (w sekundach)."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:59
 msgid "The preferred duration of each micro break, in seconds."
-msgstr "Preferowana długość każdej z miniprzerw (w sekundach)."
+msgstr "Preferowana długość każdej z miniprzerw (w sekundach)."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
-#, fuzzy
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:9
 msgid ""
 "Break Timer keeps track of how much you are using the computer, and it "
 "reminds you to take regular breaks. It is designed to encourage healthy "
 "behaviour, with a mix of short breaks for your eyes and wrists, as well as "
 "longer breaks to keep your body moving and your mind on task."
 msgstr ""
-"<p>Menedżer przerw rejestruje czas, jaki użytkownik spędza przed komputerem "
+"Menedżer przerw rejestruje czas, jaki użytkownik spędza przed komputerem "
 "i przypomina o regularnych przerwach. Został stworzony, aby promować zdrowe "
 "nawyki, takie jak krótkie przerwy dla oczu i nadgarstków oraz dłuższe "
-"przerwy, które zapewnią ciału trochę ruchu, a umysłowi dalsze skupienie na "
-"zadaniu.</p> <p>Menedżer przerw jest prosty w obsłudze, więc wystarczy tylko "
-"określić plan przerw wedle własnego uznania, a program sam będzie dalej "
-"działał w tle.</p>"
+"przerwy, które zapewnią ciału trochę ruchu, a umysłowi umożliwią dalsze "
+"skupienie się na zadaniu."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:15
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
 msgid ""
 "Break Timer is easy to set up, so you can pick a break schedule that works "
 "for you and it will carry on working in the background."
 msgstr ""
+"Menedżer przerw jest prosty w obsłudze, więc wystarczy tylko określić plan "
+"przerw wedle własnego uznania, a program sam będzie dalej działał w tle."
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:21
+msgid "Easily turn on break timers"
+msgstr "Łatwe włączanie odliczania do przerwy"
 
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:25
-msgid "Easily turn on break timers"
-msgstr ""
-
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:29
 msgid "Check on their status at any time"
-msgstr ""
+msgstr "W każdej chwili można sprawdzić ich stan"
 
 #: src/common/NaturalTime.vala:46
 #, c-format
@@ -161,7 +167,7 @@ msgstr "Menedżer przerw GNOME"
 
 #: src/daemon/Application.vala:130
 msgid "Saving state"
-msgstr ""
+msgstr "Zapisywanie stanu"
 
 #. Label for a notification action that shows information about the current break
 #: src/daemon/break/BreakView.vala:92
@@ -179,7 +185,7 @@ msgstr "Czas na miniprzerwę"
 
 #: src/daemon/microbreak/MicroBreakView.vala:60
 msgid "Take a break from typing and look away from the screen"
-msgstr "Należy teraz oderwać dłonie od klawiatury i odwrócić wzrok od monitora"
+msgstr "Oderwij dłonie od klawiatury i odwróć wzrok od monitora"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
 #: src/daemon/microbreak/MicroBreakView.vala:75
@@ -216,7 +222,7 @@ msgstr "Czas na przerwę"
 #: src/daemon/restbreak/RestBreakView.vala:68
 msgid ""
 "It’s time to take a break. Get away from the computer for a little while!"
-msgstr "Należy teraz zrobić przerwę i odejść na chwilę od komputera."
+msgstr "Zrób teraz przerwę i odejdź na chwilę od komputera."
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
 #: src/daemon/restbreak/RestBreakView.vala:84
@@ -249,20 +255,19 @@ msgid "Your break time has ended"
 msgstr "Przerwa dobiegła końca"
 
 #: src/settings/Application.vala:188
-#, fuzzy
 msgid "Break Timer Website"
-msgstr "Witryna Menedżera przerw GNOME"
+msgstr "Witryna Menedżera przerw"
 
 #: src/settings/Application.vala:189
 msgid "Copyright © 2011-2020 Break Timer Authors"
-msgstr ""
+msgstr "Copyright © 2011-2020 autorzy Menedżera przerw"
 
 #: src/settings/Application.vala:191
 msgid "translator-credits"
 msgstr ""
 "Paweł Żołnowski <pawel.zolnowski@gmail.com>, 2014\n"
-"Piotr Drąg <piotrdrag@gmail.com>, 2014-2016\n"
-"Aviary.pl <community-poland@mozilla.org>, 2014-2016"
+"Piotr Drąg <piotrdrag@gmail.com>, 2014-2022\n"
+"Aviary.pl <community-poland@mozilla.org>, 2014-2022"
 
 #: src/settings/BreakSettingsDialog.vala:41
 msgid "Choose Your Break Schedule"
@@ -283,12 +288,14 @@ msgstr "Częste krótkie przerwy"
 #. Label for a button that opens GNOME Settings to change permissions
 #: src/settings/MainWindow.vala:72
 msgid "Open Settings"
-msgstr ""
+msgstr "Otwórz ustawienia"
 
 #: src/settings/MainWindow.vala:75
 msgid ""
 "Break Timer needs permission to start automatically and run in the background"
 msgstr ""
+"Menedżer przerw wymaga uprawnienia do automatycznego uruchamiania "
+"i działania w tle"
 
 #: src/settings/MainWindow.vala:121
 msgid "About"
@@ -313,11 +320,11 @@ msgstr "Miniprzerwa"
 msgid "Take a break from typing and look away from the screen for %s."
 msgid_plural "Take a break from typing and look away from the screen for %s."
 msgstr[0] ""
-"Należy teraz oderwać dłonie od klawiatury i odwrócić wzrok od monitora na %s."
+"Oderwij teraz dłonie od klawiatury i odwróć wzrok od monitora na %s."
 msgstr[1] ""
-"Należy teraz oderwać dłonie od klawiatury i odwrócić wzrok od monitora na %s."
+"Oderwij teraz dłonie od klawiatury i odwróć wzrok od monitora na %s."
 msgstr[2] ""
-"Należy teraz oderwać dłonie od klawiatury i odwrócić wzrok od monitora na %s."
+"Oderwij teraz oderwać dłonie od klawiatury i odwróć wzrok od monitora na %s."
 
 #: src/settings/microbreak/MicroBreakInfoWidget.vala:57
 msgid "It’s microbreak time"
@@ -368,8 +375,7 @@ msgstr "Czas na przerwę"
 #: src/settings/restbreak/RestBreakInfoWidget.vala:58
 msgid "Take some time away from the computer. Stretch and move around."
 msgstr ""
-"Należy spędzić chwilę z dala od komputera, porozciągać mięśnie i poruszać "
-"się trochę."
+"Spędź chwilę z dala od komputera, porozciągaj mięśnie i poruszaj się trochę."
 
 #: src/settings/restbreak/RestBreakSettingsWidget.vala:29
 msgid "Full break"
@@ -381,7 +387,7 @@ msgstr "Potrzebne są również dłuższe przerwy, aby rozprostować nogi"
 
 #: src/settings/restbreak/RestBreakSettingsWidget.vala:33
 msgid "Lock the screen during breaks"
-msgstr ""
+msgstr "Blokowanie ekranu podczas przerw"
 
 #. Label that explains a countdown timer, which shows a string such as "30 minutes"
 #: src/settings/restbreak/RestBreakStatusWidget.vala:30
@@ -407,13 +413,13 @@ msgid "Break Timer isn’t responding"
 msgstr "Menedżer przerw nie odpowiada"
 
 #: ui/settings-panels.ui:54
-#, fuzzy
 msgid ""
 "If this continues the next time you log in, please <a href=\"https://gitlab."
 "gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>.\t"
 msgstr ""
 "Jeśli się to powtórzy po następnym zalogowaniu, prosimy <a href=\"https://"
-"bugs.launchpad.net/brainbreak\">zgłosić błąd</a> (w języku angielskim).\t"
+"gitlab.gnome.org/GNOME/gnome-break-timer/issues\">zgłosić błąd</a> (w języku "
+"angielskim).\t"
 
 #: ui/settings-panels.ui:101
 msgid "Break Timer is taking a break"
@@ -425,7 +431,7 @@ msgstr "Włącz program, aby uaktywnić przerwy"
 
 #: ui/settings-panels.ui:149
 msgid "You can change the types of breaks and their timings from the settings"
-msgstr "Można zmienić rodzaje przerw oraz ich czas w oknie ustawień"
+msgstr "Można zmienić rodzaje przerw oraz ich czas w ustawieniach"
 
 #: ui/settings-panels.ui:175
 msgid "Break Timer lets you take small microbreaks as well as longer breaks."
@@ -460,29 +466,8 @@ msgstr "Witamy w Menedżerze przerw!"
 
 #: ui/settings-panels.ui:357
 msgid "Breaks are good for you. We'll help you to take them."
-msgstr "Przerwy są niezwykle potrzebne. Program pomoże o nich pamiętać."
+msgstr "Przerwy są niezwykle potrzebne. Ten program pomoże o nich pamiętać."
 
 #: ui/settings-panels.ui:378
 msgid "Just switch me on to get started"
 msgstr "Wystarczy go włączyć"
-
-#~ msgid "_Close"
-#~ msgstr "Za_mknij"
-
-#~ msgid "Remember to take regular breaks from using the computer"
-#~ msgstr ""
-#~ "Należy pamiętać o regularnych przerwach podczas pracy przy komputerze"
-
-#~ msgid "Provides a gentle reminder to take regular breaks"
-#~ msgstr "Nienachalne przypomnienia o regularnych przerwach"
-
-#~ msgid "Choose your preferences for micro breaks and rest breaks"
-#~ msgstr ""
-#~ "Określenie preferencji odnośnie miniprzerw i dłuższych przerw na "
-#~ "odpoczynek"
-
-#~ msgid "Thank you"
-#~ msgstr "Dziękujemy"
-
-#~ msgid "Take a moment to rest your eyes"
-#~ msgstr "Czas na chwilę odpoczynku dla oczu"
