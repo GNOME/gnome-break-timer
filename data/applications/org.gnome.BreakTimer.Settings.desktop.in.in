@@ -2,8 +2,10 @@
 Type=Application
 Name=Break Timer
 Comment=Computer break reminders for GNOME
+# Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 Keywords=break;micro;rest;timer;
 Categories=GNOME;GTK;Utility;
+# Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 Icon=@APPLICATION_ID@
 Exec=gnome-break-timer-settings
 StartupNotify=true
