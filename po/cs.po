@@ -1,14 +1,15 @@
 # Czech translation for gnome-break-timer.
 # Copyright (C) 2013 gnome-break-timer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-break-timer package.
-# Marek Černocký <marek@manet.cz>, 2013, 2014.
+# Marek Černocký <marek@manet.cz>, 2013, 2014, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-11 16:56-0800\n"
-"PO-Revision-Date: 2014-09-09 21:23+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/"
+"issues\n"
+"POT-Creation-Date: 2022-03-17 11:05+0000\n"
+"PO-Revision-Date: 2022-03-18 15:02+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -21,7 +22,7 @@ msgstr ""
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:4
 #: src/settings/Application.vala:183 src/settings/MainWindow.vala:110
 #: src/settings/MainWindow.vala:264
 msgid "Break Timer"
@@ -30,11 +31,16 @@ msgstr "Hlídání přestávek"
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:6
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
 #: src/settings/Application.vala:186
-#, fuzzy
 msgid "Computer break reminders for GNOME"
-msgstr "Upomínání na počítačové přestávky pro zachování svěží mysli"
+msgstr "Upomínání na počítačové přestávky pro GNOME"
+
+#: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:6
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:8
+#: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:6
+msgid "@APPLICATION_ID@"
+msgstr "@APPLICATION_ID@"
 
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
 msgid "break;micro;rest;timer;"
@@ -84,11 +90,11 @@ msgstr "Délka trvání každé odpočinkové přestávky, v sekundách."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
 msgid "Lock screen during breaks"
-msgstr ""
+msgstr "Během přestávky zamknout obrazovku"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:44
 msgid "True to lock the screen during rest breaks."
-msgstr ""
+msgstr "Zapněte, když chcete mít během přestávky zamknutou obrazovku."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
 msgid "The preferred time between micro breaks, in seconds."
@@ -98,34 +104,33 @@ msgstr "Požadovaná doba mezi mikropřestávkami, v sekundách."
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "Požadovaná délka trvání každé mikropřestávky, v sekundách."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
-#, fuzzy
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:9
 msgid ""
 "Break Timer keeps track of how much you are using the computer, and it "
 "reminds you to take regular breaks. It is designed to encourage healthy "
 "behaviour, with a mix of short breaks for your eyes and wrists, as well as "
 "longer breaks to keep your body moving and your mind on task."
 msgstr ""
-"<p>Hlídání přestávek sleduje, jak moc pracujete na počítači a vyzývá vás, "
+"Hlídání přestávek sleduje, jak moc pracujete na počítači a vyzývá vás, "
 "abyste si dělali pravidelné přestávky. Jeho cílem je přimět vás ke zdravému "
 "chování kombinací krátkých přestávek pro vaše oči a zápěstí a dlouhých "
-"přestávek pro pohyb těla i odpočinutí mysli od úkolu.</p> <p>Hlídání "
-"přestávek se dá snadno nastavit, takže si můžete zvolit plán přestávek, "
-"který vám bude vyhovovat a na pozadí se starat za vás.</p>"
+"přestávek pro pohyb těla i odpočinutí mysli od úkolu."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:15
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
 msgid ""
 "Break Timer is easy to set up, so you can pick a break schedule that works "
 "for you and it will carry on working in the background."
 msgstr ""
+"Hlídání přestávek se dá snadno nastavit, takže si můžete zvolit plán "
+"přestávek, který vám bude vyhovovat a na pozadí se starat za vás."
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:21
+msgid "Easily turn on break timers"
+msgstr "Hlídání přestávek se dá zapnout velmi jednoduše"
 
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:25
-msgid "Easily turn on break timers"
-msgstr ""
-
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:29
 msgid "Check on their status at any time"
-msgstr ""
+msgstr "Kdykoliv si můžete zkontrolovat, jak na tom jste"
 
 #: src/common/NaturalTime.vala:46
 #, c-format
@@ -157,7 +162,7 @@ msgstr "Hlídání přestávek GNOME"
 
 #: src/daemon/Application.vala:130
 msgid "Saving state"
-msgstr ""
+msgstr "Stav ukládání"
 
 #. Label for a notification action that shows information about the current break
 #: src/daemon/break/BreakView.vala:92
@@ -245,13 +250,12 @@ msgid "Your break time has ended"
 msgstr "Čas vaší přestávky skončil"
 
 #: src/settings/Application.vala:188
-#, fuzzy
 msgid "Break Timer Website"
-msgstr "Webové stránky Hlídání přestávek GNOME"
+msgstr "Webové stránky Hlídání přestávek"
 
 #: src/settings/Application.vala:189
 msgid "Copyright © 2011-2020 Break Timer Authors"
-msgstr ""
+msgstr "Copyright © 2011 – 2020 autoři Hlídání přestávek"
 
 #: src/settings/Application.vala:191
 msgid "translator-credits"
@@ -276,12 +280,14 @@ msgstr "Časté krátké přestávky"
 #. Label for a button that opens GNOME Settings to change permissions
 #: src/settings/MainWindow.vala:72
 msgid "Open Settings"
-msgstr ""
+msgstr "Otevřít nastavení"
 
 #: src/settings/MainWindow.vala:75
 msgid ""
 "Break Timer needs permission to start automatically and run in the background"
 msgstr ""
+"Aplikace Hlídání přestávek potřebuje oprávnění, aby se mohla spouštět "
+"automaticky a běžet na pozadí"
 
 #: src/settings/MainWindow.vala:121
 msgid "About"
@@ -369,7 +375,7 @@ msgstr "A dělejte si nějaké delší přestávky, abyste si protáhli nohy"
 
 #: src/settings/restbreak/RestBreakSettingsWidget.vala:33
 msgid "Lock the screen during breaks"
-msgstr ""
+msgstr "Během přestávky zamknout obrazovku"
 
 #. Label that explains a countdown timer, which shows a string such as "30 minutes"
 #: src/settings/restbreak/RestBreakStatusWidget.vala:30
@@ -395,7 +401,6 @@ msgid "Break Timer isn’t responding"
 msgstr "Hlídání přestávek nereaguje"
 
 #: ui/settings-panels.ui:54
-#, fuzzy
 msgid ""
 "If this continues the next time you log in, please <a href=\"https://gitlab."
 "gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>.\t"
@@ -455,22 +460,3 @@ msgstr "Přestávky jsou pro vaše dobro. Pomůžeme vám je dodržovat."
 #: ui/settings-panels.ui:378
 msgid "Just switch me on to get started"
 msgstr "Abyste začali, stačí zde zapnout"
-
-#~ msgid "_Close"
-#~ msgstr "_Zavřít"
-
-#~ msgid "Remember to take regular breaks from using the computer"
-#~ msgstr "Pamatujte na pravidelné přestávky při práci na počítači"
-
-#~ msgid "Provides a gentle reminder to take regular breaks"
-#~ msgstr "Poskytuje nevtíravé upomínky na pravidelné přestávky"
-
-#~ msgid "Choose your preferences for micro breaks and rest breaks"
-#~ msgstr ""
-#~ "Nastavte si mikropřestávky a odpočinkové přestávky podle svých potřeb"
-
-#~ msgid "Thank you"
-#~ msgstr "Díky"
-
-#~ msgid "Take a moment to rest your eyes"
-#~ msgstr "Věnujte chvíli odpočinku svých očí"
