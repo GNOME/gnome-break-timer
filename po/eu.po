@@ -1,0 +1,438 @@
+# Basque translation for gnome-break-timer.
+# Copyright (C) 2022 gnome-break-timer's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-break-timer package.
+# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2022.
+#
+msgid ""
+msgstr "Project-Id-Version: gnome-break-timer master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\n"
+"POT-Creation-Date: 2022-03-18 14:14+0000\n"
+"PO-Revision-Date: 2022-03-20 14:14+0000\n"
+"Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
+"Language-Team: Basque <librezale@librezale.eus>\n"
+"Language: eu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
+#: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:4
+#: src/settings/Application.vala:183 src/settings/MainWindow.vala:110
+#: src/settings/MainWindow.vala:264
+msgid "Break Timer"
+msgstr "Break Timer"
+
+#: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:5
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
+#: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
+#: src/settings/Application.vala:186
+msgid "Computer break reminders for GNOME"
+msgstr "Atsedenak hartzeko oroigarriak GNOMErako"
+
+#: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:6
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:8
+#: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:6
+msgid "@APPLICATION_ID@"
+msgstr "@APPLICATION_ID@"
+
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
+msgid "break;micro;rest;timer;"
+msgstr "atsedenaldia;mikro;atsedena;tenporizadoea;"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:4
+msgid "True to enable GNOME Break Timer"
+msgstr "Egia GNOME Break Timer gaitzeko"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:9
+msgid "The list of breaks that are currently enabled"
+msgstr "Unean gaituta dauden atsedenaldien zerrenda"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:14
+msgid "True to enable quiet mode"
+msgstr "Egia modu isila gaitzeko"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:15
+msgid "Hides breaks until quiet-mode-expire-time."
+msgstr "Atsedenaldiak ezkutatzen ditu quiet-mode-expire-time iritsi arte."
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:20
+msgid "Time to end quiet mode."
+msgstr "Modu isila amaituko den ordua."
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:21
+msgid "The time to automatically disable quiet mode, in unix time."
+msgstr "Modu isila automatikoki desgaituko den ordua, unix denboran."
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:31
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:51
+msgid "Time between breaks"
+msgstr "Atsedenaldien arteko denbora"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:32
+msgid "The time between rest breaks, in seconds."
+msgstr "Atsedenaldien arteko denbora, segundotan."
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:37
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:58
+msgid "Duration of each break"
+msgstr "Atsedenaldi bakoitzaren iraupena"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:38
+msgid "The duration of each rest break, in seconds."
+msgstr "Atsedenaldi bakoitzaren iraupena, segundotan."
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
+msgid "Lock screen during breaks"
+msgstr "Blokeo-pantaila atsedenaldietan"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:44
+msgid "True to lock the screen during rest breaks."
+msgstr "Egia atsedenaldiek irauten duten bitartean pantaila blokeatzeko."
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
+msgid "The preferred time between micro breaks, in seconds."
+msgstr "Mikroatsedenaldien arteko denbora hobetsia, segundotan."
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:59
+msgid "The preferred duration of each micro break, in seconds."
+msgstr "Mikroatsedenaldi bakoitzaren iraupen hobetsia, segundotan."
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:9
+msgid ""
+"Break Timer keeps track of how much you are using the computer, and it "
+"reminds you to take regular breaks. It is designed to encourage healthy "
+"behaviour, with a mix of short breaks for your eyes and wrists, as well as "
+"longer breaks to keep your body moving and your mind on task."
+msgstr "Break Timer aplikazioari esker, ordenagailua zenbat denbora erabiltzen ari zaren jakingo duzu eta noizean behin atsedenaldiak hartzeko balioko dizu. Portaera osasuntsua sustatzeko dago diseinatuta: atsedenaldi laburrak ditu begiak eta eskumuturrak lasaitzeko eta atsedenaldi luzeak gorputza mugitzeko eta burua adi mantentzeko."
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
+msgid ""
+"Break Timer is easy to set up, so you can pick a break schedule that works "
+"for you and it will carry on working in the background."
+msgstr "Break Timer erraz konfiguratzen da, ongi egokitzen zaizun atsedenaldi-programazioa aukeratu dezakezu eta atzeko planoan exekutatutako da."
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:21
+msgid "Easily turn on break timers"
+msgstr "Aktibatu atsedenaldiak modu errazean"
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:25
+msgid "Check on their status at any time"
+msgstr "Begiratu atsedenaldien egoera edozein momentutan"
+
+#: src/common/NaturalTime.vala:46
+#, c-format
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "Segundo %d"
+msgstr[1] "%d segundo"
+
+#: src/common/NaturalTime.vala:49
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "Minutu %d"
+msgstr[1] "%d minutu"
+
+#: src/common/NaturalTime.vala:52
+#, c-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "Ordu %d"
+msgstr[1] "%d ordu"
+
+#: src/daemon/Application.vala:27
+msgid "GNOME Break Timer"
+msgstr "GNOME Break Timer"
+
+#: src/daemon/Application.vala:130
+msgid "Saving state"
+msgstr "Egiera gordetzen"
+
+#. Label for a notification action that shows information about the current break
+#: src/daemon/break/BreakView.vala:92
+msgid "What should I do?"
+msgstr "Zer egin behar dut?"
+
+#. Label for a notification action that will skip the current microbreak
+#: src/daemon/microbreak/MicroBreakView.vala:52
+msgid "Skip this one"
+msgstr "Saltatu hau"
+
+#: src/daemon/microbreak/MicroBreakView.vala:59
+msgid "It’s time for a micro break"
+msgstr "Mikroatsedenaldi baterako ordua da"
+
+#: src/daemon/microbreak/MicroBreakView.vala:60
+msgid "Take a break from typing and look away from the screen"
+msgstr "Hartu atsedenaldi bat, utzi idazteari eta begiratu pantailaz haratago"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/microbreak/MicroBreakView.vala:75
+#, c-format
+msgid "You were due to take a micro break %s ago"
+msgid_plural "You were due to take a micro break %s ago"
+msgstr[0] "Duela %s mikroatsedenaldi bat egiteko asmoa zenuen"
+msgstr[1] "Duela %s mikroatsedenaldi bat egiteko asmoa zenuen"
+
+#: src/daemon/microbreak/MicroBreakView.vala:81
+msgid "Overdue micro break"
+msgstr "Atzeratutako mikroatsedenaldia"
+
+#: src/daemon/microbreak/MicroBreakView.vala:90
+#: src/daemon/restbreak/RestBreakView.vala:121
+msgid "Break is over"
+msgstr "Atsedenaldia amaitu da"
+
+#: src/daemon/microbreak/MicroBreakView.vala:91
+msgid "Your micro break has ended"
+msgstr "Mikroatsedenaldia amaitu da"
+
+#. Label for a notification action that will delay the current break for a few minutes
+#: src/daemon/restbreak/RestBreakView.vala:53
+msgid "Remind me later"
+msgstr "Gogorarazi geroago"
+
+#. FIXME: Should say how long the break is?
+#: src/daemon/restbreak/RestBreakView.vala:67
+msgid "Time for a break"
+msgstr "Atsedenaldi baterako ordua da"
+
+#: src/daemon/restbreak/RestBreakView.vala:68
+msgid ""
+"It’s time to take a break. Get away from the computer for a little while!"
+msgstr "Atsedenaldi bat hartzeko ordua da. Aldendu ordenagailutik tarte batez!"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/restbreak/RestBreakView.vala:84
+#, c-format
+msgid "There is %s remaining in your break"
+msgid_plural "There are %s remaining in your break"
+msgstr[0] "%s falta da atsedenaldia amaitzeko"
+msgstr[1] "%s falta da atsedenaldia amaitzeko"
+
+#: src/daemon/restbreak/RestBreakView.vala:90
+msgid "Break interrupted"
+msgstr "Atsedenaldia eten da"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/restbreak/RestBreakView.vala:106
+#, c-format
+msgid "You were due to take a break %s ago"
+msgid_plural "You were due to take a break %s ago"
+msgstr[0] "Duela %s atsedenaldi bat egiteko asmoa zenuen"
+msgstr[1] "Duela %s atsedenaldi bat egiteko asmoa zenuen"
+
+#: src/daemon/restbreak/RestBreakView.vala:112
+msgid "Overdue break"
+msgstr "Atzeratutako atsedenaldia"
+
+#: src/daemon/restbreak/RestBreakView.vala:122
+msgid "Your break time has ended"
+msgstr "Atsedenaldia amaitu da"
+
+#: src/settings/Application.vala:188
+msgid "Break Timer Website"
+msgstr "Break Timer aplikazioaren webgunea"
+
+#: src/settings/Application.vala:189
+msgid "Copyright © 2011-2020 Break Timer Authors"
+msgstr "Copyright © 2011-2020 Break Timer egileak"
+
+#: src/settings/Application.vala:191
+msgid "translator-credits"
+msgstr "translator-credits"
+
+#: src/settings/BreakSettingsDialog.vala:41
+msgid "Choose Your Break Schedule"
+msgstr "Aukeratu atsedenaldi-programazioa"
+
+#: src/settings/BreakSettingsDialog.vala:63
+msgid "A mix of short breaks and long breaks"
+msgstr "Atsedenaldi laburren eta luzeen nahastea"
+
+#: src/settings/BreakSettingsDialog.vala:67
+msgid "Occasional long breaks"
+msgstr "Atsedenaldi luzeak noizean behin"
+
+#: src/settings/BreakSettingsDialog.vala:71
+msgid "Frequent short breaks"
+msgstr "Atsedenaldi laburrak sarritan"
+
+#. Label for a button that opens GNOME Settings to change permissions
+#: src/settings/MainWindow.vala:72
+msgid "Open Settings"
+msgstr "Ireki ezarpenak"
+
+#: src/settings/MainWindow.vala:75
+msgid ""
+"Break Timer needs permission to start automatically and run in the background"
+msgstr "Break Timer aplikazioak baimena behar du automatikoki abiarazi eta atzeko planoan exekutatzeko"
+
+#: src/settings/MainWindow.vala:121
+msgid "About"
+msgstr "Honi buruz"
+
+#: src/settings/MainWindow.vala:122
+msgid "Quit"
+msgstr "Irten"
+
+#: src/settings/MainWindow.vala:258
+msgid "Welcome Tour"
+msgstr "Ongi etorriko bisita"
+
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:32
+#: src/settings/microbreak/MicroBreakSettingsWidget.vala:29
+msgid "Microbreak"
+msgstr "Mikroatsedenaldia"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:52
+#, c-format
+msgid "Take a break from typing and look away from the screen for %s."
+msgid_plural "Take a break from typing and look away from the screen for %s."
+msgstr[0] "Hartu atsedenaldi bat, utzi idazteari eta begiratu pantailaz haratago tarte batez: %s."
+msgstr[1] "Hartu atsedenaldi bat, utzi idazteari eta begiratu pantailaz haratago tarte batez: %s."
+
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:57
+msgid "It’s microbreak time"
+msgstr "Mikroatsedenaldirako ordua da"
+
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:59
+msgid "I'll chime when it’s time to use the computer again."
+msgstr "Ordua joko dut ordenagailua berriro erabiltzeko momentua denean."
+
+#: src/settings/microbreak/MicroBreakSettingsWidget.vala:30
+msgid "Pause frequently to relax your eyes"
+msgstr "Pausatu sarritan begiek atseden hartu dezaten"
+
+#. Label that explains a countdown timer, which shows a string such as "5 minutes"
+#: src/settings/microbreak/MicroBreakStatusWidget.vala:30
+msgid "Your next microbreak is in"
+msgstr "Zure hurrengo mikroatsedenaldirako:"
+
+#: src/settings/microbreak/MicroBreakStatusWidget.vala:31
+msgid "It's time for a microbreak"
+msgstr "Mikroatsedenaldi baterako ordua da"
+
+#: src/settings/panels/WelcomePanel.vala:71
+msgid "OK, got it!"
+msgstr "Ados!"
+
+#: src/settings/panels/WelcomePanel.vala:77
+msgid "Ready to go"
+msgstr "Hasteko prest"
+
+#: src/settings/restbreak/RestBreakInfoWidget.vala:32
+msgid "Break"
+msgstr "Atsedenaldia"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/settings/restbreak/RestBreakInfoWidget.vala:52
+#, c-format
+msgid "Your break has %s remaining. I’ll remind you when it’s over."
+msgid_plural "Your break has %s remaining. I’ll remind you when it’s over."
+msgstr[0] "Zure atsedenaldiari %s geratzen zaio. Amaitzen denean gogoraraziko dizut."
+msgstr[1] "Zure atsedenaldiari %s geratzen zaio. Amaitzen denean gogoraraziko dizut."
+
+#: src/settings/restbreak/RestBreakInfoWidget.vala:57
+msgid "It’s break time"
+msgstr "Atsedenaldirako ordua da"
+
+#: src/settings/restbreak/RestBreakInfoWidget.vala:58
+msgid "Take some time away from the computer. Stretch and move around."
+msgstr "Aldendu pixka batean ordenagailutik. Luzatu giharrak eta mugitu gorputza."
+
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:29
+msgid "Full break"
+msgstr "Atsedenaldi osoa"
+
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:30
+msgid "And take some longer breaks to stretch your legs"
+msgstr "Eta hartu atsedenaldi luzeagoak hankak luzatzeko"
+
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:33
+msgid "Lock the screen during breaks"
+msgstr "Blokeatu pantaila atsedenaldietan"
+
+#. Label that explains a countdown timer, which shows a string such as "30 minutes"
+#: src/settings/restbreak/RestBreakStatusWidget.vala:30
+msgid "Your next full break is in"
+msgstr "Hurrengo atsedenaldi osorako denbora:"
+
+#: src/settings/restbreak/RestBreakStatusWidget.vala:31
+msgid "It's break time"
+msgstr "Atsedenaldirako ordua da"
+
+#. Label for the widget to choose how frequently a break occurs. (Choices such as "6 minutes" or "45 minutes")
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:38
+msgid "Every"
+msgstr "Maiztasuna:"
+
+#. Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes")
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:47
+msgid "For"
+msgstr "Iraupena:"
+
+#: ui/settings-panels.ui:37
+msgid "Break Timer isn’t responding"
+msgstr "Break Timer aplikazioak ez du erantzuten"
+
+#: ui/settings-panels.ui:54
+msgid ""
+"If this continues the next time you log in, please <a href=\"https://gitlab."
+"gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>.\t"
+msgstr "Honek jarraitzen badu saioa hasten duzun hurrengoa, <a href=\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">bete akatsaren txosten bat</a>.\t"
+
+#: ui/settings-panels.ui:101
+msgid "Break Timer is taking a break"
+msgstr "Break Timer aplikazioa atseden hartzen ari da"
+
+#: ui/settings-panels.ui:118
+msgid "Turn me on to get those breaks going"
+msgstr "Piztu nazazu atsedenaldiak abian jartzeko"
+
+#: ui/settings-panels.ui:149
+msgid "You can change the types of breaks and their timings from the settings"
+msgstr "Atsedenaldien motak eta orduak aldatu daitezke ezarpenetan"
+
+#: ui/settings-panels.ui:175
+msgid "Break Timer lets you take small microbreaks as well as longer breaks."
+msgstr "Break Timer aplikazioari esker, atsedenaldi laburrak edo luzeak hartu daitezke."
+
+#: ui/settings-panels.ui:193
+msgid ""
+"Microbreaks are a chance to look away from the screen and rest your hands."
+msgstr "Mikroatsedenaldietan, pantaila ikusteari utzi ahal diozu eta eskuak pausatu ditzakezu."
+
+#: ui/settings-panels.ui:211
+msgid "Full breaks are time to get away from the computer and move around."
+msgstr "Atsedenaldi osoetan, aldendu ordenagailutik eta mugitu gorputza."
+
+#: ui/settings-panels.ui:228
+msgid "Breaks and Microbreaks"
+msgstr "Atsedenaldiak eta mikroatsedenaldiak"
+
+#: ui/settings-panels.ui:274
+msgid "You can leave me to it"
+msgstr "Niri utzi diezadakezu"
+
+#: ui/settings-panels.ui:292
+msgid ""
+"Break Timer will carry on working in the background, even if you close it."
+msgstr "Break Timer atzeko planoan izango da abian, baita ixten bada ere."
+
+#: ui/settings-panels.ui:340
+msgid "Welcome to Break Timer!"
+msgstr "Ongi etorri Break Timer aplikaziora!"
+
+#: ui/settings-panels.ui:357
+msgid "Breaks are good for you. We'll help you to take them."
+msgstr "Atsedenaldiak onak dira zuretzat. Haiek hartzen lagunduko dizut."
+
+#: ui/settings-panels.ui:378
+msgid "Just switch me on to get started"
+msgstr "Aktibatu nazazu abian jartzeko"
