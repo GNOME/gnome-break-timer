@@ -4,43 +4,47 @@
 # David Lüder <davidl-dev@gmx-topmail.de>, 2014.
 # Benjamin Steinwender <b@stbe.at>, 2014.
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2016.
+# Jürgen Benvenuti <gastornis@posteo.org>, 2022.
+# Philipp Kiemle <philipp.kiemle@gmail.com>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-11 16:56-0800\n"
-"PO-Revision-Date: 2016-03-21 21:53+0100\n"
-"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/"
+"issues\n"
+"POT-Creation-Date: 2022-05-15 14:17+0000\n"
+"PO-Revision-Date: 2022-06-04 20:51+0200\n"
+"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:4
 #: src/settings/Application.vala:183 src/settings/MainWindow.vala:110
 #: src/settings/MainWindow.vala:264
 msgid "Break Timer"
 msgstr "Pausenerinnerung"
 
+# Sehr frei, ich weiß, aber als Quasi-Untertitel des Programmes vielleicht passend, da eindeutig.
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:6
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
 #: src/settings/Application.vala:186
-#, fuzzy
 msgid "Computer break reminders for GNOME"
-msgstr "Erinnerung für Arbeitspausen für aktive Köpfe"
+msgstr "Erinnert Sie daran, Arbeitspausen einzulegen"
 
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:7
 msgid "break;micro;rest;timer;"
-msgstr "Pause;Kurzpause;Rast;Ruhen;Unterbrechung;"
+msgstr "break;micro;rest;timer;Pause;Kurzpause;Rast;Ruhen;Unterbrechung;"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:4
 msgid "True to enable GNOME Break Timer"
@@ -87,11 +91,11 @@ msgstr "Die Dauer jeder Ruhepause in Sekunden."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
 msgid "Lock screen during breaks"
-msgstr ""
+msgstr "Bildschirm während Pausen sperren"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:44
 msgid "True to lock the screen during rest breaks."
-msgstr ""
+msgstr "Legt fest, ob der Bildschirm während Erholungspausen gesperrt wird."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
 msgid "The preferred time between micro breaks, in seconds."
@@ -101,36 +105,36 @@ msgstr "Bevorzugte Zeit zwischen Kurzpausen, in Sekunden."
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "Bevorzugte Dauer der Kurzpausen, in Sekunden."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
-#, fuzzy
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:9
 msgid ""
 "Break Timer keeps track of how much you are using the computer, and it "
 "reminds you to take regular breaks. It is designed to encourage healthy "
 "behaviour, with a mix of short breaks for your eyes and wrists, as well as "
 "longer breaks to keep your body moving and your mind on task."
 msgstr ""
-"<p>Die Pausenerinnerung überwacht, wie intensiv Sie Ihren Rechner nutzen und "
+"Die Pausenerinnerung überwacht, wie intensiv Sie Ihren Rechner nutzen und "
 "erinnert Sie daran, regelmäßig Pausen einzulegen. Das Programm ist darauf "
 "ausgelegt, gesundheitsbewusstes Verhalten zu fördern, mit einer Mischung aus "
 "Kurzpausen für Augen und Handgelenke sowie längeren Pausen, in denen Sie "
 "sich körperlich bewegen und Ihren Geist auf die Aufgaben konzentrieren "
-"können.</p> <p>Die Pausenerinnerungen lassen sich einfach einrichten, so "
-"dass Sie eine Pausenplanung auswählen können, die zu Ihnen passt und alles "
-"Weitere im Hintergund abläuft.</p>"
+"können."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:15
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
 msgid ""
 "Break Timer is easy to set up, so you can pick a break schedule that works "
 "for you and it will carry on working in the background."
 msgstr ""
+"Die Pausenerinnerungen lassen sich einfach einrichten, sodass Sie eine "
+"Pausenplanung auswählen können, die zu Ihnen passt und alles Weitere im "
+"Hintergrund abläuft."
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:21
+msgid "Easily turn on break timers"
+msgstr "Pausenerinnerungen einfach einschalten"
 
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:25
-msgid "Easily turn on break timers"
-msgstr ""
-
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:29
 msgid "Check on their status at any time"
-msgstr ""
+msgstr "Überprüfen Sie jederzeit deren Status"
 
 #: src/common/NaturalTime.vala:46
 #, c-format
@@ -159,7 +163,7 @@ msgstr "GNOME Pausenerinnerung"
 
 #: src/daemon/Application.vala:130
 msgid "Saving state"
-msgstr ""
+msgstr "Zustand wird gespeichert"
 
 #. Label for a notification action that shows information about the current break
 #: src/daemon/break/BreakView.vala:92
@@ -246,20 +250,21 @@ msgid "Your break time has ended"
 msgstr "Ihre Pausenzeit ist zu Ende"
 
 #: src/settings/Application.vala:188
-#, fuzzy
 msgid "Break Timer Website"
-msgstr "Webseite der GNOME Pausenerinnerung"
+msgstr "Webseite der Pausenerinnerung"
 
 #: src/settings/Application.vala:189
 msgid "Copyright © 2011-2020 Break Timer Authors"
-msgstr ""
+msgstr "Copyright © 2011-2020 Die Autoren von Pausenerinnerung"
 
 #: src/settings/Application.vala:191
 msgid "translator-credits"
 msgstr ""
 "Christian Kirbach <Christian.Kirbach@gmail.com>\n"
 "Benjamin Steinwender <b@stbe.at>\n"
-"Mario Blättermann <mario.blaettermann@gmail.com>"
+"Mario Blättermann <mario.blaettermann@gmail.com>\n"
+"Jürgen Benvenuti <gastornis@posteo.org>\n"
+"Philipp Kiemle <philipp.kiemle@gmail.com>"
 
 #: src/settings/BreakSettingsDialog.vala:41
 msgid "Choose Your Break Schedule"
@@ -280,12 +285,14 @@ msgstr "Häufige kurze Pausen"
 #. Label for a button that opens GNOME Settings to change permissions
 #: src/settings/MainWindow.vala:72
 msgid "Open Settings"
-msgstr ""
+msgstr "Einstellungen öffnen"
 
 #: src/settings/MainWindow.vala:75
 msgid ""
 "Break Timer needs permission to start automatically and run in the background"
 msgstr ""
+"Pausenerinnerung benötigt die Berechtigung, automatisch zu starten und im "
+"Hintergrund zu laufen"
 
 #: src/settings/MainWindow.vala:121
 msgid "About"
@@ -339,7 +346,7 @@ msgstr "OK, verstanden!"
 
 #: src/settings/panels/WelcomePanel.vala:77
 msgid "Ready to go"
-msgstr "Los geht's"
+msgstr "Los geht’s"
 
 #: src/settings/restbreak/RestBreakInfoWidget.vala:32
 msgid "Break"
@@ -360,8 +367,7 @@ msgstr "Es ist Zeit für eine Pause"
 #: src/settings/restbreak/RestBreakInfoWidget.vala:58
 msgid "Take some time away from the computer. Stretch and move around."
 msgstr ""
-"Gehen Sie einige Zeit von Ihrem Rechner weg. Dehnen Sie sich und bewegen Sie "
-"sich herum."
+"Gehen Sie einige Zeit von Ihrem Rechner weg. Dehnen und bewegen Sie sich."
 
 #: src/settings/restbreak/RestBreakSettingsWidget.vala:29
 msgid "Full break"
@@ -373,12 +379,12 @@ msgstr "Und machen Sie einige längere Pausen, um Ihre Beine zu strecken"
 
 #: src/settings/restbreak/RestBreakSettingsWidget.vala:33
 msgid "Lock the screen during breaks"
-msgstr ""
+msgstr "Den Bildschirm während Pausen sperren"
 
 #. Label that explains a countdown timer, which shows a string such as "30 minutes"
 #: src/settings/restbreak/RestBreakStatusWidget.vala:30
 msgid "Your next full break is in"
-msgstr "Ihre nächste Pause ist in"
+msgstr "Ihre nächste volle Pause ist in"
 
 #: src/settings/restbreak/RestBreakStatusWidget.vala:31
 msgid "It's break time"
@@ -392,21 +398,20 @@ msgstr "Jede"
 #. Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes")
 #: src/settings/timerbreak/TimerBreakSettingsWidget.vala:47
 msgid "For"
-msgstr "Für"
+msgstr "für"
 
 #: ui/settings-panels.ui:37
 msgid "Break Timer isn’t responding"
 msgstr "Pausenerinnerung reagiert nicht"
 
 #: ui/settings-panels.ui:54
-#, fuzzy
 msgid ""
 "If this continues the next time you log in, please <a href=\"https://gitlab."
 "gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>.\t"
 msgstr ""
-"Falls dies nach der nächsten Anmeldung immer noch der Fall ist, <a href="
-"\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">erstellen Sie "
-"bitte einen Fehlerbericht</a>.\t"
+"Falls dies nach der nächsten Anmeldung immer noch der Fall ist, <a "
+"href=\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">erstellen "
+"Sie bitte einen Fehlerbericht</a>.\t"
 
 #: ui/settings-panels.ui:101
 msgid "Break Timer is taking a break"
@@ -437,13 +442,14 @@ msgstr ""
 #: ui/settings-panels.ui:211
 msgid "Full breaks are time to get away from the computer and move around."
 msgstr ""
-"Pausen bieten Ihnen die Zeit, sich vom Rechner zu entfernen und "
-"herumzubewegen."
+"Volle Pausen bieten Ihnen die Zeit, sich vom Rechner zu entfernen und zu "
+"bewegen."
 
 #: ui/settings-panels.ui:228
 msgid "Breaks and Microbreaks"
 msgstr "Pausen und Kurzpausen"
 
+# Variante: Sie können das mir überlassen
 #: ui/settings-panels.ui:274
 msgid "You can leave me to it"
 msgstr "Sie können sich auf mich verlassen"
@@ -465,7 +471,7 @@ msgstr "Pausen sind gut für Sie. Wir wollen Ihnen helfen, diese wahrzunehmen."
 
 #: ui/settings-panels.ui:378
 msgid "Just switch me on to get started"
-msgstr "Schalten sie mich einfach ein, um zu beginnen"
+msgstr "Schalten Sie mich einfach ein, um loszulegen"
 
 #~ msgid "_Close"
 #~ msgstr "S_chließen"
