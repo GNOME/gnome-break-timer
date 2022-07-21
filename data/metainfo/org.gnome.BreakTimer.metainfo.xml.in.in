@@ -15,6 +15,9 @@
     </p>
   </description>
   <launchable type="desktop-id">@DAEMON_APPLICATION_ID@.desktop</launchable>
+  <requires>
+    <id version="1.0" compare="ge">org.gnome.Shell</id>
+  </requires>
   <url type="homepage">https://wiki.gnome.org/Apps/BreakTimer</url>
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-break-timer/issues</url>
   <screenshots>
