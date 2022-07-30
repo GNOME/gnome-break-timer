@@ -31,7 +31,9 @@ public class BreakSettingsDialog : Adw.PreferencesWindow {
     private BreakConfigurationChooser configuration_chooser;
 
     public BreakSettingsDialog (BreakManager break_manager) {
-        GLib.Object ();
+        GLib.Object (
+            search_enabled: false
+        );
 
         this.break_manager = break_manager;
 
@@ -46,6 +48,10 @@ public class BreakSettingsDialog : Adw.PreferencesWindow {
         this.configuration_chooser = new BreakConfigurationChooser ();
         global_preferences_group.add (this.configuration_chooser);
 
+        foreach (BreakType break_type in this.break_manager.all_breaks ()) {
+            this.main_preferences_page.add (break_type.settings_widget);
+        }
+
         this.configuration_chooser.add_configuration (
             { "microbreak", "restbreak" },
             _("A mix of short breaks and long breaks")
@@ -58,6 +64,7 @@ public class BreakSettingsDialog : Adw.PreferencesWindow {
             { "microbreak" },
             _("Frequent short breaks")
         );
+
         settings.bind ("selected-breaks", this.configuration_chooser, "selected-break-ids", SettingsBindFlags.DEFAULT);
 
         this.configuration_chooser.notify["selected-break-ids"].connect (this.update_break_configuration);
@@ -74,11 +81,7 @@ public class BreakSettingsDialog : Adw.PreferencesWindow {
         //       between these instead of showing / hiding widgets.
 
         foreach (BreakType break_type in this.break_manager.all_breaks ()) {
-            if (break_type.id in this.configuration_chooser.selected_break_ids) {
-                this.main_preferences_page.add (break_type.settings_widget);
-            } else {
-                this.main_preferences_page.remove (break_type.settings_widget);
-            }
+            break_type.settings_widget.set_visible (break_type.id in this.configuration_chooser.selected_break_ids);
         }
     }
 }

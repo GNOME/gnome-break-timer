@@ -162,11 +162,6 @@ public class MainWindow : Adw.ApplicationWindow, GLib.Initable {
         return this.settings_button;
     }
 
-    public Gtk.Widget? get_close_button () {
-        // TODO: We need some way to get the close button position from this.header
-        return null;
-    }
-
     private void update_visible_panel () {
         // Use a transition when switching from the welcome panel
         Gtk.StackTransitionType transition;
