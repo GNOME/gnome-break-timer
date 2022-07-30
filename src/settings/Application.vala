@@ -21,35 +21,6 @@
 namespace BreakTimer.Settings {
 
 public class Application : Adw.Application {
-    private const string STYLE_DATA =
-        """
-        ._settings-title {
-            font-weight:bold;
-        }
-
-        ._break-info {
-        }
-
-        ._break-info-heading {
-            font-size: xx-large;
-        }
-
-        ._break-status-heading {
-            font-size: larger;
-        }
-
-        ._break-status-body {
-        }
-
-        ._break-status-hint {
-            font-size: small;
-        }
-
-        ._break-status-icon {
-            opacity: 0.2;
-        }
-        """;
-
     private BreakManager break_manager;
     private MainWindow main_window;
     private bool initial_focus = true;
@@ -75,22 +46,6 @@ public class Application : Adw.Application {
 
     public override void startup () {
         base.startup ();
-
-        /* set up custom gtk style for application */
-        Gtk.CssProvider style_provider = new Gtk.CssProvider ();
-
-        // FIXME
-        // try {
-        //     style_provider.load_from_data (STYLE_DATA, -1);
-        // } catch (GLib.Error error) {
-        //     GLib.warning ("Error loading style data: %s", error.message);
-        // }
-
-        Gtk.StyleContext.add_provider_for_display (
-            Gdk.Display.get_default (),
-            style_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        );
 
         GLib.SimpleAction about_action = new GLib.SimpleAction ("about", null);
         this.add_action (about_action);
