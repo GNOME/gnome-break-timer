@@ -93,7 +93,8 @@ private class WelcomePanel : Gtk.Box {
     }
 
     private void build_overlay_arrow (Gtk.Overlay overlay, Gtk.Widget arrow_source, Gtk.Widget arrow_target) {
-        var arrow = new OverlayArrow (arrow_source, arrow_target);
+        var arrow = new OverlayArrow (arrow_source, arrow_target, this.stack);
+        arrow.spacing = 10;
         overlay.add_overlay (arrow);
     }
 }
