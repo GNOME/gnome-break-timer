@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the gnome-break-timer package.
 # Isak Östlund <translate@catnip.nu>, 2016.
 # Luna Jernberg <droidbittin@gmail.com>, 2022.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/"
 "issues\n"
-"POT-Creation-Date: 2022-03-17 12:29+0000\n"
-"PO-Revision-Date: 2022-03-23 21:57+0100\n"
+"POT-Creation-Date: 2022-05-15 14:17+0000\n"
+"PO-Revision-Date: 2022-08-20 18:09+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
@@ -37,13 +38,8 @@ msgstr "Break Timer"
 msgid "Computer break reminders for GNOME"
 msgstr "Påminnelser om rast från datorn för GNOME"
 
-#: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:6
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:8
-#: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:6
-msgid "@APPLICATION_ID@"
-msgstr "@APPLICATION_ID@"
-
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:7
 msgid "break;micro;rest;timer;"
 msgstr "rast;paus;vila;timer;"
 
@@ -420,12 +416,12 @@ msgstr "Du kan ändra raster och deras längd bland inställningar"
 
 #: ui/settings-panels.ui:175
 msgid "Break Timer lets you take small microbreaks as well as longer breaks."
-msgstr "Break Timer låter dig ta kortare pauser så väl som längre raster."
+msgstr "Break Timer låter dig ta kortare pauser såväl som längre raster."
 
 #: ui/settings-panels.ui:193
 msgid ""
 "Microbreaks are a chance to look away from the screen and rest your hands."
-msgstr "Pauser ger tillfälle att kolla bort från skärmen och vila dina händer."
+msgstr "Pauser ger tillfälle att titta bort från skärmen och vila dina händer."
 
 #: ui/settings-panels.ui:211
 msgid "Full breaks are time to get away from the computer and move around."
@@ -456,21 +452,3 @@ msgstr "Raster är bra för dig. Vi hjälper dig ta dem."
 #: ui/settings-panels.ui:378
 msgid "Just switch me on to get started"
 msgstr "Aktivera mig för att börja"
-
-#~ msgid "_Close"
-#~ msgstr "_Stäng"
-
-#~ msgid "Remember to take regular breaks from using the computer"
-#~ msgstr "Tänk på att ta regelbundna raster från datorn"
-
-#~ msgid "Provides a gentle reminder to take regular breaks"
-#~ msgstr "Ger diskreta påminnelser för regelbundna raster"
-
-#~ msgid "Choose your preferences for micro breaks and rest breaks"
-#~ msgstr "Välj inställningar för pauser och raster"
-
-#~ msgid "Thank you"
-#~ msgstr "Tack"
-
-#~ msgid "Take a moment to rest your eyes"
-#~ msgstr "Ta en stund att vila ögonen"
