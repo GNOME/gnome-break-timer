@@ -2,28 +2,29 @@
 # Copyright (C) 2015 gnome-break-timer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-break-timer package.
 # Moo <hazap@hotmail.com>, 2015.
-# Aurimas Černius <aurisc4@gmail.com>, 2015.
+# Aurimas Černius <aurisc4@gmail.com>, 2015-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-11 16:56-0800\n"
-"PO-Revision-Date: 2015-10-05 22:02+0300\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/"
+"issues\n"
+"POT-Creation-Date: 2022-08-20 16:11+0000\n"
+"PO-Revision-Date: 2023-02-19 21:59+0200\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
-"%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"(n%100<10 || n%100>=20) ? 1 : 2)\n"
+"X-Generator: Gtranslator 42.0\n"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:4
 #: src/settings/Application.vala:183 src/settings/MainWindow.vala:110
 #: src/settings/MainWindow.vala:264
 msgid "Break Timer"
@@ -32,13 +33,13 @@ msgstr "Pertraukų laikmatis"
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:6
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
 #: src/settings/Application.vala:186
-#, fuzzy
 msgid "Computer break reminders for GNOME"
-msgstr "Kompiuterinių pertraukų priminimai aktyviems protams"
+msgstr "Kompiuterinių pertraukų priminimai GNOME aplinkai"
 
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:7
 msgid "break;micro;rest;timer;"
 msgstr "pertrauka;mikro;poilsis;laikmatis;"
 
@@ -86,11 +87,11 @@ msgstr "Kiekvienos poilsio pertraukos trukmė, sekundėmis."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
 msgid "Lock screen during breaks"
-msgstr ""
+msgstr "Užrakinti ekraną pertraukų metu"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:44
 msgid "True to lock the screen during rest breaks."
-msgstr ""
+msgstr "Teigiama, jei ekranas užrakinamas pertraukėlių metu."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
 msgid "The preferred time between micro breaks, in seconds."
@@ -100,35 +101,34 @@ msgstr "Pageidaujamas laikas tarp mikropertraukų, sekundėmis."
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "Pageidaujama kiekvienos mikropertraukos trukmė, sekundėmis."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
-#, fuzzy
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:9
 msgid ""
 "Break Timer keeps track of how much you are using the computer, and it "
 "reminds you to take regular breaks. It is designed to encourage healthy "
 "behaviour, with a mix of short breaks for your eyes and wrists, as well as "
 "longer breaks to keep your body moving and your mind on task."
 msgstr ""
-"<p>Pertraukų laikmatis seka kiek laiko jūs naudojatės kompiuteriu ir primena "
+"Pertraukų laikmatis seka kiek laiko jūs naudojatės kompiuteriu ir primena "
 "jums daryti reguliarias pertraukas. Jis yra sukurtas, kad skatintų sveiką "
 "elgseną trumpų pertraukų mišiniu, skirtu jūsų akims ir riešams, o taip pat "
 "ir ilgomis pertraukomis, išlaikančiomis jūsų kūną judėjime, o protą - "
-"susikaupusį.</p> <p>Pertraukų laikmatis yra lengvai nustatomas, taigi, "
-"galite pasirinkti jums tinkantį pertraukų tvarkaraštį, kuris tęs savo darbą "
-"fone.</p>"
+"susikaupusį."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:15
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
 msgid ""
 "Break Timer is easy to set up, so you can pick a break schedule that works "
 "for you and it will carry on working in the background."
 msgstr ""
+"Pertraukų laikmatis yra lengvai nustatomas, taigi, galite pasirinkti jums "
+"tinkantį pertraukų tvarkaraštį, kuris tęs savo darbą fone."
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:21
+msgid "Easily turn on break timers"
+msgstr "Lengvai įjunkite pertraukėlių laikmačius"
 
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:25
-msgid "Easily turn on break timers"
-msgstr ""
-
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:29
 msgid "Check on their status at any time"
-msgstr ""
+msgstr "Bet kada patikrinkite jų būseną"
 
 #: src/common/NaturalTime.vala:46
 #, c-format
@@ -160,7 +160,7 @@ msgstr "GNOME pertraukų laikmatis"
 
 #: src/daemon/Application.vala:130
 msgid "Saving state"
-msgstr ""
+msgstr "Įrašoma būsena"
 
 #. Label for a notification action that shows information about the current break
 #: src/daemon/break/BreakView.vala:92
@@ -248,13 +248,12 @@ msgid "Your break time has ended"
 msgstr "Jūsų pertraukos laikas pasibaigė"
 
 #: src/settings/Application.vala:188
-#, fuzzy
 msgid "Break Timer Website"
-msgstr "GNOME pertraukų laikmačio svetainė"
+msgstr "Pertraukų laikmačio svetainė"
 
 #: src/settings/Application.vala:189
 msgid "Copyright © 2011-2020 Break Timer Authors"
-msgstr ""
+msgstr "Autorių teisės saugomos © 2011-2020 Pertraukėlių laikmačio autoriai"
 
 #: src/settings/Application.vala:191
 msgid "translator-credits"
@@ -281,12 +280,14 @@ msgstr "Dažnos trumpos pertraukos"
 #. Label for a button that opens GNOME Settings to change permissions
 #: src/settings/MainWindow.vala:72
 msgid "Open Settings"
-msgstr ""
+msgstr "Atverti nuostatas"
 
 #: src/settings/MainWindow.vala:75
 msgid ""
 "Break Timer needs permission to start automatically and run in the background"
 msgstr ""
+"Pertraukėlių laikmačiui reikia leidimo automatiniam paleidimui bei veikimui "
+"fone"
 
 #: src/settings/MainWindow.vala:121
 msgid "About"
@@ -380,7 +381,7 @@ msgstr "Ir darykite kelias ilgesnes pertraukas, kad ištemptumėte kojas"
 
 #: src/settings/restbreak/RestBreakSettingsWidget.vala:33
 msgid "Lock the screen during breaks"
-msgstr ""
+msgstr "Užrakinkite ekraną pertraukėlių metu"
 
 #. Label that explains a countdown timer, which shows a string such as "30 minutes"
 #: src/settings/restbreak/RestBreakStatusWidget.vala:30
@@ -406,14 +407,13 @@ msgid "Break Timer isn’t responding"
 msgstr "Pertraukų laikmatis neatsako"
 
 #: ui/settings-panels.ui:54
-#, fuzzy
 msgid ""
 "If this continues the next time you log in, please <a href=\"https://gitlab."
 "gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>.\t"
 msgstr ""
-"Jeigu kitą kartą jums prisijungus, tai vis dar tęsiasi, prašome <a href="
-"\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">pranešti apie "
-"klaidą</a>.\t"
+"Jeigu kitą kartą jums prisijungus, tai vis dar tęsiasi, prašome <a "
+"href=\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">pranešti "
+"apie klaidą</a>.\t"
 
 #: ui/settings-panels.ui:101
 msgid "Break Timer is taking a break"
