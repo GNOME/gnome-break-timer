@@ -1,14 +1,15 @@
 # Indonesian translation for gnome-break-timer.
 # Copyright (C) 2014 gnome-break-timer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-break-timer package.
-# Andika Triwidada <andika@gmail.com>, 2014.
+# Andika Triwidada <andika@gmail.com>, 2014, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-11 16:56-0800\n"
-"PO-Revision-Date: 2014-10-17 13:34+0700\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/"
+"issues\n"
+"POT-Creation-Date: 2022-08-20 16:11+0000\n"
+"PO-Revision-Date: 2023-02-19 13:29+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
@@ -16,12 +17,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:4
 #: src/settings/Application.vala:183 src/settings/MainWindow.vala:110
 #: src/settings/MainWindow.vala:264
 msgid "Break Timer"
@@ -30,13 +31,13 @@ msgstr "Pewaktu Istirahat"
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:6
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
 #: src/settings/Application.vala:186
-#, fuzzy
 msgid "Computer break reminders for GNOME"
-msgstr "Pengingat istirahat dari komputer bagi otak yang aktif"
+msgstr "Pengingat istirahat dari komputer untuk GNOME"
 
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:7
 msgid "break;micro;rest;timer;"
 msgstr "istirahat;mikro;pewaktu;"
 
@@ -84,11 +85,11 @@ msgstr "Durasi setiap istirahat, dalam detik."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
 msgid "Lock screen during breaks"
-msgstr ""
+msgstr "Kunci layar saat istirahat"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:44
 msgid "True to lock the screen during rest breaks."
-msgstr ""
+msgstr "True untuk mengunci layar selama istirahat."
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
 msgid "The preferred time between micro breaks, in seconds."
@@ -98,35 +99,35 @@ msgstr "Selang waktu yang disukai antar istirahat mikro, dalam detik."
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "Durasi dari setiap istirahat mikro, dalam detik."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
-#, fuzzy
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:9
 msgid ""
 "Break Timer keeps track of how much you are using the computer, and it "
 "reminds you to take regular breaks. It is designed to encourage healthy "
 "behaviour, with a mix of short breaks for your eyes and wrists, as well as "
 "longer breaks to keep your body moving and your mind on task."
 msgstr ""
-"<p>Pewaktu Istirahat mencatat seberapa lama Anda memakai komputer, dan "
+"Pewaktu Istirahat mencatat seberapa lama Anda memakai komputer, dan "
 "mengingatkan Anda untuk beristirahat secara teratur. Ini dirancang untuk "
 "menganjurkan perilaku yang sehat, dengan campuran dari istirahat pendek bagi "
 "mata dan pergelangan tangan Anda, maupun istirahat panjang agar tubuh Anda "
-"tetap bergerak dan otak Anda tetap pada tugas.</p><p>Pewaktu Istirahat "
-"sederhana penyiapannya, sehingga Anda dapat memilih jadwal istirahat yang "
-"cocok bagi Anda dan ini akan terus bekerja di latar belakang.</p>"
+"tetap bergerak dan otak Anda tetap pada tugas."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:15
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
 msgid ""
 "Break Timer is easy to set up, so you can pick a break schedule that works "
 "for you and it will carry on working in the background."
 msgstr ""
+"Pewaktu Istirahat mudah disiapkan, sehingga Anda dapat memilih jadwal "
+"istirahat yang sesuai untuk Anda dan itu akan terus bekerja di latar "
+"belakang."
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:21
+msgid "Easily turn on break timers"
+msgstr "Nyalakan pewaktu istirahat dengan mudah"
 
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:25
-msgid "Easily turn on break timers"
-msgstr ""
-
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:29
 msgid "Check on their status at any time"
-msgstr ""
+msgstr "Periksa status mereka kapan saja"
 
 #: src/common/NaturalTime.vala:46
 #, c-format
@@ -152,7 +153,7 @@ msgstr "GNOME Pewaktu Istirahat"
 
 #: src/daemon/Application.vala:130
 msgid "Saving state"
-msgstr ""
+msgstr "Menyimpan keadaan"
 
 #. Label for a notification action that shows information about the current break
 #: src/daemon/break/BreakView.vala:92
@@ -235,17 +236,16 @@ msgid "Your break time has ended"
 msgstr "Waktu istirahat Anda telah berakhir"
 
 #: src/settings/Application.vala:188
-#, fuzzy
 msgid "Break Timer Website"
-msgstr "Situs Web GNOME Pewaktu Istirahat"
+msgstr "Situs Web Pewaktu Istirahat"
 
 #: src/settings/Application.vala:189
 msgid "Copyright © 2011-2020 Break Timer Authors"
-msgstr ""
+msgstr "Hak Cipta © 2011-2020 Para Penulis Break Timer"
 
 #: src/settings/Application.vala:191
 msgid "translator-credits"
-msgstr "Andika Triwidada <andika@gmail.com>, 2014"
+msgstr "Andika Triwidada <andika@gmail.com>, 2014, 2023."
 
 #: src/settings/BreakSettingsDialog.vala:41
 msgid "Choose Your Break Schedule"
@@ -266,12 +266,14 @@ msgstr "Istirahat pendek yang sering"
 #. Label for a button that opens GNOME Settings to change permissions
 #: src/settings/MainWindow.vala:72
 msgid "Open Settings"
-msgstr ""
+msgstr "Buka Pengaturan"
 
 #: src/settings/MainWindow.vala:75
 msgid ""
 "Break Timer needs permission to start automatically and run in the background"
 msgstr ""
+"Break Timer membutuhkan izin untuk memulai secara otomatis dan berjalan di "
+"latar belakang"
 
 #: src/settings/MainWindow.vala:121
 msgid "About"
@@ -358,7 +360,7 @@ msgstr "Dan ambil istirahat yang lebih panjang untuk meregang kaki-kaki Anda"
 
 #: src/settings/restbreak/RestBreakSettingsWidget.vala:33
 msgid "Lock the screen during breaks"
-msgstr ""
+msgstr "Kunci layar saat istirahat"
 
 #. Label that explains a countdown timer, which shows a string such as "30 minutes"
 #: src/settings/restbreak/RestBreakStatusWidget.vala:30
@@ -384,7 +386,6 @@ msgid "Break Timer isn’t responding"
 msgstr "Pewaktu Istirahat tak merespon"
 
 #: ui/settings-panels.ui:54
-#, fuzzy
 msgid ""
 "If this continues the next time you log in, please <a href=\"https://gitlab."
 "gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>.\t"
@@ -449,22 +450,3 @@ msgstr "Istirahat itu baik untuk Anda. Kami akan membantu Anda memperolehnya."
 #: ui/settings-panels.ui:378
 msgid "Just switch me on to get started"
 msgstr "Nyalakan saja saya untuk memulai"
-
-#~ msgid "_Close"
-#~ msgstr "_Tutup"
-
-#~ msgid "Remember to take regular breaks from using the computer"
-#~ msgstr "Ingatlah untuk istirahat berkala dari memakai komputer"
-
-#~ msgid "Provides a gentle reminder to take regular breaks"
-#~ msgstr ""
-#~ "Menyediakan suatu pengingat yang lunak untuk beristirahat secara berkala"
-
-#~ msgid "Choose your preferences for micro breaks and rest breaks"
-#~ msgstr "Pilih preferensi Anda untuk istirahat mikro dan istirahat singkat"
-
-#~ msgid "Thank you"
-#~ msgstr "Terima kasih"
-
-#~ msgid "Take a moment to rest your eyes"
-#~ msgstr "Sejenak mengistirahatkan mata Anda"
