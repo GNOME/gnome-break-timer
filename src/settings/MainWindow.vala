@@ -219,18 +219,18 @@ public class MainWindow : Adw.ApplicationWindow, GLib.Initable {
             GLib.HashTable<string, Variant> platform_data = new GLib.HashTable<string, Variant> (str_hash, str_equal);
 
             try {
-                IFreedesktopApplication control_center_application = this.dbus_connection.get_proxy_sync (
-                    "org.gnome.ControlCenter",
-                    "/org/gnome/ControlCenter",
+                IFreedesktopApplication gnome_settings_application = this.dbus_connection.get_proxy_sync (
+                    "org.gnome.Settings",
+                    "/org/gnome/Settings",
                     GLib.DBusProxyFlags.DO_NOT_AUTO_START,
                     null
                 );
-                control_center_application.activate_action ("launch-panel", parameters, platform_data);
+                gnome_settings_application.activate_action ("launch-panel", parameters, platform_data);
             } catch (GLib.IOError error) {
-                GLib.warning ("Error connecting to org.gnome.ControlCenter: %s", error.message);
+                GLib.warning ("Error connecting to org.gnome.Settings: %s", error.message);
                 return false;
             } catch (GLib.DBusError error) {
-                GLib.warning ("Error launching org.gnome.ControlCenter: %s", error.message);
+                GLib.warning ("Error launching org.gnome.Settings: %s", error.message);
                 return false;
             }
             return true;
