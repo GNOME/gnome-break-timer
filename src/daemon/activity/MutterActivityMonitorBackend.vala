@@ -44,7 +44,13 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend, GLib.Initabl
 
     ~MutterActivityMonitorBackend () {
         if (this.mutter_idle_monitor != null && this.idle_watch_id > 0) {
-            this.mutter_idle_monitor.remove_watch (this.idle_watch_id);
+            try {
+                this.mutter_idle_monitor.remove_watch (this.idle_watch_id);
+            } catch (GLib.IOError error) {
+                GLib.warning ("Error connecting to mutter idle monitor service: %s", error.message);
+            } catch (GLib.DBusError error) {
+                GLib.warning ("Error removing mutter idle watch: %s", error.message);
+            }
         }
     }
 
