@@ -29,13 +29,11 @@ public class MainWindow : Adw.ApplicationWindow, GLib.Initable {
 
     private GLib.DBusConnection dbus_connection;
 
-    private GLib.HashTable<string, MessageBar> message_bars;
-
     private GLib.Menu app_menu;
 
     private Adw.HeaderBar header;
     private Gtk.Stack main_stack;
-    private Gtk.Box messages_box;
+    private Adw.Banner permission_error_banner;
 
     private Gtk.Button settings_button;
     private Gtk.Switch master_switch;
@@ -46,69 +44,10 @@ public class MainWindow : Adw.ApplicationWindow, GLib.Initable {
     private WelcomePanel welcome_panel;
     private StatusPanel status_panel;
 
-    private class MessageBar : Gtk.Box {
-        protected weak MainWindow main_window;
-
-        public signal void close_message_bar ();
-
-        protected Gtk.InfoBar info_bar;
-
-        protected MessageBar (MainWindow main_window) {
-            GLib.Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
-
-            this.info_bar = new Gtk.InfoBar ();
-            this.append (info_bar);
-            this.info_bar.show ();
-
-            this.main_window = main_window;
-        }
-    }
-
-    private class PermissionsErrorMessageBar : MessageBar {
-        private BreakManager.PermissionsError error_type;
-
-        public static int RESPONSE_OPEN_SETTINGS = 1;
-
-        public PermissionsErrorMessageBar (MainWindow main_window, BreakManager.PermissionsError error_type) {
-            base (main_window);
-
-            this.error_type = error_type;
-
-            /* Label for a button that opens GNOME Settings to change permissions */
-            this.info_bar.add_button (_("Open Settings"), RESPONSE_OPEN_SETTINGS);
-
-            Gtk.Label label = new Gtk.Label (_("Break Timer needs permission to start automatically and run in the background"));
-            this.info_bar.add_child (label);
-
-            this.info_bar.response.connect (this.on_response);
-            this.info_bar.close.connect (this.on_close);
-        }
-
-        private void on_response (int response_id) {
-            if (response_id == RESPONSE_OPEN_SETTINGS) {
-                GLib.Idle.add_full (
-                    GLib.Priority.HIGH_IDLE,
-                    () => {
-                        this.main_window.launch_application_settings ();
-                        return GLib.Source.REMOVE;
-                    }
-                );
-            } else if (response_id == Gtk.ResponseType.CLOSE) {
-                this.close_message_bar ();
-            }
-        }
-
-        private void on_close () {
-            this.close_message_bar ();
-        }
-    }
-
     public MainWindow (Application application, BreakManager break_manager) {
         GLib.Object (application: application);
 
         this.break_manager = break_manager;
-
-        this.message_bars = new GLib.HashTable<string, MessageBar> (str_hash, str_equal);
 
         this.set_title (_("Break Timer"));
         this.set_default_size (850, 400);
@@ -150,7 +89,7 @@ public class MainWindow : Adw.ApplicationWindow, GLib.Initable {
         header.pack_end (this.menu_button);
 
         this.settings_button = new Gtk.Button ();
-        settings_button.clicked.connect (this.settings_clicked_cb);
+        settings_button.clicked.connect (this.on_settings_clicked);
         // FIXME: Verify, especially IconSize
         settings_button.set_child (
             new Gtk.Image.from_icon_name ("alarm-symbolic")
@@ -160,14 +99,19 @@ public class MainWindow : Adw.ApplicationWindow, GLib.Initable {
         // settings_button.set_always_show_image (true);
         header.pack_end (this.settings_button);
 
-        this.messages_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-        content.append (this.messages_box);
-
         this.main_stack = new Gtk.Stack ();
         content.append (this.main_stack);
         main_stack.set_margin_top (6);
         main_stack.set_margin_bottom (6);
         main_stack.set_transition_duration (250);
+
+        this.permission_error_banner = new Adw.Banner (
+            _("Break Timer needs permission to start automatically and run in the background")
+        );
+        /* Label for a button that opens GNOME Settings to change permissions */
+        this.permission_error_banner.button_label = _("Open Settings");
+        this.permission_error_banner.button_clicked.connect (this.on_permission_error_banner_button_clicked);
+        content.append (this.permission_error_banner);
 
         this.status_panel = new StatusPanel (break_manager, builder);
         this.main_stack.add_named (this.status_panel, "status_panel");
@@ -204,34 +148,9 @@ public class MainWindow : Adw.ApplicationWindow, GLib.Initable {
 
     private void on_break_manager_permissions_error_change () {
         if (this.break_manager.permissions_error != NONE) {
-            MessageBar message_bar = new PermissionsErrorMessageBar (
-                this, this.break_manager.permissions_error
-            );
-            this.show_message_bar ("permissions-error", message_bar);
+            this.permission_error_banner.set_revealed(true);
         } else {
-            this.hide_message_bar ("permissions-error");
-        }
-    }
-
-    private void show_message_bar (string message_id, MessageBar message_bar) {
-        if (this.message_bars.contains (message_id)) {
-            return;
-        }
-
-        this.message_bars.set (message_id, message_bar);
-
-        this.messages_box.append (message_bar);
-        message_bar.show ();
-        message_bar.close_message_bar.connect (() => {
-            this.hide_message_bar (message_id);
-        });
-    }
-
-    private void hide_message_bar (string message_id) {
-        MessageBar? message_bar = this.message_bars.get (message_id);
-        if (message_bar != null) {
-            this.messages_box.remove (message_bar);
-            this.message_bars.remove (message_id);
+            this.permission_error_banner.set_revealed(false);
         }
     }
 
@@ -274,9 +193,19 @@ public class MainWindow : Adw.ApplicationWindow, GLib.Initable {
         this.update_visible_panel ();
     }
 
-    private void settings_clicked_cb () {
+    private void on_settings_clicked () {
         this.break_settings_dialog.show ();
         this.welcome_panel.settings_button_clicked ();
+    }
+
+    private void on_permission_error_banner_button_clicked (Adw.Banner banner) {
+        GLib.Idle.add_full (
+            GLib.Priority.HIGH_IDLE,
+            () => {
+                this.launch_application_settings ();
+                return GLib.Source.REMOVE;
+            }
+        );
     }
 
     private bool launch_application_settings () {
