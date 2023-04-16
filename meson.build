@@ -56,6 +56,7 @@ daemon_application_id = application_id
 settings_application_id = application_id + '.Settings'
 
 application_url = 'https://wiki.gnome.org/Apps/BreakTimer'
+application_issues_url = 'https://gitlab.gnome.org/GNOME/gnome-break-timer/-/issues'
 daemon_object_path = '/org/gnome/BreakTimer'
 
 # We need a quoted version of build_conf to generate config.h in `src`, and an
@@ -70,6 +71,7 @@ build_conf.set('PROJECT_NAME', meson.project_name())
 build_conf.set('PROJECT_VERSION', meson.project_version() + version_suffix)
 build_conf.set('APPLICATION_ID', application_id)
 build_conf.set('APPLICATION_URL', application_url)
+build_conf.set('APPLICATION_ISSUES_URL', application_issues_url)
 build_conf.set('SETTINGS_APPLICATION_ID', settings_application_id)
 build_conf.set('DAEMON_APPLICATION_ID', daemon_application_id)
 build_conf.set('DAEMON_OBJECT_PATH', daemon_object_path)
@@ -82,6 +84,7 @@ build_conf_quoted.set_quoted('PROJECT_NAME', meson.project_name())
 build_conf_quoted.set_quoted('PROJECT_VERSION', meson.project_version() + version_suffix)
 build_conf_quoted.set_quoted('APPLICATION_ID', application_id)
 build_conf_quoted.set_quoted('APPLICATION_URL', application_url)
+build_conf_quoted.set_quoted('APPLICATION_ISSUES_URL', application_issues_url)
 build_conf_quoted.set_quoted('SETTINGS_APPLICATION_ID', settings_application_id)
 build_conf_quoted.set_quoted('DAEMON_APPLICATION_ID', daemon_application_id)
 build_conf_quoted.set_quoted('DAEMON_OBJECT_PATH', daemon_object_path)
