@@ -70,16 +70,6 @@ public class Application : Gtk.Application {
 
         Notify.init (app_name);
 
-        /* set up custom gtk style for application */
-        Gtk.CssProvider style_provider = new Gtk.CssProvider ();
-
-        // FIXME:
-        Gtk.StyleContext.add_provider_for_display (
-            Gdk.Display.get_default (),
-            style_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        );
-
         this.session_status = new SessionStatus ();
         try {
             this.session_status.init (null);
