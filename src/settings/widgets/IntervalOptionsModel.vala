@@ -1,6 +1,6 @@
-/* RestBreakSettingsWidget.vala
+/* TimerBreakSettingsWidget.vala
  *
- * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ * Copyright 2023 Dylan McCall <dylan@dylanmccall.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,24 +18,31 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-using BreakTimer.Settings.TimerBreak;
+using BreakTimer.Settings.Break;
+using BreakTimer.Settings.Widgets;
 
-namespace BreakTimer.Settings.RestBreak {
+namespace BreakTimer.Settings.TimerBreak {
 
-class RestBreakSettingsWidget : TimerBreakSettingsWidget {
-    public RestBreakSettingsWidget (RestBreakType break_type) {
-        base (
-            break_type,
-            _("Full break"),
-            _("And take some longer breaks to stretch your legs")
-        );
+public class TimeOptionsModel : GLib.ListModel, GLib.Object {
+    private BreakTimeOption[] options;
 
-        var lock_screen_row = new Adw.SwitchRow ();
-        lock_screen_row.set_title (_("Lock the screen during breaks"));
-        break_type.settings.bind ("lock-screen", lock_screen_row, "active", SettingsBindFlags.DEFAULT);
-        this.add (lock_screen_row);
+    public TimeOptionsModel (BreakTimeOption[] options) {
+        GLib.Object ();
+
+        this.options = options;
     }
 
+    public GLib.Type get_item_type () {
+        return typeof (BreakTimeOption);
+    }
+
+    public uint get_n_items () {
+        return this.options.length;
+    }
+
+    public GLib.Object? get_item (uint position) {
+        return this.options[position];
+    }
 }
 
 }

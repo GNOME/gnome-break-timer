@@ -23,12 +23,23 @@ using BreakTimer.Settings.Break;
 
 namespace BreakTimer.Settings.TimerBreak {
 
+public class BreakTimeOption : GLib.Object {
+    public int length {get; protected set; }
+    public bool is_custom { get; protected set; default = false; }
+    public string label { get; protected set; }
+
+    public BreakTimeOption (int length) {
+        this.length = length;
+        this.label = NaturalTime.instance.get_label_for_seconds (this.length);
+    }
+}
+
 public abstract class TimerBreakType : BreakType {
     public int interval { get; protected set; }
     public int duration { get; protected set; }
 
-    public int[] interval_options;
-    public int[] duration_options;
+    public BreakTimeOption[] interval_options;
+    public BreakTimeOption[] duration_options;
 
     private GLib.DBusConnection dbus_connection;
     private IBreakTimer_TimerBreak? break_server;

@@ -140,12 +140,6 @@ public class UIManager : SimpleFocusManager, GLib.Initable {
         }
     }
 
-    public bool can_lock_screen () {
-        // FIXME: CHECK FOR THIS SOMEHOW
-        return true;
-        // return ! this.application.is_inhibited (Gtk.ApplicationInhibitFlags.IDLE);
-    }
-
     public void lock_screen () {
         if (! this.session_status.is_locked ()) {
             this.session_status.lock_screen ();

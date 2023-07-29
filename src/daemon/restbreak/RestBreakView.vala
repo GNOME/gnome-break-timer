@@ -161,14 +161,7 @@ public class RestBreakView : TimerBreakView {
     private void counting_cb (int lap_time, int total_time) {
         this.human_is_resting = lap_time > 20;
 
-        if (this.human_is_resting) {
-            this.try_lock_screen ();
-        }
-    }
-
-    private void try_lock_screen () {
-        if (this.rest_break.lock_screen_enabled && this.can_lock_screen ()) {
-            // TODO: Make a sound slightly before locking?
+        if (this.human_is_resting && this.rest_break.lock_screen_enabled) {
             this.lock_screen ();
         }
     }

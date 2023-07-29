@@ -57,10 +57,6 @@ public abstract class UIFragment : GLib.Object, IFocusable {
         }
     }
 
-    protected bool can_lock_screen () {
-        return this.ui_manager.can_lock_screen ();
-    }
-
     protected void lock_screen () {
         if (this.has_ui_focus ()) {
             this.ui_manager.lock_screen ();

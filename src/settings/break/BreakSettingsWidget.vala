@@ -20,58 +20,9 @@
 
 namespace BreakTimer.Settings.Break {
 
-public abstract class BreakSettingsWidget : Gtk.Box {
-    private Gtk.Box header;
-    private Gtk.Box details;
-
-    protected BreakSettingsWidget (BreakType break_type, string title, string? description) {
-        GLib.Object ();
-
-        this.set_orientation (Gtk.Orientation.VERTICAL);
-        this.set_spacing (10);
-
-        this.header = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-        this.append (this.header);
-
-        var title_grid = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
-        this.set_header (title_grid);
-
-        var title_label = new Gtk.Label (title);
-        title_grid.append (title_label);
-        title_label.get_style_context ().add_class ("_settings-title");
-        title_label.set_halign (Gtk.Align.CENTER);
-        title_label.set_hexpand (true);
-        // title_label.set_justify (Gtk.Justification.CENTER);
-
-        // var description_label = new Gtk.Label ("<small>%s</small>".printf (description));
-        // title_grid.add (description_label);
-        // description_label.get_style_context ().add_class ("_settings-description");
-        // description_label.set_use_markup (true);
-        // description_label.set_halign (Gtk.Align.FILL);
-        // description_label.set_hexpand (true);
-        // description_label.set_justify (Gtk.Justification.CENTER);
-
-        this.details = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-        this.append (this.details);
-        this.details.set_margin_start (12);
-        this.details.set_halign (Gtk.Align.FILL);
-        this.details.set_hexpand (true);
-
-        this.show ();
-    }
-
-    protected void set_header (Gtk.Widget content) {
-        this.header.append (content);
-    }
-
-    protected void set_header_action (Gtk.Widget content) {
-        this.header.append (content);
-        content.set_halign (Gtk.Align.END);
-        content.set_valign (Gtk.Align.CENTER);
-    }
-
-    protected void set_details (Gtk.Widget content) {
-        this.details.append (content);
+public abstract class BreakSettingsWidget : Adw.PreferencesGroup {
+    protected BreakSettingsWidget (string title, string? description) {
+        GLib.Object (title: title, description: description);
     }
 }
 
