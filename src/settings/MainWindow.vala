@@ -44,10 +44,13 @@ public class MainWindow : Adw.ApplicationWindow, GLib.Initable {
     private WelcomePanel welcome_panel;
     private StatusPanel status_panel;
 
+    private bool skip_tour;
+
     public MainWindow (Application application, BreakManager break_manager) {
         GLib.Object (application: application);
 
         this.break_manager = break_manager;
+        this.skip_tour = break_manager.master_enabled;
 
         this.set_title (_("Break Timer"));
         this.set_default_size (850, 400);
@@ -66,6 +69,7 @@ public class MainWindow : Adw.ApplicationWindow, GLib.Initable {
         this.break_settings_dialog = new BreakSettingsDialog (break_manager);
         this.break_settings_dialog.set_modal (true);
         this.break_settings_dialog.set_transient_for (this);
+        this.break_settings_dialog.set_hide_on_close (true);
 
         Gtk.Box content = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
         this.set_content (content);
@@ -74,9 +78,6 @@ public class MainWindow : Adw.ApplicationWindow, GLib.Initable {
 
         this.header = new Adw.HeaderBar ();
         content.append (this.header);
-        // this.set_titlebar (this.header);
-        // this.header.set_show_title_buttons (true);
-        // this.header.set_hexpand (true);
 
         this.master_switch = new Gtk.Switch ();
         master_switch.set_valign (Gtk.Align.CENTER);
@@ -172,7 +173,7 @@ public class MainWindow : Adw.ApplicationWindow, GLib.Initable {
         }
 
         BreakType? foreground_break = this.break_manager.foreground_break;
-        if (this.welcome_panel.is_active ()) {
+        if (!skip_tour && this.welcome_panel.is_active ()) {
             this.main_stack.set_visible_child_full ("welcome_panel", transition);
             this.set_title (_("Welcome Tour"));
         } else if (foreground_break != null) {
