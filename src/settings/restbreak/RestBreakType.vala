@@ -28,8 +28,19 @@ public class RestBreakType : TimerBreakType {
         GLib.Settings settings = new GLib.Settings (Config.APPLICATION_ID + ".restbreak");
         base ("restbreak", settings);
 
-        this.interval_options = { 1800, 2400, 3000, 3600 };
-        this.duration_options = { 240, 300, 360, 480, 600 };
+        this.interval_options = {
+            new BreakTimeOption(1800),
+            new BreakTimeOption(2400),
+            new BreakTimeOption(3000),
+            new BreakTimeOption(3600)
+        };
+        this.duration_options = {
+            new BreakTimeOption(240),
+            new BreakTimeOption(300),
+            new BreakTimeOption(360),
+            new BreakTimeOption(480),
+            new BreakTimeOption(600)
+        };
     }
 
     protected override BreakInfoWidget create_info_widget () {

@@ -23,40 +23,29 @@ using BreakTimer.Settings.Widgets;
 
 namespace BreakTimer.Settings {
 
-public class BreakSettingsDialog : Gtk.Dialog {
+public class BreakSettingsDialog : Adw.PreferencesWindow {
     private BreakManager break_manager;
 
-    private BreakConfigurationChooser configuration_chooser;
-    private Gtk.Box breaks_grid;
+    private Adw.PreferencesPage main_preferences_page;
 
-    private const int ABOUT_BUTTON_RESPONSE = 5;
+    private BreakConfigurationChooser configuration_chooser;
 
     public BreakSettingsDialog (BreakManager break_manager) {
-        GLib.Object (use_header_bar: 1);
+        GLib.Object ();
 
         this.break_manager = break_manager;
 
         GLib.Settings settings = new GLib.Settings (Config.APPLICATION_ID);
 
-        this.set_title (_("Choose Your Break Schedule"));
-        this.set_deletable (true);
-        this.set_resizable (false);
+        this.main_preferences_page = new Adw.PreferencesPage ();
+        this.add (this.main_preferences_page);
 
-        // this.delete_event.connect (this.hide_on_delete);
-
-        this.response.connect (this.response_cb);
-
-        Gtk.Box content_area = this.get_content_area ();
-
-        Gtk.Box content = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-        content_area.append (content);
-        content.set_margin_top (10);
-        content.set_margin_start (10);
-        content.set_margin_bottom (10);
-        content.set_margin_end (10);
+        var global_preferences_group = new Adw.PreferencesGroup ();
+        this.main_preferences_page.add (global_preferences_group);
 
         this.configuration_chooser = new BreakConfigurationChooser ();
-        content.append (this.configuration_chooser);
+        global_preferences_group.add (this.configuration_chooser);
+
         this.configuration_chooser.add_configuration (
             { "microbreak", "restbreak" },
             _("A mix of short breaks and long breaks")
@@ -71,50 +60,25 @@ public class BreakSettingsDialog : Gtk.Dialog {
         );
         settings.bind ("selected-breaks", this.configuration_chooser, "selected-break-ids", SettingsBindFlags.DEFAULT);
 
-        // TODO: Create a stack with a child for each configuration. Switch
-        //       between these instead of showing / hiding widgets.
-
-        this.breaks_grid = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-        content.append (this.breaks_grid);
-
-        content.show ();
-
         this.configuration_chooser.notify["selected-break-ids"].connect (this.update_break_configuration);
     }
 
     public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
-        foreach (BreakType break_type in this.break_manager.all_breaks ()) {
-            var settings_widget = break_type.settings_widget;
-            this.breaks_grid.append (settings_widget);
-            settings_widget.realize ();
-            settings_widget.set_valign (Gtk.Align.CENTER);
-            settings_widget.set_halign (Gtk.Align.FILL);
-            settings_widget.set_vexpand (true);
-            settings_widget.set_margin_top (10);
-            settings_widget.set_margin_bottom (10);
-            this.update_break_configuration ();
-        }
+        this.update_break_configuration ();
 
         return true;
     }
 
     private void update_break_configuration () {
+        // TODO: Create a stack with a child for each configuration. Switch
+        //       between these instead of showing / hiding widgets.
+
         foreach (BreakType break_type in this.break_manager.all_breaks ()) {
             if (break_type.id in this.configuration_chooser.selected_break_ids) {
-                break_type.settings_widget.show ();
+                this.main_preferences_page.add (break_type.settings_widget);
             } else {
-                break_type.settings_widget.hide ();
+                this.main_preferences_page.remove (break_type.settings_widget);
             }
-        }
-    }
-
-
-    private void response_cb (int response_id) {
-        if (response_id == Gtk.ResponseType.CLOSE) {
-            this.hide ();
-        } else if (response_id == Gtk.ResponseType.DELETE_EVENT) {
-            // FIXME: DO WE NEED THIS
-            this.hide ();
         }
     }
 }
