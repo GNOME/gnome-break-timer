@@ -40,7 +40,6 @@ public abstract class TimerBreakStatusWidget : BreakStatusWidget {
 
         this.set_column_spacing (12);
 
-        // FIXME: This is an application icon. It doesn't make sense here.
         this.circle_counter = new CircleCounter ();
         this.attach (this.circle_counter, 0, 0, 1, 1);
 
@@ -56,7 +55,7 @@ public abstract class TimerBreakStatusWidget : BreakStatusWidget {
         this.status_label.add_css_class ("heading");
 
         this.time_label = new Gtk.Label (null);
-        labels_grid.attach_next_to (this.time_label, this.status_label, Gtk.PositionType.RIGHT, 1, 1);
+        labels_grid.attach_next_to (this.time_label, this.status_label, Gtk.PositionType.BOTTOM, 1, 1);
         this.time_label.set_width_chars (25);
 
         this.show ();
