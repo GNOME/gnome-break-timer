@@ -125,18 +125,10 @@ public class Application : Adw.Application {
     }
 
     private void show_about_dialog () {
-        Adw.AboutWindow dialog = new Adw.AboutWindow ();
-        dialog.set_destroy_with_parent (true);
-        dialog.set_transient_for (this.get_active_window ());
-        dialog.set_modal (true);
-
-        dialog.application_name = _("Break Timer");
-        dialog.application_icon = Config.APPLICATION_ID;
-        dialog.version = Config.PROJECT_VERSION;
-        dialog.issue_url = Config.APPLICATION_ISSUES_URL;
-        dialog.website = Config.APPLICATION_URL;
-        dialog.copyright = _("Copyright © 2011-2023 Break Timer Authors");
-        dialog.license_type = Gtk.License.GPL_3_0;
+        Adw.AboutWindow dialog = new Adw.AboutWindow.from_appdata (
+            "/org/gnome/BreakTimer/metainfo/%s.metainfo.xml".printf(Config.APPLICATION_ID),
+            null
+        );
         dialog.developers = {
             "Dylan McCall <dylan@dylanmccall.ca>",
             "Jasper St. Pierre <jstpierre@mecheye.net>"
