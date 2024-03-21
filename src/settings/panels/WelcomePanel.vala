@@ -26,11 +26,11 @@ private class WelcomePanel : Gtk.Box {
     private BreakManager break_manager;
     private MainWindow main_window;
 
-    private Adw.Leaflet stack;
+    private Adw.NavigationView navigation_view;
 
-    private Gtk.Overlay start_page;
-    private Gtk.Overlay breaks_page;
-    private Gtk.Overlay ready_page;
+    private Adw.NavigationPage start_page;
+    private Adw.NavigationPage breaks_page;
+    private Adw.NavigationPage ready_page;
 
     public signal void tour_finished ();
 
@@ -40,45 +40,50 @@ private class WelcomePanel : Gtk.Box {
         this.break_manager = break_manager;
         this.main_window = main_window;
 
-        this.stack = (Adw.Leaflet) builder.get_object ("welcome_stack");
-        this.start_page = (Gtk.Overlay) builder.get_object ("welcome_start_overlay");
-        this.breaks_page = (Gtk.Overlay) builder.get_object ("welcome_breaks_overlay");
-        this.ready_page = (Gtk.Overlay) builder.get_object ("welcome_ready_overlay");
+        this.navigation_view = (Adw.NavigationView) builder.get_object ("welcome_stack");
+
+        this.start_page = (Adw.NavigationPage) builder.get_object ("welcome_start_page");
+        this.breaks_page = (Adw.NavigationPage) builder.get_object ("welcome_breaks_page");
+        this.ready_page = (Adw.NavigationPage) builder.get_object ("welcome_ready_page");
+
+        var start_overlay = (Gtk.Overlay) builder.get_object ("welcome_start_overlay");
+        var breaks_overlay = (Gtk.Overlay) builder.get_object ("welcome_breaks_overlay");
+
         var breaks_ok_button = (Gtk.Button) builder.get_object ("welcome_breaks_ok_button");
         var ready_ok_button = (Gtk.Button) builder.get_object ("welcome_ready_ok_button");
 
-        breaks_ok_button.clicked.connect(
-            () => this.stack.navigate(Adw.NavigationDirection.FORWARD)
+        breaks_ok_button.clicked.connect (
+            () => this.navigation_view.push (this.ready_page)
         );
 
         ready_ok_button.clicked.connect (
-            () => this.tour_finished()
+            () => this.tour_finished ()
         );
 
         this.build_overlay_arrow (
-            this.start_page,
+            start_overlay,
             (Gtk.Widget) builder.get_object ("welcome_switch_label"),
             main_window.get_master_switch ()
         );
 
         this.build_overlay_arrow (
-            this.breaks_page,
+            breaks_overlay,
             (Gtk.Widget) builder.get_object ("welcome_settings_label"),
             main_window.get_settings_button ()
         );
 
-        this.append (this.stack);
+        this.append (this.navigation_view);
 
         break_manager.notify["master-enabled"].connect (this.on_master_switch_toggled);
     }
 
     public bool is_active () {
-        return this.stack.get_visible_child() == this.start_page || this.stack.get_visible_child() == this.breaks_page;
+        return this.navigation_view.get_visible_page() == this.start_page || this.navigation_view.get_visible_page() == this.breaks_page;
     }
 
     internal void settings_button_clicked () {
-        if (this.stack.get_visible_child() == this.breaks_page) {
-            this.stack.navigate(Adw.NavigationDirection.FORWARD);
+        if (this.navigation_view.get_visible_page() == this.breaks_page) {
+            this.navigation_view.push(this.ready_page);
         }
     }
 
@@ -87,13 +92,13 @@ private class WelcomePanel : Gtk.Box {
             return;
         }
 
-        if (this.stack.get_visible_child() == this.start_page) {
-            this.stack.navigate(Adw.NavigationDirection.FORWARD);
+        if (this.navigation_view.get_visible_page() == this.start_page) {
+            this.navigation_view.push(this.breaks_page);
         }
     }
 
     private void build_overlay_arrow (Gtk.Overlay overlay, Gtk.Widget arrow_source, Gtk.Widget arrow_target) {
-        var arrow = new OverlayArrow (arrow_source, arrow_target, this.stack);
+        var arrow = new OverlayArrow (arrow_source, arrow_target, this.navigation_view);
         arrow.spacing = 10;
         overlay.add_overlay (arrow);
     }
