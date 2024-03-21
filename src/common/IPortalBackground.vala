@@ -23,6 +23,7 @@ namespace BreakTimer.Common {
 [DBus (name = "org.freedesktop.portal.Background")]
 public interface IPortalBackground : GLib.Object {
     public abstract GLib.ObjectPath request_background (string parent_window, GLib.HashTable<string, Variant> options) throws GLib.DBusError, GLib.IOError;
+    public abstract void set_status (GLib.HashTable<string, Variant> options) throws GLib.DBusError, GLib.IOError;
 }
 
 }

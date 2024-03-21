@@ -55,7 +55,8 @@ public abstract class BreakView : UIFragment {
         });
     }
 
-    public abstract string get_status_message ();
+    public abstract string? get_status_message ();
+
     /**
      * Dismiss the break according to some user input. The BreakController
      * may choose to skip the break, or delay it by some length of time.
