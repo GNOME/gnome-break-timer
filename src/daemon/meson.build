@@ -36,7 +36,6 @@ daemon_lib_dependencies = [
     gsound_dep,
     gtk_dep,
     json_glib_dep,
-    libnotify_dep,
     m_dep,
     posix_dep,
     common_lib_dep

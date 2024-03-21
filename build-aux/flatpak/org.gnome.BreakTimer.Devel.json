@@ -14,8 +14,7 @@
         "--talk-name=org.gnome.Settings",
         "--talk-name=org.gnome.Shell",
         "--talk-name=org.gnome.Mutter.IdleMonitor",
-        "--talk-name=org.gnome.ScreenSaver",
-        "--talk-name=org.freedesktop.Notifications"
+        "--talk-name=org.gnome.ScreenSaver"
     ],
     "modules" : [
         {

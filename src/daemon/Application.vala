@@ -20,6 +20,7 @@
 
 using BreakTimer.Common;
 using BreakTimer.Daemon.Activity;
+using BreakTimer.Daemon.Break;
 
 namespace BreakTimer.Daemon {
 
@@ -68,7 +69,16 @@ public class Application : Gtk.Application {
     public override void startup () {
         base.startup ();
 
-        Notify.init (app_name);
+
+        GLib.SimpleAction dismiss_break_action = new GLib.SimpleAction (
+            "dismiss-break", new GLib.VariantType("s")
+        );
+        this.add_action (dismiss_break_action);
+        dismiss_break_action.activate.connect (this.on_dismiss_break_activate_cb);
+
+        GLib.SimpleAction show_break_info_action = new GLib.SimpleAction ("show-break-info", null);
+        this.add_action (show_break_info_action);
+        show_break_info_action.activate.connect (this.on_show_break_info_activate_cb);
 
         this.session_status = new SessionStatus ();
         try {
@@ -114,6 +124,33 @@ public class Application : Gtk.Application {
         base.shutdown ();
 
         this.save_state ();
+    }
+
+    private void on_dismiss_break_activate_cb (GLib.SimpleAction action, GLib.Variant? parameter) {
+        BreakType? break_type = this.break_manager.get_break_type_for_name (
+            parameter.get_string ()
+        );
+        break_type?.break_view.dismiss_break ();
+    }
+
+    private void on_show_break_info_activate_cb (GLib.SimpleAction action, GLib.Variant? parameter) {
+        GLib.Idle.add_full (
+            GLib.Priority.HIGH_IDLE,
+            () => {
+                this.show_break_info ();
+                return false;
+            }
+        );
+    }
+
+    private void show_break_info () {
+        GLib.AppInfo settings_app_info = new GLib.DesktopAppInfo (Config.SETTINGS_APPLICATION_ID + ".desktop");
+        GLib.AppLaunchContext app_launch_context = new GLib.AppLaunchContext ();
+        try {
+            settings_app_info.launch (null, app_launch_context);
+        } catch (GLib.Error error) {
+            GLib.warning ("Error launching settings application: %s", error.message);
+        }
     }
 
     public void on_query_end_cb () {

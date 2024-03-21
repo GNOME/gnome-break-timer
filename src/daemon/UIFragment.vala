@@ -29,8 +29,6 @@ namespace BreakTimer.Daemon {
 public abstract class UIFragment : GLib.Object, IFocusable {
     protected UIManager ui_manager;
 
-    protected Notify.Notification? notification;
-
     protected FocusPriority focus_priority = FocusPriority.LOW;
 
     public bool has_ui_focus () {
@@ -63,26 +61,20 @@ public abstract class UIFragment : GLib.Object, IFocusable {
         }
     }
 
-    protected bool notifications_can_do (string action) {
-        return this.ui_manager.notifications_can_do (action);
-    }
-
-    protected void show_notification (Notify.Notification notification) {
+    protected void show_notification (string id, GLib.Notification notification) {
         if (this.has_ui_focus ()) {
-            this.ui_manager.show_notification (notification);
-            this.notification = notification;
+            this.ui_manager.show_notification (id, notification);
         }
     }
 
-    protected void show_lock_notification (Notify.Notification notification) {
+    protected void show_transient_notification (string id, GLib.Notification notification) {
         if (this.has_ui_focus ()) {
-            this.ui_manager.show_lock_notification (notification);
-            this.notification = notification;
+            this.ui_manager.show_transient_notification (id, notification);
         }
     }
 
-    protected void hide_notification (UIManager.HideNotificationMethod method=IMMEDIATE) {
-        this.ui_manager.hide_notification (this.notification, method);
+    protected void hide_notification (string id) {
+        this.ui_manager.hide_notification (id);
     }
 
     /* IFocusable interface */
