@@ -18,10 +18,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+using BreakTimer.Common;
 using BreakTimer.Daemon.Activity;
 using BreakTimer.Daemon.Break;
 using BreakTimer.Daemon.MicroBreak;
 using BreakTimer.Daemon.RestBreak;
+using BreakTimer.Daemon.Util;
 
 namespace BreakTimer.Daemon {
 
@@ -32,6 +34,11 @@ public class BreakManager : GLib.Object, GLib.Initable {
     private GLib.DBusConnection dbus_connection;
     private GLib.Settings settings;
     private GLib.HashTable<string, BreakType> breaks;
+
+    private IPortalBackground? background_portal = null;
+    private uint background_status_update_timeout_id;
+
+    private const uint BACKGROUND_STATUS_UPDATE_INTERVAL_SECONDS = 5;
 
     public BreakManager (UIManager ui_manager, ActivityMonitor activity_monitor) {
         this.settings = new GLib.Settings (Config.APPLICATION_ID);
@@ -48,8 +55,22 @@ public class BreakManager : GLib.Object, GLib.Initable {
         this.update_enabled_breaks ();
     }
 
+    ~BreakManager () {
+        this.stop_background_status_update_timeout ();
+    }
+
     public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
         this.dbus_connection = GLib.Bus.get_sync (GLib.BusType.SESSION, cancellable);
+
+        if (this.get_is_in_flatpak ()) {
+            this.background_portal = this.dbus_connection.get_proxy_sync (
+                "org.freedesktop.portal.Desktop",
+                "/org/freedesktop/portal/desktop",
+                GLib.DBusProxyFlags.NONE,
+                cancellable
+            );
+            this.start_background_status_update_timeout ();
+        }
 
         this.dbus_connection.register_object (
             Config.DAEMON_OBJECT_PATH,
@@ -93,11 +114,90 @@ public class BreakManager : GLib.Object, GLib.Initable {
         return this.breaks.lookup (name);
     }
 
+    private bool get_is_in_flatpak () {
+        string flatpak_info_path = GLib.Path.build_filename (
+            GLib.Environment.get_user_runtime_dir (),
+            "flatpak-info"
+        );
+        return GLib.FileUtils.test (flatpak_info_path, GLib.FileTest.EXISTS);
+    }
+
     private void update_enabled_breaks () {
         foreach (BreakType break_type in this.all_breaks ()) {
             bool is_enabled = this.master_enabled && break_type.id in this.selected_break_ids;
             break_type.break_controller.set_enabled (is_enabled);
         }
+    }
+
+    private void start_background_status_update_timeout () {
+        assert (this.background_status_update_timeout_id == 0);
+
+        this.background_status_update_timeout_id = GLib.Timeout.add_seconds (
+            BACKGROUND_STATUS_UPDATE_INTERVAL_SECONDS, this.background_status_update_cb
+        );
+    }
+
+    private void stop_background_status_update_timeout () {
+        if (this.background_status_update_timeout_id != 0) {
+            GLib.Source.remove (this.background_status_update_timeout_id);
+            this.background_status_update_timeout_id = 0;
+        }
+    }
+
+    private BreakView? get_next_break_view () {
+        // TODO: Ideally this should cleverly get the next break on the
+        //       schedule. At the moment, that is trickier than it sounds. So
+        //       for now, we will only show the next rest break, or the next
+        //       micro break if rest breaks are disabled.
+        BreakView? next_break_view = null;
+
+        foreach (BreakType break_type in this.all_breaks ()) {
+            if (!break_type.break_controller.is_enabled ()) {
+                continue;
+            }
+
+            if (next_break_view == null) {
+                next_break_view = break_type.break_view;
+            } else if (break_type.break_view.has_higher_focus_priority(next_break_view)) {
+                next_break_view = break_type.break_view;
+            }
+        }
+
+        return next_break_view;
+    }
+
+    private string? get_next_break_message () {
+        BreakView? next_break_view = this.get_next_break_view ();
+
+        if (next_break_view == null) {
+            return null;
+        }
+
+        return next_break_view.get_status_message ();
+    }
+
+    private bool background_status_update_cb () {
+        if (this.background_portal == null) {
+            this.background_status_update_timeout_id = 0;
+            return GLib.Source.REMOVE;
+        }
+
+        var options = new HashTable<string, GLib.Variant> (str_hash, str_equal);
+        options.insert ("message", this.get_next_break_message () ?? "");
+
+        try {
+            this.background_portal.set_status (options);
+        } catch (GLib.IOError error) {
+            GLib.warning ("Error connecting to desktop portal: %s", error.message);
+            this.background_status_update_timeout_id = 0;
+            return GLib.Source.REMOVE;
+        } catch (GLib.DBusError error) {
+            GLib.warning ("Error setting status message: %s", error.message);
+            this.background_status_update_timeout_id = 0;
+            return GLib.Source.REMOVE;
+        }
+
+        return GLib.Source.CONTINUE;
     }
 }
 

@@ -46,6 +46,21 @@ public class MicroBreakView : TimerBreakView {
         this.micro_break.finished.connect (this.finished_cb);
     }
 
+    public override string? get_status_message () {
+        int starts_in_value = this.micro_break.starts_in ();
+        string starts_in_text = NaturalTime.instance.get_countdown_for_seconds (starts_in_value);
+
+        if (this.micro_break.state == WAITING) {
+            return ngettext (
+                /* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
+                "Microbreak starts in %s",
+                "Microbreak starts in %s",
+                starts_in_value
+            ).printf (starts_in_text);
+        } else if (this.micro_break.state == ACTIVE) {
+            return _("Time for a microbreak");
+        } else {
+            return null;
         }
     }
 

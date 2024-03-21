@@ -35,6 +35,10 @@ public abstract class UIFragment : GLib.Object, IFocusable {
         return this.ui_manager.is_focusing (this);
     }
 
+    public bool has_higher_focus_priority (UIFragment other) {
+        return this.focus_priority > other.focus_priority;
+    }
+
     protected void request_ui_focus () {
         if (this.has_ui_focus ()) {
             // If we already have focus, UIManager will not call

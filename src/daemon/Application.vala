@@ -42,6 +42,7 @@ public class Application : Gtk.Application {
 
     private string cache_path;
     private int64 state_saved_time_ms;
+    private bool is_activated;
 
     public Application () {
         GLib.Object (
@@ -62,13 +63,10 @@ public class Application : Gtk.Application {
         this.query_end.connect (this.on_query_end_cb);
     }
 
-    public override void activate () {
-        base.activate ();
-    }
-
     public override void startup () {
         base.startup ();
 
+        this.is_activated = false;
 
         GLib.SimpleAction dismiss_break_action = new GLib.SimpleAction (
             "dismiss-break", new GLib.VariantType("s")
@@ -118,6 +116,20 @@ public class Application : Gtk.Application {
         this.restore_state ();
 
         this.activity_monitor.start ();
+    }
+
+    public override void activate () {
+        base.activate ();
+
+        // TODO: It would be better if activating the application always showed
+        //       the Settings window (except when explicitly run in the
+        //       background), but that will require some refactoring.
+
+        if (this.is_activated) {
+            this.show_break_info ();
+        } else {
+            this.is_activated = true;
+        }
     }
 
     public override void shutdown () {
