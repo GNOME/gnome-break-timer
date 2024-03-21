@@ -38,6 +38,8 @@ public class RestBreakView : TimerBreakView {
     private bool was_skipped = false;
     private bool human_is_resting = false;
 
+    private int64 last_break_notification_time = 0;
+
     public RestBreakView (RestBreakController rest_break, UIManager ui_manager) {
         base (rest_break, ui_manager);
         this.focus_priority = FocusPriority.HIGH;
@@ -47,15 +49,10 @@ public class RestBreakView : TimerBreakView {
         this.rest_break.finished.connect (this.finished_cb);
     }
 
-    protected new void show_break_notification (Notify.Notification notification, bool allow_postpone) {
-        if (allow_postpone && this.notifications_can_do ("actions")) {
-            /* Label for a notification action that will delay the current break for a few minutes */
-            notification.add_action ("postpone", _("Remind me later"), this.notification_action_postpone_cb);
         }
-        base.show_break_notification (notification);
     }
 
-    protected override void dismiss_break () {
+    public override void dismiss_break () {
         // Instead of skipping the break, we postpone for a little while.
         // Enough time to think about what you've done. You monster.
         this.rest_break.postpone (this.rest_break.interval / 4);
@@ -63,13 +60,16 @@ public class RestBreakView : TimerBreakView {
 
     private void show_start_notification () {
         // FIXME: Should say how long the break is?
-        var notification = this.build_common_notification (
-            _("Time for a break"),
-            _("It’s time to take a break. Get away from the computer for a little while!")
-        );
-        notification.set_urgency (Notify.Urgency.NORMAL);
-        notification.set_hint ("sound-name", "message");
-        this.show_break_notification (notification, true);
+        string body_text = _("It’s time to take a break. Get away from the computer for a little while!");
+
+        var notification = new GLib.Notification (_("Time for a break"));
+        notification.set_body (body_text);
+        notification.set_priority (GLib.NotificationPriority.HIGH);
+        this.add_notification_actions (notification);
+
+        this.last_break_notification_time = TimeUnit.get_real_time_seconds ();
+
+        this.show_notification ("restbreak.active", notification);
     }
 
     private void show_interrupted_notification () {
@@ -86,12 +86,14 @@ public class RestBreakView : TimerBreakView {
             countdown_value
         ).printf (countdown_text);
 
-        var notification = this.build_common_notification (
-            _("Break interrupted"),
-            body_text
-        );
-        notification.set_urgency (Notify.Urgency.NORMAL);
-        this.show_break_notification (notification, false);
+        var notification = new GLib.Notification (_("Break interrupted"));
+        notification.set_body (body_text);
+        notification.set_priority (GLib.NotificationPriority.HIGH);
+        this.add_notification_actions (notification);
+
+        this.last_break_notification_time = TimeUnit.get_real_time_seconds ();
+
+        this.show_notification ("restbreak.active", notification);
     }
 
     private void show_overdue_notification () {
@@ -108,23 +110,44 @@ public class RestBreakView : TimerBreakView {
             delay_value
         ).printf (delay_text);
 
-        var notification = this.build_common_notification (
-            _("Overdue break"),
-            body_text
-        );
-        notification.set_urgency (Notify.Urgency.NORMAL);
-        this.show_break_notification (notification, false);
+        var notification = new GLib.Notification (_("Overdue break"));
+        notification.set_body (body_text);
+        notification.set_priority (GLib.NotificationPriority.HIGH);
+        this.add_notification_actions (notification);
+
+        this.last_break_notification_time = TimeUnit.get_real_time_seconds ();
+
+        this.show_notification ("restbreak.active", notification);
     }
 
     private void show_finished_notification () {
-        var notification = this.build_common_notification (
-            _("Break is over"),
-            _("Your break time has ended")
-        );
-        notification.set_urgency (Notify.Urgency.NORMAL);
-        this.show_lock_notification (notification);
+        string body_text = _("Your break time has ended");
 
+        var notification = new GLib.Notification (_("Break is over"));
+        notification.set_body (body_text);
+        notification.set_priority (GLib.NotificationPriority.NORMAL);
+        notification.set_default_action ("app.show-break-info");
+
+        this.hide_notification ("restbreak.active");
+        this.show_transient_notification ("restbreak.finished", notification);
         this.play_sound_from_id ("complete");
+    }
+
+    private void add_notification_actions (GLib.Notification notification) {
+        /* Label for a notification action that will delay the current break for a few minutes */
+        notification.add_button (_("Remind me later"), "app.dismiss-break::restbreak");
+        /* Label for a notification action that shows information about the current break */
+        notification.add_button (_("What should I do?"), "app.show-break-info");
+        notification.set_default_action ("app.show-break-info");
+    }
+
+    private int seconds_since_last_break_notification () {
+        int64 now = TimeUnit.get_real_time_seconds ();
+        if (this.last_break_notification_time > 0) {
+            return (int) (now - this.last_break_notification_time);
+        } else {
+            return 0;
+        }
     }
 
     private void focused_and_activated_cb () {
@@ -154,7 +177,7 @@ public class RestBreakView : TimerBreakView {
         if (was_active && reason == BreakController.FinishedReason.SATISFIED) {
             this.show_finished_notification ();
         } else {
-            this.hide_notification (IMMEDIATE);
+            this.hide_notification ("restbreak.active");
         }
     }
 
@@ -182,10 +205,6 @@ public class RestBreakView : TimerBreakView {
 
     private void current_duration_changed_cb () {
         // TODO: Do something annoying?
-    }
-
-    private void notification_action_postpone_cb () {
-        this.rest_break.postpone (60);
     }
 }
 

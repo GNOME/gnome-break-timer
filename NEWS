@@ -2,6 +2,7 @@
 Version: master
 Description:
 - Update the UI to support GNOME 46
+- Fix duplicate notifications appearing between sessions
 ---
 Version: 2.1.0
 Date: 2021-11-13

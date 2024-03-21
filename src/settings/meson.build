@@ -37,7 +37,6 @@ settings_lib_dependencies = [
     json_glib_dep,
     gsound_dep,
     libadwaita_dep,
-    libnotify_dep,
     m_dep,
     posix_dep,
     common_lib_dep

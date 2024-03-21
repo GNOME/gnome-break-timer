@@ -36,22 +36,17 @@ public class UIManager : SimpleFocusManager, GLib.Initable {
 
     private GSound.Context? gsound;
 
-    private Notify.Notification? notification;
-    private Notify.Notification? lock_notification;
+    private GLib.HashTable<string, uint> transient_notification_timeout_ids;
 
-    private GLib.List<string> notify_capabilities;
-
-    public enum HideNotificationMethod {
-        IMMEDIATE,
-        DELAYED
-    }
+    private const uint TRANSIENT_NOTIFICATION_INTERVAL_SECONDS = 30;
 
     public UIManager (Gtk.Application application, ISessionStatus session_status) {
         this.application = application;
         this.session_status = session_status;
 
-        this.session_status.unlocked.connect (this.hide_lock_notification_cb);
-        this.notify_capabilities = Notify.get_server_caps ();
+        this.transient_notification_timeout_ids = new GLib.HashTable<string, uint> (str_hash, str_equal);
+
+        this.session_status.unlocked.connect (this.on_session_unlocked_cb);
     }
 
     public bool init (GLib.Cancellable? cancellable) throws GLib.Error {
@@ -65,69 +60,70 @@ public class UIManager : SimpleFocusManager, GLib.Initable {
         return true;
     }
 
-    public bool notifications_can_do (string capability) {
-        // For whatever reason notify_capabilities.index () isn't matching
-        // our capability strings, so we'll search the list ourselves
-        foreach (string server_capability in this.notify_capabilities) {
-            if (server_capability == capability) return true;
-        }
-        return false;
+    /**
+     * Show a notification, ensuring that the application is only showing one
+     * notification at any time.
+     */
+    public void show_notification (string id, GLib.Notification notification) {
+        // this.application.withdraw_notification ("default-lock-only");
+        this.application.send_notification (id, notification);
     }
 
-    public void show_notification (Notify.Notification notification) {
-        /**
-         * Show a notification, ensuring that the application is only showing
-         * one notification at any time.
-         */
+    /**
+     * Show a notification which will disappear after a short time. The XDG
+     * Notification portal doesn't support transient notifications, so we need
+     * to implement this ourselves by withdrawing a notification after a
+     * timeout.
+     * In the case that the screen is locked, we will instead wait until the
+     * screen is unlocked before withdrawing the notification.
+     */
+    public void show_transient_notification (string id, GLib.Notification notification) {
+        this.application.send_notification (id, notification);
 
-        if (notification != this.notification) {
-            this.hide_notification (this.notification, IMMEDIATE);
+        uint old_source_id = this.transient_notification_timeout_ids.get (id);
+
+        if (old_source_id > 0) {
+            this.transient_notification_timeout_ids.remove (id);
+            GLib.Source.remove (old_source_id);
         }
 
-        notification.set_hint ("desktop-entry", Config.DAEMON_APPLICATION_ID);
-
-        try {
-            notification.show ();
-        } catch (GLib.Error error) {
-            GLib.warning ("Error showing notification: %s", error.message);
-        }
-
-        this.notification = notification;
-    }
-
-    public void hide_notification (Notify.Notification? notification, HideNotificationMethod method=IMMEDIATE) {
-        /**
-         * Close a notification proactively, if it is still open.
-         */
-
-        if (notification != null && this.notification == notification) {
-            try {
-                if (method == IMMEDIATE) {
-                    this.notification.close ();
-                } else {
-                    this.notification.set_hint ("transient", true);
-                    this.notification.show ();
-                }
-            } catch (GLib.Error error) {
-                GLib.debug ("Error closing notification: %s", error.message);
-            }
-        }
-        this.notification = null;
-    }
-
-    public void show_lock_notification (Notify.Notification notification) {
-        /**
-         * Show a notification that will only appear in the lock screen. The
-         * notification automatically hides when the screen is unlocked.
-         */
-
-        if (this.session_status.is_locked ()) {
-            this.lock_notification = notification;
+        if (!this.session_status.is_locked ()) {
+            // If the session is locked, the notification will be withdrawn when
+            // the session is unlocked, inside on_session_unlocked_cb.
+            this.transient_notification_timeout_ids.set (id, 0);
         } else {
-            notification.set_hint ("transient", true);
+            // Otherwise, it will be withdrawn after a timeout.
+            uint source_id = GLib.Timeout.add_seconds (
+                TRANSIENT_NOTIFICATION_INTERVAL_SECONDS,
+                () => {
+                    this.application.withdraw_notification (id);
+                    this.transient_notification_timeout_ids.remove (id);
+                    return GLib.Source.REMOVE;
+                }
+            );
+            this.transient_notification_timeout_ids.set (id, source_id);
         }
 
-        this.show_notification (notification);
+
+    }
+
+    /**
+     * Close a notification proactively, if it is still open.
+     */
+    public void hide_notification (string id) {
+        this.application.withdraw_notification (id);
+    }
+
+    private void on_session_unlocked_cb () {
+        // Remove all transient notifications on session unlock
+        this.transient_notification_timeout_ids.foreach (
+            (notification_id, source_id) => {
+                this.application.withdraw_notification (notification_id);
+                if (source_id > 0) {
+                    this.transient_notification_timeout_ids.remove (notification_id);
+                }
+            }
+        );
     }
 
     public void play_sound_from_id (string event_id) {
@@ -153,11 +149,6 @@ public class UIManager : SimpleFocusManager, GLib.Initable {
     public void remove_break (BreakView break_view) {
         this.release_focus (break_view);
         this.application.release ();
-    }
-
-    private void hide_lock_notification_cb () {
-        this.hide_notification (this.lock_notification, IMMEDIATE);
-        this.lock_notification = null;
     }
 }
 

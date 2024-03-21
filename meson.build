@@ -19,7 +19,6 @@ gtk_dep = dependency('gtk4')
 json_glib_dep = dependency('json-glib-1.0')
 libadwaita_dep = dependency('libadwaita-1')
 libcanberra_dep = dependency('libcanberra')
-libnotify_dep = dependency('libnotify')
 
 posix_dep = valac.find_library('posix')
 m_dep = cc.find_library('m', required : false)
