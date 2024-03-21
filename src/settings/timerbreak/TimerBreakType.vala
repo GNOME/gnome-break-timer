@@ -24,13 +24,17 @@ using BreakTimer.Settings.Break;
 namespace BreakTimer.Settings.TimerBreak {
 
 public class BreakTimeOption : GLib.Object {
-    public int length {get; protected set; }
+    public int time_seconds {get; protected set; }
     public bool is_custom { get; protected set; default = false; }
     public string label { get; protected set; }
 
-    public BreakTimeOption (int length) {
-        this.length = length;
-        this.label = NaturalTime.instance.get_label_for_seconds (this.length);
+    public BreakTimeOption (int time_seconds) {
+        this.time_seconds = time_seconds;
+        this.label = NaturalTime.instance.get_label_for_seconds (this.time_seconds);
+    }
+
+    public bool equals (BreakTimeOption other) {
+        return this.time_seconds == other.time_seconds;
     }
 }
 

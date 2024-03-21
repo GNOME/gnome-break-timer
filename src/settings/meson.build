@@ -22,9 +22,8 @@ settings_lib_sources = files(
     'timerbreak/TimerBreakType.vala',
     'widgets/BreakConfigurationChooser.vala',
     'widgets/CircleCounter.vala',
-    'widgets/IntervalOptionsModel.vala',
     'widgets/OverlayArrow.vala',
-    'widgets/TimeChooser.vala',
+    'widgets/TimeChooserRow.vala',
     'widgets/Transition.vala'
 )
 

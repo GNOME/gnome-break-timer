@@ -27,20 +27,14 @@ public abstract class TimerBreakSettingsWidget : BreakSettingsWidget {
     protected TimerBreakSettingsWidget (TimerBreakType break_type, string title, string? description) {
         base (title, description);
 
-        var interval_row = new Adw.ComboRow ();
+        var interval_row = new TimeChooserRow (break_type.interval_options);
         interval_row.set_title (_("Every"));
-        interval_row.set_model (new TimeOptionsModel (break_type.interval_options));
-        interval_row.set_expression (
-            new Gtk.PropertyExpression (typeof (BreakTimeOption), null, "label")
-        );
+        break_type.settings.bind ("interval-seconds", interval_row, "time-seconds", SettingsBindFlags.DEFAULT);
         this.add (interval_row);
 
-        var duration_row = new Adw.ComboRow ();
+        var duration_row = new TimeChooserRow (break_type.duration_options);
         duration_row.set_title (_("For"));
-        duration_row.set_model (new TimeOptionsModel (break_type.duration_options));
-        duration_row.set_expression (
-            new Gtk.PropertyExpression (typeof (BreakTimeOption), null, "label")
-        );
+        break_type.settings.bind ("duration-seconds", duration_row, "time-seconds", SettingsBindFlags.DEFAULT);
         this.add (duration_row);
     }
 }
