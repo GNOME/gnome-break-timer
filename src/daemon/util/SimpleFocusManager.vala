@@ -104,8 +104,10 @@ public class SimpleFocusManager : GLib.Object {
     }
 
     public void release_focus (IFocusable focusable) {
-        foreach (Request request in this.focus_requests) {
-            if (request.owner == focusable) this.focus_requests.remove (request);
+        foreach (Request request in this.focus_requests.copy()) {
+            if (request.owner == focusable) {
+                this.focus_requests.remove (request);
+            }
         }
         this.update_focus ();
     }
