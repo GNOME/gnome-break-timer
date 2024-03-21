@@ -117,12 +117,10 @@ public class Application : Gtk.Application {
     }
 
     public void on_query_end_cb () {
-        uint inhibit_cookie = this.inhibit (null, Gtk.ApplicationInhibitFlags.LOGOUT, _("Saving state"));
         GLib.Idle.add_full (
             GLib.Priority.HIGH_IDLE,
             () => {
                 this.save_state ();
-                this.uninhibit (inhibit_cookie);
                 return GLib.Source.REMOVE;
             }
         );
