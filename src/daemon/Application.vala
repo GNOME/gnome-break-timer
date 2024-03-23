@@ -118,17 +118,27 @@ public class Application : Gtk.Application {
         this.activity_monitor.start ();
     }
 
+    /**
+     * Open the settings app when activated, for example when the the user
+     * chooses Break Timer from the Background Apps section in GNOME Shell.
+     * Unfortunately, we are unable to tell the difference between that type of
+     * activation, D-Bus activation during session start, and the GApplication
+     * activate signal firing when the app starts normally. We will work around
+     * that by always ignoring the first call to activate, and by not using
+     * D-Bus activation in the daemon's autostart file.
+     */
     public override void activate () {
         base.activate ();
 
-        // TODO: It would be better if activating the application always showed
-        //       the Settings window (except when explicitly run in the
-        //       background), but that will require some refactoring.
-
-        if (this.is_activated) {
-            this.show_break_info ();
-        } else {
+        if (!this.is_activated) {
             this.is_activated = true;
+            return;
+        }
+
+        if (this.break_manager.autostart_version > 1) {
+            // Previous versions used D-Bus activation for the autostart
+            // file, which would result in this running on session start.
+            this.show_break_info ();
         }
     }
 

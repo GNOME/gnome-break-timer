@@ -28,6 +28,7 @@ using BreakTimer.Daemon.Util;
 namespace BreakTimer.Daemon {
 
 public class BreakManager : GLib.Object, GLib.Initable {
+    public int autostart_version { get; set; }
     public bool master_enabled { get; set; }
     public string[] selected_break_ids { get; set; }
 
@@ -47,6 +48,7 @@ public class BreakManager : GLib.Object, GLib.Initable {
         this.breaks.set ("microbreak", new MicroBreakType (activity_monitor, ui_manager));
         this.breaks.set ("restbreak", new RestBreakType (activity_monitor, ui_manager));
 
+        this.settings.bind ("autostart-version", this, "autostart-version", SettingsBindFlags.DEFAULT);
         this.settings.bind ("enabled", this, "master-enabled", GLib.SettingsBindFlags.DEFAULT);
         this.settings.bind ("selected-breaks", this, "selected-break-ids", GLib.SettingsBindFlags.DEFAULT);
 
