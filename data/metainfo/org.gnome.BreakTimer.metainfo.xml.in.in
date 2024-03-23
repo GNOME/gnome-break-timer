@@ -5,7 +5,6 @@
   <summary>Computer break reminders for GNOME</summary>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
-  <developer_name>Dylan McCall, et al.</developer_name>
   <description>
     <p>
       Break Timer keeps track of how much you are using the computer, and it reminds you to take regular breaks. It is designed to encourage healthy behaviour, with a mix of short breaks for your eyes and wrists, as well as longer breaks to keep your body moving and your mind on task.
@@ -14,23 +13,35 @@
       Break Timer is easy to set up, so you can pick a break schedule that works for you and it will carry on working in the background.
     </p>
   </description>
-  <launchable type="desktop-id">@DAEMON_APPLICATION_ID@.desktop</launchable>
+  <developer id="org.gnome">
+    <name>Dylan McCall, et al.</name>
+  </developer>
   <requires>
     <id version="1.0" compare="ge">org.gnome.Shell</id>
   </requires>
+  <launchable type="desktop-id">@DAEMON_APPLICATION_ID@.desktop</launchable>
   <url type="homepage">https://wiki.gnome.org/Apps/BreakTimer</url>
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-break-timer/issues</url>
   <screenshots>
     <screenshot type="default">
       <caption>Easily turn on break timers</caption>
-      <image type="source">https://gitlab.gnome.org/GNOME/gnome-break-timer/raw/master/data/metainfo/gnome-break-timer-2-0-welcome.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gnome-break-timer/raw/master/data/metainfo/gnome-break-timer-3-0-welcome.png</image>
     </screenshot>
     <screenshot>
       <caption>Check on their status at any time</caption>
-      <image type="source">https://gitlab.gnome.org/GNOME/gnome-break-timer/raw/master/data/metainfo/gnome-break-timer-2-0-status.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gnome-break-timer/raw/master/data/metainfo/gnome-break-timer-3-0-status.png</image>
     </screenshot>
   </screenshots>
   <releases>
+    <release type="stable" version="3.0.0" date="2024-03-26T00:00:00Z">
+      <description>
+        <ul>
+          <li>Update the UI to support GNOME 46</li>
+          <li>Fix duplicate notifications appearing between sessions</li>
+          <li>Add a background app status message</li>
+        </ul>
+      </description>
+    </release>
     <release type="stable" version="2.1.0" date="2021-11-13T00:00:00Z">
       <description>
         <ul>
@@ -73,14 +84,6 @@
           <li>Add a new application icon</li>
           <li>Animate the timer circles in the settings dialog</li>
           <li>Improve error handling</li>
-        </ul>
-      </description>
-    </release>
-    <release type="stable" version="1.2" date="2014-03-28T00:00:00Z">
-      <description>
-        <ul>
-          <li>Bumped minimum GTK version</li>
-          <li>Minor fixes for settings dialog</li>
         </ul>
       </description>
     </release>
