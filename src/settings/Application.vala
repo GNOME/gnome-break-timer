@@ -75,18 +75,15 @@ public class Application : Adw.Application {
             this.main_window.add_css_class ("devel");
         }
 
-        this.main_window.get_surface ().event.connect (this.on_main_window_event);
+        this.main_window.notify["is-active"].connect(this.on_main_window_is_active_changed);
     }
 
-    private bool on_main_window_event (Gdk.Event event) {
-        if (event.get_event_type () != Gdk.EventType.FOCUS_CHANGE) {
-            return false;
+    private void on_main_window_is_active_changed () {
+        if (!this.main_window.is_active) {
+            return;
         }
 
-        Gdk.FocusEvent focus_event = (Gdk.FocusEvent) event;
-        bool focused = focus_event.get_in ();
-
-        if (focused && this.initial_focus && this.break_manager.master_enabled) {
+        if (this.initial_focus && this.break_manager.master_enabled) {
             // We should always refresh permissions at startup if enabled. Wait
             // for a moment after the main window is focused before doing this,
             // because it may trigger a system dialog.
@@ -95,13 +92,11 @@ public class Application : Adw.Application {
                 this.break_manager.refresh_permissions ();
                 return GLib.Source.REMOVE;
             });
-        } else if (focused && this.break_manager.permissions_error != NONE) {
+        } else if (this.break_manager.permissions_error != NONE) {
             // Refresh permissions on focus if there was an error, and, for
             // example, we are returning from GNOME Settings
             this.break_manager.refresh_permissions ();
         }
-
-        return false;
     }
 
     private void delayed_start () {
