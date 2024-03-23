@@ -22,7 +22,6 @@ namespace BreakTimer.Settings.Widgets {
 
 class BreakConfigurationChooser : Adw.ComboRow {
     public class Configuration : GLib.Object {
-        public Gtk.TreeIter iter { get; private set; }
         public string[] break_ids { get; private set; }
         public string label { get; private set; }
 
