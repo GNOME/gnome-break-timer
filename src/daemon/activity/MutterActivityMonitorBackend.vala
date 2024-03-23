@@ -39,6 +39,7 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend, GLib.Initabl
 
     public MutterActivityMonitorBackend () {
         this.user_is_active = false;
+        this.last_idle_time_update_time_ms = 0;
         this.active_idle_poll_source_id = 0;
     }
 
@@ -167,10 +168,12 @@ public class MutterActivityMonitorBackend : ActivityMonitorBackend, GLib.Initabl
     protected override uint64 time_since_last_event_ms () {
         if (this.user_is_active) {
             return 0;
-        } else {
+        } else if (this.last_idle_time_update_time_ms > 0) {
             int64 now = TimeUnit.get_monotonic_time_ms ();
             int64 time_since = now - this.last_idle_time_update_time_ms;
             return time_since + this.last_idle_time_ms;
+        } else {
+            return 0;
         }
     }
 }
