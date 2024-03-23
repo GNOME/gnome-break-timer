@@ -38,6 +38,7 @@ public class BreakManager : GLib.Object, GLib.Initable {
 
     private IPortalBackground? background_portal = null;
     private uint background_status_update_timeout_id;
+    private string background_status_message = "";
 
     private const uint BACKGROUND_STATUS_UPDATE_INTERVAL_SECONDS = 5;
 
@@ -179,27 +180,41 @@ public class BreakManager : GLib.Object, GLib.Initable {
     }
 
     private bool background_status_update_cb () {
-        if (this.background_portal == null) {
-            this.background_status_update_timeout_id = 0;
-            return GLib.Source.REMOVE;
-        }
+        var message = this.get_next_break_message () ?? "";
 
-        var options = new HashTable<string, GLib.Variant> (str_hash, str_equal);
-        options.insert ("message", this.get_next_break_message () ?? "");
-
-        try {
-            this.background_portal.set_status (options);
-        } catch (GLib.IOError error) {
-            GLib.warning ("Error connecting to desktop portal: %s", error.message);
-            this.background_status_update_timeout_id = 0;
-            return GLib.Source.REMOVE;
-        } catch (GLib.DBusError error) {
-            GLib.warning ("Error setting status message: %s", error.message);
+        if (!this.set_background_status_message (message)) {
             this.background_status_update_timeout_id = 0;
             return GLib.Source.REMOVE;
         }
 
         return GLib.Source.CONTINUE;
+    }
+
+    private bool set_background_status_message (string message) {
+        if (this.background_portal == null) {
+            return false;
+        }
+
+        if (this.background_status_message == message) {
+            return true;
+        }
+
+        var options = new HashTable<string, GLib.Variant> (str_hash, str_equal);
+        options.insert ("message", message);
+
+        try {
+            this.background_portal.set_status (options);
+        } catch (GLib.IOError error) {
+            GLib.warning ("Error connecting to desktop portal: %s", error.message);
+            return false;
+        } catch (GLib.DBusError error) {
+            GLib.warning ("Error setting status message: %s", error.message);
+            return false;
+        }
+
+        this.background_status_message = message;
+
+        return true;
     }
 }
 

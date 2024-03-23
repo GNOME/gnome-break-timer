@@ -20,7 +20,7 @@
 
 namespace BreakTimer.Settings.Break {
 
-public abstract class BreakStatusWidget : Gtk.Grid {
+public abstract class BreakStatusWidget : Gtk.Box {
     public BreakType break_type { public get; private set; }
     public bool is_enabled { get; set; default=false; }
 

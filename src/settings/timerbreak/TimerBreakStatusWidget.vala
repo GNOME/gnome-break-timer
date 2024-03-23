@@ -38,27 +38,24 @@ public abstract class TimerBreakStatusWidget : BreakStatusWidget {
         this.upcoming_text = upcoming_text;
         this.ongoing_text = ongoing_text;
 
-        this.set_column_spacing (12);
+        this.set_orientation (Gtk.Orientation.HORIZONTAL);
+        this.set_spacing (12);
 
         this.circle_counter = new CircleCounter ();
-        this.attach (this.circle_counter, 0, 0, 1, 1);
+        this.append (this.circle_counter);
 
-        var labels_grid = new Gtk.Grid ();
-        this.attach (labels_grid, 1, 0, 1, 1);
-        labels_grid.set_orientation (Gtk.Orientation.VERTICAL);
-        labels_grid.set_row_spacing (18);
-        labels_grid.set_valign (Gtk.Align.CENTER);
+        var labels_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
+        labels_box.set_valign (Gtk.Align.CENTER);
+        this.append (labels_box);
 
         this.status_label = new Gtk.Label (null);
-        labels_grid.attach (this.status_label, 0, 0, 1, 1);
+        labels_box.append (this.status_label);
         this.status_label.set_width_chars (25);
         this.status_label.add_css_class ("heading");
 
         this.time_label = new Gtk.Label (null);
-        labels_grid.attach_next_to (this.time_label, this.status_label, Gtk.PositionType.BOTTOM, 1, 1);
+        labels_box.append (this.time_label);
         this.time_label.set_width_chars (25);
-
-        this.show ();
 
         break_type.timer_status_changed.connect (this.timer_status_changed_cb);
     }
