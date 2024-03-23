@@ -29,7 +29,8 @@ namespace BreakTimer.Daemon {
 public abstract class UIFragment : GLib.Object, IFocusable {
     protected UIManager ui_manager;
 
-    protected FocusPriority focus_priority = FocusPriority.LOW;
+    protected virtual FocusPriority focus_priority {get; default = FocusPriority.LOW;}
+    protected virtual string[] notification_ids {get; default = {};}
 
     public bool has_ui_focus () {
         return this.ui_manager.is_focusing (this);
@@ -37,6 +38,10 @@ public abstract class UIFragment : GLib.Object, IFocusable {
 
     public bool has_higher_focus_priority (UIFragment other) {
         return this.focus_priority > other.focus_priority;
+    }
+
+    protected void reset_ui () {
+        this.hide_all_notifications ();
     }
 
     protected void request_ui_focus () {
@@ -62,6 +67,12 @@ public abstract class UIFragment : GLib.Object, IFocusable {
     protected void lock_screen () {
         if (this.has_ui_focus ()) {
             this.ui_manager.lock_screen ();
+        }
+    }
+
+    private void hide_all_notifications () {
+        foreach (string id in this.notification_ids) {
+            this.hide_notification (id);
         }
     }
 

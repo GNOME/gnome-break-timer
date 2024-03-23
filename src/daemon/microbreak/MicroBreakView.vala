@@ -35,11 +35,13 @@ public class MicroBreakView : TimerBreakView {
         }
     }
 
+    protected override FocusPriority focus_priority {get; default = FocusPriority.LOW;}
+    protected override string[] notification_ids {get; default = {"microbreak.active", "microbreak.finished"};}
+
     private int delay_time_notified = 0;
 
     public MicroBreakView (MicroBreakController micro_break, UIManager ui_manager) {
         base (micro_break, ui_manager);
-        this.focus_priority = FocusPriority.LOW;
 
         this.focused_and_activated.connect (this.focused_and_activated_cb);
         this.lost_ui_focus.connect (this.lost_ui_focus_cb);
@@ -76,6 +78,7 @@ public class MicroBreakView : TimerBreakView {
         notification.set_priority (GLib.NotificationPriority.HIGH);
         this.add_notification_actions (notification);
 
+        this.hide_notification ("microbreak.finished");
         this.show_notification ("microbreak.active", notification);
     }
 
@@ -97,6 +100,7 @@ public class MicroBreakView : TimerBreakView {
         notification.set_priority (GLib.NotificationPriority.HIGH);
         this.add_notification_actions (notification);
 
+        this.hide_notification ("microbreak.finished");
         this.show_notification ("microbreak.active", notification);
     }
 
@@ -131,6 +135,7 @@ public class MicroBreakView : TimerBreakView {
 
     private void lost_ui_focus_cb () {
         this.micro_break.delayed.disconnect (this.delayed_cb);
+        this.hide_notification ("microbreak.active");
     }
 
     private void finished_cb (BreakController.FinishedReason reason, bool was_active) {

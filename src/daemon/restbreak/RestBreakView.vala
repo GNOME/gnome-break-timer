@@ -34,6 +34,9 @@ public class RestBreakView : TimerBreakView {
         }
     }
 
+    protected override FocusPriority focus_priority {get; default = FocusPriority.HIGH;}
+    protected override string[] notification_ids {get; default = {"restbreak.active", "restbreak.finished"};}
+
     private int64 original_start_time = 0;
     private bool was_skipped = false;
     private bool human_is_resting = false;
@@ -42,7 +45,6 @@ public class RestBreakView : TimerBreakView {
 
     public RestBreakView (RestBreakController rest_break, UIManager ui_manager) {
         base (rest_break, ui_manager);
-        this.focus_priority = FocusPriority.HIGH;
 
         this.focused_and_activated.connect (this.focused_and_activated_cb);
         this.lost_ui_focus.connect (this.lost_ui_focus_cb);
@@ -84,6 +86,7 @@ public class RestBreakView : TimerBreakView {
 
         this.last_break_notification_time = TimeUnit.get_real_time_seconds ();
 
+        this.hide_notification ("restbreak.finished");
         this.show_notification ("restbreak.active", notification);
     }
 
@@ -108,6 +111,7 @@ public class RestBreakView : TimerBreakView {
 
         this.last_break_notification_time = TimeUnit.get_real_time_seconds ();
 
+        this.hide_notification ("restbreak.finished");
         this.show_notification ("restbreak.active", notification);
     }
 
@@ -132,6 +136,7 @@ public class RestBreakView : TimerBreakView {
 
         this.last_break_notification_time = TimeUnit.get_real_time_seconds ();
 
+        this.hide_notification ("restbreak.finished");
         this.show_notification ("restbreak.active", notification);
     }
 
@@ -184,6 +189,7 @@ public class RestBreakView : TimerBreakView {
         this.rest_break.counting.disconnect (this.counting_cb);
         this.rest_break.delayed.disconnect (this.delayed_cb);
         this.rest_break.current_duration_changed.disconnect (this.current_duration_changed_cb);
+        this.hide_notification ("restbreak.active");
     }
 
     private void finished_cb (BreakController.FinishedReason reason, bool was_active) {

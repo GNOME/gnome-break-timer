@@ -35,9 +35,11 @@ public abstract class BreakView : UIFragment {
         this.break_controller = break_controller;
 
         break_controller.enabled.connect (() => {
+            this.reset_ui ();
             this.ui_manager.add_break (this);
         });
         break_controller.disabled.connect (() => {
+            this.reset_ui ();
             this.ui_manager.remove_break (this);
         });
 
