@@ -1,4 +1,5 @@
 common_lib_sources = files(
+    'DynamicTimeout.vala',
     'IBreakTimer_TimerBreak.vala',
     'IBreakTimer.vala',
     'IFreedesktopApplication.vala',

@@ -48,6 +48,8 @@ public abstract class TimerBreakType : BreakType {
     private GLib.DBusConnection dbus_connection;
     private IBreakTimer_TimerBreak? break_server;
 
+    private DynamicTimeout update_timeout;
+
     public signal void timer_status_changed (TimerBreakStatus? status);
 
     protected TimerBreakType (string name, GLib.Settings settings) {
@@ -67,6 +69,9 @@ public abstract class TimerBreakType : BreakType {
             this.breakdaemon_disappeared
         );
 
+        this.update_timeout = new DynamicTimeout (this.update_status_cb);
+        this.update_timeout.set_interval_seconds (1);
+
         return base.init (cancellable);
     }
 
@@ -81,10 +86,22 @@ public abstract class TimerBreakType : BreakType {
             base.update_status (null);
         }
         this.timer_status_changed (status);
+
+        if (!status.is_focused && status.starts_in > 60) {
+            this.update_timeout.set_interval_seconds (10);
+        } else if (!status.is_focused && status.starts_in > 15) {
+            this.update_timeout.set_interval_seconds (5);
+        } else if (status.is_focused && status.time_remaining > 60) {
+            this.update_timeout.set_interval_seconds (10);
+        } else if (status.is_focused && status.time_remaining > 15) {
+            this.update_timeout.set_interval_seconds (5);
+        } else {
+            this.update_timeout.set_interval (500);
+        }
     }
 
-    private uint update_timeout_id;
     private bool update_status_cb () {
+        GLib.warning ("update_status_cb");
         TimerBreakStatus? status = this.get_status ();
         this.update_status (status);
         return GLib.Source.CONTINUE;
@@ -119,7 +136,7 @@ public abstract class TimerBreakType : BreakType {
             );
             // We can only poll the break daemon application for updates, so
             // for responsiveness we update at a faster than normal rate.
-            this.update_timeout_id = GLib.Timeout.add (500, this.update_status_cb);
+            this.update_timeout.start ();
             this.update_status_cb ();
         } catch (GLib.IOError error) {
             this.break_server = null;
@@ -128,10 +145,7 @@ public abstract class TimerBreakType : BreakType {
     }
 
     private void breakdaemon_disappeared () {
-        if (this.update_timeout_id > 0) {
-            GLib.Source.remove (this.update_timeout_id);
-            this.update_timeout_id = 0;
-        }
+        this.update_timeout.stop ();
         this.break_server = null;
         this.update_status_cb ();
     }

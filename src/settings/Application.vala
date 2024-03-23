@@ -72,7 +72,7 @@ public class Application : Adw.Application {
         }
 
         if (Config.BUILD_PROFILE == "development") {
-            this.main_window.add_css_class ("devel");
+            // this.main_window.add_css_class ("devel");
         }
 
         this.main_window.notify["is-active"].connect(this.on_main_window_is_active_changed);

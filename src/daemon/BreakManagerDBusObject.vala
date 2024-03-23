@@ -56,15 +56,6 @@ public class BreakManagerDBusObject : GLib.Object, IBreakTimer {
         return break_ids.data;
     }
 
-    public string[] get_status_messages () throws GLib.DBusError, GLib.IOError {
-        var messages = new GLib.Array<string> ();
-        foreach (BreakType break_type in break_manager.all_breaks ()) {
-            string? status_message = break_type.break_view.get_status_message ();
-            messages.append_val ("%s:\t%s".printf (break_type.id, status_message));
-        }
-        return messages.data;
-    }
-
     public void activate_break (string break_name) throws GLib.DBusError, GLib.IOError {
         BreakType? break_type = this.break_manager.get_break_type_for_name (break_name);
         if (break_type != null) break_type.break_controller.activate ();

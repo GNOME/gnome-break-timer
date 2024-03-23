@@ -28,9 +28,6 @@ public interface IBreakTimer : GLib.Object {
     /** Returns a list of breaks that are currently known to the break daemon. */
     public abstract string[] get_break_ids () throws GLib.DBusError, GLib.IOError;
 
-    /** Returns a list of helpful status messages for each break, for debugging. */
-    public abstract string[] get_status_messages () throws GLib.DBusError, GLib.IOError;
-
     /** Activate the specified break immediately, regardless of the usual activation conditions. */
     public abstract void activate_break (string break_id) throws GLib.DBusError, GLib.IOError;
 
