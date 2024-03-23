@@ -30,12 +30,10 @@ class RestBreakSettingsWidget : TimerBreakSettingsWidget {
             _("And take some longer breaks to stretch your legs")
         );
 
-        var lock_toggle = new Gtk.CheckButton.with_label (_("Lock the screen during breaks"));
-        break_type.settings.bind ("lock-screen", lock_toggle, "active", SettingsBindFlags.DEFAULT);
-        lock_toggle.set_halign (Gtk.Align.CENTER);
-        lock_toggle.show ();
-
-        this.set_details_widget (lock_toggle);
+        var lock_screen_row = new Adw.SwitchRow ();
+        lock_screen_row.set_title (_("Lock the screen during breaks"));
+        break_type.settings.bind ("lock-screen", lock_screen_row, "active", SettingsBindFlags.DEFAULT);
+        this.add (lock_screen_row);
     }
 
 }

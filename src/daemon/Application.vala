@@ -1,6 +1,6 @@
 /* Application.vala
  *
- * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ * Copyright 2020-2021 Dylan McCall <dylan@dylanmccall.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 
 using BreakTimer.Common;
 using BreakTimer.Daemon.Activity;
+using BreakTimer.Daemon.Break;
 
 namespace BreakTimer.Daemon {
 
@@ -31,7 +32,10 @@ public class Application : Gtk.Application {
     private const int ACTIVITY_TIMEOUT_MS = 60 * TimeUnit.MILLISECONDS_IN_SECONDS;
 
     // Consider saved state valid if it was created in the last 10 seconds
-    private const int SAVE_STATE_INTERVAL = 10 * TimeUnit.MILLISECONDS_IN_SECONDS;
+    private const int SAVE_STATE_EXPIRY_MS = 10 * TimeUnit.MILLISECONDS_IN_SECONDS;
+
+    // Update saved state file every five minutes
+    private const int SAVE_STATE_INTERVAL_SECONDS = 60 * 5;
 
     private BreakManager break_manager;
     private SessionStatus session_status;
@@ -39,8 +43,10 @@ public class Application : Gtk.Application {
     private ActivityMonitor activity_monitor;
     private UIManager ui_manager;
 
+    private uint save_state_timeout_id;
     private string cache_path;
     private int64 state_saved_time_ms;
+    private bool is_activated;
 
     public Application () {
         GLib.Object (
@@ -61,24 +67,20 @@ public class Application : Gtk.Application {
         this.query_end.connect (this.on_query_end_cb);
     }
 
-    public override void activate () {
-        base.activate ();
-    }
-
     public override void startup () {
         base.startup ();
 
-        Notify.init (app_name);
+        this.is_activated = false;
 
-        /* set up custom gtk style for application */
-        Gdk.Screen screen = Gdk.Screen.get_default ();
-        Gtk.CssProvider style_provider = new Gtk.CssProvider ();
-
-        Gtk.StyleContext.add_provider_for_screen (
-            screen,
-            style_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        GLib.SimpleAction dismiss_break_action = new GLib.SimpleAction (
+            "dismiss-break", new GLib.VariantType("s")
         );
+        this.add_action (dismiss_break_action);
+        dismiss_break_action.activate.connect (this.on_dismiss_break_activate_cb);
+
+        GLib.SimpleAction show_break_info_action = new GLib.SimpleAction ("show-break-info", null);
+        this.add_action (show_break_info_action);
+        show_break_info_action.activate.connect (this.on_show_break_info_activate_cb);
 
         this.session_status = new SessionStatus ();
         try {
@@ -116,23 +118,84 @@ public class Application : Gtk.Application {
         }
 
         this.restore_state ();
+        this.start_save_state_timeout ();
 
         this.activity_monitor.start ();
     }
 
-    public override void shutdown () {
-        base.shutdown ();
+    /**
+     * Open the settings app when activated, for example when the the user
+     * chooses Break Timer from the Background Apps section in GNOME Shell.
+     * Unfortunately, we are unable to tell the difference between that type of
+     * activation, D-Bus activation during session start, and the GApplication
+     * activate signal firing when the app starts normally. We will work around
+     * that by always ignoring the first call to activate, and by not using
+     * D-Bus activation in the daemon's autostart file.
+     */
+    public override void activate () {
+        base.activate ();
 
-        this.save_state ();
+        if (!this.is_activated) {
+            this.is_activated = true;
+            return;
+        }
+
+        if (this.break_manager.autostart_version > 1) {
+            // Previous versions used D-Bus activation for the autostart
+            // file, which would result in this running on session start.
+            this.show_break_info ();
+        }
     }
 
-    public void on_query_end_cb () {
-        uint inhibit_cookie = this.inhibit (null, Gtk.ApplicationInhibitFlags.LOGOUT, _("Saving state"));
+    private void start_save_state_timeout () {
+        // TODO: As soon as state saving is supported in GLib, use that:
+        //       <https://gitlab.gnome.org/GNOME/glib/-/merge_requests/683>
+        assert (this.save_state_timeout_id == 0);
+
+        this.save_state_timeout_id = GLib.Timeout.add_seconds (
+            SAVE_STATE_INTERVAL_SECONDS, this.save_state_timeout_cb
+        );
+    }
+
+    private bool save_state_timeout_cb () {
+        this.save_state.begin ();
+        return GLib.Source.CONTINUE;
+    }
+
+    private void on_dismiss_break_activate_cb (GLib.SimpleAction action, GLib.Variant? parameter) {
+        BreakType? break_type = this.break_manager.get_break_type_for_name (
+            parameter.get_string ()
+        );
+        if (break_type != null) {
+            break_type.break_view.dismiss_break ();
+        }
+    }
+
+    private void on_show_break_info_activate_cb (GLib.SimpleAction action, GLib.Variant? parameter) {
         GLib.Idle.add_full (
             GLib.Priority.HIGH_IDLE,
             () => {
-                this.save_state ();
-                this.uninhibit (inhibit_cookie);
+                this.show_break_info ();
+                return false;
+            }
+        );
+    }
+
+    private void show_break_info () {
+        GLib.AppInfo settings_app_info = new GLib.DesktopAppInfo (Config.SETTINGS_APPLICATION_ID + ".desktop");
+        GLib.AppLaunchContext app_launch_context = new GLib.AppLaunchContext ();
+        try {
+            settings_app_info.launch (null, app_launch_context);
+        } catch (GLib.Error error) {
+            GLib.warning ("Error launching settings application: %s", error.message);
+        }
+    }
+
+    public void on_query_end_cb () {
+        GLib.Idle.add_full (
+            GLib.Priority.HIGH_IDLE,
+            () => {
+                this.save_state.begin ();
                 return GLib.Source.REMOVE;
             }
         );
@@ -151,10 +214,10 @@ public class Application : Gtk.Application {
         return cache_dir.get_child (state_file_name);
     }
 
-    private void save_state () {
+    private async void save_state () {
         int64 now = TimeUnit.get_monotonic_time_ms ();
 
-        if (now - this.state_saved_time_ms < SAVE_STATE_INTERVAL) {
+        if (now - this.state_saved_time_ms < SAVE_STATE_EXPIRY_MS) {
             return;
         } else {
             this.state_saved_time_ms = now;
@@ -173,7 +236,7 @@ public class Application : Gtk.Application {
         root_object.set_object_member ("activity_monitor", this.activity_monitor.serialize ());
 
         try {
-            GLib.OutputStream state_stream = state_file.replace (null, false, GLib.FileCreateFlags.NONE);
+            GLib.OutputStream state_stream = yield state_file.replace_async (null, false, GLib.FileCreateFlags.NONE);
             generator.to_stream (state_stream);
         } catch (GLib.Error e) {
             GLib.warning ("Error writing to state file: %s", e.message);

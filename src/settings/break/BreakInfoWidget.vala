@@ -1,6 +1,6 @@
 /* BreakInfoWidget.vala
  *
- * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ * Copyright 2020-2021 Dylan McCall <dylan@dylanmccall.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,12 +20,11 @@
 
 namespace BreakTimer.Settings.Break {
 
-public abstract class BreakInfoWidget : Gtk.Grid {
+public abstract class BreakInfoWidget : Gtk.Box {
     public BreakType break_type { public get; private set; }
     public string title { public get; private set; }
 
-    private Gtk.Label heading_label;
-    private Gtk.Label description_label;
+    private Adw.StatusPage status_page;
     private Gtk.Label detail_label;
 
     protected BreakInfoWidget (BreakType break_type, string title) {
@@ -34,33 +33,24 @@ public abstract class BreakInfoWidget : Gtk.Grid {
         this.break_type = break_type;
         this.title = title;
 
-        this.set_orientation (Gtk.Orientation.VERTICAL);
-        this.set_hexpand (true);
-        this.set_row_spacing (24);
-        this.get_style_context ().add_class ("_break-info");
+        this.status_page = new Adw.StatusPage ();
+        this.append (this.status_page);
 
-        this.heading_label = new Gtk.Label (null);
-        this.add (this.heading_label);
-        this.heading_label.get_style_context ().add_class ("_break-info-heading");
-
-        this.description_label = new Gtk.Label (null);
-        this.add (this.description_label);
-        this.description_label.set_line_wrap (true);
-        this.description_label.set_justify (Gtk.Justification.CENTER);
-        this.description_label.set_max_width_chars (60);
+        this.status_page.set_hexpand (true);
+        this.status_page.set_vexpand (true);
 
         this.detail_label = new Gtk.Label (null);
-        this.add (this.detail_label);
+        this.status_page.set_child (this.detail_label);
 
-        this.show_all ();
+        this.show ();
     }
 
     protected void set_heading (string heading) {
-        this.heading_label.set_label (heading);
+        this.status_page.set_title (heading);
     }
 
     protected void set_description (string description) {
-        this.description_label.set_label (description);
+        this.status_page.set_description (description);
     }
 
     protected void set_detail (string detail) {

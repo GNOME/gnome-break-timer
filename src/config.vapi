@@ -2,6 +2,7 @@
 namespace BreakTimer.Config {
     public const string APPLICATION_ID;
     public const string APPLICATION_URL;
+    public const string APPLICATION_ISSUES_URL;
     public const string BUILD_PROFILE;
     public const string DAEMON_APPLICATION_ID;
     public const string DAEMON_OBJECT_PATH;

@@ -34,6 +34,7 @@ public class BreakManager : GLib.Object {
     private GLib.List<BreakType> breaks;
 
     private GLib.Settings settings;
+    public int autostart_version { get; set; }
     public bool master_enabled { get; set; }
     public string[] selected_break_ids { get; set; }
     public BreakType? foreground_break { get; private set; }
@@ -48,6 +49,8 @@ public class BreakManager : GLib.Object {
 
     public signal void break_status_available ();
     public signal void status_changed ();
+
+    public static int CURRENT_AUTOSTART_VERSION = 2;
 
     [Flags]
     public enum PermissionsError {
@@ -65,6 +68,7 @@ public class BreakManager : GLib.Object {
 
         this.permissions_error = PermissionsError.NONE;
 
+        this.settings.bind ("autostart-version", this, "autostart-version", SettingsBindFlags.DEFAULT);
         this.settings.bind ("enabled", this, "master-enabled", SettingsBindFlags.DEFAULT);
         this.settings.bind ("selected-breaks", this, "selected-break-ids", SettingsBindFlags.DEFAULT);
 
@@ -133,10 +137,10 @@ public class BreakManager : GLib.Object {
         options.insert ("handle_token", handle_token);
         options.insert ("autostart", autostart);
         options.insert ("commandline", commandline);
-        // RequestBackground creates a desktop file with the same name as
-        // the flatpak, which happens to be the dbus name of the daemon
-        // (although it is not the dbus name of the settings application).
-        options.insert ("dbus-activatable", true);
+        // We will not use the dbus-activatable option, because the daemon
+        // application opens a settings window when it is activated for a second
+        // time.
+        options.insert ("dbus-activatable", false);
 
         GLib.ObjectPath request_path = null;
         GLib.ObjectPath expected_request_path = new GLib.ObjectPath (
@@ -202,6 +206,12 @@ public class BreakManager : GLib.Object {
         }
 
         this.permissions_error = new_permissions_error;
+
+        if (autostart_allowed) {
+            this.autostart_version = CURRENT_AUTOSTART_VERSION;
+        } else {
+            this.autostart_version = 0;
+        }
 
         this.background_request = null;
     }

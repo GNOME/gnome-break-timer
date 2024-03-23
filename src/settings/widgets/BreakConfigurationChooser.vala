@@ -20,11 +20,11 @@
 
 namespace BreakTimer.Settings.Widgets {
 
-class BreakConfigurationChooser : Gtk.ComboBox {
+class BreakConfigurationChooser : Adw.ComboRow {
     public class Configuration : GLib.Object {
-        public Gtk.TreeIter iter;
-        public string[] break_ids;
-        public string label;
+        public Gtk.TreeIter iter { get; private set; }
+        public string[] break_ids { get; private set; }
+        public string label { get; private set; }
 
         public Configuration (string[] break_ids, string label) {
             this.break_ids = break_ids;
@@ -43,62 +43,56 @@ class BreakConfigurationChooser : Gtk.ComboBox {
         }
     }
 
-    private Gtk.ListStore list_store;
-    private List<Configuration> configurations;
+    private GLib.ListStore list_store;
 
     public string[] selected_break_ids { public get; public set; }
 
     public BreakConfigurationChooser () {
-        GLib.Object ();
+        GLib.Object (use_subtitle: true);
 
-        this.configurations = new List<Configuration> ();
+        this.title = _("Choose your break schedule");
 
-        this.list_store = new Gtk.ListStore (2, typeof (Configuration), typeof (string));
+        this.list_store = new GLib.ListStore (typeof (Configuration));
         this.set_model (this.list_store);
+        this.set_expression (
+            new Gtk.PropertyExpression (typeof (Configuration), null, "label")
+        );
 
-        var label_renderer = new Gtk.CellRendererText ();
-        this.pack_start (label_renderer, true);
-        this.add_attribute (label_renderer, "text", 1);
-
-        this.notify["active"].connect (this.send_selected_break);
-        this.notify["selected-break-ids"].connect (this.receive_selected_break);
+        this.notify["selected-item"].connect (this.on_selected_item_changed);
+        this.notify["selected-break-ids"].connect (this.on_selected_break_ids_changed);
     }
 
     public void add_configuration (string[] break_ids, string label) {
         var configuration = new Configuration (break_ids, label);
-        this.configurations.append (configuration);
-        Gtk.TreeIter iter;
-        this.list_store.append (out iter);
-        this.list_store.set (iter, 0, configuration, 1, configuration.label);
-        configuration.iter = iter;
+        this.list_store.append (configuration);
     }
 
-    private void send_selected_break () {
-        Gtk.TreeIter iter;
-        if (this.get_active_iter (out iter)) {
-            Value value;
-            this.list_store.get_value (iter, 0, out value);
-            Configuration configuration = (Configuration) value;
+    private void on_selected_item_changed () {
+        Configuration? configuration = (Configuration) this.get_selected_item ();
+        if (configuration != null) {
             this.selected_break_ids = configuration.break_ids;
         }
     }
 
-    private void receive_selected_break () {
-        var configuration = this.get_configuration_for_break_ids (this.selected_break_ids);
-        if (configuration != null) {
-            this.set_active_iter (configuration.iter);
-        } else {
-            this.set_active (-1);
+    private void on_selected_break_ids_changed () {
+        uint find_position;
+        if (this.find_position_for_selected_breaks (this.selected_break_ids, out find_position)) {
+            this.set_selected (find_position);
         }
     }
 
-    private Configuration? get_configuration_for_break_ids (string[] selected_breaks) {
-        foreach (Configuration configuration in this.configurations) {
-            if (configuration.matches_breaks (selected_breaks)) {
-                return configuration;
+    private bool find_position_for_selected_breaks (string[] selected_breaks, out uint out_position) {
+        for (uint i = 0; i < this.list_store.n_items; i++) {
+            Configuration? configuration = (Configuration?) this.list_store.get_object (i);
+            if (configuration == null) {
+                continue;
+            } else if (configuration.matches_breaks (selected_breaks)) {
+                out_position = i;
+                return true;
             }
         }
-        return null;
+        out_position = Gtk.INVALID_LIST_POSITION;
+        return false;
     }
 }
 

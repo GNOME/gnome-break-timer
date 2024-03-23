@@ -59,7 +59,7 @@ public class BreakManagerDBusObject : GLib.Object, IBreakTimer {
     public string[] get_status_messages () throws GLib.DBusError, GLib.IOError {
         var messages = new GLib.Array<string> ();
         foreach (BreakType break_type in break_manager.all_breaks ()) {
-            string status_message = break_type.break_view.get_status_message ();
+            string? status_message = break_type.break_view.get_status_message ();
             messages.append_val ("%s:\t%s".printf (break_type.id, status_message));
         }
         return messages.data;

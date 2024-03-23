@@ -29,12 +29,19 @@ namespace BreakTimer.Daemon {
 public abstract class UIFragment : GLib.Object, IFocusable {
     protected UIManager ui_manager;
 
-    protected Notify.Notification? notification;
-
-    protected FocusPriority focus_priority = FocusPriority.LOW;
+    protected virtual FocusPriority focus_priority {get; default = FocusPriority.LOW;}
+    protected virtual string[] notification_ids {get; default = {};}
 
     public bool has_ui_focus () {
         return this.ui_manager.is_focusing (this);
+    }
+
+    public bool has_higher_focus_priority (UIFragment other) {
+        return this.focus_priority > other.focus_priority;
+    }
+
+    protected void reset_ui () {
+        this.hide_all_notifications ();
     }
 
     protected void request_ui_focus () {
@@ -57,36 +64,32 @@ public abstract class UIFragment : GLib.Object, IFocusable {
         }
     }
 
-    protected bool can_lock_screen () {
-        return this.ui_manager.can_lock_screen ();
-    }
-
     protected void lock_screen () {
         if (this.has_ui_focus ()) {
             this.ui_manager.lock_screen ();
         }
     }
 
-    protected bool notifications_can_do (string action) {
-        return this.ui_manager.notifications_can_do (action);
-    }
-
-    protected void show_notification (Notify.Notification notification) {
-        if (this.has_ui_focus ()) {
-            this.ui_manager.show_notification (notification);
-            this.notification = notification;
+    private void hide_all_notifications () {
+        foreach (string id in this.notification_ids) {
+            this.hide_notification (id);
         }
     }
 
-    protected void show_lock_notification (Notify.Notification notification) {
+    protected void show_notification (string id, GLib.Notification notification) {
         if (this.has_ui_focus ()) {
-            this.ui_manager.show_lock_notification (notification);
-            this.notification = notification;
+            this.ui_manager.show_notification (id, notification);
         }
     }
 
-    protected void hide_notification (UIManager.HideNotificationMethod method=IMMEDIATE) {
-        this.ui_manager.hide_notification (this.notification, method);
+    protected void show_transient_notification (string id, GLib.Notification notification) {
+        if (this.has_ui_focus ()) {
+            this.ui_manager.show_transient_notification (id, notification);
+        }
+    }
+
+    protected void hide_notification (string id) {
+        this.ui_manager.hide_notification (id);
     }
 
     /* IFocusable interface */

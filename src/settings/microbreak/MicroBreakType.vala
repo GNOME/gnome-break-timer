@@ -28,8 +28,22 @@ public class MicroBreakType : TimerBreakType {
         GLib.Settings settings = new GLib.Settings (Config.APPLICATION_ID + ".microbreak");
         base ("microbreak", settings);
 
-        this.interval_options = { 240, 300, 360, 600, 1200 };
-        this.duration_options = { 15, 20, 30, 45, 60 };
+        this.interval_options = {
+            new BreakTimeOption(30),
+            new BreakTimeOption(240),
+            new BreakTimeOption(300),
+            new BreakTimeOption(360),
+            new BreakTimeOption(600),
+            new BreakTimeOption(1200)
+        };
+        this.duration_options = {
+            new BreakTimeOption(5),
+            new BreakTimeOption(15),
+            new BreakTimeOption(20),
+            new BreakTimeOption(30),
+            new BreakTimeOption(45),
+            new BreakTimeOption(60)
+        };
     }
 
     protected override BreakInfoWidget create_info_widget () {

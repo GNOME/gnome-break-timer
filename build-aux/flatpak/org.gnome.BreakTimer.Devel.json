@@ -11,11 +11,10 @@
         "--socket=fallback-x11",
         "--socket=wayland",
         "--socket=pulseaudio",
-        "--talk-name=org.gnome.ControlCenter",
+        "--talk-name=org.gnome.Settings",
         "--talk-name=org.gnome.Shell",
         "--talk-name=org.gnome.Mutter.IdleMonitor",
-        "--talk-name=org.gnome.ScreenSaver",
-        "--talk-name=org.freedesktop.Notifications"
+        "--talk-name=org.gnome.ScreenSaver"
     ],
     "modules" : [
         {
@@ -35,7 +34,7 @@
         },
         {
             "name" : "gsound",
-            "buildsystem": "meson",
+            "buildsystem" : "meson",
             "sources" : [
                 {
                     "type" : "git",
@@ -64,6 +63,22 @@
                     "type" : "archive",
                     "url" : "http://people.freedesktop.org/~mccann/dist/sound-theme-freedesktop-0.8.tar.bz2",
                     "sha256" : "cb518b20eef05ec2e82dda1fa89a292c1760dc023aba91b8aa69bafac85e8a14"
+                }
+            ]
+        },
+        {
+            "name" : "blueprint-compiler",
+            "buildsystem" : "meson",
+            "sources" : [
+                {
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/jwestman/blueprint-compiler",
+                    "tag" : "v0.10.0",
+                    "commit" : "2a39a16391122af2f3d812e478c1c1398c98b972",
+                    "x-checker-data" : {
+                        "type" : "git",
+                        "tag-pattern": "^v([\d.]+)$"
+                    }
                 }
             ]
         },

@@ -34,6 +34,8 @@ public class ActivityMonitor : GLib.Object, GLib.Initable {
     public signal void detected_idle (UserActivity activity);
     public signal void detected_activity (UserActivity activity);
 
+    public const int SLEEP_TIME_CORRECTION_THRESHOLD = 10;
+
     public ActivityMonitor (ISessionStatus session_status, ActivityMonitorBackend backend) {
         this.session_status = session_status;
         this.backend = backend;
@@ -114,9 +116,9 @@ public class ActivityMonitor : GLib.Object, GLib.Initable {
         // Order is important here: some types of activity (or inactivity)
         // happen at the same time, and are only reported once.
 
-        if (sleep_time > idle_time + 5) {
-            // Detected sleep time exceeds reported idle time by a healthy
-            // margin. We use a magic number to filter out strange cases
+        if (sleep_time > SLEEP_TIME_CORRECTION_THRESHOLD) {
+            // Detected sleep time is above a reasonable threshold that we will
+            // count it as idle time.
             activity = UserActivity () {
                 type = ActivityType.SLEEP,
                 idle_time = 0,

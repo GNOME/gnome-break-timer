@@ -35,33 +35,51 @@ public class MicroBreakView : TimerBreakView {
         }
     }
 
+    protected override FocusPriority focus_priority {get; default = FocusPriority.LOW;}
+    protected override string[] notification_ids {get; default = {"microbreak.active", "microbreak.finished"};}
+
     private int delay_time_notified = 0;
 
     public MicroBreakView (MicroBreakController micro_break, UIManager ui_manager) {
         base (micro_break, ui_manager);
-        this.focus_priority = FocusPriority.LOW;
 
         this.focused_and_activated.connect (this.focused_and_activated_cb);
         this.lost_ui_focus.connect (this.lost_ui_focus_cb);
         this.micro_break.finished.connect (this.finished_cb);
     }
 
-    protected new void show_break_notification (Notify.Notification notification) {
-        if (this.notifications_can_do ("actions")) {
-            /* Label for a notification action that will skip the current microbreak */
-            notification.add_action ("skip", _("Skip this one"), this.notification_action_skip_cb);
+    public override string? get_status_message () {
+        int starts_in_value = this.micro_break.starts_in ();
+        string starts_in_text = NaturalTime.instance.get_countdown_for_seconds (starts_in_value);
+
+        if (this.micro_break.state == WAITING) {
+            return ngettext (
+                /* %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour" */
+                "Microbreak starts in %s",
+                "Microbreak starts in %s",
+                starts_in_value
+            ).printf (starts_in_text);
+        } else if (this.micro_break.state == ACTIVE) {
+            return _("Time for a microbreak");
+        } else {
+            return null;
         }
-        base.show_break_notification (notification);
+    }
+
+    public override void dismiss_break () {
+        this.micro_break.skip (true);
     }
 
     private void show_start_notification () {
-        var notification = this.build_common_notification (
-            _("It’s time for a micro break"),
-            _("Take a break from typing and look away from the screen")
-        );
-        notification.set_urgency (Notify.Urgency.NORMAL);
-        notification.set_hint ("sound-name", "message");
-        this.show_break_notification (notification);
+        string body_text = _("Take a break from typing and look away from the screen");
+
+        var notification = new GLib.Notification (_("It’s time for a micro break"));
+        notification.set_body (body_text);
+        notification.set_priority (GLib.NotificationPriority.HIGH);
+        this.add_notification_actions (notification);
+
+        this.hide_notification ("microbreak.finished");
+        this.show_notification ("microbreak.active", notification);
     }
 
     private void show_overdue_notification () {
@@ -77,23 +95,34 @@ public class MicroBreakView : TimerBreakView {
             delay_value
         ).printf (delay_text);
 
-        var notification = this.build_common_notification (
-            _("Overdue micro break"),
-            body_text
-        );
-        notification.set_urgency (Notify.Urgency.NORMAL);
-        this.show_break_notification (notification);
+        var notification = new GLib.Notification (_("Overdue micro break"));
+        notification.set_body (body_text);
+        notification.set_priority (GLib.NotificationPriority.HIGH);
+        this.add_notification_actions (notification);
+
+        this.hide_notification ("microbreak.finished");
+        this.show_notification ("microbreak.active", notification);
     }
 
     private void show_finished_notification () {
-        var notification = this.build_common_notification (
-            _("Break is over"),
-            _("Your micro break has ended")
-        );
-        notification.set_urgency (Notify.Urgency.NORMAL);
-        this.show_lock_notification (notification);
+        string body_text = _("Your micro break has ended");
 
+        var notification = new GLib.Notification (_("Break is over"));
+        notification.set_body (body_text);
+        notification.set_priority (GLib.NotificationPriority.NORMAL);
+        notification.set_default_action ("app.show-break-info");
+
+        this.hide_notification ("microbreak.active");
+        this.show_transient_notification ("microbreak.finished", notification);
         this.play_sound_from_id ("complete");
+    }
+
+    private void add_notification_actions (GLib.Notification notification) {
+        /* Label for a notification action that skips the current break */
+        notification.add_button (_("Skip this one"), "app.dismiss-break::microbreak");
+        /* Label for a notification action that shows information about the current break */
+        notification.add_button (_("What should I do?"), "app.show-break-info");
+        notification.set_default_action ("app.show-break-info");
     }
 
     private void focused_and_activated_cb () {
@@ -106,13 +135,14 @@ public class MicroBreakView : TimerBreakView {
 
     private void lost_ui_focus_cb () {
         this.micro_break.delayed.disconnect (this.delayed_cb);
+        this.hide_notification ("microbreak.active");
     }
 
     private void finished_cb (BreakController.FinishedReason reason, bool was_active) {
         if (reason == BreakController.FinishedReason.SATISFIED && was_active) {
             this.show_finished_notification ();
         } else {
-            this.hide_notification (IMMEDIATE);
+            this.hide_notification ("microbreak.active");
         }
     }
 
@@ -122,10 +152,6 @@ public class MicroBreakView : TimerBreakView {
             this.show_overdue_notification ();
             this.delay_time_notified = total_time;
         }
-    }
-
-    private void notification_action_skip_cb () {
-        this.break_controller.skip (true);
     }
 }
 

@@ -1,0 +1,168 @@
+using Gtk 4.0;
+using Adw 1;
+
+Adw.NavigationView welcome_stack {
+  vexpand: true;
+
+  Adw.NavigationPage welcome_start_page {
+    title: _("Welcome Tour");
+
+    Overlay welcome_start_overlay {
+      Adw.Clamp {
+        Box {
+          margin-bottom: 30;
+          margin-top: 30;
+          orientation: vertical;
+          spacing: 16;
+          valign: center;
+
+          Label {
+            styles ["large-title"]
+            label: _("Welcome to Break Timer!");
+            wrap: true;
+          }
+
+          Label {
+            styles ["body"]
+            label: _("Breaks are good for you. We\'ll help you to take them.");
+            wrap: true;
+          }
+
+          Label welcome_switch_label {
+            styles ["caption"]
+            halign: center;
+            label: _("Just switch me on to get started");
+            margin-end: 8;
+            margin-start: 8;
+            margin-top: 50;
+            wrap: true;
+          }
+        }
+      }
+    }
+  }
+
+  Adw.NavigationPage welcome_breaks_page {
+    title: _("Welcome Tour");
+
+    Overlay welcome_breaks_overlay {
+      Adw.Clamp {
+        Box {
+          orientation: vertical;
+          valign: center;
+
+          Box {
+            margin-bottom: 30;
+            margin-top: 30;
+            orientation: vertical;
+            spacing: 16;
+
+            Label {
+              styles ["large-title"]
+              label: _("Break and micro breaks");
+              wrap: true;
+            }
+
+            Label {
+              styles ["body"]
+              label: _("Break Timer lets you take small micro breaks as well as longer breaks.");
+              wrap: true;
+            }
+
+            Label {
+              styles ["body"]
+              label: _("Micro breaks are a chance to look away from the screen and rest your hands.");
+              wrap: true;
+            }
+
+            Label {
+              styles ["body"]
+              label: _("Full breaks are time to get away from your computer and move around.");
+              wrap: true;
+            }
+          }
+
+          Box {
+            margin-bottom: 30;
+            margin-top: 30;
+            orientation: vertical;
+            spacing: 16;
+
+            Label welcome_settings_label {
+              styles ["caption"]
+              halign: center;
+              label: _("You can change the types of breaks and their timings from the settings");
+              margin-end: 8;
+              margin-start: 8;
+              valign: start;
+              wrap: true;
+            }
+
+            Button welcome_breaks_ok_button {
+              styles ["suggested-action"]
+              halign: center;
+              label: _("OK, got it!");
+            }
+          }
+        }
+      }
+    }
+  }
+
+  Adw.NavigationPage welcome_ready_page {
+    title: _("Welcome Tour");
+
+    Adw.Clamp {
+      Box {
+        orientation: vertical;
+        valign: center;
+
+        Box {
+          margin-bottom: 30;
+          margin-top: 30;
+          orientation: vertical;
+          spacing: 16;
+
+          Label {
+            styles ["large-title"]
+            label: _("You can leave me to it");
+            wrap: true;
+          }
+
+          Label {
+            styles ["body"]
+            label: _("Break Timer will carry on working in the background, even if you close it.");
+            wrap: true;
+          }
+        }
+
+        Box {
+          margin-bottom: 30;
+          margin-top: 30;
+          orientation: vertical;
+          spacing: 16;
+
+          Button welcome_ready_ok_button {
+            styles ["suggested-action"]
+            halign: center;
+            label: _("Ready to go");
+          }
+        }
+      }
+    }
+  }
+}
+
+Adw.StatusPage status_error {
+  description: _("If this continues the next time you log in, please <a href=\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>.");
+  icon-name: "face-sick-symbolic";
+  title: _("Break Timer isn’t responding");
+  vexpand: true;
+}
+
+Adw.StatusPage status_stopped {
+  description: _("Turn me on to get those breaks going");
+  icon-name: "face-sad-symbolic";
+  title: _("Break Timer is taking a break");
+  vexpand: true;
+}

@@ -93,21 +93,31 @@ public class SimpleFocusManager : GLib.Object {
     }
 
     public void request_focus (IFocusable focusable, FocusPriority priority) {
-        if (! this.focus_requested (focusable)) {
-            Request request = new Request ();
-            request.owner = focusable;
-            request.priority = priority;
-
-            this.focus_requests.insert_sorted (request, Request.priority_compare_func);
-            this.update_focus ();
+        if (this.focus_requested (focusable)) {
+            return;
         }
+
+        Request request = new Request ();
+        request.owner = focusable;
+        request.priority = priority;
+
+        this.focus_requests.insert_sorted (request, Request.priority_compare_func);
+
+        // Run update_focus in an idle function. This is just a cheap way
+        // to sort out if request_focus is called by two IFocusable
+        // instances at the same time.
+
+        GLib.Idle.add_once (this.update_focus);
     }
 
     public void release_focus (IFocusable focusable) {
-        foreach (Request request in this.focus_requests) {
-            if (request.owner == focusable) this.focus_requests.remove (request);
+        foreach (Request request in this.focus_requests.copy()) {
+            if (request.owner == focusable) {
+                this.focus_requests.remove (request);
+            }
         }
-        this.update_focus ();
+
+        GLib.Idle.add_once (this.update_focus);
     }
 
     public bool is_focusing (IFocusable focusable) {

@@ -1,6 +1,6 @@
 /* TimerBreakStatusWidget.vala
  *
- * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ * Copyright 2020-2021 Dylan McCall <dylan@dylanmccall.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,7 +40,6 @@ public abstract class TimerBreakStatusWidget : BreakStatusWidget {
 
         this.set_column_spacing (12);
 
-        // FIXME: This is an application icon. It doesn't make sense here.
         this.circle_counter = new CircleCounter ();
         this.attach (this.circle_counter, 0, 0, 1, 1);
 
@@ -51,16 +50,15 @@ public abstract class TimerBreakStatusWidget : BreakStatusWidget {
         labels_grid.set_valign (Gtk.Align.CENTER);
 
         this.status_label = new Gtk.Label (null);
-        labels_grid.add (this.status_label);
+        labels_grid.attach (this.status_label, 0, 0, 1, 1);
         this.status_label.set_width_chars (25);
-        this.status_label.get_style_context ().add_class ("_break-status-heading");
+        this.status_label.add_css_class ("heading");
 
         this.time_label = new Gtk.Label (null);
-        labels_grid.add (this.time_label);
+        labels_grid.attach_next_to (this.time_label, this.status_label, Gtk.PositionType.BOTTOM, 1, 1);
         this.time_label.set_width_chars (25);
-        this.time_label.get_style_context ().add_class ("_break-status-body");
 
-        this.show_all ();
+        this.show ();
 
         break_type.timer_status_changed.connect (this.timer_status_changed_cb);
     }

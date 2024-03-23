@@ -1,6 +1,6 @@
 /* WelcomePanel.vala
  *
- * Copyright 2020 Dylan McCall <dylan@dylanmccall.ca>
+ * Copyright 2020-2021 Dylan McCall <dylan@dylanmccall.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,122 +22,85 @@ using BreakTimer.Settings.Widgets;
 
 namespace BreakTimer.Settings.Panels {
 
-/* TODO: It would be nice to move some of this code to a UI file built with
- *       Glade. Especially anything involving long strings. */
-private class WelcomePanel : Gtk.Stack {
+private class WelcomePanel : Gtk.Box {
     private BreakManager break_manager;
     private MainWindow main_window;
 
-    private enum Step {
-        WELCOME,
-        BREAKS,
-        READY
-    }
-    private Step current_step;
+    private Adw.NavigationView navigation_view;
 
-    private Gtk.Container start_page;
-    private Gtk.Container breaks_page;
-    private Gtk.Container ready_page;
+    private Adw.NavigationPage start_page;
+    private Adw.NavigationPage breaks_page;
+    private Adw.NavigationPage ready_page;
 
     public signal void tour_finished ();
 
     public WelcomePanel (BreakManager break_manager, Gtk.Builder builder, MainWindow main_window) {
-        GLib.Object ();
+        GLib.Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
 
         this.break_manager = break_manager;
         this.main_window = main_window;
 
-        if (this.break_manager.master_enabled) {
-            this.current_step = Step.READY;
-        } else {
-            this.current_step = Step.WELCOME;
-        }
+        this.navigation_view = (Adw.NavigationView) builder.get_object ("welcome_stack");
 
-        this.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT);
-        this.set_transition_duration (250);
+        this.start_page = (Adw.NavigationPage) builder.get_object ("welcome_start_page");
+        this.breaks_page = (Adw.NavigationPage) builder.get_object ("welcome_breaks_page");
+        this.ready_page = (Adw.NavigationPage) builder.get_object ("welcome_ready_page");
 
-        this.start_page = this.build_page_with_arrow (
-            builder, "welcome_start", "switch_on_label", main_window.get_master_switch ());
-        this.add (this.start_page);
+        var start_overlay = (Gtk.Overlay) builder.get_object ("welcome_start_overlay");
+        var breaks_overlay = (Gtk.Overlay) builder.get_object ("welcome_breaks_overlay");
 
-        this.breaks_page = this.build_page_with_arrow (
-            builder, "welcome_breaks", "settings_label", main_window.get_settings_button ());
-        this.add (this.breaks_page);
+        var breaks_ok_button = (Gtk.Button) builder.get_object ("welcome_breaks_ok_button");
+        var ready_ok_button = (Gtk.Button) builder.get_object ("welcome_ready_ok_button");
 
-        this.ready_page = this.build_page_with_arrow (
-            builder, "welcome_ready", "keeps_running_label", main_window.get_close_button ());
-        this.add (this.ready_page);
+        breaks_ok_button.clicked.connect (
+            () => this.navigation_view.push (this.ready_page)
+        );
 
-        var breaks_ok_button = new Gtk.Button.with_label (_("OK, got it!"));
-        breaks_ok_button.get_style_context ().add_class ("suggested-action");
-        breaks_ok_button.set_halign (Gtk.Align.CENTER);
-        this.breaks_page.add (breaks_ok_button);
-        breaks_ok_button.clicked.connect (this.on_breaks_confirmed);
+        ready_ok_button.clicked.connect (
+            () => this.tour_finished ()
+        );
 
-        var ready_ok_button = new Gtk.Button.with_label (_("Ready to go"));
-        ready_ok_button.get_style_context ().add_class ("suggested-action");
-        ready_ok_button.set_halign (Gtk.Align.CENTER);
-        this.ready_page.add (ready_ok_button);
-        ready_ok_button.clicked.connect (this.on_ready_confirmed);
+        this.build_overlay_arrow (
+            start_overlay,
+            (Gtk.Widget) builder.get_object ("welcome_switch_label"),
+            main_window.get_master_switch ()
+        );
+
+        this.build_overlay_arrow (
+            breaks_overlay,
+            (Gtk.Widget) builder.get_object ("welcome_settings_label"),
+            main_window.get_settings_button ()
+        );
+
+        this.append (this.navigation_view);
 
         break_manager.notify["master-enabled"].connect (this.on_master_switch_toggled);
     }
 
     public bool is_active () {
-        return this.current_step < Step.READY;
+        return this.navigation_view.get_visible_page() == this.start_page || this.navigation_view.get_visible_page() == this.breaks_page;
     }
 
     internal void settings_button_clicked () {
-        if (this.current_step == Step.BREAKS) {
-            this.on_breaks_confirmed ();
+        if (this.navigation_view.get_visible_page() == this.breaks_page) {
+            this.navigation_view.push(this.ready_page);
         }
     }
 
     private void on_master_switch_toggled () {
-        if (this.break_manager.master_enabled) {
-            this.advance_current_step (Step.BREAKS);
-        } else {
-            // TODO: Should we jump back to the first step, or keep going?
+        if (!this.break_manager.master_enabled) {
+            return;
+        }
+
+        if (this.navigation_view.get_visible_page() == this.start_page) {
+            this.navigation_view.push(this.breaks_page);
         }
     }
 
-    private Gtk.Container build_page_with_arrow (Gtk.Builder builder, string page_name, string? arrow_source_name, Gtk.Widget? arrow_target) {
-        Gtk.Grid page_wrapper = new Gtk.Grid ();
-        page_wrapper.set_orientation (Gtk.Orientation.VERTICAL);
-        page_wrapper.set_row_spacing (16);
-        page_wrapper.set_margin_bottom (30);
-
-        Gtk.Overlay page_overlay = new Gtk.Overlay ();
-        page_wrapper.add (page_overlay);
-
-        page_overlay.add (builder.get_object (page_name) as Gtk.Widget);
-        Gtk.Widget arrow_source = builder.get_object (arrow_source_name) as Gtk.Widget;
-        if (arrow_source != null && arrow_target != null) {
-            var arrow = new OverlayArrow (arrow_source, arrow_target);
-            page_overlay.add_overlay (arrow);
-        }
-
-        return page_wrapper;
-    }
-
-    private void on_breaks_confirmed () {
-        this.advance_current_step (Step.READY);
-    }
-
-    private void on_ready_confirmed () {
-        this.tour_finished ();
-    }
-
-    private void advance_current_step (Step next_step) {
-        if (next_step > this.current_step) this.current_step = next_step;
-
-        if (this.current_step == Step.WELCOME) {
-            this.set_visible_child (this.start_page);
-        } else if (this.current_step == Step.BREAKS) {
-            this.set_visible_child (this.breaks_page);
-        } else {
-            this.set_visible_child (this.ready_page);
-        }
+    private void build_overlay_arrow (Gtk.Overlay overlay, Gtk.Widget arrow_source, Gtk.Widget arrow_target) {
+        var arrow = new OverlayArrow (arrow_source, arrow_target, this.navigation_view);
+        arrow.spacing = 10;
+        overlay.add_overlay (arrow);
     }
 }
 

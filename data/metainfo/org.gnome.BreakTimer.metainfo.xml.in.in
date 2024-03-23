@@ -5,6 +5,7 @@
   <summary>Computer break reminders for GNOME</summary>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
+  <developer_name>Dylan McCall, et al.</developer_name>
   <description>
     <p>
       Break Timer keeps track of how much you are using the computer, and it reminds you to take regular breaks. It is designed to encourage healthy behaviour, with a mix of short breaks for your eyes and wrists, as well as longer breaks to keep your body moving and your mind on task.
@@ -14,6 +15,9 @@
     </p>
   </description>
   <launchable type="desktop-id">@DAEMON_APPLICATION_ID@.desktop</launchable>
+  <requires>
+    <id version="1.0" compare="ge">org.gnome.Shell</id>
+  </requires>
   <url type="homepage">https://wiki.gnome.org/Apps/BreakTimer</url>
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-break-timer/issues</url>
   <screenshots>
