@@ -5,6 +5,11 @@
       <default>false</default>
     </key>
 
+    <key name="autostart-version" type="i">
+      <summary>The current version of GNOME Break Timer's autostart file</summary>
+      <default>0</default>
+    </key>
+
     <key name="selected-breaks" type="as">
       <summary>The list of breaks that are currently enabled</summary>
       <default>['microbreak', 'restbreak']</default>
