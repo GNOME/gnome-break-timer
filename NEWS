@@ -1,4 +1,9 @@
 ---
+Version: 3.1.0
+Date: 2024-03-23
+Description:
+- Rename desktop files to pass flatpak-builder-lint
+---
 Version: 3.0.2
 Date: 2024-03-23
 Description:

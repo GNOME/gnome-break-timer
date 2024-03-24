@@ -39,6 +39,11 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release type="stable" version="3.1.0" date="2024-03-23T00:00:00Z">
+      <description>
+        <p>Rename desktop files to pass flatpak-builder-lint</p>
+      </description>
+    </release>"
     <release type="stable" version="3.0.2" date="2024-03-23T00:00:00Z">
       <description>
         <p>Fix transient notifications not being withdrawn</p>
@@ -76,19 +81,6 @@
           <li>Change Flatpak manifest to use socket=fallback-x11</li>
           <li>Work around metainfo being processed incorrectly in some cases</li>
         </ul>
-      </description>
-    </release>
-    <release type="stable" version="2.0.2" date="2020-11-25T00:00:00Z">
-      <description>
-        <ul>
-          <li>Fix timer circle colours with themes other than Adwaita</li>
-          <li>Change Flatpak manifest to use socket=fallback-x11</li>
-        </ul>
-      </description>
-    </release>
-    <release type="stable" version="2.0.1" date="2020-11-24T00:00:00Z">
-      <description>
-        <p>Fix a bug where the idle monitor would be in an incorrect state at login</p>
       </description>
     </release>
   </releases>
