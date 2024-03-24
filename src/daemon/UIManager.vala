@@ -87,7 +87,7 @@ public class UIManager : SimpleFocusManager, GLib.Initable {
             GLib.Source.remove (old_source_id);
         }
 
-        if (!this.session_status.is_locked ()) {
+        if (this.session_status.is_locked ()) {
             // If the session is locked, the notification will be withdrawn when
             // the session is unlocked, inside on_session_unlocked_cb.
             this.transient_notification_timeout_ids.set (id, 0);
