@@ -39,6 +39,11 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release type="stable" version="3.0.2" date="2024-03-23T00:00:00Z">
+      <description>
+        <p>Fix transient notifications not being withdrawn</p>
+      </description>
+    </release>
     <release type="stable" version="3.0.1" date="2024-03-23T00:00:00Z">
       <description>
         <p>Add categories to metainfo</p>

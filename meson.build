@@ -1,5 +1,5 @@
 project('gnome-break-timer', ['vala', 'c'],
-    version: '3.0.1',
+    version: '3.0.2',
     license: 'GPL3+'
 )
 
