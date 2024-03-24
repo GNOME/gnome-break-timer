@@ -5,6 +5,9 @@
   <summary>Computer break reminders for GNOME</summary>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
+  <categories>
+    <category>Utility</category>
+  </categories>
   <description>
     <p>
       Break Timer keeps track of how much you are using the computer, and it reminds you to take regular breaks. It is designed to encourage healthy behaviour, with a mix of short breaks for your eyes and wrists, as well as longer breaks to keep your body moving and your mind on task.
@@ -33,7 +36,7 @@
     </screenshot>
   </screenshots>
   <releases>
-    <release type="stable" version="3.0.0" date="2024-03-26T00:00:00Z">
+    <release type="stable" version="3.0.0" date="2024-03-23T00:00:00Z">
       <description>
         <ul>
           <li>Update the UI to support GNOME 46</li>
