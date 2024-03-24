@@ -1,6 +1,10 @@
 ---
+Version: master
+Description:
+- Add categories to metainfo
+---
 Version: 3.0.0
-Date: 2024-03-26
+Date: 2024-03-23
 Description:
 - Update the UI to support GNOME 46
 - Fix duplicate notifications appearing between sessions
