@@ -20,14 +20,21 @@
   <requires>
     <id version="1.0" compare="ge">org.gnome.Shell</id>
   </requires>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <control>touch</control>
+  </recommends>
   <launchable type="desktop-id">@SETTINGS_APPLICATION_ID@.desktop</launchable>
   <url type="homepage">https://wiki.gnome.org/Apps/BreakTimer</url>
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-break-timer/issues</url>
+  <url type="vcs-browser">https://gitlab.gnome.org/GNOME/gnome-break-timer</url>
   <categories>
     <category>GNOME</category>
     <category>GTK</category>
     <category>Utility</category>
   </categories>
+  <translation type="gettext">gnome-break-timer</translation>
   <screenshots>
     <screenshot type="default">
       <caption>Easily turn on break timers</caption>
@@ -38,12 +45,16 @@
       <image type="source">https://gitlab.gnome.org/GNOME/gnome-break-timer/raw/master/data/metainfo/gnome-break-timer-3-0-status.png</image>
     </screenshot>
   </screenshots>
+  <branding>
+    <color type="primary" scheme_preference="light">#a7caf3</color>
+    <color type="primary" scheme_preference="dark">#616c7a</color>
+  </branding>
   <releases>
     <release type="stable" version="3.1.0" date="2024-03-23T00:00:00Z">
       <description>
         <p>Rename desktop files to pass flatpak-builder-lint</p>
       </description>
-    </release>"
+    </release>
     <release type="stable" version="3.0.2" date="2024-03-23T00:00:00Z">
       <description>
         <p>Fix transient notifications not being withdrawn</p>
