@@ -19,6 +19,7 @@
  */
 
 using BreakTimer.Common;
+using BreakTimer.Daemon.TimerBreak;
 using BreakTimer.Settings.TimerBreak;
 
 namespace BreakTimer.Settings.Widgets {

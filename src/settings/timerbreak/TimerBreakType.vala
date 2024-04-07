@@ -67,6 +67,13 @@ public abstract class TimerBreakType : BreakType {
             this.breakdaemon_disappeared
         );
 
+        GLib.timeout.add_seconds (
+            1,
+            () => {
+                this.update_status ()
+            }
+        )
+
         return base.init (cancellable);
     }
 
@@ -138,3 +145,4 @@ public abstract class TimerBreakType : BreakType {
 }
 
 }
+

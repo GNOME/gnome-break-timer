@@ -3,7 +3,7 @@
     "runtime" : "org.gnome.Platform",
     "runtime-version" : "master",
     "sdk" : "org.gnome.Sdk",
-    "command" : "gnome-break-timer-settings",
+    "command" : "gnome-break-timer",
     "tags": ["devel", "development", "nightly"],
     "desktop-file-name-suffix": " ☢️",
     "finish-args" : [

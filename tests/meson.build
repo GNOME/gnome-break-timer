@@ -6,8 +6,7 @@ tests_lib_sources = [
 
 tests_lib_dependencies = [
     common_lib_dep,
-    daemon_lib_dep,
-    settings_lib_dep
+    main_lib_dep
 ]
 
 tests_lib = static_library(

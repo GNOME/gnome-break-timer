@@ -18,7 +18,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-using BreakTimer.Settings.Break;
+using BreakTimer.Daemon;
+using BreakTimer.Daemon.Break;
 
 namespace BreakTimer.Settings.Panels {
 
@@ -81,7 +82,7 @@ private class StatusPanel : Gtk.Box, GLib.Initable {
     private void status_changed_cb () {
         bool any_breaks_enabled = false;
 
-        unowned List<BreakType> all_breaks = this.break_manager.all_breaks ();
+        List<weak BreakType> all_breaks = this.break_manager.all_breaks ();
         foreach (BreakType break_type in all_breaks) {
             var status = break_type.status;
             if (status != null) {
@@ -96,7 +97,7 @@ private class StatusPanel : Gtk.Box, GLib.Initable {
 
         if (any_breaks_enabled) {
             this.stack.set_visible_child (this.breaks_list);
-        } else if (this.break_manager.is_working ()) {
+        } else if (this.break_manager.master_enabled) {
             this.stack.set_visible_child (this.no_breaks_message);
         } else {
             this.stack.set_visible_child (this.error_message);

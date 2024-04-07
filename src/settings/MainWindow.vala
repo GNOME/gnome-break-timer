@@ -19,7 +19,8 @@
  */
 
 using BreakTimer.Common;
-using BreakTimer.Settings.Break;
+using BreakTimer.Daemon;
+using BreakTimer.Daemon.Break;
 using BreakTimer.Settings.Panels;
 
 namespace BreakTimer.Settings {
@@ -46,11 +47,15 @@ public class MainWindow : Adw.ApplicationWindow, GLib.Initable {
 
     private bool skip_tour;
 
-    public MainWindow (Application application, BreakManager break_manager) {
+    public MainWindow (Adw.Application application, BreakManager break_manager) {
         GLib.Object (application: application);
 
         this.break_manager = break_manager;
         this.skip_tour = break_manager.master_enabled;
+
+        if (Config.BUILD_PROFILE == "development") {
+            this.add_css_class ("devel");
+        }
 
         this.set_title (_("Break Timer"));
         this.set_default_size (850, 400);

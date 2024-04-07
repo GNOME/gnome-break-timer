@@ -18,6 +18,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+using BreakTimer.Daemon;
 using BreakTimer.Settings.Widgets;
 
 namespace BreakTimer.Settings.Panels {

@@ -18,15 +18,39 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+using BreakTimer.Common;
 using BreakTimer.Daemon.Break;
 
 namespace BreakTimer.Daemon.TimerBreak {
 
+public class BreakTimeOption : GLib.Object {
+    public int time_seconds {get; protected set; }
+    public bool is_custom { get; protected set; default = false; }
+    public string label { get; protected set; }
+
+    public BreakTimeOption (int time_seconds) {
+        this.time_seconds = time_seconds;
+        this.label = NaturalTime.instance.get_label_for_seconds (this.time_seconds);
+    }
+
+    public bool equals (BreakTimeOption other) {
+        return this.time_seconds == other.time_seconds;
+    }
+}
+
 public abstract class TimerBreakType : BreakType {
     private GLib.DBusConnection dbus_connection;
 
-    protected TimerBreakType (string id, BreakController break_controller, BreakView break_view) {
-        base (id, break_controller, break_view);
+    public BreakTimeOption[] interval_options;
+    public BreakTimeOption[] duration_options;
+
+    public int interval { get; protected set; }
+    public int duration { get; protected set; }
+
+    public signal void timer_status_changed (TimerBreakStatus? status);
+
+    protected TimerBreakType (string id, GLib.Settings settings, BreakController break_controller, BreakView break_view) {
+        base (id, settings, break_controller, break_view);
     }
 
     public override bool init (GLib.Cancellable? cancellable) throws GLib.Error {

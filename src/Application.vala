@@ -24,7 +24,7 @@ using BreakTimer.Daemon.Break;
 
 namespace BreakTimer.Daemon {
 
-public class Application : Gtk.Application {
+public class Application : Adw.Application {
     const string app_name = _("GNOME Break Timer");
     const int DATA_VERSION = 0;
 
@@ -72,6 +72,14 @@ public class Application : Gtk.Application {
 
         this.is_activated = false;
 
+        GLib.SimpleAction about_action = new GLib.SimpleAction ("about", null);
+        this.add_action (about_action);
+        about_action.activate.connect (this.on_about_activate_cb);
+
+        GLib.SimpleAction quit_action = new GLib.SimpleAction ("quit", null);
+        this.add_action (quit_action);
+        quit_action.activate.connect (this.quit);
+
         GLib.SimpleAction dismiss_break_action = new GLib.SimpleAction (
             "dismiss-break", new GLib.VariantType("s")
         );
@@ -81,6 +89,8 @@ public class Application : Gtk.Application {
         GLib.SimpleAction show_break_info_action = new GLib.SimpleAction ("show-break-info", null);
         this.add_action (show_break_info_action);
         show_break_info_action.activate.connect (this.on_show_break_info_activate_cb);
+
+        this.set_accels_for_action ("app.quit", {"<Primary>q"});
 
         this.session_status = new SessionStatus ();
         try {
@@ -135,6 +145,9 @@ public class Application : Gtk.Application {
     public override void activate () {
         base.activate ();
 
+        // FIXME: Do this only when activated with certain command line arguments
+        this.show_main_window ();
+
         if (!this.is_activated) {
             this.is_activated = true;
             return;
@@ -143,7 +156,7 @@ public class Application : Gtk.Application {
         if (this.break_manager.autostart_version > 1) {
             // Previous versions used D-Bus activation for the autostart
             // file, which would result in this running on session start.
-            this.show_break_info ();
+            this.show_main_window ();
         }
     }
 
@@ -172,23 +185,40 @@ public class Application : Gtk.Application {
     }
 
     private void on_show_break_info_activate_cb (GLib.SimpleAction action, GLib.Variant? parameter) {
-        GLib.Idle.add_full (
-            GLib.Priority.HIGH_IDLE,
-            () => {
-                this.show_break_info ();
-                return false;
-            }
-        );
+        this.show_main_window ();
     }
 
-    private void show_break_info () {
-        GLib.AppInfo settings_app_info = new GLib.DesktopAppInfo (Config.SETTINGS_APPLICATION_ID + ".desktop");
-        GLib.AppLaunchContext app_launch_context = new GLib.AppLaunchContext ();
+    private void on_about_activate_cb (GLib.SimpleAction action, GLib.Variant? parameter) {
+        this.show_about_dialog ();
+    }
+
+    private void show_main_window () {
+        // TODO: CREATE AND SHOW A BreakTimer.Settings.MainWindow
+        GLib.warning ("To do: main window");
+        var main_window = new BreakTimer.Settings.MainWindow (this, this.break_manager);
         try {
-            settings_app_info.launch (null, app_launch_context);
+            main_window.init (null);
         } catch (GLib.Error error) {
-            GLib.warning ("Error launching settings application: %s", error.message);
+            GLib.error ("Error initializing main_window: %s", error.message);
         }
+        main_window.present ();
+    }
+
+    private void show_about_dialog () {
+        Adw.AboutWindow dialog = new Adw.AboutWindow.from_appdata (
+            "/org/gnome/BreakTimer/metainfo/%s.metainfo.xml".printf(Config.APPLICATION_ID),
+            null
+        );
+        dialog.developers = {
+            "Dylan McCall <dylan@dylanmccall.ca>",
+            "Jasper St. Pierre <jstpierre@mecheye.net>"
+        };
+        dialog.designers = {
+            "Allan Day <aday@gnome.org>"
+        };
+        dialog.translator_credits = _("translator-credits");
+
+        dialog.present ();
     }
 
     public void on_query_end_cb () {

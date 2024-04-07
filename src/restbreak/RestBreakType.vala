@@ -21,6 +21,8 @@
 using BreakTimer.Daemon.Activity;
 using BreakTimer.Daemon.Break;
 using BreakTimer.Daemon.TimerBreak;
+using BreakTimer.Settings.Break;
+using BreakTimer.Settings.RestBreak;
 
 namespace BreakTimer.Daemon.RestBreak {
 
@@ -34,7 +36,19 @@ public class RestBreakType : TimerBreakType {
         settings.bind ("duration-seconds", break_controller, "duration", GLib.SettingsBindFlags.GET);
         settings.bind ("lock-screen", break_controller, "lock-screen-enabled", GLib.SettingsBindFlags.GET);
 
-        base ("restbreak", break_controller, break_view);
+        base ("restbreak", settings, break_controller, break_view);
+    }
+
+    protected override BreakInfoWidget create_info_widget () {
+        return new RestBreakInfoWidget (this);
+    }
+
+    protected override BreakStatusWidget create_status_widget () {
+        return new RestBreakStatusWidget (this);
+    }
+
+    protected override BreakSettingsWidget create_settings_widget () {
+        return new RestBreakSettingsWidget (this);
     }
 }
 

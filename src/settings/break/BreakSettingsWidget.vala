@@ -18,6 +18,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+using BreakTimer.Daemon.Break;
+
 namespace BreakTimer.Settings.Break {
 
 public abstract class BreakSettingsWidget : Adw.PreferencesGroup {

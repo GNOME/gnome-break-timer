@@ -19,6 +19,7 @@
  */
 
 using BreakTimer.Common;
+using BreakTimer.Daemon.MicroBreak;
 using BreakTimer.Settings.Break;
 
 namespace BreakTimer.Settings.MicroBreak {

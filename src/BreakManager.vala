@@ -31,16 +31,33 @@ public class BreakManager : GLib.Object, GLib.Initable {
     public int autostart_version { get; set; }
     public bool master_enabled { get; set; }
     public string[] selected_break_ids { get; set; }
+    public BreakType? foreground_break { get; private set; }
+
+    public PermissionsError permissions_error { get; private set; }
 
     private GLib.DBusConnection dbus_connection;
     private GLib.Settings settings;
     private GLib.HashTable<string, BreakType> breaks;
 
     private IPortalBackground? background_portal = null;
+    private IPortalRequest? background_request = null;
+    private GLib.ObjectPath? background_request_path = null;
     private uint background_status_update_timeout_id;
     private string background_status_message = "";
 
     private const uint BACKGROUND_STATUS_UPDATE_INTERVAL_SECONDS = 5;
+
+    public signal void break_status_available ();
+    public signal void status_changed ();
+
+    public static int CURRENT_AUTOSTART_VERSION = 2;
+
+    [Flags]
+    public enum PermissionsError {
+        NONE = 0,
+        AUTOSTART_NOT_ALLOWED,
+        BACKGROUND_NOT_ALLOWED
+    }
 
     public BreakManager (UIManager ui_manager, ActivityMonitor activity_monitor) {
         this.settings = new GLib.Settings (Config.APPLICATION_ID);
@@ -53,7 +70,7 @@ public class BreakManager : GLib.Object, GLib.Initable {
         this.settings.bind ("enabled", this, "master-enabled", GLib.SettingsBindFlags.DEFAULT);
         this.settings.bind ("selected-breaks", this, "selected-break-ids", GLib.SettingsBindFlags.DEFAULT);
 
-        this.notify["master-enabled"].connect (this.update_enabled_breaks);
+        this.notify["master-enabled"].connect (this.on_master_enabled_changed);
         this.notify["selected-break-ids"].connect (this.update_enabled_breaks);
         this.update_enabled_breaks ();
     }
@@ -74,11 +91,6 @@ public class BreakManager : GLib.Object, GLib.Initable {
             );
             this.start_background_status_update_timeout ();
         }
-
-        this.dbus_connection.register_object (
-            Config.DAEMON_OBJECT_PATH,
-            new BreakManagerDBusObject (this)
-        );
 
         foreach (BreakType break_type in this.all_breaks ()) {
             break_type.init (cancellable);
@@ -125,11 +137,112 @@ public class BreakManager : GLib.Object, GLib.Initable {
         return GLib.FileUtils.test (flatpak_info_path, GLib.FileTest.EXISTS);
     }
 
+    private void on_master_enabled_changed () {
+        this.request_background (this.master_enabled);
+        this.update_enabled_breaks ();
+    }
+
     private void update_enabled_breaks () {
         foreach (BreakType break_type in this.all_breaks ()) {
             bool is_enabled = this.master_enabled && break_type.id in this.selected_break_ids;
             break_type.break_controller.set_enabled (is_enabled);
         }
+    }
+
+    private bool request_background (bool autostart) {
+        if (this.background_portal == null) {
+            this.permissions_error = NONE;
+            return false;
+        }
+
+        string sender_name = this.dbus_connection.unique_name.replace (".", "_");
+        sender_name = sender_name[1:sender_name.length];
+        string handle_token = "org_gnome_breaktimer%d".printf (
+            GLib.Random.int_range (0, int.MAX)
+        );
+
+        var options = new HashTable<string, GLib.Variant> (str_hash, str_equal);
+        var commandline = new GLib.Variant.strv ({"gnome-break-timer"});
+        options.insert ("handle_token", handle_token);
+        options.insert ("autostart", autostart);
+        options.insert ("commandline", commandline);
+        // We will not use the dbus-activatable option, because the application
+        // opens a settings window when GApplication.activate() runs for a
+        // second time.
+        options.insert ("dbus-activatable", false);
+
+        GLib.ObjectPath request_path = null;
+        GLib.ObjectPath expected_request_path = new GLib.ObjectPath (
+            "/org/freedesktop/portal/desktop/request/%s/%s".printf (
+                sender_name,
+                handle_token
+            )
+        );
+
+        this.watch_background_request (expected_request_path);
+
+        try {
+            // We don't have a nice way to generate a window handle, but the
+            // background portal can probably do without.
+            // TODO: Handle response, and display an error if the result
+            //       includes `autostart == false || background == false`.
+            request_path = this.background_portal.request_background ("", options);
+        } catch (GLib.IOError error) {
+            GLib.warning ("Error connecting to desktop portal: %s", error.message);
+            return false;
+        } catch (GLib.DBusError error) {
+            GLib.warning ("Error enabling autostart: %s", error.message);
+            return false;
+        }
+
+        this.watch_background_request (request_path);
+
+        return true;
+    }
+
+    private bool watch_background_request (GLib.ObjectPath request_path) {
+        if (request_path == this.background_request_path) {
+            return true;
+        }
+
+        try {
+            this.background_request = this.dbus_connection.get_proxy_sync (
+                "org.freedesktop.portal.Desktop",
+                request_path
+            );
+            this.background_request_path = request_path;
+            this.background_request.response.connect (this.on_background_request_response);
+        } catch (GLib.IOError error) {
+            GLib.warning ("Error connecting to desktop portal: %s", error.message);
+            return false;
+        }
+
+        return true;
+    }
+
+    private void on_background_request_response (uint32 response, GLib.HashTable<string, Variant> results) {
+        bool background_allowed = (bool) results.get ("background");
+        bool autostart_allowed = (bool) results.get ("autostart");
+
+        PermissionsError new_permissions_error = NONE;
+
+        if (this.master_enabled && ! autostart_allowed) {
+            new_permissions_error |= AUTOSTART_NOT_ALLOWED;
+        }
+
+        if (this.master_enabled && ! background_allowed) {
+            new_permissions_error |= BACKGROUND_NOT_ALLOWED;
+        }
+
+        this.permissions_error = new_permissions_error;
+
+        if (autostart_allowed) {
+            this.autostart_version = CURRENT_AUTOSTART_VERSION;
+        } else {
+            this.autostart_version = 0;
+        }
+
+        this.background_request = null;
     }
 
     private void start_background_status_update_timeout () {
@@ -219,3 +332,4 @@ public class BreakManager : GLib.Object, GLib.Initable {
 }
 
 }
+

@@ -21,6 +21,8 @@
 using BreakTimer.Daemon.Activity;
 using BreakTimer.Daemon.Break;
 using BreakTimer.Daemon.TimerBreak;
+using BreakTimer.Settings.Break;
+using BreakTimer.Settings.MicroBreak;
 
 namespace BreakTimer.Daemon.MicroBreak {
 
@@ -33,7 +35,19 @@ public class MicroBreakType : TimerBreakType {
         settings.bind ("interval-seconds", break_controller, "interval", GLib.SettingsBindFlags.GET);
         settings.bind ("duration-seconds", break_controller, "duration", GLib.SettingsBindFlags.GET);
 
-        base ("microbreak", break_controller, break_view);
+        base ("microbreak", settings, break_controller, break_view);
+    }
+
+    protected override BreakInfoWidget create_info_widget () {
+        return new MicroBreakInfoWidget (this);
+    }
+
+    protected override BreakStatusWidget create_status_widget () {
+        return new MicroBreakStatusWidget (this);
+    }
+
+    protected override BreakSettingsWidget create_settings_widget () {
+        return new MicroBreakSettingsWidget (this);
     }
 }
 
