@@ -1,17 +1,17 @@
 # Swedish messages for gnome-break-timer.
-# Copyright © 2016-2022 gnome-break-timer's COPYRIGHT HOLDER
+# Copyright © 2016-2024 gnome-break-timer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-break-timer package.
 # Isak Östlund <translate@catnip.nu>, 2016.
 # Luna Jernberg <droidbittin@gmail.com>, 2022.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2022.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2022, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/"
 "issues\n"
-"POT-Creation-Date: 2022-05-15 14:17+0000\n"
-"PO-Revision-Date: 2022-08-20 18:09+0200\n"
+"POT-Creation-Date: 2024-03-23 04:23+0000\n"
+"PO-Revision-Date: 2024-04-07 21:53+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -19,14 +19,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:4
-#: src/settings/Application.vala:183 src/settings/MainWindow.vala:110
-#: src/settings/MainWindow.vala:264
+#: src/settings/MainWindow.vala:55 src/settings/MainWindow.vala:184
 msgid "Break Timer"
 msgstr "Break Timer"
 
@@ -34,7 +33,6 @@ msgstr "Break Timer"
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
-#: src/settings/Application.vala:186
 msgid "Computer break reminders for GNOME"
 msgstr "Påminnelser om rast från datorn för GNOME"
 
@@ -48,60 +46,68 @@ msgid "True to enable GNOME Break Timer"
 msgstr "True (sant) för att aktivera GNOME Break Timer"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:9
+msgid "The current version of GNOME Break Timer's autostart file"
+msgstr "Den aktuella versionen av GNOME Break Timers autostartfil"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:14
 msgid "The list of breaks that are currently enabled"
 msgstr "Lista med aktiva raster"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:14
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:19
 msgid "True to enable quiet mode"
 msgstr "True (sant) för att aktivera tyst läge"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:15
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:20
 msgid "Hides breaks until quiet-mode-expire-time."
 msgstr "Döljer raster fram till quiet-mode-expire-time."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:20
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:25
 msgid "Time to end quiet mode."
 msgstr "Tid att avsluta tyst läge."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:21
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:26
 msgid "The time to automatically disable quiet mode, in unix time."
 msgstr "Tid till att automatiskt inaktivera tyst läge, i UNIX-tid."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:31
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:51
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:36
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:56
 msgid "Time between breaks"
 msgstr "Tid mellan raster"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:32
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:37
 msgid "The time between rest breaks, in seconds."
 msgstr "Tid mellan raster, i sekunder."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:37
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:58
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:42
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:63
 msgid "Duration of each break"
 msgstr "Längd på varje rast"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:38
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
 msgid "The duration of each rest break, in seconds."
 msgstr "Längd på varje rast, i sekunder."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:48
 msgid "Lock screen during breaks"
 msgstr "Lås skärm under raster"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:44
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:49
 msgid "True to lock the screen during rest breaks."
 msgstr "True (sant) för att låsa skärmen under raster."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:57
 msgid "The preferred time between micro breaks, in seconds."
 msgstr "Föredragen tid mellan pauser, i sekunder."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:59
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:64
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "Föredragen tid för varje paus, i sekunder."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:9
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:8
+msgid "Dylan McCall, et al."
+msgstr "Dylan McCall med flera"
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:10
 msgid ""
 "Break Timer keeps track of how much you are using the computer, and it "
 "reminds you to take regular breaks. It is designed to encourage healthy "
@@ -113,7 +119,7 @@ msgstr ""
 "med en blandning av korta raster för ögon och handleder och dessutom längre "
 "raster för att hålla kroppen igång och sinnet fokuserat."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:13
 msgid ""
 "Break Timer is easy to set up, so you can pick a break schedule that works "
 "for you and it will carry on working in the background."
@@ -121,11 +127,11 @@ msgstr ""
 "Break Timer är lätt att ställa in så du kan välja ett rastschema som "
 "fungerar för dig - programmet kommer att fortsätta arbeta i bakgrunden."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:21
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:25
 msgid "Easily turn on break timers"
 msgstr "Slå enkelt på rastklockor"
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:25
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:29
 msgid "Check on their status at any time"
 msgstr "Kontrollera deras status när som helst"
 
@@ -150,105 +156,115 @@ msgid_plural "%d hours"
 msgstr[0] "%d timme"
 msgstr[1] "%d timmar"
 
-#: src/daemon/Application.vala:27
+#: src/daemon/Application.vala:28
 msgid "GNOME Break Timer"
 msgstr "GNOME Break Timer"
 
-#: src/daemon/Application.vala:130
-msgid "Saving state"
-msgstr "Sparar tillstånd"
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/microbreak/MicroBreakView.vala:58
+#, c-format
+msgid "Microbreak starts in %s"
+msgid_plural "Microbreak starts in %s"
+msgstr[0] "Paus börjar om %s"
+msgstr[1] "Paus börjar om %s"
 
-#. Label for a notification action that shows information about the current break
-#: src/daemon/break/BreakView.vala:92
-msgid "What should I do?"
-msgstr "Vad ska jag göra?"
+#: src/daemon/microbreak/MicroBreakView.vala:63
+msgid "Time for a microbreak"
+msgstr "Dags för paus"
 
-#. Label for a notification action that will skip the current microbreak
-#: src/daemon/microbreak/MicroBreakView.vala:52
-msgid "Skip this one"
-msgstr "Hoppa över den här pausen"
-
-#: src/daemon/microbreak/MicroBreakView.vala:59
-msgid "It’s time for a micro break"
-msgstr "Det är dags för en paus"
-
-#: src/daemon/microbreak/MicroBreakView.vala:60
+#: src/daemon/microbreak/MicroBreakView.vala:74
 msgid "Take a break from typing and look away from the screen"
 msgstr "Ta en paus från skrivandet och kolla bort från skärmen"
 
+#: src/daemon/microbreak/MicroBreakView.vala:76
+msgid "It’s time for a micro break"
+msgstr "Det är dags för en paus"
+
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/microbreak/MicroBreakView.vala:75
+#: src/daemon/microbreak/MicroBreakView.vala:93
 #, c-format
 msgid "You were due to take a micro break %s ago"
 msgid_plural "You were due to take a micro break %s ago"
 msgstr[0] "Du skulle tagit en paus för %s sedan"
 msgstr[1] "Du skulle tagit en paus för %s sedan"
 
-#: src/daemon/microbreak/MicroBreakView.vala:81
+#: src/daemon/microbreak/MicroBreakView.vala:98
 msgid "Overdue micro break"
 msgstr "Försenad paus"
 
-#: src/daemon/microbreak/MicroBreakView.vala:90
-#: src/daemon/restbreak/RestBreakView.vala:121
-msgid "Break is over"
-msgstr "Rasten är över"
-
-#: src/daemon/microbreak/MicroBreakView.vala:91
+#: src/daemon/microbreak/MicroBreakView.vala:108
 msgid "Your micro break has ended"
 msgstr "Din paus är slut"
 
-#. Label for a notification action that will delay the current break for a few minutes
-#: src/daemon/restbreak/RestBreakView.vala:53
-msgid "Remind me later"
-msgstr "Påminn mig senare"
+#: src/daemon/microbreak/MicroBreakView.vala:110
+#: src/daemon/restbreak/RestBreakView.vala:146
+msgid "Break is over"
+msgstr "Rasten är över"
 
-#. FIXME: Should say how long the break is?
-#: src/daemon/restbreak/RestBreakView.vala:67
+#. Label for a notification action that skips the current break
+#: src/daemon/microbreak/MicroBreakView.vala:122
+msgid "Skip this one"
+msgstr "Hoppa över den här pausen"
+
+#. Label for a notification action that shows information about the current break
+#: src/daemon/microbreak/MicroBreakView.vala:124
+#: src/daemon/restbreak/RestBreakView.vala:160
+msgid "What should I do?"
+msgstr "Vad ska jag göra?"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/restbreak/RestBreakView.vala:61
+#, c-format
+msgid "Break starts in %s"
+msgid_plural "Break starts in %s"
+msgstr[0] "Rast börjar om %s"
+msgstr[1] "Rast börjar om %s"
+
+#: src/daemon/restbreak/RestBreakView.vala:66
+#: src/daemon/restbreak/RestBreakView.vala:82
 msgid "Time for a break"
 msgstr "Dags för rast"
 
-#: src/daemon/restbreak/RestBreakView.vala:68
+#. FIXME: Should say how long the break is?
+#: src/daemon/restbreak/RestBreakView.vala:80
 msgid ""
 "It’s time to take a break. Get away from the computer for a little while!"
 msgstr "Det är dags för en rast. Gå ifrån datorn en stund!"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/restbreak/RestBreakView.vala:84
+#: src/daemon/restbreak/RestBreakView.vala:102
 #, c-format
 msgid "There is %s remaining in your break"
 msgid_plural "There are %s remaining in your break"
 msgstr[0] "Det är %s kvar av din rast"
 msgstr[1] "Det är %s kvar av din rast"
 
-#: src/daemon/restbreak/RestBreakView.vala:90
+#: src/daemon/restbreak/RestBreakView.vala:107
 msgid "Break interrupted"
 msgstr "Rast avbruten"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/restbreak/RestBreakView.vala:106
+#: src/daemon/restbreak/RestBreakView.vala:127
 #, c-format
 msgid "You were due to take a break %s ago"
 msgid_plural "You were due to take a break %s ago"
 msgstr[0] "Du skulle ta en rast för %s sedan"
 msgstr[1] "Du skulle ta en rast för %s sedan"
 
-#: src/daemon/restbreak/RestBreakView.vala:112
+#: src/daemon/restbreak/RestBreakView.vala:132
 msgid "Overdue break"
 msgstr "Försenad rast"
 
-#: src/daemon/restbreak/RestBreakView.vala:122
+#: src/daemon/restbreak/RestBreakView.vala:144
 msgid "Your break time has ended"
 msgstr "Din rast har upphört"
 
-#: src/settings/Application.vala:188
-msgid "Break Timer Website"
-msgstr "Break Timers webbplats"
+#. Label for a notification action that will delay the current break for a few minutes
+#: src/daemon/restbreak/RestBreakView.vala:158
+msgid "Remind me later"
+msgstr "Påminn mig senare"
 
-#: src/settings/Application.vala:189
-msgid "Copyright © 2011-2020 Break Timer Authors"
-msgstr "Copyright © 2011-2020 Upphovsmännen bakom Break Timer"
-
-#: src/settings/Application.vala:191
+#: src/settings/Application.vala:134
 msgid "translator-credits"
 msgstr ""
 "Isak Östlund <translate@catnip.nu>\n"
@@ -256,43 +272,40 @@ msgstr ""
 "Skicka synpunkter på översättningen till\n"
 "<tp-sv@listor.tp-sv.se>."
 
-#: src/settings/BreakSettingsDialog.vala:41
-msgid "Choose Your Break Schedule"
-msgstr "Välj ditt rastschema"
-
-#: src/settings/BreakSettingsDialog.vala:63
+#: src/settings/BreakSettingsDialog.vala:57
 msgid "A mix of short breaks and long breaks"
 msgstr "En blandning av korta och långa raster"
 
-#: src/settings/BreakSettingsDialog.vala:67
+#: src/settings/BreakSettingsDialog.vala:61
 msgid "Occasional long breaks"
 msgstr "Enstaka långa raster"
 
-#: src/settings/BreakSettingsDialog.vala:71
+#: src/settings/BreakSettingsDialog.vala:65
 msgid "Frequent short breaks"
 msgstr "Regelbundna korta raster"
 
-#. Label for a button that opens GNOME Settings to change permissions
-#: src/settings/MainWindow.vala:72
-msgid "Open Settings"
-msgstr "Öppna Inställningar"
+#: src/settings/MainWindow.vala:66
+msgid "About"
+msgstr "Om"
 
-#: src/settings/MainWindow.vala:75
+#: src/settings/MainWindow.vala:67
+msgid "Quit"
+msgstr "Avsluta"
+
+#: src/settings/MainWindow.vala:110
 msgid ""
 "Break Timer needs permission to start automatically and run in the background"
 msgstr ""
 "Break Timer behöver tillstånd för att starta automatiskt och köras i "
 "bakgrunden"
 
-#: src/settings/MainWindow.vala:121
-msgid "About"
-msgstr "Om"
+#. Label for a button that opens GNOME Settings to change permissions
+#: src/settings/MainWindow.vala:113
+msgid "Open Settings"
+msgstr "Öppna Inställningar"
 
-#: src/settings/MainWindow.vala:122
-msgid "Quit"
-msgstr "Avsluta"
-
-#: src/settings/MainWindow.vala:258
+#: src/settings/MainWindow.vala:178 data/ui/settings-panels.blp:8
+#: data/ui/settings-panels.blp:46 data/ui/settings-panels.blp:113
 msgid "Welcome Tour"
 msgstr "Introduktionstur"
 
@@ -330,14 +343,6 @@ msgstr "Nästa paus är om"
 msgid "It's time for a microbreak"
 msgstr "Det är dags för en paus"
 
-#: src/settings/panels/WelcomePanel.vala:71
-msgid "OK, got it!"
-msgstr "OK!"
-
-#: src/settings/panels/WelcomePanel.vala:77
-msgid "Ready to go"
-msgstr "Redo"
-
 #: src/settings/restbreak/RestBreakInfoWidget.vala:32
 msgid "Break"
 msgstr "Rast"
@@ -366,7 +371,7 @@ msgstr "Lång rast"
 msgid "And take some longer breaks to stretch your legs"
 msgstr "och ta en bensträckare"
 
-#: src/settings/restbreak/RestBreakSettingsWidget.vala:33
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:34
 msgid "Lock the screen during breaks"
 msgstr "Lås skärmen under raster"
 
@@ -379,76 +384,93 @@ msgstr "Tid kvar till nästa långa rast"
 msgid "It's break time"
 msgstr "Det är rast"
 
-#. Label for the widget to choose how frequently a break occurs. (Choices such as "6 minutes" or "45 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:38
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:31
 msgid "Every"
 msgstr "Var"
 
-#. Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:47
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:36
 msgid "For"
 msgstr "I"
 
-#: ui/settings-panels.ui:37
-msgid "Break Timer isn’t responding"
-msgstr "Break Timer svarar ej"
+#: data/ui/settings-panels.blp:21
+msgid "Welcome to Break Timer!"
+msgstr "Välkommen till Break Timer!"
 
-#: ui/settings-panels.ui:54
+#: data/ui/settings-panels.blp:27
+msgid "Breaks are good for you. We'll help you to take them."
+msgstr "Raster är bra för dig. Vi hjälper dig ta dem."
+
+#: data/ui/settings-panels.blp:34
+msgid "Just switch me on to get started"
+msgstr "Aktivera mig för att börja"
+
+#: data/ui/settings-panels.blp:62
+msgid "Break and micro breaks"
+msgstr "Raster och pauser"
+
+#: data/ui/settings-panels.blp:68
+msgid "Break Timer lets you take small micro breaks as well as longer breaks."
+msgstr "Break Timer låter dig ta kortare pauser såväl som längre raster."
+
+#: data/ui/settings-panels.blp:74
 msgid ""
-"If this continues the next time you log in, please <a href=\"https://gitlab."
-"gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>.\t"
-msgstr ""
-"Om det här fortsätter nästa gång du loggar in, <a href=\"https://gitlab."
-"gnome.org/GNOME/gnome-break-timer/issues\">rapportera då ett programfel</a>."
-"\t"
+"Micro breaks are a chance to look away from the screen and rest your hands."
+msgstr "Pauser ger tillfälle att titta bort från skärmen och vila händerna."
 
-#: ui/settings-panels.ui:101
-msgid "Break Timer is taking a break"
-msgstr "Break Timer tar en rast"
+#: data/ui/settings-panels.blp:80
+msgid "Full breaks are time to get away from your computer and move around."
+msgstr "Långa raster är tillfällen att komma bort från datorn och röra på sig."
 
-#: ui/settings-panels.ui:118
-msgid "Turn me on to get those breaks going"
-msgstr "Aktivera mig för att påbörja rasterna"
-
-#: ui/settings-panels.ui:149
+#: data/ui/settings-panels.blp:94
 msgid "You can change the types of breaks and their timings from the settings"
 msgstr "Du kan ändra raster och deras längd bland inställningar"
 
-#: ui/settings-panels.ui:175
-msgid "Break Timer lets you take small microbreaks as well as longer breaks."
-msgstr "Break Timer låter dig ta kortare pauser såväl som längre raster."
+#: data/ui/settings-panels.blp:104
+msgid "OK, got it!"
+msgstr "OK!"
 
-#: ui/settings-panels.ui:193
-msgid ""
-"Microbreaks are a chance to look away from the screen and rest your hands."
-msgstr "Pauser ger tillfälle att titta bort från skärmen och vila dina händer."
-
-#: ui/settings-panels.ui:211
-msgid "Full breaks are time to get away from the computer and move around."
-msgstr "Långa raster är tillfällen att komma bort från datorn och röra på sig."
-
-#: ui/settings-panels.ui:228
-msgid "Breaks and Microbreaks"
-msgstr "Raster och pauser"
-
-#: ui/settings-panels.ui:274
+#: data/ui/settings-panels.blp:128
 msgid "You can leave me to it"
 msgstr "Överlåt det åt mig"
 
-#: ui/settings-panels.ui:292
+#: data/ui/settings-panels.blp:134
 msgid ""
 "Break Timer will carry on working in the background, even if you close it."
 msgstr ""
 "Break Timer fortsätter i bakgrunden, även om du stänger ned programmet."
 
-#: ui/settings-panels.ui:340
-msgid "Welcome to Break Timer!"
-msgstr "Välkommen till Break Timer!"
+#: data/ui/settings-panels.blp:148
+msgid "Ready to go"
+msgstr "Redo"
 
-#: ui/settings-panels.ui:357
-msgid "Breaks are good for you. We'll help you to take them."
-msgstr "Raster är bra för dig. Vi hjälper dig ta dem."
+#: data/ui/settings-panels.blp:157
+msgid ""
+"If this continues the next time you log in, please <a href=\"https://gitlab."
+"gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>."
+msgstr ""
+"Om det här fortsätter nästa gång du loggar in, <a href=\"https://gitlab."
+"gnome.org/GNOME/gnome-break-timer/issues\">rapportera då ett programfel</a>."
 
-#: ui/settings-panels.ui:378
-msgid "Just switch me on to get started"
-msgstr "Aktivera mig för att börja"
+#: data/ui/settings-panels.blp:159
+msgid "Break Timer isn’t responding"
+msgstr "Break Timer svarar ej"
+
+#: data/ui/settings-panels.blp:164
+msgid "Turn me on to get those breaks going"
+msgstr "Aktivera mig för att påbörja rasterna"
+
+#: data/ui/settings-panels.blp:166
+msgid "Break Timer is taking a break"
+msgstr "Break Timer tar en rast"
+
+#~ msgid "Saving state"
+#~ msgstr "Sparar tillstånd"
+
+#~ msgid "Break Timer Website"
+#~ msgstr "Break Timers webbplats"
+
+#~ msgid "Copyright © 2011-2020 Break Timer Authors"
+#~ msgstr "Copyright © 2011-2020 Upphovsmännen bakom Break Timer"
+
+#~ msgid "Choose Your Break Schedule"
+#~ msgstr "Välj ditt rastschema"
