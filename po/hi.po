@@ -1,0 +1,458 @@
+# Hindi translation for gnome-break-timer.
+# Copyright (C) 2024 gnome-break-timer's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-break-timer package.
+# Scrambled777 <weblate.scrambled777@simplelogin.com>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-break-timer master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/"
+"issues\n"
+"POT-Creation-Date: 2024-04-07 19:54+0000\n"
+"PO-Revision-Date: 2024-04-25 11:32+0530\n"
+"Last-Translator: Scrambled777 <weblate.scrambled777@simplelogin.com>\n"
+"Language-Team: Hindi\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Gtranslator 46.1\n"
+
+#: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
+#: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:4
+#: src/settings/MainWindow.vala:55 src/settings/MainWindow.vala:184
+msgid "Break Timer"
+msgstr "ब्रेक टाइमर"
+
+#: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:5
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
+#: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
+msgid "Computer break reminders for GNOME"
+msgstr "GNOME के लिए कंप्यूटर विराम अनुस्मारक"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:7
+msgid "break;micro;rest;timer;"
+msgstr "विराम;सूक्ष्म;आराम;टाइमर;"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:4
+msgid "True to enable GNOME Break Timer"
+msgstr "सही, GNOME ब्रेक टाइमर को सक्षम करने के लिये"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:9
+msgid "The current version of GNOME Break Timer's autostart file"
+msgstr "GNOME ब्रेक टाइमर की ऑटोस्टार्ट फाइल का वर्तमान संस्करण"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:14
+msgid "The list of breaks that are currently enabled"
+msgstr "वर्तमान में सक्षम विराम की सूची"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:19
+msgid "True to enable quiet mode"
+msgstr "सही, शांत मोड को सक्षम करने के लिए"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:20
+msgid "Hides breaks until quiet-mode-expire-time."
+msgstr "शांत-मोड-समाप्ति-समय तक विराम को छुपाता है।"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:25
+msgid "Time to end quiet mode."
+msgstr "शांत मोड समाप्त करने का समय।"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:26
+msgid "The time to automatically disable quiet mode, in unix time."
+msgstr "UNIXS समय में शांत मोड को स्वचालित रूप से अक्षम करने का समय।"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:36
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:56
+msgid "Time between breaks"
+msgstr "विरामों के बीच का समय"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:37
+msgid "The time between rest breaks, in seconds."
+msgstr "विराम के बीच का समय (सेकंडों में)।"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:42
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:63
+msgid "Duration of each break"
+msgstr "प्रत्येक विराम की अवधि"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
+msgid "The duration of each rest break, in seconds."
+msgstr "प्रत्येक विश्राम अवकाश की अवधि (सेकंडों में)।"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:48
+msgid "Lock screen during breaks"
+msgstr "विराम के दौरान स्क्रीन लॉक करें"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:49
+msgid "True to lock the screen during rest breaks."
+msgstr "सही, विराम के दौरान स्क्रीन को लॉक करने के लिए।"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:57
+msgid "The preferred time between micro breaks, in seconds."
+msgstr "सूक्ष्म विरामों के बीच पसंदीदा समय (सेकंडों में)।"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:64
+msgid "The preferred duration of each micro break, in seconds."
+msgstr "प्रत्येक सूक्ष्म विराम की पसंदीदा अवधि (सेकंडों में)।"
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:9
+msgid ""
+"Break Timer keeps track of how much you are using the computer, and it "
+"reminds you to take regular breaks. It is designed to encourage healthy "
+"behaviour, with a mix of short breaks for your eyes and wrists, as well as "
+"longer breaks to keep your body moving and your mind on task."
+msgstr ""
+"ब्रेक टाइमर इस बात पर नज़र रखता है कि आप कंप्यूटर का कितना उपयोग कर रहे हैं, और यह "
+"आपको नियमित विराम लेने की याद दिलाता है। इसे स्वस्थ व्यवहार को प्रोत्साहित करने के लिए "
+"डिज़ाइन किया गया है, जिसमें आपकी आंखों और कलाइयों के लिए सूक्ष्म विराम के साथ-साथ आपके "
+"शरीर को गतिशील रखने और आपके दिमाग को काम पर रखने के लिए लंबे विराम का मिश्रण शामिल "
+"है।"
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
+msgid ""
+"Break Timer is easy to set up, so you can pick a break schedule that works "
+"for you and it will carry on working in the background."
+msgstr ""
+"ब्रेक टाइमर स्थापित करना आसान है, इसलिए आप एक विराम अनुसूची चुन सकते हैं जो आपके लिए "
+"काम करेगा और यह पृष्ठभूमि में काम करता रहेगा।"
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:16
+msgid "Dylan McCall, et al."
+msgstr "डायलन मैक्कल, और अन्य।"
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:33
+msgid "Easily turn on break timers"
+msgstr "ब्रेक टाइमर आसानी से चालू करें"
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:37
+msgid "Check on their status at any time"
+msgstr "किसी भी समय उनकी स्थिति की जांच करें"
+
+#: src/common/NaturalTime.vala:46
+#, c-format
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "%d सेकेंड"
+msgstr[1] "%d सेकेंड"
+
+#: src/common/NaturalTime.vala:49
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d मिनट"
+msgstr[1] "%d मिनट"
+
+#: src/common/NaturalTime.vala:52
+#, c-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d घंटा"
+msgstr[1] "%d घंटे"
+
+#: src/daemon/Application.vala:28
+msgid "GNOME Break Timer"
+msgstr "GNOME Break Timer"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/microbreak/MicroBreakView.vala:58
+#, c-format
+msgid "Microbreak starts in %s"
+msgid_plural "Microbreak starts in %s"
+msgstr[0] "सूक्ष्मविराम %s में प्रारंभ होगा"
+msgstr[1] "सूक्ष्मविराम %s में प्रारंभ होगा"
+
+#: src/daemon/microbreak/MicroBreakView.vala:63
+msgid "Time for a microbreak"
+msgstr "सूक्ष्मविराम का समय"
+
+#: src/daemon/microbreak/MicroBreakView.vala:74
+msgid "Take a break from typing and look away from the screen"
+msgstr "टाइपिंग से थोड़ा विराम लें और स्क्रीन से दूर देखें"
+
+#: src/daemon/microbreak/MicroBreakView.vala:76
+msgid "It’s time for a micro break"
+msgstr "यह सूक्ष्म विराम का समय है"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/microbreak/MicroBreakView.vala:93
+#, c-format
+msgid "You were due to take a micro break %s ago"
+msgid_plural "You were due to take a micro break %s ago"
+msgstr[0] "आपको %s पहले सूक्ष्म विराम लेना था"
+msgstr[1] "आपको %s पहले सूक्ष्म विराम लेना था"
+
+#: src/daemon/microbreak/MicroBreakView.vala:98
+msgid "Overdue micro break"
+msgstr "अतिदेय सूक्ष्म विराम"
+
+#: src/daemon/microbreak/MicroBreakView.vala:108
+msgid "Your micro break has ended"
+msgstr "आपका सूक्ष्म विराम समाप्त हो गया है"
+
+#: src/daemon/microbreak/MicroBreakView.vala:110
+#: src/daemon/restbreak/RestBreakView.vala:146
+msgid "Break is over"
+msgstr "विराम ख़त्म हो गया"
+
+#. Label for a notification action that skips the current break
+#: src/daemon/microbreak/MicroBreakView.vala:122
+msgid "Skip this one"
+msgstr "इसे छोड़ें"
+
+#. Label for a notification action that shows information about the current break
+#: src/daemon/microbreak/MicroBreakView.vala:124
+#: src/daemon/restbreak/RestBreakView.vala:160
+msgid "What should I do?"
+msgstr "मुझे क्या करना चाहिए?"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/restbreak/RestBreakView.vala:61
+#, c-format
+msgid "Break starts in %s"
+msgid_plural "Break starts in %s"
+msgstr[0] "विराम %s में प्रारंभ होता है"
+msgstr[1] "विराम %s में प्रारंभ होता है"
+
+#: src/daemon/restbreak/RestBreakView.vala:66
+#: src/daemon/restbreak/RestBreakView.vala:82
+msgid "Time for a break"
+msgstr "एक विराम का समय"
+
+#. FIXME: Should say how long the break is?
+#: src/daemon/restbreak/RestBreakView.vala:80
+msgid ""
+"It’s time to take a break. Get away from the computer for a little while!"
+msgstr "यह एक विराम लेने का समय है। थोड़ी देर के लिए कंप्यूटर से दूर हो जायें!"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/restbreak/RestBreakView.vala:102
+#, c-format
+msgid "There is %s remaining in your break"
+msgid_plural "There are %s remaining in your break"
+msgstr[0] "आपके विराम में %s शेष है"
+msgstr[1] "आपके विराम में %s शेष है"
+
+#: src/daemon/restbreak/RestBreakView.vala:107
+msgid "Break interrupted"
+msgstr "विराम बाधित"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/restbreak/RestBreakView.vala:127
+#, c-format
+msgid "You were due to take a break %s ago"
+msgid_plural "You were due to take a break %s ago"
+msgstr[0] "आपको %s पहले विराम लेना था"
+msgstr[1] "आपको %s पहले विराम लेना था"
+
+#: src/daemon/restbreak/RestBreakView.vala:132
+msgid "Overdue break"
+msgstr "अतिदेय विराम"
+
+#: src/daemon/restbreak/RestBreakView.vala:144
+msgid "Your break time has ended"
+msgstr "आपके विराम का समय समाप्त हो गया है"
+
+#. Label for a notification action that will delay the current break for a few minutes
+#: src/daemon/restbreak/RestBreakView.vala:158
+msgid "Remind me later"
+msgstr "मुझे बाद में याद दिलाएं"
+
+#: src/settings/Application.vala:134
+msgid "translator-credits"
+msgstr "Scrambled777 <weblate.scrambled777@simplelogin.com>"
+
+#: src/settings/BreakSettingsDialog.vala:57
+msgid "A mix of short breaks and long breaks"
+msgstr "छोटे विराम और लंबे विराम का मिश्रण"
+
+#: src/settings/BreakSettingsDialog.vala:61
+msgid "Occasional long breaks"
+msgstr "कभी-कभी लंबा विराम"
+
+#: src/settings/BreakSettingsDialog.vala:65
+msgid "Frequent short breaks"
+msgstr "बारंबार छोटे विराम"
+
+#: src/settings/MainWindow.vala:66
+msgid "About"
+msgstr "बारे में"
+
+#: src/settings/MainWindow.vala:67
+msgid "Quit"
+msgstr "छोड़ें"
+
+#: src/settings/MainWindow.vala:110
+msgid ""
+"Break Timer needs permission to start automatically and run in the background"
+msgstr ""
+"ब्रेक टाइमर को स्वचालित रूप से प्रारंभ करने और पृष्ठभूमि में चलने के लिए अनुमति की आवश्यकता "
+"होती है"
+
+#. Label for a button that opens GNOME Settings to change permissions
+#: src/settings/MainWindow.vala:113
+msgid "Open Settings"
+msgstr "सेटिंग्स खोलें"
+
+#: src/settings/MainWindow.vala:178 data/ui/settings-panels.blp:8
+#: data/ui/settings-panels.blp:46 data/ui/settings-panels.blp:113
+msgid "Welcome Tour"
+msgstr "स्वागत दौरा"
+
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:32
+#: src/settings/microbreak/MicroBreakSettingsWidget.vala:29
+msgid "Microbreak"
+msgstr "सूक्ष्मविराम"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:52
+#, c-format
+msgid "Take a break from typing and look away from the screen for %s."
+msgid_plural "Take a break from typing and look away from the screen for %s."
+msgstr[0] "टाइपिंग से विराम लें और %s के लिए स्क्रीन से दूर देखें।"
+msgstr[1] "टाइपिंग से विराम लें और %s के लिए स्क्रीन से दूर देखें।"
+
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:57
+msgid "It’s microbreak time"
+msgstr "यह सूक्ष्मविराम का समय है"
+
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:59
+msgid "I'll chime when it’s time to use the computer again."
+msgstr "जब कंप्यूटर का दोबारा उपयोग करने का समय आएगा तो मैं घंटी बजाऊंगा।"
+
+#: src/settings/microbreak/MicroBreakSettingsWidget.vala:30
+msgid "Pause frequently to relax your eyes"
+msgstr "अपनी आँखों को आराम देने के लिए बीच-बीच में रुकें"
+
+#. Label that explains a countdown timer, which shows a string such as "5 minutes"
+#: src/settings/microbreak/MicroBreakStatusWidget.vala:30
+msgid "Your next microbreak is in"
+msgstr "आपका अगला सूक्ष्मविराम है अंदर"
+
+#: src/settings/microbreak/MicroBreakStatusWidget.vala:31
+msgid "It's time for a microbreak"
+msgstr "यह सूक्ष्मविराम का समय है"
+
+#: src/settings/restbreak/RestBreakInfoWidget.vala:32
+msgid "Break"
+msgstr "विराम"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/settings/restbreak/RestBreakInfoWidget.vala:52
+#, c-format
+msgid "Your break has %s remaining. I’ll remind you when it’s over."
+msgid_plural "Your break has %s remaining. I’ll remind you when it’s over."
+msgstr[0] "आपका विराम में %s शेष है। जब यह ख़त्म हो जाएगा तो मैं आपको याद दिलाऊंगा।"
+msgstr[1] "आपका विराम में %s शेष है. जब यह ख़त्म हो जाएगा तो मैं आपको याद दिलाऊंगा।"
+
+#: src/settings/restbreak/RestBreakInfoWidget.vala:57
+msgid "It’s break time"
+msgstr "अब विराम का समय है"
+
+#: src/settings/restbreak/RestBreakInfoWidget.vala:58
+msgid "Take some time away from the computer. Stretch and move around."
+msgstr "कंप्यूटर से कुछ समय दूर रहें। खिंचाव करें और चारों ओर घूमें।"
+
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:29
+msgid "Full break"
+msgstr "पूर्ण विराम"
+
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:30
+msgid "And take some longer breaks to stretch your legs"
+msgstr "और अपने पैरों को फैलाने के लिए कुछ लंबा विराम लें"
+
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:34
+msgid "Lock the screen during breaks"
+msgstr "विराम के दौरान स्क्रीन लॉक करें"
+
+#. Label that explains a countdown timer, which shows a string such as "30 minutes"
+#: src/settings/restbreak/RestBreakStatusWidget.vala:30
+msgid "Your next full break is in"
+msgstr "आपका अगला पूर्ण विराम है अंदर"
+
+#: src/settings/restbreak/RestBreakStatusWidget.vala:31
+msgid "It's break time"
+msgstr "यह विराम का समय है"
+
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:31
+msgid "Every"
+msgstr "प्रत्येक"
+
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:36
+msgid "For"
+msgstr "हेतु"
+
+#: data/ui/settings-panels.blp:21
+msgid "Welcome to Break Timer!"
+msgstr "ब्रेक टाइमर में आपका स्वागत है!"
+
+#: data/ui/settings-panels.blp:27
+msgid "Breaks are good for you. We'll help you to take them."
+msgstr "विराम आपके लिए अच्छे हैं। हम उन्हें लेने में आपकी मदद करेंगे।"
+
+#: data/ui/settings-panels.blp:34
+msgid "Just switch me on to get started"
+msgstr "आरंभ करने के लिए बस मुझे चालू करें"
+
+#: data/ui/settings-panels.blp:62
+msgid "Break and micro breaks"
+msgstr "विराम और सूक्ष्म विराम"
+
+#: data/ui/settings-panels.blp:68
+msgid "Break Timer lets you take small micro breaks as well as longer breaks."
+msgstr "ब्रेक टाइमर आपको छोटे सूक्ष्म विराम के साथ-साथ लंबे विराम लेने की सुविधा देता है।"
+
+#: data/ui/settings-panels.blp:74
+msgid ""
+"Micro breaks are a chance to look away from the screen and rest your hands."
+msgstr "सूक्ष्म विराम स्क्रीन से दूर देखने और अपने हाथों को आराम देने का एक मौका है।"
+
+#: data/ui/settings-panels.blp:80
+msgid "Full breaks are time to get away from your computer and move around."
+msgstr "पूर्ण विराम आपके कंप्यूटर से दूर जाने और इधर-उधर घूमने का समय है।"
+
+#: data/ui/settings-panels.blp:94
+msgid "You can change the types of breaks and their timings from the settings"
+msgstr "आप सेटिंग्स से विराम के प्रकार और उनके समय को बदल सकते हैं"
+
+#: data/ui/settings-panels.blp:104
+msgid "OK, got it!"
+msgstr "अच्छा, समझ गया!"
+
+#: data/ui/settings-panels.blp:128
+msgid "You can leave me to it"
+msgstr "आप मुझे इस पर छोड़ सकते हैं"
+
+#: data/ui/settings-panels.blp:134
+msgid ""
+"Break Timer will carry on working in the background, even if you close it."
+msgstr "ब्रेक टाइमर पृष्ठभूमि में काम करता रहेगा, भले ही आप इसे बंद कर दें।"
+
+#: data/ui/settings-panels.blp:148
+msgid "Ready to go"
+msgstr "जाने के लिए तैयार"
+
+#: data/ui/settings-panels.blp:157
+msgid ""
+"If this continues the next time you log in, please <a href=\"https://gitlab."
+"gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>."
+msgstr ""
+"यदि अगली बार लॉग इन करने पर भी यह जारी रहता है, तो कृपया <a href=\"https://"
+"gitlab.gnome.org/GNOME/gnome-break-timer/issues\">एक बग रिपोर्ट खोलें</a>।"
+
+#: data/ui/settings-panels.blp:159
+msgid "Break Timer isn’t responding"
+msgstr "ब्रेक टाइमर प्रत्युत्तर नहीं दे रहा है"
+
+#: data/ui/settings-panels.blp:164
+msgid "Turn me on to get those breaks going"
+msgstr "विराम लेने के लिए मुझे चालू करें"
+
+#: data/ui/settings-panels.blp:166
+msgid "Break Timer is taking a break"
+msgstr "ब्रेक टाइमर विराम ले रहा है"
