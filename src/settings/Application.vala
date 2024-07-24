@@ -47,6 +47,8 @@ public class Application : Adw.Application {
     public override void startup () {
         base.startup ();
 
+        Gtk.Window.set_default_icon_name (Config.SETTINGS_APPLICATION_ID);
+
         GLib.SimpleAction about_action = new GLib.SimpleAction ("about", null);
         this.add_action (about_action);
         about_action.activate.connect (this.on_about_activate_cb);
