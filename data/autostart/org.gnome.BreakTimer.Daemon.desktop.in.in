@@ -6,6 +6,7 @@ Comment=Computer break reminders for GNOME
 Icon=@APPLICATION_ID@
 NoDisplay=true
 Exec=gnome-break-timer-daemon
+OnlyShowIn=GNOME;
 AutostartCondition=GSettings org.gnome.BreakTimer enabled
 X-GNOME-Autostart-Phase=Applications
 X-GNOME-Autostart-Delay=30
