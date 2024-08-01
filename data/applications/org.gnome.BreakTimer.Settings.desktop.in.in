@@ -8,5 +8,6 @@ Categories=GNOME;GTK;Utility;
 # Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 Icon=@APPLICATION_ID@
 Exec=gnome-break-timer-settings
+OnlyShowIn=GNOME;
 StartupNotify=true
 DBusActivatable=true
