@@ -22,4 +22,5 @@ src/settings/restbreak/RestBreakInfoWidget.vala
 src/settings/restbreak/RestBreakSettingsWidget.vala
 src/settings/restbreak/RestBreakStatusWidget.vala
 src/settings/timerbreak/TimerBreakSettingsWidget.vala
+src/settings/widgets/BreakConfigurationChooser.vala
 data/ui/settings-panels.blp
