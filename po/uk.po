@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/issues"
 "\n"
-"POT-Creation-Date: 2024-03-23 04:23+0000\n"
-"PO-Revision-Date: 2024-03-23 11:44+0200\n"
+"POT-Creation-Date: 2024-09-15 17:41+0000\n"
+"PO-Revision-Date: 2024-09-16 21:57+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
@@ -102,11 +102,7 @@ msgstr "Бажаний проміжок між мікроперервами, у 
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "Бажана тривалість кожної з мікроперерв, у секундах."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:8
-msgid "Dylan McCall, et al."
-msgstr "Dylan McCall та ін."
-
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:10
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:9
 msgid ""
 "Break Timer keeps track of how much you are using the computer, and it "
 "reminds you to take regular breaks. It is designed to encourage healthy "
@@ -119,7 +115,7 @@ msgstr ""
 "для відпочинку очей і рук та довгих перерв для забезпечення руху тіла та "
 "обдумування подальших завдань."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:13
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
 msgid ""
 "Break Timer is easy to set up, so you can pick a break schedule that works "
 "for you and it will carry on working in the background."
@@ -127,11 +123,15 @@ msgstr ""
 "«Таймер перерв» просто налаштувати, отже ви зможете вибрати бажаний для вас "
 "розклад перерв, а програма подбає про його дотримання у фоновому режимі."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:25
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:16
+msgid "Dylan McCall, et al."
+msgstr "Dylan McCall та ін."
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:35
 msgid "Easily turn on break timers"
 msgstr "Просте вмикання таймерів перерв"
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:29
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:39
 msgid "Check on their status at any time"
 msgstr "Перевірка стану у будь-який момент"
 
@@ -169,7 +169,6 @@ msgstr "Таймер перерв GNOME"
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
 #: src/daemon/microbreak/MicroBreakView.vala:58
 #, c-format
-#| msgid "Microbreak"
 msgid "Microbreak starts in %s"
 msgid_plural "Microbreak starts in %s"
 msgstr[0] "Мікроперерва почнеться за %s"
@@ -178,7 +177,6 @@ msgstr[2] "Мікроперерва почнеться за %s"
 msgstr[3] "Мікроперерва почнеться за %s"
 
 #: src/daemon/microbreak/MicroBreakView.vala:63
-#| msgid "Time for a break"
 msgid "Time for a microbreak"
 msgstr "Час для мікроперерви"
 
@@ -282,7 +280,7 @@ msgstr "Час вашої перерви завершено"
 msgid "Remind me later"
 msgstr "Нагадати пізніше"
 
-#: src/settings/Application.vala:134
+#: src/settings/Application.vala:136
 msgid "translator-credits"
 msgstr "Юрій Чорноіван <yurchor@ukr.net>"
 
@@ -415,6 +413,11 @@ msgstr "Кожні"
 msgid "For"
 msgstr "На"
 
+#: src/settings/widgets/BreakConfigurationChooser.vala:52
+#| msgid "Choose Your Break Schedule"
+msgid "Choose your break schedule"
+msgstr "Виберіть ваш розклад перерв"
+
 #: data/ui/settings-panels.blp:21
 msgid "Welcome to Break Timer!"
 msgstr "Вітаємо у «Таймері перерв»!"
@@ -428,19 +431,14 @@ msgid "Just switch me on to get started"
 msgstr "Просто увімкніть мене, коли будете готові"
 
 #: data/ui/settings-panels.blp:62
-#| msgid "Breaks and Microbreaks"
 msgid "Break and micro breaks"
 msgstr "Перерви і мікроперерви"
 
 #: data/ui/settings-panels.blp:68
-#| msgid ""
-#| "Break Timer lets you take small microbreaks as well as longer breaks."
 msgid "Break Timer lets you take small micro breaks as well as longer breaks."
 msgstr "«Таймер перерв» надає вам змогу робити мікропрерви та довгі перерви."
 
 #: data/ui/settings-panels.blp:74
-#| msgid ""
-#| "Microbreaks are a chance to look away from the screen and rest your hands."
 msgid ""
 "Micro breaks are a chance to look away from the screen and rest your hands."
 msgstr ""
@@ -448,7 +446,6 @@ msgstr ""
 "відпочити вашим рукам."
 
 #: data/ui/settings-panels.blp:80
-#| msgid "Full breaks are time to get away from the computer and move around."
 msgid "Full breaks are time to get away from your computer and move around."
 msgstr ""
 "Повні перерви призначено для того, щоб відійти від комп'ютера і трохи "
@@ -480,9 +477,6 @@ msgid "Ready to go"
 msgstr "Готовий до роботи"
 
 #: data/ui/settings-panels.blp:157
-#| msgid ""
-#| "If this continues the next time you log in, please <a href=\"https://"
-#| "gitlab.gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>.\t"
 msgid ""
 "If this continues the next time you log in, please <a href=\"https://gitlab."
 "gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>."
@@ -514,6 +508,3 @@ msgstr "«Таймер перерв» робить перерву"
 
 #~ msgid "Copyright © 2011-2020 Break Timer Authors"
 #~ msgstr "© Автори «Таймера перерв», 2011–2020"
-
-#~ msgid "Choose Your Break Schedule"
-#~ msgstr "Виберіть ваш розклад перерв"
