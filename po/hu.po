@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/issues"
 "\n"
-"POT-Creation-Date: 2024-03-24 03:15+0000\n"
-"PO-Revision-Date: 2024-06-28 15:16+0200\n"
+"POT-Creation-Date: 2024-09-15 17:41+0000\n"
+"PO-Revision-Date: 2024-09-16 13:57+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -127,11 +127,11 @@ msgstr ""
 msgid "Dylan McCall, et al."
 msgstr "Dylan McCall és mások"
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:33
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:35
 msgid "Easily turn on break timers"
 msgstr "Szünetidőzítők egyszerű bekapcsolása"
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:37
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:39
 msgid "Check on their status at any time"
 msgstr "Az állapotainak ellenőrzése bármikor"
 
@@ -163,14 +163,12 @@ msgstr "GNOME Szünetidőzítő"
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
 #: src/daemon/microbreak/MicroBreakView.vala:58
 #, c-format
-#| msgid "Microbreak"
 msgid "Microbreak starts in %s"
 msgid_plural "Microbreak starts in %s"
 msgstr[0] "Kis szünet kezdődik ekkor: %s"
 msgstr[1] "Kis szünet kezdődik ekkor: %s"
 
 #: src/daemon/microbreak/MicroBreakView.vala:63
-#| msgid "Time for a break"
 msgid "Time for a microbreak"
 msgstr "Ideje kis szünetet tartani"
 
@@ -267,7 +265,7 @@ msgstr "A szünet ideje befejeződött"
 msgid "Remind me later"
 msgstr "Emlékeztessen később"
 
-#: src/settings/Application.vala:134
+#: src/settings/Application.vala:136
 msgid "translator-credits"
 msgstr "Úr Balázs <urbalazs@gmail.com>, 2014."
 
@@ -394,6 +392,10 @@ msgstr "Minden"
 msgid "For"
 msgstr "Ennyi időre:"
 
+#: src/settings/widgets/BreakConfigurationChooser.vala:52
+msgid "Choose your break schedule"
+msgstr "Szünet időbeosztásának kiválasztása"
+
 #: data/ui/settings-panels.blp:21
 msgid "Welcome to Break Timer!"
 msgstr "Üdvözli a Szünetidőzítő!"
@@ -407,21 +409,16 @@ msgid "Just switch me on to get started"
 msgstr "Csak kapcsoljon be az indításhoz"
 
 #: data/ui/settings-panels.blp:62
-#| msgid "Breaks and Microbreaks"
 msgid "Break and micro breaks"
 msgstr "Szünet és kis szünetek"
 
 #: data/ui/settings-panels.blp:68
-#| msgid ""
-#| "Break Timer lets you take small microbreaks as well as longer breaks."
 msgid "Break Timer lets you take small micro breaks as well as longer breaks."
 msgstr ""
 "A Szünetidőzítő lehetővé tesz kisebb, illetve hosszabb szünetek megtartását "
 "is."
 
 #: data/ui/settings-panels.blp:74
-#| msgid ""
-#| "Microbreaks are a chance to look away from the screen and rest your hands."
 msgid ""
 "Micro breaks are a chance to look away from the screen and rest your hands."
 msgstr ""
@@ -429,7 +426,6 @@ msgstr ""
 "pihentesse a kezeit."
 
 #: data/ui/settings-panels.blp:80
-#| msgid "Full breaks are time to get away from the computer and move around."
 msgid "Full breaks are time to get away from your computer and move around."
 msgstr ""
 "A teljes szünetek ideje alatt elszakadhat a számítógépétől és sétálhat egyet."
@@ -458,9 +454,6 @@ msgid "Ready to go"
 msgstr "Indulásra kész"
 
 #: data/ui/settings-panels.blp:157
-#| msgid ""
-#| "If this continues the next time you log in, please <a href=\"https://"
-#| "gitlab.gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>.\t"
 msgid ""
 "If this continues the next time you log in, please <a href=\"https://gitlab."
 "gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>."
@@ -480,3 +473,4 @@ msgstr "Kapcsoljon be, hogy azok a szünetek elinduljanak"
 #: data/ui/settings-panels.blp:166
 msgid "Break Timer is taking a break"
 msgstr "A Szünetidőzítő szünetet tart"
+
