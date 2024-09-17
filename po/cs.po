@@ -2,29 +2,29 @@
 # Copyright (C) 2013 gnome-break-timer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-break-timer package.
 # Marek Černocký <marek@manet.cz>, 2013, 2014, 2022.
+# Daniel Rusek <mail@asciiwolf.com>, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/"
 "issues\n"
-"POT-Creation-Date: 2022-03-17 11:05+0000\n"
-"PO-Revision-Date: 2022-03-18 15:02+0100\n"
-"Last-Translator: Marek Černocký <marek@manet.cz>\n"
+"POT-Creation-Date: 2024-09-15 17:41+0000\n"
+"PO-Revision-Date: 2024-09-17 23:26+0200\n"
+"Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Poedit 3.5\n"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:4
-#: src/settings/Application.vala:183 src/settings/MainWindow.vala:110
-#: src/settings/MainWindow.vala:264
+#: src/settings/MainWindow.vala:55 src/settings/MainWindow.vala:184
 msgid "Break Timer"
 msgstr "Hlídání přestávek"
 
@@ -32,17 +32,11 @@ msgstr "Hlídání přestávek"
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
-#: src/settings/Application.vala:186
 msgid "Computer break reminders for GNOME"
 msgstr "Upomínání na počítačové přestávky pro GNOME"
 
-#: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:6
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:8
-#: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:6
-msgid "@APPLICATION_ID@"
-msgstr "@APPLICATION_ID@"
-
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:7
 msgid "break;micro;rest;timer;"
 msgstr "přestávka;pauza;mikro;krátká;přerušení;odpočinek;hlídání;plánování;"
 
@@ -51,56 +45,60 @@ msgid "True to enable GNOME Break Timer"
 msgstr "Zapnutím povolíte Hlídání přestávek GNOME"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:9
+msgid "The current version of GNOME Break Timer's autostart file"
+msgstr "Aktuální verze souboru automatického spuštění Hlídání přestávek GNOME"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:14
 msgid "The list of breaks that are currently enabled"
 msgstr "Seznam přestávek, které jsou aktuálně povoleny"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:14
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:19
 msgid "True to enable quiet mode"
 msgstr "Zapnutím povolíte tichý režim"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:15
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:20
 msgid "Hides breaks until quiet-mode-expire-time."
 msgstr "Skryje přestávky na dobu quiet-mode-expire-time."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:20
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:25
 msgid "Time to end quiet mode."
 msgstr "Doba do konce tichého režimu."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:21
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:26
 msgid "The time to automatically disable quiet mode, in unix time."
 msgstr "Doba do automatického vypnutí tichého režimu, jako unixový čas."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:31
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:51
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:36
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:56
 msgid "Time between breaks"
 msgstr "Doba mezi přestávkami"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:32
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:37
 msgid "The time between rest breaks, in seconds."
 msgstr "Doba mezi odpočinkovými přestávkami, v sekundách."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:37
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:58
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:42
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:63
 msgid "Duration of each break"
 msgstr "Délka každé přestávky"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:38
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
 msgid "The duration of each rest break, in seconds."
 msgstr "Délka trvání každé odpočinkové přestávky, v sekundách."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:48
 msgid "Lock screen during breaks"
 msgstr "Během přestávky zamknout obrazovku"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:44
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:49
 msgid "True to lock the screen during rest breaks."
 msgstr "Zapněte, když chcete mít během přestávky zamknutou obrazovku."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:57
 msgid "The preferred time between micro breaks, in seconds."
 msgstr "Požadovaná doba mezi mikropřestávkami, v sekundách."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:59
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:64
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "Požadovaná délka trvání každé mikropřestávky, v sekundách."
 
@@ -124,11 +122,15 @@ msgstr ""
 "Hlídání přestávek se dá snadno nastavit, takže si můžete zvolit plán "
 "přestávek, který vám bude vyhovovat a na pozadí se starat za vás."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:21
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:16
+msgid "Dylan McCall, et al."
+msgstr "Dylan McCall a kol."
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:35
 msgid "Easily turn on break timers"
 msgstr "Hlídání přestávek se dá zapnout velmi jednoduše"
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:25
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:39
 msgid "Check on their status at any time"
 msgstr "Kdykoliv si můžete zkontrolovat, jak na tom jste"
 
@@ -156,34 +158,33 @@ msgstr[0] "%d hodinu"
 msgstr[1] "%d hodiny"
 msgstr[2] "%d hodin"
 
-#: src/daemon/Application.vala:27
+#: src/daemon/Application.vala:28
 msgid "GNOME Break Timer"
 msgstr "Hlídání přestávek GNOME"
 
-#: src/daemon/Application.vala:130
-msgid "Saving state"
-msgstr "Stav ukládání"
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/microbreak/MicroBreakView.vala:58
+#, c-format
+msgid "Microbreak starts in %s"
+msgid_plural "Microbreak starts in %s"
+msgstr[0] "Mikropřestávka začíná za %s"
+msgstr[1] "Mikropřestávka začíná za %s"
+msgstr[2] "Mikropřestávka začíná za %s"
 
-#. Label for a notification action that shows information about the current break
-#: src/daemon/break/BreakView.vala:92
-msgid "What should I do?"
-msgstr "Co bych měl dělat?"
+#: src/daemon/microbreak/MicroBreakView.vala:63
+msgid "Time for a microbreak"
+msgstr "Čas na mikropřestávku"
 
-#. Label for a notification action that will skip the current microbreak
-#: src/daemon/microbreak/MicroBreakView.vala:52
-msgid "Skip this one"
-msgstr "Tuto přeskočit"
-
-#: src/daemon/microbreak/MicroBreakView.vala:59
-msgid "It’s time for a micro break"
-msgstr "Je čas na mikropřestávku"
-
-#: src/daemon/microbreak/MicroBreakView.vala:60
+#: src/daemon/microbreak/MicroBreakView.vala:74
 msgid "Take a break from typing and look away from the screen"
 msgstr "Udělejte si přestávku od psaní a dívejte se mimo monitor"
 
+#: src/daemon/microbreak/MicroBreakView.vala:76
+msgid "It’s time for a micro break"
+msgstr "Je čas na mikropřestávku"
+
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/microbreak/MicroBreakView.vala:75
+#: src/daemon/microbreak/MicroBreakView.vala:93
 #, c-format
 msgid "You were due to take a micro break %s ago"
 msgid_plural "You were due to take a micro break %s ago"
@@ -191,36 +192,52 @@ msgstr[0] "Je to %s, co jste měli mít mikropřestávku"
 msgstr[1] "Jsou to %s, co jste měli mít mikropřestávku"
 msgstr[2] "Je to %s, co jste měli mít mikropřestávku"
 
-#: src/daemon/microbreak/MicroBreakView.vala:81
+#: src/daemon/microbreak/MicroBreakView.vala:98
 msgid "Overdue micro break"
 msgstr "Odložená mikropřestávka"
 
-#: src/daemon/microbreak/MicroBreakView.vala:90
-#: src/daemon/restbreak/RestBreakView.vala:121
-msgid "Break is over"
-msgstr "Přestávka skončila"
-
-#: src/daemon/microbreak/MicroBreakView.vala:91
+#: src/daemon/microbreak/MicroBreakView.vala:108
 msgid "Your micro break has ended"
 msgstr "Vaše mikropřestávka skončila"
 
-#. Label for a notification action that will delay the current break for a few minutes
-#: src/daemon/restbreak/RestBreakView.vala:53
-msgid "Remind me later"
-msgstr "Upozornit mě později"
+#: src/daemon/microbreak/MicroBreakView.vala:110
+#: src/daemon/restbreak/RestBreakView.vala:146
+msgid "Break is over"
+msgstr "Přestávka skončila"
 
-#. FIXME: Should say how long the break is?
-#: src/daemon/restbreak/RestBreakView.vala:67
+#. Label for a notification action that skips the current break
+#: src/daemon/microbreak/MicroBreakView.vala:122
+msgid "Skip this one"
+msgstr "Tuto přeskočit"
+
+#. Label for a notification action that shows information about the current break
+#: src/daemon/microbreak/MicroBreakView.vala:124
+#: src/daemon/restbreak/RestBreakView.vala:160
+msgid "What should I do?"
+msgstr "Co bych měl dělat?"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/restbreak/RestBreakView.vala:61
+#, c-format
+msgid "Break starts in %s"
+msgid_plural "Break starts in %s"
+msgstr[0] "Přestávka začíná za %s"
+msgstr[1] "Přestávka začíná za %s"
+msgstr[2] "Přestávka začíná za %s"
+
+#: src/daemon/restbreak/RestBreakView.vala:66
+#: src/daemon/restbreak/RestBreakView.vala:82
 msgid "Time for a break"
 msgstr "Čas na přestávku"
 
-#: src/daemon/restbreak/RestBreakView.vala:68
+#. FIXME: Should say how long the break is?
+#: src/daemon/restbreak/RestBreakView.vala:80
 msgid ""
 "It’s time to take a break. Get away from the computer for a little while!"
 msgstr "Je čas udělat si přestávku. Jděte na chvíli pryč od počítače!"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/restbreak/RestBreakView.vala:84
+#: src/daemon/restbreak/RestBreakView.vala:102
 #, c-format
 msgid "There is %s remaining in your break"
 msgid_plural "There are %s remaining in your break"
@@ -228,12 +245,12 @@ msgstr[0] "Do konce přestávky máte %s"
 msgstr[1] "Do konce přestávky máte %s"
 msgstr[2] "Do konce přestávky máte %s"
 
-#: src/daemon/restbreak/RestBreakView.vala:90
+#: src/daemon/restbreak/RestBreakView.vala:107
 msgid "Break interrupted"
 msgstr "Přestávka přerušena"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/restbreak/RestBreakView.vala:106
+#: src/daemon/restbreak/RestBreakView.vala:127
 #, c-format
 msgid "You were due to take a break %s ago"
 msgid_plural "You were due to take a break %s ago"
@@ -241,63 +258,59 @@ msgstr[0] "Je to %s, co jste měli mít přestávku"
 msgstr[1] "Jsou to %s, co jste měli mít přestávku"
 msgstr[2] "Je to %s, co jste měli mít přestávku"
 
-#: src/daemon/restbreak/RestBreakView.vala:112
+#: src/daemon/restbreak/RestBreakView.vala:132
 msgid "Overdue break"
 msgstr "Odložená přestávka"
 
-#: src/daemon/restbreak/RestBreakView.vala:122
+#: src/daemon/restbreak/RestBreakView.vala:144
 msgid "Your break time has ended"
 msgstr "Čas vaší přestávky skončil"
 
-#: src/settings/Application.vala:188
-msgid "Break Timer Website"
-msgstr "Webové stránky Hlídání přestávek"
+#. Label for a notification action that will delay the current break for a few minutes
+#: src/daemon/restbreak/RestBreakView.vala:158
+msgid "Remind me later"
+msgstr "Upozornit mě později"
 
-#: src/settings/Application.vala:189
-msgid "Copyright © 2011-2020 Break Timer Authors"
-msgstr "Copyright © 2011 – 2020 autoři Hlídání přestávek"
-
-#: src/settings/Application.vala:191
+#: src/settings/Application.vala:136
 msgid "translator-credits"
-msgstr "Marek Černocký <marek@manet.cz>"
+msgstr ""
+"Marek Černocký <marek@manet.cz>\n"
+"Daniel Rusek <mail@asciiwolf.com>"
 
-#: src/settings/BreakSettingsDialog.vala:41
-msgid "Choose Your Break Schedule"
-msgstr "Zvolte plán svých přestávek"
-
-#: src/settings/BreakSettingsDialog.vala:63
+#: src/settings/BreakSettingsDialog.vala:57
 msgid "A mix of short breaks and long breaks"
 msgstr "Střídat krátké a dlouhé přestávky"
 
-#: src/settings/BreakSettingsDialog.vala:67
+#: src/settings/BreakSettingsDialog.vala:61
 msgid "Occasional long breaks"
 msgstr "Občasné dlouhé přestávky"
 
-#: src/settings/BreakSettingsDialog.vala:71
+#: src/settings/BreakSettingsDialog.vala:65
 msgid "Frequent short breaks"
 msgstr "Časté krátké přestávky"
 
-#. Label for a button that opens GNOME Settings to change permissions
-#: src/settings/MainWindow.vala:72
-msgid "Open Settings"
-msgstr "Otevřít nastavení"
+#: src/settings/MainWindow.vala:66
+msgid "About"
+msgstr "O aplikaci"
 
-#: src/settings/MainWindow.vala:75
+#: src/settings/MainWindow.vala:67
+msgid "Quit"
+msgstr "Ukončit"
+
+#: src/settings/MainWindow.vala:110
 msgid ""
 "Break Timer needs permission to start automatically and run in the background"
 msgstr ""
 "Aplikace Hlídání přestávek potřebuje oprávnění, aby se mohla spouštět "
 "automaticky a běžet na pozadí"
 
-#: src/settings/MainWindow.vala:121
-msgid "About"
-msgstr "O aplikaci"
+#. Label for a button that opens GNOME Settings to change permissions
+#: src/settings/MainWindow.vala:113
+msgid "Open Settings"
+msgstr "Otevřít nastavení"
 
-#: src/settings/MainWindow.vala:122
-msgid "Quit"
-msgstr "Ukončit"
-
-#: src/settings/MainWindow.vala:258
+#: src/settings/MainWindow.vala:178 data/ui/settings-panels.blp:8
+#: data/ui/settings-panels.blp:46 data/ui/settings-panels.blp:113
 msgid "Welcome Tour"
 msgstr "Úvodní průvodce"
 
@@ -336,14 +349,6 @@ msgstr "Vaše další mikropřestávka je za"
 msgid "It's time for a microbreak"
 msgstr "Je čas na mikropřestávku"
 
-#: src/settings/panels/WelcomePanel.vala:71
-msgid "OK, got it!"
-msgstr "Dobrá, mám to!"
-
-#: src/settings/panels/WelcomePanel.vala:77
-msgid "Ready to go"
-msgstr "Jsem připraven jít na to"
-
 #: src/settings/restbreak/RestBreakInfoWidget.vala:32
 msgid "Break"
 msgstr "Přestávka"
@@ -373,7 +378,7 @@ msgstr "Plná přestávka"
 msgid "And take some longer breaks to stretch your legs"
 msgstr "A dělejte si nějaké delší přestávky, abyste si protáhli nohy"
 
-#: src/settings/restbreak/RestBreakSettingsWidget.vala:33
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:34
 msgid "Lock the screen during breaks"
 msgstr "Během přestávky zamknout obrazovku"
 
@@ -386,77 +391,100 @@ msgstr "Vaše další plná přestávka je za"
 msgid "It's break time"
 msgstr "Je čas přestávky"
 
-#. Label for the widget to choose how frequently a break occurs. (Choices such as "6 minutes" or "45 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:38
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:31
 msgid "Every"
 msgstr "Opakovat za"
 
-#. Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:47
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:36
 msgid "For"
 msgstr "Na "
 
-#: ui/settings-panels.ui:37
-msgid "Break Timer isn’t responding"
-msgstr "Hlídání přestávek nereaguje"
+#: src/settings/widgets/BreakConfigurationChooser.vala:52
+msgid "Choose your break schedule"
+msgstr "Zvolte plán svých přestávek"
 
-#: ui/settings-panels.ui:54
-msgid ""
-"If this continues the next time you log in, please <a href=\"https://gitlab."
-"gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>.\t"
-msgstr ""
-"Jestli se stejná situace bude opakovat i po příštím přihlášení, <a href="
-"\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">nahlaste chybu</"
-"a> prosím."
+#: data/ui/settings-panels.blp:21
+msgid "Welcome to Break Timer!"
+msgstr "Vítejte v Hlídání přestávek!"
 
-#: ui/settings-panels.ui:101
-msgid "Break Timer is taking a break"
-msgstr "Hlídání přestávek si dělá přestávku"
+#: data/ui/settings-panels.blp:27
+msgid "Breaks are good for you. We'll help you to take them."
+msgstr "Přestávky jsou pro vaše dobro. Pomůžeme vám je dodržovat."
 
-#: ui/settings-panels.ui:118
-msgid "Turn me on to get those breaks going"
-msgstr "Zapněte jej prosím, aby přestávky zase běžely"
+#: data/ui/settings-panels.blp:34
+msgid "Just switch me on to get started"
+msgstr "Abyste začali, stačí zde zapnout"
 
-#: ui/settings-panels.ui:149
-msgid "You can change the types of breaks and their timings from the settings"
-msgstr "V nastavení můžete změnit typ přestávek a jejich načasování"
+#: data/ui/settings-panels.blp:62
+msgid "Break and micro breaks"
+msgstr "Přestávky a mikropřestávky"
 
-#: ui/settings-panels.ui:175
-msgid "Break Timer lets you take small microbreaks as well as longer breaks."
+#: data/ui/settings-panels.blp:68
+msgid "Break Timer lets you take small micro breaks as well as longer breaks."
 msgstr "Hlídání přestávek vás přiměje dávat si krátké i delší přestávky."
 
-#: ui/settings-panels.ui:193
+#: data/ui/settings-panels.blp:74
 msgid ""
-"Microbreaks are a chance to look away from the screen and rest your hands."
+"Micro breaks are a chance to look away from the screen and rest your hands."
 msgstr ""
 "Mikropřestávky jsou příležitostí podívat se jinam než na obrazovku a dát "
 "odpočinout svým rukám."
 
-#: ui/settings-panels.ui:211
-msgid "Full breaks are time to get away from the computer and move around."
-msgstr "Plné přestávky jsou časem na to, abyste opustili počítače a prošli se."
+#: data/ui/settings-panels.blp:80
+msgid "Full breaks are time to get away from your computer and move around."
+msgstr ""
+"Plné přestávky jsou časem na to, abyste opustili svůj počítač a prošli se."
 
-#: ui/settings-panels.ui:228
-msgid "Breaks and Microbreaks"
-msgstr "Přestávky a mikropřestávky"
+#: data/ui/settings-panels.blp:94
+msgid "You can change the types of breaks and their timings from the settings"
+msgstr "V nastavení můžete změnit typ přestávek a jejich načasování"
 
-#: ui/settings-panels.ui:274
+#: data/ui/settings-panels.blp:104
+msgid "OK, got it!"
+msgstr "Dobrá, mám to!"
+
+#: data/ui/settings-panels.blp:128
 msgid "You can leave me to it"
 msgstr "Aplikaci můžete opustit"
 
-#: ui/settings-panels.ui:292
+#: data/ui/settings-panels.blp:134
 msgid ""
 "Break Timer will carry on working in the background, even if you close it."
 msgstr "Hlídání přestávek zůstane pracovat na pozadí, i když jej zavřete."
 
-#: ui/settings-panels.ui:340
-msgid "Welcome to Break Timer!"
-msgstr "Vítejte v Hlídání přestávek!"
+#: data/ui/settings-panels.blp:148
+msgid "Ready to go"
+msgstr "Jsem připraven jít na to"
 
-#: ui/settings-panels.ui:357
-msgid "Breaks are good for you. We'll help you to take them."
-msgstr "Přestávky jsou pro vaše dobro. Pomůžeme vám je dodržovat."
+#: data/ui/settings-panels.blp:157
+msgid ""
+"If this continues the next time you log in, please <a href=\"https://gitlab."
+"gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>."
+msgstr ""
+"Jestli se stejná situace bude opakovat i po příštím přihlášení, prosím <a "
+"href=\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">nahlaste "
+"chybu</a>."
 
-#: ui/settings-panels.ui:378
-msgid "Just switch me on to get started"
-msgstr "Abyste začali, stačí zde zapnout"
+#: data/ui/settings-panels.blp:159
+msgid "Break Timer isn’t responding"
+msgstr "Hlídání přestávek nereaguje"
+
+#: data/ui/settings-panels.blp:164
+msgid "Turn me on to get those breaks going"
+msgstr "Zapněte jej prosím, aby přestávky zase běžely"
+
+#: data/ui/settings-panels.blp:166
+msgid "Break Timer is taking a break"
+msgstr "Hlídání přestávek si dělá přestávku"
+
+#~ msgid "@APPLICATION_ID@"
+#~ msgstr "@APPLICATION_ID@"
+
+#~ msgid "Saving state"
+#~ msgstr "Stav ukládání"
+
+#~ msgid "Break Timer Website"
+#~ msgstr "Webové stránky Hlídání přestávek"
+
+#~ msgid "Copyright © 2011-2020 Break Timer Authors"
+#~ msgstr "Copyright © 2011 – 2020 autoři Hlídání přestávek"
