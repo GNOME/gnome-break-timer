@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/"
 "issues\n"
-"POT-Creation-Date: 2024-03-24 03:15+0000\n"
-"PO-Revision-Date: 2024-05-20 20:27+0800\n"
+"POT-Creation-Date: 2024-09-15 17:41+0000\n"
+"PO-Revision-Date: 2024-09-17 09:23+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -123,11 +123,11 @@ msgstr ""
 msgid "Dylan McCall, et al."
 msgstr "Dylan McCall 等人"
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:33
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:35
 msgid "Easily turn on break timers"
 msgstr "简单地设置休息定时器"
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:37
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:39
 msgid "Check on their status at any time"
 msgstr "随时检查其状态"
 
@@ -252,7 +252,7 @@ msgstr "您的休息时间已结束"
 msgid "Remind me later"
 msgstr "稍后提醒"
 
-#: src/settings/Application.vala:134
+#: src/settings/Application.vala:136
 msgid "translator-credits"
 msgstr ""
 "甘露 <rhythm.gan@gmail.com>, 2013\n"
@@ -375,6 +375,10 @@ msgstr "每隔"
 msgid "For"
 msgstr "："
 
+#: src/settings/widgets/BreakConfigurationChooser.vala:52
+msgid "Choose your break schedule"
+msgstr "选择您的休息计划"
+
 #: data/ui/settings-panels.blp:21
 msgid "Welcome to Break Timer!"
 msgstr "欢迎使用休息定时器！"
@@ -456,9 +460,6 @@ msgstr "休息定时器提请您休息"
 
 #~ msgid "Copyright © 2011-2020 Break Timer Authors"
 #~ msgstr "版权所有 © 2011-2020 休息定时器作者"
-
-#~ msgid "Choose Your Break Schedule"
-#~ msgstr "选择您的休息计划"
 
 #~ msgid "Remember to take regular breaks from using the computer"
 #~ msgstr "记住使用电脑时要定期休息"
