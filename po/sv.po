@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-break-timer\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/"
 "issues\n"
-"POT-Creation-Date: 2024-03-23 04:23+0000\n"
-"PO-Revision-Date: 2024-04-07 21:53+0200\n"
+"POT-Creation-Date: 2024-09-15 17:44+0000\n"
+"PO-Revision-Date: 2024-09-15 19:55+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
@@ -103,11 +103,7 @@ msgstr "Föredragen tid mellan pauser, i sekunder."
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "Föredragen tid för varje paus, i sekunder."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:8
-msgid "Dylan McCall, et al."
-msgstr "Dylan McCall med flera"
-
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:10
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:9
 msgid ""
 "Break Timer keeps track of how much you are using the computer, and it "
 "reminds you to take regular breaks. It is designed to encourage healthy "
@@ -119,7 +115,7 @@ msgstr ""
 "med en blandning av korta raster för ögon och handleder och dessutom längre "
 "raster för att hålla kroppen igång och sinnet fokuserat."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:13
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
 msgid ""
 "Break Timer is easy to set up, so you can pick a break schedule that works "
 "for you and it will carry on working in the background."
@@ -127,11 +123,15 @@ msgstr ""
 "Break Timer är lätt att ställa in så du kan välja ett rastschema som "
 "fungerar för dig - programmet kommer att fortsätta arbeta i bakgrunden."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:25
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:16
+msgid "Dylan McCall, et al."
+msgstr "Dylan McCall med flera"
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:35
 msgid "Easily turn on break timers"
 msgstr "Slå enkelt på rastklockor"
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:29
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:39
 msgid "Check on their status at any time"
 msgstr "Kontrollera deras status när som helst"
 
@@ -264,7 +264,7 @@ msgstr "Din rast har upphört"
 msgid "Remind me later"
 msgstr "Påminn mig senare"
 
-#: src/settings/Application.vala:134
+#: src/settings/Application.vala:136
 msgid "translator-credits"
 msgstr ""
 "Isak Östlund <translate@catnip.nu>\n"
@@ -392,6 +392,10 @@ msgstr "Var"
 msgid "For"
 msgstr "I"
 
+#: src/settings/widgets/BreakConfigurationChooser.vala:52
+msgid "Choose your break schedule"
+msgstr "Välj ditt rastschema"
+
 #: data/ui/settings-panels.blp:21
 msgid "Welcome to Break Timer!"
 msgstr "Välkommen till Break Timer!"
@@ -471,6 +475,3 @@ msgstr "Break Timer tar en rast"
 
 #~ msgid "Copyright © 2011-2020 Break Timer Authors"
 #~ msgstr "Copyright © 2011-2020 Upphovsmännen bakom Break Timer"
-
-#~ msgid "Choose Your Break Schedule"
-#~ msgstr "Välj ditt rastschema"
