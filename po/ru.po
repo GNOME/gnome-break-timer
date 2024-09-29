@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/"
 "issues\n"
-"POT-Creation-Date: 2024-03-24 03:15+0000\n"
-"PO-Revision-Date: 2024-04-05 19:38+1000\n"
+"POT-Creation-Date: 2024-09-15 17:41+0000\n"
+"PO-Revision-Date: 2024-09-24 20:51+1000\n"
 "Last-Translator: Ser82-png <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -128,11 +128,11 @@ msgstr ""
 msgid "Dylan McCall, et al."
 msgstr "Dylan McCall и др."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:33
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:35
 msgid "Easily turn on break timers"
 msgstr "Простое включение таймеров перерывов"
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:37
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:39
 msgid "Check on their status at any time"
 msgstr "Проверка состояния в любой момент"
 
@@ -274,7 +274,7 @@ msgstr "Время вашего перерыва закончилось"
 msgid "Remind me later"
 msgstr "Напомнить позже"
 
-#: src/settings/Application.vala:134
+#: src/settings/Application.vala:136
 msgid "translator-credits"
 msgstr "Ser82-png <asvmail.as@gmail.com>, 2022-2024"
 
@@ -401,6 +401,10 @@ msgstr "Каждые"
 msgid "For"
 msgstr "По"
 
+#: src/settings/widgets/BreakConfigurationChooser.vala:52
+msgid "Choose your break schedule"
+msgstr "Выберите график перерывов"
+
 #: data/ui/settings-panels.blp:21
 msgid "Welcome to Break Timer!"
 msgstr "Добро пожаловать в «Таймер перерывов»!"
@@ -486,9 +490,6 @@ msgstr "«Таймер перерывов» делает перерыв"
 
 #~ msgid "Copyright © 2011-2020 Break Timer Authors"
 #~ msgstr "Copyright © 2011-2020 Break Timer Authors"
-
-#~ msgid "Choose Your Break Schedule"
-#~ msgstr "Выберите график перерывов"
 
 #~ msgid "@APPLICATION_ID@"
 #~ msgstr "@APPLICATION_ID@"
