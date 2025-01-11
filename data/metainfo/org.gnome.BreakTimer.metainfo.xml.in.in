@@ -21,7 +21,7 @@
     <id version="1.0" compare="ge">org.gnome.Shell</id>
   </requires>
   <launchable type="desktop-id">@SETTINGS_APPLICATION_ID@.desktop</launchable>
-  <url type="homepage">https://wiki.gnome.org/Apps/BreakTimer</url>
+  <url type="homepage">https://gitlab.gnome.org/GNOME/gnome-break-timer/</url>
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-break-timer/issues</url>
   <url type="translate">https://l10n.gnome.org/module/gnome-break-timer/</url>
   <url type="vcs-browser">https://gitlab.gnome.org/GNOME/gnome-break-timer</url>

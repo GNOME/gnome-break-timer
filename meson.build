@@ -54,7 +54,7 @@ endif
 daemon_application_id = application_id + '.Daemon'
 settings_application_id = application_id
 
-application_url = 'https://wiki.gnome.org/Apps/BreakTimer'
+application_url = 'https://gitlab.gnome.org/GNOME/gnome-break-timer/'
 application_issues_url = 'https://gitlab.gnome.org/GNOME/gnome-break-timer/-/issues'
 daemon_object_path = '/org/gnome/BreakTimer'
 

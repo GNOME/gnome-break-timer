@@ -11,7 +11,7 @@ the computer, and it reminds you to take regular breaks. It is designed to
 encourage healthy behaviour, with a mix of short breaks for your eyes and
 wrists, as well as longer breaks to keep your body moving and your mind on
 task.</description>
-  <homepage rdf:resource="https://wiki.gnome.org/Apps/BreakTimer" />
+  <homepage rdf:resource="https://gitlab.gnome.org/GNOME/gnome-break-timer/" />
   <bug-database rdf:resource="https://gitlab.gnome.org/GNOME/gnome-break-timer/issues" />
 
   <category rdf:resource="http://api.gnome.org/doap-extensions#apps" />
