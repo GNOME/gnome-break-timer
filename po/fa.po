@@ -2,106 +2,104 @@
 # Copyright (C) 2022 gnome-break-timer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-break-timer package.
 # MohammadSaleh Kamyab <mskf1383@protonmail.com>, 2022.
+# Danial Behzadi <dani.behzi@ubuntu.com>, 2023-2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\n"
-"POT-Creation-Date: 2022-04-07 17:30+0000\n"
-"PO-Revision-Date: 2022-04-09 18:04+0430\n"
-"Last-Translator: MohammadSaleh Kamyab <mskf1383@protonmail.com>\n"
+"POT-Creation-Date: 2024-11-24 11:17+0000\n"
+"PO-Revision-Date: 2025-01-13 16:27+0330\n"
+"Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.5\n"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:4
-#: src/settings/Application.vala:183 src/settings/MainWindow.vala:110
-#: src/settings/MainWindow.vala:264
+#: src/settings/MainWindow.vala:55 src/settings/MainWindow.vala:184
 msgid "Break Timer"
-msgstr "زمان‌سنج وقفه"
+msgstr "زمان‌سنج استراحت"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
-#: src/settings/Application.vala:186
 msgid "Computer break reminders for GNOME"
-msgstr "یادآور وقفهٔ رایانه برای گنوم"
+msgstr "یادآور استراحتٔ رایانه برای گنوم"
 
-#: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:6
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:8
-#: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:6
-msgid "@APPLICATION_ID@"
-msgstr "@APPLICATION_ID@"
-
-#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:7
 msgid "break;micro;rest;timer;"
-msgstr "break;micro;rest;timer;وقفه;استراحت;تنفس;زنگ تفریح;زمان‌سنج;یادآور;"
+msgstr "break;micro;rest;timer;استراحت;استراحت;تنفس;زنگ تفریح;زمان‌سنج;یادآور;"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:4
 msgid "True to enable GNOME Break Timer"
-msgstr "درست برای به کار انداختن زمان‌سنج وقفهٔ گنوم"
+msgstr "درست برای به کار انداختن زمان‌سنج استراحتٔ گنوم"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:9
-msgid "The list of breaks that are currently enabled"
-msgstr "سیاهه‌ای از وقفه‌هایی که هم‌اکنون به کار انداخته شده‌اند"
+msgid "The current version of GNOME Break Timer's autostart file"
+msgstr "نگارش کنونی پروندهٔ آغزا خودمار زمان‌سنج استراحت گنوم"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:14
+msgid "The list of breaks that are currently enabled"
+msgstr "سیاهه‌ای از استراحت‌هایی که هم‌اکنون به کار انداخته شده‌اند"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:19
 msgid "True to enable quiet mode"
 msgstr "درست برای به کار انداختن حالت ساکت"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:15
-msgid "Hides breaks until quiet-mode-expire-time."
-msgstr "وقفه‌ها را تا زمان انقضای حالت ساکت پنهان می‌کند."
-
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:20
+msgid "Hides breaks until quiet-mode-expire-time."
+msgstr "استراحت‌ها را تا زمان انقضای حالت ساکت پنهان می‌کند."
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:25
 msgid "Time to end quiet mode."
 msgstr "زمان تا اتمام حالت ساکت."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:21
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:26
 msgid "The time to automatically disable quiet mode, in unix time."
 msgstr "زمان برای از کار انداختن خودکار حالت ساکت، در زمان یونیکس."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:31
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:51
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:36
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:56
 msgid "Time between breaks"
-msgstr "زمان بین وقفه‌ها"
+msgstr "زمان بین استراحت‌ها"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:32
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:37
 msgid "The time between rest breaks, in seconds."
 msgstr "زمان بین استراحت‌ها، به ثانیه."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:37
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:58
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:42
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:63
 msgid "Duration of each break"
-msgstr "مدّت هر وقفه"
+msgstr "مدّت هر استراحت"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:38
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
 msgid "The duration of each rest break, in seconds."
 msgstr "مدّت هر استراحت، به ثانیه."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:48
 msgid "Lock screen during breaks"
-msgstr "قفل کردن صفحه‌نمایش هنگام وقفه‌ها"
+msgstr "قفل کردن صفحه‌نمایش هنگام استراحت‌ها"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:44
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:49
 msgid "True to lock the screen during rest breaks."
 msgstr "درست برای قفل کردن صفحه‌نمایش هنگام استراحت‌ها."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:57
 msgid "The preferred time between micro breaks, in seconds."
-msgstr "زمان ترجیحی بین وقفه‌های کوتاه، به ثانیه."
+msgstr "زمان ترجیحی بین استراحت‌های کوتاه، به ثانیه."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:59
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:64
 msgid "The preferred duration of each micro break, in seconds."
-msgstr "مدّت ترجیحی برای هر وقفهٔ کوتاه، به ثانیه."
+msgstr "مدّت ترجیحی برای هر استراحت کوتاه، به ثانیه."
 
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:9
 msgid ""
@@ -110,24 +108,28 @@ msgid ""
 "with a mix of short breaks for your eyes and wrists, as well as longer breaks "
 "to keep your body moving and your mind on task."
 msgstr ""
-"زمان‌سنج وقفه، میزان استفادهٔ شما از رایانه را ردیابی می‌کند، و به شما یادآوری "
-"می‌کند که استراحت کنید. زمان‌سنج وقفه، طراحی شده تا شما را با ترکیبی از وقفه‌های "
-"کوتاه برای چشمان و مچ‌هایتان، و همچنین وقفه‌هایی بلندتر برای در حرکت نگه داشتن "
-"بدن‌تان و حفظ تمرکز روی وظیفه‌تان، شما را تشویق به رفتار سالم کند."
+"زمان‌سنج استراحت، میزان استفادهٔ شما از رایانه را ردیابی می‌کند، و به شما یادآوری "
+"می‌کند که استراحت کنید. زمان‌سنج استراحت، طراحی شده تا شما را با ترکیبی از "
+"استراحت‌های کوتاه برای چشمان و مچ‌هایتان، و همچنین استراحت‌هایی بلندتر برای در "
+"حرکت نگه داشتن بدن‌تان و حفظ تمرکز روی وظیفه‌تان، شما را تشویق به رفتار سالم کند."
 
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
 msgid ""
 "Break Timer is easy to set up, so you can pick a break schedule that works for "
 "you and it will carry on working in the background."
 msgstr ""
-"برپایی زمان‌سنج وقفه آسان است. پس می‌توانید برنامهٔ وقفه‌ای مناسب برای خودتان "
+"برپایی زمان‌سنج استراحت آسان است. پس می‌توانید برنامهٔ استراحتی مناسب برای خودتان "
 "برگزینید تا در پس‌زمینه کارش را بکند."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:21
-msgid "Easily turn on break timers"
-msgstr "به‌آسانی زمان‌سنج‌ها وقفه را روشن کنید"
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:16
+msgid "Dylan McCall, et al."
+msgstr "دایلن مک‌کال و همکاران."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:25
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:35
+msgid "Easily turn on break timers"
+msgstr "به‌آسانی زمان‌سنج‌ها استراحت را روشن کنید"
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:39
 msgid "Check on their status at any time"
 msgstr "وضعیت‌شان را در هر زمانی بررسی کنید"
 
@@ -149,146 +151,151 @@ msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] "%Id ساعت"
 
-#: src/daemon/Application.vala:27
+#: src/daemon/Application.vala:28
 msgid "GNOME Break Timer"
-msgstr "زمان‌سنج وقفهٔ گنوم"
+msgstr "زمان‌سنج استراحتٔ گنوم"
 
-#: src/daemon/Application.vala:130
-msgid "Saving state"
-msgstr "ذخیرهٔ وضعیت"
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/microbreak/MicroBreakView.vala:58
+#, c-format
+msgid "Microbreak starts in %s"
+msgid_plural "Microbreak starts in %s"
+msgstr[0] "آغاز استراحت کوتاه در %s"
 
-#. Label for a notification action that shows information about the current break
-#: src/daemon/break/BreakView.vala:92
-msgid "What should I do?"
-msgstr "باید چه کنم؟"
+#: src/daemon/microbreak/MicroBreakView.vala:63
+msgid "Time for a microbreak"
+msgstr "زمان برای استراحتی کوتاه"
 
-#. Label for a notification action that will skip the current microbreak
-#: src/daemon/microbreak/MicroBreakView.vala:52
-msgid "Skip this one"
-msgstr "از این یکی بگذر"
-
-#: src/daemon/microbreak/MicroBreakView.vala:59
-msgid "It’s time for a micro break"
-msgstr "زمان یک وقفهٔ کوتاه است"
-
-#: src/daemon/microbreak/MicroBreakView.vala:60
+#: src/daemon/microbreak/MicroBreakView.vala:74
 msgid "Take a break from typing and look away from the screen"
 msgstr "از تایپ کردن دست بکشید و به جایی غیر از صفحه‌نمایش بنگرید"
 
+#: src/daemon/microbreak/MicroBreakView.vala:76
+msgid "It’s time for a micro break"
+msgstr "زمان یک استراحت کوتاه است"
+
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/microbreak/MicroBreakView.vala:75
+#: src/daemon/microbreak/MicroBreakView.vala:93
 #, c-format
 msgid "You were due to take a micro break %s ago"
 msgid_plural "You were due to take a micro break %s ago"
-msgstr[0] "قرار بود %Is پیش یک وقفهٔ کوتاه داشته باشید"
+msgstr[0] "قرار بود %Is پیش یک استراحت کوتاه داشته باشید"
 
-#: src/daemon/microbreak/MicroBreakView.vala:81
+#: src/daemon/microbreak/MicroBreakView.vala:98
 msgid "Overdue micro break"
-msgstr "عقب انداختن وقفهٔ کوتاه"
+msgstr "عقب انداختن استراحت کوتاه"
 
-#: src/daemon/microbreak/MicroBreakView.vala:90
-#: src/daemon/restbreak/RestBreakView.vala:121
-msgid "Break is over"
-msgstr "وقفه به اتمام رسید"
-
-#: src/daemon/microbreak/MicroBreakView.vala:91
+#: src/daemon/microbreak/MicroBreakView.vala:108
 msgid "Your micro break has ended"
-msgstr "وقفهٔ کوتاه‌تان تمام شد"
+msgstr "استراحت کوتاه‌تان تمام شد"
 
-#. Label for a notification action that will delay the current break for a few minutes
-#: src/daemon/restbreak/RestBreakView.vala:53
-msgid "Remind me later"
-msgstr "دیرتر یادم بیاور"
+#: src/daemon/microbreak/MicroBreakView.vala:110
+#: src/daemon/restbreak/RestBreakView.vala:146
+msgid "Break is over"
+msgstr "استراحت به اتمام رسید"
 
-#. FIXME: Should say how long the break is?
-#: src/daemon/restbreak/RestBreakView.vala:67
+#. Label for a notification action that skips the current break
+#: src/daemon/microbreak/MicroBreakView.vala:122
+msgid "Skip this one"
+msgstr "از این یکی بگذر"
+
+#. Label for a notification action that shows information about the current break
+#: src/daemon/microbreak/MicroBreakView.vala:124
+#: src/daemon/restbreak/RestBreakView.vala:160
+msgid "What should I do?"
+msgstr "باید چه کنم؟"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/restbreak/RestBreakView.vala:61
+#, c-format
+msgid "Break starts in %s"
+msgid_plural "Break starts in %s"
+msgstr[0] "آغاز استراحت در %s"
+
+#: src/daemon/restbreak/RestBreakView.vala:66
+#: src/daemon/restbreak/RestBreakView.vala:82
 msgid "Time for a break"
 msgstr "زمان برای استراحت"
 
-#: src/daemon/restbreak/RestBreakView.vala:68
+#. FIXME: Should say how long the break is?
+#: src/daemon/restbreak/RestBreakView.vala:80
 msgid "It’s time to take a break. Get away from the computer for a little while!"
 msgstr "زمان استراحت است. برای مدّتی از رایانه دور شوید!"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/restbreak/RestBreakView.vala:84
+#: src/daemon/restbreak/RestBreakView.vala:102
 #, c-format
 msgid "There is %s remaining in your break"
 msgid_plural "There are %s remaining in your break"
 msgstr[0] "%Is از استراحت شما باقی مانده است"
 
-#: src/daemon/restbreak/RestBreakView.vala:90
+#: src/daemon/restbreak/RestBreakView.vala:107
 msgid "Break interrupted"
 msgstr "استراحت خراب شده"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/restbreak/RestBreakView.vala:106
+#: src/daemon/restbreak/RestBreakView.vala:127
 #, c-format
 msgid "You were due to take a break %s ago"
 msgid_plural "You were due to take a break %s ago"
 msgstr[0] "قرار بود %Is پیش استراحت کنید"
 
-#: src/daemon/restbreak/RestBreakView.vala:112
+#: src/daemon/restbreak/RestBreakView.vala:132
 msgid "Overdue break"
 msgstr "عقب انداختن استراحت"
 
-#: src/daemon/restbreak/RestBreakView.vala:122
+#: src/daemon/restbreak/RestBreakView.vala:144
 msgid "Your break time has ended"
 msgstr "زمان استراحت‌تان تمام شد"
 
-#: src/settings/Application.vala:188
-msgid "Break Timer Website"
-msgstr "وبگاه زمان‌سنج وقفه"
+#. Label for a notification action that will delay the current break for a few minutes
+#: src/daemon/restbreak/RestBreakView.vala:158
+msgid "Remind me later"
+msgstr "دیرتر یادم بیاور"
 
-#: src/settings/Application.vala:189
-msgid "Copyright © 2011-2020 Break Timer Authors"
-msgstr "حق رونوشت © ۲۰۱۱-۲۰۲۰ دست‌اندرکاران زمان‌سنج وقفه"
-
-#: src/settings/Application.vala:191
+#: src/settings/Application.vala:136
 msgid "translator-credits"
 msgstr "محمدصالح کامیاب <mskf1383@protonmail.com>"
 
-#: src/settings/BreakSettingsDialog.vala:41
-msgid "Choose Your Break Schedule"
-msgstr "برنامهٔ وقفهٔ خود را انتخاب کنید"
-
-#: src/settings/BreakSettingsDialog.vala:63
+#: src/settings/BreakSettingsDialog.vala:57
 msgid "A mix of short breaks and long breaks"
-msgstr "ترکیبی از وقفه‌های کوتاه و بلند"
+msgstr "ترکیبی از استراحت‌های کوتاه و بلند"
 
-#: src/settings/BreakSettingsDialog.vala:67
+#: src/settings/BreakSettingsDialog.vala:61
 msgid "Occasional long breaks"
-msgstr "وقفه‌های بلند گاه به گاه"
+msgstr "استراحت‌های بلند گاه به گاه"
 
-#: src/settings/BreakSettingsDialog.vala:71
+#: src/settings/BreakSettingsDialog.vala:65
 msgid "Frequent short breaks"
-msgstr "وقفه‌های کوتاه مکرر"
+msgstr "استراحت‌های کوتاه مکرر"
 
-#. Label for a button that opens GNOME Settings to change permissions
-#: src/settings/MainWindow.vala:72
-msgid "Open Settings"
-msgstr "گشودن تنظیمات"
-
-#: src/settings/MainWindow.vala:75
-msgid ""
-"Break Timer needs permission to start automatically and run in the background"
-msgstr "زمان‌سنج وقفه نیاز به اجازهٔ شروع خودکار و اجرا در پس‌زمینه دارد"
-
-#: src/settings/MainWindow.vala:121
+#: src/settings/MainWindow.vala:66
 msgid "About"
 msgstr "درباره"
 
-#: src/settings/MainWindow.vala:122
+#: src/settings/MainWindow.vala:67
 msgid "Quit"
 msgstr "ترک"
 
-#: src/settings/MainWindow.vala:258
+#: src/settings/MainWindow.vala:110
+msgid ""
+"Break Timer needs permission to start automatically and run in the background"
+msgstr "زمان‌سنج استراحت نیاز به اجازهٔ شروع خودکار و اجرا در پس‌زمینه دارد"
+
+#. Label for a button that opens GNOME Settings to change permissions
+#: src/settings/MainWindow.vala:113
+msgid "Open Settings"
+msgstr "گشودن تنظیمات"
+
+#: src/settings/MainWindow.vala:178 data/ui/settings-panels.blp:8
+#: data/ui/settings-panels.blp:46 data/ui/settings-panels.blp:113
 msgid "Welcome Tour"
 msgstr "گردش خوش‌آمدگویی"
 
 #: src/settings/microbreak/MicroBreakInfoWidget.vala:32
 #: src/settings/microbreak/MicroBreakSettingsWidget.vala:29
 msgid "Microbreak"
-msgstr "وقفهٔ کوتاه"
+msgstr "استراحت کوتاه"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
 #: src/settings/microbreak/MicroBreakInfoWidget.vala:52
@@ -299,7 +306,7 @@ msgstr[0] "برای %Is از تایپ کردن دست بکشید و به جای�
 
 #: src/settings/microbreak/MicroBreakInfoWidget.vala:57
 msgid "It’s microbreak time"
-msgstr "زمان وقفهٔ کوتاه است"
+msgstr "زمان استراحت کوتاه است"
 
 #: src/settings/microbreak/MicroBreakInfoWidget.vala:59
 msgid "I'll chime when it’s time to use the computer again."
@@ -312,30 +319,22 @@ msgstr "برای آزام کردن چشمان‌تان مکرر مکث کنید"
 #. Label that explains a countdown timer, which shows a string such as "5 minutes"
 #: src/settings/microbreak/MicroBreakStatusWidget.vala:30
 msgid "Your next microbreak is in"
-msgstr "وقفهٔ کوتاه بعدی‌تان در"
+msgstr "استراحت کوتاه بعدی‌تان در"
 
 #: src/settings/microbreak/MicroBreakStatusWidget.vala:31
 msgid "It's time for a microbreak"
-msgstr "زمان وقفهٔ کوتاه است"
-
-#: src/settings/panels/WelcomePanel.vala:71
-msgid "OK, got it!"
-msgstr "باشه، فهمیدم!"
-
-#: src/settings/panels/WelcomePanel.vala:77
-msgid "Ready to go"
-msgstr "آماده برای رفتن"
+msgstr "زمان استراحت کوتاه است"
 
 #: src/settings/restbreak/RestBreakInfoWidget.vala:32
 msgid "Break"
-msgstr "وقفه"
+msgstr "استراحت"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
 #: src/settings/restbreak/RestBreakInfoWidget.vala:52
 #, c-format
 msgid "Your break has %s remaining. I’ll remind you when it’s over."
 msgid_plural "Your break has %s remaining. I’ll remind you when it’s over."
-msgstr[0] "%Is از وقفه‌تان مانده است. وقتی تمام شد، یادآوری می‌کنم."
+msgstr[0] "%Is از استراحت‌تان مانده است. وقتی تمام شد، یادآوری می‌کنم."
 
 #: src/settings/restbreak/RestBreakInfoWidget.vala:57
 msgid "It’s break time"
@@ -347,95 +346,117 @@ msgstr "مدّتی از رایانه دور باشید. حرکات کششی ان
 
 #: src/settings/restbreak/RestBreakSettingsWidget.vala:29
 msgid "Full break"
-msgstr "وقفهٔ کامل"
+msgstr "استراحتٔ کامل"
 
 #: src/settings/restbreak/RestBreakSettingsWidget.vala:30
 msgid "And take some longer breaks to stretch your legs"
-msgstr "و مقداری وقفهٔ بلندتر داشته باشید تا پاهایتان را کش بیاورید"
+msgstr "و مقداری استراحتٔ بلندتر داشته باشید تا پاهایتان را کش بیاورید"
 
-#: src/settings/restbreak/RestBreakSettingsWidget.vala:33
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:34
 msgid "Lock the screen during breaks"
-msgstr "قفل کردن صفحه‌نمایش هنگام وقفه‌ها"
+msgstr "قفل کردن صفحه‌نمایش هنگام استراحت‌ها"
 
 #. Label that explains a countdown timer, which shows a string such as "30 minutes"
 #: src/settings/restbreak/RestBreakStatusWidget.vala:30
 msgid "Your next full break is in"
-msgstr "وقفهٔ کامل بعدی‌تان در"
+msgstr "استراحتٔ کامل بعدی‌تان در"
 
 #: src/settings/restbreak/RestBreakStatusWidget.vala:31
 msgid "It's break time"
-msgstr "زمان وقفه است"
+msgstr "زمان استراحت است"
 
-#. Label for the widget to choose how frequently a break occurs. (Choices such as "6 minutes" or "45 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:38
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:31
 msgid "Every"
 msgstr "هر"
 
-#. Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:47
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:36
 msgid "For"
 msgstr "برای"
 
-#: ui/settings-panels.ui:37
-msgid "Break Timer isn’t responding"
-msgstr "زمان‌سنج وقفه ناپاسخگوست"
+#: src/settings/widgets/BreakConfigurationChooser.vala:52
+msgid "Choose your break schedule"
+msgstr "گزینش زمان‌بندی استراحت‌هایتان"
 
-#: ui/settings-panels.ui:54
+#: data/ui/settings-panels.blp:21
+msgid "Welcome to Break Timer!"
+msgstr "به زمان‌سنج استراحت خوش‌آمدید!"
+
+#: data/ui/settings-panels.blp:27
+msgid "Breaks are good for you. We'll help you to take them."
+msgstr "استراحت‌ها برای شما خوبند. ما به شما کمک می‌کنیم تا رعایت‌شان کنید."
+
+#: data/ui/settings-panels.blp:34
+msgid "Just switch me on to get started"
+msgstr "برای شروع فقط من را روشن کنید"
+
+#: data/ui/settings-panels.blp:62
+msgid "Break and micro breaks"
+msgstr "استراحت‌ها و استراحت‌های کوتاه"
+
+#: data/ui/settings-panels.blp:68
+msgid "Break Timer lets you take small micro breaks as well as longer breaks."
+msgstr "زمان‌سنج استراحت، می‌گذارد استراحت‌های کوچک و همچنین بلند داشته باشید."
+
+#: data/ui/settings-panels.blp:74
 msgid ""
-"If this continues the next time you log in, please <a href=\"https://gitlab."
-"gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>.\t"
+"Micro breaks are a chance to look away from the screen and rest your hands."
 msgstr ""
-"اگر دفعهٔ بعدی که وراد شدید، این ادامه داشت، لطفاً <a href=\"https://gitlab."
-"gnome.org/GNOME/gnome-break-timer/issues\">یک گزارش باگ باز کنید</a>.\t"
+"استراحت‌های کوتاه شانسی برای نگاه کردن به جایی غیر از صفحه‌نمایش و استراحت دادن "
+"به دستانتان است."
 
-#: ui/settings-panels.ui:101
-msgid "Break Timer is taking a break"
-msgstr "زمان‌سنج وقفه در حال انجام دادن یک وقفه است"
+#: data/ui/settings-panels.blp:80
+msgid "Full breaks are time to get away from your computer and move around."
+msgstr "استراحت‌های کامل زمانی برای دور شدن از رایانه و داشتن تحرّک هستند."
 
-#: ui/settings-panels.ui:118
-msgid "Turn me on to get those breaks going"
-msgstr "برای گرفتن وقفه، من را روشن کنید"
-
-#: ui/settings-panels.ui:149
+#: data/ui/settings-panels.blp:94
 msgid "You can change the types of breaks and their timings from the settings"
-msgstr "می‌توانید نوع و زمان وقفه‌ها را در تنظیمات تغییر دهید"
+msgstr "می‌توانید نوع و زمان استراحت‌ها را در تنظیمات تغییر دهید"
 
-#: ui/settings-panels.ui:175
-msgid "Break Timer lets you take small microbreaks as well as longer breaks."
-msgstr "زمان‌سنج وقفه، می‌گذارد وقفه‌های کوچک و همچنین بلندتر داشته باشید."
+#: data/ui/settings-panels.blp:104
+msgid "OK, got it!"
+msgstr "باشه، فهمیدم!"
 
-#: ui/settings-panels.ui:193
-msgid ""
-"Microbreaks are a chance to look away from the screen and rest your hands."
-msgstr ""
-"وقفههای کوتاه شانسی برای نگاه کردن به جایی غیر از صفحه‌نمایش و استراحت دادن به "
-"دستان‌تان است."
-
-#: ui/settings-panels.ui:211
-msgid "Full breaks are time to get away from the computer and move around."
-msgstr "وقفه‌ّای کامل زمانی برای دور شدن از رایانه و داشتن تحرک هستند."
-
-#: ui/settings-panels.ui:228
-msgid "Breaks and Microbreaks"
-msgstr "استراحت‌ها و وقفه‌های کوتاه"
-
-#: ui/settings-panels.ui:274
+#: data/ui/settings-panels.blp:128
 msgid "You can leave me to it"
 msgstr "می‌توانید من را ترک کنید"
 
-#: ui/settings-panels.ui:292
+#: data/ui/settings-panels.blp:134
 msgid ""
 "Break Timer will carry on working in the background, even if you close it."
-msgstr "زمان‌سنج وقفه در پس‌زمینه کار خواهد کرد، حتی اگر ببندیدش."
+msgstr "زمان‌سنج استراحت در پس‌زمینه کار خواهد کرد، حتی اگر ببندیدش."
 
-#: ui/settings-panels.ui:340
-msgid "Welcome to Break Timer!"
-msgstr "به زمان‌سنج وقفه خوش‌آمدید!"
+#: data/ui/settings-panels.blp:148
+msgid "Ready to go"
+msgstr "آماده برای رفتن"
 
-#: ui/settings-panels.ui:357
-msgid "Breaks are good for you. We'll help you to take them."
-msgstr "وقفه‌ها برای شما خوبند. ما به شما کمک می‌کنیم تا رعایت‌شان کنید."
+#: data/ui/settings-panels.blp:157
+msgid ""
+"If this continues the next time you log in, please <a href=\"https://"
+"gitlab.gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>."
+msgstr ""
+"اگر دفعهٔ بعدی که وراد شدید هنوز ادامه داشت لطفاً <a href=\"https://"
+"gitlab.gnome.org/GNOME/gnome-break-timer/issues\">مشکل را گزارش کنید</a>."
 
-#: ui/settings-panels.ui:378
-msgid "Just switch me on to get started"
-msgstr "برای شروع فقط من را روشن کنید"
+#: data/ui/settings-panels.blp:159
+msgid "Break Timer isn’t responding"
+msgstr "زمان‌سنج استراحت ناپاسخگوست"
+
+#: data/ui/settings-panels.blp:164
+msgid "Turn me on to get those breaks going"
+msgstr "برای گرفتن استراحت، من را روشن کنید"
+
+#: data/ui/settings-panels.blp:166
+msgid "Break Timer is taking a break"
+msgstr "زمان‌سنج استراحت در حال انجام دادن یک استراحت است"
+
+#~ msgid "@APPLICATION_ID@"
+#~ msgstr "@APPLICATION_ID@"
+
+#~ msgid "Saving state"
+#~ msgstr "ذخیرهٔ وضعیت"
+
+#~ msgid "Break Timer Website"
+#~ msgstr "وبگاه زمان‌سنج وقفه"
+
+#~ msgid "Copyright © 2011-2020 Break Timer Authors"
+#~ msgstr "حق رونوشت © ۲۰۱۱-۲۰۲۰ دست‌اندرکاران زمان‌سنج وقفه"
