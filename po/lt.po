@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-break-timer master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/"
 "issues\n"
-"POT-Creation-Date: 2022-08-20 16:11+0000\n"
-"PO-Revision-Date: 2023-02-19 21:59+0200\n"
+"POT-Creation-Date: 2024-11-24 11:17+0000\n"
+"PO-Revision-Date: 2025-02-21 22:55+0200\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -18,15 +18,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"(n%100<10 || n%100>=20) ? 1 : 2)\n"
-"X-Generator: Gtranslator 42.0\n"
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.5\n"
 
 #: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:4
-#: src/settings/Application.vala:183 src/settings/MainWindow.vala:110
-#: src/settings/MainWindow.vala:264
+#: src/settings/MainWindow.vala:55 src/settings/MainWindow.vala:184
 msgid "Break Timer"
 msgstr "Pertraukų laikmatis"
 
@@ -34,7 +33,6 @@ msgstr "Pertraukų laikmatis"
 #: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:5
 #: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:5
 #: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
-#: src/settings/Application.vala:186
 msgid "Computer break reminders for GNOME"
 msgstr "Kompiuterinių pertraukų priminimai GNOME aplinkai"
 
@@ -48,56 +46,60 @@ msgid "True to enable GNOME Break Timer"
 msgstr "Teigiama, kad įjungtumėte GNOME pertraukų laikmatį"
 
 #: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:9
+msgid "The current version of GNOME Break Timer's autostart file"
+msgstr "Dabartinė GNOME pertraukėlės laikmačio autopaleidimo failo versija"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:14
 msgid "The list of breaks that are currently enabled"
 msgstr "Šiuo metu įjungtų pertraukų sąrašas"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:14
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:19
 msgid "True to enable quiet mode"
 msgstr "Teigiama, kad įjungtumėte tyliąją veikseną"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:15
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:20
 msgid "Hides breaks until quiet-mode-expire-time."
 msgstr "Slepia pertraukas, kol quiet-mode-expire-time."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:20
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:25
 msgid "Time to end quiet mode."
 msgstr "Laikas, skirtas užbaigti tyliąją veikseną."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:21
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:26
 msgid "The time to automatically disable quiet mode, in unix time."
 msgstr "Laikas, skirtas automatiškai išjungti tyliąją veikseną, unix laiku."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:31
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:51
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:36
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:56
 msgid "Time between breaks"
 msgstr "Laikas tarp pertraukų"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:32
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:37
 msgid "The time between rest breaks, in seconds."
 msgstr "Laikas tarp poilsio pertraukų, sekundėmis."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:37
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:58
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:42
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:63
 msgid "Duration of each break"
 msgstr "Kiekvienos pertraukos trukmė"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:38
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
 msgid "The duration of each rest break, in seconds."
 msgstr "Kiekvienos poilsio pertraukos trukmė, sekundėmis."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:48
 msgid "Lock screen during breaks"
 msgstr "Užrakinti ekraną pertraukų metu"
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:44
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:49
 msgid "True to lock the screen during rest breaks."
 msgstr "Teigiama, jei ekranas užrakinamas pertraukėlių metu."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:52
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:57
 msgid "The preferred time between micro breaks, in seconds."
 msgstr "Pageidaujamas laikas tarp mikropertraukų, sekundėmis."
 
-#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:59
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:64
 msgid "The preferred duration of each micro break, in seconds."
 msgstr "Pageidaujama kiekvienos mikropertraukos trukmė, sekundėmis."
 
@@ -122,11 +124,15 @@ msgstr ""
 "Pertraukų laikmatis yra lengvai nustatomas, taigi, galite pasirinkti jums "
 "tinkantį pertraukų tvarkaraštį, kuris tęs savo darbą fone."
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:21
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:16
+msgid "Dylan McCall, et al."
+msgstr "Dylan McCall ir kiti"
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:35
 msgid "Easily turn on break timers"
 msgstr "Lengvai įjunkite pertraukėlių laikmačius"
 
-#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:25
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:39
 msgid "Check on their status at any time"
 msgstr "Bet kada patikrinkite jų būseną"
 
@@ -154,34 +160,33 @@ msgstr[0] "%d valanda"
 msgstr[1] "%d valandos"
 msgstr[2] "%d valandų"
 
-#: src/daemon/Application.vala:27
+#: src/daemon/Application.vala:28
 msgid "GNOME Break Timer"
 msgstr "GNOME pertraukų laikmatis"
 
-#: src/daemon/Application.vala:130
-msgid "Saving state"
-msgstr "Įrašoma būsena"
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/microbreak/MicroBreakView.vala:58
+#, c-format
+msgid "Microbreak starts in %s"
+msgid_plural "Microbreak starts in %s"
+msgstr[0] "Mikropertrauka po %s"
+msgstr[1] "Mikropertrauka po %s"
+msgstr[2] "Mikropertrauka po %s"
 
-#. Label for a notification action that shows information about the current break
-#: src/daemon/break/BreakView.vala:92
-msgid "What should I do?"
-msgstr "Ką turėčiau daryti?"
-
-#. Label for a notification action that will skip the current microbreak
-#: src/daemon/microbreak/MicroBreakView.vala:52
-msgid "Skip this one"
-msgstr "Praleisti"
-
-#: src/daemon/microbreak/MicroBreakView.vala:59
-msgid "It’s time for a micro break"
+#: src/daemon/microbreak/MicroBreakView.vala:63
+msgid "Time for a microbreak"
 msgstr "Laikas mikropertraukai"
 
-#: src/daemon/microbreak/MicroBreakView.vala:60
+#: src/daemon/microbreak/MicroBreakView.vala:74
 msgid "Take a break from typing and look away from the screen"
 msgstr "Pailsėkite nuo rašymo klaviatūra ir nusigręžkite nuo ekrano"
 
+#: src/daemon/microbreak/MicroBreakView.vala:76
+msgid "It’s time for a micro break"
+msgstr "Laikas mikropertraukai"
+
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/microbreak/MicroBreakView.vala:75
+#: src/daemon/microbreak/MicroBreakView.vala:93
 #, c-format
 msgid "You were due to take a micro break %s ago"
 msgid_plural "You were due to take a micro break %s ago"
@@ -189,36 +194,52 @@ msgstr[0] "Nuo to laiko, kai turėjote padaryti mikropertrauką, praėjo %s"
 msgstr[1] "Nuo to laiko, kai turėjote padaryti mikropertrauką, praėjo %s"
 msgstr[2] "Nuo to laiko, kai turėjote padaryti mikropertrauką, praėjo %s"
 
-#: src/daemon/microbreak/MicroBreakView.vala:81
+#: src/daemon/microbreak/MicroBreakView.vala:98
 msgid "Overdue micro break"
 msgstr "Pavėluota mikropertrauka"
 
-#: src/daemon/microbreak/MicroBreakView.vala:90
-#: src/daemon/restbreak/RestBreakView.vala:121
-msgid "Break is over"
-msgstr "Pertrauka baigta"
-
-#: src/daemon/microbreak/MicroBreakView.vala:91
+#: src/daemon/microbreak/MicroBreakView.vala:108
 msgid "Your micro break has ended"
 msgstr "Jūsų mikropertrauka pasibaigė"
 
-#. Label for a notification action that will delay the current break for a few minutes
-#: src/daemon/restbreak/RestBreakView.vala:53
-msgid "Remind me later"
-msgstr "Priminti vėliau"
+#: src/daemon/microbreak/MicroBreakView.vala:110
+#: src/daemon/restbreak/RestBreakView.vala:146
+msgid "Break is over"
+msgstr "Pertrauka baigta"
 
-#. FIXME: Should say how long the break is?
-#: src/daemon/restbreak/RestBreakView.vala:67
+#. Label for a notification action that skips the current break
+#: src/daemon/microbreak/MicroBreakView.vala:122
+msgid "Skip this one"
+msgstr "Praleisti"
+
+#. Label for a notification action that shows information about the current break
+#: src/daemon/microbreak/MicroBreakView.vala:124
+#: src/daemon/restbreak/RestBreakView.vala:160
+msgid "What should I do?"
+msgstr "Ką turėčiau daryti?"
+
+#. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/restbreak/RestBreakView.vala:61
+#, c-format
+msgid "Break starts in %s"
+msgid_plural "Break starts in %s"
+msgstr[0] "Pertrauka po %s"
+msgstr[1] "Pertrauka po %s"
+msgstr[2] "Pertrauka po %s"
+
+#: src/daemon/restbreak/RestBreakView.vala:66
+#: src/daemon/restbreak/RestBreakView.vala:82
 msgid "Time for a break"
 msgstr "Laikas pertraukai"
 
-#: src/daemon/restbreak/RestBreakView.vala:68
+#. FIXME: Should say how long the break is?
+#: src/daemon/restbreak/RestBreakView.vala:80
 msgid ""
 "It’s time to take a break. Get away from the computer for a little while!"
 msgstr "Laikas padaryti pertrauką. Trumpam atsitraukite nuo kompiuterio!"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/restbreak/RestBreakView.vala:84
+#: src/daemon/restbreak/RestBreakView.vala:102
 #, c-format
 msgid "There is %s remaining in your break"
 msgid_plural "There are %s remaining in your break"
@@ -226,12 +247,12 @@ msgstr[0] "Jūsų pertraukai liko %s"
 msgstr[1] "Jūsų pertraukai liko %s"
 msgstr[2] "Jūsų pertraukai liko %s"
 
-#: src/daemon/restbreak/RestBreakView.vala:90
+#: src/daemon/restbreak/RestBreakView.vala:107
 msgid "Break interrupted"
 msgstr "Pertrauka nutraukta"
 
 #. %s will be replaced with a string that describes a time interval, such as "2 minutes", "40 seconds" or "1 hour"
-#: src/daemon/restbreak/RestBreakView.vala:106
+#: src/daemon/restbreak/RestBreakView.vala:127
 #, c-format
 msgid "You were due to take a break %s ago"
 msgid_plural "You were due to take a break %s ago"
@@ -239,65 +260,59 @@ msgstr[0] "Nuo to laiko, kai turėjote padaryti pertrauką, praėjo %s"
 msgstr[1] "Nuo to laiko, kai turėjote padaryti pertrauką, praėjo %s"
 msgstr[2] "Nuo to laiko, kai turėjote padaryti pertrauką, praėjo %s"
 
-#: src/daemon/restbreak/RestBreakView.vala:112
+#: src/daemon/restbreak/RestBreakView.vala:132
 msgid "Overdue break"
 msgstr "Pavėluota pertrauka"
 
-#: src/daemon/restbreak/RestBreakView.vala:122
+#: src/daemon/restbreak/RestBreakView.vala:144
 msgid "Your break time has ended"
 msgstr "Jūsų pertraukos laikas pasibaigė"
 
-#: src/settings/Application.vala:188
-msgid "Break Timer Website"
-msgstr "Pertraukų laikmačio svetainė"
+#. Label for a notification action that will delay the current break for a few minutes
+#: src/daemon/restbreak/RestBreakView.vala:158
+msgid "Remind me later"
+msgstr "Priminti vėliau"
 
-#: src/settings/Application.vala:189
-msgid "Copyright © 2011-2020 Break Timer Authors"
-msgstr "Autorių teisės saugomos © 2011-2020 Pertraukėlių laikmačio autoriai"
-
-#: src/settings/Application.vala:191
+#: src/settings/Application.vala:136
 msgid "translator-credits"
 msgstr ""
 "Išvertė:\n"
 "Moo"
 
-#: src/settings/BreakSettingsDialog.vala:41
-msgid "Choose Your Break Schedule"
-msgstr "Pasirinkite pertraukų tvarkaraštį"
-
-#: src/settings/BreakSettingsDialog.vala:63
+#: src/settings/BreakSettingsDialog.vala:57
 msgid "A mix of short breaks and long breaks"
 msgstr "Trumpų ir ilgų pertraukų mišinys"
 
-#: src/settings/BreakSettingsDialog.vala:67
+#: src/settings/BreakSettingsDialog.vala:61
 msgid "Occasional long breaks"
 msgstr "Retos ilgos pertraukos"
 
-#: src/settings/BreakSettingsDialog.vala:71
+#: src/settings/BreakSettingsDialog.vala:65
 msgid "Frequent short breaks"
 msgstr "Dažnos trumpos pertraukos"
 
-#. Label for a button that opens GNOME Settings to change permissions
-#: src/settings/MainWindow.vala:72
-msgid "Open Settings"
-msgstr "Atverti nuostatas"
+#: src/settings/MainWindow.vala:66
+msgid "About"
+msgstr "Apie"
 
-#: src/settings/MainWindow.vala:75
+#: src/settings/MainWindow.vala:67
+msgid "Quit"
+msgstr "Išeiti"
+
+#: src/settings/MainWindow.vala:110
 msgid ""
 "Break Timer needs permission to start automatically and run in the background"
 msgstr ""
 "Pertraukėlių laikmačiui reikia leidimo automatiniam paleidimui bei veikimui "
 "fone"
 
-#: src/settings/MainWindow.vala:121
-msgid "About"
-msgstr "Apie"
+#. Label for a button that opens GNOME Settings to change permissions
+#: src/settings/MainWindow.vala:113
+msgid "Open Settings"
+msgstr "Atverti nuostatas"
 
-#: src/settings/MainWindow.vala:122
-msgid "Quit"
-msgstr "Išeiti"
-
-#: src/settings/MainWindow.vala:258
+#: src/settings/MainWindow.vala:178 data/ui/settings-panels.blp:8
+#: data/ui/settings-panels.blp:46 data/ui/settings-panels.blp:113
 msgid "Welcome Tour"
 msgstr "Pristatymo Turas"
 
@@ -342,14 +357,6 @@ msgstr "Iki jūsų kitos mikropertraukos liko"
 msgid "It's time for a microbreak"
 msgstr "Laikas mikropertraukai"
 
-#: src/settings/panels/WelcomePanel.vala:71
-msgid "OK, got it!"
-msgstr "Gerai, supratau!"
-
-#: src/settings/panels/WelcomePanel.vala:77
-msgid "Ready to go"
-msgstr "Galime pradėti"
-
 #: src/settings/restbreak/RestBreakInfoWidget.vala:32
 msgid "Break"
 msgstr "Pertrauka"
@@ -379,7 +386,7 @@ msgstr "Pilna pertrauka"
 msgid "And take some longer breaks to stretch your legs"
 msgstr "Ir darykite kelias ilgesnes pertraukas, kad ištemptumėte kojas"
 
-#: src/settings/restbreak/RestBreakSettingsWidget.vala:33
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:34
 msgid "Lock the screen during breaks"
 msgstr "Užrakinkite ekraną pertraukėlių metu"
 
@@ -392,84 +399,103 @@ msgstr "Iki jūsų kitos pilnos pertraukos liko"
 msgid "It's break time"
 msgstr "Pertraukos laikas"
 
-#. Label for the widget to choose how frequently a break occurs. (Choices such as "6 minutes" or "45 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:38
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:31
 msgid "Every"
 msgstr "Kas"
 
-#. Label for the widget to choose how long a break lasts when it occurs. (Choices such as "30 seconds" or "5 minutes")
-#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:47
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:36
 msgid "For"
 msgstr "Trukmė"
 
-#: ui/settings-panels.ui:37
-msgid "Break Timer isn’t responding"
-msgstr "Pertraukų laikmatis neatsako"
+#: src/settings/widgets/BreakConfigurationChooser.vala:52
+msgid "Choose your break schedule"
+msgstr "Pasirinkite pertraukų tvarkaraštį"
 
-#: ui/settings-panels.ui:54
-msgid ""
-"If this continues the next time you log in, please <a href=\"https://gitlab."
-"gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>.\t"
-msgstr ""
-"Jeigu kitą kartą jums prisijungus, tai vis dar tęsiasi, prašome <a "
-"href=\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">pranešti "
-"apie klaidą</a>.\t"
+#: data/ui/settings-panels.blp:21
+msgid "Welcome to Break Timer!"
+msgstr "Sveiki atvykę į Pertraukų laikmatį!"
 
-#: ui/settings-panels.ui:101
-msgid "Break Timer is taking a break"
-msgstr "Pertraukų laikmatis daro pertrauką"
+#: data/ui/settings-panels.blp:27
+msgid "Breaks are good for you. We'll help you to take them."
+msgstr "Pertraukos yra jums naudingos. Mes jums padėsime jas daryti."
 
-#: ui/settings-panels.ui:118
-msgid "Turn me on to get those breaks going"
-msgstr "Įjunkite mane, kad tos pertraukos vyktų"
+#: data/ui/settings-panels.blp:34
+msgid "Just switch me on to get started"
+msgstr "Tiesiog įjunkite mane, kad pradėtumėte"
 
-#: ui/settings-panels.ui:149
-msgid "You can change the types of breaks and their timings from the settings"
-msgstr "Nustatymuose jūs galite keisti pertraukų tipus ir jų laikus"
+#: data/ui/settings-panels.blp:62
+msgid "Break and micro breaks"
+msgstr "Pertraukos ir mikropertraukos"
 
-#: ui/settings-panels.ui:175
-msgid "Break Timer lets you take small microbreaks as well as longer breaks."
+#: data/ui/settings-panels.blp:68
+msgid "Break Timer lets you take small micro breaks as well as longer breaks."
 msgstr ""
 "Pertraukų laikmatis leidžia jums darytis mažas mikropertraukas, o taip pat "
 "ilgesnes pertraukas."
 
-#: ui/settings-panels.ui:193
+#: data/ui/settings-panels.blp:74
 msgid ""
-"Microbreaks are a chance to look away from the screen and rest your hands."
+"Micro breaks are a chance to look away from the screen and rest your hands."
 msgstr ""
 "Mikropertraukos suteikia jums galimybę atsigręžti nuo ekrano ir leidžia "
 "pailsėti jūsų rankoms."
 
-#: ui/settings-panels.ui:211
-msgid "Full breaks are time to get away from the computer and move around."
+#: data/ui/settings-panels.blp:80
+msgid "Full breaks are time to get away from your computer and move around."
 msgstr ""
 "Pilnos pertraukos yra laikas, skirtas atsitraukti nuo kompiuterio ir "
 "pajudėti."
 
-#: ui/settings-panels.ui:228
-msgid "Breaks and Microbreaks"
-msgstr "Pertraukos ir Mikropertraukos"
+#: data/ui/settings-panels.blp:94
+msgid "You can change the types of breaks and their timings from the settings"
+msgstr "Nustatymuose jūs galite keisti pertraukų tipus ir jų laikus"
 
-#: ui/settings-panels.ui:274
+#: data/ui/settings-panels.blp:104
+msgid "OK, got it!"
+msgstr "Gerai, supratau!"
+
+#: data/ui/settings-panels.blp:128
 msgid "You can leave me to it"
 msgstr "Galite tam reikalui palikti mane"
 
-#: ui/settings-panels.ui:292
+#: data/ui/settings-panels.blp:134
 msgid ""
 "Break Timer will carry on working in the background, even if you close it."
 msgstr "Pertraukų laikmatis, net jeigu jį užversite, tęs savo darbą fone."
 
-#: ui/settings-panels.ui:340
-msgid "Welcome to Break Timer!"
-msgstr "Sveiki atvykę į Pertraukų laikmatį!"
+#: data/ui/settings-panels.blp:148
+msgid "Ready to go"
+msgstr "Galime pradėti"
 
-#: ui/settings-panels.ui:357
-msgid "Breaks are good for you. We'll help you to take them."
-msgstr "Pertraukos yra jums naudingos. Mes jums padėsime jas daryti."
+#: data/ui/settings-panels.blp:157
+msgid ""
+"If this continues the next time you log in, please <a href=\"https://gitlab."
+"gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>."
+msgstr ""
+"Jeigu kitą kartą jums prisijungus, tai vis dar tęsiasi, prašome <a "
+"href=\"https://gitlab.gnome.org/GNOME/gnome-break-timer/issues\">pranešti "
+"apie klaidą</a>."
 
-#: ui/settings-panels.ui:378
-msgid "Just switch me on to get started"
-msgstr "Tiesiog įjunkite mane, kad pradėtumėte"
+#: data/ui/settings-panels.blp:159
+msgid "Break Timer isn’t responding"
+msgstr "Pertraukų laikmatis neatsako"
+
+#: data/ui/settings-panels.blp:164
+msgid "Turn me on to get those breaks going"
+msgstr "Įjunkite mane, kad tos pertraukos vyktų"
+
+#: data/ui/settings-panels.blp:166
+msgid "Break Timer is taking a break"
+msgstr "Pertraukų laikmatis daro pertrauką"
+
+#~ msgid "Saving state"
+#~ msgstr "Įrašoma būsena"
+
+#~ msgid "Break Timer Website"
+#~ msgstr "Pertraukų laikmačio svetainė"
+
+#~ msgid "Copyright © 2011-2020 Break Timer Authors"
+#~ msgstr "Autorių teisės saugomos © 2011-2020 Pertraukėlių laikmačio autoriai"
 
 #~ msgid "_Close"
 #~ msgstr "_Užverti"
