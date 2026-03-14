@@ -1,0 +1,471 @@
+# Kazakh translation for gnome-break-timer.
+# Copyright (C) 2026 gnome-break-timer's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-break-timer package.
+# Baurzhan Muftakhidinov <baurthefirst@gmail.com>,  2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-break-timer master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-break-timer/"
+"issues\n"
+"POT-Creation-Date: 2025-01-11 09:01+0000\n"
+"PO-Revision-Date: 2026-03-15 01:39+0500\n"
+"Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
+"Language-Team: Kazakh <Kazakh>\n"
+"Language: kk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.9\n"
+
+#: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:3
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:3
+#: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:3
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:4
+#: src/settings/MainWindow.vala:55 src/settings/MainWindow.vala:184
+msgid "Break Timer"
+msgstr "Үзіліс таймері"
+
+#: data/applications/org.gnome.BreakTimer.Daemon.desktop.in.in:4
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:4
+#: data/autostart/org.gnome.BreakTimer.Daemon.desktop.in.in:4
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:5
+msgid "Computer break reminders for GNOME"
+msgstr "GNOME үшін компьютерлік үзіліс туралы ескертулер"
+
+#. Translators: Search terms to find this application. Do NOT translate or
+#. localize the semicolons! The list MUST also end with a semicolon!
+#: data/applications/org.gnome.BreakTimer.Settings.desktop.in.in:6
+msgid "break;micro;rest;timer;"
+msgstr "үзіліс;микро;демалу;таймер;"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:4
+msgid "True to enable GNOME Break Timer"
+msgstr "GNOME үзіліс таймерін іске қосу үшін ақиқат"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:9
+msgid "The current version of GNOME Break Timer's autostart file"
+msgstr "GNOME үзіліс таймерінің автоіске қосылу файлының ағымдағы нұсқасы"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:14
+msgid "The list of breaks that are currently enabled"
+msgstr "Қазіргі уақытта іске қосылған үзілістер тізімі"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:19
+msgid "True to enable quiet mode"
+msgstr "Тыныш режимді іске қосу үшін ақиқат"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:20
+msgid "Hides breaks until quiet-mode-expire-time."
+msgstr "Үзілістерді quiet-mode-expire-time уақытына дейін жасырады."
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:25
+msgid "Time to end quiet mode."
+msgstr "Тыныш режимді аяқтау уақыты."
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:26
+msgid "The time to automatically disable quiet mode, in unix time."
+msgstr "Тыныш режимді автоматты түрде сөндіру уақыты, unix уақытында."
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:36
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:56
+msgid "Time between breaks"
+msgstr "Үзілістер арасындағы уақыт"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:37
+msgid "The time between rest breaks, in seconds."
+msgstr "Демалу үзілістері арасындағы уақыт, секундпен."
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:42
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:63
+msgid "Duration of each break"
+msgstr "Әр үзілістің ұзақтығы"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:43
+msgid "The duration of each rest break, in seconds."
+msgstr "Әр демалу үзілісінің ұзақтығы, секундпен."
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:48
+msgid "Lock screen during breaks"
+msgstr "Үзілістер кезінде экранды құлыптау"
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:49
+msgid "True to lock the screen during rest breaks."
+msgstr "Демалу үзілістері кезінде экранды құлыптау үшін ақиқат."
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:57
+msgid "The preferred time between micro breaks, in seconds."
+msgstr "Микроүзілістер арасындағы таңдалған уақыт, секундпен."
+
+#: data/gschema/org.gnome.BreakTimer.gschema.xml.in.in:64
+msgid "The preferred duration of each micro break, in seconds."
+msgstr "Әр микроүзілістің таңдалған ұзақтығы, секундпен."
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:9
+msgid ""
+"Break Timer keeps track of how much you are using the computer, and it "
+"reminds you to take regular breaks. It is designed to encourage healthy "
+"behaviour, with a mix of short breaks for your eyes and wrists, as well as "
+"longer breaks to keep your body moving and your mind on task."
+msgstr ""
+"Үзіліс таймері компьютерді қаншалықты пайдаланатыныңызды бақылап отырады "
+"және сізге жүйелі түрде үзіліс жасау керектігін ескертеді. Ол көз бен "
+"білекке арналған қысқа үзілістерді, сондай-ақ дененің қозғалысын және "
+"зейінді сақтау үшін ұзақ үзілістерді біріктіріп, салауатты әрекетті "
+"ынталандыруға арналған."
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:12
+msgid ""
+"Break Timer is easy to set up, so you can pick a break schedule that works "
+"for you and it will carry on working in the background."
+msgstr ""
+"Үзіліс таймерін баптау оңай, сондықтан сіз өзіңізге ыңғайлы үзіліс кестесін "
+"таңдай аласыз және ол фонда жұмыс істей береді."
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:16
+msgid "Dylan McCall, et al."
+msgstr "Dylan McCall және т.б."
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:35
+msgid "Easily turn on break timers"
+msgstr "Үзіліс таймерлерін оңай іске қосу"
+
+#: data/metainfo/org.gnome.BreakTimer.metainfo.xml.in.in:39
+msgid "Check on their status at any time"
+msgstr "Олардың күйін кез келген уақытта тексеру"
+
+#: src/common/NaturalTime.vala:46
+#, c-format
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "%d секунд"
+
+#: src/common/NaturalTime.vala:49
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d минут"
+
+#: src/common/NaturalTime.vala:52
+#, c-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d сағат"
+
+#: src/daemon/Application.vala:28
+msgid "GNOME Break Timer"
+msgstr "GNOME үзіліс таймері"
+
+#. %s will be replaced with a string that describes a time interval, such as
+#. "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/microbreak/MicroBreakView.vala:58
+#, c-format
+msgid "Microbreak starts in %s"
+msgid_plural "Microbreak starts in %s"
+msgstr[0] "Микроүзіліс %s кейін басталады"
+
+#: src/daemon/microbreak/MicroBreakView.vala:63
+msgid "Time for a microbreak"
+msgstr "Микроүзіліс уақыты"
+
+#: src/daemon/microbreak/MicroBreakView.vala:74
+msgid "Take a break from typing and look away from the screen"
+msgstr "Пернелеуден үзіліс жасап, экраннан көзіңізді тайдырыңыз"
+
+#: src/daemon/microbreak/MicroBreakView.vala:76
+msgid "It’s time for a micro break"
+msgstr "Микроүзіліс жасау уақыты келді"
+
+#. %s will be replaced with a string that describes a time interval, such as
+#. "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/microbreak/MicroBreakView.vala:93
+#, c-format
+msgid "You were due to take a micro break %s ago"
+msgid_plural "You were due to take a micro break %s ago"
+msgstr[0] "Сіз %s бұрын микроүзіліс жасауыңыз керек еді"
+
+#: src/daemon/microbreak/MicroBreakView.vala:98
+msgid "Overdue micro break"
+msgstr "Мерзімі өткен микроүзіліс"
+
+#: src/daemon/microbreak/MicroBreakView.vala:108
+msgid "Your micro break has ended"
+msgstr "Микроүзілісіңіз аяқталды"
+
+#: src/daemon/microbreak/MicroBreakView.vala:110
+#: src/daemon/restbreak/RestBreakView.vala:146
+msgid "Break is over"
+msgstr "Үзіліс аяқталды"
+
+#. Label for a notification action that skips the current break
+#: src/daemon/microbreak/MicroBreakView.vala:122
+msgid "Skip this one"
+msgstr "Бұны өткізіп жіберу"
+
+#. Label for a notification action that shows information about the current
+#. break
+#: src/daemon/microbreak/MicroBreakView.vala:124
+#: src/daemon/restbreak/RestBreakView.vala:160
+msgid "What should I do?"
+msgstr "Не істеуім керек?"
+
+#. %s will be replaced with a string that describes a time interval, such as
+#. "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/restbreak/RestBreakView.vala:61
+#, c-format
+msgid "Break starts in %s"
+msgid_plural "Break starts in %s"
+msgstr[0] "Үзіліс %s кейін басталады"
+
+#: src/daemon/restbreak/RestBreakView.vala:66
+#: src/daemon/restbreak/RestBreakView.vala:82
+msgid "Time for a break"
+msgstr "Үзіліс уақыты"
+
+#. FIXME: Should say how long the break is?
+#: src/daemon/restbreak/RestBreakView.vala:80
+msgid ""
+"It’s time to take a break. Get away from the computer for a little while!"
+msgstr "Үзіліс жасайтын уақыт келді. Біраз уақытқа компьютерден алыстаңыз!"
+
+#. %s will be replaced with a string that describes a time interval, such as
+#. "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/restbreak/RestBreakView.vala:102
+#, c-format
+msgid "There is %s remaining in your break"
+msgid_plural "There are %s remaining in your break"
+msgstr[0] "Үзілісіңіздің %s уақыты қалды"
+
+#: src/daemon/restbreak/RestBreakView.vala:107
+msgid "Break interrupted"
+msgstr "Үзіліс тоқтатылды"
+
+#. %s will be replaced with a string that describes a time interval, such as
+#. "2 minutes", "40 seconds" or "1 hour"
+#: src/daemon/restbreak/RestBreakView.vala:127
+#, c-format
+msgid "You were due to take a break %s ago"
+msgid_plural "You were due to take a break %s ago"
+msgstr[0] "Сіз %s бұрын үзіліс жасауыңыз керек еді"
+
+#: src/daemon/restbreak/RestBreakView.vala:132
+msgid "Overdue break"
+msgstr "Мерзімі өткен үзіліс"
+
+#: src/daemon/restbreak/RestBreakView.vala:144
+msgid "Your break time has ended"
+msgstr "Үзіліс уақытыңыз аяқталды"
+
+#. Label for a notification action that will delay the current break for a few
+#. minutes
+#: src/daemon/restbreak/RestBreakView.vala:158
+msgid "Remind me later"
+msgstr "Маған кейінірек ескерту"
+
+#: src/settings/Application.vala:136
+msgid "translator-credits"
+msgstr "Baurzhan Muftakhidinov <baurthefirst@gmail.com>"
+
+#: src/settings/BreakSettingsDialog.vala:57
+msgid "A mix of short breaks and long breaks"
+msgstr "Қысқа және ұзақ үзілістердің қоспасы"
+
+#: src/settings/BreakSettingsDialog.vala:61
+msgid "Occasional long breaks"
+msgstr "Кейде болатын ұзақ үзілістер"
+
+#: src/settings/BreakSettingsDialog.vala:65
+msgid "Frequent short breaks"
+msgstr "Жиі қысқа үзілістер"
+
+#: src/settings/MainWindow.vala:66
+msgid "About"
+msgstr "Осы туралы"
+
+#: src/settings/MainWindow.vala:67
+msgid "Quit"
+msgstr "Шығу"
+
+#: src/settings/MainWindow.vala:110
+msgid ""
+"Break Timer needs permission to start automatically and run in the "
+"background"
+msgstr ""
+"Үзіліс таймеріне автоматты түрде іске қосылу және фонда жұмыс істеу үшін "
+"рұқсат қажет"
+
+#. Label for a button that opens GNOME Settings to change permissions
+#: src/settings/MainWindow.vala:113
+msgid "Open Settings"
+msgstr "Баптауларды ашу"
+
+#: src/settings/MainWindow.vala:178 data/ui/settings-panels.blp:8
+#: data/ui/settings-panels.blp:46 data/ui/settings-panels.blp:113
+msgid "Welcome Tour"
+msgstr "Танысу туры"
+
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:32
+#: src/settings/microbreak/MicroBreakSettingsWidget.vala:29
+msgid "Microbreak"
+msgstr "Микроүзіліс"
+
+#. %s will be replaced with a string that describes a time interval, such as
+#. "2 minutes", "40 seconds" or "1 hour"
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:52
+#, c-format
+msgid "Take a break from typing and look away from the screen for %s."
+msgid_plural "Take a break from typing and look away from the screen for %s."
+msgstr[0] "Пернелеуден үзіліс жасап, %s бойы экраннан көзіңізді тайдырыңыз."
+
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:57
+msgid "It’s microbreak time"
+msgstr "Микроүзіліс уақыты"
+
+#: src/settings/microbreak/MicroBreakInfoWidget.vala:59
+msgid "I'll chime when it’s time to use the computer again."
+msgstr "Компьютерді қайтадан пайдалану уақыты келгенде, мен белгі беремін."
+
+#: src/settings/microbreak/MicroBreakSettingsWidget.vala:30
+msgid "Pause frequently to relax your eyes"
+msgstr "Көзіңізді демалдыру үшін жиі аялдатыңыз"
+
+#. Label that explains a countdown timer, which shows a string such as "5
+#. minutes"
+#: src/settings/microbreak/MicroBreakStatusWidget.vala:30
+msgid "Your next microbreak is in"
+msgstr "Келесі микроүзілісіңізге дейін"
+
+#: src/settings/microbreak/MicroBreakStatusWidget.vala:31
+msgid "It's time for a microbreak"
+msgstr "Микроүзіліс жасау уақыты келді"
+
+#: src/settings/restbreak/RestBreakInfoWidget.vala:32
+msgid "Break"
+msgstr "Үзіліс"
+
+#. %s will be replaced with a string that describes a time interval, such as
+#. "2 minutes", "40 seconds" or "1 hour"
+#: src/settings/restbreak/RestBreakInfoWidget.vala:52
+#, c-format
+msgid "Your break has %s remaining. I’ll remind you when it’s over."
+msgid_plural "Your break has %s remaining. I’ll remind you when it’s over."
+msgstr[0] ""
+"Үзілісіңіздің %s уақыты қалды. Ол аяқталған кезде мен сізге ескертемін."
+
+#: src/settings/restbreak/RestBreakInfoWidget.vala:57
+msgid "It’s break time"
+msgstr "Үзіліс уақыты келді"
+
+#: src/settings/restbreak/RestBreakInfoWidget.vala:58
+msgid "Take some time away from the computer. Stretch and move around."
+msgstr "Біраз уақыт компьютерден алыстаңыз. Бойыңызды жазып, қозғалыңыз."
+
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:29
+msgid "Full break"
+msgstr "Толық үзіліс"
+
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:30
+msgid "And take some longer breaks to stretch your legs"
+msgstr "Сондай-ақ, аяқтарыңызды жазу үшін ұзағырақ үзілістер жасаңыз"
+
+#: src/settings/restbreak/RestBreakSettingsWidget.vala:34
+msgid "Lock the screen during breaks"
+msgstr "Үзілістер кезінде экранды құлыптау"
+
+#. Label that explains a countdown timer, which shows a string such as "30
+#. minutes"
+#: src/settings/restbreak/RestBreakStatusWidget.vala:30
+msgid "Your next full break is in"
+msgstr "Келесі толық үзілісіңізге дейін"
+
+#: src/settings/restbreak/RestBreakStatusWidget.vala:31
+msgid "It's break time"
+msgstr "Үзіліс уақыты"
+
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:31
+msgid "Every"
+msgstr "Әр"
+
+#: src/settings/timerbreak/TimerBreakSettingsWidget.vala:36
+msgid "For"
+msgstr "Бойы"
+
+#: src/settings/widgets/BreakConfigurationChooser.vala:52
+msgid "Choose your break schedule"
+msgstr "Үзіліс кестесін таңдаңыз"
+
+#: data/ui/settings-panels.blp:21
+msgid "Welcome to Break Timer!"
+msgstr "Үзіліс таймеріне қош келдіңіз!"
+
+#: data/ui/settings-panels.blp:27
+msgid "Breaks are good for you. We'll help you to take them."
+msgstr "Үзілістер сіз үшін пайдалы. Біз оларды жасауға көмектесеміз."
+
+#: data/ui/settings-panels.blp:34
+msgid "Just switch me on to get started"
+msgstr "Бастау үшін мені іске қосыңыз"
+
+#: data/ui/settings-panels.blp:62
+msgid "Break and micro breaks"
+msgstr "Үзіліс және микроүзілістер"
+
+#: data/ui/settings-panels.blp:68
+msgid "Break Timer lets you take small micro breaks as well as longer breaks."
+msgstr ""
+"Үзіліс таймері сізге кішігірім микроүзілістерді де, ұзақ үзілістерді де "
+"жасауға мүмкіндік береді."
+
+#: data/ui/settings-panels.blp:74
+msgid ""
+"Micro breaks are a chance to look away from the screen and rest your hands."
+msgstr ""
+"Микроүзілістер — экраннан көз тайдыруға және қолды демалдыруға мүмкіндік."
+
+#: data/ui/settings-panels.blp:80
+msgid "Full breaks are time to get away from your computer and move around."
+msgstr "Толық үзілістер — компьютерден алыстап, қозғалу уақыты."
+
+#: data/ui/settings-panels.blp:94
+msgid "You can change the types of breaks and their timings from the settings"
+msgstr ""
+"Баптаулардан үзілістердің түрлерін және олардың уақытын өзгертуге болады"
+
+#: data/ui/settings-panels.blp:104
+msgid "OK, got it!"
+msgstr "Жақсы, түсінікті!"
+
+#: data/ui/settings-panels.blp:128
+msgid "You can leave me to it"
+msgstr "Оны маған қалдыра аласыз"
+
+#: data/ui/settings-panels.blp:134
+msgid ""
+"Break Timer will carry on working in the background, even if you close it."
+msgstr "Үзіліс таймері сіз оны жапсаңыз да, фонда жұмыс істей береді."
+
+#: data/ui/settings-panels.blp:148
+msgid "Ready to go"
+msgstr "Дайын"
+
+#: data/ui/settings-panels.blp:157
+msgid ""
+"If this continues the next time you log in, please <a href=\"https://"
+"gitlab.gnome.org/GNOME/gnome-break-timer/issues\">open a bug report</a>."
+msgstr ""
+"Егер бұл келесі рет жүйеге кіргенде қайталанса, please <a href=\"https://"
+"gitlab.gnome.org/GNOME/gnome-break-timer/issues\">ақаулық туралы есеп "
+"жіберіңіз</a>."
+
+#: data/ui/settings-panels.blp:159
+msgid "Break Timer isn’t responding"
+msgstr "Үзіліс таймері жауап бермей жатыр"
+
+#: data/ui/settings-panels.blp:164
+msgid "Turn me on to get those breaks going"
+msgstr "Үзілістерді бастау үшін мені іске қосыңыз"
+
+#: data/ui/settings-panels.blp:166
+msgid "Break Timer is taking a break"
+msgstr "Үзіліс таймерінің өзі демалып жатыр"
